@@ -10,7 +10,7 @@ I am a novice for C# programming and this project is my first C# project. I am b
 # Todo
 
 * Customizable hotkeys
-  * Currently the hotkeys are static as `ALT+H`, `SHIFT+ALT+H` and CTRL+½ as I cannot figure out why I cannot use CTRL+½ with https://github.com/Willy-Kimura/HotkeyListener
+  * Currently the hotkeys are static as `ALT+H`, `SHIFT+ALT+H` and `CTRL+½` as I cannot figure out why I cannot use `CTRL+½` with https://github.com/Willy-Kimura/HotkeyListener
 * Application behaviour
   * I need to be able to paste unformatted text only on hotkey - UI ready for it but cannot figure out the code for it yet
 * Save and restore original text formats - or at least the last one
