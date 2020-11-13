@@ -28,6 +28,7 @@ TODO
 * Save and restore original text formats - or at least the last one
 * Location of notification area - top left/right, bottom left/right
 * Mouse doubleclick on tray icon disables it
+* Clean-up source code and beautify it for release
 
 */
 
