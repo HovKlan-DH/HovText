@@ -31,3 +31,4 @@ So the hotkey thing is currently a little messu I will admit and I wuld love som
   * Not sure if you can detect either a single-click and a double-click - it should react differently on double-click
 * Clean-up source code and beautify it for release
   * This is borring and will take some time
+* Update http://hovtext.com/ to reflect the new project and that we are alive again :-)
