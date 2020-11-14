@@ -12,6 +12,7 @@ namespace HovText
             InitializeComponent();
         }
 
+
         public void SetPosition()
         {
 
