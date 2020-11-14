@@ -9,31 +9,11 @@ using System.Diagnostics;
 using System.Net;
 using Microsoft.Win32;
 using HovText.Properties;
-//using WK.Libraries.HotkeyListenerNS;
-using NHotkey.WindowsForms;
+using WK.Libraries.HotkeyListenerNS; // https://github.com/Willy-Kimura/HotkeyListener
+//using NHotkey.WindowsForms; // https://github.com/thomaslevesque/NHotkey
 
-// NHotKey
-// https://github.com/thomaslevesque/NHotkey
 
-// HotkeyListener
-// https://github.com/Willy-Kimura/HotkeyListener
-
-/*
-
-----
-TODO
-----
-* Customizable hotkeys
-* Application behaviour
-* Save and restore original text formats - or at least the last one
-* Location of notification area - top left/right, bottom left/right
-* Mouse doubleclick on tray icon disables it
-* Clean-up source code and beautify it for release
-* New comment?
-
-*/
-
-//[assembly: AssemblyVersionAttribute("2020.09.25.0")]
+[assembly: AssemblyVersionAttribute("2020.11.14.0")]
 
 
 namespace HovText
@@ -45,14 +25,12 @@ namespace HovText
         History history = new History();
         Update update = new Update();
 
-        // Define class variables
-//        int ticks = 0;
-        public static string appDate = "";
-        public static bool isFirstCall = true;
+        // Define class variables - real spaghetti
+        public static string appDate = ""; // date for current version
+        public static bool isFirstCall = true; // is this the first time after ALT hotkey has been pressed
         SortedDictionary<int, string> entriesApplication = new SortedDictionary<int, string>();
         SortedDictionary<int, string> entriesText = new SortedDictionary<int, string>();
         SortedDictionary<int, Image> entriesImage = new SortedDictionary<int, Image>();
-        //        SortedDictionary<int, object> entriesObject = new SortedDictionary<int, object>();
         int entryIndex = -1;
         int entryCounter = -1;
         bool isClipboardText = false;
@@ -63,11 +41,11 @@ namespace HovText
         string clipboardImageHashLast = "";
         IDataObject clipboardObject = null;
         public static IntPtr originatingHandle = IntPtr.Zero;
-        public static float fontSize = 11; // "static" makes it available in Form2
+        public static float fontSize = 11; // "static" makes it available in the history form
         public static string fontFamily = "Sergoe UI";
-        public static int form2Width = 500; // medium
-        public static int form2Height = 250; // medium
-        public static double form2Size = 1.1; // small=0.7, medium=1.1, large=1.5
+        public static int historyWidth = 500; // medium
+        public static int historyHeight = 250; // medium
+        public static double historySize = 1.1; // small=0.7, medium=1.1, large=1.5
         public static string themeColor = "Yellow";
         public static string colorYellowTop = "#eee8aa";
         public static string colorYellowBottom = "#ffffe1";
@@ -87,14 +65,16 @@ namespace HovText
         public static bool isAltPressedInThisApp = false;
         public string registryPath = "SOFTWARE\\HovText";
 
-        /*
-                // HotkeyListener
-                Hotkey hkCtrlOem5 = new Hotkey(Keys.Control, Keys.Oem5);
-                Hotkey hkAltH = new Hotkey(Keys.Alt, Keys.H);
-                Hotkey hkShiftAltH = new Hotkey(Keys.Shift | Keys.Alt, Keys.H);
-                HotkeyListener hkl = new HotkeyListener();
-                HotkeySelector hks = new HotkeySelector();
-        */
+        // HotkeyListener - hopefully I can get this working with CTRL+Oem5
+        public static string hotkeyCtrlOem5 = "Control + D1"; // default hotkey for enable/disable application
+        public static string hotkeyAltH = "Alt + H"; // default hotkey for getting older history entries
+        public static string hotkeyShiftAltH = "Shift, Alt + H"; // default hotkey for getting newer history entries
+        Hotkey hkCtrlOem5 = new Hotkey(hotkeyCtrlOem5);
+        Hotkey hkAltH = new Hotkey(hotkeyAltH);
+        Hotkey hkShiftAltH = new Hotkey(hotkeyShiftAltH);
+        HotkeyListener hkl = new HotkeyListener();
+        HotkeySelector hks = new HotkeySelector();
+
 
         // ###########################################################################################
         // Main
@@ -102,25 +82,28 @@ namespace HovText
         public Settings()
         {
 
-            settings = this; //refering to the current Form1 - used in Form2
+            settings = this; // refering to the current form - used in the history form
 
-            // NHotKey
-            HotkeyManager.Current.AddOrReplace("AltH", Keys.Alt | Keys.H, AltH);
-            HotkeyManager.Current.AddOrReplace("ShiftAltH", Keys.Alt | Keys.Shift | Keys.H, ShiftAltH);
-            HotkeyManager.Current.AddOrReplace("CtrlOem5", Keys.Control | Keys.Oem5, CtrlOem5);
+            /*
+                        // NHotKey
+                        HotkeyManager.Current.AddOrReplace("AltH", Keys.Alt | Keys.H, AltH);
+                        HotkeyManager.Current.AddOrReplace("ShiftAltH", Keys.Alt | Keys.Shift | Keys.H, ShiftAltH);
+                        HotkeyManager.Current.AddOrReplace("CtrlOem5", Keys.Control | Keys.Oem5, CtrlOem5);
             //            HotkeyManager.Current.AddOrReplace("AltO", Keys.Alt | Keys.O, AltO);
+            */
 
             InitializeComponent();
 
-            /*
-                        // HotkeyListener
-                        hkl.Add(hkCtrlOem5); 
-                        hkl.Add(hkAltH);
-                        hkl.Add(hkShiftAltH);
-                        hkl.HotkeyPressed += Hkl_HotkeyPressed;
-                        hkl.HotkeyUpdated += HotkeyListener_HotkeyUpdated;
-                        hkl.SuspendOn(form1);
-            */
+            // HotkeyListener
+//            hkl.Add(hkCtrlOem5);
+            hkl.Add(hkAltH);
+            hkl.Add(hkShiftAltH);
+            hkl.HotkeyPressed += Hkl_HotkeyPressed;
+            hkl.HotkeyUpdated += HotkeyListener_HotkeyUpdated;
+            hkl.SuspendOn(settings);
+
+
+
             /*
                         // Test
                         Hotkey hotkey1 = new Hotkey(Keys.Alt, Keys.L);
@@ -129,12 +112,6 @@ namespace HovText
                         hkl.RemoveAll();
                         hkl.Update(ref hotkey1, new Hotkey("Alt + N"));
 
-                        hks.Enable(hotkeyEnable);
-                        hks.Enable(hotkeyOlder);
-                        hks.Enable(hotkeyNewer);
-                        hks.Enable(hotkeyEnable, hkCtrlOem5);
-                        hks.Enable(hotkeyOlder, hkAltH);
-                        hks.Enable(hotkeyNewer, hkShiftAltH);
             */
 
             // Set KeyPreview object to true to allow the form to process 
@@ -175,78 +152,115 @@ namespace HovText
             UpdateUiForm1();
         }
 
-        /*
-                private void Hkl_HotkeyPressed(object sender, HotkeyEventArgs e)
-                {
-                    Console.WriteLine(e.Hotkey + " pressed in "+ e.SourceApplication.Name);
-                    if (e.Hotkey == hkAltH)
-                    {
-        //                Console.WriteLine($"First hotkey '{hotkey1}' was pressed.");
-                    }
-                }
 
 
-                private void HotkeyListener_HotkeyUpdated(object sender, HotkeyListener.HotkeyUpdatedEventArgs e)
-                {
-                    Console.WriteLine("Updated hotkey " + e.UpdatedHotkey);
-        //            if (e.UpdatedHotkey == hotkey1)
-        //            {
-                        // Do something...
-        //            }
-                }
-        */
+
+
+        // ###########################################################################################
+        // HotkeyListener events
+
+        private void Hkl_HotkeyPressed(object sender, HotkeyEventArgs e)
+        {
+            Console.WriteLine("Hotkey "+ e.Hotkey + " pressed");
+            if (e.Hotkey == hkCtrlOem5)
+            {
+                CtrlOem5();
+            }
+            if (e.Hotkey == hkAltH)
+            {
+                AltH();
+            }
+            if (e.Hotkey == hkShiftAltH)
+            {
+                ShiftAltH();
+            }
+
+        }
+
+
+        private void HotkeyListener_HotkeyUpdated(object sender, HotkeyListener.HotkeyUpdatedEventArgs e)
+        {
+            Console.WriteLine("Updated hotkey " + e.UpdatedHotkey);
+            //            if (e.UpdatedHotkey == hotkey1)
+            //            {
+            // Do something...
+            //            }
+        }
+
+
+        private void AltH()
+        {
+            GoEntryLowerNumber();
+            isAltPressedInThisApp = true;
+            Console.WriteLine("ALT + H");
+        }
+
+
+        private void ShiftAltH()
+        {
+            GoEntryHigherNumber();
+            isAltPressedInThisApp = true;
+            Console.WriteLine("SHIFT + ALT + H");
+        }
+
+        private void CtrlOem5()
+        {
+            ToggleEnabled();
+            Console.WriteLine("CTRL + ½");
+        }
 
 
         private void button1_Click(object sender, EventArgs e)
         {
             Console.WriteLine("Apply hotkey updates");
-            /*
-                        hkl.RemoveAll(); 
-                        hkl.Update(ref hkCtrlOem5, new Hotkey(hotkeyEnable.Text));
-                        hkl.Update(ref hkAltH, new Hotkey(hotkeyOlder.Text));
-                        hkl.Update(ref hkShiftAltH, new Hotkey(hotkeyNewer.Text));
-                        SetRegistryKey(registryPath, "Hotkey1", hotkeyEnable.Text);
-                        SetRegistryKey(registryPath, "Hotkey2", hotkeyOlder.Text);
-                        SetRegistryKey(registryPath, "Hotkey3", hotkeyNewer.Text);
-            */
+//            hkl.RemoveAll(); 
+            
+            hkl.Update(ref hkCtrlOem5, new Hotkey(hotkeyEnable.Text));
+            hkl.Update(ref hkAltH, new Hotkey(hotkeyOlder.Text));
+            hkl.Update(ref hkShiftAltH, new Hotkey(hotkeyNewer.Text));
+            SetRegistryKey(registryPath, "Hotkey1", hotkeyEnable.Text);
+            SetRegistryKey(registryPath, "Hotkey2", hotkeyOlder.Text);
+            SetRegistryKey(registryPath, "Hotkey3", hotkeyNewer.Text);
         }
 
 
+        // ###########################################################################################
+        // NHotKey events
+
+        /*
+                private void AltH(object sender, NHotkey.HotkeyEventArgs e)
+                {
+                    GoEntryLowerNumber();
+                    isAltPressedInThisApp = true;
+                    Console.WriteLine("ALT + H");
+                    e.Handled = true;
+                }
 
 
+                private void ShiftAltH(object sender, NHotkey.HotkeyEventArgs e)
+                {
+                    GoEntryHigherNumber();
+                    isAltPressedInThisApp = true;
+                    Console.WriteLine("SHIFT + ALT + H");
+                    e.Handled = true;
+                }
 
-        private void AltH(object sender, NHotkey.HotkeyEventArgs e)
-        {
-            GoEntryLowerNumber();
-            isAltPressedInThisApp = true;
-            //            form2.Show();
-            Console.WriteLine("ALT + H");
-            e.Handled = true;
-        }
+                private void AltO(object sender, NHotkey.HotkeyEventArgs e)
+                {
+                    Settings.isAltPressedInThisApp = false;
+                    ReleaseAltKey();
+                    SendKeys.Send("^v");
+                    Console.WriteLine("ALT + O");
+                    e.Handled = true;
+                }
 
-        private void ShiftAltH(object sender, NHotkey.HotkeyEventArgs e)
-        {
-            GoEntryHigherNumber();
-            isAltPressedInThisApp = true;
-            Console.WriteLine("SHIFT + ALT + H");
-            e.Handled = true;
-        }
-
-        private void AltO(object sender, NHotkey.HotkeyEventArgs e)
-        {
-            Settings.isAltPressedInThisApp = false;
-            ReleaseAltKey();
-            SendKeys.Send("^v");
-            Console.WriteLine("ALT + O");
-            e.Handled = true;
-        }
-
-        private void CtrlOem5(object sender, NHotkey.HotkeyEventArgs e)
-        {
-            ToggleEnabled();
-            Console.WriteLine("CTRL + ½");
-            e.Handled = true;
-        }
+                private void CtrlOem5(object sender, NHotkey.HotkeyEventArgs e)
+                {
+                    ToggleEnabled();
+                    Console.WriteLine("CTRL + ½");
+                    e.Handled = true;
+                }
+        */
 
 
         // ###########################################################################################
@@ -537,7 +551,7 @@ namespace HovText
         // ###########################################################################################
         // Update "Form 2" UI - this is where the clipboatd data is shown
 
-        private void UpdateUiForm2()
+        private void UpdateUiHistory()
         {
 
             string entryText = entriesText[entryIndex];
@@ -598,7 +612,7 @@ namespace HovText
 
                     // Update the UI
                     UpdateUiForm1();
-                    UpdateUiForm2();
+                    UpdateUiHistory();
                 }
             }
         }
@@ -637,7 +651,7 @@ namespace HovText
 
                     // Update the UI
                     UpdateUiForm1();
-                    UpdateUiForm2();
+                    UpdateUiHistory();
                 }
             }
         }
@@ -996,7 +1010,7 @@ namespace HovText
                 textBox1.Text = hest;
 
                 // Update the ticks counter (only for show - not used for anything)
-//                ticks += 1;
+                //                ticks += 1;
                 //                strTick.Text = ticks.ToString() + " ticks";
             }
         }
@@ -1110,24 +1124,22 @@ namespace HovText
             themeColor = themeColorRegistry;
             SetThemeColors();
 
-            // Set the FORM2 size
-            form2Size = uiAreaSmall.Checked ? 0.7 : form2Size;
-            form2Size = uiAreaMedium.Checked ? 1.1 : form2Size;
-            form2Size = uiAreaLarge.Checked ? 1.5 : form2Size;
+            // Set the history form size
+            historySize = uiAreaSmall.Checked ? 0.7 : historySize;
+            historySize = uiAreaMedium.Checked ? 1.1 : historySize;
+            historySize = uiAreaLarge.Checked ? 1.5 : historySize;
             history.SetPosition();
 
+            // Get the hotkeys from registry
             string hotkey1 = GetRegistryKey(registryPath, "Hotkey1");
             string hotkey2 = GetRegistryKey(registryPath, "Hotkey2");
             string hotkey3 = GetRegistryKey(registryPath, "Hotkey3");
-            /*
-                        hkl.RemoveAll();
-                        hkl.Update(ref hkCtrlOem5, new Hotkey(hotkey1));
-                        hkl.Update(ref hkAltH, new Hotkey(hotkey2));
-                        hkl.Update(ref hkShiftAltH, new Hotkey(hotkey3));
-                        hks.Enable(hotkeyEnable, hkCtrlOem5);
-                        hks.Enable(hotkeyOlder, hkAltH);
-                        hks.Enable(hotkeyNewer, hkShiftAltH);
-            */
+            hkl.Update(ref hkCtrlOem5, new Hotkey(hotkey1));
+            hkl.Update(ref hkAltH, new Hotkey(hotkey2));
+            hkl.Update(ref hkShiftAltH, new Hotkey(hotkey3));
+            hks.Enable(hotkeyEnable, hkCtrlOem5);
+            hks.Enable(hotkeyOlder, hkAltH);
+            hks.Enable(hotkeyNewer, hkShiftAltH);
 
         }
 
@@ -1176,6 +1188,10 @@ namespace HovText
             // Check if all keys are set - if not the set default values
             using (RegistryKey registryPathExists = Registry.CurrentUser.OpenSubKey(registryPath, true))
             {
+                if (registryPathExists.GetValue("CheckUpdates") == null)
+                {
+                    registryPathExists.SetValue("CheckUpdates", "1");
+                }
                 if (registryPathExists.GetValue("HotkeyBehaviour") == null)
                 {
                     registryPathExists.SetValue("HotkeyBehaviour", "System");
@@ -1212,6 +1228,21 @@ namespace HovText
                 {
                     registryPathExists.SetValue("EnableTrimWhitespaces", "1");
                 }
+                if (registryPathExists.GetValue("Hotkey1") == null)
+                {
+                    registryPathExists.SetValue("Hotkey1", hotkeyCtrlOem5);
+                }
+                if (registryPathExists.GetValue("Hotkey2") == null)
+                {
+                    registryPathExists.SetValue("Hotkey2", hotkeyAltH);
+                }
+                if (registryPathExists.GetValue("Hotkey3") == null)
+                {
+                    registryPathExists.SetValue("Hotkey3", hotkeyShiftAltH);
+                }
+
+
+
             }
         }
 
@@ -1269,19 +1300,19 @@ namespace HovText
 
         private void uiAreaSmall_CheckedChanged(object sender, EventArgs e)
         {
-            form2Size = 0.7;
+            historySize = 0.7;
             SetRegistryKey(registryPath, "AreaSize", "Small");
         }
 
         private void uiAreaMedium_CheckedChanged(object sender, EventArgs e)
         {
-            form2Size = 1.1;
+            historySize = 1.1;
             SetRegistryKey(registryPath, "AreaSize", "Medium");
         }
 
         private void uiAreaLarge_CheckedChanged(object sender, EventArgs e)
         {
-            form2Size = 1.5;
+            historySize = 1.5;
             SetRegistryKey(registryPath, "AreaSize", "Large");
         }
 

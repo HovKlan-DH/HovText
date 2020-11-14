@@ -32,6 +32,8 @@ namespace HovText
             return 0;
         }
 
+
+        // --------------------------------------------------------------------------------------
         // Included for getting and setting application focus
         [DllImport("user32.dll")]
         public static extern bool SetForegroundWindow(IntPtr hWnd);

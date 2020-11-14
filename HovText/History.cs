@@ -15,24 +15,24 @@ namespace HovText
         public void SetPosition()
         {
 
-            double form2Size = Settings.form2Size;
+            double historySize = Settings.historySize;
 
-            int form2Width = (int)(Settings.form2Width * form2Size);
-            int form2Height = (int)(Settings.form2Height * form2Size);
+            int historyWidth = (int)(Settings.historyWidth * historySize);
+            int historyHeight = (int)(Settings.historyHeight * historySize);
 
-            Width = form2Width;
-            Height = form2Height;
+            Width = historyWidth;
+            Height = historyHeight;
 
             int x = Screen.PrimaryScreen.WorkingArea.Right - this.Width;
             int y = Screen.PrimaryScreen.WorkingArea.Bottom - this.Height;
             this.Left = x - 5;
             this.Top = y - 5;
 
-            label1.Width = form2Width;
-            textBoxHistory.Width = form2Width;
-            textBoxHistory.Height = form2Height;
-            pictureHistory.Width = form2Width;
-            pictureHistory.Height = form2Height;
+            label1.Width = historyWidth;
+            textBoxHistory.Width = historyWidth;
+            textBoxHistory.Height = historyHeight;
+            pictureHistory.Width = historyWidth;
+            pictureHistory.Height = historyHeight;
 
         }
 
@@ -131,7 +131,7 @@ namespace HovText
                     {
                         SendKeys.Send("^v");
                     }
-                    Console.WriteLine("ALT key up (FORM 2)");
+                    Console.WriteLine("ALT key up");
                 }
             }
         }
