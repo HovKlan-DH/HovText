@@ -6,6 +6,10 @@ It is a REBOOTED edition meaning that it is a completely rewritten project from 
 
 I am by far a skilled C# developer this is my first C# project. I am by nature a "spaghetti programmer" which you will be able to see in the source code but the important thing is that it works as intended ;-)
 
+# Documentation
+
+The full documentation for how to use this application is available here, http://hovtext.com/documentation/
+
 # Requirements
 
 .NET 4.8
