@@ -6,15 +6,15 @@ It is a REBOOTED edition meaning that it is a completely rewritten project from 
 
 I am by far a skilled C# developer this is my first C# project. I am by nature a "spaghetti programmer" which you will be able to see in the source code but the important thing is that it works as intended ;-)
 
-# Documentation
+## Documentation
 
 The full documentation for how to use this application is available here, http://hovtext.com/documentation/
 
-# Requirements
+## Requirements
 
 .NET 4.8
 
-# Bugs
+## Bugs
 
 I am struggling with the hotkey manager I am using, HotkeyListener. I have tried doing the hotkey management myself but failed in getting this right. I then stumpled on the HotkeyListener which is really nice as it has a method for catching key combinations for new hotkeys and then convert that to a string, so it can be saved and restored from registry. I like this but for some weird reason I cannot use the `CTRL+½` combination, which I used previously so I am really curious if this is something I have done wrong or if it is an error in HotkeyListener. Also it seems impossible for me to update the hotkey on-the-fly without it still registring the old hotkey.
 
