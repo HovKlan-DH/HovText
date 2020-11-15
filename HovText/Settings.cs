@@ -13,7 +13,7 @@ using WK.Libraries.HotkeyListenerNS; // https://github.com/Willy-Kimura/HotkeyLi
 //using NHotkey.WindowsForms; // https://github.com/thomaslevesque/NHotkey
 
 
-[assembly: AssemblyVersionAttribute("2020.11.14.0")]
+[assembly: AssemblyVersionAttribute("2020.11.15.0")]
 
 
 namespace HovText
@@ -26,6 +26,7 @@ namespace HovText
         Update update = new Update();
 
         // Define class variables - real spaghetti
+        public static string hovtextPage = "http://hovtext.com/";
         public static string appDate = ""; // date for current version
         public static bool isFirstCall = true; // is this the first time after ALT hotkey has been pressed
         SortedDictionary<int, string> entriesApplication = new SortedDictionary<int, string>();
@@ -853,7 +854,7 @@ namespace HovText
 
         private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            System.Diagnostics.Process.Start("http://hovtext.com/");
+            System.Diagnostics.Process.Start(hovtextPage);
         }
 
 
@@ -954,14 +955,14 @@ namespace HovText
             try
             {
                 WebClient client = new WebClient();
-                string checkedVersion = client.DownloadString("http://hovtext.com/update/");
+                string checkedVersion = client.DownloadString(hovtextPage+"update/?v="+appDate);
                 if (checkedVersion.Substring(0, 9) == "Status:OK")
                 {
                     checkedVersion = checkedVersion.Substring(10);
                     update.uiAppVerF3.Text = appDate;
                     update.uiAppVerOnline.Text = checkedVersion;
                     string lastCheckedVersion = GetRegistryKey(registryPath, "CheckedVersion");
-                    if (lastCheckedVersion != appDate)
+                    if (lastCheckedVersion != checkedVersion && checkedVersion != appDate)
                     {
                         update.Show();
                     }
@@ -1489,7 +1490,7 @@ namespace HovText
         private void button4_Click(object sender, EventArgs e)
         {
             string selectedTab = tabControl1.SelectedTab.AccessibilityObject.Name;
-            System.Diagnostics.Process.Start("http://hovtext.com/?page=documentation#" + selectedTab);
+            System.Diagnostics.Process.Start(hovtextPage+"documentation/#" + selectedTab);
         }
 
         private void uiCheckUpdates_CheckedChanged(object sender, EventArgs e)
