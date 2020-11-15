@@ -22,7 +22,7 @@ I am struggling with the hotkey manager I am using, HotkeyListener. I have tried
 
 So the hotkey thing is currently a little messu I will admit and I wuld love some feedback on it, if this can be done differently - either fixing the problem or suggestion on an alternative hotkey manager?
 
-# Todo
+## Todo
 
 * Application behaviour
   * I need to be able to paste unformatted text only on hotkey - UI ready for it but cannot figure out the code for it yet
@@ -33,3 +33,9 @@ So the hotkey thing is currently a little messu I will admit and I wuld love som
   * Not sure if you can detect either a single-click and a double-click - it should react differently on double-click
 * Clean-up source code and beautify it for release
   * This is borring and will take some time
+
+## Software used in project
+
+HovText has been developed in Visual Studio 2019.
+
+It also uses another GibHub project, https://github.com/Willy-Kimura/HotkeyListener by Willy Kimura.
