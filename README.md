@@ -12,7 +12,7 @@ The full documentation for how to use this application is available here, http:/
 
 ## Requirements
 
-.NET 4.8
+.NET 4.x
 
 ## Bugs
 
