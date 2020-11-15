@@ -26,7 +26,7 @@ namespace HovText
         Update update = new Update();
 
         // Define class variables - real spaghetti
-        public static string hovtextPage = "http://hovtext.com/";
+        public static string hovtextPage = "https://hovtext.com/";
         public static string appDate = ""; // date for current version
         public static bool isFirstCall = true; // is this the first time after ALT hotkey has been pressed
         SortedDictionary<int, string> entriesApplication = new SortedDictionary<int, string>();
@@ -955,10 +955,12 @@ namespace HovText
             try
             {
                 WebClient client = new WebClient();
-                string checkedVersion = client.DownloadString(hovtextPage+"update/?v="+appDate);
-                if (checkedVersion.Substring(0, 9) == "Status:OK")
+                client.Headers.Add("user-agent", "HovText "+ appDate);
+                string checkedVersion = client.DownloadString(hovtextPage+"autoupdate/");
+//                string checkedVersion = client.DownloadString(hovtextPage + "update/?v=" + appDate);
+                if (checkedVersion.Substring(0,7) == "Version")
                 {
-                    checkedVersion = checkedVersion.Substring(10);
+                    checkedVersion = checkedVersion.Substring(9);
                     update.uiAppVerF3.Text = appDate;
                     update.uiAppVerOnline.Text = checkedVersion;
                     string lastCheckedVersion = GetRegistryKey(registryPath, "CheckedVersion");
