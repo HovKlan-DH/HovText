@@ -4,7 +4,7 @@ HovText is a free open source C# clipboard manager. With it you will be able to 
 
 It is a REBOOTED edition meaning that it has been revived from the dead and it is completely rewritten from the legacy HovText version, available at https://hovtext.com/. The new edition is robust in terms of the clipboard chain and it should now work, in contrary to the old version.
 
-I am by far a skilled C# developer this is my first C# project. I am by nature a "spaghetti programmer" which you will be able to see in the source code but the important thing is that it works as intended ;-)
+I am by far no skilled C# developer this is my first C# project. I am by nature a "spaghetti programmer" which you will be able to see in the source code but the important thing is that it works as intended ;-)
 
 ![Settings](https://hovtext.com/documentation/General.jpg)
 
