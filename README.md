@@ -20,7 +20,7 @@ The full documentation for how to use this application is available here, https:
 
 I am struggling with the hotkey manager I am using, HotkeyListener. I have tried doing the hotkey management myself but failed in getting this right. I then stumpled on the HotkeyListener which is really nice as it has a method for catching key combinations for new hotkeys and then convert that to a string, so it can be saved and restored from registry. I like this but for some weird reason I cannot use the `CTRL+½` combination, which I used previously so I am really curious if this is something I have done wrong or if it is an error in HotkeyListener. Also it seems impossible for me to update the hotkey on-the-fly without it still registring the old hotkey.
 
-So the hotkey thing is currently a little messu I will admit and I wuld love some feedback on it, if this can be done differently - either fixing the problem or suggestion on an alternative hotkey manager?
+So the hotkey thing is currently a little messy I will admit and I would really appreciate some feedback on it, if this can be done differently - either fixing the problem with the library or maybe help me doing this myself with my own code, so I do not need to include a DLL file?
 
 ## Todo
 
