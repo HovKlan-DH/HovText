@@ -111,7 +111,7 @@
             // 
             this.uiAppVerOnline.AutoSize = true;
             this.uiAppVerOnline.Font = new System.Drawing.Font("Segoe UI", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.uiAppVerOnline.Location = new System.Drawing.Point(159, 105);
+            this.uiAppVerOnline.Location = new System.Drawing.Point(158, 105);
             this.uiAppVerOnline.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.uiAppVerOnline.Name = "uiAppVerOnline";
             this.uiAppVerOnline.Size = new System.Drawing.Size(29, 32);

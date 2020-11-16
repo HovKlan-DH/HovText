@@ -688,7 +688,7 @@
             this.button4.Name = "button4";
             this.button4.Size = new System.Drawing.Size(294, 38);
             this.button4.TabIndex = 52;
-            this.button4.Text = "Show online help for this page";
+            this.button4.Text = "Show online help for this tab";
             this.button4.UseVisualStyleBackColor = true;
             this.button4.Click += new System.EventHandler(this.button4_Click);
             // 

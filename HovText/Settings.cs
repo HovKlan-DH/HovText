@@ -12,10 +12,6 @@ using HovText.Properties;
 using WK.Libraries.HotkeyListenerNS; // https://github.com/Willy-Kimura/HotkeyListener
 //using NHotkey.WindowsForms; // https://github.com/thomaslevesque/NHotkey
 
-
-[assembly: AssemblyVersionAttribute("2020.11.15.0")]
-
-
 namespace HovText
 {
     public partial class Settings : Form
@@ -27,7 +23,6 @@ namespace HovText
 
         // Define class variables - real spaghetti
         public static string hovtextPage = "https://hovtext.com/";
-        public static string appDate = ""; // date for current version
         public static bool isFirstCall = true; // is this the first time after ALT hotkey has been pressed
         SortedDictionary<int, string> entriesApplication = new SortedDictionary<int, string>();
         SortedDictionary<int, string> entriesText = new SortedDictionary<int, string>();
@@ -65,6 +60,7 @@ namespace HovText
         public static bool isClosedFromNotifyIcon = false;
         public static bool isAltPressedInThisApp = false;
         public string registryPath = "SOFTWARE\\HovText";
+        public static string appDate = "";
 
         // HotkeyListener - hopefully I can get this working with CTRL+Oem5
         public static string hotkeyCtrlOem5 = "Control + D1"; // default hotkey for enable/disable application
@@ -127,24 +123,30 @@ namespace HovText
 
             Program.AddClipboardFormatListener(this.Handle);
 
-            // Get the compiled date            
-            DateTime buildDate = new FileInfo(Assembly.GetExecutingAssembly().Location).LastWriteTime;
-            string year = buildDate.ToString("yyyy");
-            string month = buildDate.ToString("MMMM");
-            month = char.ToUpper(month[0]) + month.Substring(1);
+            // Get assembly version
+            Assembly assemblyInfo = Assembly.GetExecutingAssembly();
+            string assemblyVersion = FileVersionInfo.GetVersionInfo(assemblyInfo.Location).FileVersion;
+            string year = assemblyVersion.Substring(0, 4);
+            string month = assemblyVersion.Substring(5, 2);
+            string day = assemblyVersion.Substring(8, 2);
             switch (month)
             {
-                case "Januar": month = "January"; break;
-                case "Fabruar": month = "February"; break;
-                case "Marts": month = "March"; break;
-                case "Maj": month = "May"; break;
-                case "Juni": month = "June"; break;
-                case "Juli": month = "July"; break;
-                case "Oktober": month = "October"; break;
+                case "01": month = "January"; break;
+                case "02": month = "February"; break;
+                case "03": month = "March"; break;
+                case "04": month = "April"; break;
+                case "05": month = "May"; break;
+                case "06": month = "June"; break;
+                case "07": month = "July"; break;
+                case "08": month = "August"; break;
+                case "09": month = "September"; break;
+                case "10": month = "October"; break;
+                case "11": month = "November"; break;
+                case "12": month = "December"; break;
+                default: month = "Unknown"; break;
             }
-            string day = buildDate.ToString("yyyy-d").Substring(5);
-            string time = buildDate.ToString("HH:mm");
-            //            string date = year +"-"+ month +"-"+ day +" "+ time;
+            day = day.TrimStart(new Char[] {'0'}); // remove leading zero
+            day = day.TrimEnd(new Char[] { '.' }); // remove last dot
             string date = year + "-" + month + "-" + day;
             appDate = date;
             appVer.Text = "Version " + appDate;
