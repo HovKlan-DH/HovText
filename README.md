@@ -17,5 +17,5 @@ The full documentation for how to use this application is available on the HovTe
 
 ## Requirements
 
-Windows 7 or newer
-.NET Framework 4.x
+* Windows 7 or newer
+* .NET Framework 4.x
