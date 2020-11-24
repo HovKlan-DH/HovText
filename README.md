@@ -11,11 +11,11 @@ It is a REBOOTED edition meaning that it has been revived from the dead and it i
 * Remove text formatting when copying text to the clipboard (it will place the clear-text in the clipboard)
 * Clipboard manager that will remember all copied texts or pictures
 
-## Documentation
-
-The full documentation for how to use this application is available on the HovText home page, https://hovtext.com/documentation/
-
 ## Requirements
 
 * Windows 7 or newer
 * .NET Framework 4.x
+
+## Documentation
+
+The full documentation for how to use this application is available on the HovText home page, https://hovtext.com/documentation/
