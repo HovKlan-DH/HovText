@@ -8,7 +8,7 @@ It is a REBOOTED edition meaning that it has been revived from the dead and it i
 
 ## Capabilities
 
-* Remove test formatting when copying text to the clipboard
+* Remove text formatting when copying text to the clipboard (it will place the clear-text in the clipboard)
 * Clipboard manager that will remember all copied texts or pictures
 
 ## Documentation
