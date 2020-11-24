@@ -41,25 +41,25 @@
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(223, 220);
+            this.button1.Location = new System.Drawing.Point(223, 225);
             this.button1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(174, 37);
             this.button1.TabIndex = 1;
             this.button1.Text = "Skip this version";
             this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.button1.Click += new System.EventHandler(this.SkipVersion_Click);
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(30, 220);
+            this.button2.Location = new System.Drawing.Point(30, 225);
             this.button2.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(174, 37);
             this.button2.TabIndex = 0;
             this.button2.Text = "Go to webpage";
             this.button2.UseVisualStyleBackColor = true;
-            this.button2.Click += new System.EventHandler(this.button2_Click);
+            this.button2.Click += new System.EventHandler(this.GoToPage_Click);
             // 
             // label1
             // 
@@ -123,7 +123,7 @@
             // 
             this.textBox1.BackColor = System.Drawing.SystemColors.Control;
             this.textBox1.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.textBox1.Location = new System.Drawing.Point(19, 149);
+            this.textBox1.Location = new System.Drawing.Point(19, 152);
             this.textBox1.Multiline = true;
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(390, 63);

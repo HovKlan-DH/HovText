@@ -2,31 +2,82 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
-using System.IO;
 using System.Reflection;
 using System.Windows.Forms;
 using System.Diagnostics;
 using System.Net;
 using Microsoft.Win32;
 using HovText.Properties;
-using WK.Libraries.HotkeyListenerNS; // https://github.com/Willy-Kimura/HotkeyListener
-//using NHotkey.WindowsForms; // https://github.com/thomaslevesque/NHotkey
+using System.Text;
+using NHotkey.WindowsForms; // https://github.com/thomaslevesque/NHotkey
+
+// NuGet: "Costura.Fody" to merge the DLLs in to the EXE
+// Incredible cool and simple compared to the other complex stuff I have seen! :-)
+// https://stackoverflow.com/a/40786196/2028935
 
 namespace HovText
 {
+
     public partial class Settings : Form
     {
-        internal static Settings settings;
+        // ###########################################################################################
+        // Define "Settings" class variables - real spaghetti :-)
+        // ###########################################################################################
 
-        History history = new History();
-        Update update = new Update();
+        // Hotkey and related (e.g. switching application focus when using hotkey)
+        private string hotkeyBehaviour = "System"; // default
+        private static string hotkeyToggleApplication = "Control + Oem5"; // default hotkey "Toggle application on/off"
+        private static string hotkeyGetOlderEntry = "Alt + H"; // default hotkey for "Show older entry"
+        private static string hotkeyGetNewerEntry = "Shift + Alt + H"; // default hotkey for "Show newer entry"
+        private static string hotkeyPasteOnHotkey = "Alt + O"; // default hotkey for "Paste on hotkey"
+        private static IntPtr originatingHandle = IntPtr.Zero;
+        private static bool isFirstCallAfterHotkey = true;
 
-        // Define class variables - real spaghetti
-        public static string hovtextPage = "https://hovtext.com/";
-        public static bool isFirstCall = true; // is this the first time after ALT hotkey has been pressed
-        SortedDictionary<int, string> entriesApplication = new SortedDictionary<int, string>();
-        SortedDictionary<int, string> entriesText = new SortedDictionary<int, string>();
-        SortedDictionary<int, Image> entriesImage = new SortedDictionary<int, Image>();
+        // History
+        public static string historyFontFamily = "Sergoe UI";
+        public static float historyFontSize = 11;
+        private static int historyWidthSmall = 350;
+        private static int historyHeightSmall = 150;
+        private static int historyWidthMedium = 500;
+        private static int historyHeightMedium = 250;
+        private static int historyWidthLarge = 750;
+        private static int historyHeightLarge = 375;
+        public static int historyWidth = historyWidthMedium; // default
+        public static int historyHeight = historyHeightMedium; // default
+        private static string historyColorTopBlue = "#dae1e7";
+        private static string historyColorBottomBlue = "#f5faff";
+        private static string historyColorTopBrown = "#dac1a0";
+        private static string historyColorBottomBrown = "#eee3d5";
+        private static string historyColorTopGreen = "#c1dac1";
+        private static string historyColorBottomGreen = "#eaf2ea";
+        private static string historyColorTopWhite = "#e7e7e7";
+        private static string historyColorBottomWhite = "#ffffff";
+        private static string historyColorTopYellow = "#eee8aa";
+        private static string historyColorBottomYellow = "#ffffe1";
+        public static string historyColorTop = "#eee8aa"; // default
+        public static string historyColorBottom = "#ffffe1"; // default
+        public static string historyLocation = "Bottom Right"; // default
+
+        // Registry
+        public string registryPath = "SOFTWARE\\HovText";
+        private string registryCheckUpdates = "1"; // default
+        private string registryCloseMinimizes = "1"; // default
+        private string registryEnableHistory = "1"; // default
+        private string registryPasteOnSelection = "0"; // default
+        private string registryTrimWhitespaces = "1"; // default
+        private string registryHistoryColor = "Yellow"; // default
+        private string registryHistorySize = "Medium"; // default
+        private string registryHistoryLocation = historyLocation;
+
+        // UI elements
+        public static bool isEnabledHistory = true;
+        public static bool isEnabledPasteOnSelection = true;
+        public static bool isEnabledTrimWhitespacing = true;
+        public static bool isCloseMinimizes = true;
+        public static bool isClosedFromNotifyIcon = false;
+        public static bool isHistoryHotkeyPressed = false;
+
+        // Clipboard
         int entryIndex = -1;
         int entryCounter = -1;
         bool isClipboardText = false;
@@ -36,92 +87,30 @@ namespace HovText
         Image clipboardImage = null;
         string clipboardImageHashLast = "";
         IDataObject clipboardObject = null;
-        public static IntPtr originatingHandle = IntPtr.Zero;
-        public static float fontSize = 11; // "static" makes it available in the history form
-        public static string fontFamily = "Sergoe UI";
-        public static int historyWidth = 500; // medium
-        public static int historyHeight = 250; // medium
-        public static double historySize = 1.1; // small=0.7, medium=1.1, large=1.5
-        public static string themeColor = "Yellow";
-        public static string colorYellowTop = "#eee8aa";
-        public static string colorYellowBottom = "#ffffe1";
-        public static string colorBlueTop = "#dae1e7";
-        public static string colorBlueBottom = "#f5faff";
-        public static string colorGreenTop = "#c1dac1";
-        public static string colorGreenBottom = "#eaf2ea";
-        public static string colorBrownTop = "#dac1a0";
-        public static string colorBrownBottom = "#eee3d5";
-        public static string colorWhiteTop = "#e7e7e7";
-        public static string colorWhiteBottom = "#ffffff";
-        public static bool isEnabledHistory = true;
-        public static bool isEnabledPasteOnSelection = true;
-        public static bool isEnabledTrimWhitespacing = true;
-        public static bool isCloseMinimizes = true;
-        public static bool isClosedFromNotifyIcon = false;
-        public static bool isAltPressedInThisApp = false;
-        public string registryPath = "SOFTWARE\\HovText";
-        public static string appDate = "";
+        SortedDictionary<int, string> entriesApplication = new SortedDictionary<int, string>();
+        SortedDictionary<int, string> entriesText = new SortedDictionary<int, string>();
+        SortedDictionary<int, Image> entriesImage = new SortedDictionary<int, Image>();
+        const int WM_CLIPBOARDUPDATE = 0x031D;
 
-        // HotkeyListener - hopefully I can get this working with CTRL+Oem5
-        public static string hotkeyCtrlOem5 = "Control + D1"; // default hotkey for enable/disable application
-        public static string hotkeyAltH = "Alt + H"; // default hotkey for getting older history entries
-        public static string hotkeyShiftAltH = "Shift, Alt + H"; // default hotkey for getting newer history entries
-        Hotkey hkCtrlOem5 = new Hotkey(hotkeyCtrlOem5);
-        Hotkey hkAltH = new Hotkey(hotkeyAltH);
-        Hotkey hkShiftAltH = new Hotkey(hotkeyShiftAltH);
-        HotkeyListener hkl = new HotkeyListener();
-        HotkeySelector hks = new HotkeySelector();
+        // Misc
+        public static string hovtextPage = "https://hovtext.com/";
+        public static string appDate = "";
+        internal static Settings settings;
+        History history = new History();
+        Update update = new Update();
+        HotkeyConflict hotkeyConflict = new HotkeyConflict();
 
 
         // ###########################################################################################
         // Main
+        // ###########################################################################################
 
         public Settings()
         {
-
-            settings = this; // refering to the current form - used in the history form
-
-            /*
-                        // NHotKey
-                        HotkeyManager.Current.AddOrReplace("AltH", Keys.Alt | Keys.H, AltH);
-                        HotkeyManager.Current.AddOrReplace("ShiftAltH", Keys.Alt | Keys.Shift | Keys.H, ShiftAltH);
-                        HotkeyManager.Current.AddOrReplace("CtrlOem5", Keys.Control | Keys.Oem5, CtrlOem5);
-            //            HotkeyManager.Current.AddOrReplace("AltO", Keys.Alt | Keys.O, AltO);
-            */
+            // Refering to the current form - used in the history form
+            settings = this;
 
             InitializeComponent();
-
-            // HotkeyListener
-//            hkl.Add(hkCtrlOem5);
-            hkl.Add(hkAltH);
-            hkl.Add(hkShiftAltH);
-            hkl.HotkeyPressed += Hkl_HotkeyPressed;
-            hkl.HotkeyUpdated += HotkeyListener_HotkeyUpdated;
-            hkl.SuspendOn(settings);
-
-
-
-            /*
-                        // Test
-                        Hotkey hotkey1 = new Hotkey(Keys.Alt, Keys.L);
-                        hkl.Add(hotkey1);
-            //            hkl.Update(ref hotkey1, new Hotkey("Alt + M"));
-                        hkl.RemoveAll();
-                        hkl.Update(ref hotkey1, new Hotkey("Alt + N"));
-
-            */
-
-            // Set KeyPreview object to true to allow the form to process 
-            // the key before the control with focus processes it.
-            //            this.KeyPreview = true;
-
-            linkLabel1.BackColor = System.Drawing.Color.Transparent;
-
-            // Initialize registry and get its values for the various checkboxes
-            InitializeRegistry();
-            GetStartupSettings();
-
-            Program.AddClipboardFormatListener(this.Handle);
 
             // Get assembly version
             Assembly assemblyInfo = Assembly.GetExecutingAssembly();
@@ -151,134 +140,49 @@ namespace HovText
             appDate = date;
             appVer.Text = "Version " + appDate;
 
-            // Update UI
-            UpdateUiForm1();
-        }
+            // Initialize registry and get its values for the various checkboxes
+            InitializeRegistry();
+            GetStartupSettings();
 
+            Program.AddClipboardFormatListener(this.Handle);
 
+            // Write text for the "About" page
 
-
-
-        // ###########################################################################################
-        // HotkeyListener events
-
-        private void Hkl_HotkeyPressed(object sender, HotkeyEventArgs e)
-        {
-            Console.WriteLine("Hotkey "+ e.Hotkey + " pressed");
-            if (e.Hotkey == hkCtrlOem5)
-            {
-                CtrlOem5();
-            }
-            if (e.Hotkey == hkAltH)
-            {
-                AltH();
-            }
-            if (e.Hotkey == hkShiftAltH)
-            {
-                ShiftAltH();
-            }
-
-        }
-
-
-        private void HotkeyListener_HotkeyUpdated(object sender, HotkeyListener.HotkeyUpdatedEventArgs e)
-        {
-            Console.WriteLine("Updated hotkey " + e.UpdatedHotkey);
-            //            if (e.UpdatedHotkey == hotkey1)
-            //            {
-            // Do something...
-            //            }
-        }
-
-
-        private void AltH()
-        {
-            GoEntryLowerNumber();
-            isAltPressedInThisApp = true;
-            Console.WriteLine("ALT + H");
-        }
-
-
-        private void ShiftAltH()
-        {
-            GoEntryHigherNumber();
-            isAltPressedInThisApp = true;
-            Console.WriteLine("SHIFT + ALT + H");
-        }
-
-        private void CtrlOem5()
-        {
-            ToggleEnabled();
-            Console.WriteLine("CTRL + ½");
-        }
-
-
-        private void button1_Click(object sender, EventArgs e)
-        {
-            Console.WriteLine("Apply hotkey updates");
-//            hkl.RemoveAll(); 
-            
-            hkl.Update(ref hkCtrlOem5, new Hotkey(hotkeyEnable.Text));
-            hkl.Update(ref hkAltH, new Hotkey(hotkeyOlder.Text));
-            hkl.Update(ref hkShiftAltH, new Hotkey(hotkeyNewer.Text));
-            SetRegistryKey(registryPath, "Hotkey1", hotkeyEnable.Text);
-            SetRegistryKey(registryPath, "Hotkey2", hotkeyOlder.Text);
-            SetRegistryKey(registryPath, "Hotkey3", hotkeyNewer.Text);
+            // Basic RTF formatting
+            // "test \b text \b0 is good" for bold
+            // "test \i text \i0 is good" for italic
+            // "test \ul text\ulnone  is good" for underline
+            var sb = new StringBuilder();
+            sb.Append(@"{\rtf1\ansi");
+            sb.Append(@" This application is open source and you can use it on any computer you want without any cost. You are of course encouraged to donate some $$$, if you use it and want to motivate for continues support :-) It is \ul not\ulnone  allowed to sell or distribute it in any commercial regard. \line ");
+            sb.Append(@" \line ");
+            sb.Append(@" Visit the HovText home page where you also can contact the developers: \line ");
+            sb.Append(@" https://hovtext.com/ \line ");
+            sb.Append(@" \line ");
+            sb.Append(@" Kind regards from Jesper and Dennis ");
+            sb.Append(@"}");
+            aboutBox.Rtf = sb.ToString();
         }
 
 
         // ###########################################################################################
-        // NHotKey events
-
-        /*
-                private void AltH(object sender, NHotkey.HotkeyEventArgs e)
-                {
-                    GoEntryLowerNumber();
-                    isAltPressedInThisApp = true;
-                    Console.WriteLine("ALT + H");
-                    e.Handled = true;
-                }
-
-
-                private void ShiftAltH(object sender, NHotkey.HotkeyEventArgs e)
-                {
-                    GoEntryHigherNumber();
-                    isAltPressedInThisApp = true;
-                    Console.WriteLine("SHIFT + ALT + H");
-                    e.Handled = true;
-                }
-
-                private void AltO(object sender, NHotkey.HotkeyEventArgs e)
-                {
-                    Settings.isAltPressedInThisApp = false;
-                    ReleaseAltKey();
-                    SendKeys.Send("^v");
-                    Console.WriteLine("ALT + O");
-                    e.Handled = true;
-                }
-
-                private void CtrlOem5(object sender, NHotkey.HotkeyEventArgs e)
-                {
-                    ToggleEnabled();
-                    Console.WriteLine("CTRL + ½");
-                    e.Handled = true;
-                }
-        */
-
-
+        // Called when clipboard is changed
         // ###########################################################################################
-        // Called when clipboard is updated
-        // Clipboard Monitor, https://stackoverflow.com/questions/38148400/clipboard-monitor
-
-        const int WM_CLIPBOARDUPDATE = 0x031D;
 
         protected override void WndProc(ref Message m)
         {
-
-            // CLIPBOARD CHAIN
+            // Clipboard chain
             switch (m.Msg)
             {
                 case WM_CLIPBOARDUPDATE:
+
+                    // Temporary debug to figure out which application has updated the clipboard - but it does not work as intended
+                    /*
+                    uint thisProcessId = 0;
+                    Program.GetWindowThreadProcessId(m.HWnd, out thisProcessId);
+                    string thisProcessName = Process.GetProcessById((int)thisProcessId).ProcessName;
+                    Console.WriteLine("Clipboard change event detected from [" + thisProcessName + "]");
+                    */
 
                     // Check if application is enabled
                     if (uiAppEnabled.Checked)
@@ -286,7 +190,6 @@ namespace HovText
                         ProcessClipboard();
                     }
                     break;
-
                 default:
                     base.WndProc(ref m);
                     break;
@@ -296,6 +199,7 @@ namespace HovText
 
         // ###########################################################################################
         // Process the clipboard
+        // ###########################################################################################
 
         private void ProcessClipboard()
         {
@@ -334,8 +238,8 @@ namespace HovText
 
                         // Add text to the entries array and update the clipboard
                         AddEntry();
+                        GetEntryCounter();
                         SetClipboard(false, "WM_CLIPBOARDUPDATE:TEXT");
-                        UpdateUiForm1();
                     }
                     else
                     {
@@ -362,13 +266,13 @@ namespace HovText
 
                     // Add the image to the entries array and update the clipboard
                     AddEntry();
+                    GetEntryCounter();
                     SetClipboard(false, "WM_CLIPBOARDUPDATE:IMAGE");
-                    UpdateUiForm1();
                 }
             }
             else
             // We have come in to here, if clipboard has changed but it does not contains a text or an image
-            // It could be empty or e.g. a file cop
+            // It could be empty or e.g. a file copy
 
             if (Clipboard.GetText() == "")
             {
@@ -385,7 +289,8 @@ namespace HovText
 
 
         // ###########################################################################################
-        // Check if clipboard content is already in the data arrays - if so move the entry to top
+        // Check if clipboard content is already in the data arrays - if so then move the entry to top
+        // ###########################################################################################
 
         private bool IsClipboardContentAlreadyInDataArrays()
         {
@@ -433,6 +338,7 @@ namespace HovText
 
         // ###########################################################################################
         // Add the content from clipboard to the data arrays
+        // ###########################################################################################
 
         private void AddEntry()
         {
@@ -471,9 +377,7 @@ namespace HovText
                                                         dictionary.Add(format, clipboardObject.GetData(format));
                                                     }
                                                 }
-                                                entriesObject.Add(entryIndex, dictionary);
                     */
-                    //                entriesObject.Add(entryIndex, Clipboard.GetDataObject());
 
                     // Add the process name for the active application to the entries array
                     string activeAppName = GetActiveApplication();
@@ -485,6 +389,7 @@ namespace HovText
 
         // ###########################################################################################
         // Place data in the clipboard based on the entry index
+        // ###########################################################################################
 
         private void SetClipboard(bool original, string from)
         {
@@ -515,7 +420,7 @@ namespace HovText
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show("EXCEPTION raised from [" + from + "] [" + ex.ToString() + "]");
+                    MessageBox.Show("EXCEPTION 1 [" + ex.ToString() + "]");
                 }
             }
             else
@@ -528,31 +433,19 @@ namespace HovText
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show("EXCEPTION raised from [" + from + "] [" + ex.ToString() + "]");
+                    MessageBox.Show("EXCEPTION 2 [" + ex.ToString() + "]");
                 }
             }
             else
             {
-                MessageBox.Show("WTF!?");
+                MessageBox.Show("EXCEPTION 3");
             }
-
-            timer1_Tick();
-
         }
 
 
         // ###########################################################################################
-        // Update "Form 1" UI - this is where the application settings are
-
-        private void UpdateUiForm1()
-        {
-            GetEntryCounter();
-            uiEntries.Text = entriesText.Count.ToString();
-        }
-
-
+        // Update "History" form
         // ###########################################################################################
-        // Update "Form 2" UI - this is where the clipboatd data is shown
 
         private void UpdateUiHistory()
         {
@@ -567,23 +460,24 @@ namespace HovText
             // Show text in form 2
             if (isEntryText)
             {
-                history.ShowText(entryText, entryCounter + " of " + entriesText.Count + " from \"" + entryApplication + "\"", entryApplication);
+                history.ShowText(entryCounter + " of " + entriesText.Count + " from \"" + entryApplication + "\"", entryText);
             }
             else
             if (isEntryImage) // Show the image in form 2
             {
-                history.ShowImage(entryImage, entryCounter + " of " + entriesText.Count + " from \"" + entryApplication + "\"", entryApplication);
+                history.ShowImage(entryCounter + " of " + entriesText.Count + " from \"" + entryApplication + "\"", entryImage);
             }
             else
             {
-                MessageBox.Show("WTF 2");
+                MessageBox.Show("EXCEPTION 4");
 
             }
         }
 
 
         // ###########################################################################################
-        // Called when ALT + H is pressed
+        // Get the next older entry from history
+        // ###########################################################################################
 
         public void GoEntryLowerNumber()
         {
@@ -592,29 +486,33 @@ namespace HovText
             if (uiAppEnabled.Checked && entryCounter > 0)
             {
 
-                GetActiveApplication();
-                ChangeFocusToThisApplication();
+                if(isFirstCallAfterHotkey)
+                {
+                    GetActiveApplication();
+                    ChangeFocusToThisApplication();
+                }
 
                 // Only proceed if the entry counter is equal to or more than 0
                 if (entryCounter > 0)
                 {
 
                     // Check if this is the first call (we want to show the newest entry at the first keypress)
-                    if (!isFirstCall && entryCounter > 1)
+                    if (!isFirstCallAfterHotkey && entryCounter > 1)
                     {
-                        entryIndex = GetEntryLowerNumber();
+                        var element = entriesText.ElementAt(entryCounter - 2);
+                        entryIndex = element.Key;
                     }
                     else
                     {
-                        if (!isFirstCall)
+                        if (!isFirstCallAfterHotkey)
                         {
                             history.Flash(100);
                         }
                     }
-                    isFirstCall = false;
+                    isFirstCallAfterHotkey = false;
 
                     // Update the UI
-                    UpdateUiForm1();
+                    GetEntryCounter();
                     UpdateUiHistory();
                 }
             }
@@ -622,7 +520,8 @@ namespace HovText
 
 
         // ###########################################################################################
-        // Called when ALT + SHIFT + H is pressed
+        // Get the next newer entry from history
+        // ###########################################################################################
 
         public void GoEntryHigherNumber()
         {
@@ -631,29 +530,33 @@ namespace HovText
             if (uiAppEnabled.Checked && entryCounter > 0)
             {
 
-                GetActiveApplication();
-                ChangeFocusToThisApplication();
+                if(isFirstCallAfterHotkey)
+                {
+                    GetActiveApplication();
+                    ChangeFocusToThisApplication();
+                }
 
                 // Only proceed if the entry counter is less than the total amount of entries
                 if (entryCounter <= entriesText.Count)
                 {
 
                     // Check if this is the first call (we want to show the newest entry at the first keypress)
-                    if (!isFirstCall && entryCounter < entriesText.Count)
+                    if (!isFirstCallAfterHotkey && entryCounter < entriesText.Count)
                     {
-                        entryIndex = GetEntryHigherNumber();
+                        var element = entriesText.ElementAt(entryCounter);
+                        entryIndex = element.Key;
                     }
                     else
                     {
-                        if (!isFirstCall)
+                        if (!isFirstCallAfterHotkey)
                         {
                             history.Flash(100);
                         }
                     }
-                    isFirstCall = false;
+                    isFirstCallAfterHotkey = false;
 
                     // Update the UI
-                    UpdateUiForm1();
+                    GetEntryCounter();
                     UpdateUiHistory();
                 }
             }
@@ -661,19 +564,20 @@ namespace HovText
 
 
         // ###########################################################################################
-        // Called when ALT is released
+        // Called when ENTER or ESCAPE has been pressed in the "History" form
+        // ###########################################################################################
 
-        public void ReleaseAltKey()
+        public void SelectHistoryEntry()
         {
+            isHistoryHotkeyPressed = false;
 
             // Check if application is enabled
             if (uiAppEnabled.Checked && entryCounter > 0)
             {
-
                 MoveEntryToTop();
 
                 // Set the clipboard with the new data
-                SetClipboard(false, "ReleaseAltKey");
+                SetClipboard(false, "SelectHistoryEntry");
 
                 // Set focus back to the originating application
                 ChangeFocusToOriginatingApplication();
@@ -681,39 +585,19 @@ namespace HovText
                 //                SendKeys.Send("^v");
 
                 // Reset some stuff
-                isFirstCall = true;
+                isFirstCallAfterHotkey = true;
                 entryIndex = entriesText.Keys.Last();
+                GetEntryCounter();
 
                 // Update UI
-                UpdateUiForm1();
                 history.Hide();
-
             }
         }
 
 
         // ###########################################################################################
-        // Go back in time and get an older entry index
-
-        private int GetEntryLowerNumber()
-        {
-            var element = entriesText.ElementAt(entryCounter - 2);
-            return element.Key;
-        }
-
-
-        // ###########################################################################################
-        // Go forward in time and get a newer entry index
-
-        private int GetEntryHigherNumber()
-        {
-            var element = entriesText.ElementAt(entryCounter);
-            return element.Key;
-        }
-
-
-        // ###########################################################################################
         // Convert the entry index to which logical number it is
+        // ###########################################################################################
 
         private void GetEntryCounter()
         {
@@ -727,12 +611,12 @@ namespace HovText
                     break;
                 }
             }
-
         }
 
 
         // ###########################################################################################
         // Move the active entry to the top of the data arrays (newest entry)
+        // ###########################################################################################
 
         private void MoveEntryToTop()
         {
@@ -746,21 +630,19 @@ namespace HovText
             entriesText.Add(insertKey, entriesText[entryIndex]);
             entriesImage.Add(insertKey, entriesImage[entryIndex]);
             entriesApplication.Add(insertKey, entriesApplication[entryIndex]);
-            //            entriesObject.Add(insertKey, entriesObject[entryIndex]);
 
             // Remove the chosen entry, so it does not show duplicates
             entriesText.Remove(entryIndex);
             entriesImage.Remove(entryIndex);
             entriesApplication.Remove(entryIndex);
-            //            entriesObject.Remove(entryIndex);
 
             entryIndex = entriesText.Keys.Last();
-
         }
 
 
         // ###########################################################################################
-        // Called when the "Enable application" checkbox is clicked with mouse or CTRL + ½ is pressed
+        // Called when the "Enable application" checkbox is clicked with mouse or the "Toggle application on/off" hotkey is pressed
+        // ###########################################################################################
 
         public void ToggleEnabled()
         {
@@ -771,6 +653,7 @@ namespace HovText
 
         // ###########################################################################################
         // Event that is triggede when application is toggled, either enabled or disabled
+        // ###########################################################################################
 
         private void uiAppEnabled_CheckedChanged_1(object sender, EventArgs e)
         {
@@ -789,12 +672,12 @@ namespace HovText
                 switch (hotkeyBehaviour)
                 {
                     case "Paste":
-                        uiHotkeyPaste.Checked = true;
-                        hotkeyPaste.Enabled = true;
+                        uiHotkeyBehaviourPaste.Checked = true;
+                        uiHotkeyPaste.Enabled = true;
                         break;
                     default:
-                        uiHotkeySystem.Checked = true;
-                        hotkeyPaste.Enabled = false;
+                        uiHotkeyBehaviourSystem.Checked = true;
+                        uiHotkeyPaste.Enabled = false;
                         break;
                 }
 
@@ -802,15 +685,11 @@ namespace HovText
                 uiHistoryEnabled.Enabled = true;
                 uiTrimWhitespaces.Enabled = true;
                 uiPasteOnSelection.Enabled = true;
-                hotkeyOlder.Enabled = true;
-                hotkeyNewer.Enabled = true;
+                uiHotkeyOlder.Enabled = true;
+                uiHotkeyNewer.Enabled = true;
             }
             else
             {
-
-                //                SetClipboard(true, "appEnabled_CheckedChanged_1():Checked-key["+entryIndex+"]");
-                //                Clipboard.SetDataObject(clipboardObject, true);
-
                 // Change the icons to be red (inactive)
                 Icon = Resources.Inactive;
                 notifyIcon.Icon = Resources.Inactive;
@@ -819,15 +698,16 @@ namespace HovText
                 uiHistoryEnabled.Enabled = false;
                 uiTrimWhitespaces.Enabled = false;
                 uiPasteOnSelection.Enabled = false;
-                hotkeyOlder.Enabled = false;
-                hotkeyNewer.Enabled = false;
-                hotkeyPaste.Enabled = false;
+                uiHotkeyOlder.Enabled = false;
+                uiHotkeyNewer.Enabled = false;
+                uiHotkeyPaste.Enabled = false;
             }
         }
 
 
         // ###########################################################################################
-        // Called when application is minimized - it will minimize "Form 1"
+        // Called when application is minimized - it will hide the "Settings" form
+        // ###########################################################################################
 
         private void MainWindow_Resize(object sender, EventArgs e)
         {
@@ -839,29 +719,18 @@ namespace HovText
 
 
         // ###########################################################################################
-        // Called when tray icon is clicked - to show "Form 1"
-
-        private void notifyIcon1_MouseClick(object sender, MouseEventArgs e)
-        {
-            Show(); // will show this form (Form 1)
-            if (WindowState == FormWindowState.Minimized)
-            {
-                WindowState = FormWindowState.Normal;
-            }
-        }
-
-
+        // Go to HovText web page when link is clicked
         // ###########################################################################################
-        // Go to web page when clicked with mouse
 
-        private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        private void aboutBox_LinkClicked(object sender, LinkClickedEventArgs e)
         {
-            System.Diagnostics.Process.Start(hovtextPage);
+            System.Diagnostics.Process.Start(e.LinkText);
         }
 
 
         // ###########################################################################################
         // Unregister from the clipboard chain when application is closing down
+        // ###########################################################################################
 
         private void MainWindow_FormClosing_1(object sender, FormClosingEventArgs e)
         {
@@ -869,14 +738,14 @@ namespace HovText
             if (e.CloseReason == CloseReason.WindowsShutDown)
             {
                 Program.RemoveClipboardFormatListener(this.Handle);
-                //                hkl.RemoveAll();
+                RemoveAllHotkeys();
                 return;
             }
 
             if (!isCloseMinimizes || isClosedFromNotifyIcon)
             {
                 Program.RemoveClipboardFormatListener(this.Handle);
-                //                hkl.RemoveAll();
+                RemoveAllHotkeys();
                 return;
             }
 
@@ -891,12 +760,12 @@ namespace HovText
 
         // ###########################################################################################
         // Get process info for active application (the one where the hotkey is pressed)
+        // ###########################################################################################
 
         private string GetActiveApplication()
         {
-            if (isFirstCall)
+            if (isFirstCallAfterHotkey)
             {
-                //                IntPtr handle = Program.GetForegroundWindow();
                 originatingHandle = Program.GetForegroundWindow();
             }
 
@@ -904,41 +773,24 @@ namespace HovText
             uint processId = 0;
             Program.GetWindowThreadProcessId(originatingHandle, out processId);
             string appProcessName = Process.GetProcessById((int)processId).ProcessName;
-
-            /*
-                        if(appProcessName!="devenv" && appProcessName!="HovText")
-                        {
-                            originatingHandle = handle;
-                            Console.WriteLine("Setting original handle");
-                        }
-            */
-
             return appProcessName;
         }
 
 
         // ###########################################################################################
-        // When activating the entry selector then change focus to this application to prevent the keypresses go in to the real active application
+        // When pressing one of the history hotkeys then change focus to this application to prevent the keypresses go in to the active application
+        // ###########################################################################################
 
         private void ChangeFocusToThisApplication()
         {
-            // Make sure FORM2 is
-            //            if (isFirstCall)
-            //            {
             Program.SetForegroundWindow(this.Handle);
-            //                form2.TopMost = true;
-            //                form2.Show();
             Console.WriteLine("Set focus to HovText");
-            //            }
         }
 
-        private void Settings_KeyUp(object sender, KeyEventArgs e)
-        {
-            Console.WriteLine("FORM 1 key up");
-        }
 
         // ###########################################################################################
-        // When an entry has been submitted to the clipboard then pass back focus to the real originating application
+        // When an entry has been submitted to the clipboard then pass back focus to the originating application
+        // ###########################################################################################
 
         private void ChangeFocusToOriginatingApplication()
         {
@@ -948,18 +800,17 @@ namespace HovText
 
 
         // ###########################################################################################
-        // Timer interval - not required at all but kept for now
+        // Check for HovText updates online
+        // ###########################################################################################
 
-
-        private void timerUpdate_Tick(object sender, EventArgs e)
+        private void updateTimer_Tick(object sender, EventArgs e)
         {
-            timerUpdate.Enabled = false;
+            updateTimer.Enabled = false;
             try
             {
                 WebClient client = new WebClient();
                 client.Headers.Add("user-agent", "HovText "+ appDate);
                 string checkedVersion = client.DownloadString(hovtextPage+"autoupdate/");
-//                string checkedVersion = client.DownloadString(hovtextPage + "update/?v=" + appDate);
                 if (checkedVersion.Substring(0,7) == "Version")
                 {
                     checkedVersion = checkedVersion.Substring(9);
@@ -970,7 +821,6 @@ namespace HovText
                     {
                         update.Show();
                     }
-
                 }
             }
             catch (WebException ex)
@@ -979,205 +829,9 @@ namespace HovText
         }
 
 
-        private void timer1_Tick()
-        {
-
-            // Check if application is enabled
-            if (uiAppEnabled.Checked)
-            {
-
-                string hest = "";
-                for (int count = entriesText.Count - 1; count >= 0; count--)
-                {
-                    var element = entriesText.ElementAt(count);
-                    var Key = element.Key;
-                    var Value = element.Value;
-                    if (Value == "")
-                    {
-                        //                    hest = hest + "key=[" + Key + "], Picture" + Environment.NewLine;
-                        hest = hest + "[" + Key + "]Picture" + Environment.NewLine;
-                    }
-                    else
-                    {
-                        //                    hest = hest + "key=[" + Key + "], Value=[" + Value + "]" + Environment.NewLine;
-                        if (Value.Length > 55)
-                        {
-                            hest = hest + "[" + Key + "]" + Value.Substring(0, 55) + "..." + Environment.NewLine;
-                        }
-                        else
-                        {
-                            hest = hest + "[" + Key + "]" + Value + Environment.NewLine;
-                        }
-
-                    }
-                    hest = hest + "────────────────────────" + Environment.NewLine;
-                }
-                textBox1.Text = hest;
-
-                // Update the ticks counter (only for show - not used for anything)
-                //                ticks += 1;
-                //                strTick.Text = ticks.ToString() + " ticks";
-            }
-        }
-
-
         // ###########################################################################################
-        // Set the various checkboxes when the application starts up
-
-        private void GetStartupSettings()
-        {
-
-            // Start with Windows
-            string getKey = GetRegistryKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", "HovText");
-            if (getKey == null)
-            {
-                uiStartWithWindows.Checked = false;
-            }
-            else
-            {
-                uiStartWithWindows.Checked = true;
-            }
-
-            // Check updates
-            string checkUpdates = GetRegistryKey(registryPath, "CheckUpdates");
-            uiCheckUpdates.Checked = checkUpdates == "1" ? true : false;
-            if (uiCheckUpdates.Checked)
-            {
-                timerUpdate.Enabled = true;
-            }
-
-            // Hotkey behaviour
-            string hotkeyBehaviour = GetRegistryKey(registryPath, "HotkeyBehaviour");
-            switch (hotkeyBehaviour)
-            {
-                case "Paste":
-                    uiHotkeyPaste.Checked = true;
-                    hotkeyPaste.Enabled = true;
-                    break;
-                default:
-                    uiHotkeySystem.Checked = true;
-                    hotkeyPaste.Enabled = false;
-                    break;
-            }
-
-            // Close button minimizes
-            int closeMinimizes = int.Parse((string)GetRegistryKey(registryPath, "CloseMinimizes"));
-            uiCloseMinimize.Checked = closeMinimizes == 1 ? true : false;
-            isCloseMinimizes = uiCloseMinimize.Checked;
-            if (isCloseMinimizes)
-            {
-                MinimizeBox = false;
-            }
-            else
-            {
-                MinimizeBox = true;
-            }
-
-            // Paste on selection
-            int pasteOnSelection = int.Parse((string)GetRegistryKey(registryPath, "EnablePasteOnSelection"));
-            uiPasteOnSelection.Checked = pasteOnSelection == 1 ? true : false;
-            isEnabledPasteOnSelection = uiPasteOnSelection.Checked;
-
-            // History enabled
-            int historyEnabled = int.Parse((string)GetRegistryKey(registryPath, "EnableHistory"));
-            uiHistoryEnabled.Checked = historyEnabled == 1 ? true : false;
-            isEnabledHistory = uiHistoryEnabled.Checked;
-            if (isEnabledHistory)
-            {
-                hotkeyOlder.Enabled = true;
-                hotkeyNewer.Enabled = true;
-                uiPasteOnSelection.Enabled = true;
-            }
-            else
-            {
-                hotkeyOlder.Enabled = false;
-                hotkeyNewer.Enabled = false;
-                uiPasteOnSelection.Enabled = false;
-            }
-
-            // Trim whitespaces
-            int trimWhitespaces = int.Parse((string)GetRegistryKey(registryPath, "EnableTrimWhitespaces"));
-            uiTrimWhitespaces.Checked = trimWhitespaces == 1 ? true : false;
-            isEnabledTrimWhitespacing = uiTrimWhitespaces.Checked;
-
-            // Notification area
-            string areaSize = GetRegistryKey(registryPath, "AreaSize");
-            switch (areaSize)
-            {
-                case "Small":
-                    uiAreaSmall.Checked = true;
-                    break;
-                case "Medium":
-                    uiAreaMedium.Checked = true;
-                    break;
-                case "Large":
-                    uiAreaLarge.Checked = true;
-                    break;
-                default:
-                    uiAreaMedium.Checked = true;
-                    break;
-            }
-
-            // Notification font
-            string fontFamily = GetRegistryKey(registryPath, "FontFamily");
-            float fontSize = float.Parse((string)GetRegistryKey(registryPath, "FontSize"));
-            uiShowFont.Font = new Font(fontFamily, fontSize);
-            uiShowFont.Text = fontFamily + ", " + fontSize;
-
-            // Notification theme color
-            string themeColorRegistry = GetRegistryKey(registryPath, "ThemeColor");
-            themeColor = themeColorRegistry;
-            SetThemeColors();
-
-            // Set the history form size
-            historySize = uiAreaSmall.Checked ? 0.7 : historySize;
-            historySize = uiAreaMedium.Checked ? 1.1 : historySize;
-            historySize = uiAreaLarge.Checked ? 1.5 : historySize;
-            history.SetPosition();
-
-            // Get the hotkeys from registry
-            string hotkey1 = GetRegistryKey(registryPath, "Hotkey1");
-            string hotkey2 = GetRegistryKey(registryPath, "Hotkey2");
-            string hotkey3 = GetRegistryKey(registryPath, "Hotkey3");
-            hkl.Update(ref hkCtrlOem5, new Hotkey(hotkey1));
-            hkl.Update(ref hkAltH, new Hotkey(hotkey2));
-            hkl.Update(ref hkShiftAltH, new Hotkey(hotkey3));
-            hks.Enable(hotkeyEnable, hkCtrlOem5);
-            hks.Enable(hotkeyOlder, hkAltH);
-            hks.Enable(hotkeyNewer, hkShiftAltH);
-
-        }
-
-
+        // Initialize registry - check if all registry keys have been created
         // ###########################################################################################
-        // Enable or disable that the application starts up with Windows
-        // https://www.fluxbytes.com/csharp/start-application-at-windows-startup/
-
-        private void uiStartWithWindows_CheckedChanged(object sender, EventArgs e)
-        {
-            if (uiStartWithWindows.Checked)
-            {
-                StartAppWithWindows();
-            }
-            else
-            {
-                RemoveAppFromStartup();
-            }
-        }
-
-        private void StartAppWithWindows()
-        {
-            SetRegistryKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", "HovText", "\"" + Application.ExecutablePath + "\" --minimized");
-        }
-
-        private void RemoveAppFromStartup()
-        {
-            DeleteRegistryKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", "HovText");
-        }
-
-
-        // ###########################################################################################
-        // Check if all registry keys have been created
 
         private void InitializeRegistry()
         {
@@ -1190,66 +844,161 @@ namespace HovText
                 }
             }
 
-            // Check if all keys are set - if not the set default values
+            // Check if all registry keys are set - if not the set default values
             using (RegistryKey registryPathExists = Registry.CurrentUser.OpenSubKey(registryPath, true))
             {
+                // CheckedVersion
+                if (registryPathExists.GetValue("CheckedVersion") == null)
+                {
+                    registryPathExists.SetValue("CheckedVersion", appDate);
+                }
+                // CheckUpdates
                 if (registryPathExists.GetValue("CheckUpdates") == null)
                 {
-                    registryPathExists.SetValue("CheckUpdates", "1");
+                    registryPathExists.SetValue("CheckUpdates", registryCheckUpdates);
                 }
-                if (registryPathExists.GetValue("HotkeyBehaviour") == null)
-                {
-                    registryPathExists.SetValue("HotkeyBehaviour", "System");
-                }
-                if (registryPathExists.GetValue("AreaSize") == null)
-                {
-                    registryPathExists.SetValue("AreaSize", "Medium");
-                }
-                if (registryPathExists.GetValue("FontFamily") == null)
-                {
-                    registryPathExists.SetValue("FontFamily", fontFamily);
-                }
-                if (registryPathExists.GetValue("FontSize") == null)
-                {
-                    registryPathExists.SetValue("FontSize", fontSize);
-                }
-                if (registryPathExists.GetValue("ThemeColor") == null)
-                {
-                    registryPathExists.SetValue("ThemeColor", "Yellow");
-                }
+                // CloseMinimizes
                 if (registryPathExists.GetValue("CloseMinimizes") == null)
                 {
-                    registryPathExists.SetValue("CloseMinimizes", "1");
+                    registryPathExists.SetValue("CloseMinimizes", registryCloseMinimizes);
                 }
-                if (registryPathExists.GetValue("EnableHistory") == null)
-                {
-                    registryPathExists.SetValue("EnableHistory", "1");
-                }
+                // EnablePasteOnSelection
                 if (registryPathExists.GetValue("EnablePasteOnSelection") == null)
                 {
-                    registryPathExists.SetValue("EnablePasteOnSelection", "0");
+                    registryPathExists.SetValue("EnablePasteOnSelection", registryPasteOnSelection);
                 }
+                // EnableTrimWhitespaces
                 if (registryPathExists.GetValue("EnableTrimWhitespaces") == null)
                 {
-                    registryPathExists.SetValue("EnableTrimWhitespaces", "1");
+                    registryPathExists.SetValue("EnableTrimWhitespaces", registryTrimWhitespaces);
                 }
+                // HistoryColor
+                if (registryPathExists.GetValue("HistoryColor") == null)
+                {
+                    // Breaking change in version 2020-X-Y where this was renamed - can be removed after a couple of versions
+                    if (registryPathExists.GetValue("ThemeColor") != null)
+                    {
+                        string tmpRegistryHistoryColor = GetRegistryKey(registryPath, "ThemeColor");
+                        if (tmpRegistryHistoryColor.Length > 0)
+                        {
+                            registryPathExists.SetValue("HistoryColor", tmpRegistryHistoryColor);
+                            DeleteRegistryKey(registryPath, "ThemeColor");
+                        }
+                    }
+                    else
+                    {
+                        registryPathExists.SetValue("HistoryColor", registryHistoryColor);
+                    }
+                }
+                // HistoryEnabled
+                if (registryPathExists.GetValue("HistoryEnable") == null)
+                {
+                    // Breaking change in version 2020-X-Y where this was renamed - can be removed after a couple of versions
+                    if (registryPathExists.GetValue("EnableHistory") != null)
+                    {
+                        string tmpRegistry = GetRegistryKey(registryPath, "EnableHistory");
+                        if (tmpRegistry.Length > 0)
+                        {
+                            registryPathExists.SetValue("HistoryEnable", tmpRegistry);
+                            DeleteRegistryKey(registryPath, "EnableHistory");
+                        }
+                    }
+                    else
+                    {
+                        registryPathExists.SetValue("HistoryEnable", registryEnableHistory);
+                    }
+                }
+                // HistoryFontFamily
+                if (registryPathExists.GetValue("HistoryFontFamily") == null)
+                {
+                    // Breaking change in version 2020-X-Y where this was renamed - can be removed after a couple of versions
+                    if (registryPathExists.GetValue("FontFamily") != null)
+                    {
+                        string tmpRegistry = GetRegistryKey(registryPath, "FontFamily");
+                        if (tmpRegistry.Length > 0)
+                        {
+                            registryPathExists.SetValue("HistoryFontFamily", tmpRegistry);
+                            DeleteRegistryKey(registryPath, "FontFamily");
+                        }
+                    }
+                    else
+                    {
+                        registryPathExists.SetValue("HistoryFontFamily", historyFontFamily);
+                    }
+                }
+                // HistoryFontSize
+                if (registryPathExists.GetValue("HistoryFontSize") == null)
+                {
+                    // Breaking change in version 2020-X-Y where this was renamed - can be removed after a couple of versions
+                    if (registryPathExists.GetValue("FontSize") != null)
+                    {
+                        string tmpRegistry = GetRegistryKey(registryPath, "FontSize");
+                        if (tmpRegistry.Length > 0)
+                        {
+                            registryPathExists.SetValue("HistoryFontSize", tmpRegistry);
+                            DeleteRegistryKey(registryPath, "FontSize");
+                        }
+                    }
+                    else
+                    {
+                        registryPathExists.SetValue("HistoryFontSize", historyFontSize);
+                    }
+                }
+                // HistoryLocation
+                if (registryPathExists.GetValue("HistoryLocation") == null)
+                {
+                    registryPathExists.SetValue("HistoryLocation", registryHistoryLocation);
+                }
+                // HistorySize
+                if (registryPathExists.GetValue("HistorySize") == null)
+                {
+                    // Breaking change in version 2020-X-Y where this was renamed - can be removed after a couple of versions
+                    if (registryPathExists.GetValue("AreaSize") != null)
+                    {
+                        string tmpRegistryHistorySize = GetRegistryKey(registryPath, "AreaSize");
+                        if (tmpRegistryHistorySize.Length > 0)
+                        {
+                            registryPathExists.SetValue("HistorySize", tmpRegistryHistorySize);
+                            DeleteRegistryKey(registryPath, "AreaSize");
+                        }
+                    }
+                    else
+                    {
+                        registryPathExists.SetValue("HistorySize", registryHistorySize);
+                    }
+                }
+                // Hotkey1
                 if (registryPathExists.GetValue("Hotkey1") == null)
                 {
-                    registryPathExists.SetValue("Hotkey1", hotkeyCtrlOem5);
+                    registryPathExists.SetValue("Hotkey1", hotkeyToggleApplication);
                 }
+                // Hotkey2
                 if (registryPathExists.GetValue("Hotkey2") == null)
                 {
-                    registryPathExists.SetValue("Hotkey2", hotkeyAltH);
+                    registryPathExists.SetValue("Hotkey2", hotkeyGetOlderEntry);
                 }
+                // Hotkey3
                 if (registryPathExists.GetValue("Hotkey3") == null)
                 {
-                    registryPathExists.SetValue("Hotkey3", hotkeyShiftAltH);
+                    registryPathExists.SetValue("Hotkey3", hotkeyGetNewerEntry);
                 }
-
-
-
+                // Hotkey4
+                if (registryPathExists.GetValue("Hotkey4") == null)
+                {
+                    registryPathExists.SetValue("Hotkey4", hotkeyPasteOnHotkey);
+                }
+                // HotkeyBehaviour
+                if (registryPathExists.GetValue("HotkeyBehaviour") == null)
+                {
+                    registryPathExists.SetValue("HotkeyBehaviour", hotkeyBehaviour);
+                }
             }
         }
+
+
+        // ###########################################################################################
+        // Get regsitry key value
+        // ###########################################################################################
 
         private string GetRegistryKey(string path, string key)
         {
@@ -1259,6 +1008,11 @@ namespace HovText
             }
         }
 
+
+        // ###########################################################################################
+        // Set registry key value
+        // ###########################################################################################
+
         public void SetRegistryKey(string path, string key, string value)
         {
             using (RegistryKey setKey = Registry.CurrentUser.OpenSubKey(path, true))
@@ -1266,6 +1020,11 @@ namespace HovText
                 setKey.SetValue(key, value);
             }
         }
+
+
+        // ###########################################################################################
+        // Delete registry key
+        // ###########################################################################################
 
         private void DeleteRegistryKey(string path, string key)
         {
@@ -1276,6 +1035,176 @@ namespace HovText
         }
 
 
+        // ###########################################################################################
+        // Set up everything when launching application
+        // ###########################################################################################
+
+        private void GetStartupSettings()
+        {
+            // ------------------------------------------
+            // "General" tab
+            // ------------------------------------------
+
+            // Start with Windows
+            string getKey = GetRegistryKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", "HovText");
+            if (getKey == null)
+            {
+                uiStartWithWindows.Checked = false;
+            }
+            else
+            {
+                uiStartWithWindows.Checked = true;
+
+                // Make sure the legacy HovText does not interfere - overwrite if it does not contain "HovText.exe" or "--start-minimized"
+                string runEntry = GetRegistryKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", "HovText");
+                if(!runEntry.Contains("HovText.exe") || !runEntry.Contains("--start-minimized"))
+                {
+                    SetRegistryKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", "HovText", "\"" + Application.ExecutablePath + "\" --start-minimized");
+                }
+            }
+
+            // Check for updates online
+            string checkUpdates = GetRegistryKey(registryPath, "CheckUpdates");
+            uiCheckUpdates.Checked = checkUpdates == "1" ? true : false;
+            if (uiCheckUpdates.Checked)
+            {
+                updateTimer.Enabled = true;
+            }
+
+            // Close minimizes application to tray
+            int closeMinimizes = int.Parse((string)GetRegistryKey(registryPath, "CloseMinimizes"));
+            uiCloseMinimize.Checked = closeMinimizes == 1 ? true : false;
+            isCloseMinimizes = uiCloseMinimize.Checked;
+            if (isCloseMinimizes)
+            {
+                MinimizeBox = false;
+            }
+            else
+            {
+                MinimizeBox = true;
+            }
+
+            // Enable history
+            int historyEnabled = int.Parse((string)GetRegistryKey(registryPath, "HistoryEnable"));
+            uiHistoryEnabled.Checked = historyEnabled == 1 ? true : false;
+            isEnabledHistory = uiHistoryEnabled.Checked;
+            if (isEnabledHistory)
+            {
+                uiHotkeyOlder.Enabled = true;
+                uiHotkeyNewer.Enabled = true;
+                uiPasteOnSelection.Enabled = true;
+            }
+            else
+            {
+                uiHotkeyOlder.Enabled = false;
+                uiHotkeyNewer.Enabled = false;
+                uiPasteOnSelection.Enabled = false;
+            }
+
+            // Paste on history selection
+            int pasteOnSelection = int.Parse((string)GetRegistryKey(registryPath, "EnablePasteOnSelection"));
+            uiPasteOnSelection.Checked = pasteOnSelection == 1 ? true : false;
+            isEnabledPasteOnSelection = uiPasteOnSelection.Checked;
+
+            // Trim whitespaces
+            int trimWhitespaces = int.Parse((string)GetRegistryKey(registryPath, "EnableTrimWhitespaces"));
+            uiTrimWhitespaces.Checked = trimWhitespaces == 1 ? true : false;
+            isEnabledTrimWhitespacing = uiTrimWhitespaces.Checked;
+
+            // ------------------------------------------
+            // "Hotkeys" tab
+            // ------------------------------------------
+
+            // Hotkey behaviour
+            string hotkeyBehaviour = GetRegistryKey(registryPath, "HotkeyBehaviour");
+            switch (hotkeyBehaviour)
+            {
+                case "Paste":
+                    uiHotkeyBehaviourPaste.Checked = true;
+                    uiHotkeyPaste.Enabled = true;
+                    break;
+                default:
+                    uiHotkeyBehaviourSystem.Checked = true;
+                    uiHotkeyPaste.Enabled = false;
+                    break;
+            }
+
+            // Hotkeys
+            string hotkey1 = GetRegistryKey(registryPath, "Hotkey1");
+            string hotkey2 = GetRegistryKey(registryPath, "Hotkey2");
+            string hotkey3 = GetRegistryKey(registryPath, "Hotkey3");
+            string hotkey4 = GetRegistryKey(registryPath, "Hotkey4");
+            hotkey1 = hotkey1.Length == 0 ? "Not set" : hotkey1;
+            hotkey2 = hotkey2.Length == 0 ? "Not set" : hotkey2;
+            hotkey3 = hotkey3.Length == 0 ? "Not set" : hotkey3;
+            hotkey4 = hotkey4.Length == 0 ? "Not set" : hotkey4;
+            uiHotkeyEnable.Text = hotkey1;
+            uiHotkeyOlder.Text = hotkey2;
+            uiHotkeyNewer.Text = hotkey3;
+            uiHotkeyPaste.Text = hotkey4;
+            SetHotkeys("Startup");
+
+            // ------------------------------------------
+            // "Apperance" tab
+            // ------------------------------------------
+
+            // History area
+            string historySize = GetRegistryKey(registryPath, "HistorySize");
+            switch (historySize)
+            {
+                case "Small":
+                    uiAreaSmall.Checked = true;
+                    historyWidth = historyWidthSmall;
+                    historyHeight = historyHeightSmall;
+                    break;
+                case "Large":
+                    uiAreaLarge.Checked = true;
+                    historyWidth = historyWidthLarge;
+                    historyHeight = historyHeightLarge;
+                    break;
+                default:
+                    uiAreaMedium.Checked = true;
+                    historyWidth = historyWidthMedium;
+                    historyHeight = historyHeightMedium;
+                    break;
+            }
+
+            // History color theme
+            registryHistoryColor = GetRegistryKey(registryPath, "HistoryColor");
+            SetHistoryColors(registryHistoryColor);
+
+            // History location
+            historyLocation = GetRegistryKey(registryPath, "HistoryLocation");
+            uiHistoryLocation.SelectedItem = historyLocation;
+
+            // History font
+            historyFontFamily = GetRegistryKey(registryPath, "HistoryFontFamily");
+            historyFontSize = float.Parse((string)GetRegistryKey(registryPath, "HistoryFontSize"));
+            uiShowFont.Font = new Font(historyFontFamily, historyFontSize);
+            uiShowFont.Text = historyFontFamily + ", " + historyFontSize;
+        }
+
+
+        // ###########################################################################################
+        // Enable or disable that the application starts up with Windows
+        // https://www.fluxbytes.com/csharp/start-application-at-windows-startup/
+        // ###########################################################################################
+
+        private void uiStartWithWindows_CheckedChanged(object sender, EventArgs e)
+        {
+            if (uiStartWithWindows.Checked)
+            {
+                SetRegistryKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", "HovText", "\"" + Application.ExecutablePath + "\" --start-minimized");
+            }
+            else
+            {
+                DeleteRegistryKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", "HovText");
+            }
+        }
+
+
+        // ###########################################################################################
+        // Show the history font dialouge
         // ###########################################################################################
 
         private void uiChangeFont_Click(object sender, EventArgs e)
@@ -1290,162 +1219,122 @@ namespace HovText
             fontDlg.ShowHelp = false;
             if (fontDlg.ShowDialog() != DialogResult.Cancel)
             {
-                fontSize = fontDlg.Font.Size;
-                fontFamily = fontDlg.Font.Name;
-                uiShowFont.Text = fontFamily + ", " + fontSize;
-                uiShowFont.Font = new Font(fontFamily, fontSize);
-                SetRegistryKey(registryPath, "FontFamily", fontFamily);
-                SetRegistryKey(registryPath, "FontSize", fontSize.ToString());
+                historyFontSize = fontDlg.Font.Size;
+                historyFontFamily = fontDlg.Font.Name;
+                uiShowFont.Text = historyFontFamily + ", " + historyFontSize;
+                uiShowFont.Font = new Font(historyFontFamily, historyFontSize);
+                SetRegistryKey(registryPath, "HistoryFontFamily", historyFontFamily);
+                SetRegistryKey(registryPath, "HistoryFontSize", historyFontSize.ToString());
             }
         }
 
 
         // ###########################################################################################
-        // Changes in the size for the notification area
+        // Changes in the history (area) size
+        // ###########################################################################################
 
         private void uiAreaSmall_CheckedChanged(object sender, EventArgs e)
         {
-            historySize = 0.7;
-            SetRegistryKey(registryPath, "AreaSize", "Small");
+            historyWidth = historyWidthSmall;
+            historyHeight = historyHeightSmall;
+            SetRegistryKey(registryPath, "HistorySize", "Small");
         }
 
         private void uiAreaMedium_CheckedChanged(object sender, EventArgs e)
         {
-            historySize = 1.1;
-            SetRegistryKey(registryPath, "AreaSize", "Medium");
+            historyWidth = historyWidthMedium;
+            historyHeight = historyHeightMedium;
+            SetRegistryKey(registryPath, "HistorySize", "Medium");
         }
 
         private void uiAreaLarge_CheckedChanged(object sender, EventArgs e)
         {
-            historySize = 1.5;
-            SetRegistryKey(registryPath, "AreaSize", "Large");
+            historyWidth = historyWidthLarge;
+            historyHeight = historyHeightLarge;
+            SetRegistryKey(registryPath, "HistorySize", "Large");
         }
 
 
         // ###########################################################################################
-        // Change in the theme color for the notification area
+        // Change in the history location
+        // ###########################################################################################
 
-        private void uiThemeColorSelector_SelectedIndexChanged_1(object sender, EventArgs e)
+        private void uiHistoryLocation_SelectedIndexChanged(object sender, EventArgs e)
         {
-            themeColor = (string)(uiThemeColorSelector.SelectedItem);
-            SetRegistryKey(registryPath, "ThemeColor", (string)(uiThemeColorSelector.SelectedItem));
-            SetThemeColors();
+            registryHistoryLocation = (string)(uiHistoryLocation.SelectedItem);
+            SetRegistryKey(registryPath, "HistoryLocation", registryHistoryLocation);
+            historyLocation = registryHistoryLocation;
         }
 
-        public void SetThemeColors()
+
+        // ###########################################################################################
+        // Change in the history color
+        // ###########################################################################################
+
+        private void uiHistoryColorSelector_SelectedIndexChanged(object sender, EventArgs e)
         {
-            switch (themeColor)
+            registryHistoryColor = (string)(uiHistoryColorSelector.SelectedItem);
+            SetHistoryColors(registryHistoryColor);
+            SetRegistryKey(registryPath, "HistoryColor", registryHistoryColor);
+        }
+
+
+        // ###########################################################################################
+        // Set the history colors (and selected value in UI)
+        // ###########################################################################################
+
+        private void SetHistoryColors(string historyColor)
+        {
+            switch (historyColor)
             {
                 case "Blue":
-                    uiShowFont.BackColor = ColorTranslator.FromHtml(colorBlueBottom);
-                    uiThemeColorSelector.SelectedItem = "Blue";
+                    historyColorTop = historyColorTopBlue;
+                    historyColorBottom = historyColorBottomBlue;
+                    uiShowFont.BackColor = ColorTranslator.FromHtml(historyColorBottomBlue);
+                    uiHistoryColorSelector.SelectedItem = "Blue";
                     break;
                 case "Brown":
-                    uiShowFont.BackColor = ColorTranslator.FromHtml(colorBrownBottom);
-                    uiThemeColorSelector.SelectedItem = "Brown";
+                    historyColorTop = historyColorTopBrown;
+                    historyColorBottom = historyColorBottomBrown;
+                    uiShowFont.BackColor = ColorTranslator.FromHtml(historyColorBottomBrown);
+                    uiHistoryColorSelector.SelectedItem = "Brown";
                     break;
                 case "Green":
-                    uiShowFont.BackColor = ColorTranslator.FromHtml(colorGreenBottom);
-                    uiThemeColorSelector.SelectedItem = "Green";
-                    break;
-                case "Yellow":
-                    uiShowFont.BackColor = ColorTranslator.FromHtml(colorYellowBottom);
-                    uiThemeColorSelector.SelectedItem = "Yellow";
+                    historyColorTop = historyColorTopGreen;
+                    historyColorBottom = historyColorBottomGreen;
+                    uiShowFont.BackColor = ColorTranslator.FromHtml(historyColorBottomGreen);
+                    uiHistoryColorSelector.SelectedItem = "Green";
                     break;
                 case "White":
-                    uiShowFont.BackColor = ColorTranslator.FromHtml(colorWhiteBottom);
-                    uiThemeColorSelector.SelectedItem = "White";
+                    historyColorTop = historyColorTopWhite;
+                    historyColorBottom = historyColorBottomWhite;
+                    uiShowFont.BackColor = ColorTranslator.FromHtml(historyColorBottomWhite);
+                    uiHistoryColorSelector.SelectedItem = "White";
                     break;
                 default:
-                    uiShowFont.BackColor = ColorTranslator.FromHtml(colorYellowBottom);
-                    uiThemeColorSelector.SelectedItem = "Yellow";
+                    historyColorTop = historyColorTopYellow;
+                    historyColorBottom = historyColorBottomYellow;
+                    uiShowFont.BackColor = ColorTranslator.FromHtml(historyColorBottomYellow);
+                    uiHistoryColorSelector.SelectedItem = "Yellow";
                     break;
             }
-
         }
 
 
         // ###########################################################################################
-        // Application behaviours
-
-        private void uiHistoryEnabled_CheckedChanged(object sender, EventArgs e)
-        {
-            // History enabled
-            string status = uiHistoryEnabled.Checked ? "1" : "0";
-            isEnabledHistory = uiHistoryEnabled.Checked;
-            SetRegistryKey(registryPath, "EnableHistory", status);
-            if (isEnabledHistory)
-            {
-                hotkeyOlder.Enabled = true;
-                hotkeyNewer.Enabled = true;
-                uiPasteOnSelection.Enabled = true;
-            }
-            else
-            {
-                hotkeyOlder.Enabled = false;
-                hotkeyNewer.Enabled = false;
-                uiPasteOnSelection.Enabled = false;
-            }
-        }
-
-        private void uiPasteOnSelection_CheckedChanged(object sender, EventArgs e)
-        {
-            string status = uiPasteOnSelection.Checked ? "1" : "0";
-            isEnabledPasteOnSelection = uiPasteOnSelection.Checked;
-            SetRegistryKey(registryPath, "EnablePasteOnSelection", status);
-        }
-
-        private void uiTrimWhitespaces_CheckedChanged(object sender, EventArgs e)
-        {
-            string status = uiTrimWhitespaces.Checked ? "1" : "0";
-            isEnabledTrimWhitespacing = uiTrimWhitespaces.Checked;
-            SetRegistryKey(registryPath, "EnableTrimWhitespaces", status);
-        }
-
-
+        // Changes in "Check for updates online"
         // ###########################################################################################
-        // Start minimized, if required
-        // https://stackoverflow.com/a/8486441/2028935
 
-        private void MainWindow_Shown(object sender, EventArgs e)
+        private void uiCheckUpdates_CheckedChanged(object sender, EventArgs e)
         {
-            if (Program.arg0.ToLower() == "--minimized")
-            {
-                //to minimize window
-                WindowState = FormWindowState.Minimized;
-
-                //to hide from taskbar
-                Hide();
-            }
+            string status = uiCheckUpdates.Checked ? "1" : "0";
+            SetRegistryKey(registryPath, "CheckUpdates", status);
         }
-
-        private void toolStripMenuItem2_Click(object sender, EventArgs e)
-        {
-            isClosedFromNotifyIcon = true;
-            Close();
-        }
-
-        private void toolStripMenuItem1_Click(object sender, EventArgs e)
-        {
-            FocusApplication();
-            tabControl1.SelectedIndex = 0; // General
-        }
-
-
-        private void notifyIcon_MouseClick(object sender, MouseEventArgs e)
-        {
-            if (e.Button == MouseButtons.Left)
-            {
-                ToggleEnabled();
-            }
-        }
-
-
-        private void toolStripMenuItem3_Click(object sender, EventArgs e)
-        {
-            FocusApplication();
-            tabControl1.SelectedIndex = 4; // About
-        }
+        
+        
+        // ###########################################################################################
+        // Changes in "Close minimizes application to tray"
+        // ###########################################################################################
 
         private void uiCloseMinimize_CheckedChanged(object sender, EventArgs e)
         {
@@ -1462,49 +1351,623 @@ namespace HovText
             }
         }
 
-        private void notifyIcon_MouseDoubleClick(object sender, MouseEventArgs e)
+
+        // ###########################################################################################
+        // Changes in "Enable history"
+        // ###########################################################################################
+
+        private void uiHistoryEnabled_CheckedChanged(object sender, EventArgs e)
         {
-            FocusApplication();
-            tabControl1.SelectedIndex = 0;
+            // History enabled
+            string status = uiHistoryEnabled.Checked ? "1" : "0";
+            isEnabledHistory = uiHistoryEnabled.Checked;
+            SetRegistryKey(registryPath, "EnableHistory", status);
+            if (isEnabledHistory)
+            {
+                uiHotkeyOlder.Enabled = true;
+                uiHotkeyNewer.Enabled = true;
+                uiPasteOnSelection.Enabled = true;
+            }
+            else
+            {
+                uiHotkeyOlder.Enabled = false;
+                uiHotkeyNewer.Enabled = false;
+                uiPasteOnSelection.Enabled = false;
+            }
         }
 
 
         // ###########################################################################################
-        // https://stackoverflow.com/a/11941579/2028935
+        // Changes in "Paste on history selection"
+        // ###########################################################################################
 
-        private void FocusApplication()
+        private void uiPasteOnSelection_CheckedChanged(object sender, EventArgs e)
         {
-            //            WindowState = FormWindowState.Minimized;
+            string status = uiPasteOnSelection.Checked ? "1" : "0";
+            isEnabledPasteOnSelection = uiPasteOnSelection.Checked;
+            SetRegistryKey(registryPath, "EnablePasteOnSelection", status);
+        }
+
+
+        // ###########################################################################################
+        // Changes in "Trim whitespaces
+        // ###########################################################################################
+
+        private void uiTrimWhitespaces_CheckedChanged(object sender, EventArgs e)
+        {
+            string status = uiTrimWhitespaces.Checked ? "1" : "0";
+            isEnabledTrimWhitespacing = uiTrimWhitespaces.Checked;
+            SetRegistryKey(registryPath, "EnableTrimWhitespaces", status);
+        }
+
+
+        // ###########################################################################################
+        // When application starts up then check if it should be minimized at once (when started with Windows)
+        // https://stackoverflow.com/a/8486441/2028935
+        // ###########################################################################################
+
+        private void MainWindow_Shown(object sender, EventArgs e)
+        {
+            string arg0 = Program.arg0.ToLower();
+            if (arg0.Contains("--start-minimized"))
+            {
+                WindowState = FormWindowState.Minimized;
+                Hide();
+            }
+        }
+
+
+        // ###########################################################################################
+        // When clicking the "About" in the tray icon menu
+        // ###########################################################################################
+
+        private void trayIconAbout_Click(object sender, EventArgs e)
+        {
+            ShowSettingsForm();
+            tabControl.SelectedIndex = 3; // About
+        }
+
+
+        // ###########################################################################################
+        // When clicking the "Settings" in the tray icon menu
+        // ###########################################################################################
+
+        private void trayIconSettings_Click(object sender, EventArgs e)
+        {
+            ShowSettingsForm();
+            tabControl.SelectedIndex = 0; // General
+        }
+
+
+        // ###########################################################################################
+        // When clicking the "Exit" in the tray icon menu
+        // ###########################################################################################
+
+        private void trayIconExit_Click(object sender, EventArgs e)
+        {
+            isClosedFromNotifyIcon = true;
+            Close();
+        }
+
+
+        // ###########################################################################################
+        // When single-clicking with the mouse on the tray icon
+        // This includes a mouse timer to prevent double-click also triggers a single-click
+        // https://stackoverflow.com/a/30595638/2028935
+        // ###########################################################################################
+
+        private void notifyIcon_MouseClick(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left)
+            {
+                // Give the double-click a chance to cancel this
+                mouseClickTimer.Start();
+                Console.WriteLine("Start mouse timer");
+            }
+        }
+
+        private void mouseClickTimer_Tick(object sender, EventArgs e)
+        {
+            Console.WriteLine("Mouse single-click");
+            mouseClickTimer.Stop();
+            ToggleEnabled();
+        }
+
+
+        // ###########################################################################################
+        // When double-clicking with the mouse on the tray icon
+        // ###########################################################################################
+
+        private void notifyIcon_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+
+            if (e.Button == MouseButtons.Left)
+            {
+                // Cancel the single-click
+                mouseClickTimer.Stop();
+
+                Console.WriteLine("Mouse double-click");
+                ShowSettingsForm();
+                tabControl.SelectedIndex = 0;
+            }
+        }
+
+
+        // ###########################################################################################
+        // Show the "Settings" form
+        // https://stackoverflow.com/a/11941579/2028935
+        // ###########################################################################################
+
+        private void ShowSettingsForm()
+        {
             Show();
             WindowState = FormWindowState.Normal;
         }
 
-        private void uiHotkeySystem_CheckedChanged(object sender, EventArgs e)
+
+        // ###########################################################################################
+        // Changes in "Always action" hotkey behaviour
+        // ###########################################################################################
+
+        private void uiHotkeyBehaviourSystem_CheckedChanged(object sender, EventArgs e)
         {
-            hotkeyPaste.Enabled = false;
+            uiHotkeyPaste.Enabled = false;
             SetRegistryKey(registryPath, "HotkeyBehaviour", "System");
-        }
-
-        private void uiHotkeyPaste_CheckedChanged(object sender, EventArgs e)
-        {
-            hotkeyPaste.Enabled = true;
-            SetRegistryKey(registryPath, "HotkeyBehaviour", "Paste");
-        }
-
-        private void button4_Click(object sender, EventArgs e)
-        {
-            string selectedTab = tabControl1.SelectedTab.AccessibilityObject.Name;
-            System.Diagnostics.Process.Start(hovtextPage+"documentation/#" + selectedTab);
-        }
-
-        private void uiCheckUpdates_CheckedChanged(object sender, EventArgs e)
-        {
-            string status = uiCheckUpdates.Checked ? "1" : "0";
-            SetRegistryKey(registryPath, "CheckUpdates", status);
         }
 
 
         // ###########################################################################################
+        // Changes in "Action only on hotkey" hotkey behaviour
+        // ###########################################################################################
+        private void uiHotkeyBehaviourPaste_CheckedChanged(object sender, EventArgs e)
+        {
+            uiHotkeyPaste.Enabled = true;
+            SetRegistryKey(registryPath, "HotkeyBehaviour", "Paste");
+        }
 
+
+        // ###########################################################################################
+        // Clicking the tab help button
+        // ###########################################################################################
+
+        private void uiHelp_Click(object sender, EventArgs e)
+        {
+            string selectedTab = tabControl.SelectedTab.AccessibilityObject.Name;
+            System.Diagnostics.Process.Start(hovtextPage+"documentation/#" + selectedTab);
+        }
+
+
+        // ###########################################################################################
+        // Hotkey handling - how do I get this in to its own file or class!? Hmmm... for later
+        // I feel this code is clumsy and inefficient so probably need rewrite!
+        // ###########################################################################################
+
+
+        // ###########################################################################################
+        // Action for the "Toggle application on/off" hotkey
+        // ###########################################################################################
+
+        private void HotkeyToggleApplication(object sender, NHotkey.HotkeyEventArgs e)
+        {
+            Console.WriteLine("Enable/Disable hotkey");
+            ToggleEnabled();
+            e.Handled = true;
+        }
+
+
+        // ###########################################################################################
+        // Action for the "Show older entry" hotkey
+        // ###########################################################################################
+
+        private void HotkeyGetOlderEntry(object sender, NHotkey.HotkeyEventArgs e)
+        {
+            Console.WriteLine("Get older entry hotkey");
+            GoEntryLowerNumber();
+            isHistoryHotkeyPressed = true;
+            e.Handled = true;
+        }
+
+
+        // ###########################################################################################
+        // Action for the "Show newer entry" hotkey
+        // ###########################################################################################
+
+        private void HotkeyGetNewerEntry(object sender, NHotkey.HotkeyEventArgs e)
+        {
+            Console.WriteLine("Get newer entry hotkey");
+            GoEntryHigherNumber();
+            isHistoryHotkeyPressed = true;
+            e.Handled = true;
+        }
+
+
+        // ###########################################################################################
+        // Action for the "Paste on hotkey" hotkey
+        // ###########################################################################################
+
+        private void HotkeyPasteOnHotkey(object sender, NHotkey.HotkeyEventArgs e)
+        {
+            Console.WriteLine("Paste only on hotkey");
+            SelectHistoryEntry();
+            SendKeys.Send("^v");
+            e.Handled = true;
+        }
+
+
+        // ###########################################################################################
+        // On "key down" in one of the hotkey fields then convert that in to a string
+        // ###########################################################################################
+
+        private string ConvertKeyboardInputToString(KeyEventArgs e)
+        {
+            Console.WriteLine("[" + e.KeyData + "] [" + e.KeyCode + "] [" + e.Modifiers + "] [" + e.SuppressKeyPress + "]");
+
+            string hotkey = "";
+
+            // Check if any of the modifiers have been pressed also
+            bool isShift = e.Shift;
+            bool isAlt = e.Alt;
+            bool isControl = e.Control;
+
+            string keyCode = e.KeyCode.ToString();
+
+            // Invalidate various keys
+            keyCode = keyCode == "LWin" ? "Unsupported" : keyCode;
+            keyCode = keyCode == "Menu" ? "Unsupported" : keyCode;
+            keyCode = keyCode == "ControlKey" ? "Unsupported" : keyCode;
+            keyCode = keyCode == "ShiftKey" ? "Unsupported" : keyCode;
+
+            // Build the hotkey string
+            hotkey = isShift ? hotkey + "Shift + " : hotkey;
+            hotkey = isAlt ? hotkey + "Alt + " : hotkey;
+            hotkey = isControl ? hotkey + "Control + " : hotkey;
+            hotkey = hotkey + keyCode;
+
+            // Invalidate if no modifier has been pressed also - or only SHIFT
+            hotkey = !isShift && !isAlt && !isControl ? "Unsupported" : hotkey;
+            hotkey = isShift && !isAlt && !isControl ? "Unsupported" : hotkey;
+
+            // Invalidate if the key is unspported
+            hotkey = keyCode == "Unsupported" ? "Unsupported" : hotkey;
+
+            // Mark the hotkey as deleted if pressing "Delete" og "Backspace"
+            hotkey = (keyCode == "Delete" || keyCode == "Back") && !isShift && !isAlt && !isControl ? "Not set" : hotkey;
+
+            return hotkey;
+        }
+
+
+        // ###########################################################################################
+        // Catch keyboard input on the 4 hotkey fields
+        // ###########################################################################################
+
+        private void HotkeyEnable_KeyDown(object sender, KeyEventArgs e)
+        {
+            string hotkey = ConvertKeyboardInputToString(e);
+            uiHotkeyEnable.Text = hotkey;
+            if (e.Alt)
+            {
+                // https://stackoverflow.com/a/3068797/2028935
+                e.SuppressKeyPress = true;
+            }
+        }
+
+        private void hotkeyOlder_KeyDown(object sender, KeyEventArgs e)
+        {
+            string hotkey = ConvertKeyboardInputToString(e);
+            uiHotkeyOlder.Text = hotkey;
+            if (e.Alt)
+            {
+                // https://stackoverflow.com/a/3068797/2028935
+                e.SuppressKeyPress = true;
+            }
+        }
+
+        private void hotkeyNewer_KeyDown(object sender, KeyEventArgs e)
+        {
+            string hotkey = ConvertKeyboardInputToString(e);
+            uiHotkeyNewer.Text = hotkey;
+            if (e.Alt)
+            {
+                // https://stackoverflow.com/a/3068797/2028935
+                e.SuppressKeyPress = true;
+            }
+        }
+
+        private void hotkeyPaste_KeyDown(object sender, KeyEventArgs e)
+        {
+            string hotkey = ConvertKeyboardInputToString(e);
+            uiHotkeyPaste.Text = hotkey;
+            if (e.Alt)
+            {
+                // https://stackoverflow.com/a/3068797/2028935
+                e.SuppressKeyPress = true;
+            }
+        }
+
+
+        // ###########################################################################################
+        // Mark hotkey field as modified when entering it
+        // ###########################################################################################
+
+        private void HotkeyEnable_Enter(object sender, EventArgs e)
+        {
+            ModifyHotkey("hotkeyEnable");
+        }
+
+        private void hotkeyOlder_Enter(object sender, EventArgs e)
+        {
+            ModifyHotkey("hotkeyOlder");
+        }
+
+        private void hotkeyNewer_Enter(object sender, EventArgs e)
+        {
+            ModifyHotkey("hotkeyNewer");
+        }
+
+        private void hotkeyPaste_Enter(object sender, EventArgs e)
+        {
+            ModifyHotkey("hotkeyPaste");
+        }
+
+
+        // ###########################################################################################
+        // Color the hotkey field and enable the "Apply" and "Cancel" buttons
+        // ###########################################################################################
+
+        private void ModifyHotkey(string hotkey)
+        {
+            Console.WriteLine("Hotkey enter");
+            switch (hotkey)
+            {
+                case "hotkeyEnable":
+                    uiHotkeyEnable.BackColor = SystemColors.Info;
+                    break;
+                case "hotkeyOlder":
+                    uiHotkeyOlder.BackColor = SystemColors.Info;
+                    break;
+                case "hotkeyNewer":
+                    uiHotkeyNewer.BackColor = SystemColors.Info;
+                    break;
+                case "hotkeyPaste":
+                    uiHotkeyPaste.BackColor = SystemColors.Info;
+                    break;
+            }
+
+            // Enable the two buttons, "Apply" and "Cancel"
+            applyHotkey.Enabled = true;
+            cancelHotkey.Enabled = true;
+
+            // Make sure to remove all the active application hotkeys
+            RemoveAllHotkeys();
+        }
+
+
+        // ###########################################################################################
+        // Remove all the hotkeys
+        // ###########################################################################################
+
+        private void RemoveAllHotkeys()
+        {
+            HotkeyManager.Current.Remove("ToggleApplication");
+            HotkeyManager.Current.Remove("GetOlderEntry");
+            HotkeyManager.Current.Remove("GetNewerEntry");
+//            HotkeyManager.Current.Remove("PasteOnHotkey");
+        }
+
+
+        // ###########################################################################################
+        // Apply the hotkeys
+        // ###########################################################################################
+
+        private void ApplyHotkeys_Click(object sender, EventArgs e)
+        {
+            Console.WriteLine("Apply hotkeys");
+            SetHotkeys("Apply");
+        }
+
+
+        // ###########################################################################################
+        // Set the hotkeys and validate them
+        // ###########################################################################################
+
+        private void SetHotkeys(string from)
+        {
+            Console.WriteLine("Set hotkeys");
+
+            // Get all hotkey strings
+            string hotkey1 = uiHotkeyEnable.Text;
+            string hotkey2 = uiHotkeyOlder.Text;
+            string hotkey3 = uiHotkeyNewer.Text;
+            string hotkey4 = uiHotkeyPaste.Text;
+
+            string conflictText = "";
+
+            // Convert the strings to hotkey objects
+
+            KeysConverter cvt;
+            Keys key;
+
+            // Activate the hotkeys
+
+            // Hotkey 1
+            if (hotkey1 != "Unsupported" && hotkey1 != "Not set" && hotkey1 != "Hotkey conflicts")
+            {
+                cvt = new KeysConverter();
+                key = (Keys)cvt.ConvertFrom(hotkey1);
+                try
+                {
+                    HotkeyManager.Current.AddOrReplace("ToggleApplication", key, HotkeyToggleApplication);
+                }
+                catch (Exception ex)
+                {
+                    if (ex.Message.Contains("Hot key is already registered"))
+                    {
+                        hotkey1 = "Hotkey conflicts";
+                        conflictText = conflictText + "Hotkey for \"Toggle application on/off\" conflicts with another application\r\n";
+                    }
+                }
+            }
+
+            // Hotkey 2
+            if (hotkey2 != "Unsupported" && hotkey2 != "Not set" && hotkey2 != "Hotkey conflicts")
+            {
+                cvt = new KeysConverter();
+                key = (Keys)cvt.ConvertFrom(hotkey2);
+                try
+                {
+                    HotkeyManager.Current.AddOrReplace("GetOlderEntry", key, HotkeyGetOlderEntry);
+                }
+                catch (Exception ex)
+                {
+                    if (ex.Message.Contains("Hot key is already registered"))
+                    {
+                        hotkey2 = "Hotkey conflicts";
+                        conflictText = conflictText + "Hotkey for \"Show older entry\" conflicts with another application\r\n";
+                    }
+                }
+            }
+
+            // Hotkey 3
+            if (hotkey3 != "Unsupported" && hotkey3 != "Not set" && hotkey3 != "Hotkey conflicts")
+            {
+                cvt = new KeysConverter();
+                key = (Keys)cvt.ConvertFrom(hotkey3);
+                try
+                {
+                    HotkeyManager.Current.AddOrReplace("GetNewerEntry", key, HotkeyGetNewerEntry);
+                }
+                catch (Exception ex)
+                {
+                    if (ex.Message.Contains("Hot key is already registered"))
+                    {
+                        hotkey3 = "Hotkey conflicts";
+                        conflictText = conflictText + "Hotkey for \"Show newer entry\" conflicts with another application\r\n";
+                    }
+                }
+            }
+
+/*
+            // Hotkey 4
+            if (hotkey4 != "Unsupported" && hotkey4 != "Not set" && hotkey4 != "Hotkey conflicts")
+            {
+                cvt = new KeysConverter();
+                key = (Keys)cvt.ConvertFrom(hotkey4);
+                try
+                {
+                    HotkeyManager.Current.AddOrReplace("PasteOnHotkey", key, HotkeyPasteOnHotkey);
+                }
+                catch (Exception ex)
+                {
+                    if (ex.Message.Contains("Hot key is already registered"))
+                    {
+                        hotkey4 = "Hotkey conflicts";
+                        conflictText = conflictText + "Hotkey for \"Paste on hotkey\" conflicts with another application\r\n";
+                    }
+                }
+            }
+*/
+
+            // If this is called from startup then show an error, if there is a conflict
+            if (conflictText.Length > 0 && from == "Startup")
+            {
+                hotkeyConflict.label2.Text = conflictText;
+                hotkeyConflict.Show();
+                tabControl.SelectedIndex = 1;
+            }
+
+            // Save the hotkeys to registry, if no erros
+            if (
+                hotkey1 != "Unsupported" && hotkey1 != "Hotkey conflicts" &&
+                hotkey2 != "Unsupported" && hotkey2 != "Hotkey conflicts" &&
+                hotkey3 != "Unsupported" && hotkey3 != "Hotkey conflicts" &&
+                hotkey4 != "Unsupported" && hotkey4 != "Hotkey conflicts"
+                )
+            {
+                SetRegistryKey(registryPath, "Hotkey1", hotkey1);
+                SetRegistryKey(registryPath, "Hotkey2", hotkey2);
+                SetRegistryKey(registryPath, "Hotkey3", hotkey3);
+                SetRegistryKey(registryPath, "Hotkey4", hotkey4);
+            }
+
+            bool hasError = false;
+
+            // Update the hotkey fields to reflect if they are good or bad
+
+            // Hotkey 1
+            if (hotkey1 == "Unsupported" || hotkey1 == "Hotkey conflicts")
+            {
+                hasError = true;
+                uiHotkeyEnable.Text = hotkey1;
+                uiHotkeyEnable.BackColor = Color.DarkSalmon;
+            }
+            else
+            {
+                uiHotkeyEnable.BackColor = SystemColors.Window;
+            }
+
+            // Hotkey 2
+            if (hotkey2 == "Unsupported" || hotkey2 == "Hotkey conflicts")
+            {
+                hasError = true;
+                uiHotkeyOlder.Text = hotkey2;
+                uiHotkeyOlder.BackColor = Color.DarkSalmon;
+            }
+            else
+            {
+                uiHotkeyOlder.BackColor = SystemColors.Window;
+            }
+
+            // Hotkey 3
+            if (hotkey3 == "Unsupported" || hotkey3 == "Hotkey conflicts")
+            {
+                hasError = true;
+                uiHotkeyNewer.Text = hotkey3;
+                uiHotkeyNewer.BackColor = Color.DarkSalmon;
+            }
+            else
+            {
+                uiHotkeyNewer.BackColor = SystemColors.Window;
+            }
+
+            // Hotkey 4
+            if (hotkey4 == "Unsupported" || hotkey4 == "Hotkey conflicts")
+            {
+                hasError = true;
+                uiHotkeyPaste.Text = hotkey4;
+                uiHotkeyPaste.BackColor = Color.DarkSalmon;
+            }
+            else
+            {
+                uiHotkeyPaste.BackColor = SystemColors.Window;
+            }
+
+            if (!hasError)
+            {
+                applyHotkey.Enabled = false;
+                cancelHotkey.Enabled = false;
+            }
+        }
+
+
+        // ###########################################################################################
+        // Cancel the hotkeys and restore original content
+        // ###########################################################################################
+
+        private void cancelHotkey_Click(object sender, EventArgs e)
+        {
+            string hotkey1 = GetRegistryKey(registryPath, "Hotkey1");
+            string hotkey2 = GetRegistryKey(registryPath, "Hotkey2");
+            string hotkey3 = GetRegistryKey(registryPath, "Hotkey3");
+            string hotkey4 = GetRegistryKey(registryPath, "Hotkey4");
+            uiHotkeyEnable.Text = hotkey1;
+            uiHotkeyOlder.Text = hotkey2;
+            uiHotkeyNewer.Text = hotkey3;
+            uiHotkeyPaste.Text = hotkey4;
+            SetHotkeys("Cancel");
+        }
+
+
+        // ###########################################################################################
     }
 }

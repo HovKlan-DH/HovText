@@ -7,143 +7,151 @@ namespace HovText
 {
     public partial class History : Form
     {
+        // ###########################################################################################
+        // Main
+        // ###########################################################################################
+
         public History()
         {
             InitializeComponent();
         }
 
 
-        public void SetPosition()
+        // ###########################################################################################
+        // Set the position and style (color and font) for the history area
+        // ###########################################################################################
+
+        public void SetHistoryPosition()
         {
+            // Set this form width and height
+            Width = Settings.historyWidth;
+            Height = Settings.historyHeight;
 
-            double historySize = Settings.historySize;
-
-            int historyWidth = (int)(Settings.historyWidth * historySize);
-            int historyHeight = (int)(Settings.historyHeight * historySize);
-
-            Width = historyWidth;
-            Height = historyHeight;
-
-            int x = Screen.PrimaryScreen.WorkingArea.Right - this.Width;
-            int y = Screen.PrimaryScreen.WorkingArea.Bottom - this.Height;
-            this.Left = x - 5;
-            this.Top = y - 5;
-
-            label1.Width = historyWidth;
-            textBoxHistory.Width = historyWidth;
-            textBoxHistory.Height = historyHeight;
-            pictureHistory.Width = historyWidth;
-            pictureHistory.Height = historyHeight;
-
-        }
-
-        private void SetBackgroundColor()
-        {
-            // Set the font
-            string fontFamily = Settings.fontFamily;
-            float fontSize = Settings.fontSize;
-            label1.Font = new Font(fontFamily, fontSize);
-            //            historyIndexTxt.Font = new Font(fontFamily, fontSize);
-            textBoxHistory.Font = new Font(fontFamily, fontSize);
-
-            // Set the background color
-            switch (Settings.themeColor)
+            // Get history location
+            int x;
+            int y;
+            switch (Settings.historyLocation)
             {
-                case "Blue":
-                    label1.BackColor = ColorTranslator.FromHtml(Settings.colorBlueTop);
-                    textBoxHistory.BackColor = ColorTranslator.FromHtml(Settings.colorBlueBottom);
-                    pictureHistory.BackColor = ColorTranslator.FromHtml(Settings.colorBlueBottom);
+                case "Center":
+                    x = (Screen.PrimaryScreen.WorkingArea.Width - this.Width) / 2;
+                    y = (Screen.PrimaryScreen.WorkingArea.Height - this.Height) / 2;
+                    this.Left = x;
+                    this.Top = y;
                     break;
-                case "Brown":
-                    label1.BackColor = ColorTranslator.FromHtml(Settings.colorBrownTop);
-                    textBoxHistory.BackColor = ColorTranslator.FromHtml(Settings.colorBrownBottom);
-                    pictureHistory.BackColor = ColorTranslator.FromHtml(Settings.colorBrownBottom);
+                case "Top Left":
+                    x = Screen.PrimaryScreen.WorkingArea.Left;
+                    y = Screen.PrimaryScreen.WorkingArea.Top;
+                    this.Left = x + 5;
+                    this.Top = y + 5;
                     break;
-                case "Green":
-                    label1.BackColor = ColorTranslator.FromHtml(Settings.colorGreenTop);
-                    textBoxHistory.BackColor = ColorTranslator.FromHtml(Settings.colorGreenBottom);
-                    pictureHistory.BackColor = ColorTranslator.FromHtml(Settings.colorGreenBottom);
+                case "Top Right":
+                    x = Screen.PrimaryScreen.WorkingArea.Right - this.Width;
+                    y = Screen.PrimaryScreen.WorkingArea.Top;
+                    this.Left = x - 5;
+                    this.Top = y + 5;
                     break;
-                case "Yellow":
-                    label1.BackColor = ColorTranslator.FromHtml(Settings.colorYellowTop);
-                    textBoxHistory.BackColor = ColorTranslator.FromHtml(Settings.colorYellowBottom);
-                    pictureHistory.BackColor = ColorTranslator.FromHtml(Settings.colorYellowBottom);
+                case "Bottom Left":
+                    x = Screen.PrimaryScreen.WorkingArea.Left;
+                    y = Screen.PrimaryScreen.WorkingArea.Bottom - this.Height;
+                    this.Left = x + 5;
+                    this.Top = y - 5;
                     break;
-                case "White":
-                    label1.BackColor = ColorTranslator.FromHtml(Settings.colorWhiteTop);
-                    textBoxHistory.BackColor = ColorTranslator.FromHtml(Settings.colorWhiteBottom);
-                    pictureHistory.BackColor = ColorTranslator.FromHtml(Settings.colorWhiteBottom);
-                    break;
-                default:
-                    label1.BackColor = ColorTranslator.FromHtml(Settings.colorYellowTop);
-                    textBoxHistory.BackColor = ColorTranslator.FromHtml(Settings.colorYellowBottom);
-                    pictureHistory.BackColor = ColorTranslator.FromHtml(Settings.colorYellowBottom);
+                default: // Bottom Right
+                    x = Screen.PrimaryScreen.WorkingArea.Right - this.Width;
+                    y = Screen.PrimaryScreen.WorkingArea.Bottom - this.Height;
+                    this.Left = x - 5;
+                    this.Top = y - 5;
                     break;
             }
+
+            topline.Width = Settings.historyWidth;
+            textBoxHistory.Width = Settings.historyWidth;
+            textBoxHistory.Height = Settings.historyHeight;
+            pictureHistory.Width = Settings.historyWidth;
+            pictureHistory.Height = Settings.historyHeight;
         }
 
-        public void ShowText(string str, string str2, string application)
+        private void SetHistoryStyle()
         {
-            SetPosition();
-            SetBackgroundColor();
+            // Set the font
+            topline.Font = new Font(Settings.historyFontFamily, Settings.historyFontSize);
+            textBoxHistory.Font = new Font(Settings.historyFontFamily, Settings.historyFontSize);
 
-            //            historyIndexTxt.Text = str2;
-            label1.Text = str2;
-            //            uiClipboardApplication.Text = application;
-            textBoxHistory.Text = str; // this is actually a "label" and not a textbox
+            // Set the background color
+            topline.BackColor = ColorTranslator.FromHtml(Settings.historyColorTop);
+            textBoxHistory.BackColor = ColorTranslator.FromHtml(Settings.historyColorBottom);
+            pictureHistory.BackColor = ColorTranslator.FromHtml(Settings.historyColorBottom);
+        }
+
+
+        // ###########################################################################################
+        // Show either the text or image history
+        // ###########################################################################################
+
+        public void ShowText(string strTop, string strBody)
+        {
+            SetHistoryPosition();
+            SetHistoryStyle();
+
+            topline.Text = strTop;
+            textBoxHistory.Text = strBody;
             textBoxHistory.Visible = true;
             pictureHistory.Image = null;
             pictureHistory.Visible = false;
-            TopMost = true; // make sure this form is the top most form to ensure we can catch "ALT key up"
+            TopMost = true; // make sure this form is the top most form
+            Show();
+        }
+
+        public void ShowImage(string strTop, Image imgBody)
+        {
+            SetHistoryPosition();
+            SetHistoryStyle();
+
+            topline.Text = strTop + " (image)";
+            pictureHistory.Image = imgBody;
+            pictureHistory.Visible = true;
+            textBoxHistory.Text = "";
+            textBoxHistory.Visible = false;
+            TopMost = true; // make sure this form is the top most form
             Show();
         }
 
 
         // ###########################################################################################
-
-        public void ShowImage(Image img, string str2, string application)
-        {
-            SetPosition();
-            SetBackgroundColor();
-
-            //            historyIndexTxt.Text = str2 +" (image)";
-            label1.Text = str2 + " (image)";
-            //            uiClipboardApplication.Text = application;
-            pictureHistory.Image = img;
-            pictureHistory.Visible = true;
-            textBoxHistory.Text = ""; // this is actually a "label" and not a textbox
-            textBoxHistory.Visible = false;
-            TopMost = true; // make sure this form is the top most form to ensure we can catch "ALT key up"
-            Show();
-        }
-
-
+        // Catch keyboard input to react on ENTER or ESCAPE
         // ###########################################################################################
 
         private void History_KeyUp(object sender, KeyEventArgs e)
         {
-            if (Settings.isAltPressedInThisApp)
+            if (Settings.isHistoryHotkeyPressed)
             {
-                if (e.KeyCode == Keys.Menu)
-                {
-                    Settings.isAltPressedInThisApp = false;
-                    Settings.settings.ReleaseAltKey();
+
+                // Get modifier keys
+                bool isShift = e.Shift;
+                bool isAlt = e.Alt;
+                bool isControl = e.Control;
+
+                // Select active entry, if no modifier keys are pressed down
+                if (!isShift && !isAlt && !isControl)
+                    {
+                    Settings.settings.SelectHistoryEntry();
                     if (Settings.isEnabledPasteOnSelection)
                     {
                         SendKeys.Send("^v");
                     }
-                    Console.WriteLine("ALT key up");
+                    Console.WriteLine("Select entry");
                 }
             }
         }
 
 
         // ###########################################################################################
+        // Blink the top line in the history when it reaches oldest or newest element
         // https://stackoverflow.com/a/4147406/2028935
+        // ###########################################################################################
 
         public void Flash(int interval)
         {
-            SetBackgroundColor();
             Color color2 = textBoxHistory.BackColor;
             new Thread(() => FlashInternal(interval, color2)).Start();
         }
@@ -152,16 +160,16 @@ namespace HovText
 
         public void UpdateElement(Color color)
         {
-            if (label1.InvokeRequired)
+            if (topline.InvokeRequired)
             {
                 this.Invoke(new UpdateElementDelegate(UpdateElement), new object[] { color });
             }
-            label1.BackColor = color;
+            topline.BackColor = color;
         }
 
         private void FlashInternal(int interval, Color flashColor)
         {
-            Color original = label1.BackColor;
+            Color original = topline.BackColor;
             UpdateElement(flashColor);
             Thread.Sleep(interval / 2);
             UpdateElement(original);
@@ -170,7 +178,5 @@ namespace HovText
 
 
         // ###########################################################################################
-
-
     }
 }
