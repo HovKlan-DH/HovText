@@ -6,6 +6,11 @@ It is a REBOOTED edition meaning that it has been revived from the dead and it i
 
 ![Settings](http://hovtext.com/documentation/pics/General1.jpg)
 
+## Capabilities
+
+* Remove test formatting when copying text to the clipboard
+* Clipboard manager that will remember all copied texts or pictures
+
 ## Documentation
 
 The full documentation for how to use this application is available on the HovText home page, https://hovtext.com/documentation/
