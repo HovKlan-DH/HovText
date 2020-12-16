@@ -34,7 +34,7 @@
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
-            this.uiAppVerF3 = new System.Windows.Forms.Label();
+            this.uiAppVerYours = new System.Windows.Forms.Label();
             this.uiAppVerOnline = new System.Windows.Forms.Label();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
@@ -78,9 +78,9 @@
             this.label2.Location = new System.Drawing.Point(43, 71);
             this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(151, 32);
+            this.label2.Size = new System.Drawing.Size(152, 32);
             this.label2.TabIndex = 3;
-            this.label2.Text = "Your version:";
+            this.label2.Text = "New version:";
             this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // label3
@@ -90,28 +90,28 @@
             this.label3.Location = new System.Drawing.Point(43, 105);
             this.label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(152, 32);
+            this.label3.Size = new System.Drawing.Size(151, 32);
             this.label3.TabIndex = 4;
-            this.label3.Text = "New version:";
+            this.label3.Text = "Your version:";
             this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // uiAppVerF3
+            // uiAppVerYours
             // 
-            this.uiAppVerF3.AutoSize = true;
-            this.uiAppVerF3.Font = new System.Drawing.Font("Segoe UI", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.uiAppVerF3.Location = new System.Drawing.Point(158, 71);
-            this.uiAppVerF3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.uiAppVerF3.Name = "uiAppVerF3";
-            this.uiAppVerF3.Size = new System.Drawing.Size(29, 32);
-            this.uiAppVerF3.TabIndex = 5;
-            this.uiAppVerF3.Text = "#";
-            this.uiAppVerF3.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.uiAppVerYours.AutoSize = true;
+            this.uiAppVerYours.Font = new System.Drawing.Font("Segoe UI", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.uiAppVerYours.Location = new System.Drawing.Point(158, 105);
+            this.uiAppVerYours.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.uiAppVerYours.Name = "uiAppVerYours";
+            this.uiAppVerYours.Size = new System.Drawing.Size(29, 32);
+            this.uiAppVerYours.TabIndex = 5;
+            this.uiAppVerYours.Text = "#";
+            this.uiAppVerYours.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // uiAppVerOnline
             // 
             this.uiAppVerOnline.AutoSize = true;
             this.uiAppVerOnline.Font = new System.Drawing.Font("Segoe UI", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.uiAppVerOnline.Location = new System.Drawing.Point(158, 105);
+            this.uiAppVerOnline.Location = new System.Drawing.Point(158, 71);
             this.uiAppVerOnline.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.uiAppVerOnline.Name = "uiAppVerOnline";
             this.uiAppVerOnline.Size = new System.Drawing.Size(29, 32);
@@ -138,7 +138,7 @@
             this.ClientSize = new System.Drawing.Size(435, 301);
             this.Controls.Add(this.textBox1);
             this.Controls.Add(this.uiAppVerOnline);
-            this.Controls.Add(this.uiAppVerF3);
+            this.Controls.Add(this.uiAppVerYours);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
@@ -164,7 +164,7 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
-        public System.Windows.Forms.Label uiAppVerF3;
+        public System.Windows.Forms.Label uiAppVerYours;
         public System.Windows.Forms.Label uiAppVerOnline;
         private System.Windows.Forms.TextBox textBox1;
 

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
+using System.Threading;
 
 namespace HovText
 {
@@ -15,19 +16,40 @@ namespace HovText
         static int Main(string[] args)
         {
 
-            // Get the argument passed (only one supported)
-            if (args.Length > 0)
+            // Only run one instance
+            // https://stackoverflow.com/a/184143/2028935
+            bool createdNew = true;
+            using (Mutex mutex = new Mutex(true, "HovText", out createdNew))
             {
-                arg0 = args[0].ToLower();
-            }
+                if (createdNew)
+                {
+                    // Get the argument passed (only one supported)
+                    if (args.Length > 0)
+                    {
+                        arg0 = args[0].ToLower();
+                    }
 
-            Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
-            Settings = new Settings();
-            Application.Run(Settings);
+                    Application.EnableVisualStyles();
+                    Application.SetCompatibleTextRenderingDefault(false);
+                    Settings = new Settings();
+                    Application.Run(Settings);
+
+                } else
+                {
+                    MessageBox.Show("HovText is already running and cannot startup one more instance","HovText is already running", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+            }  
 
             return 0;
         }
+
+
+        // ###########################################################################################
+        // Included for getting the process that has updated the clipboard
+        // ###########################################################################################
+
+        [DllImport("user32.dll")]
+        public static extern IntPtr GetClipboardOwner();
 
 
         // ###########################################################################################

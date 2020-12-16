@@ -34,16 +34,16 @@ namespace HovText
         private static bool isFirstCallAfterHotkey = true;
 
         // History
-        public static string historyFontFamily = "Sergoe UI";
-        public static float historyFontSize = 11;
-        private static int historyWidthSmall = 350;
-        private static int historyHeightSmall = 150;
-        private static int historyWidthMedium = 500;
-        private static int historyHeightMedium = 250;
-        private static int historyWidthLarge = 750;
-        private static int historyHeightLarge = 375;
-        public static int historyWidth = historyWidthMedium; // default
-        public static int historyHeight = historyHeightMedium; // default
+        public static string historyFontFamily = "Sergoe UI"; // default
+        public static float historyFontSize = 11; // default
+        public static int historyListElements = 1; // default
+        public static string historySize = "Medium"; // default
+        public static int historyListWidthSmall = 350;
+        public static int historyListWidthMedium = 500;
+        public static int historyListWidthLarge = 650;
+        public static int[] historyBoxHeightSmall = new int[] { 157, 87, 65, 48, 28, 28, 28, 28, 28, 28 };
+        public static int[] historyBoxHeightMedium = new int[] { 250, 152, 83, 65, 48, 48, 48, 48, 48, 48 };
+        public static int[] historyBoxHeightLarge = new int[] { 320, 170, 120, 100, 84, 84, 84, 84, 84, 84 };
         private static string historyColorTopBlue = "#dae1e7";
         private static string historyColorBottomBlue = "#f5faff";
         private static string historyColorTopBrown = "#dac1a0";
@@ -56,56 +56,62 @@ namespace HovText
         private static string historyColorBottomYellow = "#ffffe1";
         public static string historyColorTop = "#eee8aa"; // default
         public static string historyColorBottom = "#ffffe1"; // default
-        public static string historyLocation = "Bottom Right"; // default
+        public static string historyLocation = "Right Bottom"; // default
 
         // Registry
         public string registryPath = "SOFTWARE\\HovText";
-        private string registryCheckUpdates = "1"; // default
-        private string registryCloseMinimizes = "1"; // default
-        private string registryEnableHistory = "1"; // default
-        private string registryPasteOnSelection = "0"; // default
-        private string registryTrimWhitespaces = "1"; // default
+        private string registryCheckUpdates = "1"; // default, 1 = check for updates
+        private string registryCloseMinimizes = "1"; // default, 1 = minimize to tray
+        private string registryRestoreOriginal = "1"; // default, 1 = restore original
+        private string registryCopyImages = "1"; // default, 1 = copy images to history
+        private string registryEnableHistory = "1"; // default, 1 = enable history
+        private string registryPasteOnSelection = "0"; // default, 0 = do not paste selected entry when selected
+        private string registryTrimWhitespaces = "1"; // default, 1 = trim whitespaces
         private string registryHistoryColor = "Yellow"; // default
         private string registryHistorySize = "Medium"; // default
-        private string registryHistoryLocation = historyLocation;
 
         // UI elements
-        public static bool isEnabledHistory = true;
-        public static bool isEnabledPasteOnSelection = true;
-        public static bool isEnabledTrimWhitespacing = true;
-        public static bool isCloseMinimizes = true;
-        public static bool isClosedFromNotifyIcon = false;
-        public static bool isHistoryHotkeyPressed = false;
+        public static bool isEnabledHistory;
+        public static bool isEnabledPasteOnSelection;
+        public static bool isEnabledTrimWhitespacing;
+        public static bool isRestoreOriginal;
+        public static bool isCopyImages;
+        public static bool isCloseMinimizes;
+        public static bool isClosedFromNotifyIcon;
+        public static bool isHistoryHotkeyPressed;
 
         // Clipboard
-        int entryIndex = -1;
-        int entryCounter = -1;
-        bool isClipboardText = false;
-        bool isClipboardImage = false;
+        public static int entryIndex = -1;
+        public static int entryCounter = -1;
+        bool isClipboardText;
+        bool isClipboardImage;
         string clipboardText = "";
         string clipboardTextLast = "";
         Image clipboardImage = null;
         string clipboardImageHashLast = "";
-        IDataObject clipboardObject = null;
-        SortedDictionary<int, string> entriesApplication = new SortedDictionary<int, string>();
-        SortedDictionary<int, string> entriesText = new SortedDictionary<int, string>();
-        SortedDictionary<int, Image> entriesImage = new SortedDictionary<int, Image>();
+        IDataObject clipboardObject;
+        public static SortedDictionary<int, string> entriesApplication = new SortedDictionary<int, string>();
+        public static SortedDictionary<int, string> entriesText = new SortedDictionary<int, string>();
+        public static SortedDictionary<int, Image> entriesImage = new SortedDictionary<int, Image>();
+        SortedList<int, Dictionary<string, object>> entriesOriginal = new SortedList<int, Dictionary<string, object>>();
         const int WM_CLIPBOARDUPDATE = 0x031D;
+        string whoUpdatedClipboardName = "";
 
         // Misc
+        public static bool isSettingsFormVisible = false;
         public static string hovtextPage = "https://hovtext.com/";
         public static string appDate = "";
         internal static Settings settings;
-        History history = new History();
+        HistoryList historyList = new HistoryList();
         Update update = new Update();
         HotkeyConflict hotkeyConflict = new HotkeyConflict();
 
 
-        // ###########################################################################################
-        // Main
-        // ###########################################################################################
+    // ###########################################################################################
+    // Main
+    // ###########################################################################################
 
-        public Settings()
+    public Settings()
         {
             // Refering to the current form - used in the history form
             settings = this;
@@ -162,6 +168,9 @@ namespace HovText
             sb.Append(@" Kind regards from Jesper and Dennis ");
             sb.Append(@"}");
             aboutBox.Rtf = sb.ToString();
+
+            // Set the initial text on the tray icon
+            UpdateNotifyIconText();
         }
 
 
@@ -176,13 +185,21 @@ namespace HovText
             {
                 case WM_CLIPBOARDUPDATE:
 
-                    // Temporary debug to figure out which application has updated the clipboard - but it does not work as intended
-                    /*
+                    // Get the application name which updated the clipboard
                     uint thisProcessId = 0;
-                    Program.GetWindowThreadProcessId(m.HWnd, out thisProcessId);
-                    string thisProcessName = Process.GetProcessById((int)thisProcessId).ProcessName;
-                    Console.WriteLine("Clipboard change event detected from [" + thisProcessName + "]");
-                    */
+                    IntPtr whoUpdatedClipboardHwnd = Program.GetClipboardOwner();
+                    Program.GetWindowThreadProcessId(whoUpdatedClipboardHwnd, out thisProcessId);
+                    whoUpdatedClipboardName = Process.GetProcessById((int)thisProcessId).ProcessName;
+                    Console.WriteLine("Clipboard UPDATE event from [" + whoUpdatedClipboardName + "]");
+
+                    // I am not sure why some(?) applications are returned as "Idle" when coming from clipboard - in this case the get the active application and use that name instead
+                    // This could potentially be a problem, if a process is correctly called "Idle" but not sure if this is realistic?
+                    if (whoUpdatedClipboardName.ToLower() == "idle")
+                    {
+                        string activeProcessName = GetActiveApplication();
+                        whoUpdatedClipboardName = activeProcessName;
+                        Console.WriteLine("Finding process name the secondary way, [" + activeProcessName + "]");
+                    }
 
                     // Check if application is enabled
                     if (uiAppEnabled.Checked)
@@ -211,20 +228,25 @@ namespace HovText
             clipboardText = isClipboardText ? Clipboard.GetText() : "";
             clipboardImage = isClipboardImage ? Clipboard.GetImage() : null;
             clipboardObject = Clipboard.GetDataObject();
-            int clipboardFormatsCount = clipboardObject.GetFormats(false).Count(); // count number of formats in clipboard
-            bool isClipboardUnicodeOnly = false;
-            if (clipboardFormatsCount > 0)
-            {
-                string clipboardFormat0 = clipboardObject.GetFormats(false)[0];
-                isClipboardUnicodeOnly = clipboardFormatsCount == 1 && clipboardFormat0 == "UnicodeText" ? true : false; // if this is true then I will bet(?) that this is text-only and if so then no more processing required
-            }
 
             // Is clipboard text - also triggers when copying whitespaces only
             if (isClipboardText)
             {
-                // Check if number of data formats equals 1 and this is unicode or if clipboard is different than last time
-                if (!isClipboardUnicodeOnly || clipboardText != clipboardTextLast)
+                // Check if there are any formatted text entries in the clipboard
+                bool isFormatted = false;
+                foreach (var format in clipboardObject.GetFormats(false))
                 {
+                    // If the format is anything but "Text" then we can break and deem this as formatted
+                    if (format.ToUpper() != "TEXT")
+                    {
+                        isFormatted = true;
+                        break;
+                    }
+                }
+
+                // Check if number of data formats equals 1 and this is unicode or if clipboard is different than last time
+                if (clipboardText != clipboardTextLast || isFormatted)
+                    {
                     // Trim the text
                     if (isEnabledTrimWhitespacing)
                     {
@@ -241,33 +263,29 @@ namespace HovText
                         GetEntryCounter();
                         SetClipboard(false, "WM_CLIPBOARDUPDATE:TEXT");
                     }
-                    else
-                    {
-                        if (clipboardFormatsCount > 0)
-                        {
-                            Clipboard.Clear();
-                        }
-                    }
                 }
             }
             else
             if (isClipboardImage) // Is clipboard an image
             {
-
-                // Get hash value of picture in clipboard
-                ImageConverter converter = new ImageConverter();
-                byte[] byteArray = (byte[])converter.ConvertTo(clipboardImage, typeof(byte[]));
-                string clipboardImageHash = Convert.ToBase64String(byteArray);
-
-                if (clipboardImageHash != clipboardImageHashLast)
+                // Only proceed if we should copy the images also
+                if (isCopyImages)
                 {
-                    // Set the last clipboard image to be identical to this one
-                    clipboardImageHashLast = clipboardImageHash;
+                    // Get hash value of picture in clipboard
+                    ImageConverter converter = new ImageConverter();
+                    byte[] byteArray = (byte[])converter.ConvertTo(clipboardImage, typeof(byte[]));
+                    string clipboardImageHash = Convert.ToBase64String(byteArray);
 
-                    // Add the image to the entries array and update the clipboard
-                    AddEntry();
-                    GetEntryCounter();
-                    SetClipboard(false, "WM_CLIPBOARDUPDATE:IMAGE");
+                    if (clipboardImageHash != clipboardImageHashLast)
+                    {
+                        // Set the last clipboard image to be identical to this one
+                        clipboardImageHashLast = clipboardImageHash;
+
+                        // Add the image to the entries array and update the clipboard
+                        AddEntry();
+                        GetEntryCounter();
+                        SetClipboard(false, "WM_CLIPBOARDUPDATE:IMAGE");
+                    }
                 }
             }
             else
@@ -277,8 +295,7 @@ namespace HovText
             if (Clipboard.GetText() == "")
             {
                 // If active application is EXCEL then restore last entry, as EXCEL clears clipboard when 
-                string activeAppName = GetActiveApplication();
-                if (entriesText.Count() > 0 && activeAppName == "EXCEL")
+                if (entriesText.Count() > 0 && whoUpdatedClipboardName.ToUpper() == "EXCEL")
                 {
                     // Restore the last entry to the clipboard
                     SetClipboard(false, "WM_CLIPBOARDUPDATE:EMPTY-TEXT-2");
@@ -342,7 +359,6 @@ namespace HovText
 
         private void AddEntry()
         {
-
             if (isEnabledHistory)
             {
                 bool isAlreadyInDataArray = IsClipboardContentAlreadyInDataArrays();
@@ -356,33 +372,35 @@ namespace HovText
                     entriesText.Add(entryIndex, clipboardText);
                     entriesImage.Add(entryIndex, clipboardImage);
 
-                    // Walk through all clipboard object formats and store them
-                    /*
-                                              var formats = clipboardObject.GetFormats(false);
-                                                var dictionary = new SortedDictionary<string, object>();
-                                                foreach (var format in formats)
-                                                {
-                                                    if (
-                    //                                    !format.Contains("EnhancedMetafile")
-                                                        format.Contains("Object Descriptor") ||
-                                                        format.Contains("Embed Source") ||
-                                                        format.Contains("Text") ||
-                                                        format.Contains("HTML") ||
-                                                        format.Contains("Csv") ||
-                                                        format.Contains("Link") ||
-                                                        format.Contains("Hyperlink") ||
-                                                        format.Contains("Bitmap")
-                                                        )
-                                                    {
-                                                        dictionary.Add(format, clipboardObject.GetData(format));
-                                                    }
-                                                }
-                    */
+                    // Walk through all (relevant) clipboard object formats and store them
+                    var formats = clipboardObject.GetFormats(false);
+                    Dictionary<string, object> clipboardObjects = new Dictionary<string, object>();
+                    foreach (var format in formats)
+                    {
+                        if (
+                            format.Contains("Text") ||
+                            format.Contains("HTML") ||
+                            format.Contains("Csv") ||
+                            format.Contains("Link") ||
+                            format.Contains("Hyperlink") ||
+                            format.Contains("Bitmap")
+                            )
+                        {
+                            clipboardObjects.Add(format, clipboardObject.GetData(format));
+                        }
+                    }
+                    entriesOriginal.Add(entryIndex, clipboardObjects);
 
-                    // Add the process name for the active application to the entries array
-                    string activeAppName = GetActiveApplication();
-                    entriesApplication.Add(entryIndex, activeAppName);
+                    // Add the process name that has updated the clipboard
+                    if (whoUpdatedClipboardName.Length == 0)
+                    {
+                        whoUpdatedClipboardName = "(unknown)";
+                    }
+                    entriesApplication.Add(entryIndex, whoUpdatedClipboardName);
                 }
+
+                // Update the entries on the tray icon
+                UpdateNotifyIconText();
             }
         }
 
@@ -393,7 +411,6 @@ namespace HovText
 
         private void SetClipboard(bool original, string from)
         {
-
             string entryText = clipboardText;
             Image entryImage = clipboardImage;
             bool isEntryText = isClipboardText;
@@ -415,12 +432,11 @@ namespace HovText
             {
                 try
                 {
-                    Clipboard.Clear();
-                    Clipboard.SetText(entryText);
+                    Clipboard.SetText(entryText, TextDataFormat.Text);
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show("EXCEPTION 1 [" + ex.ToString() + "]");
+                    MessageBox.Show("EXCEPTION 1 - please report to developer: [" + ex.ToString() + "]");
                 }
             }
             else
@@ -428,49 +444,16 @@ namespace HovText
             {
                 try
                 {
-                    Clipboard.Clear();
                     Clipboard.SetImage(entryImage);
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show("EXCEPTION 2 [" + ex.ToString() + "]");
+                    MessageBox.Show("EXCEPTION 2 - please report to developer: [" + ex.ToString() + "]");
                 }
             }
             else
             {
-                MessageBox.Show("EXCEPTION 3");
-            }
-        }
-
-
-        // ###########################################################################################
-        // Update "History" form
-        // ###########################################################################################
-
-        private void UpdateUiHistory()
-        {
-
-            string entryText = entriesText[entryIndex];
-            Image entryImage = entriesImage[entryIndex];
-            string entryApplication = entriesApplication[entryIndex];
-
-            bool isEntryText = entryText == "" ? false : true;
-            bool isEntryImage = entryImage == null ? false : true;
-
-            // Show text in form 2
-            if (isEntryText)
-            {
-                history.ShowText(entryCounter + " of " + entriesText.Count + " from \"" + entryApplication + "\"", entryText);
-            }
-            else
-            if (isEntryImage) // Show the image in form 2
-            {
-                history.ShowImage(entryCounter + " of " + entriesText.Count + " from \"" + entryApplication + "\"", entryImage);
-            }
-            else
-            {
-                MessageBox.Show("EXCEPTION 4");
-
+                MessageBox.Show("EXCEPTION 3 - please report to developer");
             }
         }
 
@@ -481,16 +464,22 @@ namespace HovText
 
         public void GoEntryLowerNumber()
         {
-
             // Check if application is enabled
             if (uiAppEnabled.Checked && entryCounter > 0)
             {
 
                 if(isFirstCallAfterHotkey)
                 {
+                    // Hide the "Settings" form if it is visible (it will be restored after key-up)
+                    isSettingsFormVisible = this.Visible;
+                    if(isSettingsFormVisible)
+                    {
+                        Hide();
+                    }
                     GetActiveApplication();
-                    ChangeFocusToThisApplication();
                 }
+                // Always change focus to HovText to ensure we can catch the key-up event
+                ChangeFocusToThisApplication();
 
                 // Only proceed if the entry counter is equal to or more than 0
                 if (entryCounter > 0)
@@ -502,18 +491,11 @@ namespace HovText
                         var element = entriesText.ElementAt(entryCounter - 2);
                         entryIndex = element.Key;
                     }
-                    else
-                    {
-                        if (!isFirstCallAfterHotkey)
-                        {
-                            history.Flash(100);
-                        }
-                    }
                     isFirstCallAfterHotkey = false;
 
-                    // Update the UI
+                    // Show history UI
                     GetEntryCounter();
-                    UpdateUiHistory();
+                    historyList.UpdateHistoryList("down");
                 }
             }
         }
@@ -525,16 +507,22 @@ namespace HovText
 
         public void GoEntryHigherNumber()
         {
-
             // Check if application is enabled
             if (uiAppEnabled.Checked && entryCounter > 0)
             {
 
                 if(isFirstCallAfterHotkey)
                 {
+                    // Hide the "Settings" form if it is visible (it will be restored after key-up)
+                    isSettingsFormVisible = this.Visible;
+                    if (isSettingsFormVisible)
+                    {
+                        Hide();
+                    }
                     GetActiveApplication();
-                    ChangeFocusToThisApplication();
                 }
+                // Always change focus to HovText to ensure we can catch the key-up event
+                ChangeFocusToThisApplication();
 
                 // Only proceed if the entry counter is less than the total amount of entries
                 if (entryCounter <= entriesText.Count)
@@ -546,25 +534,18 @@ namespace HovText
                         var element = entriesText.ElementAt(entryCounter);
                         entryIndex = element.Key;
                     }
-                    else
-                    {
-                        if (!isFirstCallAfterHotkey)
-                        {
-                            history.Flash(100);
-                        }
-                    }
                     isFirstCallAfterHotkey = false;
 
-                    // Update the UI
+                    // Show history UI
                     GetEntryCounter();
-                    UpdateUiHistory();
+                    historyList.UpdateHistoryList("up");
                 }
             }
         }
 
 
         // ###########################################################################################
-        // Called when ENTER or ESCAPE has been pressed in the "History" form
+        // Called when a history entry has been selected in the "HistoryList" form
         // ###########################################################################################
 
         public void SelectHistoryEntry()
@@ -582,15 +563,13 @@ namespace HovText
                 // Set focus back to the originating application
                 ChangeFocusToOriginatingApplication();
 
-                //                SendKeys.Send("^v");
-
                 // Reset some stuff
                 isFirstCallAfterHotkey = true;
                 entryIndex = entriesText.Keys.Last();
                 GetEntryCounter();
 
-                // Update UI
-                history.Hide();
+                // Hide history UI
+                historyList.Hide();
             }
         }
 
@@ -620,7 +599,6 @@ namespace HovText
 
         private void MoveEntryToTop()
         {
-
             clipboardTextLast = entriesText[entryIndex];
 
             int lastKey = entriesText.Keys.Last();
@@ -630,12 +608,15 @@ namespace HovText
             entriesText.Add(insertKey, entriesText[entryIndex]);
             entriesImage.Add(insertKey, entriesImage[entryIndex]);
             entriesApplication.Add(insertKey, entriesApplication[entryIndex]);
+            entriesOriginal.Add(insertKey, entriesOriginal[entryIndex]);
 
             // Remove the chosen entry, so it does not show duplicates
             entriesText.Remove(entryIndex);
             entriesImage.Remove(entryIndex);
             entriesApplication.Remove(entryIndex);
+            entriesOriginal.Remove(entryIndex);
 
+            // Set the index to be the last one
             entryIndex = entriesText.Keys.Last();
         }
 
@@ -655,12 +636,13 @@ namespace HovText
         // Event that is triggede when application is toggled, either enabled or disabled
         // ###########################################################################################
 
-        private void uiAppEnabled_CheckedChanged_1(object sender, EventArgs e)
+        private void uiAppEnabled_CheckedChanged(object sender, EventArgs e)
         {
-
             // Check if application is enabled
             if (uiAppEnabled.Checked)
             {
+                // Add this application to the clipboard chain again
+                Program.AddClipboardFormatListener(this.Handle);
 
                 ProcessClipboard();
 
@@ -681,8 +663,10 @@ namespace HovText
                         break;
                 }
 
-                // Enable thw two checkboxes
+                // Enable other checkboxes
                 uiHistoryEnabled.Enabled = true;
+                uiRestoreOriginal.Enabled = true;
+                uiCopyImages.Enabled = true;
                 uiTrimWhitespaces.Enabled = true;
                 uiPasteOnSelection.Enabled = true;
                 uiHotkeyOlder.Enabled = true;
@@ -690,12 +674,43 @@ namespace HovText
             }
             else
             {
+                // Remove this application from the clipboard chain
+                Program.RemoveClipboardFormatListener(this.Handle);
+
+                // Restore the original clipboard format
+                if (isRestoreOriginal && entriesOriginal.Count() > 0)
+                {
+                    try
+                    {
+                        //                    Clipboard.Clear();
+
+                        // Snippet directly taken from legacy HovText - more or less the only thing? :-)
+                        // ---
+                        DataObject data = new DataObject();
+                        foreach (KeyValuePair<string, object> kvp in entriesOriginal[entryIndex])
+                        {
+                            if (kvp.Value != null)
+                            {
+                                data.SetData(kvp.Key, kvp.Value);
+                            }
+                        }
+                        Clipboard.SetDataObject(data, true);
+                        // ---
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("EXCEPTION 5 - please report to developer: [" + ex.ToString() + "]");
+                    }
+                }
+
                 // Change the icons to be red (inactive)
                 Icon = Resources.Inactive;
                 notifyIcon.Icon = Resources.Inactive;
 
-                // Disable thw two checkboxes
+                // Disable other checkboxes
                 uiHistoryEnabled.Enabled = false;
+                uiRestoreOriginal.Enabled = false;
+                uiCopyImages.Enabled = false;
                 uiTrimWhitespaces.Enabled = false;
                 uiPasteOnSelection.Enabled = false;
                 uiHotkeyOlder.Enabled = false;
@@ -713,6 +728,7 @@ namespace HovText
         {
             if (WindowState == FormWindowState.Minimized)
             {
+                ShowTrayNotification();
                 Hide();
             }
         }
@@ -732,9 +748,9 @@ namespace HovText
         // Unregister from the clipboard chain when application is closing down
         // ###########################################################################################
 
-        private void MainWindow_FormClosing_1(object sender, FormClosingEventArgs e)
+        private void MainWindow_FormClosing(object sender, FormClosingEventArgs e)
         {
-            // In case windows is trying to shut down, don't hold the process up
+            // In case windows is trying to shut down, don't hold up the process
             if (e.CloseReason == CloseReason.WindowsShutDown)
             {
                 Program.RemoveClipboardFormatListener(this.Handle);
@@ -752,6 +768,7 @@ namespace HovText
             // Do not close as the X should minimize
             if (WindowState == FormWindowState.Normal)
             {
+                ShowTrayNotification();
                 Hide();
             }
             e.Cancel = true;
@@ -764,15 +781,14 @@ namespace HovText
 
         private string GetActiveApplication()
         {
-            if (isFirstCallAfterHotkey)
-            {
-                originatingHandle = Program.GetForegroundWindow();
-            }
+            // Get the active application
+            originatingHandle = Program.GetForegroundWindow();
 
             // Get the process ID and find the name for that ID
             uint processId = 0;
             Program.GetWindowThreadProcessId(originatingHandle, out processId);
             string appProcessName = Process.GetProcessById((int)processId).ProcessName;
+            Console.WriteLine("Active application is ["+ appProcessName +"]");
             return appProcessName;
         }
 
@@ -814,7 +830,7 @@ namespace HovText
                 if (checkedVersion.Substring(0,7) == "Version")
                 {
                     checkedVersion = checkedVersion.Substring(9);
-                    update.uiAppVerF3.Text = appDate;
+                    update.uiAppVerYours.Text = appDate;
                     update.uiAppVerOnline.Text = checkedVersion;
                     string lastCheckedVersion = GetRegistryKey(registryPath, "CheckedVersion");
                     if (lastCheckedVersion != checkedVersion && checkedVersion != appDate)
@@ -825,6 +841,7 @@ namespace HovText
             }
             catch (WebException ex)
             {
+                Console.WriteLine("No communication to HovText update checker page");
             }
         }
 
@@ -847,6 +864,11 @@ namespace HovText
             // Check if all registry keys are set - if not the set default values
             using (RegistryKey registryPathExists = Registry.CurrentUser.OpenSubKey(registryPath, true))
             {
+                // NotificationShown
+                if (registryPathExists.GetValue("NotificationShown") == null)
+                {
+                    registryPathExists.SetValue("NotificationShown", "0");
+                }
                 // CheckedVersion
                 if (registryPathExists.GetValue("CheckedVersion") == null)
                 {
@@ -862,6 +884,16 @@ namespace HovText
                 {
                     registryPathExists.SetValue("CloseMinimizes", registryCloseMinimizes);
                 }
+                // RestoreOriginal
+                if (registryPathExists.GetValue("RestoreOriginal") == null)
+                {
+                    registryPathExists.SetValue("RestoreOriginal", registryRestoreOriginal);
+                }
+                // CopyImages
+                if (registryPathExists.GetValue("CopyImages") == null)
+                {
+                    registryPathExists.SetValue("CopyImages", registryCopyImages);
+                }
                 // EnablePasteOnSelection
                 if (registryPathExists.GetValue("EnablePasteOnSelection") == null)
                 {
@@ -871,6 +903,11 @@ namespace HovText
                 if (registryPathExists.GetValue("EnableTrimWhitespaces") == null)
                 {
                     registryPathExists.SetValue("EnableTrimWhitespaces", registryTrimWhitespaces);
+                }
+                // HistoryEntries
+                if (registryPathExists.GetValue("HistoryEntries") == null)
+                {
+                    registryPathExists.SetValue("HistoryEntries", historyListElements.ToString());
                 }
                 // HistoryColor
                 if (registryPathExists.GetValue("HistoryColor") == null)
@@ -947,7 +984,7 @@ namespace HovText
                 // HistoryLocation
                 if (registryPathExists.GetValue("HistoryLocation") == null)
                 {
-                    registryPathExists.SetValue("HistoryLocation", registryHistoryLocation);
+                    registryPathExists.SetValue("HistoryLocation", historyLocation);
                 }
                 // HistorySize
                 if (registryPathExists.GetValue("HistorySize") == null)
@@ -1071,6 +1108,16 @@ namespace HovText
                 updateTimer.Enabled = true;
             }
 
+            // Restore original when disabling application
+            int restoreOriginal = int.Parse((string)GetRegistryKey(registryPath, "RestoreOriginal"));
+            uiRestoreOriginal.Checked = restoreOriginal == 1 ? true : false;
+            isRestoreOriginal = uiRestoreOriginal.Checked;
+
+            // Do not copy images
+            int copyImages = int.Parse((string)GetRegistryKey(registryPath, "CopyImages"));
+            uiCopyImages.Checked = copyImages == 1 ? true : false;
+            isCopyImages = uiCopyImages.Checked;
+
             // Close minimizes application to tray
             int closeMinimizes = int.Parse((string)GetRegistryKey(registryPath, "CloseMinimizes"));
             uiCloseMinimize.Checked = closeMinimizes == 1 ? true : false;
@@ -1148,40 +1195,109 @@ namespace HovText
             // "Apperance" tab
             // ------------------------------------------
 
+            // History entries
+            historyListElements = Int32.Parse(GetRegistryKey(registryPath, "HistoryEntries"));
+            switch (historyListElements)
+            {
+                case 2:
+                    uiElement2.Checked = true;
+                    break;
+                case 3:
+                    uiElement3.Checked = true;
+                    break;
+                case 4:
+                    uiElement4.Checked = true;
+                    break;
+                case 5:
+                    uiElement5.Checked = true;
+                    break;
+                case 6:
+                    uiElement6.Checked = true;
+                    break;
+                case 7:
+                    uiElement7.Checked = true;
+                    break;
+                case 8:
+                    uiElement8.Checked = true;
+                    break;
+                case 9:
+                    uiElement9.Checked = true;
+                    break;
+                case 10:
+                    uiElement10.Checked = true;
+                    break;
+                default:
+                    uiElement1.Checked = true;
+                    break;
+            }
+            HideHistoryBoxes();
+
             // History area
-            string historySize = GetRegistryKey(registryPath, "HistorySize");
-            switch (historySize)
+            string historySizeRegistry = GetRegistryKey(registryPath, "HistorySize");
+            switch (historySizeRegistry)
             {
                 case "Small":
                     uiAreaSmall.Checked = true;
-                    historyWidth = historyWidthSmall;
-                    historyHeight = historyHeightSmall;
+                    historySize = "Small";
                     break;
                 case "Large":
                     uiAreaLarge.Checked = true;
-                    historyWidth = historyWidthLarge;
-                    historyHeight = historyHeightLarge;
+                    historySize = "Large";
                     break;
-                default:
+                default: // Medium
                     uiAreaMedium.Checked = true;
-                    historyWidth = historyWidthMedium;
-                    historyHeight = historyHeightMedium;
+                    historySize = "Medium";
                     break;
             }
 
             // History color theme
             registryHistoryColor = GetRegistryKey(registryPath, "HistoryColor");
             SetHistoryColors(registryHistoryColor);
+            switch (registryHistoryColor)
+            {
+                case "Blue":
+                    uiHistoryColorBlue.Checked = true;
+                    break;
+                case "Brown":
+                    uiHistoryColorBrown.Checked = true;
+                    break;
+                case "Green":
+                    uiHistoryColorGreen.Checked = true;
+                    break;
+                case "White":
+                    uiHistoryColorWhite.Checked = true;
+                    break;
+                default: // Yellow
+                    uiHistoryColorYellow.Checked = true;
+                    break;
+            }
 
             // History location
             historyLocation = GetRegistryKey(registryPath, "HistoryLocation");
-            uiHistoryLocation.SelectedItem = historyLocation;
+            switch (historyLocation)
+            {
+                case "Left Top":
+                    uiHistoryLocationLeftTop.Checked = true;
+                    break;
+                case "Left Bottom":
+                    uiHistoryLocationLeftBottom.Checked = true;
+                    break;
+                case "Center":
+                    uiHistoryLocationCenter.Checked = true;
+                    break;
+                case "Right Top":
+                    uiHistoryLocationRightTop.Checked = true;
+                    break;
+                default: // Right Bottom
+                    uiHistoryLocationRightBottom.Checked = true;
+                    break;
+            }
 
             // History font
             historyFontFamily = GetRegistryKey(registryPath, "HistoryFontFamily");
             historyFontSize = float.Parse((string)GetRegistryKey(registryPath, "HistoryFontSize"));
-            uiShowFont.Font = new Font(historyFontFamily, historyFontSize);
-            uiShowFont.Text = historyFontFamily + ", " + historyFontSize;
+            uiShowFontBottom.Font = new Font(historyFontFamily, historyFontSize);
+            uiShowFontBottom.Text = historyFontFamily + ", " + historyFontSize;
         }
 
 
@@ -1210,7 +1326,7 @@ namespace HovText
         private void uiChangeFont_Click(object sender, EventArgs e)
         {
             FontDialog fontDlg = new FontDialog();
-            fontDlg.Font = uiShowFont.Font; // initialize the font dialouge with the font from "uiShowFont"
+            fontDlg.Font = uiShowFontBottom.Font; // initialize the font dialouge with the font from "uiShowFont"
             fontDlg.AllowVerticalFonts = false;
             fontDlg.FontMustExist = true;
             fontDlg.ShowColor = false;
@@ -1221,11 +1337,100 @@ namespace HovText
             {
                 historyFontSize = fontDlg.Font.Size;
                 historyFontFamily = fontDlg.Font.Name;
-                uiShowFont.Text = historyFontFamily + ", " + historyFontSize;
-                uiShowFont.Font = new Font(historyFontFamily, historyFontSize);
+                uiShowFontBottom.Text = historyFontFamily + ", " + historyFontSize;
+                uiShowFontBottom.Font = new Font(historyFontFamily, historyFontSize);
                 SetRegistryKey(registryPath, "HistoryFontFamily", historyFontFamily);
                 SetRegistryKey(registryPath, "HistoryFontSize", historyFontSize.ToString());
             }
+        }
+
+
+        // ###########################################################################################
+        // Changes in the history elements
+        // ###########################################################################################
+                
+        private void uiElement1_CheckedChanged(object sender, EventArgs e)
+        {
+            historyListElements = 1;
+            SetRegistryKey(registryPath, "HistoryEntries", historyListElements.ToString());
+            HideHistoryBoxes();
+        }
+
+        private void uiElement2_CheckedChanged(object sender, EventArgs e)
+        {
+            historyListElements = 2;
+            SetRegistryKey(registryPath, "HistoryEntries", historyListElements.ToString());
+            HideHistoryBoxes();
+        }
+
+        private void uiElement3_CheckedChanged(object sender, EventArgs e)
+        {
+            historyListElements = 3;
+            SetRegistryKey(registryPath, "HistoryEntries", historyListElements.ToString());
+            HideHistoryBoxes();
+        }
+
+        private void uiElement4_CheckedChanged(object sender, EventArgs e)
+        {
+            historyListElements = 4;
+            SetRegistryKey(registryPath, "HistoryEntries", historyListElements.ToString());
+            HideHistoryBoxes();
+        }
+
+        private void uiElement5_CheckedChanged(object sender, EventArgs e)
+        {
+            historyListElements = 5;
+            SetRegistryKey(registryPath, "HistoryEntries", historyListElements.ToString());
+            HideHistoryBoxes();
+        }
+
+        private void uiElement6_CheckedChanged(object sender, EventArgs e)
+        {
+            historyListElements = 6;
+            SetRegistryKey(registryPath, "HistoryEntries", historyListElements.ToString());
+            HideHistoryBoxes();
+        }
+
+        private void uiElement7_CheckedChanged(object sender, EventArgs e)
+        {
+            historyListElements = 7;
+            SetRegistryKey(registryPath, "HistoryEntries", historyListElements.ToString());
+            HideHistoryBoxes();
+        }
+
+        private void uiElement8_CheckedChanged(object sender, EventArgs e)
+        {
+            historyListElements = 8;
+            SetRegistryKey(registryPath, "HistoryEntries", historyListElements.ToString());
+            HideHistoryBoxes();
+        }
+
+        private void uiElement9_CheckedChanged(object sender, EventArgs e)
+        {
+            historyListElements = 9;
+            SetRegistryKey(registryPath, "HistoryEntries", historyListElements.ToString());
+            HideHistoryBoxes();
+        }
+
+        private void uiElement10_CheckedChanged(object sender, EventArgs e)
+        {
+            historyListElements = 10;
+            SetRegistryKey(registryPath, "HistoryEntries", historyListElements.ToString());
+            HideHistoryBoxes();
+        }
+        
+        private void HideHistoryBoxes()
+        {
+            historyList.HideBox(1);
+            historyList.HideBox(2);
+            historyList.HideBox(3);
+            historyList.HideBox(4);
+            historyList.HideBox(5);
+            historyList.HideBox(6);
+            historyList.HideBox(7);
+            historyList.HideBox(8);
+            historyList.HideBox(9);
+            historyList.HideBox(10);
         }
 
 
@@ -1235,22 +1440,19 @@ namespace HovText
 
         private void uiAreaSmall_CheckedChanged(object sender, EventArgs e)
         {
-            historyWidth = historyWidthSmall;
-            historyHeight = historyHeightSmall;
+            historySize = "Small";
             SetRegistryKey(registryPath, "HistorySize", "Small");
         }
 
         private void uiAreaMedium_CheckedChanged(object sender, EventArgs e)
         {
-            historyWidth = historyWidthMedium;
-            historyHeight = historyHeightMedium;
+            historySize = "Medium";
             SetRegistryKey(registryPath, "HistorySize", "Medium");
         }
 
         private void uiAreaLarge_CheckedChanged(object sender, EventArgs e)
         {
-            historyWidth = historyWidthLarge;
-            historyHeight = historyHeightLarge;
+            historySize = "Large";
             SetRegistryKey(registryPath, "HistorySize", "Large");
         }
 
@@ -1259,11 +1461,34 @@ namespace HovText
         // Change in the history location
         // ###########################################################################################
 
-        private void uiHistoryLocation_SelectedIndexChanged(object sender, EventArgs e)
+        private void historyLocationLeftTop_CheckedChanged(object sender, EventArgs e)
         {
-            registryHistoryLocation = (string)(uiHistoryLocation.SelectedItem);
-            SetRegistryKey(registryPath, "HistoryLocation", registryHistoryLocation);
-            historyLocation = registryHistoryLocation;
+            historyLocation = "Left Top";
+            SetRegistryKey(registryPath, "HistoryLocation", historyLocation);
+        }
+
+        private void historyLocationLeftBottom_CheckedChanged(object sender, EventArgs e)
+        {
+            historyLocation = "Left Bottom";
+            SetRegistryKey(registryPath, "HistoryLocation", historyLocation);
+        }
+
+        private void historyLocationCenter_CheckedChanged(object sender, EventArgs e)
+        {
+            historyLocation = "Center";
+            SetRegistryKey(registryPath, "HistoryLocation", historyLocation);
+        }
+
+        private void historyLocationRightTop_CheckedChanged(object sender, EventArgs e)
+        {
+            historyLocation = "Right Top";
+            SetRegistryKey(registryPath, "HistoryLocation", historyLocation);
+        }
+
+        private void historyLocationRightBottom_CheckedChanged(object sender, EventArgs e)
+        {
+            historyLocation = "Right Bottom";
+            SetRegistryKey(registryPath, "HistoryLocation", historyLocation);
         }
 
 
@@ -1271,11 +1496,39 @@ namespace HovText
         // Change in the history color
         // ###########################################################################################
 
-        private void uiHistoryColorSelector_SelectedIndexChanged(object sender, EventArgs e)
+        private void uiHistoryColorBlue_CheckedChanged(object sender, EventArgs e)
         {
-            registryHistoryColor = (string)(uiHistoryColorSelector.SelectedItem);
-            SetHistoryColors(registryHistoryColor);
+            registryHistoryColor = "Blue";
             SetRegistryKey(registryPath, "HistoryColor", registryHistoryColor);
+            SetHistoryColors(registryHistoryColor);
+        }
+
+        private void uiHistoryColorBrown_CheckedChanged(object sender, EventArgs e)
+        {
+            registryHistoryColor = "Brown";
+            SetRegistryKey(registryPath, "HistoryColor", registryHistoryColor);
+            SetHistoryColors(registryHistoryColor);
+        }
+
+        private void uiHistoryColorGreen_CheckedChanged(object sender, EventArgs e)
+        {
+            registryHistoryColor = "Green";
+            SetRegistryKey(registryPath, "HistoryColor", registryHistoryColor);
+            SetHistoryColors(registryHistoryColor);
+        }
+
+        private void uiHistoryColorWhite_CheckedChanged(object sender, EventArgs e)
+        {
+            registryHistoryColor = "White";
+            SetRegistryKey(registryPath, "HistoryColor", registryHistoryColor);
+            SetHistoryColors(registryHistoryColor);
+        }
+
+        private void uiHistoryColorYellow_CheckedChanged(object sender, EventArgs e)
+        {
+            registryHistoryColor = "Yellow";
+            SetRegistryKey(registryPath, "HistoryColor", registryHistoryColor);
+            SetHistoryColors(registryHistoryColor);
         }
 
 
@@ -1290,32 +1543,32 @@ namespace HovText
                 case "Blue":
                     historyColorTop = historyColorTopBlue;
                     historyColorBottom = historyColorBottomBlue;
-                    uiShowFont.BackColor = ColorTranslator.FromHtml(historyColorBottomBlue);
-                    uiHistoryColorSelector.SelectedItem = "Blue";
+                    uiShowFontTop.BackColor = ColorTranslator.FromHtml(historyColorTopBlue); 
+                    uiShowFontBottom.BackColor = ColorTranslator.FromHtml(historyColorBottomBlue);
                     break;
                 case "Brown":
                     historyColorTop = historyColorTopBrown;
                     historyColorBottom = historyColorBottomBrown;
-                    uiShowFont.BackColor = ColorTranslator.FromHtml(historyColorBottomBrown);
-                    uiHistoryColorSelector.SelectedItem = "Brown";
+                    uiShowFontTop.BackColor = ColorTranslator.FromHtml(historyColorTopBrown); 
+                    uiShowFontBottom.BackColor = ColorTranslator.FromHtml(historyColorBottomBrown);
                     break;
                 case "Green":
                     historyColorTop = historyColorTopGreen;
                     historyColorBottom = historyColorBottomGreen;
-                    uiShowFont.BackColor = ColorTranslator.FromHtml(historyColorBottomGreen);
-                    uiHistoryColorSelector.SelectedItem = "Green";
+                    uiShowFontTop.BackColor = ColorTranslator.FromHtml(historyColorTopGreen); 
+                    uiShowFontBottom.BackColor = ColorTranslator.FromHtml(historyColorBottomGreen);
                     break;
                 case "White":
                     historyColorTop = historyColorTopWhite;
                     historyColorBottom = historyColorBottomWhite;
-                    uiShowFont.BackColor = ColorTranslator.FromHtml(historyColorBottomWhite);
-                    uiHistoryColorSelector.SelectedItem = "White";
+                    uiShowFontTop.BackColor = ColorTranslator.FromHtml(historyColorTopWhite);
+                    uiShowFontBottom.BackColor = ColorTranslator.FromHtml(historyColorBottomWhite);
                     break;
                 default:
                     historyColorTop = historyColorTopYellow;
                     historyColorBottom = historyColorBottomYellow;
-                    uiShowFont.BackColor = ColorTranslator.FromHtml(historyColorBottomYellow);
-                    uiHistoryColorSelector.SelectedItem = "Yellow";
+                    uiShowFontTop.BackColor = ColorTranslator.FromHtml(historyColorTopYellow);
+                    uiShowFontBottom.BackColor = ColorTranslator.FromHtml(historyColorBottomYellow);
                     break;
             }
         }
@@ -1353,6 +1606,31 @@ namespace HovText
 
 
         // ###########################################################################################
+        // Changes in "Restore original formatting when disabling application"
+        // ###########################################################################################
+
+        private void uiRestoreOriginal_CheckedChanged(object sender, EventArgs e)
+        {
+            // History enabled
+            string status = uiRestoreOriginal.Checked ? "1" : "0";
+            isRestoreOriginal = uiRestoreOriginal.Checked;
+            SetRegistryKey(registryPath, "RestoreOriginal", status);
+        }
+
+
+        // ###########################################################################################
+        // Changes in "Do not copy images"
+        // ###########################################################################################
+
+        private void uiCopyImages_CheckedChanged(object sender, EventArgs e)
+        {
+            string status = uiCopyImages.Checked ? "1" : "0";
+            isCopyImages = uiCopyImages.Checked;
+            SetRegistryKey(registryPath, "CopyImages", status);
+        }
+
+
+        // ###########################################################################################
         // Changes in "Enable history"
         // ###########################################################################################
 
@@ -1361,19 +1639,24 @@ namespace HovText
             // History enabled
             string status = uiHistoryEnabled.Checked ? "1" : "0";
             isEnabledHistory = uiHistoryEnabled.Checked;
-            SetRegistryKey(registryPath, "EnableHistory", status);
+            SetRegistryKey(registryPath, "HistoryEnable", status);
             if (isEnabledHistory)
             {
                 uiHotkeyOlder.Enabled = true;
                 uiHotkeyNewer.Enabled = true;
+                uiCopyImages.Enabled = true;
                 uiPasteOnSelection.Enabled = true;
             }
             else
             {
                 uiHotkeyOlder.Enabled = false;
                 uiHotkeyNewer.Enabled = false;
+                uiCopyImages.Enabled = false;
                 uiPasteOnSelection.Enabled = false;
             }
+
+            // Update the tray icon
+            UpdateNotifyIconText();
         }
 
 
@@ -1424,7 +1707,7 @@ namespace HovText
         private void trayIconAbout_Click(object sender, EventArgs e)
         {
             ShowSettingsForm();
-            tabControl.SelectedIndex = 3; // About
+            tabControl.SelectedIndex = 4; // About
         }
 
 
@@ -1462,13 +1745,13 @@ namespace HovText
             {
                 // Give the double-click a chance to cancel this
                 mouseClickTimer.Start();
-                Console.WriteLine("Start mouse timer");
+                Console.WriteLine("Start mouse double-click timer");
             }
         }
 
         private void mouseClickTimer_Tick(object sender, EventArgs e)
         {
-            Console.WriteLine("Mouse single-click");
+            Console.WriteLine("Mouse single-click detected");
             mouseClickTimer.Stop();
             ToggleEnabled();
         }
@@ -1480,13 +1763,12 @@ namespace HovText
 
         private void notifyIcon_MouseDoubleClick(object sender, MouseEventArgs e)
         {
-
             if (e.Button == MouseButtons.Left)
             {
                 // Cancel the single-click
                 mouseClickTimer.Stop();
 
-                Console.WriteLine("Mouse double-click");
+                Console.WriteLine("Mouse double-click detected");
                 ShowSettingsForm();
                 tabControl.SelectedIndex = 0;
             }
@@ -1506,6 +1788,27 @@ namespace HovText
 
 
         // ###########################################################################################
+        // Changes in "One entry only" look-and-feel
+        // ###########################################################################################
+
+        private void uiApperanceOne_CheckedChanged(object sender, EventArgs e)
+        {
+            SetRegistryKey(registryPath, "HistoryLook", "One entry only");
+        }
+
+
+        // ###########################################################################################
+        // Changes in "List of entries" look-and-feel
+        // ###########################################################################################
+
+        private void uiApperanceList_CheckedChanged(object sender, EventArgs e)
+        {
+            SetRegistryKey(registryPath, "HistoryLook", "List of entries");
+        }
+
+
+
+        // ###########################################################################################
         // Changes in "Always action" hotkey behaviour
         // ###########################################################################################
 
@@ -1519,6 +1822,7 @@ namespace HovText
         // ###########################################################################################
         // Changes in "Action only on hotkey" hotkey behaviour
         // ###########################################################################################
+
         private void uiHotkeyBehaviourPaste_CheckedChanged(object sender, EventArgs e)
         {
             uiHotkeyPaste.Enabled = true;
@@ -1549,7 +1853,7 @@ namespace HovText
 
         private void HotkeyToggleApplication(object sender, NHotkey.HotkeyEventArgs e)
         {
-            Console.WriteLine("Enable/Disable hotkey");
+            Console.WriteLine("Pressed the [Enable/Disable application] hotkey");
             ToggleEnabled();
             e.Handled = true;
         }
@@ -1561,7 +1865,7 @@ namespace HovText
 
         private void HotkeyGetOlderEntry(object sender, NHotkey.HotkeyEventArgs e)
         {
-            Console.WriteLine("Get older entry hotkey");
+            Console.WriteLine("Pressed the [Get older history entry] hotkey");
             GoEntryLowerNumber();
             isHistoryHotkeyPressed = true;
             e.Handled = true;
@@ -1574,7 +1878,7 @@ namespace HovText
 
         private void HotkeyGetNewerEntry(object sender, NHotkey.HotkeyEventArgs e)
         {
-            Console.WriteLine("Get newer entry hotkey");
+            Console.WriteLine("Pressed the [Get newer history entry] hotkey");
             GoEntryHigherNumber();
             isHistoryHotkeyPressed = true;
             e.Handled = true;
@@ -1587,7 +1891,7 @@ namespace HovText
 
         private void HotkeyPasteOnHotkey(object sender, NHotkey.HotkeyEventArgs e)
         {
-            Console.WriteLine("Paste only on hotkey");
+            Console.WriteLine("Pressed the [Paste only on hotkey] hotkey");
             SelectHistoryEntry();
             SendKeys.Send("^v");
             e.Handled = true;
@@ -1600,7 +1904,7 @@ namespace HovText
 
         private string ConvertKeyboardInputToString(KeyEventArgs e)
         {
-            Console.WriteLine("[" + e.KeyData + "] [" + e.KeyCode + "] [" + e.Modifiers + "] [" + e.SuppressKeyPress + "]");
+            Console.WriteLine("Set hotkey: [" + e.KeyData + "] [" + e.KeyCode + "] [" + e.Modifiers + "] [" + e.SuppressKeyPress + "]");
 
             string hotkey = "";
 
@@ -1717,7 +2021,6 @@ namespace HovText
 
         private void ModifyHotkey(string hotkey)
         {
-            Console.WriteLine("Hotkey enter");
             switch (hotkey)
             {
                 case "hotkeyEnable":
@@ -1762,7 +2065,6 @@ namespace HovText
 
         private void ApplyHotkeys_Click(object sender, EventArgs e)
         {
-            Console.WriteLine("Apply hotkeys");
             SetHotkeys("Apply");
         }
 
@@ -1773,8 +2075,6 @@ namespace HovText
 
         private void SetHotkeys(string from)
         {
-            Console.WriteLine("Set hotkeys");
-
             // Get all hotkey strings
             string hotkey1 = uiHotkeyEnable.Text;
             string hotkey2 = uiHotkeyOlder.Text;
@@ -1965,6 +2265,56 @@ namespace HovText
             uiHotkeyNewer.Text = hotkey3;
             uiHotkeyPaste.Text = hotkey4;
             SetHotkeys("Cancel");
+        }
+
+
+        // ###########################################################################################
+        // Show a notification if the user closes the application to tray for the very first time
+        // ###########################################################################################
+
+        private void ShowTrayNotification()
+        {
+            // Show a tray notification if this is the first time the user close the form (without exiting the application)
+            int notificationShown = int.Parse((string)GetRegistryKey(registryPath, "NotificationShown"));
+            if (notificationShown == 0)
+            {
+                notifyIcon.Visible = true;
+                notifyIcon.ShowBalloonTip(
+                    10000,
+                    "HovText is still running",
+                    "HovText continues running in the background to perform its duties. You can see the icon in the tray area",
+                    ToolTipIcon.Info
+                    );
+
+                // Mark that we now have shown this
+                SetRegistryKey(registryPath, "NotificationShown", "1");
+            }
+        }
+
+
+        // ###########################################################################################
+        // Update the entries on the tray icon (when hovering the mouse over it)
+        // ###########################################################################################
+
+        private void UpdateNotifyIconText()
+        {
+            // Update the counter if the history is enabled
+            if (isEnabledHistory)
+            {
+                int entries = entriesText.Count();
+                if (entries == 1)
+                {
+                    notifyIcon.Text = "HovText (" + entries + " entry)";
+                }
+                else
+                {
+                    notifyIcon.Text = "HovText (" + entries + " entries)";
+                }
+            }
+            else
+            {
+                notifyIcon.Text = "HovText";
+            }
         }
 
 
