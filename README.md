@@ -4,7 +4,15 @@ HovText is a free open source Windows .NET Framework clipboard manager. With it 
 
 It is a REBOOTED edition meaning that it has been revived from the dead and it is completely rewritten from the legacy HovText version, available at https://hovtext.com/. The new edition is more robust in terms of the clipboard chain and it should now work, in contrary to the old version.
 
-![Settings](http://hovtext.com/documentation/pics/General1.jpg)
+![Settings](http://hovtext.com/documentation/images/General.jpg)
+
+![Hotkeys](http://hovtext.com/documentation/images/Hotkeys.jpg)
+
+![Layout](http://hovtext.com/documentation/images/Layout.jpg)
+
+![Style](http://hovtext.com/documentation/images/Style.jpg)
+
+![About](http://hovtext.com/documentation/images/About.jpg)
 
 ## Capabilities
 
