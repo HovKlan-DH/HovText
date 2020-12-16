@@ -20,6 +20,15 @@ You can say that it works basically in the same way as copying the formatted tex
 * No registration or advertising (no nags)
 * Freeware and open source available on GitHub
 
+## Requirements
+
+* Windows 7 or newer (but only tested on Windows 10)
+* .NET Framework 4.x
+
+## Documentation
+
+The full documentation for how to use this application is available on the HovText home page, https://hovtext.com/documentation/
+
 ## Screenshots
 
 ![Settings](http://hovtext.com/documentation/images/General.jpg)
@@ -31,12 +40,3 @@ You can say that it works basically in the same way as copying the formatted tex
 ![Style](http://hovtext.com/documentation/images/Style.jpg)
 
 ![About](http://hovtext.com/documentation/images/About.jpg)
-
-## Requirements
-
-* Windows 7 or newer
-* .NET Framework 4.x
-
-## Documentation
-
-The full documentation for how to use this application is available on the HovText home page, https://hovtext.com/documentation/
