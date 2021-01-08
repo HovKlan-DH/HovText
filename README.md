@@ -31,12 +31,12 @@ The full documentation for how to use this application is available on the HovTe
 
 ## Screenshots
 
-![Settings](http://hovtext.com/documentation/images/General.jpg)
+![Settings](https://hovtext.com/documentation/images/General.jpg)
 
-![Hotkeys](http://hovtext.com/documentation/images/Hotkeys.jpg)
+![Hotkeys](https://hovtext.com/documentation/images/Hotkeys.jpg)
 
-![Layout](http://hovtext.com/documentation/images/Layout.jpg)
+![Layout](https://hovtext.com/documentation/images/Layout.jpg)
 
-![Style](http://hovtext.com/documentation/images/Style.jpg)
+![Style](https://hovtext.com/documentation/images/Style.jpg)
 
-![About](http://hovtext.com/documentation/images/About.jpg)
+![About](https://hovtext.com/documentation/images/About.jpg)
