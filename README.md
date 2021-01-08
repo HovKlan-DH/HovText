@@ -11,12 +11,13 @@ You can say that it works basically in the same way as copying the formatted tex
 * Removes all formatting from the clipboard
 * Remembers all copied texts or images
 * Keeps the most used clipboard entries at top
-* Can restore original formatting
-* Can act as a text-only clipboard manager
-* Flexible layout settings with e.g. list-view and positioning
-* Possibility to remove leading/trailing whitespaces or linebreaks
+* Can restore original text formatting
+* Can act as a text-only clipboard manager but can also remember images
+* Flexible layout settings with e.g. list-view, positioning and styling
+* Possibility to remove leading/trailing whitespaces or new-lines
 * Configurable hotkeys
-* Runs on all Windows 7 systems or newer
+* Runs on Windows 7 systems or newer
+* Requires .NET Framework 4.x
 * No registration or advertising (no nags)
 * Freeware and open source available on GitHub
 
