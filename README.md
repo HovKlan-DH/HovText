@@ -1,21 +1,42 @@
 # HovText
 
-HovText is a free open source Windows .NET Framework clipboard manager. With it you will be able to copy any text or picture and save it within the clipboard manager. It will remove the formatting from any text, meaning that if e.g. the text has been marked as bold in Word and you paste it to e.g. Wordpad then it will only paste it as clear text - the formatting will not be copied.
+HovText is an application that removes any text formatting from the clipboard and it also works as a clipboard manager that can store and retrieve previous copied texts or images. Any text in the clipboard will be pasted as cleartext without any HTML code, font size, color or formatting etc. HovText remembers all copied texts and it is possible to restore the original formatting on the previous copied texts.
 
-It is a REBOOTED edition meaning that it has been revived from the dead and it is completely rewritten from the legacy HovText version, available at https://hovtext.com/. The new edition is more robust in terms of the clipboard chain and it should now work, in contrary to the old version.
+A typical scenario is to copy a qoute from the internet and paste this text into e.g. Outlook or Word. If the copied text has formatting then this will be pasted along also and that is often inconvenient as it spoils the current formatting for the document. Some applications has their own way of importing the unformatted text, but with HovText then ALL programs has this option and it works in the same way all the time.
 
-![Settings](http://hovtext.com/documentation/pics/General1.jpg)
+You can say that it works basically in the same way as copying the formatted text to Notepad and then copy this text and insert in to the document + it will remove any whitespaces or new-lines in the beginning or end of the text.
 
 ## Capabilities
 
-* Remove text formatting when copying text to the clipboard (it will place the clear-text in the clipboard)
-* Clipboard manager that will remember all copied texts or pictures
+* Removes all formatting from the clipboard
+* Remembers all copied texts or images
+* Keeps the most used clipboard entries at top
+* Can restore original formatting
+* Can act as a text-only clipboard manager
+* Flexible layout settings with e.g. list-view and positioning
+* Possibility to remove leading/trailing whitespaces or linebreaks
+* Configurable hotkeys
+* Runs on all Windows 7 systems or newer
+* No registration or advertising (no nags)
+* Freeware and open source available on GitHub
 
 ## Requirements
 
-* Windows 7 or newer
+* Windows 7 or newer (but only tested on Windows 10)
 * .NET Framework 4.x
 
 ## Documentation
 
 The full documentation for how to use this application is available on the HovText home page, https://hovtext.com/documentation/
+
+## Screenshots
+
+![Settings](http://hovtext.com/documentation/images/General.jpg)
+
+![Hotkeys](http://hovtext.com/documentation/images/Hotkeys.jpg)
+
+![Layout](http://hovtext.com/documentation/images/Layout.jpg)
+
+![Style](http://hovtext.com/documentation/images/Style.jpg)
+
+![About](http://hovtext.com/documentation/images/About.jpg)
