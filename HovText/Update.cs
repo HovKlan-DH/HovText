@@ -32,7 +32,7 @@ namespace HovText
         private void SkipVersion_Click(object sender, EventArgs e)
         {
             Hide();
-            Settings.settings.SetRegistryKey(Settings.settings.registryPath, "CheckedVersion", uiAppVerOnline.Text);
+            Settings.SetRegistryKey(Settings.registryPath, "CheckedVersion", uiAppVerOnline.Text);
         }
 
 

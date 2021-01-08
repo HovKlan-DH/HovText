@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.InteropServices;
-using System.Windows.Forms;
 using System.Threading;
+using System.Windows.Forms;
 
 namespace HovText
 {
@@ -13,13 +13,17 @@ namespace HovText
 
         [STAThread] // STAThreadAttribute indicates that the COM threading model for the application is single-threaded apartment, https://stackoverflow.com/a/1361048/2028935
 
+
+        // ###########################################################################################
+        // Main
+        // ###########################################################################################
+
         static int Main(string[] args)
         {
 
             // Only run one instance
             // https://stackoverflow.com/a/184143/2028935
-            bool createdNew = true;
-            using (Mutex mutex = new Mutex(true, "HovText", out createdNew))
+            using (Mutex mutex = new Mutex(true, "HovText", out bool createdNew))
             {
                 if (createdNew)
                 {
