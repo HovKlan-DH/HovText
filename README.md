@@ -40,4 +40,8 @@ The full documentation for how to use this application is available on the HovTe
 
 ![Style](https://hovtext.com/documentation/images/Style.jpg)
 
+![Advanced](https://hovtext.com/documentation/images/Advanced.jpg)
+
+![Feedback](https://hovtext.com/documentation/images/Feedback.jpg)
+
 ![About](https://hovtext.com/documentation/images/About.jpg)
