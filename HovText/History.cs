@@ -329,6 +329,8 @@ namespace HovText
                 firstBox = 0;
                 entryIndexLast = 0;
 
+                if (Settings.isTroubleshootEnabled) Logging.Log("Selected history entry");
+
                 Settings.settings.SelectHistoryEntry();
                 if (Settings.isEnabledPasteOnSelection)
                 {
@@ -340,8 +342,7 @@ namespace HovText
                 {
                     Settings.settings.Show();
                 }
-                Debug.WriteLine("Selected history entry");
-
+                
                 ResetForm();
             }
         }

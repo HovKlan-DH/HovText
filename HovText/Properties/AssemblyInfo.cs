@@ -7,7 +7,7 @@ using System.Runtime.InteropServices;
 // associated with an assembly.
 [assembly: AssemblyTitle("HovText")]
 [assembly: AssemblyDescription("An advanced Windows .NET open source clipboard manager")]
-[assembly: AssemblyConfiguration("Release")] // Development / Test / Release
+[assembly: AssemblyConfiguration("Release")]
 [assembly: AssemblyCompany("The Hovgaard Klan")]
 [assembly: AssemblyProduct("HovText")]
 [assembly: AssemblyCopyright("Copyright © 2004-2021")]
@@ -16,8 +16,8 @@ using System.Runtime.InteropServices;
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
 [assembly: Guid("03fbad69-cd44-4a0c-b4bf-90406561f14f")]
-[assembly: AssemblyVersion("2021.01.08.0")] // .0 = RELEASE, .1 = DEVELOPMENT, .2 = TEST
-[assembly: AssemblyFileVersion("2021.01.08.0")]
+//[assembly: AssemblyVersion("2021.01.23.1")]
+[assembly: AssemblyFileVersion("2021.01.27.0")]
 
 // Setting ComVisible to false makes the types in this assembly not visible
 // to COM components.  If you need to access a type in this assembly from

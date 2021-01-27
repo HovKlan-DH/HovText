@@ -20,6 +20,9 @@ namespace HovText
 
         static int Main(string[] args)
         {
+            // Set troubleshooting boolean
+            string regVal = Settings.GetRegistryKey(Settings.registryPath, "TroubleshootEnable");
+            Settings.isTroubleshootEnabled = regVal == "1" ? true : false;
 
             // Only run one instance
             // https://stackoverflow.com/a/184143/2028935
@@ -40,7 +43,12 @@ namespace HovText
 
                 } else
                 {
-                    MessageBox.Show("HovText is already running and cannot startup one more instance","HovText is already running", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    string txt = "HovText is already running and cannot startup one more instance";
+
+                    if (Settings.isTroubleshootEnabled) Logging.Log("Exception #1 (Program):");
+                    if (Settings.isTroubleshootEnabled) Logging.Log("  "+ txt);
+
+                    MessageBox.Show(txt,"HovText is already running", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
             }  
 

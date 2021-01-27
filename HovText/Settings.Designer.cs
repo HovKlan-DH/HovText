@@ -42,12 +42,11 @@
             this.uiHelp = new System.Windows.Forms.Button();
             this.updateTimer = new System.Windows.Forms.Timer(this.components);
             this.mouseClickTimer = new System.Windows.Forms.Timer(this.components);
-            this.timerTest = new System.Windows.Forms.Timer(this.components);
             this.tabPage4 = new System.Windows.Forms.TabPage();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.aboutBox = new System.Windows.Forms.RichTextBox();
             this.label2 = new System.Windows.Forms.Label();
-            this.appVer = new System.Windows.Forms.Label();
+            this.uiAppVer = new System.Windows.Forms.Label();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.groupBox6 = new System.Windows.Forms.GroupBox();
             this.label5 = new System.Windows.Forms.Label();
@@ -113,6 +112,23 @@
             this.uiShowFontBottom = new System.Windows.Forms.Label();
             this.uiShowFontTop = new System.Windows.Forms.Label();
             this.uiChangeFont = new System.Windows.Forms.Button();
+            this.tabPage6 = new System.Windows.Forms.TabPage();
+            this.groupBox11 = new System.Windows.Forms.GroupBox();
+            this.uiDevelopmentVersion = new System.Windows.Forms.Label();
+            this.uiDevelopmentDownload = new System.Windows.Forms.Button();
+            this.uiDevelopmentWarning = new System.Windows.Forms.Label();
+            this.groupBox9 = new System.Windows.Forms.GroupBox();
+            this.uiCleanUpExit = new System.Windows.Forms.Button();
+            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.uiTroubleshootOpenLocation = new System.Windows.Forms.Button();
+            this.uiTroubleshootDeleteFile = new System.Windows.Forms.Button();
+            this.uiTroubleshootEnabled = new System.Windows.Forms.CheckBox();
+            this.tabPage7 = new System.Windows.Forms.TabPage();
+            this.label3 = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
+            this.uiSendFeedback = new System.Windows.Forms.Button();
+            this.uiFeedbackText = new System.Windows.Forms.TextBox();
+            this.uiEmailAddr = new System.Windows.Forms.TextBox();
             this.colorDialogTop = new System.Windows.Forms.ColorDialog();
             this.colorDialogBottom = new System.Windows.Forms.ColorDialog();
             this.colorDialogText = new System.Windows.Forms.ColorDialog();
@@ -138,6 +154,11 @@
             this.groupBox8.SuspendLayout();
             this.groupBoxCustom.SuspendLayout();
             this.groupBox4.SuspendLayout();
+            this.tabPage6.SuspendLayout();
+            this.groupBox11.SuspendLayout();
+            this.groupBox9.SuspendLayout();
+            this.groupBox3.SuspendLayout();
+            this.tabPage7.SuspendLayout();
             this.SuspendLayout();
             // 
             // notifyIcon
@@ -189,7 +210,7 @@
             this.uiCloseMinimize.Location = new System.Drawing.Point(29, 63);
             this.uiCloseMinimize.Name = "uiCloseMinimize";
             this.uiCloseMinimize.Size = new System.Drawing.Size(328, 29);
-            this.uiCloseMinimize.TabIndex = 22;
+            this.uiCloseMinimize.TabIndex = 112;
             this.uiCloseMinimize.Text = "Close minimizes application to tray";
             this.trayIcon.SetToolTip(this.uiCloseMinimize, "If checked then the application will minimize to tray when the Close button is cl" +
         "icked.\r\nIf not checked then the application will exit and terminate.");
@@ -202,7 +223,7 @@
             this.uiPasteOnSelection.Location = new System.Drawing.Point(29, 191);
             this.uiPasteOnSelection.Name = "uiPasteOnSelection";
             this.uiPasteOnSelection.Size = new System.Drawing.Size(247, 29);
-            this.uiPasteOnSelection.TabIndex = 26;
+            this.uiPasteOnSelection.TabIndex = 116;
             this.uiPasteOnSelection.Text = "Paste on history selection";
             this.trayIcon.SetToolTip(this.uiPasteOnSelection, "If checked then the application will minimize to tray when the Close button is cl" +
         "icked.\r\nIf not checked then the application will exit and terminate.");
@@ -211,7 +232,7 @@
             // 
             // uiHelp
             // 
-            this.uiHelp.Location = new System.Drawing.Point(166, 501);
+            this.uiHelp.Location = new System.Drawing.Point(166, 507);
             this.uiHelp.Name = "uiHelp";
             this.uiHelp.Size = new System.Drawing.Size(262, 38);
             this.uiHelp.TabIndex = 1000;
@@ -229,18 +250,13 @@
             this.mouseClickTimer.Interval = 300;
             this.mouseClickTimer.Tick += new System.EventHandler(this.mouseClickTimer_Tick);
             // 
-            // timerTest
-            // 
-            this.timerTest.Interval = 1800000;
-            this.timerTest.Tick += new System.EventHandler(this.timerTest_Tick);
-            // 
             // tabPage4
             // 
             this.tabPage4.BackColor = System.Drawing.Color.WhiteSmoke;
             this.tabPage4.Controls.Add(this.pictureBox1);
             this.tabPage4.Controls.Add(this.aboutBox);
             this.tabPage4.Controls.Add(this.label2);
-            this.tabPage4.Controls.Add(this.appVer);
+            this.tabPage4.Controls.Add(this.uiAppVer);
             this.tabPage4.Location = new System.Drawing.Point(4, 34);
             this.tabPage4.Name = "tabPage4";
             this.tabPage4.Size = new System.Drawing.Size(565, 444);
@@ -281,17 +297,17 @@
             this.label2.TabIndex = 50;
             this.label2.Text = "HovText # Rebooted edition";
             // 
-            // appVer
+            // uiAppVer
             // 
-            this.appVer.AutoSize = true;
-            this.appVer.Font = new System.Drawing.Font("Segoe UI", 11.12727F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.appVer.Location = new System.Drawing.Point(24, 63);
-            this.appVer.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.appVer.Name = "appVer";
-            this.appVer.Size = new System.Drawing.Size(23, 25);
-            this.appVer.TabIndex = 49;
-            this.appVer.Text = "#";
-            this.appVer.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.uiAppVer.AutoSize = true;
+            this.uiAppVer.Font = new System.Drawing.Font("Segoe UI", 11.12727F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.uiAppVer.Location = new System.Drawing.Point(24, 63);
+            this.uiAppVer.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.uiAppVer.Name = "uiAppVer";
+            this.uiAppVer.Size = new System.Drawing.Size(23, 25);
+            this.uiAppVer.TabIndex = 49;
+            this.uiAppVer.Text = "#";
+            this.uiAppVer.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // tabPage2
             // 
@@ -319,7 +335,7 @@
             this.groupBox6.Location = new System.Drawing.Point(22, 23);
             this.groupBox6.Name = "groupBox6";
             this.groupBox6.Size = new System.Drawing.Size(281, 413);
-            this.groupBox6.TabIndex = 60;
+            this.groupBox6.TabIndex = 300;
             this.groupBox6.TabStop = false;
             this.groupBox6.Text = "History area";
             // 
@@ -386,7 +402,7 @@
             this.uiHistoryElements.Minimum = 1;
             this.uiHistoryElements.Name = "uiHistoryElements";
             this.uiHistoryElements.Size = new System.Drawing.Size(189, 56);
-            this.uiHistoryElements.TabIndex = 61;
+            this.uiHistoryElements.TabIndex = 301;
             this.uiHistoryElements.TickFrequency = 5;
             this.uiHistoryElements.TickStyle = System.Windows.Forms.TickStyle.Both;
             this.uiHistoryElements.Value = 1;
@@ -400,7 +416,7 @@
             this.uiHistorySizeWidth.Minimum = 10;
             this.uiHistorySizeWidth.Name = "uiHistorySizeWidth";
             this.uiHistorySizeWidth.Size = new System.Drawing.Size(193, 56);
-            this.uiHistorySizeWidth.TabIndex = 62;
+            this.uiHistorySizeWidth.TabIndex = 302;
             this.uiHistorySizeWidth.TickFrequency = 10;
             this.uiHistorySizeWidth.TickStyle = System.Windows.Forms.TickStyle.Both;
             this.uiHistorySizeWidth.Value = 30;
@@ -413,7 +429,7 @@
             this.uiHistorySizeHeight.Minimum = 10;
             this.uiHistorySizeHeight.Name = "uiHistorySizeHeight";
             this.uiHistorySizeHeight.Size = new System.Drawing.Size(199, 56);
-            this.uiHistorySizeHeight.TabIndex = 63;
+            this.uiHistorySizeHeight.TabIndex = 303;
             this.uiHistorySizeHeight.TickFrequency = 10;
             this.uiHistorySizeHeight.TickStyle = System.Windows.Forms.TickStyle.Both;
             this.uiHistorySizeHeight.Value = 20;
@@ -429,7 +445,7 @@
             this.groupBox10.Location = new System.Drawing.Point(322, 23);
             this.groupBox10.Name = "groupBox10";
             this.groupBox10.Size = new System.Drawing.Size(220, 413);
-            this.groupBox10.TabIndex = 70;
+            this.groupBox10.TabIndex = 310;
             this.groupBox10.TabStop = false;
             this.groupBox10.Text = "History location";
             // 
@@ -441,7 +457,7 @@
             this.uiHistoryLocationRadioCenter.Name = "uiHistoryLocationRadioCenter";
             this.uiHistoryLocationRadioCenter.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.uiHistoryLocationRadioCenter.Size = new System.Drawing.Size(89, 29);
-            this.uiHistoryLocationRadioCenter.TabIndex = 73;
+            this.uiHistoryLocationRadioCenter.TabIndex = 313;
             this.uiHistoryLocationRadioCenter.Text = "Center";
             this.uiHistoryLocationRadioCenter.UseVisualStyleBackColor = true;
             this.uiHistoryLocationRadioCenter.CheckedChanged += new System.EventHandler(this.uiHistoryLocationRadioCenter_CheckedChanged);
@@ -454,7 +470,7 @@
             this.uiHistoryLocationRadioLeftBottom.Name = "uiHistoryLocationRadioLeftBottom";
             this.uiHistoryLocationRadioLeftBottom.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.uiHistoryLocationRadioLeftBottom.Size = new System.Drawing.Size(130, 29);
-            this.uiHistoryLocationRadioLeftBottom.TabIndex = 72;
+            this.uiHistoryLocationRadioLeftBottom.TabIndex = 312;
             this.uiHistoryLocationRadioLeftBottom.Text = "Left Bottom";
             this.uiHistoryLocationRadioLeftBottom.UseVisualStyleBackColor = true;
             this.uiHistoryLocationRadioLeftBottom.CheckedChanged += new System.EventHandler(this.uiHistoryLocationRadioLeftBottom_CheckedChanged);
@@ -467,7 +483,7 @@
             this.uiHistoryLocationRadioLeftTop.Name = "uiHistoryLocationRadioLeftTop";
             this.uiHistoryLocationRadioLeftTop.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.uiHistoryLocationRadioLeftTop.Size = new System.Drawing.Size(99, 29);
-            this.uiHistoryLocationRadioLeftTop.TabIndex = 71;
+            this.uiHistoryLocationRadioLeftTop.TabIndex = 311;
             this.uiHistoryLocationRadioLeftTop.Text = "Left Top";
             this.uiHistoryLocationRadioLeftTop.UseVisualStyleBackColor = true;
             this.uiHistoryLocationRadioLeftTop.CheckedChanged += new System.EventHandler(this.uiHistoryLocationRadioLeftTop_CheckedChanged);
@@ -480,7 +496,7 @@
             this.uiHistoryLocationRadioRightTop.Name = "uiHistoryLocationRadioRightTop";
             this.uiHistoryLocationRadioRightTop.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.uiHistoryLocationRadioRightTop.Size = new System.Drawing.Size(112, 29);
-            this.uiHistoryLocationRadioRightTop.TabIndex = 74;
+            this.uiHistoryLocationRadioRightTop.TabIndex = 314;
             this.uiHistoryLocationRadioRightTop.Text = "Right Top";
             this.uiHistoryLocationRadioRightTop.UseVisualStyleBackColor = true;
             this.uiHistoryLocationRadioRightTop.CheckedChanged += new System.EventHandler(this.uiHistoryLocationRadioRightTop_CheckedChanged);
@@ -494,7 +510,7 @@
             this.uiHistoryLocationRadioRightBottom.Name = "uiHistoryLocationRadioRightBottom";
             this.uiHistoryLocationRadioRightBottom.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.uiHistoryLocationRadioRightBottom.Size = new System.Drawing.Size(143, 29);
-            this.uiHistoryLocationRadioRightBottom.TabIndex = 75;
+            this.uiHistoryLocationRadioRightBottom.TabIndex = 315;
             this.uiHistoryLocationRadioRightBottom.TabStop = true;
             this.uiHistoryLocationRadioRightBottom.Text = "Right Bottom";
             this.uiHistoryLocationRadioRightBottom.UseVisualStyleBackColor = true;
@@ -519,7 +535,7 @@
             this.groupBox7.Location = new System.Drawing.Point(22, 23);
             this.groupBox7.Name = "groupBox7";
             this.groupBox7.Size = new System.Drawing.Size(521, 107);
-            this.groupBox7.TabIndex = 40;
+            this.groupBox7.TabIndex = 200;
             this.groupBox7.TabStop = false;
             this.groupBox7.Text = "Hotkey behaviour";
             // 
@@ -530,7 +546,7 @@
             this.uiHotkeyBehaviourSystem.Location = new System.Drawing.Point(29, 32);
             this.uiHotkeyBehaviourSystem.Name = "uiHotkeyBehaviourSystem";
             this.uiHotkeyBehaviourSystem.Size = new System.Drawing.Size(211, 29);
-            this.uiHotkeyBehaviourSystem.TabIndex = 41;
+            this.uiHotkeyBehaviourSystem.TabIndex = 201;
             this.uiHotkeyBehaviourSystem.TabStop = true;
             this.uiHotkeyBehaviourSystem.Text = "Use system clipboard";
             this.uiHotkeyBehaviourSystem.UseVisualStyleBackColor = true;
@@ -542,7 +558,7 @@
             this.uiHotkeyBehaviourPaste.Location = new System.Drawing.Point(29, 64);
             this.uiHotkeyBehaviourPaste.Name = "uiHotkeyBehaviourPaste";
             this.uiHotkeyBehaviourPaste.Size = new System.Drawing.Size(206, 29);
-            this.uiHotkeyBehaviourPaste.TabIndex = 42;
+            this.uiHotkeyBehaviourPaste.TabIndex = 202;
             this.uiHotkeyBehaviourPaste.Text = "Paste only on hotkey";
             this.uiHotkeyBehaviourPaste.UseVisualStyleBackColor = true;
             this.uiHotkeyBehaviourPaste.CheckedChanged += new System.EventHandler(this.uiHotkeyBehaviourPaste_CheckedChanged);
@@ -562,7 +578,7 @@
             this.groupBox5.Location = new System.Drawing.Point(22, 150);
             this.groupBox5.Name = "groupBox5";
             this.groupBox5.Size = new System.Drawing.Size(521, 286);
-            this.groupBox5.TabIndex = 50;
+            this.groupBox5.TabIndex = 210;
             this.groupBox5.TabStop = false;
             this.groupBox5.Text = "Hotkeys";
             // 
@@ -573,8 +589,8 @@
             this.uiHotkeyPaste.Name = "uiHotkeyPaste";
             this.uiHotkeyPaste.ReadOnly = true;
             this.uiHotkeyPaste.Size = new System.Drawing.Size(222, 32);
-            this.uiHotkeyPaste.TabIndex = 54;
-            this.uiHotkeyPaste.Text = "Alt + O";
+            this.uiHotkeyPaste.TabIndex = 214;
+            this.uiHotkeyPaste.Text = "Default text";
             this.uiHotkeyPaste.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.uiHotkeyPaste.Enter += new System.EventHandler(this.hotkeyPaste_Enter);
             this.uiHotkeyPaste.KeyDown += new System.Windows.Forms.KeyEventHandler(this.hotkeyPaste_KeyDown);
@@ -586,8 +602,8 @@
             this.uiHotkeyNewer.Name = "uiHotkeyNewer";
             this.uiHotkeyNewer.ReadOnly = true;
             this.uiHotkeyNewer.Size = new System.Drawing.Size(222, 32);
-            this.uiHotkeyNewer.TabIndex = 53;
-            this.uiHotkeyNewer.Text = "Shift + Alt + H";
+            this.uiHotkeyNewer.TabIndex = 213;
+            this.uiHotkeyNewer.Text = "Default text";
             this.uiHotkeyNewer.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.uiHotkeyNewer.Enter += new System.EventHandler(this.hotkeyNewer_Enter);
             this.uiHotkeyNewer.KeyDown += new System.Windows.Forms.KeyEventHandler(this.hotkeyNewer_KeyDown);
@@ -599,8 +615,8 @@
             this.uiHotkeyOlder.Name = "uiHotkeyOlder";
             this.uiHotkeyOlder.ReadOnly = true;
             this.uiHotkeyOlder.Size = new System.Drawing.Size(222, 32);
-            this.uiHotkeyOlder.TabIndex = 52;
-            this.uiHotkeyOlder.Text = "Alt + H";
+            this.uiHotkeyOlder.TabIndex = 212;
+            this.uiHotkeyOlder.Text = "Default text";
             this.uiHotkeyOlder.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.uiHotkeyOlder.Enter += new System.EventHandler(this.hotkeyOlder_Enter);
             this.uiHotkeyOlder.KeyDown += new System.Windows.Forms.KeyEventHandler(this.hotkeyOlder_KeyDown);
@@ -611,7 +627,7 @@
             this.cancelHotkey.Location = new System.Drawing.Point(388, 180);
             this.cancelHotkey.Name = "cancelHotkey";
             this.cancelHotkey.Size = new System.Drawing.Size(108, 38);
-            this.cancelHotkey.TabIndex = 56;
+            this.cancelHotkey.TabIndex = 216;
             this.cancelHotkey.Text = "Cancel";
             this.cancelHotkey.UseVisualStyleBackColor = true;
             this.cancelHotkey.Click += new System.EventHandler(this.cancelHotkey_Click);
@@ -623,8 +639,8 @@
             this.uiHotkeyEnable.Name = "uiHotkeyEnable";
             this.uiHotkeyEnable.ReadOnly = true;
             this.uiHotkeyEnable.Size = new System.Drawing.Size(222, 32);
-            this.uiHotkeyEnable.TabIndex = 51;
-            this.uiHotkeyEnable.Text = "Control + Oem5";
+            this.uiHotkeyEnable.TabIndex = 211;
+            this.uiHotkeyEnable.Text = "Default text";
             this.uiHotkeyEnable.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.uiHotkeyEnable.Enter += new System.EventHandler(this.HotkeyEnable_Enter);
             this.uiHotkeyEnable.KeyDown += new System.Windows.Forms.KeyEventHandler(this.HotkeyEnable_KeyDown);
@@ -635,7 +651,7 @@
             this.applyHotkey.Location = new System.Drawing.Point(274, 180);
             this.applyHotkey.Name = "applyHotkey";
             this.applyHotkey.Size = new System.Drawing.Size(108, 38);
-            this.applyHotkey.TabIndex = 55;
+            this.applyHotkey.TabIndex = 215;
             this.applyHotkey.Text = "Apply";
             this.applyHotkey.UseVisualStyleBackColor = true;
             this.applyHotkey.Click += new System.EventHandler(this.ApplyHotkeys_Click);
@@ -708,7 +724,7 @@
             this.groupBox2.Location = new System.Drawing.Point(22, 150);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(521, 286);
-            this.groupBox2.TabIndex = 20;
+            this.groupBox2.TabIndex = 110;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Behaviour";
             // 
@@ -720,7 +736,7 @@
             this.uiRestoreOriginal.Location = new System.Drawing.Point(29, 95);
             this.uiRestoreOriginal.Name = "uiRestoreOriginal";
             this.uiRestoreOriginal.Size = new System.Drawing.Size(492, 29);
-            this.uiRestoreOriginal.TabIndex = 23;
+            this.uiRestoreOriginal.TabIndex = 113;
             this.uiRestoreOriginal.Text = "Restore original formatting when disabling application";
             this.uiRestoreOriginal.UseVisualStyleBackColor = true;
             this.uiRestoreOriginal.CheckedChanged += new System.EventHandler(this.uiRestoreOriginal_CheckedChanged);
@@ -734,7 +750,7 @@
             this.uiCopyImages.Location = new System.Drawing.Point(29, 159);
             this.uiCopyImages.Name = "uiCopyImages";
             this.uiCopyImages.Size = new System.Drawing.Size(226, 29);
-            this.uiCopyImages.TabIndex = 25;
+            this.uiCopyImages.TabIndex = 115;
             this.uiCopyImages.Text = "Copy images to history";
             this.uiCopyImages.UseVisualStyleBackColor = true;
             this.uiCopyImages.CheckedChanged += new System.EventHandler(this.uiCopyImages_CheckedChanged);
@@ -747,7 +763,7 @@
             this.uiTrimWhitespaces.Location = new System.Drawing.Point(29, 223);
             this.uiTrimWhitespaces.Name = "uiTrimWhitespaces";
             this.uiTrimWhitespaces.Size = new System.Drawing.Size(301, 29);
-            this.uiTrimWhitespaces.TabIndex = 27;
+            this.uiTrimWhitespaces.TabIndex = 117;
             this.uiTrimWhitespaces.Text = "Trim whitespaces and new-lines";
             this.uiTrimWhitespaces.UseVisualStyleBackColor = true;
             this.uiTrimWhitespaces.CheckedChanged += new System.EventHandler(this.uiTrimWhitespaces_CheckedChanged);
@@ -760,7 +776,7 @@
             this.uiAppEnabled.Location = new System.Drawing.Point(29, 31);
             this.uiAppEnabled.Name = "uiAppEnabled";
             this.uiAppEnabled.Size = new System.Drawing.Size(190, 29);
-            this.uiAppEnabled.TabIndex = 21;
+            this.uiAppEnabled.TabIndex = 111;
             this.uiAppEnabled.Text = "Enable application";
             this.uiAppEnabled.UseVisualStyleBackColor = true;
             this.uiAppEnabled.CheckedChanged += new System.EventHandler(this.uiAppEnabled_CheckedChanged);
@@ -773,7 +789,7 @@
             this.uiHistoryEnabled.Location = new System.Drawing.Point(29, 127);
             this.uiHistoryEnabled.Name = "uiHistoryEnabled";
             this.uiHistoryEnabled.Size = new System.Drawing.Size(153, 29);
-            this.uiHistoryEnabled.TabIndex = 24;
+            this.uiHistoryEnabled.TabIndex = 114;
             this.uiHistoryEnabled.Text = "Enable history";
             this.uiHistoryEnabled.UseVisualStyleBackColor = true;
             this.uiHistoryEnabled.CheckedChanged += new System.EventHandler(this.uiHistoryEnabled_CheckedChanged);
@@ -785,7 +801,7 @@
             this.groupBox1.Location = new System.Drawing.Point(22, 23);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(521, 107);
-            this.groupBox1.TabIndex = 10;
+            this.groupBox1.TabIndex = 100;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Startup";
             // 
@@ -797,7 +813,7 @@
             this.uiCheckUpdates.Location = new System.Drawing.Point(29, 63);
             this.uiCheckUpdates.Name = "uiCheckUpdates";
             this.uiCheckUpdates.Size = new System.Drawing.Size(244, 29);
-            this.uiCheckUpdates.TabIndex = 12;
+            this.uiCheckUpdates.TabIndex = 102;
             this.uiCheckUpdates.Text = "Check for updates online";
             this.uiCheckUpdates.UseVisualStyleBackColor = true;
             this.uiCheckUpdates.CheckedChanged += new System.EventHandler(this.uiCheckUpdates_CheckedChanged);
@@ -805,12 +821,10 @@
             // uiStartWithWindows
             // 
             this.uiStartWithWindows.AutoSize = true;
-            this.uiStartWithWindows.Checked = true;
-            this.uiStartWithWindows.CheckState = System.Windows.Forms.CheckState.Checked;
             this.uiStartWithWindows.Location = new System.Drawing.Point(29, 31);
             this.uiStartWithWindows.Name = "uiStartWithWindows";
             this.uiStartWithWindows.Size = new System.Drawing.Size(196, 29);
-            this.uiStartWithWindows.TabIndex = 11;
+            this.uiStartWithWindows.TabIndex = 101;
             this.uiStartWithWindows.Text = "Start with Windows";
             this.uiStartWithWindows.UseVisualStyleBackColor = true;
             this.uiStartWithWindows.CheckedChanged += new System.EventHandler(this.uiStartWithWindows_CheckedChanged);
@@ -821,12 +835,15 @@
             this.tabControl.Controls.Add(this.tabPage5);
             this.tabControl.Controls.Add(this.tabPage2);
             this.tabControl.Controls.Add(this.tabPage3);
+            this.tabControl.Controls.Add(this.tabPage6);
+            this.tabControl.Controls.Add(this.tabPage7);
             this.tabControl.Controls.Add(this.tabPage4);
             this.tabControl.Location = new System.Drawing.Point(12, 12);
             this.tabControl.Name = "tabControl";
             this.tabControl.SelectedIndex = 0;
             this.tabControl.Size = new System.Drawing.Size(573, 482);
             this.tabControl.TabIndex = 0;
+            this.tabControl.Selected += new System.Windows.Forms.TabControlEventHandler(this.tabControl_Selected);
             // 
             // tabPage3
             // 
@@ -846,7 +863,7 @@
             this.borderGroupBox.Location = new System.Drawing.Point(22, 286);
             this.borderGroupBox.Name = "borderGroupBox";
             this.borderGroupBox.Size = new System.Drawing.Size(281, 150);
-            this.borderGroupBox.TabIndex = 90;
+            this.borderGroupBox.TabIndex = 410;
             this.borderGroupBox.TabStop = false;
             this.borderGroupBox.Text = "History border";
             // 
@@ -856,7 +873,7 @@
             this.uiHistoryBorder.Location = new System.Drawing.Point(29, 31);
             this.uiHistoryBorder.Name = "uiHistoryBorder";
             this.uiHistoryBorder.Size = new System.Drawing.Size(196, 29);
-            this.uiHistoryBorder.TabIndex = 91;
+            this.uiHistoryBorder.TabIndex = 411;
             this.uiHistoryBorder.Text = "Show active border";
             this.uiHistoryBorder.UseVisualStyleBackColor = true;
             this.uiHistoryBorder.CheckedChanged += new System.EventHandler(this.uiHistoryBorder_CheckedChanged);
@@ -872,7 +889,7 @@
             this.groupBox8.Location = new System.Drawing.Point(322, 23);
             this.groupBox8.Name = "groupBox8";
             this.groupBox8.Size = new System.Drawing.Size(220, 413);
-            this.groupBox8.TabIndex = 100;
+            this.groupBox8.TabIndex = 420;
             this.groupBox8.TabStop = false;
             this.groupBox8.Text = "History color";
             // 
@@ -889,7 +906,7 @@
             this.groupBoxCustom.Location = new System.Drawing.Point(21, 202);
             this.groupBoxCustom.Name = "groupBoxCustom";
             this.groupBoxCustom.Size = new System.Drawing.Size(176, 180);
-            this.groupBoxCustom.TabIndex = 110;
+            this.groupBoxCustom.TabIndex = 430;
             this.groupBoxCustom.TabStop = false;
             this.groupBoxCustom.Text = "Custom colors";
             // 
@@ -901,7 +918,7 @@
             this.uiCustomTop.Name = "uiCustomTop";
             this.uiCustomTop.ReadOnly = true;
             this.uiCustomTop.Size = new System.Drawing.Size(86, 32);
-            this.uiCustomTop.TabIndex = 111;
+            this.uiCustomTop.TabIndex = 431;
             this.uiCustomTop.Enter += new System.EventHandler(this.uiCustomTop_Enter);
             // 
             // labelCustomBorder
@@ -934,8 +951,8 @@
             this.uiCustomBorder.Name = "uiCustomBorder";
             this.uiCustomBorder.ReadOnly = true;
             this.uiCustomBorder.Size = new System.Drawing.Size(86, 32);
-            this.uiCustomBorder.TabIndex = 114;
-            this.uiCustomBorder.Enter += new System.EventHandler(this.textBox1_Enter);
+            this.uiCustomBorder.TabIndex = 434;
+            this.uiCustomBorder.Enter += new System.EventHandler(this.uiCustomBorder_Enter);
             // 
             // uiCustomBottom
             // 
@@ -944,7 +961,7 @@
             this.uiCustomBottom.Name = "uiCustomBottom";
             this.uiCustomBottom.ReadOnly = true;
             this.uiCustomBottom.Size = new System.Drawing.Size(86, 32);
-            this.uiCustomBottom.TabIndex = 112;
+            this.uiCustomBottom.TabIndex = 432;
             this.uiCustomBottom.Enter += new System.EventHandler(this.uiCustomBottom_Enter);
             // 
             // labelCustomText
@@ -976,7 +993,7 @@
             this.uiCustomText.Name = "uiCustomText";
             this.uiCustomText.ReadOnly = true;
             this.uiCustomText.Size = new System.Drawing.Size(86, 32);
-            this.uiCustomText.TabIndex = 113;
+            this.uiCustomText.TabIndex = 433;
             this.uiCustomText.Enter += new System.EventHandler(this.uiCustomText_Enter);
             // 
             // uiHistoryColorCustom
@@ -985,7 +1002,7 @@
             this.uiHistoryColorCustom.Location = new System.Drawing.Point(28, 160);
             this.uiHistoryColorCustom.Name = "uiHistoryColorCustom";
             this.uiHistoryColorCustom.Size = new System.Drawing.Size(97, 29);
-            this.uiHistoryColorCustom.TabIndex = 105;
+            this.uiHistoryColorCustom.TabIndex = 425;
             this.uiHistoryColorCustom.Text = "Custom";
             this.uiHistoryColorCustom.UseVisualStyleBackColor = true;
             this.uiHistoryColorCustom.CheckedChanged += new System.EventHandler(this.uiHistoryColor_CheckedChanged);
@@ -997,7 +1014,7 @@
             this.uiHistoryColorYellow.Location = new System.Drawing.Point(28, 128);
             this.uiHistoryColorYellow.Name = "uiHistoryColorYellow";
             this.uiHistoryColorYellow.Size = new System.Drawing.Size(87, 29);
-            this.uiHistoryColorYellow.TabIndex = 104;
+            this.uiHistoryColorYellow.TabIndex = 424;
             this.uiHistoryColorYellow.TabStop = true;
             this.uiHistoryColorYellow.Text = "Yellow";
             this.uiHistoryColorYellow.UseVisualStyleBackColor = true;
@@ -1009,7 +1026,7 @@
             this.uiHistoryColorGreen.Location = new System.Drawing.Point(29, 96);
             this.uiHistoryColorGreen.Name = "uiHistoryColorGreen";
             this.uiHistoryColorGreen.Size = new System.Drawing.Size(84, 29);
-            this.uiHistoryColorGreen.TabIndex = 103;
+            this.uiHistoryColorGreen.TabIndex = 423;
             this.uiHistoryColorGreen.Text = "Green";
             this.uiHistoryColorGreen.UseVisualStyleBackColor = true;
             this.uiHistoryColorGreen.CheckedChanged += new System.EventHandler(this.uiHistoryColor_CheckedChanged);
@@ -1020,7 +1037,7 @@
             this.uiHistoryColorBlue.Location = new System.Drawing.Point(29, 32);
             this.uiHistoryColorBlue.Name = "uiHistoryColorBlue";
             this.uiHistoryColorBlue.Size = new System.Drawing.Size(70, 29);
-            this.uiHistoryColorBlue.TabIndex = 101;
+            this.uiHistoryColorBlue.TabIndex = 421;
             this.uiHistoryColorBlue.Text = "Blue";
             this.uiHistoryColorBlue.UseVisualStyleBackColor = true;
             this.uiHistoryColorBlue.CheckedChanged += new System.EventHandler(this.uiHistoryColor_CheckedChanged);
@@ -1031,7 +1048,7 @@
             this.uiHistoryColorBrown.Location = new System.Drawing.Point(29, 64);
             this.uiHistoryColorBrown.Name = "uiHistoryColorBrown";
             this.uiHistoryColorBrown.Size = new System.Drawing.Size(87, 29);
-            this.uiHistoryColorBrown.TabIndex = 102;
+            this.uiHistoryColorBrown.TabIndex = 422;
             this.uiHistoryColorBrown.Text = "Brown";
             this.uiHistoryColorBrown.UseVisualStyleBackColor = true;
             this.uiHistoryColorBrown.CheckedChanged += new System.EventHandler(this.uiHistoryColor_CheckedChanged);
@@ -1044,7 +1061,7 @@
             this.groupBox4.Location = new System.Drawing.Point(22, 23);
             this.groupBox4.Name = "groupBox4";
             this.groupBox4.Size = new System.Drawing.Size(281, 243);
-            this.groupBox4.TabIndex = 80;
+            this.groupBox4.TabIndex = 400;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "History font";
             // 
@@ -1075,16 +1092,198 @@
             this.uiChangeFont.Location = new System.Drawing.Point(16, 36);
             this.uiChangeFont.Name = "uiChangeFont";
             this.uiChangeFont.Size = new System.Drawing.Size(129, 34);
-            this.uiChangeFont.TabIndex = 81;
+            this.uiChangeFont.TabIndex = 401;
             this.uiChangeFont.Text = "Change font";
             this.uiChangeFont.UseVisualStyleBackColor = true;
             this.uiChangeFont.Click += new System.EventHandler(this.uiChangeFont_Click);
+            // 
+            // tabPage6
+            // 
+            this.tabPage6.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.tabPage6.Controls.Add(this.groupBox11);
+            this.tabPage6.Controls.Add(this.groupBox9);
+            this.tabPage6.Controls.Add(this.groupBox3);
+            this.tabPage6.Location = new System.Drawing.Point(4, 34);
+            this.tabPage6.Name = "tabPage6";
+            this.tabPage6.Size = new System.Drawing.Size(565, 444);
+            this.tabPage6.TabIndex = 6;
+            this.tabPage6.Text = "Advanced";
+            // 
+            // groupBox11
+            // 
+            this.groupBox11.Controls.Add(this.uiDevelopmentVersion);
+            this.groupBox11.Controls.Add(this.uiDevelopmentDownload);
+            this.groupBox11.Controls.Add(this.uiDevelopmentWarning);
+            this.groupBox11.Location = new System.Drawing.Point(22, 155);
+            this.groupBox11.Name = "groupBox11";
+            this.groupBox11.Size = new System.Drawing.Size(521, 136);
+            this.groupBox11.TabIndex = 510;
+            this.groupBox11.TabStop = false;
+            this.groupBox11.Text = "Development version";
+            // 
+            // uiDevelopmentVersion
+            // 
+            this.uiDevelopmentVersion.BackColor = System.Drawing.Color.Transparent;
+            this.uiDevelopmentVersion.Enabled = false;
+            this.uiDevelopmentVersion.Location = new System.Drawing.Point(162, 34);
+            this.uiDevelopmentVersion.Name = "uiDevelopmentVersion";
+            this.uiDevelopmentVersion.Size = new System.Drawing.Size(340, 34);
+            this.uiDevelopmentVersion.TabIndex = 514;
+            this.uiDevelopmentVersion.Text = "Enable \"Check for updates online\"";
+            this.uiDevelopmentVersion.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // uiDevelopmentDownload
+            // 
+            this.uiDevelopmentDownload.Enabled = false;
+            this.uiDevelopmentDownload.Location = new System.Drawing.Point(30, 34);
+            this.uiDevelopmentDownload.Name = "uiDevelopmentDownload";
+            this.uiDevelopmentDownload.Size = new System.Drawing.Size(126, 34);
+            this.uiDevelopmentDownload.TabIndex = 511;
+            this.uiDevelopmentDownload.Text = "Download";
+            this.uiDevelopmentDownload.UseVisualStyleBackColor = true;
+            this.uiDevelopmentDownload.Click += new System.EventHandler(this.uiDevelopmentDownload_Click);
+            // 
+            // uiDevelopmentWarning
+            // 
+            this.uiDevelopmentWarning.Enabled = false;
+            this.uiDevelopmentWarning.Font = new System.Drawing.Font("Segoe UI", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.uiDevelopmentWarning.ForeColor = System.Drawing.Color.Red;
+            this.uiDevelopmentWarning.Location = new System.Drawing.Point(26, 76);
+            this.uiDevelopmentWarning.Name = "uiDevelopmentWarning";
+            this.uiDevelopmentWarning.Size = new System.Drawing.Size(476, 50);
+            this.uiDevelopmentWarning.TabIndex = 513;
+            this.uiDevelopmentWarning.Text = "Recommended only to use if you want to test newest unreleased functionalities or " +
+    "want to report a problem";
+            // 
+            // groupBox9
+            // 
+            this.groupBox9.Controls.Add(this.uiCleanUpExit);
+            this.groupBox9.Location = new System.Drawing.Point(22, 310);
+            this.groupBox9.Name = "groupBox9";
+            this.groupBox9.Size = new System.Drawing.Size(523, 126);
+            this.groupBox9.TabIndex = 520;
+            this.groupBox9.TabStop = false;
+            this.groupBox9.Text = "Clean-up HovText configuration settings";
+            // 
+            // uiCleanUpExit
+            // 
+            this.uiCleanUpExit.Location = new System.Drawing.Point(28, 31);
+            this.uiCleanUpExit.Name = "uiCleanUpExit";
+            this.uiCleanUpExit.Size = new System.Drawing.Size(178, 34);
+            this.uiCleanUpExit.TabIndex = 521;
+            this.uiCleanUpExit.Text = "Clean-up and exit";
+            this.uiCleanUpExit.UseVisualStyleBackColor = true;
+            this.uiCleanUpExit.Click += new System.EventHandler(this.uiCleanUpExit_Click);
+            // 
+            // groupBox3
+            // 
+            this.groupBox3.Controls.Add(this.uiTroubleshootOpenLocation);
+            this.groupBox3.Controls.Add(this.uiTroubleshootDeleteFile);
+            this.groupBox3.Controls.Add(this.uiTroubleshootEnabled);
+            this.groupBox3.Location = new System.Drawing.Point(22, 23);
+            this.groupBox3.Name = "groupBox3";
+            this.groupBox3.Size = new System.Drawing.Size(521, 113);
+            this.groupBox3.TabIndex = 500;
+            this.groupBox3.TabStop = false;
+            this.groupBox3.Text = "Troubleshooting";
+            // 
+            // uiTroubleshootOpenLocation
+            // 
+            this.uiTroubleshootOpenLocation.Location = new System.Drawing.Point(30, 65);
+            this.uiTroubleshootOpenLocation.Name = "uiTroubleshootOpenLocation";
+            this.uiTroubleshootOpenLocation.Size = new System.Drawing.Size(220, 34);
+            this.uiTroubleshootOpenLocation.TabIndex = 502;
+            this.uiTroubleshootOpenLocation.Text = "Open logfile location";
+            this.uiTroubleshootOpenLocation.UseVisualStyleBackColor = true;
+            this.uiTroubleshootOpenLocation.Click += new System.EventHandler(this.uiTroubleshootOpenLocation_Click);
+            // 
+            // uiTroubleshootDeleteFile
+            // 
+            this.uiTroubleshootDeleteFile.Location = new System.Drawing.Point(256, 65);
+            this.uiTroubleshootDeleteFile.Name = "uiTroubleshootDeleteFile";
+            this.uiTroubleshootDeleteFile.Size = new System.Drawing.Size(150, 34);
+            this.uiTroubleshootDeleteFile.TabIndex = 503;
+            this.uiTroubleshootDeleteFile.Text = "Delete logfile";
+            this.uiTroubleshootDeleteFile.UseVisualStyleBackColor = true;
+            this.uiTroubleshootDeleteFile.Click += new System.EventHandler(this.uiTroubleshootDeleteFile_Click);
+            // 
+            // uiTroubleshootEnabled
+            // 
+            this.uiTroubleshootEnabled.AutoSize = true;
+            this.uiTroubleshootEnabled.Location = new System.Drawing.Point(30, 30);
+            this.uiTroubleshootEnabled.Name = "uiTroubleshootEnabled";
+            this.uiTroubleshootEnabled.Size = new System.Drawing.Size(274, 29);
+            this.uiTroubleshootEnabled.TabIndex = 501;
+            this.uiTroubleshootEnabled.Text = "Enable troubleshoot logging";
+            this.uiTroubleshootEnabled.UseVisualStyleBackColor = true;
+            this.uiTroubleshootEnabled.CheckedChanged += new System.EventHandler(this.uiTroubleshootEnabled_CheckedChanged);
+            // 
+            // tabPage7
+            // 
+            this.tabPage7.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.tabPage7.Controls.Add(this.label3);
+            this.tabPage7.Controls.Add(this.label1);
+            this.tabPage7.Controls.Add(this.uiSendFeedback);
+            this.tabPage7.Controls.Add(this.uiFeedbackText);
+            this.tabPage7.Controls.Add(this.uiEmailAddr);
+            this.tabPage7.Location = new System.Drawing.Point(4, 34);
+            this.tabPage7.Name = "tabPage7";
+            this.tabPage7.Size = new System.Drawing.Size(565, 444);
+            this.tabPage7.TabIndex = 7;
+            this.tabPage7.Text = "Feedback";
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(23, 107);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(135, 25);
+            this.label3.TabIndex = 515;
+            this.label3.Text = "Your feedback:";
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(23, 27);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(262, 25);
+            this.label1.TabIndex = 514;
+            this.label1.Text = "Your email address (optional):";
+            // 
+            // uiSendFeedback
+            // 
+            this.uiSendFeedback.Enabled = false;
+            this.uiSendFeedback.Location = new System.Drawing.Point(28, 377);
+            this.uiSendFeedback.Name = "uiSendFeedback";
+            this.uiSendFeedback.Size = new System.Drawing.Size(160, 34);
+            this.uiSendFeedback.TabIndex = 602;
+            this.uiSendFeedback.Text = "Send feedback";
+            this.uiSendFeedback.UseVisualStyleBackColor = true;
+            this.uiSendFeedback.Click += new System.EventHandler(this.uiSendFeedback_Click);
+            // 
+            // uiFeedbackText
+            // 
+            this.uiFeedbackText.Location = new System.Drawing.Point(28, 135);
+            this.uiFeedbackText.MaxLength = 0;
+            this.uiFeedbackText.Multiline = true;
+            this.uiFeedbackText.Name = "uiFeedbackText";
+            this.uiFeedbackText.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.uiFeedbackText.Size = new System.Drawing.Size(509, 220);
+            this.uiFeedbackText.TabIndex = 601;
+            this.uiFeedbackText.TextChanged += new System.EventHandler(this.uiFeedbackText_TextChanged);
+            // 
+            // uiEmailAddr
+            // 
+            this.uiEmailAddr.Location = new System.Drawing.Point(28, 55);
+            this.uiEmailAddr.Name = "uiEmailAddr";
+            this.uiEmailAddr.Size = new System.Drawing.Size(509, 32);
+            this.uiEmailAddr.TabIndex = 600;
             // 
             // Settings
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(11F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(596, 547);
+            this.ClientSize = new System.Drawing.Size(596, 560);
             this.Controls.Add(this.uiHelp);
             this.Controls.Add(this.tabControl);
             this.Font = new System.Drawing.Font("Segoe UI", 11.12727F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -1128,6 +1327,13 @@
             this.groupBoxCustom.ResumeLayout(false);
             this.groupBoxCustom.PerformLayout();
             this.groupBox4.ResumeLayout(false);
+            this.tabPage6.ResumeLayout(false);
+            this.groupBox11.ResumeLayout(false);
+            this.groupBox9.ResumeLayout(false);
+            this.groupBox3.ResumeLayout(false);
+            this.groupBox3.PerformLayout();
+            this.tabPage7.ResumeLayout(false);
+            this.tabPage7.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -1143,11 +1349,10 @@
         private System.Windows.Forms.Button uiHelp;
         private System.Windows.Forms.Timer updateTimer;
         private System.Windows.Forms.Timer mouseClickTimer;
-        private System.Windows.Forms.Timer timerTest;
         private System.Windows.Forms.TabPage tabPage4;
         private System.Windows.Forms.RichTextBox aboutBox;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Label appVer;
+        private System.Windows.Forms.Label uiAppVer;
         private System.Windows.Forms.TabPage tabPage2;
         private System.Windows.Forms.GroupBox groupBox6;
         private System.Windows.Forms.Label label10;
@@ -1220,6 +1425,23 @@
         private System.Windows.Forms.TextBox uiCustomBorder;
         private System.Windows.Forms.ColorDialog colorDialogBorder;
         private System.Windows.Forms.GroupBox groupBoxCustom;
+        private System.Windows.Forms.TabPage tabPage6;
+        private System.Windows.Forms.GroupBox groupBox9;
+        private System.Windows.Forms.Button uiCleanUpExit;
+        private System.Windows.Forms.GroupBox groupBox3;
+        private System.Windows.Forms.Button uiTroubleshootOpenLocation;
+        private System.Windows.Forms.Button uiTroubleshootDeleteFile;
+        private System.Windows.Forms.CheckBox uiTroubleshootEnabled;
+        private System.Windows.Forms.GroupBox groupBox11;
+        private System.Windows.Forms.Button uiDevelopmentDownload;
+        private System.Windows.Forms.TabPage tabPage7;
+        private System.Windows.Forms.Button uiSendFeedback;
+        private System.Windows.Forms.TextBox uiFeedbackText;
+        private System.Windows.Forms.TextBox uiEmailAddr;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label uiDevelopmentWarning;
+        private System.Windows.Forms.Label uiDevelopmentVersion;
     }
 
 }

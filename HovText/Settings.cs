@@ -3,8 +3,10 @@ using NHotkey.WindowsForms; // https://github.com/thomaslevesque/NHotkey
 using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Diagnostics;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Reflection;
@@ -29,6 +31,10 @@ namespace HovText
         // ###########################################################################################
         // Define "Settings" class variables - real spaghetti :-)
         // ###########################################################################################
+
+        // Is this a stable public RELEASE or a DEVELOPMENT version
+//        public static readonly string appType = "";
+        public static readonly string appType = "# DEVELOPMENT";
 
         // History, default values
         public static string historyFontFamily = "Segoe UI";
@@ -93,6 +99,7 @@ namespace HovText
         private const string registryHistoryColorCustomText = "#ffffff";
         private const string registryHistoryColorCustomBorder = "#ffffff";
         private const string registryHistoryBorder = "1";
+        private const string registryTroubleshootEnable = "0";
 
         // UI elements
         public static bool isEnabledHistory;
@@ -125,13 +132,16 @@ namespace HovText
         public static bool pasteOnHotkeySetCleartext;
 
         // Misc
+        public static string appVer = ""; 
         private static IntPtr originatingHandle = IntPtr.Zero;
         private static bool isFirstCallAfterHotkey = true;
         public static bool isSettingsFormVisible;
         public static string hovtextPage = "https://hovtext.com/";
-        public static string appDate = "";
-        public static string appType = "";
         internal static Settings settings;
+        public static bool isTroubleshootEnabled;
+        public static bool hasTroubleshootLogged;
+        public static string troubleshootLogfile = "HovText-troubleshooting.txt";
+        private static bool resetApp = false;
         readonly History history = new History();
         readonly Update update = new Update();
         readonly PasteOnHotkey pasteOnHotkey = new PasteOnHotkey();
@@ -142,28 +152,10 @@ namespace HovText
         // Main
         // ###########################################################################################
 
+        
         public Settings()
         {
-            // Refering to the current form - used in the history form
-            settings = this;
-
-            InitializeComponent();
-
-            // Catch repaint event for this specific element (to draw the border)
-            uiShowFontBottom.Paint += new System.Windows.Forms.PaintEventHandler(this.uiShowFontBottom_Paint);
-
-            // Get information from assembly
-            Assembly assembly = Assembly.GetExecutingAssembly();
-            FileVersionInfo verInfo = FileVersionInfo.GetVersionInfo(assembly.Location);
-            int verTypeInt = verInfo.ProductPrivatePart;
-            appType = verTypeInt == 1 ? "# DEVELOPMENT" : appType;
-            appType = verTypeInt == 2 ? "# TEST" : appType;
-            if (verTypeInt == 2)
-            {
-                timerTest.Enabled = true;
-            }
-
-            // Get assembly version
+            // Get application file version from assembly
             Assembly assemblyInfo = Assembly.GetExecutingAssembly();
             string assemblyVersion = FileVersionInfo.GetVersionInfo(assemblyInfo.Location).FileVersion;
             string year = assemblyVersion.Substring(0, 4);
@@ -188,14 +180,38 @@ namespace HovText
             day = day.TrimStart(new Char[] { '0' }); // remove leading zero
             day = day.TrimEnd(new Char[] { '.' }); // remove last dot
             string date = year + "-" + month + "-" + day;
-            appDate = date;
-            appVer.Text = "Version " + appDate + " " + appType;
+
+            // Get application build revision
+            Assembly assembly = Assembly.GetExecutingAssembly();
+            FileVersionInfo verInfo = FileVersionInfo.GetVersionInfo(assembly.Location);
+            int appBuildInt = verInfo.ProductPrivatePart;
+            string appBuildTxt = appBuildInt != 0 ? " (rev. " + appBuildInt + ")" : "";
+
+            // Set the full application version string
+            appVer = (date + appBuildTxt + " " + appType).Trim();
+
+            // Start logging, if relevant
+            if (isTroubleshootEnabled) Logging.StartLogging();
+            if (isTroubleshootEnabled) hasTroubleshootLogged = true;
+
+            // Setup form
+            InitializeComponent();
+
+            // As the UI elements now have been initialized then we can setup the version
+            uiAppVer.Text = "Version " + appVer;
+
+            // Refering to the current form - used in the history form
+            settings = this;
+
+            // Catch repaint event for this specific element (to draw the border)
+            uiShowFontBottom.Paint += new System.Windows.Forms.PaintEventHandler(this.uiShowFontBottom_Paint);
 
             // Initialize registry and get its values for the various checkboxes
             InitializeRegistry();
             GetStartupSettings();
 
             Program.AddClipboardFormatListener(this.Handle);
+            if (isTroubleshootEnabled) Logging.Log("Added HovText to clipboard chain");
 
             // Write text for the "About" page
 
@@ -237,7 +253,7 @@ namespace HovText
                     IntPtr whoUpdatedClipboardHwnd = Program.GetClipboardOwner();
                     Program.GetWindowThreadProcessId(whoUpdatedClipboardHwnd, out uint thisProcessId);
                     whoUpdatedClipboardName = Process.GetProcessById((int)thisProcessId).ProcessName;
-                    Debug.WriteLine("Clipboard UPDATE event from [" + whoUpdatedClipboardName + "]");
+                    if (isTroubleshootEnabled) Logging.Log("Clipboard [UPDATE] event from [" + whoUpdatedClipboardName + "]");
 
                     // I am not sure why some(?) applications are returned as "Idle" or "svchost" when coming from clipboard - in this case the get the active application and use that name instead
                     // This could potentially be a problem, if a process is correctly called "Idle" but not sure if this is realistic?
@@ -245,7 +261,7 @@ namespace HovText
                     {
                         string activeProcessName = GetActiveApplication();
                         whoUpdatedClipboardName = activeProcessName;
-                        Debug.WriteLine("Finding process name the secondary way, [" + activeProcessName + "]");
+                        if (isTroubleshootEnabled) Logging.Log("Finding process name the secondary way, [" + whoUpdatedClipboardName + "]");
                     }
 
                     // Check if application is enabled
@@ -338,7 +354,11 @@ namespace HovText
 
                         // Check if picture is transparent
                         Image imgCopy = GetImageFromClipboard();
-                        isClipboardImageTransparent = IsImageTransparent(imgCopy);
+                        isClipboardImageTransparent = false;
+                        if (imgCopy != null)
+                        {
+                            isClipboardImageTransparent = IsImageTransparent(imgCopy);
+                        }
 
                         // Add the image to the entries array and update the clipboard
                         AddEntry();
@@ -356,8 +376,16 @@ namespace HovText
                 // If active application is EXCEL then restore last entry, as EXCEL clears clipboard when 
                 if (entriesText.Count > 0 && whoUpdatedClipboardName.ToLower() == "excel")
                 {
-                    // Restore the last entry to the clipboard
+                    // It will only(?) get in here, if use has copied a text and pressing ESCAPE or quitting Excel or sheet
+
+                    // Set a couple or required global variables for the "SetClipboard" function
+                    isClipboardText = true;
+                    isClipboardImage = false;
+                    clipboardText = entriesText[entriesText.Count - 1];
+
+                    // Restore the last text entry to the clipboard
                     SetClipboard();
+
                     clipboardTextLast = Clipboard.GetText();
                 }
             }
@@ -375,7 +403,20 @@ namespace HovText
             if (Clipboard.GetDataObject() == null) return null;
             if (Clipboard.GetDataObject().GetDataPresent(DataFormats.Dib))
             {
-                var dib = ((System.IO.MemoryStream)Clipboard.GetData(DataFormats.Dib)).ToArray();
+                // Sometimes this fails - probably because clipboard handling also can be messy and complex
+                byte[] dib;
+                try
+                {
+                    dib = ((System.IO.MemoryStream)Clipboard.GetData(DataFormats.Dib)).ToArray();
+                }
+                catch (Exception ex)
+                {
+                    if (isTroubleshootEnabled) Logging.Log("Exception #10 raised (Settings):");
+                    if (isTroubleshootEnabled) Logging.Log("  " + ex.Message);
+                    if (isTroubleshootEnabled) Logging.Log("  Failed converting image to byte array - fetching \"GetImage()\" instead");
+                    return Clipboard.ContainsImage() ? Clipboard.GetImage() : null;
+                }
+                
                 var width = BitConverter.ToInt32(dib, 4);
                 var height = BitConverter.ToInt32(dib, 8);
                 var bpp = BitConverter.ToInt16(dib, 14);
@@ -428,6 +469,8 @@ namespace HovText
 
         public static void RestoreOriginal (int entryIndex)
         {
+            if (isTroubleshootEnabled) Logging.Log("Restoring original content to clipboard:");
+
             try
             {
                 // Snippet directly taken from legacy HovText - more or less the only thing? :-)
@@ -438,6 +481,7 @@ namespace HovText
                     if (kvp.Value != null)
                     {
                         data.SetData(kvp.Key, kvp.Value);
+                        if (isTroubleshootEnabled) Logging.Log("  Adding format to clipboard, ["+ kvp.Key +"]");
                     }
                 }
                 Clipboard.Clear();
@@ -446,7 +490,9 @@ namespace HovText
             }
             catch (Exception ex)
             {
-                MessageBox.Show("EXCEPTION 5 - please report to developer: [" + ex.ToString() + "]");
+                if (isTroubleshootEnabled) Logging.Log("Exception #1 raised (Settings):");
+                if (isTroubleshootEnabled) Logging.Log("  " + ex.Message); 
+                MessageBox.Show("EXCEPTION #1 - please enable troubleshooting log and report to developer");
             }
         }
 
@@ -520,6 +566,15 @@ namespace HovText
             bool isAlreadyInDataArray = IsClipboardContentAlreadyInDataArrays();
             if (!isAlreadyInDataArray)
             {
+                if(isClipboardText)
+                {
+                    if (isTroubleshootEnabled) Logging.Log("Adding new [TEXT] clipboard to history:");
+                }
+                else
+                {
+                    if (isTroubleshootEnabled) Logging.Log("Adding new [IMAGE] clipboard to history:");
+                }
+
                 // If this is the first time then set the index to 0
                 entryIndex = entryIndex >= 0 ? entriesText.Keys.Last() + 1 : 0;
 
@@ -536,18 +591,32 @@ namespace HovText
                 foreach (var format in formats)
                 {
                     if (
-                        format.Contains("Text") ||
-                        format.Contains("HTML") ||
-                        format.Contains("Csv") ||
-                        format.Contains("Link") ||
-                        format.Contains("Hyperlink") ||
-                        format.Contains("Bitmap") ||
-                        format.Contains("PNG") || // including transparent layer of PNG
-                        format.Contains("Recipient") || // Outlook recipient
-                        format.Contains("Format17") // picture format
+                        format.Contains("Text")
+                        || format.Contains("HTML")
+                        || format.Contains("Csv")
+                        || format.Contains("Link")
+                        || format.Contains("Hyperlink")
+                        || format.Contains("Bitmap")
+                        || format.Contains("PNG") // including transparent layer of PNG
+                        || format.Contains("Recipient") // Outlook recipient
+                        || format.Contains("Format17") // picture format
+                        || format.Contains("GIF")
+                        || format.Contains("JFIF")
+                        || format.Contains("Office Drawing Shape Format")
+                        || format.Contains("Preferred DropEffect") // used in e.g. animated GIF
+                        || format.Contains("Shell IDList Array") // used in e.g. animated GIF
+                        || format.Contains("FileDrop") // used in e.g. animated GIF
+                        || format.Contains("FileContents") // used in e.g. animated GIF
+                        || format.Contains("FileGroupDescriptorW") // used in e.g. animated GIF
+//                        || format.Contains("")
                         )
                     {
                         clipboardObjects.Add(format, clipboardObject.GetData(format));
+                        if (isTroubleshootEnabled) Logging.Log("  Adding format ["+ format +"]");
+                    }
+                    else
+                    {
+                        if (isTroubleshootEnabled) Logging.Log("  Discarding format [" + format + "]");
                     }
                 }
                 entriesOriginal.Add(entryIndex, clipboardObjects);
@@ -558,6 +627,8 @@ namespace HovText
                     whoUpdatedClipboardName = "(unknown)";
                 }
                 entriesApplication.Add(entryIndex, whoUpdatedClipboardName);
+
+                if (isTroubleshootEnabled) Logging.Log("Entries in history list is now [" + entriesText.Count + "]");
             }
 
             // Update the entries on the tray icon
@@ -603,12 +674,15 @@ namespace HovText
                             entryText = entryText.Trim();
                         }
                         Clipboard.Clear();
-                        Clipboard.SetText(entryText, TextDataFormat.Text);
+//                        Clipboard.SetText(entryText, TextDataFormat.Text);
+                        Clipboard.SetText(entryText, TextDataFormat.UnicodeText); // https://stackoverflow.com/a/14255608/2028935
                     }
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show("EXCEPTION 1 - please report to developer: [" + ex.ToString() + "]");
+                    if (isTroubleshootEnabled) Logging.Log("Exception #2 raised (Settings):");
+                    if (isTroubleshootEnabled) Logging.Log("  " + ex.Message);
+                    MessageBox.Show("EXCEPTION #2 - please enable troubleshooting log and report to developer");
                 }
             }
             else
@@ -620,12 +694,16 @@ namespace HovText
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show("EXCEPTION 2 - please report to developer: [" + ex.ToString() + "]");
+                    if (isTroubleshootEnabled) Logging.Log("Exception #3 raised (Settings):");
+                    if (isTroubleshootEnabled) Logging.Log("  " + ex.Message);
+                    MessageBox.Show("EXCEPTION #3 - please enable troubleshooting log and report to developer");
                 }
             }
             else
             {
-                MessageBox.Show("EXCEPTION 3 - please report to developer");
+                if (isTroubleshootEnabled) Logging.Log("Exception #4 raised (Settings):");
+                if (isTroubleshootEnabled) Logging.Log("  Clipboard triggered but is not [isEntryText] or [isEntryImage]");
+                MessageBox.Show("EXCEPTION #4 - please enable troubleshooting log and report to developer");
             }
         }
 
@@ -822,8 +900,11 @@ namespace HovText
             // Check if application is enabled
             if (uiAppEnabled.Checked)
             {
+                if (isTroubleshootEnabled) Logging.Log("Enabled HovText");
+                
                 // Add this application to the clipboard chain again
                 Program.AddClipboardFormatListener(this.Handle);
+                if (isTroubleshootEnabled) Logging.Log("Added HovText to clipboard chain");
 
                 ProcessClipboard();
 
@@ -863,8 +944,11 @@ namespace HovText
             }
             else
             {
+                if (isTroubleshootEnabled) Logging.Log("Disabed HovText");
+                
                 // Remove this application from the clipboard chain
                 Program.RemoveClipboardFormatListener(this.Handle);
+                if (isTroubleshootEnabled) Logging.Log("Removed HovText from clipboard chain");
 
                 // Restore the original clipboard format
                 if (isRestoreOriginal && entriesOriginal.Count > 0)
@@ -911,6 +995,7 @@ namespace HovText
 
         private void aboutBox_LinkClicked(object sender, LinkClickedEventArgs e)
         {
+            if (isTroubleshootEnabled) Logging.Log("Clicked the web page link in \"About\""); 
             System.Diagnostics.Process.Start(e.LinkText);
         }
 
@@ -924,15 +1009,38 @@ namespace HovText
             // In case windows is trying to shut down, don't hold up the process
             if (e.CloseReason == CloseReason.WindowsShutDown)
             {
+                if (isTroubleshootEnabled) Logging.Log("Exit HovText");
                 Program.RemoveClipboardFormatListener(this.Handle);
+                if (isTroubleshootEnabled) Logging.Log("Removed HovText from clipboard chain");
+
                 RemoveAllHotkeys();
+                if (isTroubleshootEnabled) Logging.EndLogging();
                 return;
             }
 
             if (!isCloseMinimizes || isClosedFromNotifyIcon)
             {
+                if (isTroubleshootEnabled) Logging.Log("Exit HovText");
+                Program.RemoveClipboardFormatListener(this.Handle);
+                if (isTroubleshootEnabled) Logging.Log("Removed HovText from clipboard chain");
+
+                RemoveAllHotkeys();
+                if (isTroubleshootEnabled) Logging.EndLogging();
+                return;
+            }
+
+            // Called when closing from "Clean up"
+            if (resetApp)
+            {
                 Program.RemoveClipboardFormatListener(this.Handle);
                 RemoveAllHotkeys();
+
+                // Delete the troubleshooting logfile as the very last thing
+                if (File.Exists(troubleshootLogfile))
+                {
+                    File.Delete(@troubleshootLogfile);
+                }
+
                 return;
             }
 
@@ -958,7 +1066,7 @@ namespace HovText
             // Get the process ID and find the name for that ID
             Program.GetWindowThreadProcessId(originatingHandle, out uint processId);
             string appProcessName = Process.GetProcessById((int)processId).ProcessName;
-            Debug.WriteLine("Active application is ["+ appProcessName +"]");
+            Logging.Log("Active application is ["+ appProcessName +"]");
             return appProcessName;
         }
 
@@ -970,7 +1078,7 @@ namespace HovText
         private void ChangeFocusToThisApplication()
         {
             Program.SetForegroundWindow(this.Handle);
-            Debug.WriteLine("Set focus to HovText");
+            Logging.Log("Set focus to HovText");
         }
 
 
@@ -981,7 +1089,7 @@ namespace HovText
         public static void ChangeFocusToOriginatingApplication()
         {
             Program.SetForegroundWindow(originatingHandle);
-            Debug.WriteLine("Set focus to originating application");
+            Logging.Log("Set focus to originating application");
         }
 
 
@@ -992,28 +1100,62 @@ namespace HovText
         private void updateTimer_Tick(object sender, EventArgs e)
         {
             updateTimer.Enabled = false;
+
+            if (isTroubleshootEnabled) Logging.Log("Update timer exceeded");
+
+            if (isTroubleshootEnabled) Logging.Log("  User version running = [" + appVer + "]");
+
+            // Check for a new stable version
             try
             {
-                WebClient client = new WebClient();
-                client.Headers.Add("user-agent", ("HovText "+ appDate +" "+ appType).Trim());
-                string checkedVersion = client.DownloadString(hovtextPage +"autoupdate/");
-                if (checkedVersion.Substring(0,7) == "Version")
+                WebClient webClient = new WebClient();
+                ServicePointManager.Expect100Continue = true;
+                ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12 | SecurityProtocolType.Tls13;
+                webClient.Headers.Add("user-agent", ("HovText " + appVer).Trim());
+                string checkedVersion = webClient.DownloadString(hovtextPage + "autoupdate/");
+                if (checkedVersion.Substring(0, 7) == "Version")
                 {
                     checkedVersion = checkedVersion.Substring(9);
-                    update.uiAppVerYours.Text = appDate;
+                    if (isTroubleshootEnabled) Logging.Log("  Stable version available = [" + checkedVersion + "]");
+                    update.uiAppVerYours.Text = appVer;
                     update.uiAppVerOnline.Text = checkedVersion;
                     string lastCheckedVersion = GetRegistryKey(registryPath, "CheckedVersion");
-                    if (lastCheckedVersion != checkedVersion && checkedVersion != appDate)
+                    if (lastCheckedVersion != checkedVersion && checkedVersion != appVer)
                     {
                         update.Show();
                         update.Activate();
+                        if (isTroubleshootEnabled) Logging.Log("  Notified on newer version available");
                     }
                 }
             }
             catch (WebException ex)
             {
-                Debug.WriteLine("No communication to HovText update checker page");
-                Debug.WriteLine(ex.ToString());
+                // Catch the exception though this is not so critical that we need to disturb the developer
+                if (isTroubleshootEnabled) Logging.Log("Exception #11 raised (Settings):");
+                if (isTroubleshootEnabled) Logging.Log("  " + ex.Message);
+            }
+
+            // Check for a new development version
+            try
+            {
+                WebClient webClient = new WebClient();
+                ServicePointManager.Expect100Continue = true;
+                ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12 | SecurityProtocolType.Tls13;
+                webClient.Headers.Add("user-agent", ("HovText " + uiAppVer.Text).Trim());
+                string checkedVersion = webClient.DownloadString(hovtextPage + "autoupdate/development/");
+                if (checkedVersion.Substring(0, 7) == "Version")
+                {
+                    checkedVersion = checkedVersion.Substring(9); 
+                    uiDevelopmentVersion.Text = " "+ checkedVersion;
+                    uiDevelopmentDownload.Enabled = true;
+                    if (isTroubleshootEnabled) Logging.Log("  Development version available = [" + checkedVersion + "]");
+                }
+            }
+            catch (WebException ex)
+            {
+                // Catch the exception though this is not so critical that we need to disturb the developer
+                if (isTroubleshootEnabled) Logging.Log("Exception #14 raised (Settings):");
+                if (isTroubleshootEnabled) Logging.Log("  " + ex.Message);
             }
         }
 
@@ -1030,20 +1172,11 @@ namespace HovText
                 if (registryPathExists == null)
                 {
                     Registry.CurrentUser.CreateSubKey(registryPath);
+                    if (isTroubleshootEnabled) Logging.Log("Created registry path ["+ registryPath +"]");
                 }
             }
 
             // Check if the following registry keys exists - if not then create them with their default values
-
-            // General
-            RegistryCheckOrCreate("CheckUpdates", registryCheckUpdates); 
-            RegistryCheckOrCreate("CheckedVersion", appDate);
-            RegistryCheckOrCreate("CloseMinimizes", registryCloseMinimizes);
-            RegistryCheckOrCreate("RestoreOriginal", registryRestoreOriginal);
-            RegistryCheckOrCreate("HistoryEnable", registryEnableHistory);
-            RegistryCheckOrCreate("CopyImages", registryCopyImages);
-            RegistryCheckOrCreate("PasteOnSelection", registryPasteOnSelection);
-            RegistryCheckOrCreate("TrimWhitespaces", registryTrimWhitespaces);
 
             // Hotkeys
             RegistryCheckOrCreate("HotkeyBehaviour", registryHotkeyBehaviour);
@@ -1052,11 +1185,75 @@ namespace HovText
             RegistryCheckOrCreate("Hotkey3", registryHotkeyGetNewerEntry);
             RegistryCheckOrCreate("Hotkey4", registryHotkeyPasteOnHotkey);
 
+            if (isTroubleshootEnabled)
+            {
+                string regVal;
+                Logging.Log("  Hotkeys:");
+                regVal = GetRegistryKey(registryPath, "HotkeyBehaviour");
+                Logging.Log("    \"HotkeyBehaviour\" = [" + regVal + "]");
+                regVal = GetRegistryKey(registryPath, "Hotkey1");
+                Logging.Log("    \"Hotkey1\" = [" + regVal + "]");
+                regVal = GetRegistryKey(registryPath, "Hotkey2");
+                Logging.Log("    \"Hotkey2\" = [" + regVal + "]");
+                regVal = GetRegistryKey(registryPath, "Hotkey3");
+                Logging.Log("    \"Hotkey3\" = [" + regVal + "]");
+                regVal = GetRegistryKey(registryPath, "Hotkey4");
+                Logging.Log("    \"Hotkey4\" = [" + regVal + "]");
+            }
+            
+            // General
+            RegistryCheckOrCreate("CheckUpdates", registryCheckUpdates); 
+            RegistryCheckOrCreate("CheckedVersion", appVer);
+            RegistryCheckOrCreate("CloseMinimizes", registryCloseMinimizes);
+            RegistryCheckOrCreate("RestoreOriginal", registryRestoreOriginal);
+            RegistryCheckOrCreate("HistoryEnable", registryEnableHistory);
+            RegistryCheckOrCreate("CopyImages", registryCopyImages);
+            RegistryCheckOrCreate("PasteOnSelection", registryPasteOnSelection);
+            RegistryCheckOrCreate("TrimWhitespaces", registryTrimWhitespaces);
+
+            if (isTroubleshootEnabled)
+            {
+                Logging.Log("Startup registry values:"); 
+                string regVal;
+
+                Logging.Log("  General:");
+                regVal = GetRegistryKey(registryPath, "CheckUpdates");
+                Logging.Log("    \"CheckUpdates\" = ["+ regVal +"]");
+                regVal = GetRegistryKey(registryPath, "CheckedVersion");
+                Logging.Log("    \"CheckedVersion\" = [" + regVal + "]");
+                regVal = GetRegistryKey(registryPath, "CloseMinimizes");
+                Logging.Log("    \"CloseMinimizes\" = [" + regVal + "]");
+                regVal = GetRegistryKey(registryPath, "RestoreOriginal");
+                Logging.Log("    \"RestoreOriginal\" = [" + regVal + "]");
+                regVal = GetRegistryKey(registryPath, "HistoryEnable");
+                Logging.Log("    \"HistoryEnable\" = [" + regVal + "]");
+                regVal = GetRegistryKey(registryPath, "CopyImages");
+                Logging.Log("    \"CopyImages\" = [" + regVal + "]");
+                regVal = GetRegistryKey(registryPath, "PasteOnSelection");
+                Logging.Log("    \"PasteOnSelection\" = [" + regVal + "]");
+                regVal = GetRegistryKey(registryPath, "TrimWhitespaces");
+                Logging.Log("    \"TrimWhitespaces\" = [" + regVal + "]");
+            }
+
             // Layout
             RegistryCheckOrCreate("HistoryEntries", historyListElements.ToString());
             RegistryCheckOrCreate("HistorySizeWidth", historySizeWidth.ToString());
             RegistryCheckOrCreate("HistorySizeHeight", historySizeHeight.ToString());
             RegistryCheckOrCreate("HistoryLocation", historyLocation);
+
+            if (isTroubleshootEnabled)
+            {
+                string regVal;
+                Logging.Log("  Layout:");
+                regVal = GetRegistryKey(registryPath, "HistoryEntries");
+                Logging.Log("    \"HistoryEntries\" = [" + regVal + "]");
+                regVal = GetRegistryKey(registryPath, "HistorySizeWidth");
+                Logging.Log("    \"HistorySizeWidth\" = [" + regVal + "]");
+                regVal = GetRegistryKey(registryPath, "HistorySizeHeight");
+                Logging.Log("    \"HistorySizeHeight\" = [" + regVal + "]");
+                regVal = GetRegistryKey(registryPath, "HistoryLocation");
+                Logging.Log("    \"HistoryLocation\" = [" + regVal + "]");
+            }
 
             // Style
             RegistryCheckOrCreate("HistoryFontFamily", historyFontFamily);
@@ -1068,8 +1265,49 @@ namespace HovText
             RegistryCheckOrCreate("HistoryColorCustomText", registryHistoryColorCustomText);
             RegistryCheckOrCreate("HistoryColorCustomBorder", registryHistoryColorCustomBorder);
 
-            // Misc
-            RegistryCheckOrCreate("NotificationShown", "0");
+            if (isTroubleshootEnabled)
+            {
+                string regVal;
+                Logging.Log("  Style:");
+                regVal = GetRegistryKey(registryPath, "HistoryFontFamily");
+                Logging.Log("    \"HistoryFontFamily\" = [" + regVal + "]");
+                regVal = GetRegistryKey(registryPath, "HistoryFontSize");
+                Logging.Log("    \"HistoryFontSize\" = [" + regVal + "]");
+                regVal = GetRegistryKey(registryPath, "HistoryActiveBorder");
+                Logging.Log("    \"HistoryActiveBorder\" = [" + regVal + "]");
+                regVal = GetRegistryKey(registryPath, "HistoryColor");
+                Logging.Log("    \"HistoryColor\" = [" + regVal + "]");
+                regVal = GetRegistryKey(registryPath, "HistoryColorCustomTop");
+                Logging.Log("    \"HistoryColorCustomTop\" = [" + regVal + "]");
+                regVal = GetRegistryKey(registryPath, "HistoryColorCustomBottom");
+                Logging.Log("    \"HistoryColorCustomBottom\" = [" + regVal + "]");
+                regVal = GetRegistryKey(registryPath, "HistoryColorCustomText");
+                Logging.Log("    \"HistoryColorCustomText\" = [" + regVal + "]");
+                regVal = GetRegistryKey(registryPath, "HistoryColorCustomBorder");
+                Logging.Log("    \"HistoryColorCustomBorder\" = [" + regVal + "]");
+            }
+
+            // Advanced
+            RegistryCheckOrCreate("TroubleshootEnable", registryTroubleshootEnable);
+
+            if (isTroubleshootEnabled)
+            {
+                string regVal;
+                Logging.Log("  Advanced:");
+                regVal = GetRegistryKey(registryPath, "TroubleshootEnable");
+                Logging.Log("    \"TroubleshootEnable\" = [" + regVal + "]");
+            }
+
+             // Misc
+             RegistryCheckOrCreate("NotificationShown", "0");
+
+            if (isTroubleshootEnabled)
+            {
+                string regVal;
+                Logging.Log("  Misc:");
+                regVal = GetRegistryKey(registryPath, "NotificationShown");
+                Logging.Log("    \"NotificationShown\" = [" + regVal + "]");
+            }
         }
 
 
@@ -1082,10 +1320,9 @@ namespace HovText
             // Check if the registry key is set - if not then set default value
             using (RegistryKey registryPathExists = Registry.CurrentUser.OpenSubKey(registryPath, true))
             {
-                // NotificationShown
                 if (registryPathExists.GetValue(regKey) == null)
                 {
-                    registryPathExists.SetValue(regKey, regValue);
+                    SetRegistryKey(registryPath, regKey, regValue);
                 }
             }
         }
@@ -1095,11 +1332,19 @@ namespace HovText
         // Get regsitry key value
         // ###########################################################################################
 
-        private static string GetRegistryKey(string path, string key)
+        public static string GetRegistryKey(string path, string key)
         {
             using (RegistryKey getKey = Registry.CurrentUser.OpenSubKey(path))
             {
-                return (string)(getKey.GetValue(key));
+                if (getKey != null)
+                {
+                    return (string)(getKey.GetValue(key));
+                }
+                else
+                {
+                    return "";
+                }
+                
             }
         }
 
@@ -1112,7 +1357,26 @@ namespace HovText
         {
             using (RegistryKey setKey = Registry.CurrentUser.OpenSubKey(path, true))
             {
+                // First check if the key is already created (only relevant for logging)
+                string getKey = GetRegistryKey(path, key);
+
+                // Create or modify the value
                 setKey.SetValue(key, value);
+
+                // Log it
+                if (getKey == null)
+                {
+                    if (isTroubleshootEnabled) Logging.Log("Created registry key \"" + key + "\" with value [" + value + "] in [" + path + "]");
+                }
+                else
+                {
+                    // Only log if there really is a modification done
+                    if (value != getKey)
+                    {
+                        if (isTroubleshootEnabled) Logging.Log("Modified registry key \"" + key + "\" to value [" + value + "] in [" + path + "]");
+                    }
+                    
+                }
             }
         }
 
@@ -1126,6 +1390,7 @@ namespace HovText
             using (RegistryKey deleteKey = Registry.CurrentUser.OpenSubKey(path, true))
             {
                 deleteKey.DeleteValue(key, false);
+                if (isTroubleshootEnabled) Logging.Log("Delete registry key \""+ key +"\" from ["+ path +"]");
             }
         }
 
@@ -1137,6 +1402,40 @@ namespace HovText
         private void GetStartupSettings()
         {
             // ------------------------------------------
+            // "Hotkeys" tab
+            // ------------------------------------------
+
+            // Hotkeys
+            string hotkey1 = GetRegistryKey(registryPath, "Hotkey1");
+            string hotkey2 = GetRegistryKey(registryPath, "Hotkey2");
+            string hotkey3 = GetRegistryKey(registryPath, "Hotkey3");
+            string hotkey4 = GetRegistryKey(registryPath, "Hotkey4");
+            hotkey1 = hotkey1.Length == 0 ? "Not set" : hotkey1;
+            hotkey2 = hotkey2.Length == 0 ? "Not set" : hotkey2;
+            hotkey3 = hotkey3.Length == 0 ? "Not set" : hotkey3;
+            hotkey4 = hotkey4.Length == 0 ? "Not set" : hotkey4;
+            uiHotkeyEnable.Text = hotkey1;
+            uiHotkeyOlder.Text = hotkey2;
+            uiHotkeyNewer.Text = hotkey3;
+            uiHotkeyPaste.Text = hotkey4;
+            SetHotkeys("Startup of application");
+
+            // Hotkey behaviour
+            string hotkeyBehaviour = GetRegistryKey(registryPath, "HotkeyBehaviour");
+            switch (hotkeyBehaviour)
+            {
+                case "Paste":
+                    uiHotkeyBehaviourPaste.Checked = true;
+                    uiHotkeyPaste.Enabled = true;
+                    break;
+                default:
+                    uiHotkeyBehaviourSystem.Checked = true;
+                    uiHotkeyPaste.Enabled = false;
+                    break;
+            }
+
+
+            // ------------------------------------------
             // "General" tab
             // ------------------------------------------
 
@@ -1145,10 +1444,12 @@ namespace HovText
             if (getKey == null)
             {
                 uiStartWithWindows.Checked = false;
+                if (isTroubleshootEnabled) Logging.Log("Start with Windows = [No]");
             }
             else
             {
                 uiStartWithWindows.Checked = true;
+                if (isTroubleshootEnabled) Logging.Log("Start with Windows = [Yes]");
 
                 // Make sure the legacy HovText does not interfere - overwrite if it does not contain "HovText.exe" or "--start-minimized"
                 string runEntry = GetRegistryKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", "HovText");
@@ -1164,7 +1465,16 @@ namespace HovText
             if (uiCheckUpdates.Checked)
             {
                 updateTimer.Enabled = true;
+                uiDevelopmentVersion.Enabled = true;
+                uiDevelopmentWarning.Enabled = true;
+                uiDevelopmentVersion.Text = " Wait - checking ...";
+//                uiDevelopmentVersion.BackColor = Color.Transparent; // Color.White;
+                if (isTroubleshootEnabled) Logging.Log("Update timer started");
             }
+//            else
+//            {
+//                uiDevelopmentVersion.BackColor = Color.Transparent; // SystemColors.Control;
+//            }
 
             // Restore original when disabling application
             int restoreOriginal = int.Parse((string)GetRegistryKey(registryPath, "RestoreOriginal"));
@@ -1217,39 +1527,6 @@ namespace HovText
             isEnabledTrimWhitespacing = uiTrimWhitespaces.Checked;
 
             // ------------------------------------------
-            // "Hotkeys" tab
-            // ------------------------------------------
-
-            // Hotkey behaviour
-            string hotkeyBehaviour = GetRegistryKey(registryPath, "HotkeyBehaviour");
-            switch (hotkeyBehaviour)
-            {
-                case "Paste":
-                    uiHotkeyBehaviourPaste.Checked = true;
-                    uiHotkeyPaste.Enabled = true;
-                    break;
-                default:
-                    uiHotkeyBehaviourSystem.Checked = true;
-                    uiHotkeyPaste.Enabled = false;
-                    break;
-            }
-
-            // Hotkeys
-            string hotkey1 = GetRegistryKey(registryPath, "Hotkey1");
-            string hotkey2 = GetRegistryKey(registryPath, "Hotkey2");
-            string hotkey3 = GetRegistryKey(registryPath, "Hotkey3");
-            string hotkey4 = GetRegistryKey(registryPath, "Hotkey4");
-            hotkey1 = hotkey1.Length == 0 ? "Not set" : hotkey1;
-            hotkey2 = hotkey2.Length == 0 ? "Not set" : hotkey2;
-            hotkey3 = hotkey3.Length == 0 ? "Not set" : hotkey3;
-            hotkey4 = hotkey4.Length == 0 ? "Not set" : hotkey4;
-            uiHotkeyEnable.Text = hotkey1;
-            uiHotkeyOlder.Text = hotkey2;
-            uiHotkeyNewer.Text = hotkey3;
-            uiHotkeyPaste.Text = hotkey4;
-            SetHotkeys("Startup of application");
-
-            // ------------------------------------------
             // "Apperance" tab
             // ------------------------------------------
 
@@ -1282,7 +1559,7 @@ namespace HovText
             }
 
             // History color theme
-                historyColor = GetRegistryKey(registryPath, "HistoryColor");
+            historyColor = GetRegistryKey(registryPath, "HistoryColor");
             historyColorsTop["Custom"] = GetRegistryKey(registryPath, "HistoryColorCustomTop");
             historyColorsBottom["Custom"] = GetRegistryKey(registryPath, "HistoryColorCustomBottom");
             historyColorsText["Custom"] = GetRegistryKey(registryPath, "HistoryColorCustomText");
@@ -1337,6 +1614,35 @@ namespace HovText
             uiShowFontBottom.Font = new Font(historyFontFamily, historyFontSize);
             uiShowFontBottom.Text = historyFontFamily + ", " + historyFontSize;
             SetHistoryColors();
+
+            // ------------------------------------------
+            // "Advanced" tab
+            // ------------------------------------------
+
+            // Troubleshooting
+            int troubleshootEnable = int.Parse((string)GetRegistryKey(registryPath, "TroubleshootEnable"));
+            uiTroubleshootEnabled.Checked = troubleshootEnable == 1 ? true : false;
+            if (uiTroubleshootEnabled.Checked)
+            {
+                //
+            }
+            else
+            {
+                //
+            }
+            string curFile = @troubleshootLogfile;
+            if (File.Exists(curFile))
+            {
+                uiTroubleshootOpenLocation.Enabled = true;
+                uiTroubleshootDeleteFile.Enabled = true;
+            }
+            else
+            {
+                uiTroubleshootOpenLocation.Enabled = false;
+                uiTroubleshootDeleteFile.Enabled = false;
+            }
+            
+
         }
 
 
@@ -1350,10 +1656,12 @@ namespace HovText
             if (uiStartWithWindows.Checked)
             {
                 SetRegistryKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", "HovText", "\"" + Application.ExecutablePath + "\" --start-minimized");
+                if (isTroubleshootEnabled) Logging.Log("Changed \"Start with Windows\" from [No] to [Yes]");
             }
             else
             {
                 DeleteRegistryKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", "HovText");
+                if (isTroubleshootEnabled) Logging.Log("Changed \"Start with Windows\" from [Yes] to [No]");
             }
         }
 
@@ -1598,6 +1906,25 @@ namespace HovText
         {
             string status = uiCheckUpdates.Checked ? "1" : "0";
             SetRegistryKey(registryPath, "CheckUpdates", status);
+            if (uiCheckUpdates.Checked)
+            {            
+                updateTimer.Enabled = true;
+                if (isTroubleshootEnabled) Logging.Log("Update timer started");
+                uiDevelopmentVersion.Enabled = true;
+                uiDevelopmentWarning.Enabled = true;
+                uiDevelopmentVersion.Text = " Wait - checking ...";
+//                uiDevelopmentVersion.BackColor = Color.White;
+            }
+            else
+            {
+                updateTimer.Enabled = false;
+                if (isTroubleshootEnabled) Logging.Log("Update timer disabled");
+                uiDevelopmentVersion.Enabled = false;
+                uiDevelopmentWarning.Enabled = false;
+                uiDevelopmentDownload.Enabled = false;
+                uiDevelopmentVersion.Text = "  Enable \"Check for updates online\"";
+//                uiDevelopmentVersion.BackColor = SystemColors.Control;
+            }
         }
         
         
@@ -1729,6 +2056,11 @@ namespace HovText
             {
                 WindowState = FormWindowState.Minimized;
                 Hide();
+                if (isTroubleshootEnabled) Logging.Log("Finalized initial setup and started HovText minimized");
+            }
+            else
+            {
+                if (isTroubleshootEnabled) Logging.Log("Finalized initial setup and started HovText in window mode");
             }
         }
 
@@ -1739,8 +2071,9 @@ namespace HovText
 
         private void trayIconAbout_Click(object sender, EventArgs e)
         {
+            if (isTroubleshootEnabled) Logging.Log("Clicked tray icon \"About\""); 
             ShowSettingsForm();
-            tabControl.SelectedIndex = 4; // About
+            tabControl.SelectedIndex = 6; // About
         }
 
 
@@ -1752,6 +2085,7 @@ namespace HovText
         {
             ShowSettingsForm();
             tabControl.SelectedIndex = 0; // General
+            if (isTroubleshootEnabled) Logging.Log("Clicked tray icon \"Settings\"");
         }
 
 
@@ -1761,6 +2095,7 @@ namespace HovText
 
         private void trayIconExit_Click(object sender, EventArgs e)
         {
+            if (isTroubleshootEnabled) Logging.Log("Clicked tray icon \"Exit\"");
             isClosedFromNotifyIcon = true;
             Close();
         }
@@ -1778,13 +2113,12 @@ namespace HovText
             {
                 // Give the double-click a chance to cancel this
                 mouseClickTimer.Start();
-                Debug.WriteLine("Start mouse double-click timer");
             }
         }
 
         private void mouseClickTimer_Tick(object sender, EventArgs e)
         {
-            Debug.WriteLine("Mouse single-click detected");
+            if (isTroubleshootEnabled) Logging.Log("Tray icon single-click");
             mouseClickTimer.Stop();
             ToggleEnabled();
         }
@@ -1798,10 +2132,11 @@ namespace HovText
         {
             if (e.Button == MouseButtons.Left)
             {
+                if (isTroubleshootEnabled) Logging.Log("Tray icon double-click");
+                
                 // Cancel the single-click
                 mouseClickTimer.Stop();
 
-                Debug.WriteLine("Mouse double-click detected");
                 ShowSettingsForm();
                 tabControl.SelectedIndex = 0;
             }
@@ -1861,7 +2196,14 @@ namespace HovText
         private void uiHelp_Click(object sender, EventArgs e)
         {
             string selectedTab = tabControl.SelectedTab.AccessibilityObject.Name;
-            System.Diagnostics.Process.Start(hovtextPage +"documentation/#"+ selectedTab);
+
+            // Show the newest upcoming help - if any different
+            string releaseTrain = "";
+            releaseTrain += appType.Contains("DEVELOPMENT") ? "-dev" : "";
+            releaseTrain += appType.Contains("TEST") ? "-dev" : "";
+
+            System.Diagnostics.Process.Start(hovtextPage +"documentation"+ releaseTrain +"/#"+ selectedTab);
+            if (isTroubleshootEnabled) Logging.Log("Clicked the \"Help\" for \""+ selectedTab +"\"");
         }
 
 
@@ -1877,7 +2219,6 @@ namespace HovText
 
         private void HotkeyToggleApplication(object sender, NHotkey.HotkeyEventArgs e)
         {
-            Debug.WriteLine("Pressed the [Enable/Disable application] hotkey");
             ToggleEnabled();
             e.Handled = true;
         }
@@ -1889,7 +2230,7 @@ namespace HovText
 
         private void HotkeyGetOlderEntry(object sender, NHotkey.HotkeyEventArgs e)
         {
-            Debug.WriteLine("Pressed the [Get older history entry] hotkey");
+            Logging.Log("Pressed the \"Get older history entry\" hotkey");
             GoEntryLowerNumber();
             isHistoryHotkeyPressed = true;
             e.Handled = true;
@@ -1902,7 +2243,7 @@ namespace HovText
 
         private void HotkeyGetNewerEntry(object sender, NHotkey.HotkeyEventArgs e)
         {
-            Debug.WriteLine("Pressed the [Get newer history entry] hotkey");
+            Logging.Log("Pressed the \"Get newer history entry\" hotkey");
             GoEntryHigherNumber();
             isHistoryHotkeyPressed = true;
             e.Handled = true;
@@ -1915,16 +2256,20 @@ namespace HovText
 
         private void HotkeyPasteOnHotkey(object sender, NHotkey.HotkeyEventArgs e)
         {
-            Debug.WriteLine("Pressed the [Paste only on hotkey] hotkey");
+            Logging.Log("Pressed the \"Paste only on hotkey\" hotkey");
 
-            // Get active application and change focus to HovText
-            GetActiveApplication();
-            ChangeFocusToThisApplication();
-            
-            // Show the invisible form, so we can catch the key-up event
-            pasteOnHotkey.Show();
-            pasteOnHotkey.Activate();
-            pasteOnHotkey.TopMost = true;
+            // Only proceed if there are history entries
+            if (entriesText.Count > 0)
+            {
+                // Get active application and change focus to HovText
+                GetActiveApplication();
+                ChangeFocusToThisApplication();
+
+                // Show the invisible form, so we can catch the key-up event
+                pasteOnHotkey.Show();
+                pasteOnHotkey.Activate();
+                pasteOnHotkey.TopMost = true;
+            }
 
             e.Handled = true;
         }
@@ -1936,8 +2281,6 @@ namespace HovText
 
         private static string ConvertKeyboardInputToString(KeyEventArgs e)
         {
-            Debug.WriteLine("Set hotkey: [" + e.KeyData + "] [" + e.KeyCode + "] [" + e.Modifiers + "] [" + e.SuppressKeyPress + "]");
-
             string hotkey = "";
 
             // Check if any of the modifiers have been pressed also
@@ -1948,7 +2291,9 @@ namespace HovText
             string keyCode = e.KeyCode.ToString();
 
             // Invalidate various keys
+            keyCode = keyCode == "Apps" ? "Unsupported" : keyCode;
             keyCode = keyCode == "LWin" ? "Unsupported" : keyCode;
+            keyCode = keyCode == "RWin" ? "Unsupported" : keyCode;
             keyCode = keyCode == "Menu" ? "Unsupported" : keyCode;
             keyCode = keyCode == "ControlKey" ? "Unsupported" : keyCode;
             keyCode = keyCode == "ShiftKey" ? "Unsupported" : keyCode;
@@ -1958,10 +2303,6 @@ namespace HovText
             hotkey = isAlt ? hotkey + "Alt + " : hotkey;
             hotkey = isControl ? hotkey + "Control + " : hotkey;
             hotkey += keyCode;
-
-            // Invalidate if no modifier has been pressed also - or only SHIFT
-            hotkey = !isShift && !isAlt && !isControl ? "Unsupported" : hotkey;
-            hotkey = isShift && !isAlt && !isControl ? "Unsupported" : hotkey;
 
             // Invalidate if the key is unspported
             hotkey = keyCode == "Unsupported" ? "Unsupported" : hotkey;
@@ -2088,6 +2429,10 @@ namespace HovText
             HotkeyManager.Current.Remove("GetOlderEntry");
             HotkeyManager.Current.Remove("GetNewerEntry");
             HotkeyManager.Current.Remove("PasteOnHotkey");
+            if (isTroubleshootEnabled) Logging.Log("[Hotkey1] removed");
+            if (isTroubleshootEnabled) Logging.Log("[Hotkey2] removed");
+            if (isTroubleshootEnabled) Logging.Log("[Hotkey3] removed");
+            if (isTroubleshootEnabled) Logging.Log("[Hotkey4] removed");
         }
 
 
@@ -2107,6 +2452,8 @@ namespace HovText
 
         private void SetHotkeys(string from)
         {
+            if (isTroubleshootEnabled) Logging.Log("Called \"SetHotkeys()\" from \"" + from +"\"");
+            
             // Get all hotkey strings
             string hotkey1 = uiHotkeyEnable.Text;
             string hotkey2 = uiHotkeyOlder.Text;
@@ -2121,19 +2468,23 @@ namespace HovText
 
             // Hotkey 1, "Application toggle"
             if (
-                hotkey1 != "Unsupported" && 
-                hotkey1 != "Not set" && 
-                hotkey1 != "Hotkey conflicts"
+                hotkey1 != "Unsupported"
+                && hotkey1 != "Not set"
+                && hotkey1 != "Hotkey conflicts"
                 )
             {
-                cvt = new KeysConverter();
-                key = (Keys)cvt.ConvertFrom(hotkey1);
                 try
                 {
+                    cvt = new KeysConverter();
+                    key = (Keys)cvt.ConvertFrom(hotkey1);
                     HotkeyManager.Current.AddOrReplace("ToggleApplication", key, HotkeyToggleApplication);
+                    if (isTroubleshootEnabled) Logging.Log("[Hotkey1] added as global hotkey and set to ["+ hotkey1 +"]");
                 }
                 catch (Exception ex)
                 {
+                    if (isTroubleshootEnabled) Logging.Log("Exception #6 raised (Settings):");
+                    if (isTroubleshootEnabled) Logging.Log("  Hotkey [Hotkey1] conflicts");
+                    if (isTroubleshootEnabled) Logging.Log("  "+ ex.Message);
                     if (ex.Message.Contains("Hot key is already registered"))
                     {
                         hotkey1 = "Hotkey conflicts";
@@ -2144,20 +2495,24 @@ namespace HovText
 
             // Hotkey 2, "Get older entry"
             if (
-                hotkey2 != "Unsupported" &&
-                hotkey2 != "Not set" &&
-                hotkey2 != "Hotkey conflicts" &&
-                uiHistoryEnabled.Checked
+                hotkey2 != "Unsupported"
+                && hotkey2 != "Not set"
+                && hotkey2 != "Hotkey conflicts"
+                && uiHistoryEnabled.Checked
                 )
             {
-                cvt = new KeysConverter();
-                key = (Keys)cvt.ConvertFrom(hotkey2);
                 try
                 {
+                    cvt = new KeysConverter();
+                    key = (Keys)cvt.ConvertFrom(hotkey2);
                     HotkeyManager.Current.AddOrReplace("GetOlderEntry", key, HotkeyGetOlderEntry);
+                    if (isTroubleshootEnabled) Logging.Log("[Hotkey2] added as global hotkey and set to [" + hotkey2 + "]");
                 }
                 catch (Exception ex)
                 {
+                    if (isTroubleshootEnabled) Logging.Log("Exception #7 raised (Settings):");
+                    if (isTroubleshootEnabled) Logging.Log("  Hotkey [Hotkey2] conflicts");
+                    if (isTroubleshootEnabled) Logging.Log("  " + ex.Message); 
                     if (ex.Message.Contains("Hot key is already registered"))
                     {
                         hotkey2 = "Hotkey conflicts";
@@ -2173,20 +2528,24 @@ namespace HovText
 
             // Hotkey 3, "Get newer entry"
             if (
-                hotkey3 != "Unsupported" &&
-                hotkey3 != "Not set" &&
-                hotkey3 != "Hotkey conflicts" &&
-                uiHistoryEnabled.Checked
+                hotkey3 != "Unsupported"
+                && hotkey3 != "Not set"
+                && hotkey3 != "Hotkey conflicts"
+                && uiHistoryEnabled.Checked
                 )
             {
-                cvt = new KeysConverter();
-                key = (Keys)cvt.ConvertFrom(hotkey3);
                 try
                 {
+                    cvt = new KeysConverter();
+                    key = (Keys)cvt.ConvertFrom(hotkey3);
                     HotkeyManager.Current.AddOrReplace("GetNewerEntry", key, HotkeyGetNewerEntry);
+                    if (isTroubleshootEnabled) Logging.Log("[Hotkey3] added as global hotkey and set to [" + hotkey3 + "]");
                 }
                 catch (Exception ex)
                 {
+                    if (isTroubleshootEnabled) Logging.Log("Exception #8 raised (Settings):");
+                    if (isTroubleshootEnabled) Logging.Log("  Hotkey [Hotkey3] conflicts");
+                    if (isTroubleshootEnabled) Logging.Log("  " + ex.Message); 
                     if (ex.Message.Contains("Hot key is already registered"))
                     {
                         hotkey3 = "Hotkey conflicts";
@@ -2202,24 +2561,29 @@ namespace HovText
 
             // Hotkey 4, "Paste only on hotkey"
             if (
-                hotkey4 != "Unsupported" && 
-                hotkey4 != "Not set" && 
-                hotkey4 != "Hotkey conflicts" &&
-                uiHotkeyBehaviourPaste.Checked
+                hotkey4 != "Unsupported"
+                && hotkey4 != "Not set"
+                && hotkey4 != "Hotkey conflicts"
+                && uiHotkeyBehaviourPaste.Checked
                 )
             {
-                cvt = new KeysConverter();
-                key = (Keys)cvt.ConvertFrom(hotkey4);
                 try
                 {
+                    cvt = new KeysConverter();
+                    key = (Keys)cvt.ConvertFrom(hotkey4);
+
                     // Only (re)enable it, if the "Action only on hotkey" behaviour has been chosen
                     if (uiHotkeyBehaviourPaste.Checked)
                     {
                         HotkeyManager.Current.AddOrReplace("PasteOnHotkey", key, HotkeyPasteOnHotkey);
+                        if (isTroubleshootEnabled) Logging.Log("[Hotkey4] added as global hotkey and set to [" + hotkey4 + "]");
                     }
                 }
                 catch (Exception ex)
                 {
+                    if (isTroubleshootEnabled) Logging.Log("Exception #9 raised (Settings):");
+                    if (isTroubleshootEnabled) Logging.Log("  Hotkey [Hotkey4] conflicts");
+                    if (isTroubleshootEnabled) Logging.Log("  " + ex.Message); 
                     if (ex.Message.Contains("Hot key is already registered"))
                     {
                         hotkey4 = "Hotkey conflicts";
@@ -2277,6 +2641,7 @@ namespace HovText
                 hasError = true;
                 uiHotkeyOlder.Text = hotkey2;
                 uiHotkeyOlder.BackColor = Color.DarkSalmon;
+//                if (isTroubleshootEnabled) Logging.Log("[Hotkey2] has error [" + hotkey2 + "]");
             }
             else
             {
@@ -2289,6 +2654,7 @@ namespace HovText
                 hasError = true;
                 uiHotkeyNewer.Text = hotkey3;
                 uiHotkeyNewer.BackColor = Color.DarkSalmon;
+//                if (isTroubleshootEnabled) Logging.Log("[Hotkey3] has error [" + hotkey3 + "]");
             }
             else
             {
@@ -2301,6 +2667,7 @@ namespace HovText
                 hasError = true;
                 uiHotkeyPaste.Text = hotkey4;
                 uiHotkeyPaste.BackColor = Color.DarkSalmon;
+//                if (isTroubleshootEnabled) Logging.Log("[Hotkey4] has error [" + hotkey4 + "]");
             }
             else
             {
@@ -2331,6 +2698,7 @@ namespace HovText
             uiHotkeyNewer.Text = hotkey3;
             uiHotkeyPaste.Text = hotkey4;
             SetHotkeys("Cancel hotkeys button press");
+            if (isTroubleshootEnabled) Logging.Log("Cancelling hotkeys association and reverting to previous values");
         }
 
 
@@ -2385,24 +2753,13 @@ namespace HovText
 
 
         // ###########################################################################################
-        // Quit test releases after 30 minutes - ideally I don't want them floating around as they are not mainstream
-        // ###########################################################################################
-
-        private void timerTest_Tick(object sender, EventArgs e)
-        {
-            timerTest.Enabled = false;
-            MessageBox.Show("This is a limited test version that can run for a maximum of 30 minutes and HovText will now exit - please replace it with a real version", "HovText will terminate");
-            System.Windows.Forms.Application.Exit();
-        }
-
-
-        // ###########################################################################################
         // Donate
         // ###########################################################################################
 
         private void pictureBox1_Click(object sender, EventArgs e)
         {
             System.Diagnostics.Process.Start("https://www.paypal.com/donate?hosted_button_id=U23UUA8YWABGU");
+            if (isTroubleshootEnabled) Logging.Log("Clicked the \"Donate\" picture in \"About\"");
         }
 
 
@@ -2455,9 +2812,8 @@ namespace HovText
             ActiveControl = null; // do not focus this form - so we can reclick the textbox again right after
         }
 
-        private void textBox1_Enter(object sender, EventArgs e)
+        private void uiCustomBorder_Enter(object sender, EventArgs e)
         {
-//            colorDialogBorder.Color = uiShowFontTop.ForeColor;
             colorDialogBorder.FullOpen = true;
             if (colorDialogBorder.ShowDialog() == DialogResult.OK)
             {
@@ -2465,7 +2821,6 @@ namespace HovText
                 SetRegistryKey(registryPath, "HistoryColorCustomBorder", color);
                 historyColorsBorder["Custom"] = color;
                 uiCustomBorder.BackColor = colorDialogBorder.Color;
-//                SetHistoryColors();
             }
             ActiveControl = null; // do not focus this form - so we can reclick the textbox again right after
         }
@@ -2489,6 +2844,243 @@ namespace HovText
             {
                 ControlPaint.DrawBorder(e.Graphics, e.ClipRectangle, this.BackColor, ButtonBorderStyle.None);
             }
+        }
+
+
+        // ###########################################################################################
+        // Troubleshooting, enable or disable
+        // ###########################################################################################
+
+        private void uiTroubleshootEnabled_CheckedChanged(object sender, EventArgs e)
+        {
+            if (uiTroubleshootEnabled.Checked)
+            {
+                if (!hasTroubleshootLogged)
+                {
+                    Logging.StartLogging();
+                }
+                hasTroubleshootLogged = true;
+            }
+            else
+            {
+                Logging.EndLogging();
+                hasTroubleshootLogged = false;
+            }
+
+            // Save it to the registry
+            string status = uiTroubleshootEnabled.Checked ? "1" : "0";
+            isTroubleshootEnabled = uiTroubleshootEnabled.Checked;
+            SetRegistryKey(registryPath, "TroubleshootEnable", status);
+
+            // If there is a logfile present then enable the UI fields for it
+            if (File.Exists(troubleshootLogfile))
+            {
+                uiTroubleshootOpenLocation.Enabled = true;
+                uiTroubleshootDeleteFile.Enabled = true;
+            }
+        }
+
+
+        // ###########################################################################################
+        // Troubleshooting, open explorer location for the logfile and highlight the file
+        // ###########################################################################################
+
+        private void uiTroubleshootOpenLocation_Click(object sender, EventArgs e)
+        {
+            if (File.Exists(troubleshootLogfile))
+            {
+                // https://stackoverflow.com/a/696144/2028935
+                string argument = "/select, \"" + troubleshootLogfile + "\"";
+                string folder = argument.Substring(6);
+                Process.Start("explorer.exe", argument);
+                if (isTroubleshootEnabled) Logging.Log("Clicked the \"Open logfile location\"");
+            }
+            else
+            {
+                MessageBox.Show(troubleshootLogfile +" does not exists!");
+                uiTroubleshootOpenLocation.Enabled = false;
+                uiTroubleshootDeleteFile.Enabled = false;
+            }
+        }
+
+
+        // ###########################################################################################
+        // Troubleshooting, delete the logfile
+        // ###########################################################################################
+
+        private void uiTroubleshootDeleteFile_Click(object sender, EventArgs e)
+        {
+            if (File.Exists(troubleshootLogfile))
+            {
+                File.Delete(@troubleshootLogfile);
+                uiTroubleshootOpenLocation.Enabled = false;
+                uiTroubleshootDeleteFile.Enabled = false;
+            }
+            else
+            {
+                MessageBox.Show(troubleshootLogfile + " does not exists!");
+                uiTroubleshootOpenLocation.Enabled = false;
+                uiTroubleshootDeleteFile.Enabled = false;
+            }
+        }
+
+
+        // ###########################################################################################
+        // Troubleshooting, refresh the buttons for the logfile, if viewing the "Advanced" tab
+        // ###########################################################################################
+
+        private void tabControl_Selected(object sender, TabControlEventArgs e)
+        {
+            if (tabControl.SelectedTab.AccessibilityObject.Name == "Advanced")
+            {
+                if (File.Exists(troubleshootLogfile))
+                {
+                    uiTroubleshootOpenLocation.Enabled = true;
+                    uiTroubleshootDeleteFile.Enabled = true;
+                }
+                else
+                {
+                    uiTroubleshootOpenLocation.Enabled = false;
+                    uiTroubleshootDeleteFile.Enabled = false;
+                }
+            }
+        }
+
+
+        // ###########################################################################################
+        // Troubleshooting, remove all registry keys and delete the logfile - this is resetting HovText to "factory default"
+        // ###########################################################################################
+
+        private void uiCleanUpExit_Click(object sender, EventArgs e)
+        {
+            isTroubleshootEnabled = false;
+            
+            // Remove HovText from starting up at Windows boot
+            DeleteRegistryKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", "HovText");
+
+            // Delete the "HovText" folder in registry
+            RegistryKey parentClass = Registry.CurrentUser;
+            RegistryKey parentSoftware = parentClass.OpenSubKey("Software", true);
+            parentSoftware.DeleteSubKeyTree("HovText");
+
+            // Exit HovText
+            resetApp = true;
+            Close();
+        }
+
+
+        // ###########################################################################################
+        // Send feedback to the developer
+        // ###########################################################################################
+
+        private void uiSendFeedback_Click(object sender, EventArgs e)
+        {
+            string email = uiEmailAddr.Text;
+            string feedback = uiFeedbackText.Text;
+
+            // Validate the email address
+            bool isValidEmail = true; 
+            if (email.Length > 0)
+            {
+                isValidEmail = IsValidEmail(email);
+            }
+
+            // Proceed if the email address is empty or valid
+            if (isValidEmail)
+            {
+                try
+                {
+                    WebClient webClient = new WebClient();
+                    ServicePointManager.Expect100Continue = true;
+                    ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12 | SecurityProtocolType.Tls13;
+                    webClient.Headers.Add("user-agent", ("HovText " + uiAppVer.Text).Trim());
+
+                    // Build the data to send
+                    var data = new NameValueCollection();
+                    data["version"] = uiAppVer.Text;
+                    data["email"] = email;
+                    data["feedback"] = feedback;
+
+                    // Send it to the server
+                    var response = webClient.UploadValues(hovtextPage +"contact/sendmail/", "POST", data);
+                    string resultFromServer = Encoding.UTF8.GetString(response);
+                    if (resultFromServer == "Success")
+                    {
+                        uiEmailAddr.Text = "";
+                        uiFeedbackText.Text = "";
+                        uiSendFeedback.Enabled = false;
+                        if (email.Length > 0)
+                        {
+                            string txt = "Feedback sent - please allow for some time, if any response is required";
+                            if (isTroubleshootEnabled) Logging.Log(txt);
+                            if (isTroubleshootEnabled) Logging.Log("  Email used = [" + email + "]");
+                            MessageBox.Show(txt);
+                        }
+                        else
+                        {
+                            string txt = "Feedback sent - no response will be given as you did not specify an email address";
+                            if (isTroubleshootEnabled) Logging.Log(txt);
+                            MessageBox.Show(txt);
+                        }
+                    }
+                }
+                catch (WebException ex)
+                {
+                    // Catch the exception though this is not so critical that we need to disturb the developer
+                    if (isTroubleshootEnabled) Logging.Log("Exception #13 raised (Settings):");
+                    if (isTroubleshootEnabled) Logging.Log("  " + ex.Message);
+                    MessageBox.Show("EXCEPTION #13 - please enable troubleshooting log and report to developer");
+                }
+
+            }
+            else
+            {
+                string txt = "Invalid email address ["+ email +"]";
+                if (isTroubleshootEnabled) Logging.Log("EXCEPTION #12 raised:");
+                if (isTroubleshootEnabled) Logging.Log("  "+ txt); 
+                MessageBox.Show(txt);
+            }
+        }
+
+
+        // ###########################################################################################
+        // Check if the "Send feedback" button should be enabled or disabled
+        // ###########################################################################################
+
+        private void uiFeedbackText_TextChanged(object sender, EventArgs e)
+        {
+            if (uiFeedbackText.Text.Length > 0)
+            {
+                uiSendFeedback.Enabled = true;
+            }
+            else
+            {
+                uiSendFeedback.Enabled = false;
+            }
+        }
+
+
+        // ###########################################################################################
+        // Check if the email address typed in feedback is valid - not a very good check though!
+        // ###########################################################################################
+
+        private bool IsValidEmail(string email)
+        {
+            try
+            {
+                var addr = new System.Net.Mail.MailAddress(email);
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        private void uiDevelopmentDownload_Click(object sender, EventArgs e)
+        {
+            System.Diagnostics.Process.Start(hovtextPage + "autoupdate/development/HovText.exe");
+            if (isTroubleshootEnabled) Logging.Log("Clicked the \"Download\" development version");
         }
 
 
