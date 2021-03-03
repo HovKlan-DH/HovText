@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("HovText")]
-[assembly: AssemblyDescription("An advanced Windows .NET open source clipboard manager")]
+[assembly: AssemblyDescription("A simple Windows .NET open source clipboard manager")]
 [assembly: AssemblyConfiguration("Release")]
 [assembly: AssemblyCompany("The Hovgaard Klan")]
 [assembly: AssemblyProduct("HovText")]
@@ -17,7 +17,7 @@ using System.Runtime.InteropServices;
 // The following GUID is for the ID of the typelib if this project is exposed to COM
 [assembly: Guid("03fbad69-cd44-4a0c-b4bf-90406561f14f")]
 //[assembly: AssemblyVersion("2021.01.23.1")]
-[assembly: AssemblyFileVersion("2021.01.27.0")]
+[assembly: AssemblyFileVersion("2021.03.03.1")]
 
 // Setting ComVisible to false makes the types in this assembly not visible
 // to COM components.  If you need to access a type in this assembly from

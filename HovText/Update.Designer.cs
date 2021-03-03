@@ -167,6 +167,5 @@
         public System.Windows.Forms.Label uiAppVerYours;
         public System.Windows.Forms.Label uiAppVerOnline;
         private System.Windows.Forms.TextBox textBox1;
-
     }
 }

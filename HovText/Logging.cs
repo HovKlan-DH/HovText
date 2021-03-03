@@ -6,7 +6,6 @@ using System.Linq;
 using System.Management;
 using Microsoft.Win32;
 
-
 namespace HovText
 {
 
@@ -64,15 +63,18 @@ namespace HovText
 
         public static void Log(string logMessage)
         {
-            if (logMessage == "")
+            if (Settings.isTroubleshootEnabled)
             {
-                File.AppendAllText(AppDomain.CurrentDomain.BaseDirectory + Settings.troubleshootLogfile, Environment.NewLine);
+                if (logMessage == "")
+                {
+                    File.AppendAllText(AppDomain.CurrentDomain.BaseDirectory + Settings.troubleshootLogfile, Environment.NewLine);
+                }
+                else
+                {
+                    File.AppendAllText(AppDomain.CurrentDomain.BaseDirectory + Settings.troubleshootLogfile, DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff") + " " + logMessage + Environment.NewLine);
+                }
             }
-            else
-            {
-                File.AppendAllText(AppDomain.CurrentDomain.BaseDirectory + Settings.troubleshootLogfile, DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff") + " " + logMessage + Environment.NewLine);
-            }
-           
+
             Debug.WriteLine(logMessage);
         }
 
@@ -148,7 +150,7 @@ namespace HovText
                         return "newer than 4.8";
                     } else
                     {
-                        return "4 or older";
+                        return "older than 4.5";
                     }
                     break;
             }
