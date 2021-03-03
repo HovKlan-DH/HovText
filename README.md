@@ -9,22 +9,22 @@ You can say that it works basically in the same way as copying the formatted tex
 ## Capabilities
 
 * Removes all formatting from the clipboard
-* Remembers all copied texts or images
+* Remembers all copied texts and images that can be easily restored via a clipboard manager
 * Keeps the most used clipboard entries at top
+* Favorite entries can be marked for quicker retrival
 * Can restore original text formatting
-* Can act as a text-only clipboard manager but can also remember images
-* Flexible layout settings with e.g. list-view, positioning and styling
-* Possibility to remove leading/trailing whitespaces or new-lines
-* Configurable hotkeys
-* Runs on Windows 7 systems or newer
-* Requires .NET Framework 4.x
-* No registration or advertising (no nags)
+* Can act as a text-only clipboard manager but can also handle images
+* Possibility to remove leading/trailing whitespaces and new-lines
+* Full unicode support
+* Automatic check for new versions
+* Flexible layout settings with e.g. list-view, positioning, screen and styling
+* Configurable global hotkeys for all actions
+* Built-in cleanup possibility as-if application has never been run on system
+* No installation required - portable executeable
+* Requires Windows 10 and .NET Framework 4.8 or newer
+* No transfer of data anywhere - no cloud or clipboard sharing
+* No registration or advertising - no nags
 * Freeware and open source available on GitHub
-
-## Requirements
-
-* Windows 7 or newer (but only tested on Windows 10)
-* .NET Framework 4.x
 
 ## Documentation
 
@@ -45,3 +45,5 @@ The full documentation for how to use this application is available on the HovTe
 ![Feedback](https://hovtext.com/documentation/images/Feedback.jpg)
 
 ![About](https://hovtext.com/documentation/images/About.jpg)
+
+![History list with a few favorites marked](https://hovtext.com/documentation/images/HistoryList2.jpg)
