@@ -45,8 +45,8 @@ namespace HovText
                 {
                     string txt = "HovText is already running and cannot startup one more instance";
 
-                    Logging.Log("Exception #1 (Program):");
-                    Logging.Log("  "+ txt);
+                    if (Settings.isTroubleshootEnabled) Logging.Log("Exception #1 (Program):");
+                    if (Settings.isTroubleshootEnabled) Logging.Log("  "+ txt);
 
                     MessageBox.Show(txt,"HovText is already running", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }

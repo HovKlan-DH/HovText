@@ -48,7 +48,6 @@
             this.label2 = new System.Windows.Forms.Label();
             this.uiAppVer = new System.Windows.Forms.Label();
             this.tabPage2 = new System.Windows.Forms.TabPage();
-            this.uiDisplayGroup = new System.Windows.Forms.GroupBox();
             this.groupBox6 = new System.Windows.Forms.GroupBox();
             this.label5 = new System.Windows.Forms.Label();
             this.labelHistoryElements = new System.Windows.Forms.Label();
@@ -70,10 +69,6 @@
             this.uiHotkeyBehaviourSystem = new System.Windows.Forms.RadioButton();
             this.uiHotkeyBehaviourPaste = new System.Windows.Forms.RadioButton();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
-            this.uiHotkeyToggleView = new System.Windows.Forms.TextBox();
-            this.uiHotkeyToggleFavorite = new System.Windows.Forms.TextBox();
-            this.label12 = new System.Windows.Forms.Label();
-            this.label13 = new System.Windows.Forms.Label();
             this.uiHotkeyPaste = new System.Windows.Forms.TextBox();
             this.uiHotkeyNewer = new System.Windows.Forms.TextBox();
             this.uiHotkeyOlder = new System.Windows.Forms.TextBox();
@@ -138,7 +133,6 @@
             this.colorDialogBottom = new System.Windows.Forms.ColorDialog();
             this.colorDialogText = new System.Windows.Forms.ColorDialog();
             this.colorDialogBorder = new System.Windows.Forms.ColorDialog();
-            this.uiFavoritesEnabled = new System.Windows.Forms.CheckBox();
             this.notifyIconMenuStrip.SuspendLayout();
             this.tabPage4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -226,7 +220,7 @@
             // uiPasteOnSelection
             // 
             this.uiPasteOnSelection.AutoSize = true;
-            this.uiPasteOnSelection.Location = new System.Drawing.Point(29, 223);
+            this.uiPasteOnSelection.Location = new System.Drawing.Point(29, 191);
             this.uiPasteOnSelection.Name = "uiPasteOnSelection";
             this.uiPasteOnSelection.Size = new System.Drawing.Size(247, 29);
             this.uiPasteOnSelection.TabIndex = 116;
@@ -238,7 +232,7 @@
             // 
             // uiHelp
             // 
-            this.uiHelp.Location = new System.Drawing.Point(166, 539);
+            this.uiHelp.Location = new System.Drawing.Point(166, 507);
             this.uiHelp.Name = "uiHelp";
             this.uiHelp.Size = new System.Drawing.Size(262, 38);
             this.uiHelp.TabIndex = 1000;
@@ -265,7 +259,7 @@
             this.tabPage4.Controls.Add(this.uiAppVer);
             this.tabPage4.Location = new System.Drawing.Point(4, 34);
             this.tabPage4.Name = "tabPage4";
-            this.tabPage4.Size = new System.Drawing.Size(565, 483);
+            this.tabPage4.Size = new System.Drawing.Size(565, 444);
             this.tabPage4.TabIndex = 3;
             this.tabPage4.Text = "About";
             // 
@@ -318,24 +312,14 @@
             // tabPage2
             // 
             this.tabPage2.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.tabPage2.Controls.Add(this.uiDisplayGroup);
             this.tabPage2.Controls.Add(this.groupBox6);
             this.tabPage2.Controls.Add(this.groupBox10);
             this.tabPage2.Location = new System.Drawing.Point(4, 34);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(565, 483);
+            this.tabPage2.Size = new System.Drawing.Size(565, 444);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Layout";
-            // 
-            // uiDisplayGroup
-            // 
-            this.uiDisplayGroup.Location = new System.Drawing.Point(322, 242);
-            this.uiDisplayGroup.Name = "uiDisplayGroup";
-            this.uiDisplayGroup.Size = new System.Drawing.Size(220, 220);
-            this.uiDisplayGroup.TabIndex = 311;
-            this.uiDisplayGroup.TabStop = false;
-            this.uiDisplayGroup.Text = "Display history on";
             // 
             // groupBox6
             // 
@@ -350,7 +334,7 @@
             this.groupBox6.Controls.Add(this.uiHistorySizeHeight);
             this.groupBox6.Location = new System.Drawing.Point(22, 23);
             this.groupBox6.Name = "groupBox6";
-            this.groupBox6.Size = new System.Drawing.Size(281, 439);
+            this.groupBox6.Size = new System.Drawing.Size(281, 413);
             this.groupBox6.TabIndex = 300;
             this.groupBox6.TabStop = false;
             this.groupBox6.Text = "History area";
@@ -460,7 +444,7 @@
             this.groupBox10.Controls.Add(this.uiHistoryLocationRadioRightBottom);
             this.groupBox10.Location = new System.Drawing.Point(322, 23);
             this.groupBox10.Name = "groupBox10";
-            this.groupBox10.Size = new System.Drawing.Size(220, 196);
+            this.groupBox10.Size = new System.Drawing.Size(220, 413);
             this.groupBox10.TabIndex = 310;
             this.groupBox10.TabStop = false;
             this.groupBox10.Text = "History location";
@@ -540,7 +524,7 @@
             this.tabPage5.Location = new System.Drawing.Point(4, 34);
             this.tabPage5.Name = "tabPage5";
             this.tabPage5.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage5.Size = new System.Drawing.Size(565, 483);
+            this.tabPage5.Size = new System.Drawing.Size(565, 444);
             this.tabPage5.TabIndex = 4;
             this.tabPage5.Text = "Hotkeys";
             // 
@@ -581,10 +565,6 @@
             // 
             // groupBox5
             // 
-            this.groupBox5.Controls.Add(this.uiHotkeyToggleView);
-            this.groupBox5.Controls.Add(this.uiHotkeyToggleFavorite);
-            this.groupBox5.Controls.Add(this.label12);
-            this.groupBox5.Controls.Add(this.label13);
             this.groupBox5.Controls.Add(this.uiHotkeyPaste);
             this.groupBox5.Controls.Add(this.uiHotkeyNewer);
             this.groupBox5.Controls.Add(this.uiHotkeyOlder);
@@ -597,63 +577,15 @@
             this.groupBox5.Controls.Add(this.label8);
             this.groupBox5.Location = new System.Drawing.Point(22, 150);
             this.groupBox5.Name = "groupBox5";
-            this.groupBox5.Size = new System.Drawing.Size(521, 312);
+            this.groupBox5.Size = new System.Drawing.Size(521, 286);
             this.groupBox5.TabIndex = 210;
             this.groupBox5.TabStop = false;
             this.groupBox5.Text = "Hotkeys";
             // 
-            // uiHotkeyToggleView
-            // 
-            this.uiHotkeyToggleView.BackColor = System.Drawing.SystemColors.Window;
-            this.uiHotkeyToggleView.Location = new System.Drawing.Point(274, 219);
-            this.uiHotkeyToggleView.Name = "uiHotkeyToggleView";
-            this.uiHotkeyToggleView.ReadOnly = true;
-            this.uiHotkeyToggleView.Size = new System.Drawing.Size(222, 32);
-            this.uiHotkeyToggleView.TabIndex = 216;
-            this.uiHotkeyToggleView.Text = "Default text";
-            this.uiHotkeyToggleView.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.uiHotkeyToggleView.Enter += new System.EventHandler(this.hotkeyToggleView_Enter);
-            this.uiHotkeyToggleView.KeyDown += new System.Windows.Forms.KeyEventHandler(this.hotkeyToggleView_KeyDown);
-            // 
-            // uiHotkeyToggleFavorite
-            // 
-            this.uiHotkeyToggleFavorite.BackColor = System.Drawing.SystemColors.Window;
-            this.uiHotkeyToggleFavorite.Location = new System.Drawing.Point(274, 181);
-            this.uiHotkeyToggleFavorite.Name = "uiHotkeyToggleFavorite";
-            this.uiHotkeyToggleFavorite.ReadOnly = true;
-            this.uiHotkeyToggleFavorite.Size = new System.Drawing.Size(222, 32);
-            this.uiHotkeyToggleFavorite.TabIndex = 215;
-            this.uiHotkeyToggleFavorite.Text = "Default text";
-            this.uiHotkeyToggleFavorite.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.uiHotkeyToggleFavorite.Enter += new System.EventHandler(this.hotkeyToggleFavorite_Enter);
-            this.uiHotkeyToggleFavorite.KeyDown += new System.Windows.Forms.KeyEventHandler(this.hotkeyToggleFavorite_KeyDown);
-            // 
-            // label12
-            // 
-            this.label12.AutoSize = true;
-            this.label12.Font = new System.Drawing.Font("Segoe UI", 11.12727F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label12.Location = new System.Drawing.Point(24, 185);
-            this.label12.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(185, 25);
-            this.label12.TabIndex = 1007;
-            this.label12.Text = "Toggle favorite entry";
-            // 
-            // label13
-            // 
-            this.label13.AutoSize = true;
-            this.label13.Font = new System.Drawing.Font("Segoe UI", 11.12727F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label13.Location = new System.Drawing.Point(24, 223);
-            this.label13.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(140, 25);
-            this.label13.TabIndex = 1008;
-            this.label13.Text = "Toggle list view";
-            // 
             // uiHotkeyPaste
             // 
             this.uiHotkeyPaste.BackColor = System.Drawing.SystemColors.Window;
-            this.uiHotkeyPaste.Location = new System.Drawing.Point(274, 142);
+            this.uiHotkeyPaste.Location = new System.Drawing.Point(274, 143);
             this.uiHotkeyPaste.Name = "uiHotkeyPaste";
             this.uiHotkeyPaste.ReadOnly = true;
             this.uiHotkeyPaste.Size = new System.Drawing.Size(222, 32);
@@ -692,10 +624,10 @@
             // cancelHotkey
             // 
             this.cancelHotkey.Enabled = false;
-            this.cancelHotkey.Location = new System.Drawing.Point(388, 256);
+            this.cancelHotkey.Location = new System.Drawing.Point(388, 180);
             this.cancelHotkey.Name = "cancelHotkey";
             this.cancelHotkey.Size = new System.Drawing.Size(108, 38);
-            this.cancelHotkey.TabIndex = 218;
+            this.cancelHotkey.TabIndex = 216;
             this.cancelHotkey.Text = "Cancel";
             this.cancelHotkey.UseVisualStyleBackColor = true;
             this.cancelHotkey.Click += new System.EventHandler(this.cancelHotkey_Click);
@@ -716,10 +648,10 @@
             // applyHotkey
             // 
             this.applyHotkey.Enabled = false;
-            this.applyHotkey.Location = new System.Drawing.Point(274, 256);
+            this.applyHotkey.Location = new System.Drawing.Point(274, 180);
             this.applyHotkey.Name = "applyHotkey";
             this.applyHotkey.Size = new System.Drawing.Size(108, 38);
-            this.applyHotkey.TabIndex = 217;
+            this.applyHotkey.TabIndex = 215;
             this.applyHotkey.Text = "Apply";
             this.applyHotkey.UseVisualStyleBackColor = true;
             this.applyHotkey.Click += new System.EventHandler(this.ApplyHotkeys_Click);
@@ -728,7 +660,7 @@
             // 
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Segoe UI", 11.12727F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.Location = new System.Drawing.Point(24, 146);
+            this.label4.Location = new System.Drawing.Point(24, 147);
             this.label4.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(144, 25);
@@ -776,13 +708,12 @@
             this.tabPage1.Location = new System.Drawing.Point(4, 34);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(565, 483);
+            this.tabPage1.Size = new System.Drawing.Size(565, 444);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "General";
             // 
             // groupBox2
             // 
-            this.groupBox2.Controls.Add(this.uiFavoritesEnabled);
             this.groupBox2.Controls.Add(this.uiRestoreOriginal);
             this.groupBox2.Controls.Add(this.uiCopyImages);
             this.groupBox2.Controls.Add(this.uiPasteOnSelection);
@@ -792,7 +723,7 @@
             this.groupBox2.Controls.Add(this.uiHistoryEnabled);
             this.groupBox2.Location = new System.Drawing.Point(22, 150);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(521, 312);
+            this.groupBox2.Size = new System.Drawing.Size(521, 286);
             this.groupBox2.TabIndex = 110;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Behaviour";
@@ -816,7 +747,7 @@
             this.uiCopyImages.Checked = true;
             this.uiCopyImages.CheckState = System.Windows.Forms.CheckState.Checked;
             this.uiCopyImages.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.uiCopyImages.Location = new System.Drawing.Point(29, 191);
+            this.uiCopyImages.Location = new System.Drawing.Point(29, 159);
             this.uiCopyImages.Name = "uiCopyImages";
             this.uiCopyImages.Size = new System.Drawing.Size(226, 29);
             this.uiCopyImages.TabIndex = 115;
@@ -829,7 +760,7 @@
             this.uiTrimWhitespaces.AutoSize = true;
             this.uiTrimWhitespaces.Checked = true;
             this.uiTrimWhitespaces.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.uiTrimWhitespaces.Location = new System.Drawing.Point(29, 255);
+            this.uiTrimWhitespaces.Location = new System.Drawing.Point(29, 223);
             this.uiTrimWhitespaces.Name = "uiTrimWhitespaces";
             this.uiTrimWhitespaces.Size = new System.Drawing.Size(301, 29);
             this.uiTrimWhitespaces.TabIndex = 117;
@@ -910,7 +841,7 @@
             this.tabControl.Location = new System.Drawing.Point(12, 12);
             this.tabControl.Name = "tabControl";
             this.tabControl.SelectedIndex = 0;
-            this.tabControl.Size = new System.Drawing.Size(573, 521);
+            this.tabControl.Size = new System.Drawing.Size(573, 482);
             this.tabControl.TabIndex = 0;
             this.tabControl.Selected += new System.Windows.Forms.TabControlEventHandler(this.tabControl_Selected);
             // 
@@ -922,7 +853,7 @@
             this.tabPage3.Controls.Add(this.groupBox4);
             this.tabPage3.Location = new System.Drawing.Point(4, 34);
             this.tabPage3.Name = "tabPage3";
-            this.tabPage3.Size = new System.Drawing.Size(565, 483);
+            this.tabPage3.Size = new System.Drawing.Size(565, 444);
             this.tabPage3.TabIndex = 5;
             this.tabPage3.Text = "Style";
             // 
@@ -931,7 +862,7 @@
             this.borderGroupBox.Controls.Add(this.uiHistoryBorder);
             this.borderGroupBox.Location = new System.Drawing.Point(22, 286);
             this.borderGroupBox.Name = "borderGroupBox";
-            this.borderGroupBox.Size = new System.Drawing.Size(281, 176);
+            this.borderGroupBox.Size = new System.Drawing.Size(281, 150);
             this.borderGroupBox.TabIndex = 410;
             this.borderGroupBox.TabStop = false;
             this.borderGroupBox.Text = "History border";
@@ -957,7 +888,7 @@
             this.groupBox8.Controls.Add(this.uiHistoryColorBrown);
             this.groupBox8.Location = new System.Drawing.Point(322, 23);
             this.groupBox8.Name = "groupBox8";
-            this.groupBox8.Size = new System.Drawing.Size(220, 439);
+            this.groupBox8.Size = new System.Drawing.Size(220, 413);
             this.groupBox8.TabIndex = 420;
             this.groupBox8.TabStop = false;
             this.groupBox8.Text = "History color";
@@ -1174,7 +1105,7 @@
             this.tabPage6.Controls.Add(this.groupBox3);
             this.tabPage6.Location = new System.Drawing.Point(4, 34);
             this.tabPage6.Name = "tabPage6";
-            this.tabPage6.Size = new System.Drawing.Size(565, 483);
+            this.tabPage6.Size = new System.Drawing.Size(565, 444);
             this.tabPage6.TabIndex = 6;
             this.tabPage6.Text = "Advanced";
             // 
@@ -1229,7 +1160,7 @@
             this.groupBox9.Controls.Add(this.uiCleanUpExit);
             this.groupBox9.Location = new System.Drawing.Point(22, 310);
             this.groupBox9.Name = "groupBox9";
-            this.groupBox9.Size = new System.Drawing.Size(523, 152);
+            this.groupBox9.Size = new System.Drawing.Size(523, 126);
             this.groupBox9.TabIndex = 520;
             this.groupBox9.TabStop = false;
             this.groupBox9.Text = "Clean-up HovText configuration settings";
@@ -1297,7 +1228,7 @@
             this.tabPage7.Controls.Add(this.uiEmailAddr);
             this.tabPage7.Location = new System.Drawing.Point(4, 34);
             this.tabPage7.Name = "tabPage7";
-            this.tabPage7.Size = new System.Drawing.Size(565, 483);
+            this.tabPage7.Size = new System.Drawing.Size(565, 444);
             this.tabPage7.TabIndex = 7;
             this.tabPage7.Text = "Feedback";
             // 
@@ -1348,24 +1279,11 @@
             this.uiEmailAddr.Size = new System.Drawing.Size(509, 32);
             this.uiEmailAddr.TabIndex = 600;
             // 
-            // uiFavoritesEnabled
-            // 
-            this.uiFavoritesEnabled.AutoSize = true;
-            this.uiFavoritesEnabled.Checked = true;
-            this.uiFavoritesEnabled.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.uiFavoritesEnabled.Location = new System.Drawing.Point(29, 159);
-            this.uiFavoritesEnabled.Name = "uiFavoritesEnabled";
-            this.uiFavoritesEnabled.Size = new System.Drawing.Size(168, 29);
-            this.uiFavoritesEnabled.TabIndex = 118;
-            this.uiFavoritesEnabled.Text = "Enable favorites";
-            this.uiFavoritesEnabled.UseVisualStyleBackColor = true;
-            this.uiFavoritesEnabled.CheckedChanged += new System.EventHandler(this.uiFavoritesEnabled_CheckedChanged);
-            // 
             // Settings
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(11F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(596, 584);
+            this.ClientSize = new System.Drawing.Size(596, 560);
             this.Controls.Add(this.uiHelp);
             this.Controls.Add(this.tabControl);
             this.Font = new System.Drawing.Font("Segoe UI", 11.12727F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -1524,12 +1442,6 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label uiDevelopmentWarning;
         private System.Windows.Forms.Label uiDevelopmentVersion;
-        private System.Windows.Forms.GroupBox uiDisplayGroup;
-        private System.Windows.Forms.TextBox uiHotkeyToggleView;
-        private System.Windows.Forms.TextBox uiHotkeyToggleFavorite;
-        private System.Windows.Forms.Label label12;
-        private System.Windows.Forms.Label label13;
-        private System.Windows.Forms.CheckBox uiFavoritesEnabled;
     }
 
 }

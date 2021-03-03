@@ -53,7 +53,7 @@ namespace HovText
                 SendKeys.SendWait("^v"); // send "CTRL + v" (paste from clipboard)
                 StartTimerToRestoreOriginal();
 
-                Logging.Log("Pasted cleartext clipboard");
+                if (Settings.isTroubleshootEnabled) Logging.Log("Pasted cleartext clipboard");
             }
         }
 
@@ -82,7 +82,7 @@ namespace HovText
             // We do no longer need to paste cleartext
             Settings.pasteOnHotkeySetCleartext = false;
 
-            Logging.Log("Pasted original clipboard");
+            if (Settings.isTroubleshootEnabled) Logging.Log("Pasted original clipboard");
         }
 
 
