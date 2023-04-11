@@ -86,6 +86,7 @@
             this.label8 = new System.Windows.Forms.Label();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.uiFavoritesEnabled = new System.Windows.Forms.CheckBox();
             this.uiRestoreOriginal = new System.Windows.Forms.CheckBox();
             this.uiCopyImages = new System.Windows.Forms.CheckBox();
             this.uiTrimWhitespaces = new System.Windows.Forms.CheckBox();
@@ -138,7 +139,7 @@
             this.colorDialogBottom = new System.Windows.Forms.ColorDialog();
             this.colorDialogText = new System.Windows.Forms.ColorDialog();
             this.colorDialogBorder = new System.Windows.Forms.ColorDialog();
-            this.uiFavoritesEnabled = new System.Windows.Forms.CheckBox();
+            this.richTextBox1 = new System.Windows.Forms.RichTextBox();
             this.notifyIconMenuStrip.SuspendLayout();
             this.tabPage4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -472,7 +473,7 @@
             this.uiHistoryLocationRadioCenter.Location = new System.Drawing.Point(32, 96);
             this.uiHistoryLocationRadioCenter.Name = "uiHistoryLocationRadioCenter";
             this.uiHistoryLocationRadioCenter.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.uiHistoryLocationRadioCenter.Size = new System.Drawing.Size(89, 29);
+            this.uiHistoryLocationRadioCenter.Size = new System.Drawing.Size(84, 29);
             this.uiHistoryLocationRadioCenter.TabIndex = 313;
             this.uiHistoryLocationRadioCenter.Text = "Center";
             this.uiHistoryLocationRadioCenter.UseVisualStyleBackColor = true;
@@ -485,7 +486,7 @@
             this.uiHistoryLocationRadioLeftBottom.Location = new System.Drawing.Point(32, 64);
             this.uiHistoryLocationRadioLeftBottom.Name = "uiHistoryLocationRadioLeftBottom";
             this.uiHistoryLocationRadioLeftBottom.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.uiHistoryLocationRadioLeftBottom.Size = new System.Drawing.Size(130, 29);
+            this.uiHistoryLocationRadioLeftBottom.Size = new System.Drawing.Size(127, 29);
             this.uiHistoryLocationRadioLeftBottom.TabIndex = 312;
             this.uiHistoryLocationRadioLeftBottom.Text = "Left Bottom";
             this.uiHistoryLocationRadioLeftBottom.UseVisualStyleBackColor = true;
@@ -498,7 +499,7 @@
             this.uiHistoryLocationRadioLeftTop.Location = new System.Drawing.Point(32, 32);
             this.uiHistoryLocationRadioLeftTop.Name = "uiHistoryLocationRadioLeftTop";
             this.uiHistoryLocationRadioLeftTop.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.uiHistoryLocationRadioLeftTop.Size = new System.Drawing.Size(99, 29);
+            this.uiHistoryLocationRadioLeftTop.Size = new System.Drawing.Size(96, 29);
             this.uiHistoryLocationRadioLeftTop.TabIndex = 311;
             this.uiHistoryLocationRadioLeftTop.Text = "Left Top";
             this.uiHistoryLocationRadioLeftTop.UseVisualStyleBackColor = true;
@@ -511,7 +512,7 @@
             this.uiHistoryLocationRadioRightTop.Location = new System.Drawing.Point(32, 128);
             this.uiHistoryLocationRadioRightTop.Name = "uiHistoryLocationRadioRightTop";
             this.uiHistoryLocationRadioRightTop.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.uiHistoryLocationRadioRightTop.Size = new System.Drawing.Size(112, 29);
+            this.uiHistoryLocationRadioRightTop.Size = new System.Drawing.Size(109, 29);
             this.uiHistoryLocationRadioRightTop.TabIndex = 314;
             this.uiHistoryLocationRadioRightTop.Text = "Right Top";
             this.uiHistoryLocationRadioRightTop.UseVisualStyleBackColor = true;
@@ -525,7 +526,7 @@
             this.uiHistoryLocationRadioRightBottom.Location = new System.Drawing.Point(32, 160);
             this.uiHistoryLocationRadioRightBottom.Name = "uiHistoryLocationRadioRightBottom";
             this.uiHistoryLocationRadioRightBottom.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.uiHistoryLocationRadioRightBottom.Size = new System.Drawing.Size(143, 29);
+            this.uiHistoryLocationRadioRightBottom.Size = new System.Drawing.Size(140, 29);
             this.uiHistoryLocationRadioRightBottom.TabIndex = 315;
             this.uiHistoryLocationRadioRightBottom.TabStop = true;
             this.uiHistoryLocationRadioRightBottom.Text = "Right Bottom";
@@ -546,6 +547,7 @@
             // 
             // groupBox7
             // 
+            this.groupBox7.Controls.Add(this.richTextBox1);
             this.groupBox7.Controls.Add(this.uiHotkeyBehaviourSystem);
             this.groupBox7.Controls.Add(this.uiHotkeyBehaviourPaste);
             this.groupBox7.Location = new System.Drawing.Point(22, 23);
@@ -796,6 +798,19 @@
             this.groupBox2.TabIndex = 110;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Behaviour";
+            // 
+            // uiFavoritesEnabled
+            // 
+            this.uiFavoritesEnabled.AutoSize = true;
+            this.uiFavoritesEnabled.Checked = true;
+            this.uiFavoritesEnabled.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.uiFavoritesEnabled.Location = new System.Drawing.Point(29, 159);
+            this.uiFavoritesEnabled.Name = "uiFavoritesEnabled";
+            this.uiFavoritesEnabled.Size = new System.Drawing.Size(168, 29);
+            this.uiFavoritesEnabled.TabIndex = 118;
+            this.uiFavoritesEnabled.Text = "Enable favorites";
+            this.uiFavoritesEnabled.UseVisualStyleBackColor = true;
+            this.uiFavoritesEnabled.CheckedChanged += new System.EventHandler(this.uiFavoritesEnabled_CheckedChanged);
             // 
             // uiRestoreOriginal
             // 
@@ -1348,18 +1363,13 @@
             this.uiEmailAddr.Size = new System.Drawing.Size(509, 32);
             this.uiEmailAddr.TabIndex = 600;
             // 
-            // uiFavoritesEnabled
+            // richTextBox1
             // 
-            this.uiFavoritesEnabled.AutoSize = true;
-            this.uiFavoritesEnabled.Checked = true;
-            this.uiFavoritesEnabled.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.uiFavoritesEnabled.Location = new System.Drawing.Point(29, 159);
-            this.uiFavoritesEnabled.Name = "uiFavoritesEnabled";
-            this.uiFavoritesEnabled.Size = new System.Drawing.Size(168, 29);
-            this.uiFavoritesEnabled.TabIndex = 118;
-            this.uiFavoritesEnabled.Text = "Enable favorites";
-            this.uiFavoritesEnabled.UseVisualStyleBackColor = true;
-            this.uiFavoritesEnabled.CheckedChanged += new System.EventHandler(this.uiFavoritesEnabled_CheckedChanged);
+            this.richTextBox1.Location = new System.Drawing.Point(305, -4);
+            this.richTextBox1.Name = "richTextBox1";
+            this.richTextBox1.Size = new System.Drawing.Size(100, 96);
+            this.richTextBox1.TabIndex = 203;
+            this.richTextBox1.Text = "";
             // 
             // Settings
             // 
@@ -1530,6 +1540,7 @@
         private System.Windows.Forms.Label label12;
         private System.Windows.Forms.Label label13;
         private System.Windows.Forms.CheckBox uiFavoritesEnabled;
+        private System.Windows.Forms.RichTextBox richTextBox1;
     }
 
 }
