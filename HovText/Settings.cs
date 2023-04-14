@@ -1227,8 +1227,9 @@ namespace HovText
                 regVal = GetRegistryKey(registryPath, "Hotkey6");
                 Logging.Log("    \"Hotkey6\" = [" + regVal + "]");
             }
-            
+
             // General
+            SetRegistryKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", "HovText", "\"" + Application.ExecutablePath + "\" --start-minimized");
             RegistryCheckOrCreate("CheckUpdates", registryCheckUpdates); 
             RegistryCheckOrCreate("CheckedVersion", appVer);
             RegistryCheckOrCreate("CloseMinimizes", registryCloseMinimizes);

@@ -139,7 +139,6 @@
             this.colorDialogBottom = new System.Windows.Forms.ColorDialog();
             this.colorDialogText = new System.Windows.Forms.ColorDialog();
             this.colorDialogBorder = new System.Windows.Forms.ColorDialog();
-            this.richTextBox1 = new System.Windows.Forms.RichTextBox();
             this.notifyIconMenuStrip.SuspendLayout();
             this.tabPage4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -547,7 +546,6 @@
             // 
             // groupBox7
             // 
-            this.groupBox7.Controls.Add(this.richTextBox1);
             this.groupBox7.Controls.Add(this.uiHotkeyBehaviourSystem);
             this.groupBox7.Controls.Add(this.uiHotkeyBehaviourPaste);
             this.groupBox7.Location = new System.Drawing.Point(22, 23);
@@ -905,6 +903,8 @@
             // uiStartWithWindows
             // 
             this.uiStartWithWindows.AutoSize = true;
+            this.uiStartWithWindows.Checked = true;
+            this.uiStartWithWindows.CheckState = System.Windows.Forms.CheckState.Checked;
             this.uiStartWithWindows.Location = new System.Drawing.Point(29, 31);
             this.uiStartWithWindows.Name = "uiStartWithWindows";
             this.uiStartWithWindows.Size = new System.Drawing.Size(196, 29);
@@ -1247,15 +1247,15 @@
             this.groupBox9.Size = new System.Drawing.Size(523, 152);
             this.groupBox9.TabIndex = 520;
             this.groupBox9.TabStop = false;
-            this.groupBox9.Text = "Clean-up HovText configuration settings";
+            this.groupBox9.Text = "Clean-up all configuration settings";
             // 
             // uiCleanUpExit
             // 
             this.uiCleanUpExit.Location = new System.Drawing.Point(28, 31);
             this.uiCleanUpExit.Name = "uiCleanUpExit";
-            this.uiCleanUpExit.Size = new System.Drawing.Size(178, 34);
+            this.uiCleanUpExit.Size = new System.Drawing.Size(254, 34);
             this.uiCleanUpExit.TabIndex = 521;
-            this.uiCleanUpExit.Text = "Clean-up and exit";
+            this.uiCleanUpExit.Text = "Clean-up and exit HovText";
             this.uiCleanUpExit.UseVisualStyleBackColor = true;
             this.uiCleanUpExit.Click += new System.EventHandler(this.uiCleanUpExit_Click);
             // 
@@ -1362,14 +1362,6 @@
             this.uiEmailAddr.Name = "uiEmailAddr";
             this.uiEmailAddr.Size = new System.Drawing.Size(509, 32);
             this.uiEmailAddr.TabIndex = 600;
-            // 
-            // richTextBox1
-            // 
-            this.richTextBox1.Location = new System.Drawing.Point(305, -4);
-            this.richTextBox1.Name = "richTextBox1";
-            this.richTextBox1.Size = new System.Drawing.Size(100, 96);
-            this.richTextBox1.TabIndex = 203;
-            this.richTextBox1.Text = "";
             // 
             // Settings
             // 
@@ -1540,7 +1532,6 @@
         private System.Windows.Forms.Label label12;
         private System.Windows.Forms.Label label13;
         private System.Windows.Forms.CheckBox uiFavoritesEnabled;
-        private System.Windows.Forms.RichTextBox richTextBox1;
     }
 
 }
