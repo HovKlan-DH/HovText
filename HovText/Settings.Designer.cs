@@ -1378,6 +1378,7 @@
             this.Name = "Settings";
             this.Text = "HovText";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainWindow_FormClosing);
+            this.Load += new System.EventHandler(this.Settings_Load);
             this.Shown += new System.EventHandler(this.MainWindow_Shown);
             this.Resize += new System.EventHandler(this.MainWindow_Resize);
             this.notifyIconMenuStrip.ResumeLayout(false);

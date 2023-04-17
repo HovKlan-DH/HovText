@@ -4,7 +4,7 @@ using System.Windows.Forms;
 
 namespace HovText
 {
-    public partial class PasteOnHotkey : Form
+    public sealed partial class PasteOnHotkey : Form
     {
 
         // ###########################################################################################

@@ -3,7 +3,7 @@ using System.Windows.Forms;
 
 namespace HovText
 {
-    public partial class Update : Form
+    public sealed partial class Update : Form
     {
         // ###########################################################################################
         // Main

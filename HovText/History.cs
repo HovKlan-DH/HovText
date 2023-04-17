@@ -67,8 +67,8 @@ namespace HovText
             Label label;
 
             // Setup form width and height
-            int workingAreaWidth = Screen.AllScreens[Settings.activeScreen].WorkingArea.Width;
-            int workingAreaHeight = Screen.AllScreens[Settings.activeScreen].WorkingArea.Height;
+            int workingAreaWidth = Screen.AllScreens[Settings.activeDisplay].WorkingArea.Width;
+            int workingAreaHeight = Screen.AllScreens[Settings.activeDisplay].WorkingArea.Height;
             int width = (workingAreaWidth * Settings.historySizeWidth) / 100;
             int height = (workingAreaHeight * Settings.historySizeHeight) / 100;
             Width = width;
@@ -488,7 +488,7 @@ namespace HovText
         // Get the first (newest) array ID in the full array, depending on the view
         // ###########################################################################################
 
-        private int GetFirstIndex ()
+        private static int GetFirstIndex ()
         {
             int first = entryFirstBox == -1 ? Settings.entryIndex : entryFirstBox;
             for (int i = first; i >= Settings.entriesText.ElementAt(0).Key; i--)
@@ -514,7 +514,7 @@ namespace HovText
         // Get the last (oldest) array ID in the full array, depending on the view
         // ###########################################################################################
 
-        private int GetLastIndex()
+        private static int GetLastIndex()
         {
             int last = entryLast == -1 ? Settings.entriesText.ElementAt(0).Key : entryLast;
             for (int i = last; i <= Settings.entriesText.ElementAt(Settings.entriesText.Count - 1).Key; i++)
@@ -735,7 +735,7 @@ namespace HovText
             }
         }
 
-        private void ResetVariables ()
+        private static void ResetVariables ()
         {
             entryFirstBox = -1;
             entryFirst = -1;
@@ -762,32 +762,32 @@ namespace HovText
             switch (Settings.historyLocation)
             {
                 case "Left Top":
-                    x = Screen.AllScreens[Settings.activeScreen].WorkingArea.Left;
-                    y = Screen.AllScreens[Settings.activeScreen].WorkingArea.Top;
+                    x = Screen.AllScreens[Settings.activeDisplay].WorkingArea.Left;
+                    y = Screen.AllScreens[Settings.activeDisplay].WorkingArea.Top;
                     this.Left = x + airgab;
                     this.Top = y + airgab;
                     break;
                 case "Left Bottom":
-                    x = Screen.AllScreens[Settings.activeScreen].WorkingArea.Left;
-                    y = Screen.AllScreens[Settings.activeScreen].WorkingArea.Bottom - this.Height;
+                    x = Screen.AllScreens[Settings.activeDisplay].WorkingArea.Left;
+                    y = Screen.AllScreens[Settings.activeDisplay].WorkingArea.Bottom - this.Height;
                     this.Left = x + airgab;
                     this.Top = y - airgab;
                     break;
                 case "Center":
-                    x = Screen.AllScreens[Settings.activeScreen].WorkingArea.Left + ((Screen.AllScreens[Settings.activeScreen].WorkingArea.Width - this.Width) / 2);
-                    y = Screen.AllScreens[Settings.activeScreen].WorkingArea.Top + ((Screen.AllScreens[Settings.activeScreen].WorkingArea.Height - this.Height) / 2);
+                    x = Screen.AllScreens[Settings.activeDisplay].WorkingArea.Left + ((Screen.AllScreens[Settings.activeDisplay].WorkingArea.Width - this.Width) / 2);
+                    y = Screen.AllScreens[Settings.activeDisplay].WorkingArea.Top + ((Screen.AllScreens[Settings.activeDisplay].WorkingArea.Height - this.Height) / 2);
                     this.Left = x;
                     this.Top = y;
                     break;
                 case "Right Top":
-                    x = Screen.AllScreens[Settings.activeScreen].WorkingArea.Right - this.Width;
-                    y = Screen.AllScreens[Settings.activeScreen].WorkingArea.Top;
+                    x = Screen.AllScreens[Settings.activeDisplay].WorkingArea.Right - this.Width;
+                    y = Screen.AllScreens[Settings.activeDisplay].WorkingArea.Top;
                     this.Left = x - airgab;
                     this.Top = y + airgab;
                     break;
                 default: // Right Bottom
-                    x = Screen.AllScreens[Settings.activeScreen].WorkingArea.Right - this.Width;
-                    y = Screen.AllScreens[Settings.activeScreen].WorkingArea.Bottom - this.Height;
+                    x = Screen.AllScreens[Settings.activeDisplay].WorkingArea.Right - this.Width;
+                    y = Screen.AllScreens[Settings.activeDisplay].WorkingArea.Bottom - this.Height;
                     this.Left = x - airgab;
                     this.Top = y - airgab;
                     break;

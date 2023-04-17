@@ -2,7 +2,7 @@
 
 namespace HovText
 {
-    public partial class HotkeyConflict : Form
+    public sealed partial class HotkeyConflict : Form
     {
         // ###########################################################################################
         // Main

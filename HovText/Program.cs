@@ -33,7 +33,7 @@ namespace HovText
                     // Get the argument passed (only one supported)
                     if (args.Length > 0)
                     {
-                        arg0 = args[0].ToLower();
+                        arg0 = args[0].ToLowerInvariant();
                     }
 
                     Application.EnableVisualStyles();
@@ -57,39 +57,43 @@ namespace HovText
 
 
         // ###########################################################################################
-        // Included for getting the process that has updated the clipboard
+        // Include native dependencies
         // ###########################################################################################
 
-        [DllImport("user32.dll")]
-        public static extern IntPtr GetClipboardOwner();
+        public static class NativeMethods
+        {
+            // ###########################################################################################
+            // Included for getting the process that has updated the clipboard
+            // ###########################################################################################
 
+            [DllImport("user32.dll")]
+            public static extern IntPtr GetClipboardOwner();
 
-        // ###########################################################################################
-        // Included for getting and setting application focus
-        // ###########################################################################################
+            // ###########################################################################################
+            // Included for getting and setting application focus
+            // ###########################################################################################
 
-        [DllImport("user32.dll")]
-        public static extern bool SetForegroundWindow(IntPtr hWnd);
+            [DllImport("user32.dll")]
+            public static extern bool SetForegroundWindow(IntPtr hWnd);
 
-        [DllImport("user32.dll")]
-        public static extern IntPtr GetForegroundWindow();
+            [DllImport("user32.dll")]
+            public static extern IntPtr GetForegroundWindow();
 
-        // https://stackoverflow.com/a/17345576/2028935
-        [DllImport("user32.dll", SetLastError = true)]
-        public static extern uint GetWindowThreadProcessId(IntPtr hWnd, out uint lpdwProcessId);
+            [DllImport("user32.dll", SetLastError = true)]
+            public static extern uint GetWindowThreadProcessId(IntPtr hWnd, out uint lpdwProcessId);
 
+            // ###########################################################################################
+            // Included for registering application in the clipboard chain
+            // ###########################################################################################
 
-        // ###########################################################################################
-        // Register application in the clipboard chain
-        // ###########################################################################################
+            [DllImport("user32.dll", SetLastError = true)]
+            [return: MarshalAs(UnmanagedType.Bool)]
+            public static extern bool AddClipboardFormatListener(IntPtr hwnd);
 
-        [DllImport("user32.dll", SetLastError = true)]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool AddClipboardFormatListener(IntPtr hwnd);
-
-        [DllImport("user32.dll", SetLastError = true)]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool RemoveClipboardFormatListener(IntPtr hwnd);
+            [DllImport("user32.dll", SetLastError = true)]
+            [return: MarshalAs(UnmanagedType.Bool)]
+            public static extern bool RemoveClipboardFormatListener(IntPtr hwnd);
+        }
 
 
         // ###########################################################################################

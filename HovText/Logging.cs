@@ -4,7 +4,7 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Management;
-using Microsoft.Win32;
+using System.Runtime.InteropServices;
 
 namespace HovText
 {
@@ -24,7 +24,12 @@ namespace HovText
             string appVer = Settings.appVer.Trim();
 
             // Get .NET Framework version
+/*
             string netVer = Get45or451FromRegistry();
+*/
+            string dotNetVer = RuntimeInformation.FrameworkDescription;
+            dotNetVer = dotNetVer.Replace(".NET Framework", "");
+            dotNetVer = dotNetVer.Trim();
 
             // Get the name of the current keyboard layout as it appears in the regional settings of the operating system on the computer
             string langSetup = System.Windows.Forms.InputLanguage.CurrentInputLanguage.LayoutName;
@@ -38,7 +43,7 @@ namespace HovText
             Log("You can also copy/paste it to the \"Feedback\" tab, if it is not insanely large.");
             Log("-------------------------------------------------------------------------------");
             Log("Started HovText [" + appVer + "] logging");
-            Log(".NET Framework version = [" + netVer + "]");
+            Log(".NET Framework version = [" + dotNetVer + "]");
             Log("OS version = [" + os + "]");
             Log("OS language = [" + osLang + "]");
             Log("Input language = [" + langSetup + "]");
@@ -78,7 +83,7 @@ namespace HovText
             Debug.WriteLine(logMessage);
         }
 
-
+/*
         // ###########################################################################################
         // Get the used .NET Framework version
         // https://stackoverflow.com/a/951915/2028935
@@ -94,7 +99,6 @@ namespace HovText
                     return CheckFor45DotVersion(releaseKey);
                 }
             }
-            return "";
         }
 
         // For updates to .NET Framework then view these:
@@ -103,58 +107,61 @@ namespace HovText
         // https://docs.microsoft.com/en-us/dotnet/framework/migration-guide/versions-and-dependencies
         private static string CheckFor45DotVersion(int releaseKey)
         {
+            string returnStr;
             switch (releaseKey)
             {
                 case 378389:
-                    return "4.5";
+                    returnStr = "4.5";
                     break;
                 case 378675:
                 case 378758:
-                    return "4.5.1";
+                    returnStr = "4.5.1";
                     break;
                 case 379893:
-                    return "4.5.2";
+                    returnStr = "4.5.2";
                     break;
                 case 393295:
                 case 393297:
-                    return "4.6";
+                    returnStr = "4.6";
                     break;
                 case 394254:
                 case 394271:
-                    return "4.6.1";
+                    returnStr = "4.6.1";
                     break;
                 case 394802:
                 case 394806:
-                    return "4.6.2";
+                    returnStr = "4.6.2";
                     break;
                 case 460798:
                 case 460805:
-                    return "4.7";
+                    returnStr = "4.7";
                     break;
                 case 461308:
                 case 461310:
-                    return "4.7.1";
+                    returnStr = "4.7.1";
                     break;
                 case 461808:
                 case 461814:
-                    return "4.7.2";
+                    returnStr = "4.7.2";
                     break;
                 case 528040:
                 case 528049:
                 case 528372: // also set in "default"
-                    return "4.8";
+                    returnStr = "4.8";
                     break;
                 default:
                     if (releaseKey > 528372) // also set in "4.8"
                     {
-                        return "newer than 4.8";
+                        returnStr = "newer than 4.8";
                     } else
                     {
-                        return "older than 4.5";
+                        returnStr = "older than 4.5";
                     }
                     break;
             }
+            return returnStr;
         }
+*/
 
 
         // ###########################################################################################

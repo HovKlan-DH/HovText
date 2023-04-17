@@ -13,6 +13,7 @@ using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Windows.Forms;
+using static HovText.Program;
 
 // ----------------------------------------------------------------------------
 // Upload application to these places:
@@ -26,7 +27,7 @@ using System.Windows.Forms;
 namespace HovText
 {
 
-    public partial class Settings : Form
+    public sealed partial class Settings : Form
     {
         // ###########################################################################################
         // Define "Settings" class variables - real spaghetti :-)
@@ -82,6 +83,7 @@ namespace HovText
 
         // Registry, default values
         public readonly static string registryPath = "SOFTWARE\\HovText";
+        public readonly static string registryPathDisplays = "SOFTWARE\\HovText\\DisplayLayout";
         private const string registryHotkeyToggleApplication = "Control + Oem5"; // hotkey "Toggle application on/off"
         private const string registryHotkeyGetOlderEntry = "Alt + H"; // hotkey "Show older entry"
         private const string registryHotkeyGetNewerEntry = "Shift + Alt + H"; // hotkey "Show newer entry"
@@ -153,7 +155,7 @@ namespace HovText
         readonly PasteOnHotkey pasteOnHotkey = new PasteOnHotkey();
         readonly HotkeyConflict hotkeyConflict = new HotkeyConflict();
         private static string originatingApplicationName = "";
-        public static int activeScreen; // selected screen to show the history (default will be the main screen)
+        public static int activeDisplay; // selected display to show the history (default will be the main display)
         private static string hotkey; // needed for validating the keys as it is not set in the event
 
 
@@ -229,7 +231,7 @@ namespace HovText
             InitializeRegistry();
             GetStartupSettings();
 
-            Program.AddClipboardFormatListener(this.Handle);
+            NativeMethods.AddClipboardFormatListener(this.Handle);
             Logging.Log("Added HovText to clipboard chain");
 
             // Write text for the "About" page
@@ -269,8 +271,9 @@ namespace HovText
                 case WM_CLIPBOARDUPDATE:
 
                     // Get the application name which updated the clipboard
-                    IntPtr whoUpdatedClipboardHwnd = Program.GetClipboardOwner();
-                    Program.GetWindowThreadProcessId(whoUpdatedClipboardHwnd, out uint thisProcessId);
+                    IntPtr whoUpdatedClipboardHwnd = NativeMethods.GetClipboardOwner();
+                    NativeMethods.GetWindowThreadProcessId(whoUpdatedClipboardHwnd, out uint thisProcessId);
+
                     whoUpdatedClipboardName = Process.GetProcessById((int)thisProcessId).ProcessName;
                     Logging.Log("Clipboard [UPDATE] event from [" + whoUpdatedClipboardName + "]");
 
@@ -386,30 +389,6 @@ namespace HovText
                     }
                 }
             }
-/*
-            else
-            // We have come in to here, if clipboard has changed but it does not contains a text or an image
-            // It could be empty or e.g. a file copy
-
-            if (string.IsNullOrEmpty(Clipboard.GetText()))
-            {
-                // If active application is EXCEL then restore last entry, as EXCEL clears clipboard when 
-                if (entriesText.Count > 0 && whoUpdatedClipboardName.ToLower() == "excel")
-                {
-                    // It will only(?) get in here, if use has copied a text and pressing ESCAPE or quitting Excel or sheet
-
-                    // Set a couple or required global variables for the "SetClipboard" function
-                    isClipboardText = true;
-                    isClipboardImage = false;
-                    clipboardText = entriesText[entriesText.Count - 1];
-
-                    // Restore the last text entry to the clipboard
-                    SetClipboard();
-
-                    clipboardTextLast = Clipboard.GetText();
-                }
-            }
-*/
         }
 
 
@@ -911,9 +890,9 @@ namespace HovText
             if (uiAppEnabled.Checked)
             {
                 Logging.Log("Enabled HovText");
-                
+
                 // Add this application to the clipboard chain again
-                Program.AddClipboardFormatListener(this.Handle);
+                NativeMethods.AddClipboardFormatListener(this.Handle);
                 Logging.Log("Added HovText to clipboard chain");
 
                 ProcessClipboard();
@@ -964,9 +943,9 @@ namespace HovText
             else
             {
                 Logging.Log("Disabed HovText");
-                
+
                 // Remove this application from the clipboard chain
-                Program.RemoveClipboardFormatListener(this.Handle);
+                NativeMethods.RemoveClipboardFormatListener(this.Handle);
                 Logging.Log("Removed HovText from clipboard chain");
 
                 // Restore the original clipboard format
@@ -999,7 +978,7 @@ namespace HovText
 
 
         // ###########################################################################################
-        // Called when application is minimized - it will hide the "Settings" form
+        // Hide the "Settings" form - called when application is minimized
         // ###########################################################################################
 
         private void MainWindow_Resize(object sender, EventArgs e)
@@ -1013,7 +992,7 @@ namespace HovText
 
 
         // ###########################################################################################
-        // Go to HovText web page when link is clicked
+        // Launch browser and go to HovText web page when link is clicked
         // ###########################################################################################
 
         private void aboutBox_LinkClicked(object sender, LinkClickedEventArgs e)
@@ -1024,7 +1003,7 @@ namespace HovText
 
 
         // ###########################################################################################
-        // Unregister from the clipboard chain when application is closing down
+        // Unregister from the clipboard chain, and remove hotkeys when application is closing down
         // ###########################################################################################
 
         private void MainWindow_FormClosing(object sender, FormClosingEventArgs e)
@@ -1033,7 +1012,7 @@ namespace HovText
             if (e.CloseReason == CloseReason.WindowsShutDown)
             {
                 Logging.Log("Exit HovText");
-                Program.RemoveClipboardFormatListener(this.Handle);
+                NativeMethods.RemoveClipboardFormatListener(this.Handle);
                 Logging.Log("Removed HovText from clipboard chain");
 
                 RemoveAllHotkeys();
@@ -1044,7 +1023,7 @@ namespace HovText
             if (!isCloseMinimizes || isClosedFromNotifyIcon)
             {
                 Logging.Log("Exit HovText");
-                Program.RemoveClipboardFormatListener(this.Handle);
+                NativeMethods.RemoveClipboardFormatListener(this.Handle);
                 Logging.Log("Removed HovText from clipboard chain");
 
                 RemoveAllHotkeys();
@@ -1055,7 +1034,7 @@ namespace HovText
             // Called when closing from "Clean up"
             if (resetApp)
             {
-                Program.RemoveClipboardFormatListener(this.Handle);
+                NativeMethods.RemoveClipboardFormatListener(this.Handle);
                 RemoveAllHotkeys();
 
                 // Delete the troubleshooting logfile as the very last thing
@@ -1084,10 +1063,10 @@ namespace HovText
         private static string GetActiveApplication()
         {
             // Get the active application
-            originatingHandle = Program.GetForegroundWindow();
+            originatingHandle = NativeMethods.GetForegroundWindow();
 
             // Get the process ID and find the name for that ID
-            Program.GetWindowThreadProcessId(originatingHandle, out uint processId);
+            NativeMethods.GetWindowThreadProcessId(originatingHandle, out uint processId);
             string appProcessName = Process.GetProcessById((int)processId).ProcessName;
             return appProcessName;
         }
@@ -1099,7 +1078,7 @@ namespace HovText
 
         private void ChangeFocusToThisApplication()
         {
-            Program.SetForegroundWindow(this.Handle);
+            NativeMethods.SetForegroundWindow(this.Handle);
             Logging.Log("Set focus to HovText");
         }
 
@@ -1110,7 +1089,7 @@ namespace HovText
 
         public static void ChangeFocusToOriginatingApplication()
         {
-            Program.SetForegroundWindow(originatingHandle);
+            NativeMethods.SetForegroundWindow(originatingHandle);
             Logging.Log("Set focus to originating application ["+ originatingApplicationName +"]");
         }
 
@@ -1182,32 +1161,26 @@ namespace HovText
 
 
         // ###########################################################################################
-        // Initialize registry - check if all registry keys have been created
+        // Initialize registry - check if all registry paths and keys have been created
         // ###########################################################################################
 
         private void InitializeRegistry()
         {
-            // Check if the "HovText" path exists in SOFTWARE registry - if not then create it
-            using (RegistryKey registryPathExists = Registry.CurrentUser.OpenSubKey(registryPath))
-            {
-                if (registryPathExists == null)
-                {
-                    Registry.CurrentUser.CreateSubKey(registryPath);
-                    Logging.Log("Created registry path ["+ registryPath +"]");
-                }
-            }
 
-            // Check if the following registry keys exists - if not then create them with their default values
+            // Check if the following registry entries exists - if not then create them with their default values
 
-            // Hotkeys
-            RegistryCheckOrCreate("HotkeyBehaviour", registryHotkeyBehaviour);
-            RegistryCheckOrCreate("Hotkey1", registryHotkeyToggleApplication);
-            RegistryCheckOrCreate("Hotkey2", registryHotkeyGetOlderEntry);
-            RegistryCheckOrCreate("Hotkey3", registryHotkeyGetNewerEntry);
-            RegistryCheckOrCreate("Hotkey4", registryHotkeyPasteOnHotkey);
-            RegistryCheckOrCreate("Hotkey5", registryHotkeyToggleFavorite);
-            RegistryCheckOrCreate("Hotkey6", registryHotkeyToggleView);
+            // "HovText" and "HovText\DisplayLayout" paths in HKEY_CURRENT_USER\SOFTWARE registry
+            RegistryPathCheckOrCreate(registryPath);
+            RegistryPathCheckOrCreate(registryPathDisplays);
 
+            // Screen - Hotkeys
+            RegistryKeyCheckOrCreate(registryPath, "HotkeyBehaviour", registryHotkeyBehaviour);
+            RegistryKeyCheckOrCreate(registryPath, "Hotkey1", registryHotkeyToggleApplication);
+            RegistryKeyCheckOrCreate(registryPath, "Hotkey2", registryHotkeyGetOlderEntry);
+            RegistryKeyCheckOrCreate(registryPath, "Hotkey3", registryHotkeyGetNewerEntry);
+            RegistryKeyCheckOrCreate(registryPath, "Hotkey4", registryHotkeyPasteOnHotkey);
+            RegistryKeyCheckOrCreate(registryPath, "Hotkey5", registryHotkeyToggleFavorite);
+            RegistryKeyCheckOrCreate(registryPath, "Hotkey6", registryHotkeyToggleView);
             if (isTroubleshootEnabled)
             {
                 string regVal;
@@ -1228,23 +1201,21 @@ namespace HovText
                 Logging.Log("    \"Hotkey6\" = [" + regVal + "]");
             }
 
-            // General
+            // Screen - General
             SetRegistryKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", "HovText", "\"" + Application.ExecutablePath + "\" --start-minimized");
-            RegistryCheckOrCreate("CheckUpdates", registryCheckUpdates); 
-            RegistryCheckOrCreate("CheckedVersion", appVer);
-            RegistryCheckOrCreate("CloseMinimizes", registryCloseMinimizes);
-            RegistryCheckOrCreate("RestoreOriginal", registryRestoreOriginal);
-            RegistryCheckOrCreate("HistoryEnable", registryEnableHistory);
-            RegistryCheckOrCreate("FavoritesEnable", registryEnableFavorites);
-            RegistryCheckOrCreate("CopyImages", registryCopyImages);
-            RegistryCheckOrCreate("PasteOnSelection", registryPasteOnSelection);
-            RegistryCheckOrCreate("TrimWhitespaces", registryTrimWhitespaces);
-
+            RegistryKeyCheckOrCreate(registryPath, "CheckUpdates", registryCheckUpdates); 
+            RegistryKeyCheckOrCreate(registryPath, "CheckedVersion", appVer);
+            RegistryKeyCheckOrCreate(registryPath, "CloseMinimizes", registryCloseMinimizes);
+            RegistryKeyCheckOrCreate(registryPath, "RestoreOriginal", registryRestoreOriginal);
+            RegistryKeyCheckOrCreate(registryPath, "HistoryEnable", registryEnableHistory);
+            RegistryKeyCheckOrCreate(registryPath, "FavoritesEnable", registryEnableFavorites);
+            RegistryKeyCheckOrCreate(registryPath, "CopyImages", registryCopyImages);
+            RegistryKeyCheckOrCreate(registryPath, "PasteOnSelection", registryPasteOnSelection);
+            RegistryKeyCheckOrCreate(registryPath, "TrimWhitespaces", registryTrimWhitespaces);
             if (isTroubleshootEnabled)
             {
                 Logging.Log("Startup registry values:"); 
                 string regVal;
-
                 Logging.Log("  General:");
                 regVal = GetRegistryKey(registryPath, "CheckUpdates");
                 Logging.Log("    \"CheckUpdates\" = ["+ regVal +"]");
@@ -1266,26 +1237,16 @@ namespace HovText
                 Logging.Log("    \"TrimWhitespaces\" = [" + regVal + "]");
             }
 
-            /*
-            // Handle the screen setup
-            // ---
-            // Get array of strings from registry
-            // https://docs.microsoft.com/en-us/dotnet/api/microsoft.win32.registry.setvalue?view=dotnet-plat-ext-5.0
-            string idSystem = GetScreenIdSystem();
-            string[] idDefault = { idSystem + ":" + activeScreen };
-            RegistryCheckOrCreate("ScreenSelectionHEST", idDefault);
-            */
-
             // Get the main system display (0-indexed)
-            activeScreen = ScreenGetPrimary();
+            activeDisplay = GetPrimaryDisplay();
+            string displaysId = GetUniqueDisplayLayout();
 
-            // Layout
-            RegistryCheckOrCreate("HistoryEntries", historyListElements.ToString());
-            RegistryCheckOrCreate("HistorySizeWidth", historySizeWidth.ToString());
-            RegistryCheckOrCreate("HistorySizeHeight", historySizeHeight.ToString());
-            RegistryCheckOrCreate("HistoryLocation", historyLocation);
-            RegistryCheckOrCreate("ScreenSelection", activeScreen.ToString());
-
+            // Screen - Layout
+            RegistryKeyCheckOrCreate(registryPath, "HistoryEntries", historyListElements.ToString());
+            RegistryKeyCheckOrCreate(registryPath, "HistorySizeWidth", historySizeWidth.ToString());
+            RegistryKeyCheckOrCreate(registryPath, "HistorySizeHeight", historySizeHeight.ToString());
+            RegistryKeyCheckOrCreate(registryPath, "HistoryLocation", historyLocation);
+            RegistryKeyCheckOrCreate(registryPathDisplays, displaysId, activeDisplay.ToString());
             if (isTroubleshootEnabled)
             {
                 string regVal;
@@ -1298,20 +1259,19 @@ namespace HovText
                 Logging.Log("    \"HistorySizeHeight\" = [" + regVal + "]");
                 regVal = GetRegistryKey(registryPath, "HistoryLocation");
                 Logging.Log("    \"HistoryLocation\" = [" + regVal + "]");
-                regVal = GetRegistryKey(registryPath, "ScreenSelection");
-                Logging.Log("    \"ScreenSelection\" = [" + regVal + "]");
+                regVal = GetRegistryKey(registryPathDisplays, displaysId);
+                Logging.Log("    \"DisplaySelection\" = [" + regVal + "]");
             }
 
-            // Style
-            RegistryCheckOrCreate("HistoryFontFamily", historyFontFamily);
-            RegistryCheckOrCreate("HistoryFontSize", historyFontSize.ToString());
-            RegistryCheckOrCreate("HistoryActiveBorder", registryHistoryBorder);
-            RegistryCheckOrCreate("HistoryColor", historyColor);
-            RegistryCheckOrCreate("HistoryColorCustomTop", registryHistoryColorCustomTop);
-            RegistryCheckOrCreate("HistoryColorCustomBottom", registryHistoryColorCustomBottom);
-            RegistryCheckOrCreate("HistoryColorCustomText", registryHistoryColorCustomText);
-            RegistryCheckOrCreate("HistoryColorCustomBorder", registryHistoryColorCustomBorder);
-
+            // Screen - Style
+            RegistryKeyCheckOrCreate(registryPath, "HistoryFontFamily", historyFontFamily);
+            RegistryKeyCheckOrCreate(registryPath, "HistoryFontSize", historyFontSize.ToString());
+            RegistryKeyCheckOrCreate(registryPath, "HistoryActiveBorder", registryHistoryBorder);
+            RegistryKeyCheckOrCreate(registryPath, "HistoryColor", historyColor);
+            RegistryKeyCheckOrCreate(registryPath, "HistoryColorCustomTop", registryHistoryColorCustomTop);
+            RegistryKeyCheckOrCreate(registryPath, "HistoryColorCustomBottom", registryHistoryColorCustomBottom);
+            RegistryKeyCheckOrCreate(registryPath, "HistoryColorCustomText", registryHistoryColorCustomText);
+            RegistryKeyCheckOrCreate(registryPath, "HistoryColorCustomBorder", registryHistoryColorCustomBorder);
             if (isTroubleshootEnabled)
             {
                 string regVal;
@@ -1334,9 +1294,8 @@ namespace HovText
                 Logging.Log("    \"HistoryColorCustomBorder\" = [" + regVal + "]");
             }
 
-            // Advanced
-            RegistryCheckOrCreate("TroubleshootEnable", registryTroubleshootEnable);
-
+            // Screen - Advanced
+            RegistryKeyCheckOrCreate(registryPath, "TroubleshootEnable", registryTroubleshootEnable);
             if (isTroubleshootEnabled)
             {
                 string regVal;
@@ -1346,8 +1305,7 @@ namespace HovText
             }
 
              // Misc
-             RegistryCheckOrCreate("NotificationShown", "0");
-
+             RegistryKeyCheckOrCreate(registryPath, "NotificationShown", "0");
             if (isTroubleshootEnabled)
             {
                 string regVal;
@@ -1359,35 +1317,40 @@ namespace HovText
 
 
         // ###########################################################################################
+        // Check if the registry path exists - if not then create it
+        // ###########################################################################################
+
+        private static void RegistryPathCheckOrCreate(string regPath)
+        {
+            // Check if the path exists in HKEY_CURRENT_USER\SOFTWARE registry - if not, then create it
+            using (RegistryKey registryPathExists = Registry.CurrentUser.OpenSubKey(regPath))
+            {
+                if (registryPathExists == null)
+                {
+                    Registry.CurrentUser.CreateSubKey(regPath);
+                    Logging.Log("Created registry path [" + regPath + "]");
+                }
+            }
+
+        }
+
+
+        // ###########################################################################################
         // Check if the registry key exists - if not then create it and set default value.
         // It has two methods - one with a string or one with an array of strings
         // ###########################################################################################
 
-        private static void RegistryCheckOrCreate(string regKey, string regValue)
+        private static void RegistryKeyCheckOrCreate(string regPath, string regKey, string regValue)
         {
             // Check if the registry key is set - if not then set default value
-            using (RegistryKey registryPathExists = Registry.CurrentUser.OpenSubKey(registryPath, true))
+            using (RegistryKey registryPathExists = Registry.CurrentUser.OpenSubKey(regPath, true))
             {
                 if (registryPathExists.GetValue(regKey) == null)
                 {
-                    SetRegistryKey(registryPath, regKey, regValue);
+                    SetRegistryKey(regPath, regKey, regValue);
                 }
             }
         }
-
-        /*
-        private static void RegistryCheckOrCreate(string regKey, string[] regValue)
-        {
-            // Check if the registry key is set - if not then set default value
-            using (RegistryKey registryPathExists = Registry.CurrentUser.OpenSubKey(registryPath, true))
-            {
-                if (registryPathExists.GetValue(regKey) == null)
-                {
-                    SetRegistryKey(registryPath, regKey, regValue);
-                }
-            }
-        }
-        */
 
 
         // ###########################################################################################
@@ -1441,35 +1404,7 @@ namespace HovText
             }
         }
 
-        /*
-        public static void SetRegistryKey(string path, string key, string[] value)
-        {
-            using (RegistryKey setKey = Registry.CurrentUser.OpenSubKey(path, true))
-            {
-                // First check if the key is already created (only relevant for logging)
-                string getKey = GetRegistryKey(path, key);
-
-                // Create or modify the value
-                setKey.SetValue(key, value);
-
-                // Log it
-                if (getKey == null)
-                {
-                    Logging.Log("Created registry key \"" + key + "\" with value [" + value + "] in [" + path + "]");
-                }
-                else
-                {
-                    // Only log if there really is a modification done
-                    if (value != getKey)
-                    {
-                        Logging.Log("Modified registry key \"" + key + "\" to value [" + value + "] in [" + path + "]");
-                    }
-                }
-            }
-        }
-        */
-
-
+      
         // ###########################################################################################
         // Delete registry key
         // ###########################################################################################
@@ -1731,29 +1666,20 @@ namespace HovText
             uiShowFontBottom.Text = historyFontFamily + ", " + historyFontSize;
             SetHistoryColors();
 
-            // Screen selection
-            int screenReg = Int32.Parse(GetRegistryKey(registryPath, "ScreenSelection"));
-            ScreenPopulateSetup();
-            if (IsScreenValid(screenReg))
+            // Display selection
+            string displaysId = GetUniqueDisplayLayout();
+            int displayReg = Int32.Parse(GetRegistryKey(registryPathDisplays, displaysId));
+            PopulateDisplaySetup();
+            if (IsDisplayValid(displayReg))
             {
-                activeScreen = screenReg;
-                Logging.Log("History will be shown on screen ID [" + activeScreen + "]");
+                activeDisplay = displayReg;
+                Logging.Log("History will be shown on display ID [" + activeDisplay + "]");
             }
             else
             {
-                Logging.Log("History cannot be shown on screen ID [" + screenReg + "] and will instead be shown on screen ID ["+ activeScreen +"]");
+                Logging.Log("History cannot be shown on display ID [" + displayReg + "] and will instead be shown on display ID ["+ activeDisplay +"]");
             }
-            uiDisplayGroup.Controls["uiScreen" + activeScreen].Select();
-
-            /*
-            // Get array of strings from registry
-            // https://docs.microsoft.com/en-us/dotnet/api/microsoft.win32.registry.setvalue?view=dotnet-plat-ext-5.0
-            string[] tArray = (string[])Registry.GetValue(
-                "HKEY_CURRENT_USER\\" + registryPath,
-                "ScreenSelectionHEST",
-                new string[] { "ScreenSelectionHEST does not exist" }
-                );
-            */
+            uiDisplayGroup.Controls["uiScreen" + activeDisplay].Select();
 
 
             // ------------------------------------------
@@ -2232,7 +2158,7 @@ namespace HovText
 
         private void MainWindow_Shown(object sender, EventArgs e)
         {
-            string arg0 = Program.arg0.ToLower();
+            string arg0 = Program.arg0;
             if (arg0.Contains("--start-minimized"))
             {
                 WindowState = FormWindowState.Minimized;
@@ -3343,18 +3269,18 @@ namespace HovText
 
 
         // ###########################################################################################
-        // Detect the main/primary screen.
+        // Detect the main/primary display.
         // Return will be a 0-indexed screen/display
         // ###########################################################################################
 
-        private int ScreenGetPrimary()
+        private int GetPrimaryDisplay()
         {
-            // Walk through all screens
-            int numScreens = Screen.AllScreens.Length; // total number of screens
-            for (int i = 0; i < numScreens; i++)
+            // Walk through all displays
+            int numDisplays = Screen.AllScreens.Length; // total number of displays
+            for (int i = 0; i < numDisplays; i++)
             {
-                bool isScreenMain = Screen.AllScreens[i].Primary;
-                if (isScreenMain)
+                bool isDisplayMain = Screen.AllScreens[i].Primary;
+                if (isDisplayMain)
                 {
                     return i;
                 }
@@ -3363,67 +3289,48 @@ namespace HovText
         }
 
 
-        /*
         // ###########################################################################################
-        // Get the string ID for this screen setup
+        // Get the unique display layout.
+        // Will get height, width, X/Y position and display internal name.
         // ###########################################################################################
 
-        private string GetScreenIdSystem()
+        private string GetUniqueDisplayLayout()
         {
-            // Walk through all screens
-            int numScreens = Screen.AllScreens.Length; // total number of screens
-            int primaryScreen = 0;
-            for (int i = 0; i < numScreens; i++)
+            StringBuilder sb = new StringBuilder();
+
+            foreach (Screen display in Screen.AllScreens)
             {
-                bool isScreenMain = Screen.AllScreens[i].Primary;
-                if (isScreenMain)
-                {
-                    primaryScreen = i;
-                }
+                sb.Append('w');
+                sb.Append(display.Bounds.Width);
+                sb.Append(";h");
+                sb.Append(display.Bounds.Height);
+                sb.Append(";x");
+                sb.Append(display.Bounds.X);
+                sb.Append(";y");
+                sb.Append(display.Bounds.Y);
+                sb.Append(';');
+                sb.Append(display.DeviceName);
+                sb.Append(';');
             }
 
-            // Build the screen ID
-            string screenId = numScreens.ToString() + ":" + primaryScreen.ToString();
-
-            return screenId;
-        }
-
-        private string GetScreenIdRegistry(string id)
-        {
-            string[] tokens = id.Split(':');
-            return tokens[0] + ":" + tokens[1];
-        }
-
-        private string GetScreen()
-        {
-            // Walk through all screens
-            int numScreens = Screen.AllScreens.Length; // total number of screens
-            int primaryScreen = 0;
-            for (int i = 0; i < numScreens; i++)
+            string uniqueId = sb.ToString();
+            if (uniqueId.EndsWith(";"))
             {
-                bool isScreenMain = Screen.AllScreens[i].Primary;
-                if (isScreenMain)
-                {
-                    primaryScreen = i;
-                }
+                uniqueId = uniqueId.TrimEnd(';');
             }
 
-            // Build the screen ID
-            string screenId = numScreens.ToString() + ":" + primaryScreen.ToString();
-
-            return screenId;
+            return uniqueId;
         }
-        */
-
+        
 
         // ###########################################################################################
-        // Check if the screen is valid
+        // Check if the selected display is valid
         // ###########################################################################################
 
-        private bool IsScreenValid (int screen)
+        private bool IsDisplayValid (int display)
         {
-            int numScreens = Screen.AllScreens.Length; // total number of screens
-            if (numScreens >= screen + 1)
+            int numDisplays = Screen.AllScreens.Length; // total number of displays
+            if (numDisplays >= display + 1)
             {
                 return true;
             }
@@ -3435,73 +3342,76 @@ namespace HovText
 
 
         // ###########################################################################################
-        // Populate the screens to the setup
+        // Populate the displays to the setup
         // Main contributor: FNI
         // ###########################################################################################
 
-        private void ScreenPopulateSetup ()
+        private void PopulateDisplaySetup ()
         {
             // remove all elements
             uiDisplayGroup.Controls.Clear();
 
             // Build new radio buttons
-            int numScreens = Screen.AllScreens.Length; // total number of screens
-            if (numScreens > 1)
+            int numDisplays = Screen.AllScreens.Length; // total number of displays
+            if (numDisplays > 1)
             {
-                Logging.Log("Detected ["+ numScreens + "] screens");
+                Logging.Log("Detected ["+ numDisplays + "] displays");
             }
             else
             {
-                Logging.Log("Detected ["+ numScreens + "] screen");
+                Logging.Log("Detected ["+ numDisplays + "] display");
             }
 
-            // Walk through all screens
+            // Walk through all displays
             int dividerSpace = 32;
-            for (int i = 0; i < numScreens; i++)
+            for (int i = 0; i < numDisplays; i++)
             {
-                // Check if this screen number is the main/primary one
-                bool isScreenMain = Screen.AllScreens[i].Primary;
-                var screen3 = Screen.PrimaryScreen;
+                // Check if this display number is the main/primary one
+                bool isDisplayMain = Screen.AllScreens[i].Primary;
 
                 // Build a new radio UI element
-                RadioButton screen = new RadioButton();
-                screen.Name = "uiScreen" + i;
-                screen.Tag = i;
-                if (isScreenMain)
+                RadioButton display = new RadioButton();
+                display.Name = "uiScreen" + i;
+                display.Tag = i;
+                if (isDisplayMain)
                 {
-                    screen.Text = "Screen " + (i + 1) + " (Main)";
+                    display.Text = "Display " + (i + 1) + " (Main)";
                 }
                 else
                 {
-                    screen.Text = "Screen " + (i + 1);
+                    display.Text = "Display " + (i + 1);
                 }
-                screen.Location = new Point(32, dividerSpace);
-                screen.AutoSize = true;
-                screen.CheckedChanged += new System.EventHandler(uiDisplayGroup_Changed);
-                // Disable any possibility to select anything if we only have one screen
-                if (numScreens <= 1)
+                display.Location = new Point(32, dividerSpace);
+                display.AutoSize = true;
+                display.CheckedChanged += new System.EventHandler(uiDisplayGroup_Changed);
+                // Disable any possibility to select anything if we only have one display
+                if (numDisplays <= 1)
                 {
-                    screen.Enabled = false;
+                    display.Enabled = false;
                 }
-                uiDisplayGroup.Controls.Add(screen);
+                uiDisplayGroup.Controls.Add(display);
                 dividerSpace += 32;
             }
         }
 
 
         // ###########################################################################################
-        // Catch event when changing the screen
+        // Catch event when changing the display
         // Main contributor: FNI
         // ###########################################################################################
 
         private void uiDisplayGroup_Changed (object sender, EventArgs e)
         {
-            RadioButton screenSelectedTag = (RadioButton)sender;
-            int screenSelected = Convert.ToInt32(screenSelectedTag.Tag);
-            if (screenSelected != activeScreen)
+            RadioButton displaySelectedTag = (RadioButton)sender;
+            int displaySelected = Convert.ToInt32(displaySelectedTag.Tag);
+            if (displaySelected != activeDisplay)
             {
-                activeScreen = screenSelected;
+                activeDisplay = displaySelected;
+                /*
                 SetRegistryKey(registryPath, "ScreenSelection", activeScreen.ToString());
+                */
+                string displaysId = GetUniqueDisplayLayout();
+                SetRegistryKey(registryPathDisplays, "DisplaySelection", activeDisplay.ToString());
             }
         }
 
@@ -3514,16 +3424,21 @@ namespace HovText
         {
             Logging.Log("Detected Windows display changes");
 
-            ScreenPopulateSetup();
+            PopulateDisplaySetup();
 
-            // Check if the new display settings still validates the screen setup in HovText
-            if (!IsScreenValid(activeScreen))
+            // Check if the new display settings still validates the display setup in HovText
+            if (!IsDisplayValid(activeDisplay))
             {
-                int activeScreenOld = activeScreen;
-                activeScreen = ScreenGetPrimary();
-                Logging.Log("History cannot be shown on screen ID [" + activeScreenOld + "] and will instead be shown on screen ID [" + activeScreen + "]");
+                int activeDisplayOld = activeDisplay;
+                activeDisplay = GetPrimaryDisplay();
+                Logging.Log("History cannot be shown on display ID [" + activeDisplayOld + "] and will instead be shown on display ID [" + activeDisplay + "]");
             }
-            uiDisplayGroup.Controls["uiScreen" + activeScreen].Select();
+            uiDisplayGroup.Controls["uiScreen" + activeDisplay].Select();
+        }
+
+        private void Settings_Load(object sender, EventArgs e)
+        {
+
         }
 
 
