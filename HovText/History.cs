@@ -1,4 +1,5 @@
 ﻿using HovText.Properties;
+//using System;
 using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
@@ -66,11 +67,18 @@ namespace HovText
             int resourceWidth = 18; // this is the "Favorite" icon width - optimize this by automatically get the width
             Label label;
 
+            // If height is 100%, then reduce it to 99% (corner case and I really should investigate)
+            int historySizeHeight = Settings.historySizeHeight;
+            if (historySizeHeight > 99)
+            {
+                historySizeHeight = 99;
+            }
+
             // Setup form width and height
             int workingAreaWidth = Screen.AllScreens[Settings.activeDisplay].WorkingArea.Width;
             int workingAreaHeight = Screen.AllScreens[Settings.activeDisplay].WorkingArea.Height;
             int width = (workingAreaWidth * Settings.historySizeWidth) / 100;
-            int height = (workingAreaHeight * Settings.historySizeHeight) / 100;
+            int height = (workingAreaHeight * historySizeHeight) / 100;
             Width = width;
 
             // Add the headline and favorite marker
@@ -85,8 +93,8 @@ namespace HovText
             label.Padding = new Padding(5);
             label.TextAlign = ContentAlignment.MiddleLeft;
             label.Font = new Font(Settings.historyFontFamily, Settings.historyFontSize);
-            label.BackColor = ColorTranslator.FromHtml(Settings.historyColorsTop[Settings.historyColor]);
-            label.ForeColor = ColorTranslator.FromHtml(Settings.historyColorsText[Settings.historyColor]);
+            label.BackColor = ColorTranslator.FromHtml(Settings.historyColorsHeader[Settings.historyColorTheme]);
+            label.ForeColor = ColorTranslator.FromHtml(Settings.historyColorsHeaderText[Settings.historyColorTheme]);
             label.Visible = true;
             this.Controls.Add(label);
 
@@ -151,7 +159,8 @@ namespace HovText
                     label.Height = boxHeight;
                     label.Location = new Point(0, nextPosY);
                     label.BorderStyle = BorderStyle.FixedSingle;
-                    label.Padding = new Padding(5);
+//                    label.Padding = new Padding(5);
+                    label.Padding = new Padding(Settings.historyBorderThickness - 2);
                     label.Font = new Font(Settings.historyFontFamily, Settings.historyFontSize);
                     label.Visible = false;
                     label.Text = "";
@@ -167,7 +176,8 @@ namespace HovText
                     pictureBox.Height = boxHeight;
                     pictureBox.Location = new Point(0, nextPosY);
                     pictureBox.BorderStyle = BorderStyle.FixedSingle;
-                    pictureBox.Padding = new Padding(10);
+//                    pictureBox.Padding = new Padding(10);
+                    pictureBox.Padding = new Padding(Settings.historyBorderThickness - 2);
                     pictureBox.Visible = false;
                     pictureBox.Image = null;
                     this.Controls.Add(pictureBox);
@@ -235,18 +245,31 @@ namespace HovText
 
         private void History_Paint(object sender, PaintEventArgs e)
         {
-            if (Settings.historyBorder)
+            if (Settings.historyBorderThickness > 0)
             {
-                
+                // Set padding
+                string hest = ((System.Windows.Forms.Control)sender).Name;
+                bool containsSubstring = hest.Contains("historyPictureBox");
+                int padding = containsSubstring ? 10 : 5;
+                padding = 0;
+                System.Console.WriteLine("Padding=" + padding.ToString());
+
+                if (Settings.historyBorderThickness >= 2)
+                {
+                    ((System.Windows.Forms.Control)sender).Padding = new Padding(Settings.historyBorderThickness - 2 + padding);
+                } else
+                {
+                    ((System.Windows.Forms.Control)sender).Padding = new Padding(Settings.historyBorderThickness - 1 + padding);
+                }
+
                 // Redraw border with a solid color, if the update source event is larger than 18px (favorite icon) and if we are placed on the active entry
                 if (changeBorderElement == ((System.Windows.Forms.Control)sender).Name && e.ClipRectangle.Width > 18)
                     {
-                    Debug.WriteLine("hest=" + changeBorderElement + " + sender=" + (System.Windows.Forms.Control)sender + " + width=" + e.ClipRectangle.Width);
                     ControlPaint.DrawBorder(e.Graphics, e.ClipRectangle,
-                                  ColorTranslator.FromHtml(Settings.historyColorsBorder[Settings.historyColor]), 1, ButtonBorderStyle.Solid,
-                                  ColorTranslator.FromHtml(Settings.historyColorsBorder[Settings.historyColor]), 1, ButtonBorderStyle.Solid,
-                                  ColorTranslator.FromHtml(Settings.historyColorsBorder[Settings.historyColor]), 1, ButtonBorderStyle.Solid,
-                                  ColorTranslator.FromHtml(Settings.historyColorsBorder[Settings.historyColor]), 1, ButtonBorderStyle.Solid);
+                                  ColorTranslator.FromHtml(Settings.historyColorBorder), Settings.historyBorderThickness, ButtonBorderStyle.Solid,
+                                  ColorTranslator.FromHtml(Settings.historyColorBorder), Settings.historyBorderThickness, ButtonBorderStyle.Solid,
+                                  ColorTranslator.FromHtml(Settings.historyColorBorder), Settings.historyBorderThickness, ButtonBorderStyle.Solid,
+                                  ColorTranslator.FromHtml(Settings.historyColorBorder), Settings.historyBorderThickness, ButtonBorderStyle.Solid);
                 }
                 else
                 {
@@ -337,8 +360,10 @@ namespace HovText
                                     // Set the colors
                                     if (i == entryActive && showElements > 1)
                                     {
-                                        c.BackColor = ColorTranslator.FromHtml(Settings.historyColorsTop[Settings.historyColor]);
-                                        c.ForeColor = ColorTranslator.FromHtml(Settings.historyColorsText[Settings.historyColor]);
+//                                        c.BackColor = ColorTranslator.FromHtml(Settings.historyColorsHeader[Settings.historyColorTheme]);
+//                                        c.ForeColor = ColorTranslator.FromHtml(Settings.historyColorsHeaderText[Settings.historyColorTheme]);
+                                        c.BackColor = ColorTranslator.FromHtml(Settings.historyColorsActive[Settings.historyColorTheme]);
+                                        c.ForeColor = ColorTranslator.FromHtml(Settings.historyColorsActiveText[Settings.historyColorTheme]);
                                         changeBorderElement = c.Name;
                                         c.Refresh();
 
@@ -348,8 +373,8 @@ namespace HovText
                                     }
                                     else
                                     {
-                                        c.BackColor = ColorTranslator.FromHtml(Settings.historyColorsBottom[Settings.historyColor]);
-                                        c.ForeColor = ColorTranslator.FromHtml(Settings.historyColorsText[Settings.historyColor]);
+                                        c.BackColor = ColorTranslator.FromHtml(Settings.historyColorsEntry[Settings.historyColorTheme]);
+                                        c.ForeColor = ColorTranslator.FromHtml(Settings.historyColorsEntryText[Settings.historyColorTheme]);
 
                                         // Mark this as the active element, if there is only shown one entry
                                         if (i == entryActive && showElements == 1)
@@ -390,8 +415,10 @@ namespace HovText
                                     // Set the colors
                                     if (i == entryActive && showElements > 1)
                                     {
-                                        c.BackColor = ColorTranslator.FromHtml(Settings.historyColorsTop[Settings.historyColor]);
-                                        c.ForeColor = ColorTranslator.FromHtml(Settings.historyColorsText[Settings.historyColor]);
+//                                        c.BackColor = ColorTranslator.FromHtml(Settings.historyColorsHeader[Settings.historyColorTheme]);
+//                                        c.ForeColor = ColorTranslator.FromHtml(Settings.historyColorsHeaderText[Settings.historyColorTheme]);
+                                        c.BackColor = ColorTranslator.FromHtml(Settings.historyColorsActive[Settings.historyColorTheme]);
+                                        c.ForeColor = ColorTranslator.FromHtml(Settings.historyColorsActiveText[Settings.historyColorTheme]);
                                         changeBorderElement = c.Name;
                                         c.Refresh();
 
@@ -401,8 +428,8 @@ namespace HovText
                                     }
                                     else
                                     {
-                                        c.BackColor = ColorTranslator.FromHtml(Settings.historyColorsBottom[Settings.historyColor]);
-                                        c.ForeColor = ColorTranslator.FromHtml(Settings.historyColorsText[Settings.historyColor]);
+                                        c.BackColor = ColorTranslator.FromHtml(Settings.historyColorsEntry[Settings.historyColorTheme]);
+                                        c.ForeColor = ColorTranslator.FromHtml(Settings.historyColorsEntryText[Settings.historyColorTheme]);
 
                                         // Mark this as the active element, if there is only shown one entry
                                         if (i == entryActive && showElements == 1)
@@ -755,23 +782,30 @@ namespace HovText
 
         private void SetHistoryPosition()
         {
+
+            // Use local history margin
+            int historyMargin = Settings.historyMargin;
+            if(!Settings.isHistoryMarginEnabled)
+            {
+                historyMargin = 0;
+            }
+
             // Set history location
             int x;
             int y;
-            int airgab = 5;
             switch (Settings.historyLocation)
             {
                 case "Left Top":
                     x = Screen.AllScreens[Settings.activeDisplay].WorkingArea.Left;
                     y = Screen.AllScreens[Settings.activeDisplay].WorkingArea.Top;
-                    this.Left = x + airgab;
-                    this.Top = y + airgab;
+                    this.Left = x + historyMargin;
+                    this.Top = y + historyMargin;
                     break;
                 case "Left Bottom":
                     x = Screen.AllScreens[Settings.activeDisplay].WorkingArea.Left;
                     y = Screen.AllScreens[Settings.activeDisplay].WorkingArea.Bottom - this.Height;
-                    this.Left = x + airgab;
-                    this.Top = y - airgab;
+                    this.Left = x + historyMargin;
+                    this.Top = y - historyMargin;
                     break;
                 case "Center":
                     x = Screen.AllScreens[Settings.activeDisplay].WorkingArea.Left + ((Screen.AllScreens[Settings.activeDisplay].WorkingArea.Width - this.Width) / 2);
@@ -782,14 +816,14 @@ namespace HovText
                 case "Right Top":
                     x = Screen.AllScreens[Settings.activeDisplay].WorkingArea.Right - this.Width;
                     y = Screen.AllScreens[Settings.activeDisplay].WorkingArea.Top;
-                    this.Left = x - airgab;
-                    this.Top = y + airgab;
+                    this.Left = x - historyMargin;
+                    this.Top = y + historyMargin;
                     break;
                 default: // Right Bottom
                     x = Screen.AllScreens[Settings.activeDisplay].WorkingArea.Right - this.Width;
                     y = Screen.AllScreens[Settings.activeDisplay].WorkingArea.Bottom - this.Height;
-                    this.Left = x - airgab;
-                    this.Top = y - airgab;
+                    this.Left = x - historyMargin;
+                    this.Top = y - historyMargin;
                     break;
             }
         }
@@ -819,9 +853,9 @@ namespace HovText
         private void FlashInternal()
         {
             int interval = 100;
-            UpdateElement(ColorTranslator.FromHtml(Settings.historyColorsBottom[Settings.historyColor]));
+            UpdateElement(ColorTranslator.FromHtml(Settings.historyColorsEntry[Settings.historyColorTheme]));
             Thread.Sleep(interval / 2);
-            UpdateElement(ColorTranslator.FromHtml(Settings.historyColorsTop[Settings.historyColor]));
+            UpdateElement(ColorTranslator.FromHtml(Settings.historyColorsHeader[Settings.historyColorTheme]));
             Thread.Sleep(interval / 2);
         }
 

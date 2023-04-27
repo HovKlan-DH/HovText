@@ -37,6 +37,11 @@ namespace HovText
             Settings.SetRegistryKey(Settings.registryPath, "CheckedVersion", uiAppVerOnline.Text);
         }
 
+        private void uiAppVerOnline_Click(object sender, EventArgs e)
+        {
+
+        }
+
 
         // ###########################################################################################
     }

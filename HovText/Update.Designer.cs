@@ -67,7 +67,7 @@
             this.label1.Location = new System.Drawing.Point(14, 30);
             this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(363, 25);
+            this.label1.Size = new System.Drawing.Size(346, 25);
             this.label1.TabIndex = 2;
             this.label1.Text = "A new version of HovText has been found.";
             // 
@@ -78,7 +78,7 @@
             this.label2.Location = new System.Drawing.Point(43, 71);
             this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(152, 32);
+            this.label2.Size = new System.Drawing.Size(144, 31);
             this.label2.TabIndex = 3;
             this.label2.Text = "New version:";
             this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -90,7 +90,7 @@
             this.label3.Location = new System.Drawing.Point(43, 105);
             this.label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(151, 32);
+            this.label3.Size = new System.Drawing.Size(143, 31);
             this.label3.TabIndex = 4;
             this.label3.Text = "Your version:";
             this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -102,7 +102,7 @@
             this.uiAppVerYours.Location = new System.Drawing.Point(158, 105);
             this.uiAppVerYours.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.uiAppVerYours.Name = "uiAppVerYours";
-            this.uiAppVerYours.Size = new System.Drawing.Size(29, 32);
+            this.uiAppVerYours.Size = new System.Drawing.Size(28, 31);
             this.uiAppVerYours.TabIndex = 5;
             this.uiAppVerYours.Text = "#";
             this.uiAppVerYours.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -114,10 +114,11 @@
             this.uiAppVerOnline.Location = new System.Drawing.Point(158, 71);
             this.uiAppVerOnline.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.uiAppVerOnline.Name = "uiAppVerOnline";
-            this.uiAppVerOnline.Size = new System.Drawing.Size(29, 32);
+            this.uiAppVerOnline.Size = new System.Drawing.Size(28, 31);
             this.uiAppVerOnline.TabIndex = 6;
             this.uiAppVerOnline.Text = "#";
             this.uiAppVerOnline.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.uiAppVerOnline.Click += new System.EventHandler(this.uiAppVerOnline_Click);
             // 
             // textBox1
             // 

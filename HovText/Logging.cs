@@ -20,13 +20,10 @@ namespace HovText
             // Get OS name and version
             // https://stackoverflow.com/a/50330392/2028935
             var os = (string)(from x in new ManagementObjectSearcher("SELECT Caption FROM Win32_OperatingSystem").Get().Cast<ManagementObject>() select x.GetPropertyValue("Caption")).FirstOrDefault();
-
             string appVer = Settings.appVer.Trim();
 
             // Get .NET Framework version
-/*
-            string netVer = Get45or451FromRegistry();
-*/
+//            string netVer = Get45or451FromRegistry();
             string dotNetVer = RuntimeInformation.FrameworkDescription;
             dotNetVer = dotNetVer.Replace(".NET Framework", "");
             dotNetVer = dotNetVer.Trim();
@@ -38,12 +35,34 @@ namespace HovText
             CultureInfo ci = CultureInfo.CurrentUICulture; ;
             string osLang = ci.Name;
 
-            Log("-------------------------------------------------------------------------------");
-            Log("Send this log to [dennis@hovtext.com] if you experience any problems.");
-            Log("You can also copy/paste it to the \"Feedback\" tab, if it is not insanely large.");
-            Log("-------------------------------------------------------------------------------");
+            // Output the architechture
+            Architecture cpuArchitecture = RuntimeInformation.ProcessArchitecture;
+            string architectureString;
+            switch (cpuArchitecture)
+            {
+                case Architecture.X86:
+                    architectureString = "x86/32bit";
+                    break;
+                case Architecture.X64:
+                    architectureString = "x64/64bit";
+                    break;
+                case Architecture.Arm:
+                    architectureString = "ARM/32bit";
+                    break;
+                case Architecture.Arm64:
+                    architectureString = "ARM64/64bit";
+                    break;
+                default:
+                    architectureString = "unknown";
+                    break;
+            }
+
+            Log("--------------------------------------------------------------------------------------");
+            Log("Send this log to the developer via the \"Feedback\" tab, if you experience any problems.");
+            Log("--------------------------------------------------------------------------------------");
             Log("Started HovText [" + appVer + "] logging");
             Log(".NET Framework version = [" + dotNetVer + "]");
+            Log("CPU architecture = [" + architectureString + "]");
             Log("OS version = [" + os + "]");
             Log("OS language = [" + osLang + "]");
             Log("Input language = [" + langSetup + "]");
@@ -80,6 +99,7 @@ namespace HovText
                 }
             }
 
+            // Output to the Visual Studio "Output" console
             Debug.WriteLine(logMessage);
         }
 
