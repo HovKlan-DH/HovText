@@ -1,6 +1,4 @@
 ﻿using HovText.Properties;
-//using System;
-using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Threading;
@@ -159,7 +157,6 @@ namespace HovText
                     label.Height = boxHeight;
                     label.Location = new Point(0, nextPosY);
                     label.BorderStyle = BorderStyle.FixedSingle;
-//                    label.Padding = new Padding(5);
                     label.Padding = new Padding(Settings.historyBorderThickness - 2);
                     label.Font = new Font(Settings.historyFontFamily, Settings.historyFontSize);
                     label.Visible = false;
@@ -176,7 +173,6 @@ namespace HovText
                     pictureBox.Height = boxHeight;
                     pictureBox.Location = new Point(0, nextPosY);
                     pictureBox.BorderStyle = BorderStyle.FixedSingle;
-//                    pictureBox.Padding = new Padding(10);
                     pictureBox.Padding = new Padding(Settings.historyBorderThickness - 2);
                     pictureBox.Visible = false;
                     pictureBox.Image = null;
@@ -250,9 +246,7 @@ namespace HovText
                 // Set padding
                 string hest = ((System.Windows.Forms.Control)sender).Name;
                 bool containsSubstring = hest.Contains("historyPictureBox");
-                int padding = containsSubstring ? 10 : 5;
-                padding = 0;
-                System.Console.WriteLine("Padding=" + padding.ToString());
+                int padding = 0;
 
                 if (Settings.historyBorderThickness >= 2)
                 {
@@ -360,8 +354,6 @@ namespace HovText
                                     // Set the colors
                                     if (i == entryActive && showElements > 1)
                                     {
-//                                        c.BackColor = ColorTranslator.FromHtml(Settings.historyColorsHeader[Settings.historyColorTheme]);
-//                                        c.ForeColor = ColorTranslator.FromHtml(Settings.historyColorsHeaderText[Settings.historyColorTheme]);
                                         c.BackColor = ColorTranslator.FromHtml(Settings.historyColorsActive[Settings.historyColorTheme]);
                                         c.ForeColor = ColorTranslator.FromHtml(Settings.historyColorsActiveText[Settings.historyColorTheme]);
                                         changeBorderElement = c.Name;
@@ -415,8 +407,6 @@ namespace HovText
                                     // Set the colors
                                     if (i == entryActive && showElements > 1)
                                     {
-//                                        c.BackColor = ColorTranslator.FromHtml(Settings.historyColorsHeader[Settings.historyColorTheme]);
-//                                        c.ForeColor = ColorTranslator.FromHtml(Settings.historyColorsHeaderText[Settings.historyColorTheme]);
                                         c.BackColor = ColorTranslator.FromHtml(Settings.historyColorsActive[Settings.historyColorTheme]);
                                         c.ForeColor = ColorTranslator.FromHtml(Settings.historyColorsActiveText[Settings.historyColorTheme]);
                                         changeBorderElement = c.Name;

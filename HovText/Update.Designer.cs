@@ -118,7 +118,7 @@
             this.uiAppVerOnline.TabIndex = 6;
             this.uiAppVerOnline.Text = "#";
             this.uiAppVerOnline.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.uiAppVerOnline.Click += new System.EventHandler(this.uiAppVerOnline_Click);
+//            this.uiAppVerOnline.Click += new System.EventHandler(this.uiAppVerOnline_Click);
             // 
             // textBox1
             // 
@@ -129,8 +129,7 @@
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(555, 63);
             this.textBox1.TabIndex = 8;
-            this.textBox1.Text = "You can go to the web page and download the new version and replace the executabl" +
-    "e file.";
+            this.textBox1.Text = "You can go to the web page and download the new version and replace the executable file.";
             // 
             // Update
             // 

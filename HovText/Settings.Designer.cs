@@ -43,13 +43,11 @@
             this.updateTimer = new System.Windows.Forms.Timer(this.components);
             this.mouseClickTimer = new System.Windows.Forms.Timer(this.components);
             this.tabPage4 = new System.Windows.Forms.TabPage();
-            this.label22 = new System.Windows.Forms.Label();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.aboutBox = new System.Windows.Forms.RichTextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.uiAppVer = new System.Windows.Forms.Label();
             this.tabPage2 = new System.Windows.Forms.TabPage();
-            this.label14 = new System.Windows.Forms.Label();
             this.uiDisplayGroup = new System.Windows.Forms.GroupBox();
             this.groupBox6 = new System.Windows.Forms.GroupBox();
             this.labelHistoryMargin = new System.Windows.Forms.Label();
@@ -71,7 +69,6 @@
             this.uiHistoryLocationRadioRightTop = new System.Windows.Forms.RadioButton();
             this.uiHistoryLocationRadioRightBottom = new System.Windows.Forms.RadioButton();
             this.tabPage5 = new System.Windows.Forms.TabPage();
-            this.label15 = new System.Windows.Forms.Label();
             this.groupBox7 = new System.Windows.Forms.GroupBox();
             this.uiHotkeyBehaviourSystem = new System.Windows.Forms.RadioButton();
             this.uiHotkeyBehaviourPaste = new System.Windows.Forms.RadioButton();
@@ -91,7 +88,6 @@
             this.label7 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
             this.tabPage1 = new System.Windows.Forms.TabPage();
-            this.label17 = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.uiFavoritesEnabled = new System.Windows.Forms.CheckBox();
             this.uiRestoreOriginal = new System.Windows.Forms.CheckBox();
@@ -104,9 +100,12 @@
             this.uiStartWithWindows = new System.Windows.Forms.CheckBox();
             this.tabControl = new System.Windows.Forms.TabControl();
             this.tabPage3 = new System.Windows.Forms.TabPage();
-            this.label19 = new System.Windows.Forms.Label();
             this.groupBox12 = new System.Windows.Forms.GroupBox();
-            this.uiIconsSquare = new System.Windows.Forms.RadioButton();
+            this.uiIconsSquareNew = new System.Windows.Forms.RadioButton();
+            this.pictureBox10 = new System.Windows.Forms.PictureBox();
+            this.pictureBox9 = new System.Windows.Forms.PictureBox();
+            this.pictureBox8 = new System.Windows.Forms.PictureBox();
+            this.uiIconsSquareOld = new System.Windows.Forms.RadioButton();
             this.uiIconsRound = new System.Windows.Forms.RadioButton();
             this.pictureBox5 = new System.Windows.Forms.PictureBox();
             this.pictureBox6 = new System.Windows.Forms.PictureBox();
@@ -114,14 +113,6 @@
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.pictureBox4 = new System.Windows.Forms.PictureBox();
             this.pictureBox3 = new System.Windows.Forms.PictureBox();
-            this.borderGroupBox = new System.Windows.Forms.GroupBox();
-            this.labelBorderThickness = new System.Windows.Forms.Label();
-            this.label11 = new System.Windows.Forms.Label();
-            this.uiBorderThickness = new System.Windows.Forms.TrackBar();
-            this.labelCustomBorder = new System.Windows.Forms.Label();
-            this.uiCustomBorder = new System.Windows.Forms.TextBox();
-            this.groupBox8 = new System.Windows.Forms.GroupBox();
-            this.uiHistoryColorThemeContrast = new System.Windows.Forms.RadioButton();
             this.groupBoxCustom = new System.Windows.Forms.GroupBox();
             this.uiCustomActiveText = new System.Windows.Forms.TextBox();
             this.uiCustomHeaderText = new System.Windows.Forms.TextBox();
@@ -135,6 +126,14 @@
             this.labelCustomEntryText = new System.Windows.Forms.Label();
             this.labelCustomEntry = new System.Windows.Forms.Label();
             this.uiCustomEntryText = new System.Windows.Forms.TextBox();
+            this.borderGroupBox = new System.Windows.Forms.GroupBox();
+            this.labelBorderThickness = new System.Windows.Forms.Label();
+            this.label11 = new System.Windows.Forms.Label();
+            this.uiBorderThickness = new System.Windows.Forms.TrackBar();
+            this.labelCustomBorder = new System.Windows.Forms.Label();
+            this.uiCustomBorder = new System.Windows.Forms.TextBox();
+            this.groupBox8 = new System.Windows.Forms.GroupBox();
+            this.uiHistoryColorThemeContrast = new System.Windows.Forms.RadioButton();
             this.uiHistoryColorThemeCustom = new System.Windows.Forms.RadioButton();
             this.uiHistoryColorThemeYellow = new System.Windows.Forms.RadioButton();
             this.uiHistoryColorThemeGreen = new System.Windows.Forms.RadioButton();
@@ -146,7 +145,6 @@
             this.uiShowFontHeader = new System.Windows.Forms.Label();
             this.uiChangeFont = new System.Windows.Forms.Button();
             this.tabPage6 = new System.Windows.Forms.TabPage();
-            this.label20 = new System.Windows.Forms.Label();
             this.groupBox11 = new System.Windows.Forms.GroupBox();
             this.uiDevelopmentVersion = new System.Windows.Forms.Label();
             this.uiDevelopmentDownload = new System.Windows.Forms.Button();
@@ -160,7 +158,6 @@
             this.uiTroubleshootEnabled = new System.Windows.Forms.CheckBox();
             this.tabPage7 = new System.Windows.Forms.TabPage();
             this.uiAttachFile = new System.Windows.Forms.CheckBox();
-            this.label21 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.uiSendFeedback = new System.Windows.Forms.Button();
@@ -190,6 +187,7 @@
             this.colorDialogActive = new System.Windows.Forms.ColorDialog();
             this.colorDialogHeaderText = new System.Windows.Forms.ColorDialog();
             this.colorDialogActiveText = new System.Windows.Forms.ColorDialog();
+            this.uiDeveloperVersion = new System.Windows.Forms.Label();
             this.notifyIconMenuStrip.SuspendLayout();
             this.tabPage4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -209,16 +207,19 @@
             this.tabControl.SuspendLayout();
             this.tabPage3.SuspendLayout();
             this.groupBox12.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox10)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox9)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox8)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox6)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox7)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
+            this.groupBoxCustom.SuspendLayout();
             this.borderGroupBox.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.uiBorderThickness)).BeginInit();
             this.groupBox8.SuspendLayout();
-            this.groupBoxCustom.SuspendLayout();
             this.groupBox4.SuspendLayout();
             this.tabPage6.SuspendLayout();
             this.groupBox11.SuspendLayout();
@@ -274,7 +275,7 @@
             this.uiCloseMinimize.AutoSize = true;
             this.uiCloseMinimize.Checked = true;
             this.uiCloseMinimize.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.uiCloseMinimize.Location = new System.Drawing.Point(29, 63);
+            this.uiCloseMinimize.Location = new System.Drawing.Point(29, 71);
             this.uiCloseMinimize.Name = "uiCloseMinimize";
             this.uiCloseMinimize.Size = new System.Drawing.Size(328, 29);
             this.uiCloseMinimize.TabIndex = 112;
@@ -287,10 +288,10 @@
             // uiPasteOnSelection
             // 
             this.uiPasteOnSelection.AutoSize = true;
-            this.uiPasteOnSelection.Location = new System.Drawing.Point(29, 223);
+            this.uiPasteOnSelection.Location = new System.Drawing.Point(29, 231);
             this.uiPasteOnSelection.Name = "uiPasteOnSelection";
             this.uiPasteOnSelection.Size = new System.Drawing.Size(270, 29);
-            this.uiPasteOnSelection.TabIndex = 116;
+            this.uiPasteOnSelection.TabIndex = 117;
             this.uiPasteOnSelection.Text = "Paste on clipboard selection";
             this.trayIcon.SetToolTip(this.uiPasteOnSelection, "If checked then the application will minimize to tray when the Close button is cl" +
         "icked.\r\nIf not checked then the application will exit and terminate.");
@@ -299,9 +300,10 @@
             // 
             // uiHelp
             // 
-            this.uiHelp.Location = new System.Drawing.Point(166, 654);
+            this.uiHelp.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.uiHelp.Location = new System.Drawing.Point(204, 658);
             this.uiHelp.Name = "uiHelp";
-            this.uiHelp.Size = new System.Drawing.Size(262, 38);
+            this.uiHelp.Size = new System.Drawing.Size(262, 35);
             this.uiHelp.TabIndex = 1000;
             this.uiHelp.Text = "Show online help for this tab";
             this.uiHelp.UseVisualStyleBackColor = true;
@@ -320,35 +322,22 @@
             // tabPage4
             // 
             this.tabPage4.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.tabPage4.Controls.Add(this.label22);
+            this.tabPage4.Controls.Add(this.uiDeveloperVersion);
             this.tabPage4.Controls.Add(this.pictureBox1);
             this.tabPage4.Controls.Add(this.aboutBox);
             this.tabPage4.Controls.Add(this.label2);
             this.tabPage4.Controls.Add(this.uiAppVer);
             this.tabPage4.Location = new System.Drawing.Point(4, 34);
             this.tabPage4.Name = "tabPage4";
-            this.tabPage4.Size = new System.Drawing.Size(770, 659);
+            this.tabPage4.Size = new System.Drawing.Size(638, 659);
             this.tabPage4.TabIndex = 3;
             this.tabPage4.Text = "About";
-            // 
-            // label22
-            // 
-            this.label22.AutoSize = true;
-            this.label22.BackColor = System.Drawing.Color.IndianRed;
-            this.label22.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.label22.Font = new System.Drawing.Font("Segoe UI", 15.12727F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label22.ForeColor = System.Drawing.Color.White;
-            this.label22.Location = new System.Drawing.Point(150, 507);
-            this.label22.Name = "label22";
-            this.label22.Size = new System.Drawing.Size(421, 38);
-            this.label22.TabIndex = 312;
-            this.label22.Text = "DEVELOPMENT - ONLY FOR TEST";
             // 
             // pictureBox1
             // 
             this.pictureBox1.BackColor = System.Drawing.Color.Transparent;
             this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
-            this.pictureBox1.Location = new System.Drawing.Point(236, 367);
+            this.pictureBox1.Location = new System.Drawing.Point(267, 367);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(104, 59);
             this.pictureBox1.TabIndex = 92;
@@ -362,7 +351,7 @@
             this.aboutBox.Location = new System.Drawing.Point(28, 110);
             this.aboutBox.Name = "aboutBox";
             this.aboutBox.ReadOnly = true;
-            this.aboutBox.Size = new System.Drawing.Size(510, 264);
+            this.aboutBox.Size = new System.Drawing.Size(571, 264);
             this.aboutBox.TabIndex = 91;
             this.aboutBox.TabStop = false;
             this.aboutBox.Text = "#";
@@ -393,36 +382,22 @@
             // tabPage2
             // 
             this.tabPage2.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.tabPage2.Controls.Add(this.label14);
             this.tabPage2.Controls.Add(this.uiDisplayGroup);
             this.tabPage2.Controls.Add(this.groupBox6);
             this.tabPage2.Controls.Add(this.groupBox10);
             this.tabPage2.Location = new System.Drawing.Point(4, 34);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(770, 659);
+            this.tabPage2.Size = new System.Drawing.Size(638, 659);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Layout";
             // 
-            // label14
-            // 
-            this.label14.AutoSize = true;
-            this.label14.BackColor = System.Drawing.Color.IndianRed;
-            this.label14.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.label14.Font = new System.Drawing.Font("Segoe UI", 15.12727F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label14.ForeColor = System.Drawing.Color.White;
-            this.label14.Location = new System.Drawing.Point(150, 553);
-            this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(421, 38);
-            this.label14.TabIndex = 312;
-            this.label14.Text = "DEVELOPMENT - ONLY FOR TEST";
-            // 
             // uiDisplayGroup
             // 
-            this.uiDisplayGroup.Location = new System.Drawing.Point(322, 242);
+            this.uiDisplayGroup.Location = new System.Drawing.Point(331, 249);
             this.uiDisplayGroup.Name = "uiDisplayGroup";
-            this.uiDisplayGroup.Size = new System.Drawing.Size(220, 220);
-            this.uiDisplayGroup.TabIndex = 311;
+            this.uiDisplayGroup.Size = new System.Drawing.Size(285, 353);
+            this.uiDisplayGroup.TabIndex = 320;
             this.uiDisplayGroup.TabStop = false;
             this.uiDisplayGroup.Text = "Show clipboard on";
             // 
@@ -442,7 +417,7 @@
             this.groupBox6.Controls.Add(this.uiHistorySizeHeight);
             this.groupBox6.Location = new System.Drawing.Point(22, 23);
             this.groupBox6.Name = "groupBox6";
-            this.groupBox6.Size = new System.Drawing.Size(281, 439);
+            this.groupBox6.Size = new System.Drawing.Size(285, 579);
             this.groupBox6.TabIndex = 300;
             this.groupBox6.TabStop = false;
             this.groupBox6.Text = "Clipboard area";
@@ -450,7 +425,7 @@
             // labelHistoryMargin
             // 
             this.labelHistoryMargin.AutoSize = true;
-            this.labelHistoryMargin.Location = new System.Drawing.Point(227, 312);
+            this.labelHistoryMargin.Location = new System.Drawing.Point(228, 333);
             this.labelHistoryMargin.Name = "labelHistoryMargin";
             this.labelHistoryMargin.Size = new System.Drawing.Size(42, 25);
             this.labelHistoryMargin.TabIndex = 307;
@@ -459,7 +434,7 @@
             // label16
             // 
             this.label16.AutoSize = true;
-            this.label16.Location = new System.Drawing.Point(12, 278);
+            this.label16.Location = new System.Drawing.Point(21, 301);
             this.label16.Name = "label16";
             this.label16.Size = new System.Drawing.Size(150, 25);
             this.label16.TabIndex = 304;
@@ -467,20 +442,19 @@
             // 
             // uiHistoryMargin
             // 
-            this.uiHistoryMargin.Location = new System.Drawing.Point(14, 302);
+            this.uiHistoryMargin.Location = new System.Drawing.Point(16, 324);
             this.uiHistoryMargin.Maximum = 50;
             this.uiHistoryMargin.Name = "uiHistoryMargin";
-            this.uiHistoryMargin.Size = new System.Drawing.Size(199, 56);
-            this.uiHistoryMargin.TabIndex = 305;
+            this.uiHistoryMargin.Size = new System.Drawing.Size(206, 56);
+            this.uiHistoryMargin.TabIndex = 304;
             this.uiHistoryMargin.TickFrequency = 10;
             this.uiHistoryMargin.TickStyle = System.Windows.Forms.TickStyle.Both;
-            this.uiHistoryMargin.Value = 5;
             this.uiHistoryMargin.ValueChanged += new System.EventHandler(this.uiHistoryMargin_ValueChanged);
             // 
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(13, 116);
+            this.label5.Location = new System.Drawing.Point(21, 125);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(63, 25);
             this.label5.TabIndex = 73;
@@ -489,7 +463,7 @@
             // labelHistoryElements
             // 
             this.labelHistoryElements.AutoSize = true;
-            this.labelHistoryElements.Location = new System.Drawing.Point(218, 71);
+            this.labelHistoryElements.Location = new System.Drawing.Point(228, 70);
             this.labelHistoryElements.Name = "labelHistoryElements";
             this.labelHistoryElements.Size = new System.Drawing.Size(22, 25);
             this.labelHistoryElements.TabIndex = 77;
@@ -498,7 +472,7 @@
             // label10
             // 
             this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(13, 37);
+            this.label10.Location = new System.Drawing.Point(21, 37);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(149, 25);
             this.label10.TabIndex = 76;
@@ -507,7 +481,7 @@
             // labelHistorySizeHeight
             // 
             this.labelHistorySizeHeight.AutoSize = true;
-            this.labelHistorySizeHeight.Location = new System.Drawing.Point(219, 221);
+            this.labelHistorySizeHeight.Location = new System.Drawing.Point(228, 245);
             this.labelHistorySizeHeight.Name = "labelHistorySizeHeight";
             this.labelHistorySizeHeight.Size = new System.Drawing.Size(48, 25);
             this.labelHistorySizeHeight.TabIndex = 72;
@@ -516,7 +490,7 @@
             // label9
             // 
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(12, 195);
+            this.label9.Location = new System.Drawing.Point(20, 213);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(68, 25);
             this.label9.TabIndex = 74;
@@ -525,7 +499,7 @@
             // labelHistorySizeWidth
             // 
             this.labelHistorySizeWidth.AutoSize = true;
-            this.labelHistorySizeWidth.Location = new System.Drawing.Point(219, 146);
+            this.labelHistorySizeWidth.Location = new System.Drawing.Point(228, 160);
             this.labelHistorySizeWidth.Name = "labelHistorySizeWidth";
             this.labelHistorySizeWidth.Size = new System.Drawing.Size(48, 25);
             this.labelHistorySizeWidth.TabIndex = 71;
@@ -535,11 +509,11 @@
             // 
             this.uiHistoryElements.BackColor = System.Drawing.Color.WhiteSmoke;
             this.uiHistoryElements.LargeChange = 1;
-            this.uiHistoryElements.Location = new System.Drawing.Point(16, 61);
+            this.uiHistoryElements.Location = new System.Drawing.Point(16, 60);
             this.uiHistoryElements.Maximum = 30;
             this.uiHistoryElements.Minimum = 1;
             this.uiHistoryElements.Name = "uiHistoryElements";
-            this.uiHistoryElements.Size = new System.Drawing.Size(189, 56);
+            this.uiHistoryElements.Size = new System.Drawing.Size(206, 56);
             this.uiHistoryElements.TabIndex = 301;
             this.uiHistoryElements.TickFrequency = 5;
             this.uiHistoryElements.TickStyle = System.Windows.Forms.TickStyle.Both;
@@ -549,29 +523,29 @@
             // uiHistorySizeWidth
             // 
             this.uiHistorySizeWidth.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.uiHistorySizeWidth.Location = new System.Drawing.Point(16, 140);
+            this.uiHistorySizeWidth.Location = new System.Drawing.Point(16, 148);
             this.uiHistorySizeWidth.Maximum = 100;
             this.uiHistorySizeWidth.Minimum = 10;
             this.uiHistorySizeWidth.Name = "uiHistorySizeWidth";
-            this.uiHistorySizeWidth.Size = new System.Drawing.Size(193, 56);
+            this.uiHistorySizeWidth.Size = new System.Drawing.Size(206, 56);
             this.uiHistorySizeWidth.TabIndex = 302;
             this.uiHistorySizeWidth.TickFrequency = 10;
             this.uiHistorySizeWidth.TickStyle = System.Windows.Forms.TickStyle.Both;
-            this.uiHistorySizeWidth.Value = 30;
+            this.uiHistorySizeWidth.Value = 10;
             this.uiHistorySizeWidth.ValueChanged += new System.EventHandler(this.historySizeWidth_ValueChanged);
             // 
             // uiHistorySizeHeight
             // 
-            this.uiHistorySizeHeight.Location = new System.Drawing.Point(14, 219);
+            this.uiHistorySizeHeight.Location = new System.Drawing.Point(16, 236);
             this.uiHistorySizeHeight.Maximum = 100;
             this.uiHistorySizeHeight.Minimum = 10;
             this.uiHistorySizeHeight.Name = "uiHistorySizeHeight";
-            this.uiHistorySizeHeight.Size = new System.Drawing.Size(199, 56);
+            this.uiHistorySizeHeight.Size = new System.Drawing.Size(206, 56);
             this.uiHistorySizeHeight.SmallChange = 5;
             this.uiHistorySizeHeight.TabIndex = 303;
             this.uiHistorySizeHeight.TickFrequency = 10;
             this.uiHistorySizeHeight.TickStyle = System.Windows.Forms.TickStyle.Both;
-            this.uiHistorySizeHeight.Value = 20;
+            this.uiHistorySizeHeight.Value = 10;
             this.uiHistorySizeHeight.ValueChanged += new System.EventHandler(this.historySizeHeight_ValueChanged);
             // 
             // groupBox10
@@ -581,9 +555,9 @@
             this.groupBox10.Controls.Add(this.uiHistoryLocationRadioLeftTop);
             this.groupBox10.Controls.Add(this.uiHistoryLocationRadioRightTop);
             this.groupBox10.Controls.Add(this.uiHistoryLocationRadioRightBottom);
-            this.groupBox10.Location = new System.Drawing.Point(322, 23);
+            this.groupBox10.Location = new System.Drawing.Point(331, 23);
             this.groupBox10.Name = "groupBox10";
-            this.groupBox10.Size = new System.Drawing.Size(220, 196);
+            this.groupBox10.Size = new System.Drawing.Size(285, 208);
             this.groupBox10.TabIndex = 310;
             this.groupBox10.TabStop = false;
             this.groupBox10.Text = "Clipboard location";
@@ -592,7 +566,7 @@
             // 
             this.uiHistoryLocationRadioCenter.AutoSize = true;
             this.uiHistoryLocationRadioCenter.Font = new System.Drawing.Font("Segoe UI", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.uiHistoryLocationRadioCenter.Location = new System.Drawing.Point(32, 96);
+            this.uiHistoryLocationRadioCenter.Location = new System.Drawing.Point(29, 91);
             this.uiHistoryLocationRadioCenter.Name = "uiHistoryLocationRadioCenter";
             this.uiHistoryLocationRadioCenter.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.uiHistoryLocationRadioCenter.Size = new System.Drawing.Size(84, 29);
@@ -605,7 +579,7 @@
             // 
             this.uiHistoryLocationRadioLeftBottom.AutoSize = true;
             this.uiHistoryLocationRadioLeftBottom.Font = new System.Drawing.Font("Segoe UI", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.uiHistoryLocationRadioLeftBottom.Location = new System.Drawing.Point(32, 64);
+            this.uiHistoryLocationRadioLeftBottom.Location = new System.Drawing.Point(29, 59);
             this.uiHistoryLocationRadioLeftBottom.Name = "uiHistoryLocationRadioLeftBottom";
             this.uiHistoryLocationRadioLeftBottom.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.uiHistoryLocationRadioLeftBottom.Size = new System.Drawing.Size(127, 29);
@@ -618,7 +592,7 @@
             // 
             this.uiHistoryLocationRadioLeftTop.AutoSize = true;
             this.uiHistoryLocationRadioLeftTop.Font = new System.Drawing.Font("Segoe UI", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.uiHistoryLocationRadioLeftTop.Location = new System.Drawing.Point(32, 32);
+            this.uiHistoryLocationRadioLeftTop.Location = new System.Drawing.Point(29, 27);
             this.uiHistoryLocationRadioLeftTop.Name = "uiHistoryLocationRadioLeftTop";
             this.uiHistoryLocationRadioLeftTop.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.uiHistoryLocationRadioLeftTop.Size = new System.Drawing.Size(96, 29);
@@ -631,7 +605,7 @@
             // 
             this.uiHistoryLocationRadioRightTop.AutoSize = true;
             this.uiHistoryLocationRadioRightTop.Font = new System.Drawing.Font("Segoe UI", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.uiHistoryLocationRadioRightTop.Location = new System.Drawing.Point(32, 128);
+            this.uiHistoryLocationRadioRightTop.Location = new System.Drawing.Point(29, 123);
             this.uiHistoryLocationRadioRightTop.Name = "uiHistoryLocationRadioRightTop";
             this.uiHistoryLocationRadioRightTop.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.uiHistoryLocationRadioRightTop.Size = new System.Drawing.Size(109, 29);
@@ -645,7 +619,7 @@
             this.uiHistoryLocationRadioRightBottom.AutoSize = true;
             this.uiHistoryLocationRadioRightBottom.Checked = true;
             this.uiHistoryLocationRadioRightBottom.Font = new System.Drawing.Font("Segoe UI", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.uiHistoryLocationRadioRightBottom.Location = new System.Drawing.Point(32, 160);
+            this.uiHistoryLocationRadioRightBottom.Location = new System.Drawing.Point(29, 155);
             this.uiHistoryLocationRadioRightBottom.Name = "uiHistoryLocationRadioRightBottom";
             this.uiHistoryLocationRadioRightBottom.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.uiHistoryLocationRadioRightBottom.Size = new System.Drawing.Size(140, 29);
@@ -658,28 +632,14 @@
             // tabPage5
             // 
             this.tabPage5.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.tabPage5.Controls.Add(this.label15);
             this.tabPage5.Controls.Add(this.groupBox7);
             this.tabPage5.Controls.Add(this.groupBox5);
             this.tabPage5.Location = new System.Drawing.Point(4, 34);
             this.tabPage5.Name = "tabPage5";
             this.tabPage5.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage5.Size = new System.Drawing.Size(770, 659);
+            this.tabPage5.Size = new System.Drawing.Size(638, 659);
             this.tabPage5.TabIndex = 4;
             this.tabPage5.Text = "Hotkeys";
-            // 
-            // label15
-            // 
-            this.label15.AutoSize = true;
-            this.label15.BackColor = System.Drawing.Color.IndianRed;
-            this.label15.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.label15.Font = new System.Drawing.Font("Segoe UI", 15.12727F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label15.ForeColor = System.Drawing.Color.White;
-            this.label15.Location = new System.Drawing.Point(180, 511);
-            this.label15.Name = "label15";
-            this.label15.Size = new System.Drawing.Size(421, 38);
-            this.label15.TabIndex = 311;
-            this.label15.Text = "DEVELOPMENT - ONLY FOR TEST";
             // 
             // groupBox7
             // 
@@ -687,7 +647,7 @@
             this.groupBox7.Controls.Add(this.uiHotkeyBehaviourPaste);
             this.groupBox7.Location = new System.Drawing.Point(22, 23);
             this.groupBox7.Name = "groupBox7";
-            this.groupBox7.Size = new System.Drawing.Size(521, 107);
+            this.groupBox7.Size = new System.Drawing.Size(594, 118);
             this.groupBox7.TabIndex = 200;
             this.groupBox7.TabStop = false;
             this.groupBox7.Text = "Hotkey behaviour";
@@ -696,7 +656,7 @@
             // 
             this.uiHotkeyBehaviourSystem.AutoSize = true;
             this.uiHotkeyBehaviourSystem.Checked = true;
-            this.uiHotkeyBehaviourSystem.Location = new System.Drawing.Point(29, 32);
+            this.uiHotkeyBehaviourSystem.Location = new System.Drawing.Point(29, 35);
             this.uiHotkeyBehaviourSystem.Name = "uiHotkeyBehaviourSystem";
             this.uiHotkeyBehaviourSystem.Size = new System.Drawing.Size(211, 29);
             this.uiHotkeyBehaviourSystem.TabIndex = 201;
@@ -708,7 +668,7 @@
             // uiHotkeyBehaviourPaste
             // 
             this.uiHotkeyBehaviourPaste.AutoSize = true;
-            this.uiHotkeyBehaviourPaste.Location = new System.Drawing.Point(29, 64);
+            this.uiHotkeyBehaviourPaste.Location = new System.Drawing.Point(29, 67);
             this.uiHotkeyBehaviourPaste.Name = "uiHotkeyBehaviourPaste";
             this.uiHotkeyBehaviourPaste.Size = new System.Drawing.Size(206, 29);
             this.uiHotkeyBehaviourPaste.TabIndex = 202;
@@ -732,9 +692,9 @@
             this.groupBox5.Controls.Add(this.label6);
             this.groupBox5.Controls.Add(this.label7);
             this.groupBox5.Controls.Add(this.label8);
-            this.groupBox5.Location = new System.Drawing.Point(22, 150);
+            this.groupBox5.Location = new System.Drawing.Point(22, 159);
             this.groupBox5.Name = "groupBox5";
-            this.groupBox5.Size = new System.Drawing.Size(521, 312);
+            this.groupBox5.Size = new System.Drawing.Size(594, 443);
             this.groupBox5.TabIndex = 210;
             this.groupBox5.TabStop = false;
             this.groupBox5.Text = "Hotkeys";
@@ -742,10 +702,10 @@
             // uiHotkeyToggleView
             // 
             this.uiHotkeyToggleView.BackColor = System.Drawing.SystemColors.Window;
-            this.uiHotkeyToggleView.Location = new System.Drawing.Point(274, 219);
+            this.uiHotkeyToggleView.Location = new System.Drawing.Point(274, 244);
             this.uiHotkeyToggleView.Name = "uiHotkeyToggleView";
             this.uiHotkeyToggleView.ReadOnly = true;
-            this.uiHotkeyToggleView.Size = new System.Drawing.Size(222, 32);
+            this.uiHotkeyToggleView.Size = new System.Drawing.Size(235, 32);
             this.uiHotkeyToggleView.TabIndex = 216;
             this.uiHotkeyToggleView.Text = "Default text";
             this.uiHotkeyToggleView.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -755,10 +715,10 @@
             // uiHotkeyToggleFavorite
             // 
             this.uiHotkeyToggleFavorite.BackColor = System.Drawing.SystemColors.Window;
-            this.uiHotkeyToggleFavorite.Location = new System.Drawing.Point(274, 181);
+            this.uiHotkeyToggleFavorite.Location = new System.Drawing.Point(274, 202);
             this.uiHotkeyToggleFavorite.Name = "uiHotkeyToggleFavorite";
             this.uiHotkeyToggleFavorite.ReadOnly = true;
-            this.uiHotkeyToggleFavorite.Size = new System.Drawing.Size(222, 32);
+            this.uiHotkeyToggleFavorite.Size = new System.Drawing.Size(235, 32);
             this.uiHotkeyToggleFavorite.TabIndex = 215;
             this.uiHotkeyToggleFavorite.Text = "Default text";
             this.uiHotkeyToggleFavorite.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -769,7 +729,7 @@
             // 
             this.label12.AutoSize = true;
             this.label12.Font = new System.Drawing.Font("Segoe UI", 11.12727F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label12.Location = new System.Drawing.Point(24, 185);
+            this.label12.Location = new System.Drawing.Point(24, 205);
             this.label12.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(185, 25);
@@ -780,7 +740,7 @@
             // 
             this.label13.AutoSize = true;
             this.label13.Font = new System.Drawing.Font("Segoe UI", 11.12727F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label13.Location = new System.Drawing.Point(24, 223);
+            this.label13.Location = new System.Drawing.Point(24, 247);
             this.label13.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label13.Name = "label13";
             this.label13.Size = new System.Drawing.Size(140, 25);
@@ -790,10 +750,10 @@
             // uiHotkeyPaste
             // 
             this.uiHotkeyPaste.BackColor = System.Drawing.SystemColors.Window;
-            this.uiHotkeyPaste.Location = new System.Drawing.Point(274, 142);
+            this.uiHotkeyPaste.Location = new System.Drawing.Point(274, 160);
             this.uiHotkeyPaste.Name = "uiHotkeyPaste";
             this.uiHotkeyPaste.ReadOnly = true;
-            this.uiHotkeyPaste.Size = new System.Drawing.Size(222, 32);
+            this.uiHotkeyPaste.Size = new System.Drawing.Size(235, 32);
             this.uiHotkeyPaste.TabIndex = 214;
             this.uiHotkeyPaste.Text = "Default text";
             this.uiHotkeyPaste.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -803,10 +763,10 @@
             // uiHotkeyNewer
             // 
             this.uiHotkeyNewer.BackColor = System.Drawing.SystemColors.Window;
-            this.uiHotkeyNewer.Location = new System.Drawing.Point(274, 105);
+            this.uiHotkeyNewer.Location = new System.Drawing.Point(274, 118);
             this.uiHotkeyNewer.Name = "uiHotkeyNewer";
             this.uiHotkeyNewer.ReadOnly = true;
-            this.uiHotkeyNewer.Size = new System.Drawing.Size(222, 32);
+            this.uiHotkeyNewer.Size = new System.Drawing.Size(235, 32);
             this.uiHotkeyNewer.TabIndex = 213;
             this.uiHotkeyNewer.Text = "Default text";
             this.uiHotkeyNewer.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -816,10 +776,10 @@
             // uiHotkeyOlder
             // 
             this.uiHotkeyOlder.BackColor = System.Drawing.SystemColors.Window;
-            this.uiHotkeyOlder.Location = new System.Drawing.Point(274, 67);
+            this.uiHotkeyOlder.Location = new System.Drawing.Point(274, 76);
             this.uiHotkeyOlder.Name = "uiHotkeyOlder";
             this.uiHotkeyOlder.ReadOnly = true;
-            this.uiHotkeyOlder.Size = new System.Drawing.Size(222, 32);
+            this.uiHotkeyOlder.Size = new System.Drawing.Size(235, 32);
             this.uiHotkeyOlder.TabIndex = 212;
             this.uiHotkeyOlder.Text = "Default text";
             this.uiHotkeyOlder.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -829,9 +789,9 @@
             // cancelHotkey
             // 
             this.cancelHotkey.Enabled = false;
-            this.cancelHotkey.Location = new System.Drawing.Point(388, 256);
+            this.cancelHotkey.Location = new System.Drawing.Point(397, 285);
             this.cancelHotkey.Name = "cancelHotkey";
-            this.cancelHotkey.Size = new System.Drawing.Size(108, 38);
+            this.cancelHotkey.Size = new System.Drawing.Size(112, 38);
             this.cancelHotkey.TabIndex = 218;
             this.cancelHotkey.Text = "Cancel";
             this.cancelHotkey.UseVisualStyleBackColor = true;
@@ -840,10 +800,10 @@
             // uiHotkeyEnable
             // 
             this.uiHotkeyEnable.BackColor = System.Drawing.SystemColors.Window;
-            this.uiHotkeyEnable.Location = new System.Drawing.Point(274, 29);
+            this.uiHotkeyEnable.Location = new System.Drawing.Point(274, 34);
             this.uiHotkeyEnable.Name = "uiHotkeyEnable";
             this.uiHotkeyEnable.ReadOnly = true;
-            this.uiHotkeyEnable.Size = new System.Drawing.Size(222, 32);
+            this.uiHotkeyEnable.Size = new System.Drawing.Size(235, 32);
             this.uiHotkeyEnable.TabIndex = 211;
             this.uiHotkeyEnable.Text = "Default text";
             this.uiHotkeyEnable.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -853,9 +813,9 @@
             // applyHotkey
             // 
             this.applyHotkey.Enabled = false;
-            this.applyHotkey.Location = new System.Drawing.Point(274, 256);
+            this.applyHotkey.Location = new System.Drawing.Point(274, 285);
             this.applyHotkey.Name = "applyHotkey";
-            this.applyHotkey.Size = new System.Drawing.Size(108, 38);
+            this.applyHotkey.Size = new System.Drawing.Size(112, 38);
             this.applyHotkey.TabIndex = 217;
             this.applyHotkey.Text = "Apply";
             this.applyHotkey.UseVisualStyleBackColor = true;
@@ -865,7 +825,7 @@
             // 
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Segoe UI", 11.12727F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.Location = new System.Drawing.Point(24, 146);
+            this.label4.Location = new System.Drawing.Point(24, 164);
             this.label4.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(144, 25);
@@ -876,7 +836,7 @@
             // 
             this.label6.AutoSize = true;
             this.label6.Font = new System.Drawing.Font("Segoe UI", 11.12727F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label6.Location = new System.Drawing.Point(24, 71);
+            this.label6.Location = new System.Drawing.Point(24, 80);
             this.label6.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(240, 25);
@@ -887,7 +847,7 @@
             // 
             this.label7.AutoSize = true;
             this.label7.Font = new System.Drawing.Font("Segoe UI", 11.12727F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label7.Location = new System.Drawing.Point(24, 109);
+            this.label7.Location = new System.Drawing.Point(24, 122);
             this.label7.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(248, 25);
@@ -898,7 +858,7 @@
             // 
             this.label8.AutoSize = true;
             this.label8.Font = new System.Drawing.Font("Segoe UI", 11.12727F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label8.Location = new System.Drawing.Point(21, 32);
+            this.label8.Location = new System.Drawing.Point(21, 38);
             this.label8.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(224, 25);
@@ -908,28 +868,14 @@
             // tabPage1
             // 
             this.tabPage1.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.tabPage1.Controls.Add(this.label17);
             this.tabPage1.Controls.Add(this.groupBox2);
             this.tabPage1.Controls.Add(this.groupBox1);
             this.tabPage1.Location = new System.Drawing.Point(4, 34);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(770, 659);
+            this.tabPage1.Size = new System.Drawing.Size(638, 659);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "General";
-            // 
-            // label17
-            // 
-            this.label17.AutoSize = true;
-            this.label17.BackColor = System.Drawing.Color.IndianRed;
-            this.label17.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.label17.Font = new System.Drawing.Font("Segoe UI", 15.12727F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label17.ForeColor = System.Drawing.Color.White;
-            this.label17.Location = new System.Drawing.Point(51, 552);
-            this.label17.Name = "label17";
-            this.label17.Size = new System.Drawing.Size(421, 38);
-            this.label17.TabIndex = 310;
-            this.label17.Text = "DEVELOPMENT - ONLY FOR TEST";
             // 
             // groupBox2
             // 
@@ -941,9 +887,9 @@
             this.groupBox2.Controls.Add(this.uiTrimWhitespaces);
             this.groupBox2.Controls.Add(this.uiAppEnabled);
             this.groupBox2.Controls.Add(this.uiHistoryEnabled);
-            this.groupBox2.Location = new System.Drawing.Point(22, 150);
+            this.groupBox2.Location = new System.Drawing.Point(22, 159);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(521, 312);
+            this.groupBox2.Size = new System.Drawing.Size(594, 443);
             this.groupBox2.TabIndex = 110;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Behaviour";
@@ -953,10 +899,10 @@
             this.uiFavoritesEnabled.AutoSize = true;
             this.uiFavoritesEnabled.Checked = true;
             this.uiFavoritesEnabled.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.uiFavoritesEnabled.Location = new System.Drawing.Point(29, 191);
+            this.uiFavoritesEnabled.Location = new System.Drawing.Point(29, 199);
             this.uiFavoritesEnabled.Name = "uiFavoritesEnabled";
             this.uiFavoritesEnabled.Size = new System.Drawing.Size(168, 29);
-            this.uiFavoritesEnabled.TabIndex = 118;
+            this.uiFavoritesEnabled.TabIndex = 116;
             this.uiFavoritesEnabled.Text = "Enable favorites";
             this.uiFavoritesEnabled.UseVisualStyleBackColor = true;
             this.uiFavoritesEnabled.CheckedChanged += new System.EventHandler(this.uiFavoritesEnabled_CheckedChanged);
@@ -966,7 +912,7 @@
             this.uiRestoreOriginal.AutoSize = true;
             this.uiRestoreOriginal.Checked = true;
             this.uiRestoreOriginal.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.uiRestoreOriginal.Location = new System.Drawing.Point(29, 95);
+            this.uiRestoreOriginal.Location = new System.Drawing.Point(29, 103);
             this.uiRestoreOriginal.Name = "uiRestoreOriginal";
             this.uiRestoreOriginal.Size = new System.Drawing.Size(492, 29);
             this.uiRestoreOriginal.TabIndex = 113;
@@ -980,7 +926,7 @@
             this.uiCopyImages.Checked = true;
             this.uiCopyImages.CheckState = System.Windows.Forms.CheckState.Checked;
             this.uiCopyImages.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.uiCopyImages.Location = new System.Drawing.Point(29, 159);
+            this.uiCopyImages.Location = new System.Drawing.Point(29, 167);
             this.uiCopyImages.Name = "uiCopyImages";
             this.uiCopyImages.Size = new System.Drawing.Size(329, 29);
             this.uiCopyImages.TabIndex = 115;
@@ -993,10 +939,10 @@
             this.uiTrimWhitespaces.AutoSize = true;
             this.uiTrimWhitespaces.Checked = true;
             this.uiTrimWhitespaces.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.uiTrimWhitespaces.Location = new System.Drawing.Point(29, 255);
+            this.uiTrimWhitespaces.Location = new System.Drawing.Point(29, 263);
             this.uiTrimWhitespaces.Name = "uiTrimWhitespaces";
             this.uiTrimWhitespaces.Size = new System.Drawing.Size(358, 29);
-            this.uiTrimWhitespaces.TabIndex = 117;
+            this.uiTrimWhitespaces.TabIndex = 118;
             this.uiTrimWhitespaces.Text = "Trim whitespaces and empty new-lines";
             this.uiTrimWhitespaces.UseVisualStyleBackColor = true;
             this.uiTrimWhitespaces.CheckedChanged += new System.EventHandler(this.uiTrimWhitespaces_CheckedChanged);
@@ -1006,7 +952,7 @@
             this.uiAppEnabled.AutoSize = true;
             this.uiAppEnabled.Checked = true;
             this.uiAppEnabled.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.uiAppEnabled.Location = new System.Drawing.Point(29, 31);
+            this.uiAppEnabled.Location = new System.Drawing.Point(29, 39);
             this.uiAppEnabled.Name = "uiAppEnabled";
             this.uiAppEnabled.Size = new System.Drawing.Size(190, 29);
             this.uiAppEnabled.TabIndex = 111;
@@ -1019,7 +965,7 @@
             this.uiHistoryEnabled.AutoSize = true;
             this.uiHistoryEnabled.Checked = true;
             this.uiHistoryEnabled.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.uiHistoryEnabled.Location = new System.Drawing.Point(29, 127);
+            this.uiHistoryEnabled.Location = new System.Drawing.Point(29, 135);
             this.uiHistoryEnabled.Name = "uiHistoryEnabled";
             this.uiHistoryEnabled.Size = new System.Drawing.Size(238, 29);
             this.uiHistoryEnabled.TabIndex = 114;
@@ -1033,7 +979,7 @@
             this.groupBox1.Controls.Add(this.uiStartWithWindows);
             this.groupBox1.Location = new System.Drawing.Point(22, 23);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(521, 107);
+            this.groupBox1.Size = new System.Drawing.Size(594, 118);
             this.groupBox1.TabIndex = 100;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Startup";
@@ -1044,7 +990,7 @@
             this.uiCheckUpdates.Checked = true;
             this.uiCheckUpdates.CheckState = System.Windows.Forms.CheckState.Checked;
             this.uiCheckUpdates.Enabled = false;
-            this.uiCheckUpdates.Location = new System.Drawing.Point(29, 63);
+            this.uiCheckUpdates.Location = new System.Drawing.Point(29, 67);
             this.uiCheckUpdates.Name = "uiCheckUpdates";
             this.uiCheckUpdates.Size = new System.Drawing.Size(244, 29);
             this.uiCheckUpdates.TabIndex = 102;
@@ -1057,7 +1003,7 @@
             this.uiStartWithWindows.AutoSize = true;
             this.uiStartWithWindows.Checked = true;
             this.uiStartWithWindows.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.uiStartWithWindows.Location = new System.Drawing.Point(29, 31);
+            this.uiStartWithWindows.Location = new System.Drawing.Point(29, 35);
             this.uiStartWithWindows.Name = "uiStartWithWindows";
             this.uiStartWithWindows.Size = new System.Drawing.Size(196, 29);
             this.uiStartWithWindows.TabIndex = 101;
@@ -1078,40 +1024,31 @@
             this.tabControl.Location = new System.Drawing.Point(12, 12);
             this.tabControl.Name = "tabControl";
             this.tabControl.SelectedIndex = 0;
-            this.tabControl.Size = new System.Drawing.Size(778, 697);
+            this.tabControl.Size = new System.Drawing.Size(646, 697);
             this.tabControl.TabIndex = 0;
             this.tabControl.Selected += new System.Windows.Forms.TabControlEventHandler(this.tabControl_Selected);
             // 
             // tabPage3
             // 
             this.tabPage3.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.tabPage3.Controls.Add(this.label19);
             this.tabPage3.Controls.Add(this.groupBox12);
+            this.tabPage3.Controls.Add(this.groupBoxCustom);
             this.tabPage3.Controls.Add(this.borderGroupBox);
             this.tabPage3.Controls.Add(this.groupBox8);
             this.tabPage3.Controls.Add(this.groupBox4);
             this.tabPage3.Location = new System.Drawing.Point(4, 34);
             this.tabPage3.Name = "tabPage3";
-            this.tabPage3.Size = new System.Drawing.Size(770, 659);
+            this.tabPage3.Size = new System.Drawing.Size(638, 659);
             this.tabPage3.TabIndex = 5;
             this.tabPage3.Text = "Style";
             // 
-            // label19
-            // 
-            this.label19.AutoSize = true;
-            this.label19.BackColor = System.Drawing.Color.IndianRed;
-            this.label19.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.label19.Font = new System.Drawing.Font("Segoe UI", 15.12727F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label19.ForeColor = System.Drawing.Color.White;
-            this.label19.Location = new System.Drawing.Point(52, 569);
-            this.label19.Name = "label19";
-            this.label19.Size = new System.Drawing.Size(421, 38);
-            this.label19.TabIndex = 422;
-            this.label19.Text = "DEVELOPMENT - ONLY FOR TEST";
-            // 
             // groupBox12
             // 
-            this.groupBox12.Controls.Add(this.uiIconsSquare);
+            this.groupBox12.Controls.Add(this.uiIconsSquareNew);
+            this.groupBox12.Controls.Add(this.pictureBox10);
+            this.groupBox12.Controls.Add(this.pictureBox9);
+            this.groupBox12.Controls.Add(this.pictureBox8);
+            this.groupBox12.Controls.Add(this.uiIconsSquareOld);
             this.groupBox12.Controls.Add(this.uiIconsRound);
             this.groupBox12.Controls.Add(this.pictureBox5);
             this.groupBox12.Controls.Add(this.pictureBox6);
@@ -1119,32 +1056,75 @@
             this.groupBox12.Controls.Add(this.pictureBox2);
             this.groupBox12.Controls.Add(this.pictureBox4);
             this.groupBox12.Controls.Add(this.pictureBox3);
-            this.groupBox12.Location = new System.Drawing.Point(321, 452);
+            this.groupBox12.Location = new System.Drawing.Point(331, 462);
             this.groupBox12.Name = "groupBox12";
-            this.groupBox12.Size = new System.Drawing.Size(282, 116);
+            this.groupBox12.Size = new System.Drawing.Size(285, 140);
             this.groupBox12.TabIndex = 421;
             this.groupBox12.TabStop = false;
             this.groupBox12.Text = "Icon sets";
             // 
-            // uiIconsSquare
+            // uiIconsSquareNew
             // 
-            this.uiIconsSquare.AutoSize = true;
-            this.uiIconsSquare.Location = new System.Drawing.Point(29, 63);
-            this.uiIconsSquare.Name = "uiIconsSquare";
-            this.uiIconsSquare.Size = new System.Drawing.Size(101, 29);
-            this.uiIconsSquare.TabIndex = 431;
-            this.uiIconsSquare.Text = "Original";
-            this.uiIconsSquare.UseVisualStyleBackColor = true;
-            this.uiIconsSquare.CheckedChanged += new System.EventHandler(this.uiIconsSquare_CheckedChanged);
+            this.uiIconsSquareNew.AutoSize = true;
+            this.uiIconsSquareNew.Location = new System.Drawing.Point(6, 23);
+            this.uiIconsSquareNew.Name = "uiIconsSquareNew";
+            this.uiIconsSquareNew.Size = new System.Drawing.Size(71, 29);
+            this.uiIconsSquareNew.TabIndex = 441;
+            this.uiIconsSquareNew.TabStop = true;
+            this.uiIconsSquareNew.Text = "New";
+            this.uiIconsSquareNew.UseVisualStyleBackColor = true;
+            this.uiIconsSquareNew.CheckedChanged += new System.EventHandler(this.uiIconsSquareNew_CheckedChanged);
+            // 
+            // pictureBox10
+            // 
+            this.pictureBox10.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox10.Image")));
+            this.pictureBox10.InitialImage = null;
+            this.pictureBox10.Location = new System.Drawing.Point(173, 23);
+            this.pictureBox10.Name = "pictureBox10";
+            this.pictureBox10.Size = new System.Drawing.Size(28, 28);
+            this.pictureBox10.TabIndex = 435;
+            this.pictureBox10.TabStop = false;
+            // 
+            // pictureBox9
+            // 
+            this.pictureBox9.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox9.Image")));
+            this.pictureBox9.InitialImage = null;
+            this.pictureBox9.Location = new System.Drawing.Point(146, 23);
+            this.pictureBox9.Name = "pictureBox9";
+            this.pictureBox9.Size = new System.Drawing.Size(28, 28);
+            this.pictureBox9.TabIndex = 434;
+            this.pictureBox9.TabStop = false;
+            // 
+            // pictureBox8
+            // 
+            this.pictureBox8.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox8.Image")));
+            this.pictureBox8.InitialImage = null;
+            this.pictureBox8.Location = new System.Drawing.Point(118, 23);
+            this.pictureBox8.Name = "pictureBox8";
+            this.pictureBox8.Size = new System.Drawing.Size(28, 28);
+            this.pictureBox8.TabIndex = 433;
+            this.pictureBox8.TabStop = false;
+            // 
+            // uiIconsSquareOld
+            // 
+            this.uiIconsSquareOld.AutoSize = true;
+            this.uiIconsSquareOld.Location = new System.Drawing.Point(29, 80);
+            this.uiIconsSquareOld.Name = "uiIconsSquareOld";
+            this.uiIconsSquareOld.Size = new System.Drawing.Size(101, 29);
+            this.uiIconsSquareOld.TabIndex = 442;
+            this.uiIconsSquareOld.TabStop = true;
+            this.uiIconsSquareOld.Text = "Original";
+            this.uiIconsSquareOld.UseVisualStyleBackColor = true;
+            this.uiIconsSquareOld.CheckedChanged += new System.EventHandler(this.uiIconsSquare_CheckedChanged);
             // 
             // uiIconsRound
             // 
             this.uiIconsRound.AutoSize = true;
             this.uiIconsRound.Checked = true;
-            this.uiIconsRound.Location = new System.Drawing.Point(29, 31);
+            this.uiIconsRound.Location = new System.Drawing.Point(29, 48);
             this.uiIconsRound.Name = "uiIconsRound";
             this.uiIconsRound.Size = new System.Drawing.Size(100, 29);
-            this.uiIconsRound.TabIndex = 431;
+            this.uiIconsRound.TabIndex = 440;
             this.uiIconsRound.TabStop = true;
             this.uiIconsRound.Text = "Modern";
             this.uiIconsRound.UseVisualStyleBackColor = true;
@@ -1154,7 +1134,7 @@
             // 
             this.pictureBox5.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox5.Image")));
             this.pictureBox5.InitialImage = null;
-            this.pictureBox5.Location = new System.Drawing.Point(173, 67);
+            this.pictureBox5.Location = new System.Drawing.Point(173, 84);
             this.pictureBox5.Name = "pictureBox5";
             this.pictureBox5.Size = new System.Drawing.Size(28, 28);
             this.pictureBox5.TabIndex = 418;
@@ -1164,7 +1144,7 @@
             // 
             this.pictureBox6.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox6.Image")));
             this.pictureBox6.InitialImage = null;
-            this.pictureBox6.Location = new System.Drawing.Point(145, 67);
+            this.pictureBox6.Location = new System.Drawing.Point(145, 84);
             this.pictureBox6.Name = "pictureBox6";
             this.pictureBox6.Size = new System.Drawing.Size(28, 28);
             this.pictureBox6.TabIndex = 417;
@@ -1174,7 +1154,7 @@
             // 
             this.pictureBox7.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox7.Image")));
             this.pictureBox7.InitialImage = null;
-            this.pictureBox7.Location = new System.Drawing.Point(117, 67);
+            this.pictureBox7.Location = new System.Drawing.Point(117, 84);
             this.pictureBox7.Name = "pictureBox7";
             this.pictureBox7.Size = new System.Drawing.Size(28, 28);
             this.pictureBox7.TabIndex = 416;
@@ -1184,7 +1164,7 @@
             // 
             this.pictureBox2.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox2.Image")));
             this.pictureBox2.InitialImage = null;
-            this.pictureBox2.Location = new System.Drawing.Point(117, 35);
+            this.pictureBox2.Location = new System.Drawing.Point(117, 52);
             this.pictureBox2.Name = "pictureBox2";
             this.pictureBox2.Size = new System.Drawing.Size(28, 28);
             this.pictureBox2.TabIndex = 413;
@@ -1194,7 +1174,7 @@
             // 
             this.pictureBox4.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox4.Image")));
             this.pictureBox4.InitialImage = null;
-            this.pictureBox4.Location = new System.Drawing.Point(173, 35);
+            this.pictureBox4.Location = new System.Drawing.Point(173, 52);
             this.pictureBox4.Name = "pictureBox4";
             this.pictureBox4.Size = new System.Drawing.Size(28, 28);
             this.pictureBox4.TabIndex = 415;
@@ -1204,104 +1184,11 @@
             // 
             this.pictureBox3.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox3.Image")));
             this.pictureBox3.InitialImage = null;
-            this.pictureBox3.Location = new System.Drawing.Point(145, 35);
+            this.pictureBox3.Location = new System.Drawing.Point(145, 52);
             this.pictureBox3.Name = "pictureBox3";
             this.pictureBox3.Size = new System.Drawing.Size(28, 28);
             this.pictureBox3.TabIndex = 414;
             this.pictureBox3.TabStop = false;
-            // 
-            // borderGroupBox
-            // 
-            this.borderGroupBox.Controls.Add(this.labelBorderThickness);
-            this.borderGroupBox.Controls.Add(this.label11);
-            this.borderGroupBox.Controls.Add(this.uiBorderThickness);
-            this.borderGroupBox.Controls.Add(this.labelCustomBorder);
-            this.borderGroupBox.Controls.Add(this.uiCustomBorder);
-            this.borderGroupBox.Location = new System.Drawing.Point(22, 355);
-            this.borderGroupBox.Name = "borderGroupBox";
-            this.borderGroupBox.Size = new System.Drawing.Size(281, 213);
-            this.borderGroupBox.TabIndex = 410;
-            this.borderGroupBox.TabStop = false;
-            this.borderGroupBox.Text = "Border for active entry";
-            // 
-            // labelBorderThickness
-            // 
-            this.labelBorderThickness.AutoSize = true;
-            this.labelBorderThickness.Location = new System.Drawing.Point(212, 77);
-            this.labelBorderThickness.Name = "labelBorderThickness";
-            this.labelBorderThickness.Size = new System.Drawing.Size(22, 25);
-            this.labelBorderThickness.TabIndex = 414;
-            this.labelBorderThickness.Text = "1";
-            // 
-            // label11
-            // 
-            this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(11, 41);
-            this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(93, 25);
-            this.label11.TabIndex = 412;
-            this.label11.Text = "Thickness";
-            // 
-            // uiBorderThickness
-            // 
-            this.uiBorderThickness.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.uiBorderThickness.LargeChange = 1;
-            this.uiBorderThickness.Location = new System.Drawing.Point(17, 67);
-            this.uiBorderThickness.Name = "uiBorderThickness";
-            this.uiBorderThickness.Size = new System.Drawing.Size(189, 56);
-            this.uiBorderThickness.TabIndex = 413;
-            this.uiBorderThickness.TickFrequency = 5;
-            this.uiBorderThickness.TickStyle = System.Windows.Forms.TickStyle.Both;
-            this.uiBorderThickness.Value = 1;
-            this.uiBorderThickness.Scroll += new System.EventHandler(this.uiBorderThickness_Scroll);
-            // 
-            // labelCustomBorder
-            // 
-            this.labelCustomBorder.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.labelCustomBorder.AutoSize = true;
-            this.labelCustomBorder.Location = new System.Drawing.Point(12, 129);
-            this.labelCustomBorder.Name = "labelCustomBorder";
-            this.labelCustomBorder.Size = new System.Drawing.Size(58, 25);
-            this.labelCustomBorder.TabIndex = 104;
-            this.labelCustomBorder.Text = "Color";
-            this.labelCustomBorder.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // uiCustomBorder
-            // 
-            this.uiCustomBorder.BackColor = System.Drawing.SystemColors.Window;
-            this.uiCustomBorder.Location = new System.Drawing.Point(18, 159);
-            this.uiCustomBorder.Name = "uiCustomBorder";
-            this.uiCustomBorder.ReadOnly = true;
-            this.uiCustomBorder.Size = new System.Drawing.Size(86, 32);
-            this.uiCustomBorder.TabIndex = 434;
-            this.uiCustomBorder.Enter += new System.EventHandler(this.uiCustomBorder_Enter);
-            // 
-            // groupBox8
-            // 
-            this.groupBox8.Controls.Add(this.uiHistoryColorThemeContrast);
-            this.groupBox8.Controls.Add(this.groupBoxCustom);
-            this.groupBox8.Controls.Add(this.uiHistoryColorThemeCustom);
-            this.groupBox8.Controls.Add(this.uiHistoryColorThemeYellow);
-            this.groupBox8.Controls.Add(this.uiHistoryColorThemeGreen);
-            this.groupBox8.Controls.Add(this.uiHistoryColorThemeBlue);
-            this.groupBox8.Controls.Add(this.uiHistoryColorThemeBrown);
-            this.groupBox8.Location = new System.Drawing.Point(322, 23);
-            this.groupBox8.Name = "groupBox8";
-            this.groupBox8.Size = new System.Drawing.Size(281, 409);
-            this.groupBox8.TabIndex = 420;
-            this.groupBox8.TabStop = false;
-            this.groupBox8.Text = "Color theme";
-            // 
-            // uiHistoryColorThemeContrast
-            // 
-            this.uiHistoryColorThemeContrast.AutoSize = true;
-            this.uiHistoryColorThemeContrast.Location = new System.Drawing.Point(146, 58);
-            this.uiHistoryColorThemeContrast.Name = "uiHistoryColorThemeContrast";
-            this.uiHistoryColorThemeContrast.Size = new System.Drawing.Size(104, 29);
-            this.uiHistoryColorThemeContrast.TabIndex = 431;
-            this.uiHistoryColorThemeContrast.Text = "Contrast";
-            this.uiHistoryColorThemeContrast.UseVisualStyleBackColor = true;
-            this.uiHistoryColorThemeContrast.CheckedChanged += new System.EventHandler(this.uiHistoryColorTheme_CheckedChanged);
             // 
             // groupBoxCustom
             // 
@@ -1317,9 +1204,9 @@
             this.groupBoxCustom.Controls.Add(this.labelCustomEntryText);
             this.groupBoxCustom.Controls.Add(this.labelCustomEntry);
             this.groupBoxCustom.Controls.Add(this.uiCustomEntryText);
-            this.groupBoxCustom.Location = new System.Drawing.Point(13, 132);
+            this.groupBoxCustom.Location = new System.Drawing.Point(331, 181);
             this.groupBoxCustom.Name = "groupBoxCustom";
-            this.groupBoxCustom.Size = new System.Drawing.Size(253, 263);
+            this.groupBoxCustom.Size = new System.Drawing.Size(285, 263);
             this.groupBoxCustom.TabIndex = 430;
             this.groupBoxCustom.TabStop = false;
             this.groupBoxCustom.Text = "Custom colors";
@@ -1327,52 +1214,48 @@
             // uiCustomActiveText
             // 
             this.uiCustomActiveText.BackColor = System.Drawing.SystemColors.Window;
-            this.uiCustomActiveText.Location = new System.Drawing.Point(156, 134);
+            this.uiCustomActiveText.Location = new System.Drawing.Point(170, 134);
             this.uiCustomActiveText.Name = "uiCustomActiveText";
             this.uiCustomActiveText.ReadOnly = true;
             this.uiCustomActiveText.Size = new System.Drawing.Size(86, 32);
-            this.uiCustomActiveText.TabIndex = 442;
+            this.uiCustomActiveText.TabIndex = 434;
             this.uiCustomActiveText.Enter += new System.EventHandler(this.uiCustomActiveText_Enter);
             // 
             // uiCustomHeaderText
             // 
             this.uiCustomHeaderText.BackColor = System.Drawing.SystemColors.Window;
             this.uiCustomHeaderText.Enabled = false;
-            this.uiCustomHeaderText.Location = new System.Drawing.Point(157, 60);
+            this.uiCustomHeaderText.Location = new System.Drawing.Point(171, 60);
             this.uiCustomHeaderText.Name = "uiCustomHeaderText";
             this.uiCustomHeaderText.ReadOnly = true;
             this.uiCustomHeaderText.Size = new System.Drawing.Size(86, 32);
-            this.uiCustomHeaderText.TabIndex = 438;
+            this.uiCustomHeaderText.TabIndex = 432;
             this.uiCustomHeaderText.Enter += new System.EventHandler(this.uiCustomHeaderText_Enter);
             // 
             // labelCustomActiveText
             // 
-            this.labelCustomActiveText.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.labelCustomActiveText.AutoSize = true;
-            this.labelCustomActiveText.Location = new System.Drawing.Point(14, 135);
+            this.labelCustomActiveText.Location = new System.Drawing.Point(21, 135);
             this.labelCustomActiveText.Name = "labelCustomActiveText";
             this.labelCustomActiveText.Size = new System.Drawing.Size(99, 25);
             this.labelCustomActiveText.TabIndex = 441;
             this.labelCustomActiveText.Text = "Active text";
-            this.labelCustomActiveText.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // labelCustomHeaderText
             // 
-            this.labelCustomHeaderText.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.labelCustomHeaderText.AutoSize = true;
             this.labelCustomHeaderText.Enabled = false;
-            this.labelCustomHeaderText.Location = new System.Drawing.Point(12, 63);
+            this.labelCustomHeaderText.Location = new System.Drawing.Point(20, 63);
             this.labelCustomHeaderText.Name = "labelCustomHeaderText";
             this.labelCustomHeaderText.Size = new System.Drawing.Size(109, 25);
             this.labelCustomHeaderText.TabIndex = 437;
             this.labelCustomHeaderText.Text = "Header text";
-            this.labelCustomHeaderText.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // uiCustomHeader
             // 
             this.uiCustomHeader.BackColor = System.Drawing.SystemColors.Window;
             this.uiCustomHeader.Enabled = false;
-            this.uiCustomHeader.Location = new System.Drawing.Point(157, 31);
+            this.uiCustomHeader.Location = new System.Drawing.Point(171, 31);
             this.uiCustomHeader.Name = "uiCustomHeader";
             this.uiCustomHeader.ReadOnly = true;
             this.uiCustomHeader.Size = new System.Drawing.Size(86, 32);
@@ -1381,86 +1264,172 @@
             // 
             // labelCustomActive
             // 
-            this.labelCustomActive.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.labelCustomActive.AutoSize = true;
-            this.labelCustomActive.Location = new System.Drawing.Point(13, 107);
+            this.labelCustomActive.Location = new System.Drawing.Point(21, 107);
             this.labelCustomActive.Name = "labelCustomActive";
             this.labelCustomActive.Size = new System.Drawing.Size(169, 25);
             this.labelCustomActive.TabIndex = 435;
             this.labelCustomActive.Text = "Active background";
-            this.labelCustomActive.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // uiCustomActive
             // 
             this.uiCustomActive.BackColor = System.Drawing.SystemColors.Window;
-            this.uiCustomActive.Location = new System.Drawing.Point(156, 105);
+            this.uiCustomActive.Location = new System.Drawing.Point(170, 105);
             this.uiCustomActive.Name = "uiCustomActive";
             this.uiCustomActive.ReadOnly = true;
             this.uiCustomActive.Size = new System.Drawing.Size(86, 32);
-            this.uiCustomActive.TabIndex = 436;
+            this.uiCustomActive.TabIndex = 433;
             this.uiCustomActive.Enter += new System.EventHandler(this.uiCustomActive_Enter);
             // 
             // labelCustomHeader
             // 
-            this.labelCustomHeader.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.labelCustomHeader.AutoSize = true;
             this.labelCustomHeader.Enabled = false;
-            this.labelCustomHeader.Location = new System.Drawing.Point(12, 34);
+            this.labelCustomHeader.Location = new System.Drawing.Point(20, 34);
             this.labelCustomHeader.Name = "labelCustomHeader";
             this.labelCustomHeader.Size = new System.Drawing.Size(179, 25);
             this.labelCustomHeader.TabIndex = 99;
             this.labelCustomHeader.Text = "Header background";
-            this.labelCustomHeader.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // uiCustomEntry
             // 
             this.uiCustomEntry.BackColor = System.Drawing.SystemColors.Window;
-            this.uiCustomEntry.Location = new System.Drawing.Point(158, 182);
+            this.uiCustomEntry.Location = new System.Drawing.Point(172, 182);
             this.uiCustomEntry.Name = "uiCustomEntry";
             this.uiCustomEntry.ReadOnly = true;
             this.uiCustomEntry.Size = new System.Drawing.Size(86, 32);
-            this.uiCustomEntry.TabIndex = 432;
+            this.uiCustomEntry.TabIndex = 435;
             this.uiCustomEntry.Enter += new System.EventHandler(this.uiCustomEntry_Enter);
             // 
             // labelCustomEntryText
             // 
-            this.labelCustomEntryText.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.labelCustomEntryText.AutoSize = true;
-            this.labelCustomEntryText.Location = new System.Drawing.Point(16, 213);
+            this.labelCustomEntryText.Location = new System.Drawing.Point(20, 213);
             this.labelCustomEntryText.Name = "labelCustomEntryText";
             this.labelCustomEntryText.Size = new System.Drawing.Size(91, 25);
             this.labelCustomEntryText.TabIndex = 102;
             this.labelCustomEntryText.Text = "Entry text";
-            this.labelCustomEntryText.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // labelCustomEntry
             // 
-            this.labelCustomEntry.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.labelCustomEntry.AutoSize = true;
-            this.labelCustomEntry.Location = new System.Drawing.Point(15, 182);
+            this.labelCustomEntry.Location = new System.Drawing.Point(20, 182);
             this.labelCustomEntry.Name = "labelCustomEntry";
             this.labelCustomEntry.Size = new System.Drawing.Size(161, 25);
             this.labelCustomEntry.TabIndex = 100;
             this.labelCustomEntry.Text = "Entry background";
-            this.labelCustomEntry.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // uiCustomEntryText
             // 
             this.uiCustomEntryText.BackColor = System.Drawing.SystemColors.Window;
-            this.uiCustomEntryText.Location = new System.Drawing.Point(158, 213);
+            this.uiCustomEntryText.Location = new System.Drawing.Point(172, 213);
             this.uiCustomEntryText.Name = "uiCustomEntryText";
             this.uiCustomEntryText.ReadOnly = true;
             this.uiCustomEntryText.Size = new System.Drawing.Size(86, 32);
-            this.uiCustomEntryText.TabIndex = 433;
+            this.uiCustomEntryText.TabIndex = 436;
             this.uiCustomEntryText.Enter += new System.EventHandler(this.uiCustomEntryText_Enter);
+            // 
+            // borderGroupBox
+            // 
+            this.borderGroupBox.Controls.Add(this.labelBorderThickness);
+            this.borderGroupBox.Controls.Add(this.label11);
+            this.borderGroupBox.Controls.Add(this.uiBorderThickness);
+            this.borderGroupBox.Controls.Add(this.labelCustomBorder);
+            this.borderGroupBox.Controls.Add(this.uiCustomBorder);
+            this.borderGroupBox.Location = new System.Drawing.Point(22, 352);
+            this.borderGroupBox.Name = "borderGroupBox";
+            this.borderGroupBox.Size = new System.Drawing.Size(285, 250);
+            this.borderGroupBox.TabIndex = 410;
+            this.borderGroupBox.TabStop = false;
+            this.borderGroupBox.Text = "Border for active entry";
+            // 
+            // labelBorderThickness
+            // 
+            this.labelBorderThickness.AutoSize = true;
+            this.labelBorderThickness.Location = new System.Drawing.Point(228, 77);
+            this.labelBorderThickness.Name = "labelBorderThickness";
+            this.labelBorderThickness.Size = new System.Drawing.Size(22, 25);
+            this.labelBorderThickness.TabIndex = 414;
+            this.labelBorderThickness.Text = "1";
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(21, 37);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(93, 25);
+            this.label11.TabIndex = 412;
+            this.label11.Text = "Thickness";
+            // 
+            // uiBorderThickness
+            // 
+            this.uiBorderThickness.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.uiBorderThickness.LargeChange = 1;
+            this.uiBorderThickness.Location = new System.Drawing.Point(16, 67);
+            this.uiBorderThickness.Name = "uiBorderThickness";
+            this.uiBorderThickness.Size = new System.Drawing.Size(206, 56);
+            this.uiBorderThickness.TabIndex = 413;
+            this.uiBorderThickness.TickFrequency = 5;
+            this.uiBorderThickness.TickStyle = System.Windows.Forms.TickStyle.Both;
+            this.uiBorderThickness.Value = 1;
+            this.uiBorderThickness.Scroll += new System.EventHandler(this.uiBorderThickness_Scroll);
+            // 
+            // labelCustomBorder
+            // 
+            this.labelCustomBorder.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.labelCustomBorder.AutoSize = true;
+            this.labelCustomBorder.Location = new System.Drawing.Point(20, 132);
+            this.labelCustomBorder.Name = "labelCustomBorder";
+            this.labelCustomBorder.Size = new System.Drawing.Size(58, 25);
+            this.labelCustomBorder.TabIndex = 104;
+            this.labelCustomBorder.Text = "Color";
+            this.labelCustomBorder.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // uiCustomBorder
+            // 
+            this.uiCustomBorder.BackColor = System.Drawing.SystemColors.Window;
+            this.uiCustomBorder.Location = new System.Drawing.Point(26, 164);
+            this.uiCustomBorder.Name = "uiCustomBorder";
+            this.uiCustomBorder.ReadOnly = true;
+            this.uiCustomBorder.Size = new System.Drawing.Size(86, 32);
+            this.uiCustomBorder.TabIndex = 414;
+            this.uiCustomBorder.Enter += new System.EventHandler(this.uiCustomBorder_Enter);
+            // 
+            // groupBox8
+            // 
+            this.groupBox8.Controls.Add(this.uiHistoryColorThemeContrast);
+            this.groupBox8.Controls.Add(this.uiHistoryColorThemeCustom);
+            this.groupBox8.Controls.Add(this.uiHistoryColorThemeYellow);
+            this.groupBox8.Controls.Add(this.uiHistoryColorThemeGreen);
+            this.groupBox8.Controls.Add(this.uiHistoryColorThemeBlue);
+            this.groupBox8.Controls.Add(this.uiHistoryColorThemeBrown);
+            this.groupBox8.Location = new System.Drawing.Point(331, 23);
+            this.groupBox8.Name = "groupBox8";
+            this.groupBox8.Size = new System.Drawing.Size(285, 140);
+            this.groupBox8.TabIndex = 420;
+            this.groupBox8.TabStop = false;
+            this.groupBox8.Text = "Color theme";
+            // 
+            // uiHistoryColorThemeContrast
+            // 
+            this.uiHistoryColorThemeContrast.AutoSize = true;
+            this.uiHistoryColorThemeContrast.Location = new System.Drawing.Point(158, 67);
+            this.uiHistoryColorThemeContrast.Name = "uiHistoryColorThemeContrast";
+            this.uiHistoryColorThemeContrast.Size = new System.Drawing.Size(104, 29);
+            this.uiHistoryColorThemeContrast.TabIndex = 425;
+            this.uiHistoryColorThemeContrast.TabStop = true;
+            this.uiHistoryColorThemeContrast.Text = "Contrast";
+            this.uiHistoryColorThemeContrast.UseVisualStyleBackColor = true;
+            this.uiHistoryColorThemeContrast.CheckedChanged += new System.EventHandler(this.uiHistoryColorTheme_CheckedChanged);
             // 
             // uiHistoryColorThemeCustom
             // 
             this.uiHistoryColorThemeCustom.AutoSize = true;
-            this.uiHistoryColorThemeCustom.Location = new System.Drawing.Point(146, 89);
+            this.uiHistoryColorThemeCustom.Location = new System.Drawing.Point(158, 99);
             this.uiHistoryColorThemeCustom.Name = "uiHistoryColorThemeCustom";
             this.uiHistoryColorThemeCustom.Size = new System.Drawing.Size(97, 29);
-            this.uiHistoryColorThemeCustom.TabIndex = 425;
+            this.uiHistoryColorThemeCustom.TabIndex = 426;
+            this.uiHistoryColorThemeCustom.TabStop = true;
             this.uiHistoryColorThemeCustom.Text = "Custom";
             this.uiHistoryColorThemeCustom.UseVisualStyleBackColor = true;
             this.uiHistoryColorThemeCustom.CheckedChanged += new System.EventHandler(this.uiHistoryColorTheme_CheckedChanged);
@@ -1469,7 +1438,7 @@
             // 
             this.uiHistoryColorThemeYellow.AutoSize = true;
             this.uiHistoryColorThemeYellow.Checked = true;
-            this.uiHistoryColorThemeYellow.Location = new System.Drawing.Point(147, 32);
+            this.uiHistoryColorThemeYellow.Location = new System.Drawing.Point(158, 35);
             this.uiHistoryColorThemeYellow.Name = "uiHistoryColorThemeYellow";
             this.uiHistoryColorThemeYellow.Size = new System.Drawing.Size(87, 29);
             this.uiHistoryColorThemeYellow.TabIndex = 424;
@@ -1481,10 +1450,11 @@
             // uiHistoryColorThemeGreen
             // 
             this.uiHistoryColorThemeGreen.AutoSize = true;
-            this.uiHistoryColorThemeGreen.Location = new System.Drawing.Point(31, 90);
+            this.uiHistoryColorThemeGreen.Location = new System.Drawing.Point(29, 99);
             this.uiHistoryColorThemeGreen.Name = "uiHistoryColorThemeGreen";
             this.uiHistoryColorThemeGreen.Size = new System.Drawing.Size(84, 29);
             this.uiHistoryColorThemeGreen.TabIndex = 423;
+            this.uiHistoryColorThemeGreen.TabStop = true;
             this.uiHistoryColorThemeGreen.Text = "Green";
             this.uiHistoryColorThemeGreen.UseVisualStyleBackColor = true;
             this.uiHistoryColorThemeGreen.CheckedChanged += new System.EventHandler(this.uiHistoryColorTheme_CheckedChanged);
@@ -1492,10 +1462,11 @@
             // uiHistoryColorThemeBlue
             // 
             this.uiHistoryColorThemeBlue.AutoSize = true;
-            this.uiHistoryColorThemeBlue.Location = new System.Drawing.Point(30, 32);
+            this.uiHistoryColorThemeBlue.Location = new System.Drawing.Point(29, 35);
             this.uiHistoryColorThemeBlue.Name = "uiHistoryColorThemeBlue";
             this.uiHistoryColorThemeBlue.Size = new System.Drawing.Size(70, 29);
             this.uiHistoryColorThemeBlue.TabIndex = 421;
+            this.uiHistoryColorThemeBlue.TabStop = true;
             this.uiHistoryColorThemeBlue.Text = "Blue";
             this.uiHistoryColorThemeBlue.UseVisualStyleBackColor = true;
             this.uiHistoryColorThemeBlue.CheckedChanged += new System.EventHandler(this.uiHistoryColorTheme_CheckedChanged);
@@ -1503,10 +1474,11 @@
             // uiHistoryColorThemeBrown
             // 
             this.uiHistoryColorThemeBrown.AutoSize = true;
-            this.uiHistoryColorThemeBrown.Location = new System.Drawing.Point(30, 61);
+            this.uiHistoryColorThemeBrown.Location = new System.Drawing.Point(29, 67);
             this.uiHistoryColorThemeBrown.Name = "uiHistoryColorThemeBrown";
             this.uiHistoryColorThemeBrown.Size = new System.Drawing.Size(87, 29);
             this.uiHistoryColorThemeBrown.TabIndex = 422;
+            this.uiHistoryColorThemeBrown.TabStop = true;
             this.uiHistoryColorThemeBrown.Text = "Brown";
             this.uiHistoryColorThemeBrown.UseVisualStyleBackColor = true;
             this.uiHistoryColorThemeBrown.CheckedChanged += new System.EventHandler(this.uiHistoryColorTheme_CheckedChanged);
@@ -1519,7 +1491,7 @@
             this.groupBox4.Controls.Add(this.uiChangeFont);
             this.groupBox4.Location = new System.Drawing.Point(22, 23);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(281, 311);
+            this.groupBox4.Size = new System.Drawing.Size(285, 311);
             this.groupBox4.TabIndex = 400;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Font";
@@ -1528,37 +1500,37 @@
             // 
             this.uiShowFontEntry.BackColor = System.Drawing.SystemColors.Control;
             this.uiShowFontEntry.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.uiShowFontEntry.Location = new System.Drawing.Point(14, 216);
+            this.uiShowFontEntry.Location = new System.Drawing.Point(23, 210);
             this.uiShowFontEntry.Name = "uiShowFontEntry";
             this.uiShowFontEntry.Padding = new System.Windows.Forms.Padding(5, 25, 5, 5);
-            this.uiShowFontEntry.Size = new System.Drawing.Size(251, 70);
+            this.uiShowFontEntry.Size = new System.Drawing.Size(236, 75);
             this.uiShowFontEntry.TabIndex = 402;
             // 
             // uiShowFontActive
             // 
             this.uiShowFontActive.BackColor = System.Drawing.SystemColors.Control;
             this.uiShowFontActive.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.uiShowFontActive.Location = new System.Drawing.Point(14, 135);
+            this.uiShowFontActive.Location = new System.Drawing.Point(23, 127);
             this.uiShowFontActive.Name = "uiShowFontActive";
             this.uiShowFontActive.Padding = new System.Windows.Forms.Padding(5, 25, 5, 5);
-            this.uiShowFontActive.Size = new System.Drawing.Size(251, 70);
+            this.uiShowFontActive.Size = new System.Drawing.Size(236, 75);
             this.uiShowFontActive.TabIndex = 75;
             // 
             // uiShowFontHeader
             // 
             this.uiShowFontHeader.BackColor = System.Drawing.SystemColors.Control;
             this.uiShowFontHeader.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.uiShowFontHeader.Location = new System.Drawing.Point(14, 78);
+            this.uiShowFontHeader.Location = new System.Drawing.Point(23, 77);
             this.uiShowFontHeader.Name = "uiShowFontHeader";
             this.uiShowFontHeader.Padding = new System.Windows.Forms.Padding(5);
-            this.uiShowFontHeader.Size = new System.Drawing.Size(251, 42);
+            this.uiShowFontHeader.Size = new System.Drawing.Size(236, 42);
             this.uiShowFontHeader.TabIndex = 74;
             this.uiShowFontHeader.Text = "Header";
             this.uiShowFontHeader.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // uiChangeFont
             // 
-            this.uiChangeFont.Location = new System.Drawing.Point(16, 36);
+            this.uiChangeFont.Location = new System.Drawing.Point(23, 36);
             this.uiChangeFont.Name = "uiChangeFont";
             this.uiChangeFont.Size = new System.Drawing.Size(129, 34);
             this.uiChangeFont.TabIndex = 401;
@@ -1569,37 +1541,23 @@
             // tabPage6
             // 
             this.tabPage6.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.tabPage6.Controls.Add(this.label20);
             this.tabPage6.Controls.Add(this.groupBox11);
             this.tabPage6.Controls.Add(this.groupBox9);
             this.tabPage6.Controls.Add(this.groupBox3);
             this.tabPage6.Location = new System.Drawing.Point(4, 34);
             this.tabPage6.Name = "tabPage6";
-            this.tabPage6.Size = new System.Drawing.Size(770, 659);
+            this.tabPage6.Size = new System.Drawing.Size(638, 659);
             this.tabPage6.TabIndex = 6;
             this.tabPage6.Text = "Advanced";
-            // 
-            // label20
-            // 
-            this.label20.AutoSize = true;
-            this.label20.BackColor = System.Drawing.Color.IndianRed;
-            this.label20.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.label20.Font = new System.Drawing.Font("Segoe UI", 15.12727F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label20.ForeColor = System.Drawing.Color.White;
-            this.label20.Location = new System.Drawing.Point(68, 537);
-            this.label20.Name = "label20";
-            this.label20.Size = new System.Drawing.Size(421, 38);
-            this.label20.TabIndex = 521;
-            this.label20.Text = "DEVELOPMENT - ONLY FOR TEST";
             // 
             // groupBox11
             // 
             this.groupBox11.Controls.Add(this.uiDevelopmentVersion);
             this.groupBox11.Controls.Add(this.uiDevelopmentDownload);
             this.groupBox11.Controls.Add(this.uiDevelopmentWarning);
-            this.groupBox11.Location = new System.Drawing.Point(22, 155);
+            this.groupBox11.Location = new System.Drawing.Point(22, 181);
             this.groupBox11.Name = "groupBox11";
-            this.groupBox11.Size = new System.Drawing.Size(521, 136);
+            this.groupBox11.Size = new System.Drawing.Size(594, 150);
             this.groupBox11.TabIndex = 510;
             this.groupBox11.TabStop = false;
             this.groupBox11.Text = "Development version";
@@ -1608,17 +1566,17 @@
             // 
             this.uiDevelopmentVersion.BackColor = System.Drawing.Color.Transparent;
             this.uiDevelopmentVersion.Enabled = false;
-            this.uiDevelopmentVersion.Location = new System.Drawing.Point(162, 34);
+            this.uiDevelopmentVersion.Location = new System.Drawing.Point(162, 38);
             this.uiDevelopmentVersion.Name = "uiDevelopmentVersion";
             this.uiDevelopmentVersion.Size = new System.Drawing.Size(340, 34);
             this.uiDevelopmentVersion.TabIndex = 514;
-            this.uiDevelopmentVersion.Text = "Enable \"Check for updates online\"";
+            this.uiDevelopmentVersion.Text = "Please wait ...";
             this.uiDevelopmentVersion.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // uiDevelopmentDownload
             // 
             this.uiDevelopmentDownload.Enabled = false;
-            this.uiDevelopmentDownload.Location = new System.Drawing.Point(30, 34);
+            this.uiDevelopmentDownload.Location = new System.Drawing.Point(28, 38);
             this.uiDevelopmentDownload.Name = "uiDevelopmentDownload";
             this.uiDevelopmentDownload.Size = new System.Drawing.Size(126, 34);
             this.uiDevelopmentDownload.TabIndex = 511;
@@ -1631,9 +1589,9 @@
             this.uiDevelopmentWarning.Enabled = false;
             this.uiDevelopmentWarning.Font = new System.Drawing.Font("Segoe UI", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.uiDevelopmentWarning.ForeColor = System.Drawing.Color.Red;
-            this.uiDevelopmentWarning.Location = new System.Drawing.Point(26, 76);
+            this.uiDevelopmentWarning.Location = new System.Drawing.Point(26, 79);
             this.uiDevelopmentWarning.Name = "uiDevelopmentWarning";
-            this.uiDevelopmentWarning.Size = new System.Drawing.Size(476, 50);
+            this.uiDevelopmentWarning.Size = new System.Drawing.Size(439, 50);
             this.uiDevelopmentWarning.TabIndex = 513;
             this.uiDevelopmentWarning.Text = "Recommended only to use if you want to test newest unreleased functionalities or " +
     "want to report a problem";
@@ -1642,9 +1600,9 @@
             // 
             this.groupBox9.Controls.Add(this.label18);
             this.groupBox9.Controls.Add(this.uiCleanUpExit);
-            this.groupBox9.Location = new System.Drawing.Point(22, 310);
+            this.groupBox9.Location = new System.Drawing.Point(22, 349);
             this.groupBox9.Name = "groupBox9";
-            this.groupBox9.Size = new System.Drawing.Size(523, 197);
+            this.groupBox9.Size = new System.Drawing.Size(594, 229);
             this.groupBox9.TabIndex = 520;
             this.groupBox9.TabStop = false;
             this.groupBox9.Text = "Clean-up all configuration settings";
@@ -1653,7 +1611,7 @@
             // 
             this.label18.Font = new System.Drawing.Font("Segoe UI", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label18.ForeColor = System.Drawing.Color.Black;
-            this.label18.Location = new System.Drawing.Point(26, 85);
+            this.label18.Location = new System.Drawing.Point(26, 80);
             this.label18.Name = "label18";
             this.label18.Size = new System.Drawing.Size(476, 97);
             this.label18.TabIndex = 515;
@@ -1661,7 +1619,7 @@
             // 
             // uiCleanUpExit
             // 
-            this.uiCleanUpExit.Location = new System.Drawing.Point(28, 31);
+            this.uiCleanUpExit.Location = new System.Drawing.Point(28, 39);
             this.uiCleanUpExit.Name = "uiCleanUpExit";
             this.uiCleanUpExit.Size = new System.Drawing.Size(254, 34);
             this.uiCleanUpExit.TabIndex = 521;
@@ -1676,14 +1634,14 @@
             this.groupBox3.Controls.Add(this.uiTroubleshootEnabled);
             this.groupBox3.Location = new System.Drawing.Point(22, 23);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(521, 113);
+            this.groupBox3.Size = new System.Drawing.Size(594, 140);
             this.groupBox3.TabIndex = 500;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Troubleshooting";
             // 
             // uiTroubleshootOpenLocation
             // 
-            this.uiTroubleshootOpenLocation.Location = new System.Drawing.Point(30, 65);
+            this.uiTroubleshootOpenLocation.Location = new System.Drawing.Point(28, 69);
             this.uiTroubleshootOpenLocation.Name = "uiTroubleshootOpenLocation";
             this.uiTroubleshootOpenLocation.Size = new System.Drawing.Size(220, 34);
             this.uiTroubleshootOpenLocation.TabIndex = 502;
@@ -1693,7 +1651,7 @@
             // 
             // uiTroubleshootDeleteFile
             // 
-            this.uiTroubleshootDeleteFile.Location = new System.Drawing.Point(256, 65);
+            this.uiTroubleshootDeleteFile.Location = new System.Drawing.Point(254, 70);
             this.uiTroubleshootDeleteFile.Name = "uiTroubleshootDeleteFile";
             this.uiTroubleshootDeleteFile.Size = new System.Drawing.Size(150, 34);
             this.uiTroubleshootDeleteFile.TabIndex = 503;
@@ -1704,7 +1662,7 @@
             // uiTroubleshootEnabled
             // 
             this.uiTroubleshootEnabled.AutoSize = true;
-            this.uiTroubleshootEnabled.Location = new System.Drawing.Point(30, 30);
+            this.uiTroubleshootEnabled.Location = new System.Drawing.Point(29, 35);
             this.uiTroubleshootEnabled.Name = "uiTroubleshootEnabled";
             this.uiTroubleshootEnabled.Size = new System.Drawing.Size(274, 29);
             this.uiTroubleshootEnabled.TabIndex = 501;
@@ -1716,7 +1674,6 @@
             // 
             this.tabPage7.BackColor = System.Drawing.Color.WhiteSmoke;
             this.tabPage7.Controls.Add(this.uiAttachFile);
-            this.tabPage7.Controls.Add(this.label21);
             this.tabPage7.Controls.Add(this.label3);
             this.tabPage7.Controls.Add(this.label1);
             this.tabPage7.Controls.Add(this.uiSendFeedback);
@@ -1724,37 +1681,24 @@
             this.tabPage7.Controls.Add(this.uiEmailAddr);
             this.tabPage7.Location = new System.Drawing.Point(4, 34);
             this.tabPage7.Name = "tabPage7";
-            this.tabPage7.Size = new System.Drawing.Size(770, 659);
+            this.tabPage7.Size = new System.Drawing.Size(638, 659);
             this.tabPage7.TabIndex = 7;
             this.tabPage7.Text = "Feedback";
             // 
             // uiAttachFile
             // 
             this.uiAttachFile.AutoSize = true;
-            this.uiAttachFile.Location = new System.Drawing.Point(28, 371);
+            this.uiAttachFile.Location = new System.Drawing.Point(30, 419);
             this.uiAttachFile.Name = "uiAttachFile";
             this.uiAttachFile.Size = new System.Drawing.Size(286, 29);
             this.uiAttachFile.TabIndex = 604;
             this.uiAttachFile.Text = "Attach troubleshooting logfile";
             this.uiAttachFile.UseVisualStyleBackColor = true;
             // 
-            // label21
-            // 
-            this.label21.AutoSize = true;
-            this.label21.BackColor = System.Drawing.Color.IndianRed;
-            this.label21.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.label21.Font = new System.Drawing.Font("Segoe UI", 15.12727F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label21.ForeColor = System.Drawing.Color.White;
-            this.label21.Location = new System.Drawing.Point(182, 469);
-            this.label21.Name = "label21";
-            this.label21.Size = new System.Drawing.Size(421, 38);
-            this.label21.TabIndex = 603;
-            this.label21.Text = "DEVELOPMENT - ONLY FOR TEST";
-            // 
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(23, 107);
+            this.label3.Location = new System.Drawing.Point(25, 102);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(135, 25);
             this.label3.TabIndex = 515;
@@ -1763,7 +1707,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(23, 27);
+            this.label1.Location = new System.Drawing.Point(25, 24);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(262, 25);
             this.label1.TabIndex = 514;
@@ -1772,30 +1716,30 @@
             // uiSendFeedback
             // 
             this.uiSendFeedback.Enabled = false;
-            this.uiSendFeedback.Location = new System.Drawing.Point(28, 412);
+            this.uiSendFeedback.Location = new System.Drawing.Point(30, 465);
             this.uiSendFeedback.Name = "uiSendFeedback";
             this.uiSendFeedback.Size = new System.Drawing.Size(160, 34);
-            this.uiSendFeedback.TabIndex = 602;
+            this.uiSendFeedback.TabIndex = 605;
             this.uiSendFeedback.Text = "Send feedback";
             this.uiSendFeedback.UseVisualStyleBackColor = true;
             this.uiSendFeedback.Click += new System.EventHandler(this.uiSendFeedback_Click);
             // 
             // uiFeedbackText
             // 
-            this.uiFeedbackText.Location = new System.Drawing.Point(28, 135);
+            this.uiFeedbackText.Location = new System.Drawing.Point(30, 130);
             this.uiFeedbackText.MaxLength = 0;
             this.uiFeedbackText.Multiline = true;
             this.uiFeedbackText.Name = "uiFeedbackText";
             this.uiFeedbackText.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.uiFeedbackText.Size = new System.Drawing.Size(509, 220);
+            this.uiFeedbackText.Size = new System.Drawing.Size(573, 283);
             this.uiFeedbackText.TabIndex = 601;
             this.uiFeedbackText.TextChanged += new System.EventHandler(this.uiFeedbackText_TextChanged);
             // 
             // uiEmailAddr
             // 
-            this.uiEmailAddr.Location = new System.Drawing.Point(28, 55);
+            this.uiEmailAddr.Location = new System.Drawing.Point(30, 52);
             this.uiEmailAddr.Name = "uiEmailAddr";
-            this.uiEmailAddr.Size = new System.Drawing.Size(509, 32);
+            this.uiEmailAddr.Size = new System.Drawing.Size(578, 32);
             this.uiEmailAddr.TabIndex = 600;
             // 
             // tabPage8
@@ -1819,7 +1763,7 @@
             this.tabPage8.Controls.Add(this.label26);
             this.tabPage8.Location = new System.Drawing.Point(4, 34);
             this.tabPage8.Name = "tabPage8";
-            this.tabPage8.Size = new System.Drawing.Size(770, 659);
+            this.tabPage8.Size = new System.Drawing.Size(638, 659);
             this.tabPage8.TabIndex = 8;
             this.tabPage8.Text = "Privacy";
             // 
@@ -1827,7 +1771,7 @@
             // 
             this.urlFunfacts.BackColor = System.Drawing.Color.WhiteSmoke;
             this.urlFunfacts.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.urlFunfacts.Location = new System.Drawing.Point(40, 529);
+            this.urlFunfacts.Location = new System.Drawing.Point(29, 529);
             this.urlFunfacts.Name = "urlFunfacts";
             this.urlFunfacts.Size = new System.Drawing.Size(331, 32);
             this.urlFunfacts.TabIndex = 533;
@@ -1838,7 +1782,7 @@
             // 
             this.label39.Font = new System.Drawing.Font("Segoe UI", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label39.ForeColor = System.Drawing.Color.Black;
-            this.label39.Location = new System.Drawing.Point(216, 210);
+            this.label39.Location = new System.Drawing.Point(196, 193);
             this.label39.Name = "label39";
             this.label39.Size = new System.Drawing.Size(320, 26);
             this.label39.TabIndex = 530;
@@ -1848,7 +1792,7 @@
             // 
             this.label40.Font = new System.Drawing.Font("Segoe UI", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label40.ForeColor = System.Drawing.Color.Black;
-            this.label40.Location = new System.Drawing.Point(25, 210);
+            this.label40.Location = new System.Drawing.Point(25, 193);
             this.label40.Name = "label40";
             this.label40.Size = new System.Drawing.Size(146, 26);
             this.label40.TabIndex = 529;
@@ -1858,7 +1802,7 @@
             // 
             this.label38.Font = new System.Drawing.Font("Segoe UI", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label38.ForeColor = System.Drawing.Color.Black;
-            this.label38.Location = new System.Drawing.Point(216, 386);
+            this.label38.Location = new System.Drawing.Point(196, 384);
             this.label38.Name = "label38";
             this.label38.Size = new System.Drawing.Size(320, 26);
             this.label38.TabIndex = 528;
@@ -1868,7 +1812,7 @@
             // 
             this.label37.Font = new System.Drawing.Font("Segoe UI", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label37.ForeColor = System.Drawing.Color.Black;
-            this.label37.Location = new System.Drawing.Point(216, 351);
+            this.label37.Location = new System.Drawing.Point(196, 348);
             this.label37.Name = "label37";
             this.label37.Size = new System.Drawing.Size(320, 26);
             this.label37.TabIndex = 527;
@@ -1878,39 +1822,39 @@
             // 
             this.label36.Font = new System.Drawing.Font("Segoe UI", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label36.ForeColor = System.Drawing.Color.Black;
-            this.label36.Location = new System.Drawing.Point(216, 316);
+            this.label36.Location = new System.Drawing.Point(196, 309);
             this.label36.Name = "label36";
             this.label36.Size = new System.Drawing.Size(320, 26);
             this.label36.TabIndex = 526;
-            this.label36.Text = "123.456.789.123";
+            this.label36.Text = "1.2.3.4";
             // 
             // label35
             // 
             this.label35.Font = new System.Drawing.Font("Segoe UI", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label35.ForeColor = System.Drawing.Color.Black;
-            this.label35.Location = new System.Drawing.Point(216, 282);
+            this.label35.Location = new System.Drawing.Point(196, 270);
             this.label35.Name = "label35";
-            this.label35.Size = new System.Drawing.Size(320, 26);
+            this.label35.Size = new System.Drawing.Size(414, 26);
             this.label35.TabIndex = 525;
-            this.label35.Text = "2023-April-26 # Development";
+            this.label35.Text = "2023-April-27 # DEVELOPMENT (rev. 2)";
             // 
             // label34
             // 
             this.label34.Font = new System.Drawing.Font("Segoe UI", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label34.ForeColor = System.Drawing.Color.Black;
-            this.label34.Location = new System.Drawing.Point(216, 248);
+            this.label34.Location = new System.Drawing.Point(196, 231);
             this.label34.Name = "label34";
-            this.label34.Size = new System.Drawing.Size(204, 26);
+            this.label34.Size = new System.Drawing.Size(346, 26);
             this.label34.TabIndex = 524;
-            this.label34.Text = "2023-04-26 20:43:01";
+            this.label34.Text = "2023-04-27 22:29:01";
             // 
             // label33
             // 
             this.label33.Font = new System.Drawing.Font("Segoe UI", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label33.ForeColor = System.Drawing.Color.Black;
-            this.label33.Location = new System.Drawing.Point(25, 427);
+            this.label33.Location = new System.Drawing.Point(25, 453);
             this.label33.Name = "label33";
-            this.label33.Size = new System.Drawing.Size(608, 89);
+            this.label33.Size = new System.Drawing.Size(585, 108);
             this.label33.TabIndex = 523;
             this.label33.Text = resources.GetString("label33.Text");
             // 
@@ -1918,7 +1862,7 @@
             // 
             this.label32.Font = new System.Drawing.Font("Segoe UI", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label32.ForeColor = System.Drawing.Color.Black;
-            this.label32.Location = new System.Drawing.Point(25, 282);
+            this.label32.Location = new System.Drawing.Point(25, 270);
             this.label32.Name = "label32";
             this.label32.Size = new System.Drawing.Size(146, 26);
             this.label32.TabIndex = 522;
@@ -1928,7 +1872,7 @@
             // 
             this.label31.Font = new System.Drawing.Font("Segoe UI", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label31.ForeColor = System.Drawing.Color.Black;
-            this.label31.Location = new System.Drawing.Point(25, 248);
+            this.label31.Location = new System.Drawing.Point(25, 231);
             this.label31.Name = "label31";
             this.label31.Size = new System.Drawing.Size(146, 26);
             this.label31.TabIndex = 521;
@@ -1938,7 +1882,7 @@
             // 
             this.label30.Font = new System.Drawing.Font("Segoe UI", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label30.ForeColor = System.Drawing.Color.Black;
-            this.label30.Location = new System.Drawing.Point(25, 386);
+            this.label30.Location = new System.Drawing.Point(25, 387);
             this.label30.Name = "label30";
             this.label30.Size = new System.Drawing.Size(146, 26);
             this.label30.TabIndex = 520;
@@ -1948,7 +1892,7 @@
             // 
             this.label29.Font = new System.Drawing.Font("Segoe UI", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label29.ForeColor = System.Drawing.Color.Black;
-            this.label29.Location = new System.Drawing.Point(25, 351);
+            this.label29.Location = new System.Drawing.Point(25, 348);
             this.label29.Name = "label29";
             this.label29.Size = new System.Drawing.Size(146, 26);
             this.label29.TabIndex = 519;
@@ -1958,7 +1902,7 @@
             // 
             this.label28.Font = new System.Drawing.Font("Segoe UI", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label28.ForeColor = System.Drawing.Color.Black;
-            this.label28.Location = new System.Drawing.Point(25, 316);
+            this.label28.Location = new System.Drawing.Point(25, 309);
             this.label28.Name = "label28";
             this.label28.Size = new System.Drawing.Size(146, 26);
             this.label28.TabIndex = 518;
@@ -1968,9 +1912,9 @@
             // 
             this.label27.Font = new System.Drawing.Font("Segoe UI", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label27.ForeColor = System.Drawing.Color.Black;
-            this.label27.Location = new System.Drawing.Point(25, 75);
+            this.label27.Location = new System.Drawing.Point(25, 63);
             this.label27.Name = "label27";
-            this.label27.Size = new System.Drawing.Size(608, 126);
+            this.label27.Size = new System.Drawing.Size(585, 126);
             this.label27.TabIndex = 517;
             this.label27.Text = resources.GetString("label27.Text");
             // 
@@ -1978,17 +1922,30 @@
             // 
             this.label26.Font = new System.Drawing.Font("Segoe UI", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label26.ForeColor = System.Drawing.Color.Black;
-            this.label26.Location = new System.Drawing.Point(25, 33);
+            this.label26.Location = new System.Drawing.Point(25, 24);
             this.label26.Name = "label26";
             this.label26.Size = new System.Drawing.Size(110, 27);
             this.label26.TabIndex = 516;
             this.label26.Text = "Your data!";
             // 
+            // uiDeveloperVersion
+            // 
+            this.uiDeveloperVersion.Font = new System.Drawing.Font("Segoe UI", 11.12727F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.uiDeveloperVersion.ForeColor = System.Drawing.Color.IndianRed;
+            this.uiDeveloperVersion.Location = new System.Drawing.Point(96, 453);
+            this.uiDeveloperVersion.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.uiDeveloperVersion.Name = "uiDeveloperVersion";
+            this.uiDeveloperVersion.Size = new System.Drawing.Size(446, 127);
+            this.uiDeveloperVersion.TabIndex = 93;
+            this.uiDeveloperVersion.Text = "Red color means DANGER - this is a DEVELOPMENT version, which is most likely full" +
+    " of bugs. Please update to a real/stable version as soon as possible";
+            this.uiDeveloperVersion.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
             // Settings
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(11F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(829, 721);
+            this.ClientSize = new System.Drawing.Size(670, 721);
             this.Controls.Add(this.uiHelp);
             this.Controls.Add(this.tabControl);
             this.Font = new System.Drawing.Font("Segoe UI", 11.12727F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -2006,7 +1963,6 @@
             this.tabPage4.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.tabPage2.ResumeLayout(false);
-            this.tabPage2.PerformLayout();
             this.groupBox6.ResumeLayout(false);
             this.groupBox6.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.uiHistoryMargin)).EndInit();
@@ -2016,38 +1972,37 @@
             this.groupBox10.ResumeLayout(false);
             this.groupBox10.PerformLayout();
             this.tabPage5.ResumeLayout(false);
-            this.tabPage5.PerformLayout();
             this.groupBox7.ResumeLayout(false);
             this.groupBox7.PerformLayout();
             this.groupBox5.ResumeLayout(false);
             this.groupBox5.PerformLayout();
             this.tabPage1.ResumeLayout(false);
-            this.tabPage1.PerformLayout();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.tabControl.ResumeLayout(false);
             this.tabPage3.ResumeLayout(false);
-            this.tabPage3.PerformLayout();
             this.groupBox12.ResumeLayout(false);
             this.groupBox12.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox10)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox9)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox8)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox6)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox7)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).EndInit();
+            this.groupBoxCustom.ResumeLayout(false);
+            this.groupBoxCustom.PerformLayout();
             this.borderGroupBox.ResumeLayout(false);
             this.borderGroupBox.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.uiBorderThickness)).EndInit();
             this.groupBox8.ResumeLayout(false);
             this.groupBox8.PerformLayout();
-            this.groupBoxCustom.ResumeLayout(false);
-            this.groupBoxCustom.PerformLayout();
             this.groupBox4.ResumeLayout(false);
             this.tabPage6.ResumeLayout(false);
-            this.tabPage6.PerformLayout();
             this.groupBox11.ResumeLayout(false);
             this.groupBox9.ResumeLayout(false);
             this.groupBox3.ResumeLayout(false);
@@ -2175,7 +2130,7 @@
         private System.Windows.Forms.PictureBox pictureBox5;
         private System.Windows.Forms.PictureBox pictureBox6;
         private System.Windows.Forms.PictureBox pictureBox7;
-        private System.Windows.Forms.RadioButton uiIconsSquare;
+        private System.Windows.Forms.RadioButton uiIconsSquareOld;
         private System.Windows.Forms.RadioButton uiIconsRound;
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.TrackBar uiBorderThickness;
@@ -2195,13 +2150,6 @@
         private System.Windows.Forms.Label uiShowFontEntry;
         private System.Windows.Forms.RadioButton uiHistoryColorThemeContrast;
         private System.Windows.Forms.Label labelHistoryMargin;
-        private System.Windows.Forms.Label label17;
-        private System.Windows.Forms.Label label22;
-        private System.Windows.Forms.Label label14;
-        private System.Windows.Forms.Label label15;
-        private System.Windows.Forms.Label label19;
-        private System.Windows.Forms.Label label20;
-        private System.Windows.Forms.Label label21;
         private System.Windows.Forms.CheckBox uiAttachFile;
         private System.Windows.Forms.TabPage tabPage8;
         private System.Windows.Forms.Label label33;
@@ -2220,6 +2168,11 @@
         private System.Windows.Forms.Label label35;
         private System.Windows.Forms.Label label34;
         private System.Windows.Forms.RichTextBox urlFunfacts;
+        private System.Windows.Forms.PictureBox pictureBox8;
+        private System.Windows.Forms.PictureBox pictureBox10;
+        private System.Windows.Forms.PictureBox pictureBox9;
+        private System.Windows.Forms.RadioButton uiIconsSquareNew;
+        private System.Windows.Forms.Label uiDeveloperVersion;
     }
 
 }

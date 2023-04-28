@@ -23,7 +23,6 @@ namespace HovText
             string appVer = Settings.appVer.Trim();
 
             // Get .NET Framework version
-//            string netVer = Get45or451FromRegistry();
             string dotNetVer = RuntimeInformation.FrameworkDescription;
             dotNetVer = dotNetVer.Replace(".NET Framework", "");
             dotNetVer = dotNetVer.Trim();
@@ -102,86 +101,6 @@ namespace HovText
             // Output to the Visual Studio "Output" console
             Debug.WriteLine(logMessage);
         }
-
-/*
-        // ###########################################################################################
-        // Get the used .NET Framework version
-        // https://stackoverflow.com/a/951915/2028935
-        // ###########################################################################################
-
-        private static string Get45or451FromRegistry()
-        {
-            using (RegistryKey ndpKey = RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, RegistryView.Registry32).OpenSubKey("SOFTWARE\\Microsoft\\NET Framework Setup\\NDP\\v4\\Full\\"))
-            {
-                int releaseKey = Convert.ToInt32(ndpKey.GetValue("Release"));
-                if (true)
-                {
-                    return CheckFor45DotVersion(releaseKey);
-                }
-            }
-        }
-
-        // For updates to .NET Framework then view these:
-        // https://github.com/dotnet/docs/blob/master/docs/framework/migration-guide/how-to-determine-which-versions-are-installed.md
-        // .. and "What is new" in:
-        // https://docs.microsoft.com/en-us/dotnet/framework/migration-guide/versions-and-dependencies
-        private static string CheckFor45DotVersion(int releaseKey)
-        {
-            string returnStr;
-            switch (releaseKey)
-            {
-                case 378389:
-                    returnStr = "4.5";
-                    break;
-                case 378675:
-                case 378758:
-                    returnStr = "4.5.1";
-                    break;
-                case 379893:
-                    returnStr = "4.5.2";
-                    break;
-                case 393295:
-                case 393297:
-                    returnStr = "4.6";
-                    break;
-                case 394254:
-                case 394271:
-                    returnStr = "4.6.1";
-                    break;
-                case 394802:
-                case 394806:
-                    returnStr = "4.6.2";
-                    break;
-                case 460798:
-                case 460805:
-                    returnStr = "4.7";
-                    break;
-                case 461308:
-                case 461310:
-                    returnStr = "4.7.1";
-                    break;
-                case 461808:
-                case 461814:
-                    returnStr = "4.7.2";
-                    break;
-                case 528040:
-                case 528049:
-                case 528372: // also set in "default"
-                    returnStr = "4.8";
-                    break;
-                default:
-                    if (releaseKey > 528372) // also set in "4.8"
-                    {
-                        returnStr = "newer than 4.8";
-                    } else
-                    {
-                        returnStr = "older than 4.5";
-                    }
-                    break;
-            }
-            return returnStr;
-        }
-*/
 
 
         // ###########################################################################################

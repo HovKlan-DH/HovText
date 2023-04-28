@@ -4,8 +4,6 @@ using System.IO;
 using System.Runtime.InteropServices;
 using System.Threading;
 using System.Windows.Forms;
-using System.Windows.Controls;
-//using static HovText.Settings;
 
 namespace HovText
 {
@@ -90,8 +88,6 @@ namespace HovText
                         }
                     }
                 }
-//            } else
-//                    Logging.Log("Application launched, but it hangs in its named pipe - is there running another non-working instance?");
             }
 
             // It will only come to here, if this is the first instance being run
@@ -112,10 +108,6 @@ namespace HovText
                     Settings.CleanupAndExit();
                     return 0;
                 }
-//                if (arg0 != "--start-minimized")
-//                {
-//                    return 0;
-//                }
             }
 
             Application.Run(Settings);
