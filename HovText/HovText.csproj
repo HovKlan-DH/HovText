@@ -178,6 +178,8 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\Square_New_Hotkey_48x48.ico" />
+    <None Include="Resources\Square_New_Inactive_48x48.ico" />
     <None Include="Resources\Square_New_Active_48x48.ico" />
     <None Include="Resources\Square_Old_Hotkey_16x16.ico" />
     <None Include="Resources\Square_Old_Inactive_16x16.ico" />

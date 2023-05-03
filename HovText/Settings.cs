@@ -1,5 +1,5 @@
-﻿using HovText.Properties;
-using NHotkey.WindowsForms; // https://github.com/thomaslevesque/NHotkey
+﻿using static HovText.Program;
+using HovText.Properties;
 using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
@@ -13,8 +13,8 @@ using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Windows.Forms;
-using static HovText.Program;
-using Newtonsoft.Json;
+using NHotkey.WindowsForms; // https://github.com/thomaslevesque/NHotkey
+using Newtonsoft.Json; // https://www.newtonsoft.com/json
 
 
 // ----------------------------------------------------------------------------
@@ -136,12 +136,12 @@ namespace HovText
         string clipboardText = "";
         string clipboardTextLast = "";
         bool isClipboardImageTransparent;
-        Image clipboardImage;
+        System.Drawing.Image clipboardImage;
         string clipboardImageHashLast = "";
         System.Windows.Forms.IDataObject clipboardObject;
         public readonly static SortedDictionary<int, string> entriesApplication = new SortedDictionary<int, string>();
         public readonly static SortedDictionary<int, string> entriesText = new SortedDictionary<int, string>();
-        public readonly static SortedDictionary<int, Image> entriesImage = new SortedDictionary<int, Image>();
+        public readonly static SortedDictionary<int, System.Drawing.Image> entriesImage = new SortedDictionary<int, System.Drawing.Image>();
         private readonly static SortedList<int, Dictionary<string, object>> entriesOriginal = new SortedList<int, Dictionary<string, object>>();
         public readonly static SortedDictionary<int, bool> entriesImageTransparent = new SortedDictionary<int, bool>();
         public readonly static SortedDictionary<int, bool> entriesIsFavorite = new SortedDictionary<int, bool>();
@@ -224,6 +224,8 @@ namespace HovText
             // Start logging, if relevant
             Logging.StartLogging();
             hasTroubleshootLogged = isTroubleshootEnabled ? true : false;
+
+//            notifyIcon.Icon = Resources.Square_Old_Hotkey_16x16;
 
             // Setup form and all elements
             InitializeComponent();
@@ -417,7 +419,7 @@ namespace HovText
                         clipboardImageHashLast = clipboardImageHash;
 
                         // Check if picture is transparent
-                        Image imgCopy = GetImageFromClipboard();
+                        System.Drawing.Image imgCopy = GetImageFromClipboard();
                         isClipboardImageTransparent = false;
                         if (imgCopy != null)
                         {
@@ -440,7 +442,7 @@ namespace HovText
         // It will also get the transparency alpha channel from the clipboard image
         // ###########################################################################################
 
-        private Image GetImageFromClipboard()
+        private System.Drawing.Image GetImageFromClipboard()
         {
             if (Clipboard.GetDataObject() == null) return null;
             if (Clipboard.GetDataObject().GetDataPresent(DataFormats.Dib))
@@ -488,7 +490,7 @@ namespace HovText
         // https://stackoverflow.com/a/2570002/2028935
         // ###########################################################################################
 
-        private static bool IsImageTransparent(Image image)
+        private static bool IsImageTransparent(System.Drawing.Image image)
         {
             Bitmap img = new Bitmap(image);
             for (int y = 0; y < img.Height; ++y)
@@ -534,7 +536,10 @@ namespace HovText
             {
                 Logging.Log("Exception #1 raised (Settings):");
                 Logging.Log("  " + ex.Message); 
-                MessageBox.Show("EXCEPTION #1 - please enable troubleshooting log and report to developer");
+                MessageBox.Show("EXCEPTION #1 - please enable troubleshooting log and report to developer",
+                    "ERROR",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
             }
         }
 
@@ -688,7 +693,7 @@ namespace HovText
         public void SetClipboard()
         {
             string entryText = clipboardText;
-            Image entryImage;
+            System.Drawing.Image entryImage;
             bool isEntryText = isClipboardText;
             bool isEntryImage = isClipboardImage;
 
@@ -726,7 +731,10 @@ namespace HovText
                 {
                     Logging.Log("Exception #2 raised (Settings):");
                     Logging.Log("  " + ex.Message);
-                    MessageBox.Show("EXCEPTION #2 - please enable troubleshooting log and report to developer");
+                    MessageBox.Show("EXCEPTION #2 - please enable troubleshooting log and report to developer",
+                        "ERROR",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Error);
                 }
             }
             else
@@ -740,14 +748,20 @@ namespace HovText
                 {
                     Logging.Log("Exception #3 raised (Settings):");
                     Logging.Log("  " + ex.Message);
-                    MessageBox.Show("EXCEPTION #3 - please enable troubleshooting log and report to developer");
+                    MessageBox.Show("EXCEPTION #3 - please enable troubleshooting log and report to developer",
+                        "ERROR",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Error);
                 }
             }
             else
             {
                 Logging.Log("Exception #4 raised (Settings):");
                 Logging.Log("  Clipboard triggered but is not [isEntryText] or [isEntryImage]");
-                MessageBox.Show("EXCEPTION #4 - please enable troubleshooting log and report to developer");
+                MessageBox.Show("EXCEPTION #4 - please enable troubleshooting log and report to developer",
+                        "ERROR",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Error);
             }
         }
 
@@ -952,6 +966,11 @@ namespace HovText
                             notifyIcon.Icon = Resources.Square_Old_Hotkey_16x16;
                             Icon = Resources.Square_Old_Hotkey_16x16;
                         }
+                        else if (iconSet == "SquareNew")
+                        {
+                            notifyIcon.Icon = Resources.Square_New_Hotkey_48x48;
+                            Icon = Resources.Square_New_Hotkey_48x48;
+                        }
                         else
                         {
                             notifyIcon.Icon = Resources.Round_Hotkey_48x48;
@@ -968,7 +987,12 @@ namespace HovText
                         {
                             notifyIcon.Icon = Resources.Square_Old_Active_16x16;
                             Icon = Resources.Square_Old_Active_16x16;
-                        } else
+                        } else if (iconSet == "SquareNew")
+                        {
+                            notifyIcon.Icon = Resources.Square_New_Active_48x48;
+                            Icon = Resources.Square_New_Active_48x48;
+                        }
+                        else
                         {
                             notifyIcon.Icon = Resources.Round_Active_48x48;
                             Icon = Resources.Round_Active_48x48;
@@ -983,6 +1007,7 @@ namespace HovText
                 {
                     uiCopyImages.Enabled = true;
                     uiPasteOnSelection.Enabled = true;
+                    uiHotkeyEnable.Enabled = true;
                     uiHotkeyOlder.Enabled = true;
                     uiHotkeyNewer.Enabled = true;
                     uiFavoritesEnabled.Enabled = true;
@@ -1017,6 +1042,11 @@ namespace HovText
                     notifyIcon.Icon = Resources.Square_Old_Inactive_16x16;
                     Icon = Resources.Square_Old_Inactive_16x16;
                 }
+                else if (iconSet == "SquareNew")
+                {
+                    notifyIcon.Icon = Resources.Square_New_Inactive_48x48;
+                    Icon = Resources.Square_New_Inactive_48x48;
+                }
                 else
                 {
                     notifyIcon.Icon = Resources.Round_Inactive_48x48;
@@ -1030,6 +1060,7 @@ namespace HovText
                 uiCopyImages.Enabled = false;
                 uiTrimWhitespaces.Enabled = false;
                 uiPasteOnSelection.Enabled = false;
+                uiHotkeyEnable.Enabled = false;
                 uiHotkeyOlder.Enabled = false;
                 uiHotkeyNewer.Enabled = false;
                 uiHotkeyPaste.Enabled = false;
@@ -1224,7 +1255,8 @@ namespace HovText
             catch (WebException ex)
             {
                 // Catch the exception though this is not so critical that we need to disturb the developer
-                Logging.Log("Exception #11 raised (Settings):");
+                Logging.Log("Exception raised (Settings):");
+                Logging.Log("  Cannot connect with server to get information about newest available [STABLE] version:");
                 Logging.Log("  " + ex.Message);
             }
 
@@ -1238,17 +1270,36 @@ namespace HovText
                 string checkedVersion = webClient.DownloadString(hovtextPage + "autoupdate/development/");
                 if (checkedVersion.Substring(0, 7) == "Version")
                 {
-                    checkedVersion = checkedVersion.Substring(9); 
-                    uiDevelopmentVersion.Text = " "+ checkedVersion;
-                    uiDevelopmentDownload.Enabled = true;
-                    Logging.Log("  Development version available = [" + checkedVersion + "]");
+                    if (checkedVersion != "Version: No development version available")
+                    {
+                        checkedVersion = checkedVersion.Substring(9);
+                        uiDevelopmentVersion.Text = " " + checkedVersion;
+                        uiDevelopmentDownload.Enabled = true;
+                        Logging.Log("  Development version available = [" + checkedVersion + "]");
+                    }
+                    else
+                    {
+                        uiDevelopmentDownload.Enabled = false;
+                        uiDevelopmentWarning.Enabled = false;
+                        uiDevelopmentVersion.Text = "No development version available";
+                        Logging.Log("  Development version available = [No development version available]");
+                    }
+                } else
+                {
+
+                    uiDevelopmentDownload.Enabled = false;
+                    uiDevelopmentWarning.Enabled = false;
+                    uiDevelopmentVersion.Text = "ERROR";
+                    Logging.Log("  Development version available = [ERROR]");
                 }
             }
             catch (WebException ex)
             {
                 // Catch the exception though this is not so critical that we need to disturb the developer
-                Logging.Log("Exception #14 raised (Settings):");
+                Logging.Log("Exception raised (Settings):");
+                Logging.Log("  Cannot connect with server to get information about newest available [DEVELOPMENT] version:");
                 Logging.Log("  " + ex.Message);
+                uiDevelopmentVersion.Text = "Cannot connect with server - try later ...";
             }
         }
 
@@ -1393,7 +1444,7 @@ namespace HovText
             if (firstTimeLaunch)
             {
                 // Set "Start with Windows"
-                RegistryKeyCheckOrCreate(registryPathRun, "HovText", "\"" + Application.ExecutablePath + "\" --start-minimized");
+                RegistryKeyCheckOrCreate(registryPathRun, "HovText", "\"" + System.Windows.Forms.Application.ExecutablePath + "\" --start-minimized");
             }
 
             RegistryKeyCheckOrCreate(registryPath, "CheckedVersion", appVer);
@@ -1663,10 +1714,10 @@ namespace HovText
 
                 // Overwrite "Run" if it does not contain "HovText.exe" or "--start-minimized"
                 string runEntry = GetRegistryKey(registryPathRun, "HovText");
-                string thisEntry = "\"" + Application.ExecutablePath + "\" --start-minimized";
+                string thisEntry = "\"" + System.Windows.Forms.Application.ExecutablePath + "\" --start-minimized";
                 if (runEntry != thisEntry)
                 {
-                    SetRegistryKey(registryPathRun, "HovText", "\"" + Application.ExecutablePath + "\" --start-minimized");
+                    SetRegistryKey(registryPathRun, "HovText", "\"" + System.Windows.Forms.Application.ExecutablePath + "\" --start-minimized");
                 }
             }
 
@@ -1729,6 +1780,7 @@ namespace HovText
             isEnabledHistory = uiHistoryEnabled.Checked;
             if (isEnabledHistory)
             {
+                uiHotkeyEnable.Enabled = true;
                 uiHotkeyOlder.Enabled = true;
                 uiHotkeyNewer.Enabled = true;
                 uiPasteOnSelection.Enabled = true;
@@ -1742,6 +1794,7 @@ namespace HovText
             }
             else
             {
+                uiHotkeyEnable.Enabled = false;
                 uiHotkeyOlder.Enabled = false;
                 uiHotkeyNewer.Enabled = false;
                 uiPasteOnSelection.Enabled = false;
@@ -1858,6 +1911,9 @@ namespace HovText
             if(iconSet == "SquareOld")
             {
                 uiIconsSquareOld.Select();
+            } else if (iconSet == "SquareNew")
+            {
+                uiIconsSquareNew.Select();
             }
 
             // Display selection
@@ -1911,7 +1967,7 @@ namespace HovText
         {
             if (uiStartWithWindows.Checked)
             {
-                SetRegistryKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", "HovText", "\"" + Application.ExecutablePath + "\" --start-minimized");
+                SetRegistryKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", "HovText", "\"" + System.Windows.Forms.Application.ExecutablePath + "\" --start-minimized");
                 Logging.Log("Changed \"Start with Windows\" from [No] to [Yes]");
             }
             else
@@ -1941,9 +1997,9 @@ namespace HovText
                 historyFontSize = fontDlg.Font.Size;
                 historyFontFamily = fontDlg.Font.Name;
                 uiShowFontHeader.Font = new Font(historyFontFamily, historyFontSize);
-                uiShowFontActive.Text = historyFontFamily + ", " + historyFontSize;
+                uiShowFontActive.Text = "Active entry\r\n" + historyFontFamily + ", " + historyFontSize;
                 uiShowFontActive.Font = new Font(historyFontFamily, historyFontSize);
-                uiShowFontEntry.Text = historyFontFamily + ", " + historyFontSize;
+                uiShowFontEntry.Text = "Entry\r\n" + historyFontFamily + ", " + historyFontSize;
                 uiShowFontEntry.Font = new Font(historyFontFamily, historyFontSize);
                 SetRegistryKey(registryPath, "HistoryFontFamily", historyFontFamily);
                 SetRegistryKey(registryPath, "HistoryFontSize", historyFontSize.ToString());
@@ -2268,6 +2324,7 @@ namespace HovText
             SetRegistryKey(registryPath, "HistoryEnable", status);
             if (isEnabledHistory)
             {
+                uiHotkeyEnable.Enabled = true;
                 uiHotkeyOlder.Enabled = true;
                 uiHotkeyNewer.Enabled = true;
                 uiCopyImages.Enabled = true;
@@ -2281,6 +2338,7 @@ namespace HovText
             }
             else
             {
+                uiHotkeyEnable.Enabled = false;
                 uiHotkeyOlder.Enabled = false;
                 uiHotkeyNewer.Enabled = false;
                 uiCopyImages.Enabled = false;
@@ -2388,7 +2446,7 @@ namespace HovText
         {
             Logging.Log("Clicked tray icon \"About\""); 
             ShowSettingsForm();
-            tabControl.SelectedIndex = 6; // About
+            tabControl.SelectedIndex = 7; // About
         }
 
 
@@ -2487,6 +2545,11 @@ namespace HovText
                 notifyIcon.Icon = Resources.Square_Old_Active_16x16;
                 Icon = Resources.Square_Old_Active_16x16;
             }
+            else if (iconSet == "SquareNew")
+            {
+                notifyIcon.Icon = Resources.Square_New_Active_48x48;
+                Icon = Resources.Square_New_Active_48x48;
+            }
             else
             {
                 notifyIcon.Icon = Resources.Round_Active_48x48;
@@ -2511,7 +2574,12 @@ namespace HovText
             {
                 notifyIcon.Icon = Resources.Square_Old_Hotkey_16x16;
                 Icon = Resources.Square_Old_Hotkey_16x16;
-            } else
+            } else if (iconSet == "SquareNew")
+            {
+                notifyIcon.Icon = Resources.Square_New_Hotkey_48x48;
+                Icon = Resources.Square_New_Hotkey_48x48;
+            }
+            else
             {
                 notifyIcon.Icon = Resources.Round_Hotkey_48x48;
                 Icon = Resources.Round_Hotkey_48x48;
@@ -3361,10 +3429,24 @@ namespace HovText
             }
             else
             {
-                MessageBox.Show(troubleshootLogfile +" does not exists!");
+                MessageBox.Show(troubleshootLogfile + " does not exists!",
+                        "WARNING",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Warning);
                 uiTroubleshootOpenLocation.Enabled = false;
                 uiTroubleshootDeleteFile.Enabled = false;
             }
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            string appPath = System.Reflection.Assembly.GetExecutingAssembly().Location;
+//            string appDirectory = Path.GetDirectoryName(appPath);
+//            string appFileName = Path.GetFileName(appPath);
+            string argument = "/select, \"" + appPath + "\"";
+            string folder = argument.Substring(6);
+            Process.Start("explorer.exe", argument);
+            Logging.Log("Clicked the \"Open executeable location\"");
         }
 
 
@@ -3382,7 +3464,10 @@ namespace HovText
             }
             else
             {
-                MessageBox.Show(troubleshootLogfile + " does not exists!");
+                MessageBox.Show(troubleshootLogfile + " does not exists!",
+                    "WARNING",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning);
                 uiTroubleshootOpenLocation.Enabled = false;
                 uiTroubleshootDeleteFile.Enabled = false;
             }
@@ -3417,20 +3502,28 @@ namespace HovText
                 {
                     if (File.Exists(troubleshootLogfile))
                     {
-                        uiAttachFile.Enabled = true;
                         FileInfo fileInfo = new FileInfo(troubleshootLogfile);
-                        long fileSizeInBytes = fileInfo.Length;
-                        double fileSizeInKilobytes = fileSizeInBytes / 1024.0;
-                        double fileSizeInMegabytes = fileSizeInBytes / (1024.0 * 1024.0);
-                        double fileSize = 0;
-                        fileSize = fileSizeInBytes > 1000 ? fileSizeInKilobytes : fileSizeInBytes;
-                        fileSize = fileSizeInKilobytes > 1000 ? fileSizeInMegabytes : fileSize;
-                        fileSize = fileSize > 10 ? Math.Round(fileSize, 0) : fileSize;
-                        string fileDescription = fileSizeInBytes > 1000 ? "KBytes" : "bytes";
-                        fileDescription = fileSizeInKilobytes > 1000 ? "MBytes" : fileDescription;
-                        bool hasDecimalPart = fileSize != Math.Truncate(fileSize);
-                        fileSize = hasDecimalPart ? Math.Round(fileSize, 1) : fileSize;
-                        uiAttachFile.Text = "Attach troubleshooting logfile (" + fileSize.ToString() + " " + fileDescription + ")";
+                        if (fileInfo.Length > 0)
+                        {
+                            uiAttachFile.Enabled = true;
+                            long fileSizeInBytes = fileInfo.Length;
+                            double fileSizeInKilobytes = fileSizeInBytes / 1024.0;
+                            double fileSizeInMegabytes = fileSizeInBytes / (1024.0 * 1024.0);
+                            double fileSize;
+                            fileSize = fileSizeInBytes > 1000 ? fileSizeInKilobytes : fileSizeInBytes;
+                            fileSize = fileSizeInKilobytes > 1000 ? fileSizeInMegabytes : fileSize;
+                            fileSize = fileSize > 10 ? Math.Round(fileSize, 0) : fileSize;
+                            string fileDescription = fileSizeInBytes > 1000 ? "KBytes" : "bytes";
+                            fileDescription = fileSizeInKilobytes > 1000 ? "MBytes" : fileDescription;
+                            bool hasDecimalPart = fileSize != Math.Truncate(fileSize);
+                            fileSize = hasDecimalPart ? Math.Round(fileSize, 1) : fileSize;
+                            uiAttachFile.Text = "Attach troubleshooting logfile (" + fileSize.ToString() + " " + fileDescription + ")";
+                        }
+                        else
+                        {
+                            uiAttachFile.Enabled = false;
+                            uiAttachFile.Text = "Attach troubleshooting logfile (file is empty)";
+                        }
                     }
                     else
                     {
@@ -3480,9 +3573,13 @@ namespace HovText
                 catch (WebException ex)
                 {
                     // Catch the exception though this is not so critical that we need to disturb the developer
-                    Logging.Log("Exception #13 raised (Settings):");
+                    Logging.Log("Exception raised (Settings):");
+                    Logging.Log("  Cannot connect with server to submit \"Privacy\" information:");
                     Logging.Log("  " + ex.Message);
-                    MessageBox.Show("EXCEPTION #13 - please enable troubleshooting log and report to developer");
+                    MessageBox.Show("HovText cannot connect to the server, where it should submit the \"Privacy\" information. Please connect directly with the developer at \"dennis@hovtext.com\" and state this is a problem, thanks.\r\n\r\nThe exact error is:\r\n\r\n" + ex.Message,
+                        "ERROR",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Error);
                 }
             }
         }
@@ -3560,28 +3657,40 @@ namespace HovText
                     {
                         uiEmailAddr.Text = "";
                         uiFeedbackText.Text = "";
+                        uiAttachFile.Checked = false;
                         uiSendFeedback.Enabled = false;
                         if (email.Length > 0)
                         {
                             string txt = "Feedback sent - please allow for some time, if any response is required";
                             Logging.Log(txt);
                             Logging.Log("  Email used = [" + email + "]");
-                            MessageBox.Show(txt);
+                            MessageBox.Show(txt,
+                                "OK",
+                                MessageBoxButtons.OK,
+                                MessageBoxIcon.Information);
+
                         }
                         else
                         {
                             string txt = "Feedback sent - no response will be given as you did not specify an email address";
                             Logging.Log(txt);
-                            MessageBox.Show(txt);
+                            MessageBox.Show(txt,
+                                "OK",
+                                MessageBoxButtons.OK,
+                                MessageBoxIcon.Information);
                         }
                     }
                 }
                 catch (WebException ex)
                 {
                     // Catch the exception though this is not so critical that we need to disturb the developer
-                    Logging.Log("Exception #13 raised (Settings):");
+                    Logging.Log("Exception raised (Settings):");
+                    Logging.Log("  Cannot connect with server to submit feedback:");
                     Logging.Log("  " + ex.Message);
-                    MessageBox.Show("EXCEPTION #13 - please enable troubleshooting log and report to developer");
+                    MessageBox.Show("HovText cannot connect to the server, where it should submit the feedback. Please connect directly with the developer at \"dennis@hovtext.com\" and state this is a problem, thanks.\r\n\r\nThe exact error is:\r\n\r\n"+ ex.Message,
+                        "ERROR",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Error);
                 }
 
             }
@@ -3590,7 +3699,10 @@ namespace HovText
                 string txt = "Invalid email address ["+ email +"]";
                 Logging.Log("EXCEPTION #12 raised:");
                 Logging.Log("  "+ txt); 
-                MessageBox.Show(txt);
+                MessageBox.Show(txt,
+                    "ERROR",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
             }
         }
 
@@ -3601,7 +3713,7 @@ namespace HovText
 
         private void uiFeedbackText_TextChanged(object sender, EventArgs e)
         {
-            if (uiFeedbackText.Text.Length > 0)
+            if (uiAttachFile.Checked || uiFeedbackText.Text.Length > 0)
             {
                 uiSendFeedback.Enabled = true;
             }
@@ -3881,20 +3993,20 @@ namespace HovText
         {
             if (!uiAppEnabled.Checked) // application is disabled
             {
-                notifyIcon.Icon = Resources.Square_Old_Inactive_16x16;
-                Icon = Resources.Square_Old_Inactive_16x16;
+                notifyIcon.Icon = Resources.Square_New_Inactive_48x48;
+                Icon = Resources.Square_New_Inactive_48x48;
             }
             else if (uiHotkeyBehaviourPaste.Checked) // "Paste only on hotkey" checked
             {
-                notifyIcon.Icon = Resources.Square_Old_Hotkey_16x16;
-                Icon = Resources.Square_Old_Hotkey_16x16;
+                notifyIcon.Icon = Resources.Square_New_Hotkey_48x48;
+                Icon = Resources.Square_New_Hotkey_48x48;
             }
             else // application is enabled and uses system clipboard
             {
                 notifyIcon.Icon = Resources.Square_New_Active_48x48;
                 Icon = Resources.Square_New_Active_48x48;
             }
-            iconSet = "SquareOld";
+            iconSet = "SquareNew";
             SetRegistryKey(registryPath, "IconSet", iconSet);
         }
 

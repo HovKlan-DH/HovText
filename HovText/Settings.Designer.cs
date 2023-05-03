@@ -43,6 +43,7 @@
             this.updateTimer = new System.Windows.Forms.Timer(this.components);
             this.mouseClickTimer = new System.Windows.Forms.Timer(this.components);
             this.tabPage4 = new System.Windows.Forms.TabPage();
+            this.uiDeveloperVersion = new System.Windows.Forms.Label();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.aboutBox = new System.Windows.Forms.RichTextBox();
             this.label2 = new System.Windows.Forms.Label();
@@ -101,18 +102,18 @@
             this.tabControl = new System.Windows.Forms.TabControl();
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.groupBox12 = new System.Windows.Forms.GroupBox();
-            this.uiIconsSquareNew = new System.Windows.Forms.RadioButton();
-            this.pictureBox10 = new System.Windows.Forms.PictureBox();
-            this.pictureBox9 = new System.Windows.Forms.PictureBox();
-            this.pictureBox8 = new System.Windows.Forms.PictureBox();
-            this.uiIconsSquareOld = new System.Windows.Forms.RadioButton();
-            this.uiIconsRound = new System.Windows.Forms.RadioButton();
             this.pictureBox5 = new System.Windows.Forms.PictureBox();
             this.pictureBox6 = new System.Windows.Forms.PictureBox();
             this.pictureBox7 = new System.Windows.Forms.PictureBox();
-            this.pictureBox2 = new System.Windows.Forms.PictureBox();
+            this.pictureBox9 = new System.Windows.Forms.PictureBox();
+            this.pictureBox10 = new System.Windows.Forms.PictureBox();
+            this.pictureBox8 = new System.Windows.Forms.PictureBox();
             this.pictureBox4 = new System.Windows.Forms.PictureBox();
             this.pictureBox3 = new System.Windows.Forms.PictureBox();
+            this.pictureBox2 = new System.Windows.Forms.PictureBox();
+            this.uiIconsSquareNew = new System.Windows.Forms.RadioButton();
+            this.uiIconsSquareOld = new System.Windows.Forms.RadioButton();
+            this.uiIconsRound = new System.Windows.Forms.RadioButton();
             this.groupBoxCustom = new System.Windows.Forms.GroupBox();
             this.uiCustomActiveText = new System.Windows.Forms.TextBox();
             this.uiCustomHeaderText = new System.Windows.Forms.TextBox();
@@ -153,6 +154,7 @@
             this.label18 = new System.Windows.Forms.Label();
             this.uiCleanUpExit = new System.Windows.Forms.Button();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.uiExecuteableOpenLocation = new System.Windows.Forms.Button();
             this.uiTroubleshootOpenLocation = new System.Windows.Forms.Button();
             this.uiTroubleshootDeleteFile = new System.Windows.Forms.Button();
             this.uiTroubleshootEnabled = new System.Windows.Forms.CheckBox();
@@ -187,7 +189,6 @@
             this.colorDialogActive = new System.Windows.Forms.ColorDialog();
             this.colorDialogHeaderText = new System.Windows.Forms.ColorDialog();
             this.colorDialogActiveText = new System.Windows.Forms.ColorDialog();
-            this.uiDeveloperVersion = new System.Windows.Forms.Label();
             this.notifyIconMenuStrip.SuspendLayout();
             this.tabPage4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -207,15 +208,15 @@
             this.tabControl.SuspendLayout();
             this.tabPage3.SuspendLayout();
             this.groupBox12.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox10)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox9)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox8)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox6)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox7)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox9)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox10)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox8)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             this.groupBoxCustom.SuspendLayout();
             this.borderGroupBox.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.uiBorderThickness)).BeginInit();
@@ -232,7 +233,6 @@
             // notifyIcon
             // 
             this.notifyIcon.ContextMenuStrip = this.notifyIconMenuStrip;
-            this.notifyIcon.Icon = ((System.Drawing.Icon)(resources.GetObject("notifyIcon.Icon")));
             this.notifyIcon.Text = "HovText";
             this.notifyIcon.Visible = true;
             this.notifyIcon.MouseClick += new System.Windows.Forms.MouseEventHandler(this.notifyIcon_MouseClick);
@@ -332,6 +332,19 @@
             this.tabPage4.Size = new System.Drawing.Size(638, 659);
             this.tabPage4.TabIndex = 3;
             this.tabPage4.Text = "About";
+            // 
+            // uiDeveloperVersion
+            // 
+            this.uiDeveloperVersion.Font = new System.Drawing.Font("Segoe UI", 11.12727F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.uiDeveloperVersion.ForeColor = System.Drawing.Color.IndianRed;
+            this.uiDeveloperVersion.Location = new System.Drawing.Point(96, 453);
+            this.uiDeveloperVersion.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.uiDeveloperVersion.Name = "uiDeveloperVersion";
+            this.uiDeveloperVersion.Size = new System.Drawing.Size(446, 127);
+            this.uiDeveloperVersion.TabIndex = 93;
+            this.uiDeveloperVersion.Text = "Red color means DANGER - this is a DEVELOPMENT version, which is most likely full" +
+    " of bugs. Please update to a real/stable version as soon as possible";
+            this.uiDeveloperVersion.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // pictureBox1
             // 
@@ -1044,18 +1057,18 @@
             // 
             // groupBox12
             // 
-            this.groupBox12.Controls.Add(this.uiIconsSquareNew);
-            this.groupBox12.Controls.Add(this.pictureBox10);
-            this.groupBox12.Controls.Add(this.pictureBox9);
-            this.groupBox12.Controls.Add(this.pictureBox8);
-            this.groupBox12.Controls.Add(this.uiIconsSquareOld);
-            this.groupBox12.Controls.Add(this.uiIconsRound);
             this.groupBox12.Controls.Add(this.pictureBox5);
             this.groupBox12.Controls.Add(this.pictureBox6);
             this.groupBox12.Controls.Add(this.pictureBox7);
-            this.groupBox12.Controls.Add(this.pictureBox2);
+            this.groupBox12.Controls.Add(this.pictureBox9);
+            this.groupBox12.Controls.Add(this.pictureBox10);
+            this.groupBox12.Controls.Add(this.pictureBox8);
             this.groupBox12.Controls.Add(this.pictureBox4);
             this.groupBox12.Controls.Add(this.pictureBox3);
+            this.groupBox12.Controls.Add(this.pictureBox2);
+            this.groupBox12.Controls.Add(this.uiIconsSquareNew);
+            this.groupBox12.Controls.Add(this.uiIconsSquareOld);
+            this.groupBox12.Controls.Add(this.uiIconsRound);
             this.groupBox12.Location = new System.Drawing.Point(331, 462);
             this.groupBox12.Name = "groupBox12";
             this.groupBox12.Size = new System.Drawing.Size(285, 140);
@@ -1063,78 +1076,11 @@
             this.groupBox12.TabStop = false;
             this.groupBox12.Text = "Icon sets";
             // 
-            // uiIconsSquareNew
-            // 
-            this.uiIconsSquareNew.AutoSize = true;
-            this.uiIconsSquareNew.Location = new System.Drawing.Point(6, 23);
-            this.uiIconsSquareNew.Name = "uiIconsSquareNew";
-            this.uiIconsSquareNew.Size = new System.Drawing.Size(71, 29);
-            this.uiIconsSquareNew.TabIndex = 441;
-            this.uiIconsSquareNew.TabStop = true;
-            this.uiIconsSquareNew.Text = "New";
-            this.uiIconsSquareNew.UseVisualStyleBackColor = true;
-            this.uiIconsSquareNew.CheckedChanged += new System.EventHandler(this.uiIconsSquareNew_CheckedChanged);
-            // 
-            // pictureBox10
-            // 
-            this.pictureBox10.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox10.Image")));
-            this.pictureBox10.InitialImage = null;
-            this.pictureBox10.Location = new System.Drawing.Point(173, 23);
-            this.pictureBox10.Name = "pictureBox10";
-            this.pictureBox10.Size = new System.Drawing.Size(28, 28);
-            this.pictureBox10.TabIndex = 435;
-            this.pictureBox10.TabStop = false;
-            // 
-            // pictureBox9
-            // 
-            this.pictureBox9.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox9.Image")));
-            this.pictureBox9.InitialImage = null;
-            this.pictureBox9.Location = new System.Drawing.Point(146, 23);
-            this.pictureBox9.Name = "pictureBox9";
-            this.pictureBox9.Size = new System.Drawing.Size(28, 28);
-            this.pictureBox9.TabIndex = 434;
-            this.pictureBox9.TabStop = false;
-            // 
-            // pictureBox8
-            // 
-            this.pictureBox8.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox8.Image")));
-            this.pictureBox8.InitialImage = null;
-            this.pictureBox8.Location = new System.Drawing.Point(118, 23);
-            this.pictureBox8.Name = "pictureBox8";
-            this.pictureBox8.Size = new System.Drawing.Size(28, 28);
-            this.pictureBox8.TabIndex = 433;
-            this.pictureBox8.TabStop = false;
-            // 
-            // uiIconsSquareOld
-            // 
-            this.uiIconsSquareOld.AutoSize = true;
-            this.uiIconsSquareOld.Location = new System.Drawing.Point(29, 80);
-            this.uiIconsSquareOld.Name = "uiIconsSquareOld";
-            this.uiIconsSquareOld.Size = new System.Drawing.Size(101, 29);
-            this.uiIconsSquareOld.TabIndex = 442;
-            this.uiIconsSquareOld.TabStop = true;
-            this.uiIconsSquareOld.Text = "Original";
-            this.uiIconsSquareOld.UseVisualStyleBackColor = true;
-            this.uiIconsSquareOld.CheckedChanged += new System.EventHandler(this.uiIconsSquare_CheckedChanged);
-            // 
-            // uiIconsRound
-            // 
-            this.uiIconsRound.AutoSize = true;
-            this.uiIconsRound.Checked = true;
-            this.uiIconsRound.Location = new System.Drawing.Point(29, 48);
-            this.uiIconsRound.Name = "uiIconsRound";
-            this.uiIconsRound.Size = new System.Drawing.Size(100, 29);
-            this.uiIconsRound.TabIndex = 440;
-            this.uiIconsRound.TabStop = true;
-            this.uiIconsRound.Text = "Modern";
-            this.uiIconsRound.UseVisualStyleBackColor = true;
-            this.uiIconsRound.CheckedChanged += new System.EventHandler(this.uiIconsRound_CheckedChanged);
-            // 
             // pictureBox5
             // 
             this.pictureBox5.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox5.Image")));
             this.pictureBox5.InitialImage = null;
-            this.pictureBox5.Location = new System.Drawing.Point(173, 84);
+            this.pictureBox5.Location = new System.Drawing.Point(227, 100);
             this.pictureBox5.Name = "pictureBox5";
             this.pictureBox5.Size = new System.Drawing.Size(28, 28);
             this.pictureBox5.TabIndex = 418;
@@ -1144,7 +1090,7 @@
             // 
             this.pictureBox6.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox6.Image")));
             this.pictureBox6.InitialImage = null;
-            this.pictureBox6.Location = new System.Drawing.Point(145, 84);
+            this.pictureBox6.Location = new System.Drawing.Point(199, 100);
             this.pictureBox6.Name = "pictureBox6";
             this.pictureBox6.Size = new System.Drawing.Size(28, 28);
             this.pictureBox6.TabIndex = 417;
@@ -1154,27 +1100,47 @@
             // 
             this.pictureBox7.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox7.Image")));
             this.pictureBox7.InitialImage = null;
-            this.pictureBox7.Location = new System.Drawing.Point(117, 84);
+            this.pictureBox7.Location = new System.Drawing.Point(171, 100);
             this.pictureBox7.Name = "pictureBox7";
             this.pictureBox7.Size = new System.Drawing.Size(28, 28);
             this.pictureBox7.TabIndex = 416;
             this.pictureBox7.TabStop = false;
             // 
-            // pictureBox2
+            // pictureBox9
             // 
-            this.pictureBox2.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox2.Image")));
-            this.pictureBox2.InitialImage = null;
-            this.pictureBox2.Location = new System.Drawing.Point(117, 52);
-            this.pictureBox2.Name = "pictureBox2";
-            this.pictureBox2.Size = new System.Drawing.Size(28, 28);
-            this.pictureBox2.TabIndex = 413;
-            this.pictureBox2.TabStop = false;
+            this.pictureBox9.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox9.Image")));
+            this.pictureBox9.InitialImage = null;
+            this.pictureBox9.Location = new System.Drawing.Point(227, 68);
+            this.pictureBox9.Name = "pictureBox9";
+            this.pictureBox9.Size = new System.Drawing.Size(28, 28);
+            this.pictureBox9.TabIndex = 434;
+            this.pictureBox9.TabStop = false;
+            // 
+            // pictureBox10
+            // 
+            this.pictureBox10.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox10.Image")));
+            this.pictureBox10.InitialImage = null;
+            this.pictureBox10.Location = new System.Drawing.Point(199, 68);
+            this.pictureBox10.Name = "pictureBox10";
+            this.pictureBox10.Size = new System.Drawing.Size(28, 28);
+            this.pictureBox10.TabIndex = 435;
+            this.pictureBox10.TabStop = false;
+            // 
+            // pictureBox8
+            // 
+            this.pictureBox8.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox8.Image")));
+            this.pictureBox8.InitialImage = null;
+            this.pictureBox8.Location = new System.Drawing.Point(171, 68);
+            this.pictureBox8.Name = "pictureBox8";
+            this.pictureBox8.Size = new System.Drawing.Size(28, 28);
+            this.pictureBox8.TabIndex = 433;
+            this.pictureBox8.TabStop = false;
             // 
             // pictureBox4
             // 
             this.pictureBox4.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox4.Image")));
             this.pictureBox4.InitialImage = null;
-            this.pictureBox4.Location = new System.Drawing.Point(173, 52);
+            this.pictureBox4.Location = new System.Drawing.Point(227, 36);
             this.pictureBox4.Name = "pictureBox4";
             this.pictureBox4.Size = new System.Drawing.Size(28, 28);
             this.pictureBox4.TabIndex = 415;
@@ -1184,11 +1150,58 @@
             // 
             this.pictureBox3.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox3.Image")));
             this.pictureBox3.InitialImage = null;
-            this.pictureBox3.Location = new System.Drawing.Point(145, 52);
+            this.pictureBox3.Location = new System.Drawing.Point(199, 36);
             this.pictureBox3.Name = "pictureBox3";
             this.pictureBox3.Size = new System.Drawing.Size(28, 28);
             this.pictureBox3.TabIndex = 414;
             this.pictureBox3.TabStop = false;
+            // 
+            // pictureBox2
+            // 
+            this.pictureBox2.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox2.Image")));
+            this.pictureBox2.InitialImage = null;
+            this.pictureBox2.Location = new System.Drawing.Point(171, 36);
+            this.pictureBox2.Name = "pictureBox2";
+            this.pictureBox2.Size = new System.Drawing.Size(28, 28);
+            this.pictureBox2.TabIndex = 413;
+            this.pictureBox2.TabStop = false;
+            // 
+            // uiIconsSquareNew
+            // 
+            this.uiIconsSquareNew.AutoSize = true;
+            this.uiIconsSquareNew.Location = new System.Drawing.Point(29, 67);
+            this.uiIconsSquareNew.Name = "uiIconsSquareNew";
+            this.uiIconsSquareNew.Size = new System.Drawing.Size(168, 29);
+            this.uiIconsSquareNew.TabIndex = 441;
+            this.uiIconsSquareNew.TabStop = true;
+            this.uiIconsSquareNew.Text = "Square, Modern";
+            this.uiIconsSquareNew.UseVisualStyleBackColor = true;
+            this.uiIconsSquareNew.CheckedChanged += new System.EventHandler(this.uiIconsSquareNew_CheckedChanged);
+            // 
+            // uiIconsSquareOld
+            // 
+            this.uiIconsSquareOld.AutoSize = true;
+            this.uiIconsSquareOld.Location = new System.Drawing.Point(29, 99);
+            this.uiIconsSquareOld.Name = "uiIconsSquareOld";
+            this.uiIconsSquareOld.Size = new System.Drawing.Size(169, 29);
+            this.uiIconsSquareOld.TabIndex = 442;
+            this.uiIconsSquareOld.TabStop = true;
+            this.uiIconsSquareOld.Text = "Square, Original";
+            this.uiIconsSquareOld.UseVisualStyleBackColor = true;
+            this.uiIconsSquareOld.CheckedChanged += new System.EventHandler(this.uiIconsSquare_CheckedChanged);
+            // 
+            // uiIconsRound
+            // 
+            this.uiIconsRound.AutoSize = true;
+            this.uiIconsRound.Checked = true;
+            this.uiIconsRound.Location = new System.Drawing.Point(29, 35);
+            this.uiIconsRound.Name = "uiIconsRound";
+            this.uiIconsRound.Size = new System.Drawing.Size(163, 29);
+            this.uiIconsRound.TabIndex = 440;
+            this.uiIconsRound.TabStop = true;
+            this.uiIconsRound.Text = "Round, Modern";
+            this.uiIconsRound.UseVisualStyleBackColor = true;
+            this.uiIconsRound.CheckedChanged += new System.EventHandler(this.uiIconsRound_CheckedChanged);
             // 
             // groupBoxCustom
             // 
@@ -1555,7 +1568,7 @@
             this.groupBox11.Controls.Add(this.uiDevelopmentVersion);
             this.groupBox11.Controls.Add(this.uiDevelopmentDownload);
             this.groupBox11.Controls.Add(this.uiDevelopmentWarning);
-            this.groupBox11.Location = new System.Drawing.Point(22, 181);
+            this.groupBox11.Location = new System.Drawing.Point(22, 218);
             this.groupBox11.Name = "groupBox11";
             this.groupBox11.Size = new System.Drawing.Size(594, 150);
             this.groupBox11.TabIndex = 510;
@@ -1591,18 +1604,18 @@
             this.uiDevelopmentWarning.ForeColor = System.Drawing.Color.Red;
             this.uiDevelopmentWarning.Location = new System.Drawing.Point(26, 79);
             this.uiDevelopmentWarning.Name = "uiDevelopmentWarning";
-            this.uiDevelopmentWarning.Size = new System.Drawing.Size(439, 50);
+            this.uiDevelopmentWarning.Size = new System.Drawing.Size(495, 68);
             this.uiDevelopmentWarning.TabIndex = 513;
-            this.uiDevelopmentWarning.Text = "Recommended only to use if you want to test newest unreleased functionalities or " +
-    "want to report a problem";
+            this.uiDevelopmentWarning.Text = "Recommended only to use if you want to test unreleased functionalities or bugfixe" +
+    "s - it is not expected to be stable or polished in any way!";
             // 
             // groupBox9
             // 
             this.groupBox9.Controls.Add(this.label18);
             this.groupBox9.Controls.Add(this.uiCleanUpExit);
-            this.groupBox9.Location = new System.Drawing.Point(22, 349);
+            this.groupBox9.Location = new System.Drawing.Point(22, 386);
             this.groupBox9.Name = "groupBox9";
-            this.groupBox9.Size = new System.Drawing.Size(594, 229);
+            this.groupBox9.Size = new System.Drawing.Size(594, 190);
             this.groupBox9.TabIndex = 520;
             this.groupBox9.TabStop = false;
             this.groupBox9.Text = "Clean-up all configuration settings";
@@ -1629,21 +1642,32 @@
             // 
             // groupBox3
             // 
+            this.groupBox3.Controls.Add(this.uiExecuteableOpenLocation);
             this.groupBox3.Controls.Add(this.uiTroubleshootOpenLocation);
             this.groupBox3.Controls.Add(this.uiTroubleshootDeleteFile);
             this.groupBox3.Controls.Add(this.uiTroubleshootEnabled);
             this.groupBox3.Location = new System.Drawing.Point(22, 23);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(594, 140);
+            this.groupBox3.Size = new System.Drawing.Size(594, 177);
             this.groupBox3.TabIndex = 500;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Troubleshooting";
+            // 
+            // uiExecuteableOpenLocation
+            // 
+            this.uiExecuteableOpenLocation.Location = new System.Drawing.Point(28, 115);
+            this.uiExecuteableOpenLocation.Name = "uiExecuteableOpenLocation";
+            this.uiExecuteableOpenLocation.Size = new System.Drawing.Size(231, 34);
+            this.uiExecuteableOpenLocation.TabIndex = 504;
+            this.uiExecuteableOpenLocation.Text = "Open executeable location";
+            this.uiExecuteableOpenLocation.UseVisualStyleBackColor = true;
+            this.uiExecuteableOpenLocation.Click += new System.EventHandler(this.button1_Click);
             // 
             // uiTroubleshootOpenLocation
             // 
             this.uiTroubleshootOpenLocation.Location = new System.Drawing.Point(28, 69);
             this.uiTroubleshootOpenLocation.Name = "uiTroubleshootOpenLocation";
-            this.uiTroubleshootOpenLocation.Size = new System.Drawing.Size(220, 34);
+            this.uiTroubleshootOpenLocation.Size = new System.Drawing.Size(231, 34);
             this.uiTroubleshootOpenLocation.TabIndex = 502;
             this.uiTroubleshootOpenLocation.Text = "Open logfile location";
             this.uiTroubleshootOpenLocation.UseVisualStyleBackColor = true;
@@ -1651,7 +1675,7 @@
             // 
             // uiTroubleshootDeleteFile
             // 
-            this.uiTroubleshootDeleteFile.Location = new System.Drawing.Point(254, 70);
+            this.uiTroubleshootDeleteFile.Location = new System.Drawing.Point(272, 69);
             this.uiTroubleshootDeleteFile.Name = "uiTroubleshootDeleteFile";
             this.uiTroubleshootDeleteFile.Size = new System.Drawing.Size(150, 34);
             this.uiTroubleshootDeleteFile.TabIndex = 503;
@@ -1928,19 +1952,6 @@
             this.label26.TabIndex = 516;
             this.label26.Text = "Your data!";
             // 
-            // uiDeveloperVersion
-            // 
-            this.uiDeveloperVersion.Font = new System.Drawing.Font("Segoe UI", 11.12727F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.uiDeveloperVersion.ForeColor = System.Drawing.Color.IndianRed;
-            this.uiDeveloperVersion.Location = new System.Drawing.Point(96, 453);
-            this.uiDeveloperVersion.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.uiDeveloperVersion.Name = "uiDeveloperVersion";
-            this.uiDeveloperVersion.Size = new System.Drawing.Size(446, 127);
-            this.uiDeveloperVersion.TabIndex = 93;
-            this.uiDeveloperVersion.Text = "Red color means DANGER - this is a DEVELOPMENT version, which is most likely full" +
-    " of bugs. Please update to a real/stable version as soon as possible";
-            this.uiDeveloperVersion.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
             // Settings
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(11F, 25F);
@@ -1985,15 +1996,15 @@
             this.tabPage3.ResumeLayout(false);
             this.groupBox12.ResumeLayout(false);
             this.groupBox12.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox10)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox9)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox8)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox6)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox7)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox9)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox10)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox8)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             this.groupBoxCustom.ResumeLayout(false);
             this.groupBoxCustom.PerformLayout();
             this.borderGroupBox.ResumeLayout(false);
@@ -2173,6 +2184,7 @@
         private System.Windows.Forms.PictureBox pictureBox9;
         private System.Windows.Forms.RadioButton uiIconsSquareNew;
         private System.Windows.Forms.Label uiDeveloperVersion;
+        private System.Windows.Forms.Button uiExecuteableOpenLocation;
     }
 
 }

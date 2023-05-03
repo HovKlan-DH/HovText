@@ -113,6 +113,26 @@ namespace HovText.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
         /// </summary>
+        internal static System.Drawing.Icon Square_New_Hotkey_48x48 {
+            get {
+                object obj = ResourceManager.GetObject("Square_New_Hotkey_48x48", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
+        /// </summary>
+        internal static System.Drawing.Icon Square_New_Inactive_48x48 {
+            get {
+                object obj = ResourceManager.GetObject("Square_New_Inactive_48x48", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
+        /// </summary>
         internal static System.Drawing.Icon Square_Old_Active_16x16 {
             get {
                 object obj = ResourceManager.GetObject("Square_Old_Active_16x16", resourceCulture);

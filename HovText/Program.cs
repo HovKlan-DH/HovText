@@ -4,6 +4,7 @@ using System.IO;
 using System.Runtime.InteropServices;
 using System.Threading;
 using System.Windows.Forms;
+using Microsoft.Win32;
 
 namespace HovText
 {
@@ -19,14 +20,30 @@ namespace HovText
 
         static int Main(string[] args)
         {
+            // Set troubleshooting boolean
+            string regVal = Settings.GetRegistryKey(Settings.registryPath, "TroubleshootEnable");
+            Settings.isTroubleshootEnabled = regVal == "1" ? true : false;
+
+            // Allow some UI
+            Application.EnableVisualStyles();
+            Application.SetCompatibleTextRenderingDefault(false);
+
+            // Check if .NET Framework 4.8 or newer is available
+            Version requiredFrameworkVersion = new Version(4,8);
+            if (!IsNet48OrHigherInstalled())
+            {
+                Logging.Log("Missing .NET Framework 4.8 or newer - quitting!");
+                MessageBox.Show("HovText requires Microsoft .NET Framework 4.8 or later and it is not available on this system. Please install it.",
+                                "Missing .NET Framework",
+                                MessageBoxButtons.OK,
+                                MessageBoxIcon.Error);
+                return 0;
+            }
+
             // Ensure that application only run once - quote ChatGPT4:
             // "A mutex is a synchronization object that is used to ensure that only one thread at a time executes a particular block of code, in this case, to ensure that only one instance of the application runs at a time"
             bool newInstance;
             _mutex = new Mutex(true, "HovText", out newInstance);
-
-            // Set troubleshooting boolean
-            string regVal = Settings.GetRegistryKey(Settings.registryPath, "TroubleshootEnable");
-            Settings.isTroubleshootEnabled = regVal == "1" ? true : false;
 
             // Get the argument passed (only one supported)
             if (args.Length > 0)
@@ -92,8 +109,7 @@ namespace HovText
 
             // It will only come to here, if this is the first instance being run
 
-            Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
+            // Instantiate the "Setttings"
             Settings = new Settings();
 
             // Start the named pipe server
@@ -115,6 +131,21 @@ namespace HovText
             _mutex.ReleaseMutex();
 
             return 0;
+        }
+
+
+        // ###########################################################################################
+        // Check if .NET 4.8 is available
+        // ###########################################################################################
+
+        private static bool IsNet48OrHigherInstalled()
+        {
+            using (RegistryKey ndpKey = RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, RegistryView.Registry32)
+                                                   .OpenSubKey(@"SOFTWARE\Microsoft\NET Framework Setup\NDP\v4\Full"))
+            {
+                int releaseKey = Convert.ToInt32(ndpKey.GetValue("Release"));
+                return releaseKey >= 528040; // The release key for .NET Framework 4.8
+            }
         }
 
 
@@ -215,5 +246,5 @@ namespace HovText
 
 
     // ###########################################################################################
-}
     }
+}

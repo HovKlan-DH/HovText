@@ -67,9 +67,9 @@
             this.label1.Location = new System.Drawing.Point(14, 30);
             this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(346, 25);
+            this.label1.Size = new System.Drawing.Size(398, 25);
             this.label1.TabIndex = 2;
-            this.label1.Text = "A new version of HovText has been found.";
+            this.label1.Text = "A new stable version of HovText has been found:";
             // 
             // label2
             // 
@@ -118,7 +118,6 @@
             this.uiAppVerOnline.TabIndex = 6;
             this.uiAppVerOnline.Text = "#";
             this.uiAppVerOnline.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-//            this.uiAppVerOnline.Click += new System.EventHandler(this.uiAppVerOnline_Click);
             // 
             // textBox1
             // 
@@ -129,7 +128,8 @@
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(555, 63);
             this.textBox1.TabIndex = 8;
-            this.textBox1.Text = "You can go to the web page and download the new version and replace the executable file.";
+            this.textBox1.Text = "You can go to the web page and download the new version and replace the \"HovText." +
+    "exe\" executable file.";
             // 
             // Update
             // 
