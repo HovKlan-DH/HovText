@@ -29,7 +29,7 @@
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
     <ApplicationRevision>0</ApplicationRevision>
-    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <ApplicationVersion>1.0.0.0</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
@@ -52,7 +52,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
-    <Optimize>false</Optimize>
+    <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
@@ -70,6 +70,18 @@
   </PropertyGroup>
   <PropertyGroup>
     <ManifestKeyFile>HovText_TemporaryKey.pfx</ManifestKeyFile>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>false</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <TargetZone>LocalIntranet</TargetZone>
+  </PropertyGroup>
+  <PropertyGroup>
+    <GenerateManifests>false</GenerateManifests>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationManifest>Properties\app.manifest</ApplicationManifest>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Costura, Version=5.7.0.0, Culture=neutral, processorArchitecture=MSIL">
@@ -164,6 +176,7 @@
       <DependentUpon>Update.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="packages.config" />
+    <None Include="Properties\app.manifest" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -185,7 +198,6 @@
     <None Include="Resources\Square_Old_Inactive_16x16.ico" />
     <None Include="Resources\Square_Old_Active_16x16.ico" />
     <None Include="Resources\Favorite.png" />
-    <None Include="Resources\favorite.jpg" />
     <None Include="Resources\donate.gif" />
     <EmbeddedResource Include="NHotkey.WindowsForms.dll" />
     <EmbeddedResource Include="NHotkey.dll" />
@@ -228,4 +240,9 @@
   </Target>
   <Import Project="..\packages\Costura.Fody.5.7.0\build\Costura.Fody.targets" Condition="Exists('..\packages\Costura.Fody.5.7.0\build\Costura.Fody.targets')" />
   <Import Project="..\packages\Fody.6.7.0\build\Fody.targets" Condition="Exists('..\packages\Fody.6.7.0\build\Fody.targets')" />
+  <PropertyGroup>
+    <PreBuildEvent>if exist "$(ProjectDir)bin\$(Configuration)\HovText.exe" (del "$(ProjectDir)bin\$(Configuration)\HovText.exe")
+if exist "$(ProjectDir)bin\$(Configuration)\HovText-troubleshooting.txt" (del "$(ProjectDir)bin\$(Configuration)\HovText-troubleshooting.txt")
+</PreBuildEvent>
+  </PropertyGroup>
 </Project>

@@ -17,6 +17,7 @@ using NHotkey.WindowsForms; // https://github.com/thomaslevesque/NHotkey
 using Newtonsoft.Json; // https://www.newtonsoft.com/json
 
 
+
 // ----------------------------------------------------------------------------
 // Upload application to these places:
 // https://www.microsoft.com/en-us/wdsi/filesubmission
@@ -225,8 +226,6 @@ namespace HovText
             Logging.StartLogging();
             hasTroubleshootLogged = isTroubleshootEnabled ? true : false;
 
-//            notifyIcon.Icon = Resources.Square_Old_Hotkey_16x16;
-
             // Setup form and all elements
             InitializeComponent();
 
@@ -256,6 +255,9 @@ namespace HovText
             ConvertLegacyRegistry();
             InitializeRegistry();
             GetStartupSettings();
+
+            // Set the notify icon
+            SetNotifyIcon();
 
             NativeMethods.AddClipboardFormatListener(this.Handle);
             Logging.Log("Added HovText to clipboard chain");
@@ -316,7 +318,6 @@ namespace HovText
 
                     // Get the name for this HovText executable (it may not be "HovText.exe")
                     string exeFileNameWithPath = Process.GetCurrentProcess().MainModule.FileName;
-//                    string exeFileName = System.IO.Path.GetFileName(exeFileNameWithPath);
                     string exeFileNameWithoutExtension = Path.GetFileNameWithoutExtension(exeFileNameWithPath);
 
                     // Do not process clipboard, if this is coming from HovText itself
@@ -959,48 +960,13 @@ namespace HovText
                     case "Paste":
                         uiHotkeyBehaviourPaste.Checked = true;
                         uiHotkeyPaste.Enabled = true;
-
-                        // Change the icons to be the blue one
-                        if (iconSet == "SquareOld")
-                        {
-                            notifyIcon.Icon = Resources.Square_Old_Hotkey_16x16;
-                            Icon = Resources.Square_Old_Hotkey_16x16;
-                        }
-                        else if (iconSet == "SquareNew")
-                        {
-                            notifyIcon.Icon = Resources.Square_New_Hotkey_48x48;
-                            Icon = Resources.Square_New_Hotkey_48x48;
-                        }
-                        else
-                        {
-                            notifyIcon.Icon = Resources.Round_Hotkey_48x48;
-                            Icon = Resources.Round_Hotkey_48x48;
-                        }
-
                         break;
                     default:
                         uiHotkeyBehaviourSystem.Checked = true;
                         uiHotkeyPaste.Enabled = false;
-
-                        // Change the icons to be green (active)
-                        if(iconSet == "SquareOld")
-                        {
-                            notifyIcon.Icon = Resources.Square_Old_Active_16x16;
-                            Icon = Resources.Square_Old_Active_16x16;
-                        } else if (iconSet == "SquareNew")
-                        {
-                            notifyIcon.Icon = Resources.Square_New_Active_48x48;
-                            Icon = Resources.Square_New_Active_48x48;
-                        }
-                        else
-                        {
-                            notifyIcon.Icon = Resources.Round_Active_48x48;
-                            Icon = Resources.Round_Active_48x48;
-                        }
-
                         break;
                 }
-
+                
                 // Enable other checkboxes
                 uiHistoryEnabled.Enabled = true;
                 if (uiHistoryEnabled.Checked)
@@ -1036,23 +1002,6 @@ namespace HovText
                     RestoreOriginal(entryIndex);
                 }
 
-                // Change the icons to be red (inactive)
-                if (iconSet == "SquareOld")
-                {
-                    notifyIcon.Icon = Resources.Square_Old_Inactive_16x16;
-                    Icon = Resources.Square_Old_Inactive_16x16;
-                }
-                else if (iconSet == "SquareNew")
-                {
-                    notifyIcon.Icon = Resources.Square_New_Inactive_48x48;
-                    Icon = Resources.Square_New_Inactive_48x48;
-                }
-                else
-                {
-                    notifyIcon.Icon = Resources.Round_Inactive_48x48;
-                    Icon = Resources.Round_Inactive_48x48;
-                }
-
                 // Disable other checkboxes
                 uiHistoryEnabled.Enabled = false;
                 uiFavoritesEnabled.Enabled = false;
@@ -1070,6 +1019,8 @@ namespace HovText
                 uiHotkeyToggleFavorite.Enabled = false;
                 uiHotkeyToggleView.Enabled = false;
             }
+            
+            SetNotifyIcon();
         }
 
 
@@ -1248,7 +1199,7 @@ namespace HovText
                     {
                         update.Show();
                         update.Activate();
-                        Logging.Log("  Notified on new version available");
+                        Logging.Log("  Notified on new [STABLE] version available");
                     }
                 }
             }
@@ -1275,11 +1226,13 @@ namespace HovText
                         checkedVersion = checkedVersion.Substring(9);
                         uiDevelopmentVersion.Text = " " + checkedVersion;
                         uiDevelopmentDownload.Enabled = true;
+                        uiDevelopmentAutoInstall.Enabled = true;
                         Logging.Log("  Development version available = [" + checkedVersion + "]");
                     }
                     else
                     {
                         uiDevelopmentDownload.Enabled = false;
+                        uiDevelopmentAutoInstall.Enabled = false;
                         uiDevelopmentWarning.Enabled = false;
                         uiDevelopmentVersion.Text = "No development version available";
                         Logging.Log("  Development version available = [No development version available]");
@@ -1288,6 +1241,7 @@ namespace HovText
                 {
 
                     uiDevelopmentDownload.Enabled = false;
+                    uiDevelopmentAutoInstall.Enabled = false;
                     uiDevelopmentWarning.Enabled = false;
                     uiDevelopmentVersion.Text = "ERROR";
                     Logging.Log("  Development version available = [ERROR]");
@@ -1299,7 +1253,7 @@ namespace HovText
                 Logging.Log("Exception raised (Settings):");
                 Logging.Log("  Cannot connect with server to get information about newest available [DEVELOPMENT] version:");
                 Logging.Log("  " + ex.Message);
-                uiDevelopmentVersion.Text = "Cannot connect with server - try later ...";
+                uiDevelopmentVersion.Text = "Cannot connect with server - retry later";
             }
         }
 
@@ -1686,12 +1640,12 @@ namespace HovText
             switch (hotkeyBehaviour)
             {
                 case "Paste":
+                    uiHotkeyPaste.Enabled = true; 
                     uiHotkeyBehaviourPaste.Checked = true;
-                    uiHotkeyPaste.Enabled = true;
                     break;
                 default:
+                    uiHotkeyPaste.Enabled = false; 
                     uiHotkeyBehaviourSystem.Checked = true;
-                    uiHotkeyPaste.Enabled = false;
                     break;
             }
 
@@ -1721,20 +1675,12 @@ namespace HovText
                 }
             }
 
-            // Check for updates online          
-/*
-            string checkUpdates = GetRegistryKey(registryPath, "CheckUpdates");
-            uiCheckUpdates.Checked = checkUpdates == "1" ? true : false;
-            uiCheckUpdates.Checked = true; // force check for new version - this is the price to pay for HovText :-)
-            if (uiCheckUpdates.Checked)
-            {
-*/
-                updateTimer.Enabled = true;
-                uiDevelopmentVersion.Enabled = true;
-                uiDevelopmentWarning.Enabled = true;
-                uiDevelopmentVersion.Text = " Wait - checking ...";
-                Logging.Log("Version check timer started");
-//            }
+            // Update timer
+            updateTimer.Enabled = true;
+            uiDevelopmentVersion.Enabled = true;
+            uiDevelopmentWarning.Enabled = true;
+            uiDevelopmentVersion.Text = " Wait - checking ...";
+            Logging.Log("Version check timer started");
 
             // Restore original when disabling application
             int restoreOriginal = int.Parse((string)GetRegistryKey(registryPath, "RestoreOriginal"));
@@ -2237,35 +2183,6 @@ namespace HovText
             uiShowFontEntry.ForeColor = ColorTranslator.FromHtml(historyColorsEntryText[historyColorTheme]);
         }
 
-
-        // ###########################################################################################
-        // Changes in "Check for updates online"
-        // ###########################################################################################
-
-        private void uiCheckUpdates_CheckedChanged(object sender, EventArgs e)
-        {
-/*
-            string status = uiCheckUpdates.Checked ? "1" : "0";
-            SetRegistryKey(registryPath, "CheckUpdates", status);
-            if (uiCheckUpdates.Checked)
-            {            
-                updateTimer.Enabled = true;
-                Logging.Log("Version check timer started");
-                uiDevelopmentVersion.Enabled = true;
-                uiDevelopmentWarning.Enabled = true;
-                uiDevelopmentVersion.Text = " Wait - checking ...";
-            }
-            else
-            {
-                updateTimer.Enabled = false;
-                uiDevelopmentVersion.Enabled = false;
-                uiDevelopmentWarning.Enabled = false;
-                uiDevelopmentDownload.Enabled = false;
-                uiDevelopmentVersion.Text = "  Enable \"Check for updates online\"";
-            }
-*/
-        }
-        
         
         // ###########################################################################################
         // Changes in "Close minimizes application to tray"
@@ -2535,25 +2452,13 @@ namespace HovText
 
         private void uiHotkeyBehaviourSystem_CheckedChanged(object sender, EventArgs e)
         {
-            uiHotkeyPaste.Enabled = false;
-            SetRegistryKey(registryPath, "HotkeyBehaviour", "System");
-            uiRestoreOriginal.Enabled = true;
-
-            // Change the tray icon to be green (active)
-            if (iconSet == "SquareOld")
+            // Only react if this one gets checked - startup will trigger an event where this is false
+            if(uiHotkeyBehaviourSystem.Checked)
             {
-                notifyIcon.Icon = Resources.Square_Old_Active_16x16;
-                Icon = Resources.Square_Old_Active_16x16;
-            }
-            else if (iconSet == "SquareNew")
-            {
-                notifyIcon.Icon = Resources.Square_New_Active_48x48;
-                Icon = Resources.Square_New_Active_48x48;
-            }
-            else
-            {
-                notifyIcon.Icon = Resources.Round_Active_48x48;
-                Icon = Resources.Round_Active_48x48;
+                uiHotkeyPaste.Enabled = false;
+                SetRegistryKey(registryPath, "HotkeyBehaviour", "System");
+                uiRestoreOriginal.Enabled = true;
+                SetNotifyIcon();
             }
         }
 
@@ -2568,22 +2473,7 @@ namespace HovText
             SetRegistryKey(registryPath, "HotkeyBehaviour", "Paste");
             SetHotkeys("Hotkey behaviour change");
             uiRestoreOriginal.Enabled = false;
-
-            // Change the icon to be the blue one
-            if (iconSet == "SquareOld")
-            {
-                notifyIcon.Icon = Resources.Square_Old_Hotkey_16x16;
-                Icon = Resources.Square_Old_Hotkey_16x16;
-            } else if (iconSet == "SquareNew")
-            {
-                notifyIcon.Icon = Resources.Square_New_Hotkey_48x48;
-                Icon = Resources.Square_New_Hotkey_48x48;
-            }
-            else
-            {
-                notifyIcon.Icon = Resources.Round_Hotkey_48x48;
-                Icon = Resources.Round_Hotkey_48x48;
-            }
+            SetNotifyIcon();
         }
 
 
@@ -3237,6 +3127,8 @@ namespace HovText
         }
 
 
+
+
         // ###########################################################################################
         // Get customer color inputs
         // ###########################################################################################
@@ -3421,10 +3313,7 @@ namespace HovText
         {
             if (File.Exists(troubleshootLogfile))
             {
-                // https://stackoverflow.com/a/696144/2028935
-                string argument = "/select, \"" + troubleshootLogfile + "\"";
-                string folder = argument.Substring(6);
-                Process.Start("explorer.exe", argument);
+                OpenExecuteableLocation(troubleshootLogfile);
                 Logging.Log("Clicked the \"Open logfile location\"");
             }
             else
@@ -3441,11 +3330,7 @@ namespace HovText
         private void button1_Click(object sender, EventArgs e)
         {
             string appPath = System.Reflection.Assembly.GetExecutingAssembly().Location;
-//            string appDirectory = Path.GetDirectoryName(appPath);
-//            string appFileName = Path.GetFileName(appPath);
-            string argument = "/select, \"" + appPath + "\"";
-            string folder = argument.Substring(6);
-            Process.Start("explorer.exe", argument);
+            OpenExecuteableLocation(appPath);
             Logging.Log("Clicked the \"Open executeable location\"");
         }
 
@@ -3723,6 +3608,18 @@ namespace HovText
             }
         }
 
+        private void uiAttachFile_CheckedChanged(object sender, EventArgs e)
+        {
+            if (uiAttachFile.Checked || uiFeedbackText.Text.Length > 0)
+            {
+                uiSendFeedback.Enabled = true;
+            }
+            else
+            {
+                uiSendFeedback.Enabled = false;
+            }
+        }
+
 
         // ###########################################################################################
         // Check if the email address typed in feedback is valid - not a very good check though!
@@ -3743,8 +3640,20 @@ namespace HovText
 
         private void uiDevelopmentDownload_Click(object sender, EventArgs e)
         {
+            // Open file location for the executeable
+            string appPath = System.Reflection.Assembly.GetExecutingAssembly().Location;
+            OpenExecuteableLocation(appPath);
+
+            // Download executeable
             System.Diagnostics.Process.Start(hovtextPage + "autoupdate/development/HovText.exe");
+
             Logging.Log("Clicked the \"Download\" development version");
+        }
+
+        private void button1_Click_1(object sender, EventArgs e)
+        {
+//            System.Diagnostics.Process.Start(Settings.hovtextPage + "roadmap");
+            Settings.DownloadInstall("Development");
         }
 
 
@@ -3951,63 +3860,291 @@ namespace HovText
 
         private void uiIconsRound_CheckedChanged(object sender, EventArgs e)
         {
-            if (!uiAppEnabled.Checked) // application is disabled
-            {
-                notifyIcon.Icon = Resources.Round_Inactive_48x48;
-                Icon = Resources.Round_Inactive_48x48;
-            } else if(uiHotkeyBehaviourPaste.Checked) // "Paste only on hotkey" checked
-            {
-                notifyIcon.Icon = Resources.Round_Hotkey_48x48;
-                Icon = Resources.Round_Hotkey_48x48;
-            } else // application is enabled and uses system clipboard
-            {
-                notifyIcon.Icon = Resources.Round_Active_48x48;
-                Icon = Resources.Round_Active_48x48;
-            }
             iconSet = "Round";
             SetRegistryKey(registryPath, "IconSet", iconSet);
+            SetNotifyIcon();
         }
 
         private void uiIconsSquare_CheckedChanged(object sender, EventArgs e)
         {
-            if (!uiAppEnabled.Checked) // application is disabled
-            {
-                notifyIcon.Icon = Resources.Square_Old_Inactive_16x16;
-                Icon = Resources.Square_Old_Inactive_16x16;
-            }
-            else if (uiHotkeyBehaviourPaste.Checked) // "Paste only on hotkey" checked
-            {
-                notifyIcon.Icon = Resources.Square_Old_Hotkey_16x16;
-                Icon = Resources.Square_Old_Hotkey_16x16;
-            }
-            else // application is enabled and uses system clipboard
-            {
-                notifyIcon.Icon = Resources.Square_Old_Active_16x16;
-                Icon = Resources.Square_Old_Active_16x16;
-            }
             iconSet = "SquareOld";
             SetRegistryKey(registryPath, "IconSet", iconSet);
+            SetNotifyIcon();
         }
 
         private void uiIconsSquareNew_CheckedChanged(object sender, EventArgs e)
         {
-            if (!uiAppEnabled.Checked) // application is disabled
-            {
-                notifyIcon.Icon = Resources.Square_New_Inactive_48x48;
-                Icon = Resources.Square_New_Inactive_48x48;
-            }
-            else if (uiHotkeyBehaviourPaste.Checked) // "Paste only on hotkey" checked
-            {
-                notifyIcon.Icon = Resources.Square_New_Hotkey_48x48;
-                Icon = Resources.Square_New_Hotkey_48x48;
-            }
-            else // application is enabled and uses system clipboard
-            {
-                notifyIcon.Icon = Resources.Square_New_Active_48x48;
-                Icon = Resources.Square_New_Active_48x48;
-            }
             iconSet = "SquareNew";
             SetRegistryKey(registryPath, "IconSet", iconSet);
+            SetNotifyIcon();
+        }
+
+
+        // ###########################################################################################
+        // Download and install either the STABLE or the DEVELOPMENT version
+        // ###########################################################################################
+
+        public static void DownloadInstall (string versionType)
+        {
+            /*
+            // --------------------------------
+            // EXPERIMENTAL AUTO-UPDATE/INSTALL
+            // --------------------------------
+            // This approach may no work perfectly on all systems, as it does require Powershell +
+            // the commands in the batch file. I am fairly confident this "should" work on
+            // standard Windows 7 and newer, but will not expect it to work on Windows XP - but 
+            // not sure how many of these are still running out there?
+            //
+            // Also the approach is dependent on system settings - e.g. some IT departments
+            // could have blocked executing batch files or alike, so there are all kind of
+            // potential issues with this - so better still keep the old method open ;-)
+            //
+            // The solution here "could" also be considered dangerous by some malware/antivirus 
+            // scanners, as I am dynamically generating a batch file, unblocking it so Windows Defender 
+            // will not distrub and then I will execute the updated executeable file from the 
+            // internet - so some red flags may be triggered here?
+            //            
+            */
+
+            string urlToExe = versionType == "Development" ? "/autoupdate/development/HovText.exe" : "/download/"+ versionType +"/HovText.exe";
+            string appUrl = Settings.hovtextPage + urlToExe;
+            string appPath = System.Reflection.Assembly.GetExecutingAssembly().Location;
+            string appDirectory = Path.GetDirectoryName(appPath);
+            string appFileName = Path.GetFileName(appPath);
+            string tempFilePath = Path.Combine(Path.GetTempPath(), "HovText_new.exe");
+
+            // Download the updated file
+            WebClient webClient = new WebClient();
+            webClient.DownloadFile(appUrl, tempFilePath);
+
+            string stepsForStable =
+@"rem --   * Go to https://hovtext.com/download and download newest HovText       --
+rem --   * In the ""Advanced"" tab click the ""Open executeable location""          --
+rem --   * Close / exit the running HovText application                         --
+rem --   * Replace the executeable file                                         --
+rem --   * Run the new file - check the ""About"" tab, that you are using the     --
+rem --     correct new version                                                  --";
+
+            string stepsForDevelopment =
+@"rem --   * In the ""Advanced"" tab then click the ""Download"".                     --
+rem --   * Then click the ""Open executeable location""                           --
+rem --   * Close / exit the running HovText application                         --
+rem --   * Replace the executeable file                                         --
+rem --   * Run the new file - check the ""About"" tab, that you are using the     --
+rem --     correct new version                                                  --";
+
+            // Create batchfile content
+            string stableOrDevelopment = versionType == "Development" ? stepsForDevelopment : stepsForStable;
+            string batchContents =
+@"@echo off
+
+rem ------------------------------------------------------------------------------
+rem -- If you see this, then probably there is a problem with the auto-install. --
+rem -- The problem could be related to local settings, policies or alike, but   --
+rem -- it this means you must manually do the update, sorry :-)                 --
+rem --                                                                          --
+rem -- Follow these steps:                                                      --
+"+ stableOrDevelopment +@"
+rem ------------------------------------------------------------------------------
+
+rem Wait until HovText process finishes
+:wait
+  timeout /t 1 >nul
+  tasklist /nh /fi ""imagename eq " + appFileName + @""" | find /i """ + appFileName + @""" >nul && goto :wait
+
+rem Move temporary (new) file to same location as existing
+echo Moving: """ + tempFilePath + @""" to """ + appPath + @"""
+move /y """ + tempFilePath + @""" """ + appPath + @"""
+IF %ERRORLEVEL% NEQ 0 (
+  echo ""Move failed! You need to do the update manually, sorry :-/""
+  pause
+  exit /b 1
+)
+echo Move successful.
+
+rem Run the new file
+start """" """ + appPath + @"""
+
+rem Delete this batch file
+del ""%~f0""
+";
+
+            // Create the batchfile
+            string batchFilePath = Path.Combine(Path.GetTempPath(), "HovText_update.cmd");
+            File.WriteAllText(batchFilePath, batchContents);
+
+            // Prepare for unblocking the batchfile via Powershell
+            string command = $"get-childitem {batchFilePath} | Unblock-File -Verbose";
+            Process process = new Process();
+            ProcessStartInfo startInfo = new ProcessStartInfo()
+            {
+                FileName = "powershell.exe",
+                Arguments = $"-NoProfile -ExecutionPolicy Bypass -Command \"{command}\"",
+                RedirectStandardOutput = true,
+                RedirectStandardError = true,
+                UseShellExecute = false,
+                CreateNoWindow = true
+            };
+
+            process.StartInfo = startInfo;
+
+            StringBuilder outputData = new StringBuilder();
+            StringBuilder errorData = new StringBuilder();
+
+            // Get information from output (verbose should output something) or error
+            process.OutputDataReceived += (outputSender, outputEventArgs) =>
+            {
+                if (!string.IsNullOrEmpty(outputEventArgs.Data))
+                {
+                    outputData.AppendLine(outputEventArgs.Data);
+                }
+            };
+            process.ErrorDataReceived += (errorSender, errorEventArgs) =>
+            {
+                if (!string.IsNullOrEmpty(errorEventArgs.Data))
+                {
+                    errorData.AppendLine(errorEventArgs.Data);
+                }
+            };
+
+            // Do the unblocking
+            process.Start();
+            process.BeginOutputReadLine();
+            process.BeginErrorReadLine();
+            process.WaitForExit();
+            process.Dispose();
+
+            // Log stuff
+            string outputResult = outputData.ToString();
+            if (outputResult.Length > 0)
+            {
+                Logging.Log("  Output: [" + outputResult + "]");
+            }
+            string errorResult = errorData.ToString();
+            if (errorResult.Length > 0)
+            {
+                Logging.Log("  Error: [" + errorResult + "]");
+            }
+
+            // Run/execute the batch file, which will copy the new version and launch the new version.
+            // Will not run until this HovText instance has been shutdown.
+            ProcessStartInfo psi = new ProcessStartInfo(batchFilePath);
+            psi.CreateNoWindow = true;
+            psi.UseShellExecute = false;
+            Process.Start(psi);
+
+            // Exit HovText so batch file can process
+            Environment.Exit(0);
+        }
+
+
+        // ###########################################################################################
+        // Open the file explorer location for the executeable
+        // ###########################################################################################
+
+        public static void OpenExecuteableLocation(string fileAndPath)
+        {
+            // https://stackoverflow.com/a/696144/2028935
+            string argument = "/select, \"" + fileAndPath + "\"";
+            Process.Start("explorer.exe", argument);
+        }
+
+
+        // ###########################################################################################
+        // Set the notify icon, which is dependent on hotkey behaviour and icon style
+        // ###########################################################################################
+
+        private void SetNotifyIcon ()
+        {
+            string iconSet = GetRegistryKey(registryPath, "IconSet"); // Round, SquareNew, SquareOld
+            string hotkeyBehaviour = GetRegistryKey(registryPath, "HotkeyBehaviour"); // System, Paste
+            bool isApplicationEnabled = uiAppEnabled.Checked; // True, False
+
+            switch (hotkeyBehaviour)
+            {
+                case "Paste":
+                    if (iconSet == "SquareOld")
+                    {
+                        if(isApplicationEnabled)
+                        {
+                            notifyIcon.Icon = Resources.Square_Old_Hotkey_16x16;
+                            Icon = Resources.Square_Old_Hotkey_16x16;
+                        }
+                        else
+                        {
+                            notifyIcon.Icon = Resources.Square_Old_Inactive_16x16;
+                            Icon = Resources.Square_Old_Inactive_16x16;
+                        }
+                    }
+                    else if (iconSet == "SquareNew")
+                    {
+                        if(isApplicationEnabled)
+                        {
+                            notifyIcon.Icon = Resources.Square_New_Hotkey_48x48;
+                            Icon = Resources.Square_New_Hotkey_48x48;
+                        } else
+                        {
+                            notifyIcon.Icon = Resources.Square_New_Inactive_48x48;
+                            Icon = Resources.Square_New_Inactive_48x48;
+                        }
+                    }
+                    else
+                    {
+                        if(isApplicationEnabled)
+                        {
+                            notifyIcon.Icon = Resources.Round_Hotkey_48x48;
+                            Icon = Resources.Round_Hotkey_48x48;
+                        }
+                        else
+                        {
+                            notifyIcon.Icon = Resources.Round_Inactive_48x48;
+                            Icon = Resources.Round_Inactive_48x48;
+                        }
+                    }
+                    break;
+
+                default:
+                    if (iconSet == "SquareOld")
+                    {
+                        if(isApplicationEnabled)
+                        {
+                            notifyIcon.Icon = Resources.Square_Old_Active_16x16;
+                            Icon = Resources.Square_Old_Active_16x16;
+                        }
+                        else
+                        {
+                            notifyIcon.Icon = Resources.Square_Old_Inactive_16x16;
+                            Icon = Resources.Square_Old_Inactive_16x16;
+                        }
+                    }
+                    else if (iconSet == "SquareNew")
+                    {
+                        if(isApplicationEnabled)
+                        {
+                            notifyIcon.Icon = Resources.Square_New_Active_48x48;
+                            Icon = Resources.Square_New_Active_48x48;
+                        }
+                        else
+                        {
+                            notifyIcon.Icon = Resources.Square_New_Inactive_48x48;
+                            Icon = Resources.Square_New_Inactive_48x48;
+                        }
+                    }
+                    else
+                    {
+                        if(isApplicationEnabled)
+                        {
+                            notifyIcon.Icon = Resources.Round_Active_48x48;
+                            Icon = Resources.Round_Active_48x48;
+                        }
+                        else
+                        {
+                            notifyIcon.Icon = Resources.Round_Inactive_48x48;
+                            Icon = Resources.Round_Inactive_48x48;
+                        }
+                    }
+                    break;
+            }
         }
 
 

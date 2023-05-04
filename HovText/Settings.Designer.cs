@@ -43,8 +43,8 @@
             this.updateTimer = new System.Windows.Forms.Timer(this.components);
             this.mouseClickTimer = new System.Windows.Forms.Timer(this.components);
             this.tabPage4 = new System.Windows.Forms.TabPage();
-            this.uiDeveloperVersion = new System.Windows.Forms.Label();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.uiDeveloperVersion = new System.Windows.Forms.Label();
             this.aboutBox = new System.Windows.Forms.RichTextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.uiAppVer = new System.Windows.Forms.Label();
@@ -189,6 +189,7 @@
             this.colorDialogActive = new System.Windows.Forms.ColorDialog();
             this.colorDialogHeaderText = new System.Windows.Forms.ColorDialog();
             this.colorDialogActiveText = new System.Windows.Forms.ColorDialog();
+            this.uiDevelopmentAutoInstall = new System.Windows.Forms.Button();
             this.notifyIconMenuStrip.SuspendLayout();
             this.tabPage4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -322,8 +323,8 @@
             // tabPage4
             // 
             this.tabPage4.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.tabPage4.Controls.Add(this.uiDeveloperVersion);
             this.tabPage4.Controls.Add(this.pictureBox1);
+            this.tabPage4.Controls.Add(this.uiDeveloperVersion);
             this.tabPage4.Controls.Add(this.aboutBox);
             this.tabPage4.Controls.Add(this.label2);
             this.tabPage4.Controls.Add(this.uiAppVer);
@@ -332,6 +333,18 @@
             this.tabPage4.Size = new System.Drawing.Size(638, 659);
             this.tabPage4.TabIndex = 3;
             this.tabPage4.Text = "About";
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.BackColor = System.Drawing.Color.Transparent;
+            this.pictureBox1.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
+            this.pictureBox1.Location = new System.Drawing.Point(263, 401);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(134, 71);
+            this.pictureBox1.TabIndex = 94;
+            this.pictureBox1.TabStop = false;
+            this.pictureBox1.Click += new System.EventHandler(this.pictureBox1_Click);
             // 
             // uiDeveloperVersion
             // 
@@ -345,17 +358,6 @@
             this.uiDeveloperVersion.Text = "Red color means DANGER - this is a DEVELOPMENT version, which is most likely full" +
     " of bugs. Please update to a real/stable version as soon as possible";
             this.uiDeveloperVersion.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // pictureBox1
-            // 
-            this.pictureBox1.BackColor = System.Drawing.Color.Transparent;
-            this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
-            this.pictureBox1.Location = new System.Drawing.Point(267, 367);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(104, 59);
-            this.pictureBox1.TabIndex = 92;
-            this.pictureBox1.TabStop = false;
-            this.pictureBox1.Click += new System.EventHandler(this.pictureBox1_Click);
             // 
             // aboutBox
             // 
@@ -715,6 +717,7 @@
             // uiHotkeyToggleView
             // 
             this.uiHotkeyToggleView.BackColor = System.Drawing.SystemColors.Window;
+            this.uiHotkeyToggleView.Cursor = System.Windows.Forms.Cursors.Hand;
             this.uiHotkeyToggleView.Location = new System.Drawing.Point(274, 244);
             this.uiHotkeyToggleView.Name = "uiHotkeyToggleView";
             this.uiHotkeyToggleView.ReadOnly = true;
@@ -728,6 +731,7 @@
             // uiHotkeyToggleFavorite
             // 
             this.uiHotkeyToggleFavorite.BackColor = System.Drawing.SystemColors.Window;
+            this.uiHotkeyToggleFavorite.Cursor = System.Windows.Forms.Cursors.Hand;
             this.uiHotkeyToggleFavorite.Location = new System.Drawing.Point(274, 202);
             this.uiHotkeyToggleFavorite.Name = "uiHotkeyToggleFavorite";
             this.uiHotkeyToggleFavorite.ReadOnly = true;
@@ -763,6 +767,7 @@
             // uiHotkeyPaste
             // 
             this.uiHotkeyPaste.BackColor = System.Drawing.SystemColors.Window;
+            this.uiHotkeyPaste.Cursor = System.Windows.Forms.Cursors.Hand;
             this.uiHotkeyPaste.Location = new System.Drawing.Point(274, 160);
             this.uiHotkeyPaste.Name = "uiHotkeyPaste";
             this.uiHotkeyPaste.ReadOnly = true;
@@ -776,6 +781,7 @@
             // uiHotkeyNewer
             // 
             this.uiHotkeyNewer.BackColor = System.Drawing.SystemColors.Window;
+            this.uiHotkeyNewer.Cursor = System.Windows.Forms.Cursors.Hand;
             this.uiHotkeyNewer.Location = new System.Drawing.Point(274, 118);
             this.uiHotkeyNewer.Name = "uiHotkeyNewer";
             this.uiHotkeyNewer.ReadOnly = true;
@@ -789,6 +795,7 @@
             // uiHotkeyOlder
             // 
             this.uiHotkeyOlder.BackColor = System.Drawing.SystemColors.Window;
+            this.uiHotkeyOlder.Cursor = System.Windows.Forms.Cursors.Hand;
             this.uiHotkeyOlder.Location = new System.Drawing.Point(274, 76);
             this.uiHotkeyOlder.Name = "uiHotkeyOlder";
             this.uiHotkeyOlder.ReadOnly = true;
@@ -813,6 +820,7 @@
             // uiHotkeyEnable
             // 
             this.uiHotkeyEnable.BackColor = System.Drawing.SystemColors.Window;
+            this.uiHotkeyEnable.Cursor = System.Windows.Forms.Cursors.Hand;
             this.uiHotkeyEnable.Location = new System.Drawing.Point(274, 34);
             this.uiHotkeyEnable.Name = "uiHotkeyEnable";
             this.uiHotkeyEnable.ReadOnly = true;
@@ -1009,7 +1017,6 @@
             this.uiCheckUpdates.TabIndex = 102;
             this.uiCheckUpdates.Text = "Check for updates online";
             this.uiCheckUpdates.UseVisualStyleBackColor = true;
-            this.uiCheckUpdates.CheckedChanged += new System.EventHandler(this.uiCheckUpdates_CheckedChanged);
             // 
             // uiStartWithWindows
             // 
@@ -1227,6 +1234,7 @@
             // uiCustomActiveText
             // 
             this.uiCustomActiveText.BackColor = System.Drawing.SystemColors.Window;
+            this.uiCustomActiveText.Cursor = System.Windows.Forms.Cursors.Hand;
             this.uiCustomActiveText.Location = new System.Drawing.Point(170, 134);
             this.uiCustomActiveText.Name = "uiCustomActiveText";
             this.uiCustomActiveText.ReadOnly = true;
@@ -1237,6 +1245,7 @@
             // uiCustomHeaderText
             // 
             this.uiCustomHeaderText.BackColor = System.Drawing.SystemColors.Window;
+            this.uiCustomHeaderText.Cursor = System.Windows.Forms.Cursors.Hand;
             this.uiCustomHeaderText.Enabled = false;
             this.uiCustomHeaderText.Location = new System.Drawing.Point(171, 60);
             this.uiCustomHeaderText.Name = "uiCustomHeaderText";
@@ -1267,6 +1276,7 @@
             // uiCustomHeader
             // 
             this.uiCustomHeader.BackColor = System.Drawing.SystemColors.Window;
+            this.uiCustomHeader.Cursor = System.Windows.Forms.Cursors.Hand;
             this.uiCustomHeader.Enabled = false;
             this.uiCustomHeader.Location = new System.Drawing.Point(171, 31);
             this.uiCustomHeader.Name = "uiCustomHeader";
@@ -1287,6 +1297,7 @@
             // uiCustomActive
             // 
             this.uiCustomActive.BackColor = System.Drawing.SystemColors.Window;
+            this.uiCustomActive.Cursor = System.Windows.Forms.Cursors.Hand;
             this.uiCustomActive.Location = new System.Drawing.Point(170, 105);
             this.uiCustomActive.Name = "uiCustomActive";
             this.uiCustomActive.ReadOnly = true;
@@ -1307,6 +1318,7 @@
             // uiCustomEntry
             // 
             this.uiCustomEntry.BackColor = System.Drawing.SystemColors.Window;
+            this.uiCustomEntry.Cursor = System.Windows.Forms.Cursors.Hand;
             this.uiCustomEntry.Location = new System.Drawing.Point(172, 182);
             this.uiCustomEntry.Name = "uiCustomEntry";
             this.uiCustomEntry.ReadOnly = true;
@@ -1335,6 +1347,7 @@
             // uiCustomEntryText
             // 
             this.uiCustomEntryText.BackColor = System.Drawing.SystemColors.Window;
+            this.uiCustomEntryText.Cursor = System.Windows.Forms.Cursors.Hand;
             this.uiCustomEntryText.Location = new System.Drawing.Point(172, 213);
             this.uiCustomEntryText.Name = "uiCustomEntryText";
             this.uiCustomEntryText.ReadOnly = true;
@@ -1401,6 +1414,7 @@
             // uiCustomBorder
             // 
             this.uiCustomBorder.BackColor = System.Drawing.SystemColors.Window;
+            this.uiCustomBorder.Cursor = System.Windows.Forms.Cursors.Hand;
             this.uiCustomBorder.Location = new System.Drawing.Point(26, 164);
             this.uiCustomBorder.Name = "uiCustomBorder";
             this.uiCustomBorder.ReadOnly = true;
@@ -1565,6 +1579,7 @@
             // 
             // groupBox11
             // 
+            this.groupBox11.Controls.Add(this.uiDevelopmentAutoInstall);
             this.groupBox11.Controls.Add(this.uiDevelopmentVersion);
             this.groupBox11.Controls.Add(this.uiDevelopmentDownload);
             this.groupBox11.Controls.Add(this.uiDevelopmentWarning);
@@ -1589,10 +1604,10 @@
             // uiDevelopmentDownload
             // 
             this.uiDevelopmentDownload.Enabled = false;
-            this.uiDevelopmentDownload.Location = new System.Drawing.Point(28, 38);
+            this.uiDevelopmentDownload.Location = new System.Drawing.Point(28, 81);
             this.uiDevelopmentDownload.Name = "uiDevelopmentDownload";
             this.uiDevelopmentDownload.Size = new System.Drawing.Size(126, 34);
-            this.uiDevelopmentDownload.TabIndex = 511;
+            this.uiDevelopmentDownload.TabIndex = 512;
             this.uiDevelopmentDownload.Text = "Download";
             this.uiDevelopmentDownload.UseVisualStyleBackColor = true;
             this.uiDevelopmentDownload.Click += new System.EventHandler(this.uiDevelopmentDownload_Click);
@@ -1602,9 +1617,9 @@
             this.uiDevelopmentWarning.Enabled = false;
             this.uiDevelopmentWarning.Font = new System.Drawing.Font("Segoe UI", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.uiDevelopmentWarning.ForeColor = System.Drawing.Color.Red;
-            this.uiDevelopmentWarning.Location = new System.Drawing.Point(26, 79);
+            this.uiDevelopmentWarning.Location = new System.Drawing.Point(166, 79);
             this.uiDevelopmentWarning.Name = "uiDevelopmentWarning";
-            this.uiDevelopmentWarning.Size = new System.Drawing.Size(495, 68);
+            this.uiDevelopmentWarning.Size = new System.Drawing.Size(405, 68);
             this.uiDevelopmentWarning.TabIndex = 513;
             this.uiDevelopmentWarning.Text = "Recommended only to use if you want to test unreleased functionalities or bugfixe" +
     "s - it is not expected to be stable or polished in any way!";
@@ -1655,7 +1670,7 @@
             // 
             // uiExecuteableOpenLocation
             // 
-            this.uiExecuteableOpenLocation.Location = new System.Drawing.Point(28, 115);
+            this.uiExecuteableOpenLocation.Location = new System.Drawing.Point(28, 116);
             this.uiExecuteableOpenLocation.Name = "uiExecuteableOpenLocation";
             this.uiExecuteableOpenLocation.Size = new System.Drawing.Size(231, 34);
             this.uiExecuteableOpenLocation.TabIndex = 504;
@@ -1718,6 +1733,7 @@
             this.uiAttachFile.TabIndex = 604;
             this.uiAttachFile.Text = "Attach troubleshooting logfile";
             this.uiAttachFile.UseVisualStyleBackColor = true;
+            this.uiAttachFile.CheckedChanged += new System.EventHandler(this.uiAttachFile_CheckedChanged);
             // 
             // label3
             // 
@@ -1952,6 +1968,17 @@
             this.label26.TabIndex = 516;
             this.label26.Text = "Your data!";
             // 
+            // uiDevelopmentAutoInstall
+            // 
+            this.uiDevelopmentAutoInstall.Enabled = false;
+            this.uiDevelopmentAutoInstall.Location = new System.Drawing.Point(28, 38);
+            this.uiDevelopmentAutoInstall.Name = "uiDevelopmentAutoInstall";
+            this.uiDevelopmentAutoInstall.Size = new System.Drawing.Size(126, 34);
+            this.uiDevelopmentAutoInstall.TabIndex = 511;
+            this.uiDevelopmentAutoInstall.Text = "Auto-install";
+            this.uiDevelopmentAutoInstall.UseVisualStyleBackColor = true;
+            this.uiDevelopmentAutoInstall.Click += new System.EventHandler(this.button1_Click_1);
+            // 
             // Settings
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(11F, 25F);
@@ -2080,7 +2107,6 @@
         private System.Windows.Forms.CheckBox uiStartWithWindows;
         private System.Windows.Forms.TabControl tabControl;
         private System.Windows.Forms.Label labelHistoryElements;
-        private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.RadioButton uiHistoryLocationRadioRightBottom;
         private System.Windows.Forms.RadioButton uiHistoryLocationRadioLeftTop;
         private System.Windows.Forms.RadioButton uiHistoryLocationRadioRightTop;
@@ -2185,6 +2211,8 @@
         private System.Windows.Forms.RadioButton uiIconsSquareNew;
         private System.Windows.Forms.Label uiDeveloperVersion;
         private System.Windows.Forms.Button uiExecuteableOpenLocation;
+        private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.Button uiDevelopmentAutoInstall;
     }
 
 }

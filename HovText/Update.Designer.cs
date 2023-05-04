@@ -36,28 +36,29 @@
             this.label3 = new System.Windows.Forms.Label();
             this.uiAppVerYours = new System.Windows.Forms.Label();
             this.uiAppVerOnline = new System.Windows.Forms.Label();
+            this.button3 = new System.Windows.Forms.Button();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(294, 225);
+            this.button1.Location = new System.Drawing.Point(400, 200);
             this.button1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(232, 37);
-            this.button1.TabIndex = 1;
+            this.button1.Size = new System.Drawing.Size(182, 37);
+            this.button1.TabIndex = 2;
             this.button1.Text = "Skip this version";
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.SkipVersion_Click);
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(49, 225);
+            this.button2.Location = new System.Drawing.Point(210, 200);
             this.button2.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(232, 37);
-            this.button2.TabIndex = 0;
-            this.button2.Text = "Go to web page";
+            this.button2.Size = new System.Drawing.Size(182, 37);
+            this.button2.TabIndex = 1;
+            this.button2.Text = "Download";
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += new System.EventHandler(this.GoToPage_Click);
             // 
@@ -67,9 +68,9 @@
             this.label1.Location = new System.Drawing.Point(14, 30);
             this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(398, 25);
+            this.label1.Size = new System.Drawing.Size(596, 25);
             this.label1.TabIndex = 2;
-            this.label1.Text = "A new stable version of HovText has been found:";
+            this.label1.Text = "The newest stable version of HovText is different than the version you use:";
             // 
             // label2
             // 
@@ -78,9 +79,9 @@
             this.label2.Location = new System.Drawing.Point(43, 71);
             this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(144, 31);
+            this.label2.Size = new System.Drawing.Size(161, 31);
             this.label2.TabIndex = 3;
-            this.label2.Text = "New version:";
+            this.label2.Text = "Stable version:";
             this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // label3
@@ -99,7 +100,7 @@
             // 
             this.uiAppVerYours.AutoSize = true;
             this.uiAppVerYours.Font = new System.Drawing.Font("Segoe UI", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.uiAppVerYours.Location = new System.Drawing.Point(158, 105);
+            this.uiAppVerYours.Location = new System.Drawing.Point(177, 105);
             this.uiAppVerYours.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.uiAppVerYours.Name = "uiAppVerYours";
             this.uiAppVerYours.Size = new System.Drawing.Size(28, 31);
@@ -111,7 +112,7 @@
             // 
             this.uiAppVerOnline.AutoSize = true;
             this.uiAppVerOnline.Font = new System.Drawing.Font("Segoe UI", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.uiAppVerOnline.Location = new System.Drawing.Point(158, 71);
+            this.uiAppVerOnline.Location = new System.Drawing.Point(177, 71);
             this.uiAppVerOnline.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.uiAppVerOnline.Name = "uiAppVerOnline";
             this.uiAppVerOnline.Size = new System.Drawing.Size(28, 31);
@@ -119,23 +120,34 @@
             this.uiAppVerOnline.Text = "#";
             this.uiAppVerOnline.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
+            // button3
+            // 
+            this.button3.Location = new System.Drawing.Point(19, 200);
+            this.button3.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.button3.Name = "button3";
+            this.button3.Size = new System.Drawing.Size(183, 37);
+            this.button3.TabIndex = 0;
+            this.button3.Text = "Auto-install";
+            this.button3.UseVisualStyleBackColor = true;
+            this.button3.Click += new System.EventHandler(this.button3_Click);
+            // 
             // textBox1
             // 
             this.textBox1.BackColor = System.Drawing.SystemColors.Control;
             this.textBox1.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.textBox1.Location = new System.Drawing.Point(19, 152);
+            this.textBox1.Location = new System.Drawing.Point(19, 158);
             this.textBox1.Multiline = true;
             this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(555, 63);
+            this.textBox1.Size = new System.Drawing.Size(555, 39);
             this.textBox1.TabIndex = 8;
-            this.textBox1.Text = "You can go to the web page and download the new version and replace the \"HovText." +
-    "exe\" executable file.";
+            this.textBox1.Text = "Please choose one of the below options to proceed.";
             // 
             // Update
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(601, 301);
+            this.ClientSize = new System.Drawing.Size(601, 268);
+            this.Controls.Add(this.button3);
             this.Controls.Add(this.textBox1);
             this.Controls.Add(this.uiAppVerOnline);
             this.Controls.Add(this.uiAppVerYours);
@@ -150,7 +162,7 @@
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "Update";
-            this.Text = "HovText new version found";
+            this.Text = "HovText version difference found";
             this.TopMost = true;
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -166,6 +178,7 @@
         private System.Windows.Forms.Label label3;
         public System.Windows.Forms.Label uiAppVerYours;
         public System.Windows.Forms.Label uiAppVerOnline;
+        private System.Windows.Forms.Button button3;
         private System.Windows.Forms.TextBox textBox1;
     }
 }
