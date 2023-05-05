@@ -22,7 +22,8 @@ namespace HovText
         {
             // Set troubleshooting boolean
             string regVal = Settings.GetRegistryKey(Settings.registryPath, "TroubleshootEnable");
-            Settings.isTroubleshootEnabled = regVal == "1" ? true : false;
+            //Settings.isTroubleshootEnabled = regVal == "1" ? true : false;
+            Settings.isTroubleshootEnabled = regVal == "1";
 
             // Allow some UI
             Application.EnableVisualStyles();
@@ -42,8 +43,7 @@ namespace HovText
 
             // Ensure that application only run once - quote ChatGPT4:
             // "A mutex is a synchronization object that is used to ensure that only one thread at a time executes a particular block of code, in this case, to ensure that only one instance of the application runs at a time"
-            bool newInstance;
-            _mutex = new Mutex(true, "HovText", out newInstance);
+            _mutex = new Mutex(true, "HovText", out bool newInstance);
 
             // Get the argument passed (only one supported)
             if (args.Length > 0)

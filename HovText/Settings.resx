@@ -136,7 +136,7 @@
     <value>16, 62</value>
   </metadata>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="pictureBox1.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+  <data name="GuiPictureBox1.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAAG4AAAA1CAYAAACgEt7PAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAX
         EQAAFxEByibzPwAALMpJREFUeF7tnAVUVVn7/+8ldNRRxxw7UAQbuwETAwMDW8cau7toxA6kS0IkRCUE
@@ -333,7 +333,7 @@
         FrejtO1/EX2C22xDfqvym1YQ/R/WwXyKz7DvmgAAAABJRU5ErkJggg==
 </value>
   </data>
-  <data name="pictureBox5.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+  <data name="PictureBox5.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAMAAAC6V+0/AAAABGdBTUEAALGPC/xhBQAAAwBQTFRFgICA
         pqamt7e3r6+vsLCwsbGxnZ2denp6tra2zs7OxsbGz8/Py8vPy8vOzMzPy8vNycnJxcXFqqqqeHh4x8fH
@@ -356,7 +356,7 @@
         5ObmllaABCurqmtqamGgpqquHijI3iCMDBoagWIMTeigGSSKDhgYAK3WS0A3QEODAAAAAElFTkSuQmCC
 </value>
   </data>
-  <data name="pictureBox6.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+  <data name="PictureBox6.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAMAAAC6V+0/AAAABGdBTUEAALGPC/xhBQAAAwBQTFRFgICA
         pqamt7e3r6+vsLCwsbGxnZ2denp6tra2zs7OxsbGz8/Pz8vLzsvLz8zMzcvLycnJxcXFqqqqeHh4x8fH
@@ -379,7 +379,7 @@
         5ObmllaABCurqmtqamGgpqquHijI3iCMDBoagWIMTeigGSSKDhgYAK3WS0A3QEODAAAAAElFTkSuQmCC
 </value>
   </data>
-  <data name="pictureBox7.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+  <data name="PictureBox7.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAMAAAC6V+0/AAAABGdBTUEAALGPC/xhBQAAAwBQTFRFgICA
         pqamt7e3r6+vsLCwsbGxnZ2denp6tra2zs7OxsbGz8/Py8/Ly87LzM/My83LycnJxcXFqqqqeHh4x8fH
@@ -402,7 +402,7 @@
         5ObmllaABCurqmtqamGgpqquHijI3iCMDBoagWIMTeigGSSKDhgYAK3WS0A3QEODAAAAAElFTkSuQmCC
 </value>
   </data>
-  <data name="pictureBox9.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+  <data name="PictureBox9.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAu
         IgAALiIBquLdkgAABSVJREFUOE9NVFlQU1cYvqWvvPaldrTiWgt2pmpn2of60JalqU4Xx60oA4LQYbMl
@@ -430,7 +430,7 @@
         9khtba3kPwwIfwHohDA5KMY5yQAAAABJRU5ErkJggg==
 </value>
   </data>
-  <data name="pictureBox10.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+  <data name="PictureBox10.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAS
         cQAAEnEB89x6jgAABR9JREFUOE9NVFlMlFcU/qWP9qkWLcLAICCbWhuT9rFaU0FJSPuixhgTjYoJbtFh
@@ -458,7 +458,7 @@
         /3FA+BvKMBlFm8lIcAAAAABJRU5ErkJggg==
 </value>
   </data>
-  <data name="pictureBox8.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+  <data name="PictureBox8.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAu
         IgAALiIBquLdkgAABT5JREFUOE9NVGlMVFcUfpqaNmmTFtuaqKytrS02bWPtn7axBWrVhhQXBCm1FHej
@@ -486,7 +486,7 @@
         FNnZ2da8vDxrUVGRlQhspe9WvV5vpWFayVTHCbn3y/sAhH8BD+YcV7+gdm8AAAAASUVORK5CYII=
 </value>
   </data>
-  <data name="pictureBox4.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+  <data name="PictureBox4.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAS
         cQAAEnEB89x6jgAABdVJREFUOE9N1GlQk0cYB/AA2oqOjiKiWIXEUETqEUwKEQQiJMitoEgRGkA8OIQg
@@ -517,7 +517,7 @@
         EhkxjDHhPwmIe6bH8s9CAAAAAElFTkSuQmCC
 </value>
   </data>
-  <data name="pictureBox3.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+  <data name="PictureBox3.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAS
         cQAAEnEB89x6jgAABdZJREFUOE9NlGlQE0YUxxMOCzo6iohiFRJDEalHMClEEYiQILeKAkVouDw4hCAg
@@ -548,7 +548,7 @@
         UGiAYYwJ/wKfhHumjE2HZQAAAABJRU5ErkJggg==
 </value>
   </data>
-  <data name="pictureBox2.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+  <data name="PictureBox2.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAS
         cQAAEnEB89x6jgAABdNJREFUOE9NlHlQE0YUxgNIKzo6HohiFRJDEalHIClGEYiQILeAIkVoQPDgDgJC
@@ -579,14 +579,35 @@
         wxgT/gMxJXum+LKFagAAAABJRU5ErkJggg==
 </value>
   </data>
-  <data name="label18.Text" xml:space="preserve">
+  <data name="GuiDevelopmentRefresh.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABQAAAAVCAYAAABG1c6oAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
+        YQUAAAAJcEhZcwAACxIAAAsSAdLdfvwAAANWSURBVDhPpVXdS5NRHH734ap96XSjraHShcxtXih6IV5E
+        hIY2MXHkXDgoaCmC37j5NYV52V33YQbRHxASYlBdVFdZZtAX2IV1F2JRZua2nufwnvE2vWvweM55z3me
+        8zu/L5VcLpfHzMyMMZVK6TgfGRlxNjc3Xy8rK3uuKMoe4XQ6n7W0tFwbHR0t4xmc1c/OzhpVroljXmxu
+        bk4ITU1NHW9ra7tSXl6+ajQatyG0D/xRsc9vlZWVK6FQKDY9PS1EIKbnGI/HfUJMY5XX5/PdBRFXCVCM
+        yKqQa7Hv9/uXhoeHveT29PSct1qt64o0GWKn8HvMg3q9/ifG35JoMBh2CLnmHs784LyiomK5q6srDLFP
+        FovlHQUNNL2qquqeSv6GMUvRmpqaxUgk0oqn+IFAd3f3hUAgsKTT6X7xLMZdngXo45zD4VgTT6Y/8CGj
+        3prBTVsQCnHvKITD4U6bzbaJswcAX8IxW1xcvKEgYg4GgB9x457JZNru7e09QyIsZ9SFwwn6GkEr4ryj
+        oyOqEaRfMyUlJetKU1NTEgvxBKK+vv6GKiaIWshM6OvrC7rd7qeSI2E2mz8qXq/3QWlp6TqwAbzs7+/3
+        pdPpvFWFmJyctMCPt0DecrlcL5Cnr5Gfgo+XLisTExOOZDJpTSQSNoxmSZSpVAg82TQ+Pu7CaCYPIE/C
+        cojwv1BUZbvmFhurRbXixFEkrfV4mRkg3zo2NuZS+H5A+EH1xxqSdBPldR/J7tEKSTA4CwsLeuRmELlH
+        378C3jY2NiYQnH8jRdjt9g+xWOwsyfPz84d8KTOgtrb2ppY3ODjowSiynHnEfOI829raGieBOad9HnNS
+        ikWj0XNFRUU7zF1wDpAtD/mdP9lJZJJmkPHvUWYdUqgQ2LuItPlCjqyuzs7OS9xT1LqkGCHrkw1iNxgM
+        3gZZ1rJfreU7KieLuv/Os9XV1UvsCYAea5Hhn1HPV5GYK6oYby3sNmwa0l/5boOnrqJ8T9I6BktBdN7A
+        3Ag/DA0NlRf0Q9GpAdkPaVm+TGHtIsTc5EpfKwMDA6c5Qdc1cITTj7H7eDyeJ5IISB+LNax61N7eflkG
+        SBs48QemitplFAm5iW7sqqurS0NkG3772tDQkJL/Twj6THs+l8spfwFoE7ae1l8h7AAAAABJRU5ErkJg
+        gg==
+</value>
+  </data>
+  <data name="AdvancedLabelInfoCleanup.Text" xml:space="preserve">
     <value>Removes all registry settings, deletes the troubleshooting logfile and exits HovText. This is as if HovText has never been used on this system, and you just need to delete the "HovText.exe" file, if you want to clean everything.</value>
   </data>
-  <data name="label33.Text" xml:space="preserve">
+  <data name="PrivacyLabelWhy.Text" xml:space="preserve">
     <value>The data is solely being used at the below "Fun facts" page, to visualize from where and when HovText is being used. As an application developer, this is fun and interesting information, that we can see how much usage it has :-)</value>
   </data>
-  <data name="label27.Text" xml:space="preserve">
-    <value>It is so important for us to highlight, that we do not harvest your data - you are NOT the product here! This is why we want to showcase exactly what data is gathered and how it is used. Below you will see all the data being gathered - and we will guarantee there is no hidden identifier or alike that will track your specific installation.</value>
+  <data name="PrivacyLabelSummary.Text" xml:space="preserve">
+    <value>It is important for us to highlight, that we do not harvest your data - you are NOT the product here! This is why we want to showcase exactly what data is gathered and how it is used. Below you will see all the data being gathered - and we will guarantee there is no hidden identifier or alike that will track your specific installation.</value>
   </data>
   <metadata name="colorDialogHeader.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>782, 18</value>

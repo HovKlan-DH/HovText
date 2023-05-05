@@ -15,12 +15,24 @@ namespace HovText
 
 
         // ###########################################################################################
-        // Go to the HovText download web page
+        // Auto-install
         // ###########################################################################################
 
-        private void GoToPage_Click(object sender, EventArgs e)
+        private void GuiUpdateButton3_Click(object sender, EventArgs e)
         {
-            Logging.Log("Update popup: Clicked the \"Go to web page\"");
+            Logging.Log("Update popup: Clicked the \"Auto-install\"");
+            Logging.Log("Auto-install new [STABLE] version");
+            Hide();
+            Settings.DownloadInstall(GuiAppVerOnline.Text, this);
+        }
+
+        // ###########################################################################################
+        // Download
+        // ###########################################################################################
+
+        private void Download_Click(object sender, EventArgs e)
+        {
+            Logging.Log("Update popup: Clicked the \"Download\"");
             Hide();
 
             // Open file location for the executeable
@@ -28,7 +40,7 @@ namespace HovText
             Settings.OpenExecuteableLocation(appPath);
 
             // Download executeable
-            System.Diagnostics.Process.Start(Settings.hovtextPage+"download/"+ uiAppVerOnline.Text +"/HovText.exe");
+            System.Diagnostics.Process.Start(Settings.hovtextPage+"download/"+ GuiAppVerOnline.Text +"/HovText.exe");
         }
 
 
@@ -40,20 +52,7 @@ namespace HovText
         {
             Logging.Log("Update popup: Clicked the \"Skip this version\""); 
             Hide();
-            Settings.SetRegistryKey(Settings.registryPath, "CheckedVersion", uiAppVerOnline.Text);
-        }
-
-
-        // ###########################################################################################
-        // Auto-update
-        // ###########################################################################################
-
-        private void button3_Click(object sender, EventArgs e)
-        {
-            Logging.Log("Update popup: Clicked the \"Auto-update\"");
-            Logging.Log("Auto-updating to new [STABLE] version:");
-            Hide();
-            Settings.DownloadInstall(uiAppVerOnline.Text);
+            Settings.SetRegistryKey(Settings.registryPath, "CheckedVersion", GuiAppVerOnline.Text);
         }
 
 

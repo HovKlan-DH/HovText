@@ -56,15 +56,15 @@ namespace HovText
                     break;
             }
 
-            Log("--------------------------------------------------------------------------------------");
+            Log("------------------------------------------------------------------------------");
             Log("Send this log to the developer via the \"Feedback\" tab, if you experience any problems.");
-            Log("--------------------------------------------------------------------------------------");
+            Log("------------------------------------------------------------------------------");
             Log("Started HovText [" + appVer + "] logging");
-            Log(".NET Framework version = [" + dotNetVer + "]");
-            Log("CPU architecture = [" + architectureString + "]");
             Log("OS version = [" + os + "]");
             Log("OS language = [" + osLang + "]");
-            Log("Input language = [" + langSetup + "]");
+            Log("OS keyboard = [" + langSetup + "]");
+            Log("OS .NET Framework version = [" + dotNetVer + "]");
+            Log("CPU architecture = [" + architectureString + "]");
         }
 
 
@@ -75,7 +75,7 @@ namespace HovText
         public static void EndLogging()
         {
             Log("Ended HovText logging");
-            Log("-------------------------------------------------------------------------------");
+            Log("------------------------------------------------------------------------------");
             Log("");
         }
 
@@ -90,11 +90,11 @@ namespace HovText
             {
                 if (logMessage == "")
                 {
-                    File.AppendAllText(AppDomain.CurrentDomain.BaseDirectory + Settings.troubleshootLogfile, Environment.NewLine);
+                    File.AppendAllText(Settings.troubleshootLogfile, Environment.NewLine);
                 }
                 else
                 {
-                    File.AppendAllText(AppDomain.CurrentDomain.BaseDirectory + Settings.troubleshootLogfile, DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff") + " " + logMessage + Environment.NewLine);
+                    File.AppendAllText(Settings.troubleshootLogfile, DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff") + " " + logMessage + Environment.NewLine);
                 }
             }
 
