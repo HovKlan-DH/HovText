@@ -58,7 +58,7 @@
             this.GuiUpdateButton2.Name = "GuiUpdateButton2";
             this.GuiUpdateButton2.Size = new System.Drawing.Size(182, 37);
             this.GuiUpdateButton2.TabIndex = 1;
-            this.GuiUpdateButton2.Text = "Download";
+            this.GuiUpdateButton2.Text = "Manual download";
             this.GuiUpdateButton2.UseVisualStyleBackColor = true;
             this.GuiUpdateButton2.Click += new System.EventHandler(this.Download_Click);
             // 

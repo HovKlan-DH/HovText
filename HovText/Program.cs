@@ -181,8 +181,7 @@ namespace HovText
                                     // Exit the application
                                     Settings.isClosedFromNotifyIcon = true;
                                     Logging.Log("Application launched, with application already running - started with commandline option [--exit]");
-                                    //Settings.Invoke(new Action(() => Settings.Close()));
-                                    Application.Exit();
+                                    Settings.Invoke(new Action(() => Settings.Close()));
                                 }
                                 if (message == "CLEANUP_AND_EXIT")
                                 {

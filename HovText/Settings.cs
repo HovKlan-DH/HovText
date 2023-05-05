@@ -17,6 +17,7 @@ using NHotkey.WindowsForms; // https://github.com/thomaslevesque/NHotkey
 using Newtonsoft.Json; // https://www.newtonsoft.com/json
 using HovText;
 using System.Runtime.CompilerServices;
+using System.Management.Instrumentation;
 
 // ----------------------------------------------------------------------------
 // Upload application to these places:
@@ -2422,8 +2423,7 @@ namespace HovText
         {
             Logging.Log("Clicked tray icon \"Exit\"");
             isClosedFromNotifyIcon = true;
-            //Close();
-            Application.Exit();
+            Close();
         }
 
 
@@ -3476,16 +3476,16 @@ namespace HovText
                         { "version", appVer }
                     };
 
-                    // send the data to the server using the UploadValues method
+                    // Send the data to the server using the UploadValues method
                     byte[] responseBytes = webClient.UploadValues("https://hovtext.com/autoupdate/privacy/", postData);
 
-                    // convert the response bytes to a string
+                    // Vonvert the response bytes to a string
                     string responseBody = Encoding.UTF8.GetString(responseBytes);
 
-                    // parse the JSON response using JsonConvert.DeserializeObject
+                    // Parse the JSON response using JsonConvert.DeserializeObject
                     dynamic data = JsonConvert.DeserializeObject(responseBody);
 
-                    // set the text of the two labels
+                    // Set the text of the labels
                     PrivacyLabelTimestampData.Text = data.timestamp;
                     PrivacyLabelIpaddrData.Text = data.ipaddr;
                     PrivacyLabelVersionData.Text = data.version;
@@ -3498,10 +3498,14 @@ namespace HovText
                     Logging.Log("Exception raised (Settings):");
                     Logging.Log("  Cannot connect with server to submit \"Privacy\" information:");
                     Logging.Log("  " + ex.Message);
-                    MessageBox.Show("HovText cannot connect to the server, where it should submit the \"Privacy\" information. Please connect directly with the developer at \"dennis@hovtext.com\" and state this is a problem, thanks.\r\n\r\nThe exact error is:\r\n\r\n" + ex.Message,
-                        "ERROR",
-                        MessageBoxButtons.OK,
-                        MessageBoxIcon.Error);
+
+                    // Set the text of the labels
+                    string serverDown = "Cannot connect with server - retry later ...";
+                    PrivacyLabelTimestampData.Text = serverDown;
+                    PrivacyLabelIpaddrData.Text = serverDown;
+                    PrivacyLabelVersionData.Text = serverDown;
+                    PrivacyLabelCodeData.Text = serverDown;
+                    PrivacyLabelCountryData.Text = serverDown;
                 }
             }
         }
@@ -3530,8 +3534,7 @@ namespace HovText
 
             // Exit HovText
             resetApp = true;
-            //Close();
-            Application.Exit();
+            Close();
         }
 
 
@@ -3950,30 +3953,32 @@ namespace HovText
             string appFileName = Path.GetFileName(appPath);
             string tempFilePath = Path.Combine(Path.GetTempPath(), "HovText_new.exe");
 
-            // Download the updated file
-            WebClient webClient = new WebClient();
-            webClient.DownloadFile(appUrl, tempFilePath);
+            try
+            {
+                // Download the updated file
+                WebClient webClient = new WebClient();
+                webClient.DownloadFile(appUrl, tempFilePath);
 
-            string stepsForStable =
-@"rem --   * Go to https://hovtext.com/download and download newest HovText       --
+                string stepsForStable =
+    @"rem --   * Go to https://hovtext.com/download and download newest HovText       --
 rem --   * In the ""Advanced"" tab click the ""Open executeable location""          --
 rem --   * Close / exit the running HovText application                         --
 rem --   * Replace the executeable file                                         --
 rem --   * Run the new file - check the ""About"" tab, that you are using the     --
 rem --     correct new version                                                  --";
 
-            string stepsForDevelopment =
-@"rem --   * In the ""Advanced"" tab then click the ""Download"".                     --
+                string stepsForDevelopment =
+    @"rem --   * In the ""Advanced"" tab then click the ""Download"".                     --
 rem --   * Then click the ""Open executeable location""                           --
 rem --   * Close / exit the running HovText application                         --
 rem --   * Replace the executeable file                                         --
 rem --   * Run the new file - check the ""About"" tab, that you are using the     --
 rem --     correct new version                                                  --";
 
-            // Create batchfile content
-            string stableOrDevelopment = versionType == "Development" ? stepsForDevelopment : stepsForStable;
-            string batchContents =
-@"@echo off
+                // Create batchfile content
+                string stableOrDevelopment = versionType == "Development" ? stepsForDevelopment : stepsForStable;
+                string batchContents =
+    @"@echo off
 
 rem ------------------------------------------------------------------------------
 rem -- If you see this, then probably there is a problem with the auto-install. --
@@ -3981,7 +3986,7 @@ rem -- The problem could be related to local settings, policies or alike, but   
 rem -- it this means you must manually do the update, sorry :-)                 --
 rem --                                                                          --
 rem -- Follow these steps:                                                      --
-"+ stableOrDevelopment +@"
+" + stableOrDevelopment + @"
 rem ------------------------------------------------------------------------------
 
 rem Wait until HovText process finishes
@@ -4006,74 +4011,73 @@ rem Delete this batch file
 del ""%~f0""
 ";
 
-            // Create the batchfile
-            string batchFilePath = Path.Combine(Path.GetTempPath(), "HovText_update.cmd");
-            File.WriteAllText(batchFilePath, batchContents);
+                // Create the batchfile
+                string batchFilePath = Path.Combine(Path.GetTempPath(), "HovText_update.cmd");
+                File.WriteAllText(batchFilePath, batchContents);
 
-            // Prepare for unblocking the batchfile via Powershell
-            string command = $"get-childitem {batchFilePath} | Unblock-File -Verbose";
-            Process process = new Process();
-            ProcessStartInfo startInfo = new ProcessStartInfo()
-            {
-                FileName = "powershell.exe",
-                Arguments = $"-NoProfile -ExecutionPolicy Bypass -Command \"{command}\"",
-                RedirectStandardOutput = true,
-                RedirectStandardError = true,
-                UseShellExecute = false,
-                CreateNoWindow = true
-            };
-
-            process.StartInfo = startInfo;
-
-//            StringBuilder outputData = new StringBuilder();
-            StringBuilder errorData = new StringBuilder();
-
-            // Get information from output (verbose should output something) or error
-//            process.OutputDataReceived += (outputSender, outputEventArgs) =>
-//            {
-//                if (!string.IsNullOrEmpty(outputEventArgs.Data))
-//                {
-//                    outputData.AppendLine(outputEventArgs.Data);
-//                }
-//            };
-            process.ErrorDataReceived += (errorSender, errorEventArgs) =>
-            {
-                if (!string.IsNullOrEmpty(errorEventArgs.Data))
+                // Prepare for unblocking the batchfile via Powershell
+                string command = $"get-childitem {batchFilePath} | Unblock-File -Verbose";
+                Process process = new Process();
+                ProcessStartInfo startInfo = new ProcessStartInfo()
                 {
-                    errorData.AppendLine(errorEventArgs.Data);
+                    FileName = "powershell.exe",
+                    Arguments = $"-NoProfile -ExecutionPolicy Bypass -Command \"{command}\"",
+                    RedirectStandardOutput = true,
+                    RedirectStandardError = true,
+                    UseShellExecute = false,
+                    CreateNoWindow = true
+                };
+
+                process.StartInfo = startInfo;
+
+                // Get information from output (verbose should output something) or error
+                StringBuilder errorData = new StringBuilder();
+                process.ErrorDataReceived += (errorSender, errorEventArgs) =>
+                {
+                    if (!string.IsNullOrEmpty(errorEventArgs.Data))
+                    {
+                        errorData.AppendLine(errorEventArgs.Data);
+                    }
+                };
+
+                // Do the unblocking
+                process.Start();
+                process.BeginOutputReadLine();
+                process.BeginErrorReadLine();
+                process.WaitForExit();
+                process.Dispose();
+
+                // Log stuff
+                string errorResult = errorData.ToString();
+                if (errorResult.Length > 0)
+                {
+                    Logging.Log("  Error: [" + errorResult + "]");
                 }
-            };
 
-            // Do the unblocking
-            process.Start();
-            process.BeginOutputReadLine();
-            process.BeginErrorReadLine();
-            process.WaitForExit();
-            process.Dispose();
+                // Run/execute the batch file, which will copy the new version and launch the new version.
+                // Will not run until this HovText instance has been shutdown.
+                ProcessStartInfo psi = new ProcessStartInfo(batchFilePath)
+                {
+                    CreateNoWindow = true,
+                    UseShellExecute = false
+                };
+                Process.Start(psi);
 
-            // Log stuff
-//            string outputResult = outputData.ToString();
-//            if (outputResult.Length > 0)
-//            {
-//                Logging.Log("  Output: [" + outputResult + "]");
-//            }
-            string errorResult = errorData.ToString();
-            if (errorResult.Length > 0)
-            {
-                Logging.Log("  Error: [" + errorResult + "]");
+                // Exit HovText so batch file can process
+                Application.Exit();
             }
-
-            // Run/execute the batch file, which will copy the new version and launch the new version.
-            // Will not run until this HovText instance has been shutdown.
-            ProcessStartInfo psi = new ProcessStartInfo(batchFilePath)
+            catch (WebException ex)
             {
-                CreateNoWindow = true,
-                UseShellExecute = false
-            };
-            Process.Start(psi);
+                // Catch the exception though this is not so critical that we need to disturb the developer
+                Logging.Log("Exception raised (Settings):");
+                Logging.Log("  Cannot connect with server to auto-install new version");
+                Logging.Log("  " + ex.Message);
 
-            // Exit HovText so batch file can process
-            Application.Exit();
+                MessageBox.Show("HovText cannot connect to the server, where it should get the new version. Please retry later ...\r\n\r\nThe exact error is:\r\n\r\n" + ex.Message,
+                        "ERROR",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Error);
+            }
         }
 
 
@@ -4199,8 +4203,6 @@ del ""%~f0""
 
         private void FetchInfoForDevelopment()
         {
-
-
             AdvancedLabelDevelopmentVersion.Text = "Please wait ...";
 
             // Check for a new development version
