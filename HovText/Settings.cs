@@ -16,6 +16,7 @@ using System.Windows.Forms;
 using NHotkey.WindowsForms; // https://github.com/thomaslevesque/NHotkey
 using Newtonsoft.Json; // https://www.newtonsoft.com/json
 using HovText;
+using System.Runtime.CompilerServices;
 
 // ----------------------------------------------------------------------------
 // Upload application to these places:
@@ -1703,7 +1704,7 @@ namespace HovText
             updateTimer.Enabled = true;
             AdvancedLabelDevelopmentVersion.Enabled = true;
             AdvancedLabelInfoDevelopment.Enabled = true;
-            AdvancedLabelDevelopmentVersion.Text = " Wait - checking ...";
+            AdvancedLabelDevelopmentVersion.Text = "Please wait ...";
             Logging.Log("Version check timer started");
 
             // Restore original when disabling application
@@ -2421,7 +2422,8 @@ namespace HovText
         {
             Logging.Log("Clicked tray icon \"Exit\"");
             isClosedFromNotifyIcon = true;
-            Close();
+            //Close();
+            Application.Exit();
         }
 
 
@@ -3528,7 +3530,8 @@ namespace HovText
 
             // Exit HovText
             resetApp = true;
-            Close();
+            //Close();
+            Application.Exit();
         }
 
 
@@ -3696,7 +3699,7 @@ namespace HovText
         {
             GuiDevelopmentAutoInstall.Enabled = false;
             Logging.Log("Auto-install new [DEVELOPMENT] version"); 
-            DownloadInstall("Development",this);
+            DownloadInstall("Development");
         }
 
 
@@ -3918,7 +3921,7 @@ namespace HovText
         // Download and install either the STABLE or the DEVELOPMENT version
         // ###########################################################################################
 
-        public static void DownloadInstall (string versionType, Form formInstance)
+        public static void DownloadInstall(string versionType)
         {
             /*
             // --------------------------------
@@ -4070,7 +4073,7 @@ del ""%~f0""
             Process.Start(psi);
 
             // Exit HovText so batch file can process
-            formInstance.Close();
+            Application.Exit();
         }
 
 
@@ -4213,7 +4216,7 @@ del ""%~f0""
                     if (checkedVersion != "Version: No development version available")
                     {
                         checkedVersion = checkedVersion.Substring(9);
-                        AdvancedLabelDevelopmentVersion.Text = " " + checkedVersion;
+                        AdvancedLabelDevelopmentVersion.Text = checkedVersion;
                         GuiDevelopmentDownload.Enabled = true;
                         GuiDevelopmentAutoInstall.Enabled = true;
                         Logging.Log("  Development version available = [" + checkedVersion + "]");

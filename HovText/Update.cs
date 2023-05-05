@@ -5,12 +5,17 @@ namespace HovText
 {
     public sealed partial class Update : Form
     {
+
         // ###########################################################################################
         // Main
         // ###########################################################################################
         public Update()
         {
             InitializeComponent();
+
+            // Close form on ESCAPE
+            this.KeyPreview = true;
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.MyForm_KeyDown);
         }
 
 
@@ -23,9 +28,10 @@ namespace HovText
             Logging.Log("Update popup: Clicked the \"Auto-install\"");
             Logging.Log("Auto-install new [STABLE] version");
             Hide();
-            Settings.DownloadInstall(GuiAppVerOnline.Text, this);
+            Settings.DownloadInstall(GuiAppVerOnline.Text);
         }
 
+                
         // ###########################################################################################
         // Download
         // ###########################################################################################
@@ -53,6 +59,19 @@ namespace HovText
             Logging.Log("Update popup: Clicked the \"Skip this version\""); 
             Hide();
             Settings.SetRegistryKey(Settings.registryPath, "CheckedVersion", GuiAppVerOnline.Text);
+        }
+
+
+        // ###########################################################################################
+        // Close form on ESCAPE
+        // ###########################################################################################
+
+        private void MyForm_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Escape)
+            {
+                this.Close();
+            }
         }
 
 

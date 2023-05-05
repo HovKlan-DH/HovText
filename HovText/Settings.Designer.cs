@@ -147,8 +147,9 @@
             this.GuiChangeFont = new System.Windows.Forms.Button();
             this.tabPage6 = new System.Windows.Forms.TabPage();
             this.GuiAdvancedGroup2 = new System.Windows.Forms.GroupBox();
-            this.GuiDevelopmentAutoInstall = new System.Windows.Forms.Button();
             this.AdvancedLabelDevelopmentVersion = new System.Windows.Forms.Label();
+            this.GuiDevelopmentRefresh = new System.Windows.Forms.PictureBox();
+            this.GuiDevelopmentAutoInstall = new System.Windows.Forms.Button();
             this.GuiDevelopmentDownload = new System.Windows.Forms.Button();
             this.AdvancedLabelInfoDevelopment = new System.Windows.Forms.Label();
             this.GuiAdvancedGroup3 = new System.Windows.Forms.GroupBox();
@@ -190,7 +191,6 @@
             this.colorDialogActive = new System.Windows.Forms.ColorDialog();
             this.colorDialogHeaderText = new System.Windows.Forms.ColorDialog();
             this.colorDialogActiveText = new System.Windows.Forms.ColorDialog();
-            this.GuiDevelopmentRefresh = new System.Windows.Forms.PictureBox();
             this.notifyIconMenuStrip.SuspendLayout();
             this.tabPage4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.GuiPictureBox1)).BeginInit();
@@ -226,11 +226,11 @@
             this.GuiStyleGroup1.SuspendLayout();
             this.tabPage6.SuspendLayout();
             this.GuiAdvancedGroup2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.GuiDevelopmentRefresh)).BeginInit();
             this.GuiAdvancedGroup3.SuspendLayout();
             this.GuiAdvancedGroup1.SuspendLayout();
             this.tabPage7.SuspendLayout();
             this.tabPage8.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.GuiDevelopmentRefresh)).BeginInit();
             this.SuspendLayout();
             // 
             // notifyIcon
@@ -1593,17 +1593,6 @@
             this.GuiAdvancedGroup2.TabStop = false;
             this.GuiAdvancedGroup2.Text = "Development version";
             // 
-            // GuiDevelopmentAutoInstall
-            // 
-            this.GuiDevelopmentAutoInstall.Enabled = false;
-            this.GuiDevelopmentAutoInstall.Location = new System.Drawing.Point(28, 38);
-            this.GuiDevelopmentAutoInstall.Name = "GuiDevelopmentAutoInstall";
-            this.GuiDevelopmentAutoInstall.Size = new System.Drawing.Size(126, 34);
-            this.GuiDevelopmentAutoInstall.TabIndex = 511;
-            this.GuiDevelopmentAutoInstall.Text = "Auto-install";
-            this.GuiDevelopmentAutoInstall.UseVisualStyleBackColor = true;
-            this.GuiDevelopmentAutoInstall.Click += new System.EventHandler(this.Button1_Click_1);
-            // 
             // AdvancedLabelDevelopmentVersion
             // 
             this.AdvancedLabelDevelopmentVersion.BackColor = System.Drawing.Color.Transparent;
@@ -1614,6 +1603,29 @@
             this.AdvancedLabelDevelopmentVersion.TabIndex = 514;
             this.AdvancedLabelDevelopmentVersion.Text = "Please wait ...";
             this.AdvancedLabelDevelopmentVersion.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // GuiDevelopmentRefresh
+            // 
+            this.GuiDevelopmentRefresh.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.GuiDevelopmentRefresh.Image = ((System.Drawing.Image)(resources.GetObject("GuiDevelopmentRefresh.Image")));
+            this.GuiDevelopmentRefresh.InitialImage = null;
+            this.GuiDevelopmentRefresh.Location = new System.Drawing.Point(170, 45);
+            this.GuiDevelopmentRefresh.Name = "GuiDevelopmentRefresh";
+            this.GuiDevelopmentRefresh.Size = new System.Drawing.Size(33, 29);
+            this.GuiDevelopmentRefresh.TabIndex = 515;
+            this.GuiDevelopmentRefresh.TabStop = false;
+            this.GuiDevelopmentRefresh.Click += new System.EventHandler(this.GuiDevelopmentRefresh_Click);
+            // 
+            // GuiDevelopmentAutoInstall
+            // 
+            this.GuiDevelopmentAutoInstall.Enabled = false;
+            this.GuiDevelopmentAutoInstall.Location = new System.Drawing.Point(28, 38);
+            this.GuiDevelopmentAutoInstall.Name = "GuiDevelopmentAutoInstall";
+            this.GuiDevelopmentAutoInstall.Size = new System.Drawing.Size(126, 34);
+            this.GuiDevelopmentAutoInstall.TabIndex = 511;
+            this.GuiDevelopmentAutoInstall.Text = "Auto-install";
+            this.GuiDevelopmentAutoInstall.UseVisualStyleBackColor = true;
+            this.GuiDevelopmentAutoInstall.Click += new System.EventHandler(this.Button1_Click_1);
             // 
             // GuiDevelopmentDownload
             // 
@@ -1982,18 +1994,6 @@
             this.PrivacyLabelHeadline.TabIndex = 516;
             this.PrivacyLabelHeadline.Text = "Your data!";
             // 
-            // GuiDevelopmentRefresh
-            // 
-            this.GuiDevelopmentRefresh.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.GuiDevelopmentRefresh.Image = ((System.Drawing.Image)(resources.GetObject("GuiDevelopmentRefresh.Image")));
-            this.GuiDevelopmentRefresh.InitialImage = null;
-            this.GuiDevelopmentRefresh.Location = new System.Drawing.Point(170, 45);
-            this.GuiDevelopmentRefresh.Name = "GuiDevelopmentRefresh";
-            this.GuiDevelopmentRefresh.Size = new System.Drawing.Size(33, 29);
-            this.GuiDevelopmentRefresh.TabIndex = 515;
-            this.GuiDevelopmentRefresh.TabStop = false;
-            this.GuiDevelopmentRefresh.Click += new System.EventHandler(this.GuiDevelopmentRefresh_Click);
-            // 
             // Settings
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(11F, 25F);
@@ -2057,13 +2057,13 @@
             this.GuiStyleGroup1.ResumeLayout(false);
             this.tabPage6.ResumeLayout(false);
             this.GuiAdvancedGroup2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.GuiDevelopmentRefresh)).EndInit();
             this.GuiAdvancedGroup3.ResumeLayout(false);
             this.GuiAdvancedGroup1.ResumeLayout(false);
             this.GuiAdvancedGroup1.PerformLayout();
             this.tabPage7.ResumeLayout(false);
             this.tabPage7.PerformLayout();
             this.tabPage8.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.GuiDevelopmentRefresh)).EndInit();
             this.ResumeLayout(false);
 
         }
