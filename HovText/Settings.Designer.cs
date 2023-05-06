@@ -283,8 +283,6 @@
             this.GuiCloseMinimize.Size = new System.Drawing.Size(328, 29);
             this.GuiCloseMinimize.TabIndex = 112;
             this.GuiCloseMinimize.Text = "Close minimizes application to tray";
-            this.trayIcon.SetToolTip(this.GuiCloseMinimize, "If checked then the application will minimize to tray when the Close button is cl" +
-        "icked.\r\nIf not checked then the application will exit and terminate.");
             this.GuiCloseMinimize.UseVisualStyleBackColor = true;
             this.GuiCloseMinimize.CheckedChanged += new System.EventHandler(this.GuiCloseMinimize_CheckedChanged);
             // 
@@ -296,8 +294,6 @@
             this.GuiPasteOnSelection.Size = new System.Drawing.Size(270, 29);
             this.GuiPasteOnSelection.TabIndex = 117;
             this.GuiPasteOnSelection.Text = "Paste on clipboard selection";
-            this.trayIcon.SetToolTip(this.GuiPasteOnSelection, "If checked then the application will minimize to tray when the Close button is cl" +
-        "icked.\r\nIf not checked then the application will exit and terminate.");
             this.GuiPasteOnSelection.UseVisualStyleBackColor = true;
             this.GuiPasteOnSelection.CheckedChanged += new System.EventHandler(this.GuiPasteOnSelection_CheckedChanged);
             // 

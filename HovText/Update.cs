@@ -58,7 +58,7 @@ namespace HovText
         {
             Logging.Log("Update popup: Clicked the \"Skip this version\""); 
             Hide();
-            Settings.SetRegistryKey(Settings.registryPath, "CheckedVersion", GuiAppVerOnline.Text);
+            Settings.SetRegistryKey(Settings.registryPath, "VersionOnline", GuiAppVerOnline.Text);
         }
 
 

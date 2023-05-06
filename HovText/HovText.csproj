@@ -115,6 +115,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="TooBigLogfile.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="TooBigLogfile.Designer.cs">
+      <DependentUpon>TooBigLogfile.cs</DependentUpon>
+    </Compile>
     <Compile Include="History.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -153,6 +159,9 @@
     <Compile Include="Update.Designer.cs">
       <DependentUpon>Update.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="TooBigLogfile.resx">
+      <DependentUpon>TooBigLogfile.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="History.resx">
       <DependentUpon>History.cs</DependentUpon>
     </EmbeddedResource>
@@ -242,9 +251,8 @@
   <Import Project="..\packages\Costura.Fody.5.7.0\build\Costura.Fody.targets" Condition="Exists('..\packages\Costura.Fody.5.7.0\build\Costura.Fody.targets')" />
   <Import Project="..\packages\Fody.6.7.0\build\Fody.targets" Condition="Exists('..\packages\Fody.6.7.0\build\Fody.targets')" />
   <PropertyGroup>
-    <PreBuildEvent>if exist "$(ProjectDir)bin\$(Configuration)\HovText.exe" (del "$(ProjectDir)bin\$(Configuration)\HovText.exe")
-if exist "$(ProjectDir)bin\$(Configuration)\HovText-troubleshooting.txt" (del "$(ProjectDir)bin\$(Configuration)\HovText-troubleshooting.txt")
-</PreBuildEvent>
+    <PreBuildEvent>
+    </PreBuildEvent>
   </PropertyGroup>
   <Import Project="..\packages\Microsoft.CodeAnalysis.NetAnalyzers.7.0.1\build\Microsoft.CodeAnalysis.NetAnalyzers.targets" Condition="Exists('..\packages\Microsoft.CodeAnalysis.NetAnalyzers.7.0.1\build\Microsoft.CodeAnalysis.NetAnalyzers.targets')" />
 </Project>
