@@ -29,57 +29,57 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(TooBigLogfile));
-            this.GuiDev2StableDisable = new System.Windows.Forms.Button();
-            this.Dev2StableInfo = new System.Windows.Forms.Label();
-            this.GuiDev2StableKeep = new System.Windows.Forms.Button();
+            this.GuiTooBigDisable = new System.Windows.Forms.Button();
+            this.TooBigInfo = new System.Windows.Forms.Label();
+            this.GuiTooBigKeep = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
-            // GuiDev2StableDisable
+            // GuiTooBigDisable
             // 
-            this.GuiDev2StableDisable.Location = new System.Drawing.Point(56, 142);
-            this.GuiDev2StableDisable.Margin = new System.Windows.Forms.Padding(5, 8, 5, 8);
-            this.GuiDev2StableDisable.Name = "GuiDev2StableDisable";
-            this.GuiDev2StableDisable.Size = new System.Drawing.Size(270, 37);
-            this.GuiDev2StableDisable.TabIndex = 1;
-            this.GuiDev2StableDisable.Text = "Disable troubleshoot logging";
-            this.GuiDev2StableDisable.UseVisualStyleBackColor = true;
-            this.GuiDev2StableDisable.Click += new System.EventHandler(this.GuiDev2StableDisable_Click);
+            this.GuiTooBigDisable.Location = new System.Drawing.Point(56, 142);
+            this.GuiTooBigDisable.Margin = new System.Windows.Forms.Padding(5, 8, 5, 8);
+            this.GuiTooBigDisable.Name = "GuiTooBigDisable";
+            this.GuiTooBigDisable.Size = new System.Drawing.Size(270, 37);
+            this.GuiTooBigDisable.TabIndex = 1;
+            this.GuiTooBigDisable.Text = "Disable troubleshoot logging";
+            this.GuiTooBigDisable.UseVisualStyleBackColor = true;
+            this.GuiTooBigDisable.Click += new System.EventHandler(this.GuiTooBigDisable_Click);
             // 
-            // Dev2StableInfo
+            // TooBigInfo
             // 
-            this.Dev2StableInfo.Location = new System.Drawing.Point(41, 32);
-            this.Dev2StableInfo.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
-            this.Dev2StableInfo.Name = "Dev2StableInfo";
-            this.Dev2StableInfo.Size = new System.Drawing.Size(579, 122);
-            this.Dev2StableInfo.TabIndex = 3;
-            this.Dev2StableInfo.Text = resources.GetString("Dev2StableInfo.Text");
+            this.TooBigInfo.Location = new System.Drawing.Point(41, 32);
+            this.TooBigInfo.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
+            this.TooBigInfo.Name = "TooBigInfo";
+            this.TooBigInfo.Size = new System.Drawing.Size(579, 122);
+            this.TooBigInfo.TabIndex = 3;
+            this.TooBigInfo.Text = resources.GetString("TooBigInfo.Text");
             // 
-            // GuiDev2StableKeep
+            // GuiTooBigKeep
             // 
-            this.GuiDev2StableKeep.Location = new System.Drawing.Point(334, 142);
-            this.GuiDev2StableKeep.Margin = new System.Windows.Forms.Padding(5, 8, 5, 8);
-            this.GuiDev2StableKeep.Name = "GuiDev2StableKeep";
-            this.GuiDev2StableKeep.Size = new System.Drawing.Size(270, 37);
-            this.GuiDev2StableKeep.TabIndex = 2;
-            this.GuiDev2StableKeep.Text = "Keep logging but truncate file";
-            this.GuiDev2StableKeep.UseVisualStyleBackColor = true;
-            this.GuiDev2StableKeep.Click += new System.EventHandler(this.GuiDev2StableKeep_Click);
+            this.GuiTooBigKeep.Location = new System.Drawing.Point(334, 142);
+            this.GuiTooBigKeep.Margin = new System.Windows.Forms.Padding(5, 8, 5, 8);
+            this.GuiTooBigKeep.Name = "GuiTooBigKeep";
+            this.GuiTooBigKeep.Size = new System.Drawing.Size(270, 37);
+            this.GuiTooBigKeep.TabIndex = 2;
+            this.GuiTooBigKeep.Text = "Keep logging but truncate file";
+            this.GuiTooBigKeep.UseVisualStyleBackColor = true;
+            this.GuiTooBigKeep.Click += new System.EventHandler(this.GuiTooBigKeep_Click);
             // 
-            // DevToStable
+            // TooBigLogfile
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(661, 201);
             this.ControlBox = false;
-            this.Controls.Add(this.GuiDev2StableKeep);
-            this.Controls.Add(this.GuiDev2StableDisable);
-            this.Controls.Add(this.Dev2StableInfo);
+            this.Controls.Add(this.GuiTooBigKeep);
+            this.Controls.Add(this.GuiTooBigDisable);
+            this.Controls.Add(this.TooBigInfo);
             this.Font = new System.Drawing.Font("Segoe UI", 10.8F);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
-            this.Name = "DevToStable";
+            this.Name = "TooBigLogfile";
             this.Text = "HovText troubleshoot logfile is getting too big";
             this.TopMost = true;
             this.ResumeLayout(false);
@@ -88,8 +88,8 @@
 
         #endregion
 
-        private System.Windows.Forms.Button GuiDev2StableDisable;
-        private System.Windows.Forms.Label Dev2StableInfo;
-        private System.Windows.Forms.Button GuiDev2StableKeep;
+        private System.Windows.Forms.Button GuiTooBigDisable;
+        private System.Windows.Forms.Label TooBigInfo;
+        private System.Windows.Forms.Button GuiTooBigKeep;
     }
 }

@@ -162,8 +162,7 @@ namespace HovText
         public static bool showFavoriteList = false;
         readonly History history = new History();
         readonly Update update = new Update();
-        //readonly DevToStable devToStable = new DevToStable();
-        readonly TooBigLogfile devToStable;
+        readonly TooBigLogfile tooBigLogfile;
         readonly PasteOnHotkey pasteOnHotkey = new PasteOnHotkey();
         readonly HotkeyConflict hotkeyConflict = new HotkeyConflict();
         private static string originatingApplicationName = "";
@@ -174,7 +173,7 @@ namespace HovText
 
 
         // ###########################################################################################
-        // Main
+        // Main - Settings
         // ###########################################################################################
 
         public Settings()
@@ -229,8 +228,10 @@ namespace HovText
 
             // Setup form and all elements
             InitializeComponent();
-            this.Load += Settings_Load; // hest
-            devToStable = new TooBigLogfile(this); // hest
+
+            // Instantiate the "TooBigLogfile" form
+            this.Load += Settings_Load;
+            tooBigLogfile = new TooBigLogfile(this);
 
             // As the UI elements now have been initialized then we can setup the version
             AboutLabelVersion.Text = "Version " + appVer;
@@ -301,8 +302,6 @@ namespace HovText
 
             // Set the initial text on the tray icon
             UpdateNotifyIconText();
-
-//            CheckIfUpdatedFromDevelopmentToStable();
         }
 
 
@@ -320,8 +319,6 @@ namespace HovText
                     // Get the application name which updated the clipboard
                     IntPtr whoUpdatedClipboardHwnd = NativeMethods.GetClipboardOwner();
                     uint threadId = NativeMethods.GetWindowThreadProcessId(whoUpdatedClipboardHwnd, out uint thisProcessId);
-                    //                    if (threadId != 0)
-                    //                    {
                     whoUpdatedClipboardName = Process.GetProcessById((int)thisProcessId).ProcessName;
 
                     // Get the name for this HovText executable (it may not be "HovText.exe")
@@ -348,13 +345,7 @@ namespace HovText
                             ProcessClipboard();
                         }
                     }
-                    //                    } else
-                    //                    {
-                    //                        Logging.Log("Exception #13 raised (Settings):");
-                    //                        Logging.Log("  [GetWindowThreadProcessId] is 0");
-                    //                    }
                     break;
-
                 default:
                     base.WndProc(ref m);
                     break;
@@ -1155,17 +1146,8 @@ namespace HovText
 
             // Get the process ID and find the name for that ID
             uint threadId = NativeMethods.GetWindowThreadProcessId(originatingHandle, out uint processId);
-            //            if (threadId != 0)
-            //            {
             string appProcessName = Process.GetProcessById((int)processId).ProcessName;
             return appProcessName;
-            //            }
-            //            else
-            //            {
-            //                Logging.Log("Exception #14 raised (Settings):");
-            //                Logging.Log("  [GetWindowThreadProcessId] is 0");
-            //                return "(unknown)";
-            //            }
         }
 
 
@@ -1535,9 +1517,6 @@ namespace HovText
             RegistryKeyCheckOrCreate(registryPath, "NotificationShown", "0");
             regVal = GetRegistryKey(registryPath, "NotificationShown");
             Logging.Log("    \"NotificationShown\" = [" + regVal + "]");
-            RegistryKeyCheckOrCreate(registryPath, "VersionLastUsed", appVer);
-            regVal = GetRegistryKey(registryPath, "VersionLastUsed");
-            Logging.Log("    \"VersionLastUsed\" = [" + regVal + "]");
             RegistryKeyCheckOrCreate(registryPath, "VersionOnline", appVer);
             regVal = GetRegistryKey(registryPath, "VersionOnline");
             Logging.Log("    \"VersionOnline\" = [" + regVal + "]");
@@ -1970,16 +1949,6 @@ namespace HovText
 
         private void GuiChangeFont_Click(object sender, EventArgs e)
         {
-            /*
-                        FontDialog fontDlg = new FontDialog();
-                        fontDlg.Font = GuiShowFontActive.Font; // initialize the font dialouge with the font from "uiShowFont"
-                        fontDlg.AllowVerticalFonts = false;
-                        fontDlg.FontMustExist = true;
-                        fontDlg.ShowColor = false;
-                        fontDlg.ShowApply = false;
-                        fontDlg.ShowEffects = false;
-                        fontDlg.ShowHelp = false;
-            */
             FontDialog fontDlg = new FontDialog
             {
                 Font = GuiShowFontActive.Font, // initialize the font dialogue with the font from "uiShowFont"
@@ -4304,8 +4273,8 @@ del ""%~f0""
                 // React if the file is larger than 1MB
                 if (fileSize > 10 * 1_024_000)
                 {
-                    devToStable.Show();
-                    devToStable.Activate();
+                    tooBigLogfile.Show();
+                    tooBigLogfile.Activate();
                     Logging.Log("User has updated fom a [DEVELOPMENT] to a [STABLE] version - notified on troubleshoot logging is still enabled");
                 }
             }

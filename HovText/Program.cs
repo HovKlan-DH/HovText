@@ -5,6 +5,7 @@ using System.Runtime.InteropServices;
 using System.Threading;
 using System.Windows.Forms;
 using Microsoft.Win32;
+using System.Threading.Tasks;
 
 namespace HovText
 {
@@ -20,9 +21,14 @@ namespace HovText
 
         static int Main(string[] args)
         {
+
+            // Set the global exception handlers
+            AppDomain.CurrentDomain.UnhandledException += UnhandledExceptionHandler;
+            Application.ThreadException += ThreadExceptionHandler;
+            TaskScheduler.UnobservedTaskException += TaskExceptionHandler;
+
             // Set troubleshooting boolean
             string regVal = Settings.GetRegistryKey(Settings.registryPath, "TroubleshootEnable");
-            //Settings.isTroubleshootEnabled = regVal == "1" ? true : false;
             Settings.isTroubleshootEnabled = regVal == "1";
 
             // Allow some UI
@@ -132,6 +138,11 @@ namespace HovText
 
             return 0;
         }
+
+
+
+        
+
 
 
         // ###########################################################################################
@@ -245,6 +256,35 @@ namespace HovText
         }
 
 
-    // ###########################################################################################
+        // ###########################################################################################
+        // Global exception handling - not sure if this works as expected????
+        // ###########################################################################################
+
+        private static void UnhandledExceptionHandler(object sender, UnhandledExceptionEventArgs e)
+        {
+            Exception ex = (Exception)e.ExceptionObject;
+            LogException(ex);
+        }
+
+        private static void ThreadExceptionHandler(object sender, ThreadExceptionEventArgs e)
+        {
+            LogException(e.Exception);
+        }
+
+        private static void TaskExceptionHandler(object sender, UnobservedTaskExceptionEventArgs e)
+        {
+            LogException(e.Exception);
+        }
+
+        private static void LogException(Exception ex)
+        {
+            // Log the exception to a file or any logging system
+            Logging.Log("Global exception handler: " + ex.Message + "\n" + ex.StackTrace);
+            Logging.Log("  [" + ex.Message + "]");
+            Logging.Log("  [" + ex.StackTrace + "]");
+        }
+
+
+        // ###########################################################################################
     }
 }

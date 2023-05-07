@@ -7,15 +7,16 @@ namespace HovText
     {
 
         // ###########################################################################################
-        // Main
+        // Main - Update
         // ###########################################################################################
+
         public Update()
         {
             InitializeComponent();
 
             // Close form on ESCAPE
             this.KeyPreview = true;
-            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.MyForm_KeyDown);
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.TooBigLogfile_KeyDown);
         }
 
 
@@ -66,7 +67,7 @@ namespace HovText
         // Close form on ESCAPE
         // ###########################################################################################
 
-        private void MyForm_KeyDown(object sender, KeyEventArgs e)
+        private void TooBigLogfile_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Escape)
             {

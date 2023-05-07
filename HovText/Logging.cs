@@ -12,7 +12,7 @@ namespace HovText
     class Logging
     {
         // ###########################################################################################
-        // Put start-up information to the logfile
+        // Main - Logging
         // ###########################################################################################
 
         public static void StartLogging()
