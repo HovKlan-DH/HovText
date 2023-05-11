@@ -4254,7 +4254,7 @@ del ""%~f0"" >> """ + pathAndTempLog + @"""
 
         private void GuiDevelopmentRefresh_Click(object sender, EventArgs e)
         {
-            Logging.Log("Clicked \"Refresh\" in \"Advanced\"");
+            Logging.Log("Clicked \"Refresh development version\" in \"Advanced\"");
             FetchInfoForDevelopment();
         }
 
