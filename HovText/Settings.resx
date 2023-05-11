@@ -582,7 +582,7 @@
   <data name="GuiDevelopmentRefresh.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABQAAAAVCAYAAABG1c6oAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAL
-        EAAACxABrSO9dQAAA1ZJREFUOE+lVd1Lk1Ecfvfhqn3pdKOtodKFzG1eKHohXkSEhjYxceRcOChoKYLf
+        DgAACw4BQL7hQQAAA1ZJREFUOE+lVd1Lk1Ecfvfhqn3pdKOtodKFzG1eKHohXkSEhjYxceRcOChoKYLf
         uPk1hXnZXfdhBtEfEBJiUF1UV1lm0BfYhXUXYlFm5rae5/Ce8Ta9a/B4znnPeZ7zO78vlVwul8fMzIwx
         lUrpOB8ZGXE2NzdfLysre64oyh7hdDqftbS0XBsdHS3jGZzVz87OGlWuiWNebG5uTghNTU0db2tru1Je
         Xr5qNBq3IbQP/FGxz2+VlZUroVAoNj09LUQgpucYj8d9Qkxjldfn890FEVcJUIzIqpBrse/3+5eGh4e9
@@ -628,6 +628,9 @@
   </metadata>
   <metadata name="colorDialogActiveText.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>1164, 48</value>
+  </metadata>
+  <metadata name="terminateTimer.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>310, 60</value>
   </metadata>
   <metadata name="$this.TrayHeight" type="System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>118</value>

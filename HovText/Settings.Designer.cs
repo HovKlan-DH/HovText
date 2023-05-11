@@ -191,6 +191,7 @@
             this.colorDialogActive = new System.Windows.Forms.ColorDialog();
             this.colorDialogHeaderText = new System.Windows.Forms.ColorDialog();
             this.colorDialogActiveText = new System.Windows.Forms.ColorDialog();
+            this.terminateTimer = new System.Windows.Forms.Timer(this.components);
             this.notifyIconMenuStrip.SuspendLayout();
             this.tabPage4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.GuiPictureBox1)).BeginInit();
@@ -1990,6 +1991,11 @@
             this.PrivacyLabelHeadline.TabIndex = 516;
             this.PrivacyLabelHeadline.Text = "Your data!";
             // 
+            // terminateTimer
+            // 
+            this.terminateTimer.Interval = 5000;
+            this.terminateTimer.Tick += new System.EventHandler(this.terminateTimer_Tick);
+            // 
             // Settings
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(11F, 25F);
@@ -2226,6 +2232,7 @@
         private System.Windows.Forms.PictureBox GuiPictureBox1;
         private System.Windows.Forms.Button GuiDevelopmentAutoInstall;
         private System.Windows.Forms.PictureBox GuiDevelopmentRefresh;
+        private System.Windows.Forms.Timer terminateTimer;
     }
 
 }

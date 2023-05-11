@@ -13,7 +13,6 @@ namespace HovText
     {
         private static Settings Settings;
         public static string arg0 = "";
-
         private static Mutex _mutex;
         private static NamedPipeServerStream _pipeServer;
 
@@ -140,11 +139,6 @@ namespace HovText
         }
 
 
-
-        
-
-
-
         // ###########################################################################################
         // Check if .NET 4.8 is available
         // ###########################################################################################
@@ -257,7 +251,7 @@ namespace HovText
 
 
         // ###########################################################################################
-        // Global exception handling - not sure if this works as expected????
+        // Global exception handling - already caught one potential(?) error, so will keep this for now
         // ###########################################################################################
 
         private static void UnhandledExceptionHandler(object sender, UnhandledExceptionEventArgs e)
@@ -279,9 +273,11 @@ namespace HovText
         private static void LogException(Exception ex)
         {
             // Log the exception to a file or any logging system
-            Logging.Log("Global exception handler: " + ex.Message + "\n" + ex.StackTrace);
-            Logging.Log("  [" + ex.Message + "]");
-            Logging.Log("  [" + ex.StackTrace + "]");
+            Logging.Log("GLOBAL EXCEPTION HANDLER:");
+            Logging.Log("  Message:");
+            Logging.Log("    [" + ex.Message + "]");
+            Logging.Log("  StackTrace:");
+            Logging.Log("    [" + ex.StackTrace + "]");
         }
 
 

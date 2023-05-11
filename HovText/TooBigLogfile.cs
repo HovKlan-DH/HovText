@@ -52,9 +52,9 @@ namespace HovText
 
         private void GuiTooBigKeep_Click(object sender, EventArgs e)
         {
-            if (File.Exists(Settings.troubleshootLogfile))
+            if (File.Exists(Settings.pathAndLog))
             {
-                File.Delete(@Settings.troubleshootLogfile);
+                File.Delete(@Settings.pathAndLog);
             }
             Logging.Log("Keep troubleshoot logging but truncate file");
             Close();

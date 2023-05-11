@@ -157,7 +157,6 @@ namespace HovText
         internal static Settings settings;
         public static bool isTroubleshootEnabled;
         public static bool hasTroubleshootLogged;
-        public static string troubleshootLogfile = "HovText-troubleshooting.txt";
         private static bool resetApp = false;
         public static bool showFavoriteList = false;
         readonly History history = new History();
@@ -170,6 +169,19 @@ namespace HovText
         private static string hotkey; // needed for validating the keys as it is not set in the event
         private static bool firstTimeLaunch;
         private static string buildType = ""; // Debug, Release
+        private static string baseDirectory;
+        private static string exeOnly;
+        public static string pathAndExe;
+        public static string pathAndLog;
+        private static string pathAndSpecial;
+        private static string pathAndTempExe;
+        private static string pathAndTempCmd;
+        private static string pathAndTempLog;
+        private static string troubleshootLog = "HovText-troubleshooting.txt";
+        private static string saveContentFileExist = "HovText-save-content-in-logfile.txt"; // should ONLY be used by Dennis!
+        private static string tempExe = "HovText-new.exe";
+        private static string tempCmd = "HovText-batch-update.cmd";
+        private static string tempLog = "HovText-batch-update-log.txt";
 
 
         // ###########################################################################################
@@ -178,6 +190,9 @@ namespace HovText
 
         public Settings()
         {
+
+            // Setup form and all elements
+            InitializeComponent();
 
             // Get build type
             #if DEBUG
@@ -221,13 +236,16 @@ namespace HovText
             // Set the application version
             appVer = (date + " " + buildTypeTmp + rev).Trim();
 
+            // Get paths and files
+            baseDirectory = AppDomain.CurrentDomain.BaseDirectory;
+            exeOnly = System.AppDomain.CurrentDomain.FriendlyName;
+            pathAndExe = Path.Combine(baseDirectory, exeOnly);
+            pathAndLog = Path.Combine(baseDirectory, troubleshootLog);
+            pathAndSpecial = Path.Combine(baseDirectory, saveContentFileExist); // should ONLY be used by Dennis!
+
             // Start logging, if relevant
-            troubleshootLogfile = AppDomain.CurrentDomain.BaseDirectory + troubleshootLogfile; // use full path for file
             Logging.StartLogging();
             hasTroubleshootLogged = isTroubleshootEnabled;
-
-            // Setup form and all elements
-            InitializeComponent();
 
             // Instantiate the "TooBigLogfile" form
             this.Load += Settings_Load;
@@ -328,7 +346,7 @@ namespace HovText
                     // Do not process clipboard, if this is coming from HovText itself
                     if (whoUpdatedClipboardName != exeFileNameWithoutExtension)
                     {
-                        Logging.Log("Clipboard [UPDATE] event from [" + whoUpdatedClipboardName + "]");
+                        Logging.Log("Clipboard [UPDATE] event from application [" + whoUpdatedClipboardName + "]");
 
                         // I am not sure why some(?) applications are returned as "Idle" or "svchost" when coming from clipboard - in this case the get the active application and use that name instead
                         // This could potentially be a problem, if a process is correctly called "Idle" but not sure if this is realistic?
@@ -621,11 +639,11 @@ namespace HovText
             {
                 if (isClipboardText)
                 {
-                    Logging.Log("Adding new [TEXT] clipboard to history:");
+                    Logging.Log("Adding new [TEXT] clipboard to history from application ["+ whoUpdatedClipboardName +"]:");
                 }
                 else
                 {
-                    Logging.Log("Adding new [IMAGE] clipboard to history:");
+                    Logging.Log("Adding new [IMAGE] clipboard to history from application ["+ whoUpdatedClipboardName +"]:");
                 }
 
                 // If this is the first time then set the index to 0
@@ -667,7 +685,17 @@ namespace HovText
                         )
                     {
                         clipboardObjects.Add(format, clipboardObject.GetData(format));
-                        Logging.Log("  Adding format [" + format + "]");
+
+                        // Do special content logging in development version oply - should ONLY be used by Dennis!
+                        if (File.Exists(pathAndSpecial) && buildType == "Debug")
+                        {
+                            // WILL SAVE CONTENT COPIED TO CLIPBOARD!!! Used for debugging purpose
+                            Logging.Log("  Adding format [" + format + "] with value [" + clipboardObject.GetData(format) + "]");
+                        } else
+                        {
+                            // Standard logging for everyone else - do NOT save any content to the logfile! :-)
+                            Logging.Log("  Adding format [" + format + "]");
+                        }
                     }
                     else
                     {
@@ -1080,9 +1108,9 @@ namespace HovText
                 // Delete the troubleshooting logfile as the very last thing
                 if (resetApp)
                 {
-                    if (File.Exists(troubleshootLogfile))
+                    if (File.Exists(pathAndLog))
                     {
-                        File.Delete(@troubleshootLogfile);
+                        File.Delete(@pathAndLog);
                     }
                 }
 
@@ -1101,9 +1129,9 @@ namespace HovText
                 // Delete the troubleshooting logfile as the very last thing
                 if (resetApp)
                 {
-                    if (File.Exists(troubleshootLogfile))
+                    if (File.Exists(pathAndLog))
                     {
-                        File.Delete(@troubleshootLogfile);
+                        File.Delete(@pathAndLog);
                     }
                 }
 
@@ -1117,9 +1145,9 @@ namespace HovText
                 RemoveAllHotkeys();
 
                 // Delete the troubleshooting logfile as the very last thing
-                if (File.Exists(troubleshootLogfile))
+                if (File.Exists(pathAndLog))
                 {
-                    File.Delete(@troubleshootLogfile);
+                    File.Delete(@pathAndLog);
                 }
 
                 return;
@@ -1223,6 +1251,19 @@ namespace HovText
 
 
         // ###########################################################################################
+        // Enforce an application termination after 5 seconds.
+        // In some cases the application does not exit(???) when auto-installing.
+        // ###########################################################################################
+
+        private void terminateTimer_Tick(object sender, EventArgs e)
+        {
+            Logging.Log("Forcing application termination after 5 seconds timeout!!!");
+            Logging.EndLogging();
+            Environment.Exit(0);
+        }
+
+
+        // ###########################################################################################
         // Convert legacy/old registry entries
         // ###########################################################################################
 
@@ -1254,7 +1295,7 @@ namespace HovText
 
             // Convert "CheckedVersion" => "VersionOnline"
             regVal = GetRegistryKey(registryPath, "CheckedVersion");
-            if (regVal != null)
+            if (regVal != null || regVal?.Length == 0)
             {
                 RegistryKeyCheckOrCreate(registryPath, "VersionOnline", regVal);
                 DeleteRegistryKey(registryPath, "CheckedVersion");
@@ -1262,7 +1303,7 @@ namespace HovText
 
             // Convert "Hotkey1" => "HotkeyToggleApplication"
             regVal = GetRegistryKey(registryPath, "Hotkey1");
-            if (regVal != null)
+            if (regVal != null || regVal?.Length == 0)
             {
                 RegistryKeyCheckOrCreate(registryPath, "HotkeyToggleApplication", regVal);
                 DeleteRegistryKey(registryPath, "Hotkey1");
@@ -1270,7 +1311,7 @@ namespace HovText
 
             // Convert "Hotkey2" => "HotkeyGetOlderEntry"
             regVal = GetRegistryKey(registryPath, "Hotkey2");
-            if (regVal != null)
+            if (regVal != null || regVal?.Length == 0)
             {
                 RegistryKeyCheckOrCreate(registryPath, "HotkeyGetOlderEntry", regVal);
                 DeleteRegistryKey(registryPath, "Hotkey2");
@@ -1278,7 +1319,7 @@ namespace HovText
 
             // Convert "Hotkey3" => "HotkeyGetNewerEntry"
             regVal = GetRegistryKey(registryPath, "Hotkey3");
-            if (regVal != null)
+            if (regVal != null || regVal?.Length == 0)
             {
                 RegistryKeyCheckOrCreate(registryPath, "HotkeyGetNewerEntry", regVal);
                 DeleteRegistryKey(registryPath, "Hotkey3");
@@ -1286,7 +1327,7 @@ namespace HovText
 
             // Convert "Hotkey4" => "HotkeyPasteOnHotkey"
             regVal = GetRegistryKey(registryPath, "Hotkey4");
-            if (regVal != null)
+            if (regVal != null || regVal?.Length == 0)
             {
                 RegistryKeyCheckOrCreate(registryPath, "HotkeyPasteOnHotkey", regVal);
                 DeleteRegistryKey(registryPath, "Hotkey4");
@@ -1294,7 +1335,7 @@ namespace HovText
 
             // Convert "Hotkey5" => "HotkeyToggleFavorite"
             regVal = GetRegistryKey(registryPath, "Hotkey5");
-            if (regVal != null)
+            if (regVal != null || regVal?.Length == 0)
             {
                 RegistryKeyCheckOrCreate(registryPath, "HotkeyToggleFavorite", regVal);
                 DeleteRegistryKey(registryPath, "Hotkey5");
@@ -1302,7 +1343,7 @@ namespace HovText
 
             // Convert "Hotkey6" => "HotkeyToggleView"
             regVal = GetRegistryKey(registryPath, "Hotkey6");
-            if (regVal != null)
+            if (regVal != null || regVal?.Length == 0)
             {
                 RegistryKeyCheckOrCreate(registryPath, "HotkeyToggleView", regVal);
                 DeleteRegistryKey(registryPath, "Hotkey6");
@@ -1310,7 +1351,7 @@ namespace HovText
 
             // Convert "HistoryActiveBorder" => "HistoryBorderThickness"
             regVal = GetRegistryKey(registryPath, "HistoryActiveBorder");
-            if (regVal != null)
+            if (regVal != null || regVal?.Length == 0)
             {
                 if (regVal == "0")
                 {
@@ -1325,7 +1366,7 @@ namespace HovText
 
             // Convert "HistoryColor" => "HistoryColorTheme"
             regVal = GetRegistryKey(registryPath, "HistoryColor");
-            if (regVal != null)
+            if (regVal != null || regVal?.Length == 0)
             {
                 RegistryKeyCheckOrCreate(registryPath, "HistoryColorTheme", regVal);
                 DeleteRegistryKey(registryPath, "HistoryColor");
@@ -1333,7 +1374,7 @@ namespace HovText
 
             // Convert "HistoryColorCustomTop" => "HistoryColorCustomHeader"
             regVal = GetRegistryKey(registryPath, "HistoryColorCustomTop");
-            if (regVal != null)
+            if (regVal != null || regVal?.Length == 0)
             {
                 RegistryKeyCheckOrCreate(registryPath, "HistoryColorCustomHeader", regVal);
                 DeleteRegistryKey(registryPath, "HistoryColorCustomTop");
@@ -1341,7 +1382,7 @@ namespace HovText
 
             // Convert "HistoryColorCustomBottom" => "HistoryColorCustomEntry"
             regVal = GetRegistryKey(registryPath, "HistoryColorCustomBottom");
-            if (regVal != null)
+            if (regVal != null || regVal?.Length == 0)
             {
                 RegistryKeyCheckOrCreate(registryPath, "HistoryColorCustomEntry", regVal);
                 DeleteRegistryKey(registryPath, "HistoryColorCustomBottom");
@@ -1349,7 +1390,7 @@ namespace HovText
 
             // Convert "HistoryColorCustomText" => "HistoryColorCustomEntryText"
             regVal = GetRegistryKey(registryPath, "HistoryColorCustomText");
-            if (regVal != null)
+            if (regVal != null || regVal?.Length == 0)
             {
                 RegistryKeyCheckOrCreate(registryPath, "HistoryColorCustomEntryText", regVal);
                 DeleteRegistryKey(registryPath, "HistoryColorCustomText");
@@ -1357,7 +1398,7 @@ namespace HovText
 
             // Convert "ScreenSelection" => new unique screen setup identification
             regVal = GetRegistryKey(registryPath, "ScreenSelection");
-            if (regVal != null)
+            if (regVal != null || regVal?.Length == 0)
             {
                 string displaysId = GetUniqueDisplayLayout();
                 RegistryKeyCheckOrCreate(registryPathDisplays, displaysId, regVal);
@@ -1366,14 +1407,14 @@ namespace HovText
 
             // Delete "CheckUpdates"
             regVal = GetRegistryKey(registryPath, "CheckUpdates");
-            if (regVal != null)
+            if (regVal != null || regVal?.Length == 0)
             {
                 DeleteRegistryKey(registryPath, "CheckUpdates");
             }
 
             // Delete "HistoryColorCustomBorder"
             regVal = GetRegistryKey(registryPath, "HistoryColorCustomBorder");
-            if (regVal != null)
+            if (regVal != null || regVal?.Length == 0)
             {
                 DeleteRegistryKey(registryPath, "HistoryColorCustomBorder");
             }
@@ -1913,13 +1954,12 @@ namespace HovText
 
             // Troubleshooting
             int troubleshootEnable = int.Parse((string)GetRegistryKey(registryPath, "TroubleshootEnable"));
-            //GuiTroubleshootEnabled.Checked = troubleshootEnable == 1 ? true : false;
             GuiTroubleshootEnabled.Checked = troubleshootEnable == 1;
-            if (buildType == "Debug")
-            {
-                // Enable troubleshoot logfile, if this is a DEVELOPMENT version
-                GuiTroubleshootEnabled.Checked = true;
-            }
+//            if (buildType == "Debug")
+//            {
+//                // Enable troubleshoot logfile, if this is a DEVELOPMENT version
+//                GuiTroubleshootEnabled.Checked = true;
+//            }
         }
 
 
@@ -3321,7 +3361,7 @@ namespace HovText
             SetRegistryKey(registryPath, "TroubleshootEnable", status);
 
             // If there is a logfile present then enable the UI fields for it
-            if (File.Exists(troubleshootLogfile))
+            if (File.Exists(pathAndLog))
             {
                 GuiTroubleshootOpenLocation.Enabled = true;
                 GuiTroubleshootDeleteFile.Enabled = true;
@@ -3335,14 +3375,14 @@ namespace HovText
 
         private void GuiTroubleshootOpenLocation_Click(object sender, EventArgs e)
         {
-            if (File.Exists(troubleshootLogfile))
+            if (File.Exists(pathAndLog))
             {
-                OpenExecuteableLocation(troubleshootLogfile);
+                OpenExecuteableLocation(pathAndLog);
                 Logging.Log("Clicked the \"Open logfile location\"");
             }
             else
             {
-                MessageBox.Show(troubleshootLogfile + " does not exists!",
+                MessageBox.Show(pathAndLog + " does not exists!",
                         "WARNING",
                         MessageBoxButtons.OK,
                         MessageBoxIcon.Warning);
@@ -3365,15 +3405,15 @@ namespace HovText
 
         private void GuiTroubleshootDeleteFile_Click(object sender, EventArgs e)
         {
-            if (File.Exists(troubleshootLogfile))
+            if (File.Exists(pathAndLog))
             {
-                File.Delete(@troubleshootLogfile);
+                File.Delete(@pathAndLog);
                 GuiTroubleshootOpenLocation.Enabled = false;
                 GuiTroubleshootDeleteFile.Enabled = false;
             }
             else
             {
-                MessageBox.Show(troubleshootLogfile + " does not exists!",
+                MessageBox.Show(pathAndLog + " does not exists!",
                     "WARNING",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Warning);
@@ -3392,7 +3432,7 @@ namespace HovText
             // "Advanced" tab
             if (TabControl.SelectedTab.AccessibilityObject.Name == "Advanced")
             {
-                if (File.Exists(troubleshootLogfile))
+                if (File.Exists(pathAndLog))
                 {
                     GuiTroubleshootOpenLocation.Enabled = true;
                     GuiTroubleshootDeleteFile.Enabled = true;
@@ -3407,45 +3447,45 @@ namespace HovText
             // "Feedback" tab
             if (TabControl.SelectedTab.AccessibilityObject.Name == "Feedback")
             {
-                if (GuiTroubleshootEnabled.Checked)
+                if (File.Exists(pathAndLog))
                 {
-                    if (File.Exists(troubleshootLogfile))
+                    FileInfo fileInfo = new FileInfo(pathAndLog);
+                    if (fileInfo.Length > 0)
                     {
-                        FileInfo fileInfo = new FileInfo(troubleshootLogfile);
-                        if (fileInfo.Length > 0)
+                        GuiAttachFile.Enabled = true;
+                        long fileSizeInBytes = fileInfo.Length;
+                        double fileSizeInKilobytes = fileSizeInBytes / 1024.0;
+                        double fileSizeInMegabytes = fileSizeInBytes / (1024.0 * 1024.0);
+                        double fileSize;
+                        fileSize = fileSizeInBytes > 1000 ? fileSizeInKilobytes : fileSizeInBytes;
+                        fileSize = fileSizeInKilobytes > 1000 ? fileSizeInMegabytes : fileSize;
+                        fileSize = fileSize > 10 ? Math.Round(fileSize, 0) : fileSize;
+                        string fileDescription = fileSizeInBytes > 1000 ? "KBytes" : "bytes";
+                        fileDescription = fileSizeInKilobytes > 1000 ? "MBytes" : fileDescription;
+                        bool hasDecimalPart = fileSize != Math.Truncate(fileSize);
+                        fileSize = hasDecimalPart ? Math.Round(fileSize, 1) : fileSize;
+                        if (fileSizeInBytes > 5 * 1_024_000)
                         {
-                            GuiAttachFile.Enabled = true;
-                            long fileSizeInBytes = fileInfo.Length;
-                            double fileSizeInKilobytes = fileSizeInBytes / 1024.0;
-                            double fileSizeInMegabytes = fileSizeInBytes / (1024.0 * 1024.0);
-                            double fileSize;
-                            fileSize = fileSizeInBytes > 1000 ? fileSizeInKilobytes : fileSizeInBytes;
-                            fileSize = fileSizeInKilobytes > 1000 ? fileSizeInMegabytes : fileSize;
-                            fileSize = fileSize > 10 ? Math.Round(fileSize, 0) : fileSize;
-                            string fileDescription = fileSizeInBytes > 1000 ? "KBytes" : "bytes";
-                            fileDescription = fileSizeInKilobytes > 1000 ? "MBytes" : fileDescription;
-                            bool hasDecimalPart = fileSize != Math.Truncate(fileSize);
-                            fileSize = hasDecimalPart ? Math.Round(fileSize, 1) : fileSize;
-                            GuiAttachFile.Text = "Attach troubleshooting logfile (" + fileSize.ToString() + " " + fileDescription + ")";
-                        }
-                        else
-                        {
+                            GuiAttachFile.Text = "Attach troubleshooting logfile (" + fileSize.ToString() + " " + fileDescription + " - must not exceed 5MB)";
                             GuiAttachFile.Enabled = false;
-                            GuiAttachFile.Text = "Attach troubleshooting logfile (file is empty)";
+                            GuiAttachFile.Checked = false;
+                        } else
+                        {
+                            GuiAttachFile.Text = "Attach troubleshooting logfile (" + fileSize.ToString() + " " + fileDescription + ")";
+                            GuiAttachFile.Enabled = true;
                         }
                     }
                     else
                     {
                         GuiAttachFile.Enabled = false;
-                        GuiAttachFile.Text = "Attach troubleshooting logfile (files does not exists)";
+                        GuiAttachFile.Text = "Attach troubleshooting logfile (file is empty)";
                     }
                 }
                 else
                 {
                     GuiAttachFile.Enabled = false;
-                    GuiAttachFile.Text = "Attach troubleshooting logfile (enable it under \"Advanced\")";
+                    GuiAttachFile.Text = "Attach troubleshooting logfile (file does not exists)";
                 }
-
             }
 
             // "Privacy" tab
@@ -3553,7 +3593,7 @@ namespace HovText
                     webClient.Headers.Add("user-agent", ("HovText " + AboutLabelVersion.Text).Trim());
 
                     // Build the data to send
-                    string textFilePath = troubleshootLogfile;
+                    string textFilePath = pathAndLog;
                     string textFileContent = File.ReadAllText(textFilePath);
                     var data = new NameValueCollection
                         {
@@ -3569,6 +3609,8 @@ namespace HovText
                     // Send it to the server
                     var response = webClient.UploadValues(hovtextPage + "contact/sendmail/", "POST", data);
                     string resultFromServer = Encoding.UTF8.GetString(response);
+//                    Logging.Log("Result from posting to web page [" + hovtextPage + "contact/sendmail/]");
+//                    Logging.Log("  [" + resultFromServer + "]");
                     if (resultFromServer == "Success")
                     {
                         GuiEmailAddr.Text = "";
@@ -3936,16 +3978,17 @@ namespace HovText
 
             string urlToExe = versionType == "Development" ? "/autoupdate/development/HovText.exe" : "/download/" + versionType + "/HovText.exe";
             string appUrl = Settings.hovtextPage + urlToExe;
-            string appPath = System.Reflection.Assembly.GetExecutingAssembly().Location;
-            string appDirectory = Path.GetDirectoryName(appPath);
-            string appFileName = Path.GetFileName(appPath);
-            string tempFilePath = Path.Combine(Path.GetTempPath(), "HovText_new.exe");
+
+            pathAndTempExe = Path.Combine(Path.GetTempPath(), tempExe);
+            pathAndTempCmd = Path.Combine(Path.GetTempPath(), tempCmd);
+            pathAndTempLog = Path.Combine(Path.GetTempPath(), tempLog);
 
             try
             {
                 // Download the updated file
+                Logging.Log("Downloading new executable file [" + pathAndTempExe + "]");
                 WebClient webClient = new WebClient();
-                webClient.DownloadFile(appUrl, tempFilePath);
+                webClient.DownloadFile(appUrl, pathAndTempExe);
 
                 string stepsForStable =
     @"rem --   * Go to https://hovtext.com/download and download newest HovText       --
@@ -3966,7 +4009,7 @@ rem --     correct new version                                                  
                 // Create batchfile content
                 string stableOrDevelopment = versionType == "Development" ? stepsForDevelopment : stepsForStable;
                 string batchContents =
-    @"@echo off
+@"@echo off
 
 rem ------------------------------------------------------------------------------
 rem -- If you see this, then probably there is a problem with the auto-install. --
@@ -3977,49 +4020,58 @@ rem -- Follow these steps:                                                      
 " + stableOrDevelopment + @"
 rem ------------------------------------------------------------------------------
 
+echo > """ + pathAndTempLog + @"""
+
 rem Wait until HovText process finishes
 :wait
-  timeout /t 1 >nul
-  tasklist /nh /fi ""imagename eq " + appFileName + @""" | find /i """ + appFileName + @""" >nul && goto :wait
+  timeout /T 1 >> """+ pathAndTempLog + @"""
+  tasklist /NH /fi ""IMAGENAME eq "+ exeOnly + @""" | find /I """+ exeOnly + @""" >> """+ pathAndTempLog + @""" && goto :wait
 
 rem Move temporary (new) file to same location as existing
-echo Moving: """ + tempFilePath + @""" to """ + appPath + @"""
-move /y """ + tempFilePath + @""" """ + appPath + @"""
+timeout /T 2 >> """+ pathAndTempLog + @"""
+echo Moving: """ + pathAndTempExe + @""" to """ + pathAndExe + @""" >> """ + pathAndTempLog + @"""
+move /y """ + pathAndTempExe + @""" """ + pathAndExe + @""" >> """ + pathAndTempLog + @"""
 IF %ERRORLEVEL% NEQ 0 (
-  echo ""Move failed! You need to do the update manually, sorry :-/""
-  pause
+  echo ""Move failed! You need to do the update manually, sorry :-/"" >> """ + pathAndTempLog + @"""
+  pause 
   exit /b 1
 )
-echo Move successful.
+echo ""Move successful"" >> """ + pathAndTempLog + @"""
 
 rem Run the new file
-start """" """ + appPath + @"""
+start """" """ + pathAndExe + @"""
 
 rem Delete this batch file
-del ""%~f0""
+del ""%~f0"" >> """ + pathAndTempLog + @"""
 ";
 
                 // Create the batchfile
-                string batchFilePath = Path.Combine(Path.GetTempPath(), "HovText_update.cmd");
-                File.WriteAllText(batchFilePath, batchContents);
+                Logging.Log("Creating batch file [" + pathAndTempCmd + "]");
+                File.WriteAllText(pathAndTempCmd, batchContents);
 
                 // Unblock batch file and newly downloaded executable
-                Logging.Log("Unblocking batch file ["+ batchFilePath + "]");
-                UnblockFile(batchFilePath);
-                Logging.Log("Unblocking new executable [" + tempFilePath + "]");
-                UnblockFile(tempFilePath);
+                Logging.Log("Unblocking batch file ["+ pathAndTempCmd + "]");
+                UnblockFile(pathAndTempCmd);
+                Logging.Log("Unblocking new executable [" + pathAndTempExe + "]");
+                UnblockFile(pathAndTempExe);
 
                 // Run/execute the batch file, which will copy the new version and launch the new version.
                 // Will not run until this HovText instance has been shutdown.
-                ProcessStartInfo psi = new ProcessStartInfo(batchFilePath)
+                ProcessStartInfo psi = new ProcessStartInfo(pathAndTempCmd)
                 {
                     CreateNoWindow = true,
                     UseShellExecute = false
                 };
-                Logging.Log("Launching batch file [" + batchFilePath + "]");
+                Logging.Log("Launching batch file [" + pathAndTempCmd + "]");
+                Logging.Log("Creating batch logfile [" + pathAndTempLog + "]");
                 Process.Start(psi);
 
+                // IF the below exit does not work, then enforce an exit after 5 seconds
+                settings.terminateTimer.Enabled = true;
+
                 // Exit HovText so batch file can process
+                Logging.Log("Exiting application gracefully");
+                Logging.Log("HovText should be relaunched with new version after exit");
                 Application.Exit();
             }
             catch (WebException ex)
@@ -4265,17 +4317,17 @@ del ""%~f0""
         private void CheckIfUpdatedFromDevelopmentToStable()
         {
             // Get the filesize og the logfile
-            if (File.Exists(troubleshootLogfile))
+            if (File.Exists(pathAndLog))
             {
-                FileInfo fileInfo = new FileInfo(troubleshootLogfile);
+                FileInfo fileInfo = new FileInfo(pathAndLog);
                 long fileSize = fileInfo.Length;
 
-                // React if the file is larger than 1MB
-                if (fileSize > 10 * 1_024_000)
+                // React if the file is larger than 5MB
+                if (fileSize > 5 * 1_024_000)
                 {
+                    Logging.Log("Shown popup that the troubleshooting logfile is bigger than 5MB");
                     tooBigLogfile.Show();
                     tooBigLogfile.Activate();
-                    Logging.Log("User has updated fom a [DEVELOPMENT] to a [STABLE] version - notified on troubleshoot logging is still enabled");
                 }
             }
         }

@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Management;
 using System.Runtime.InteropServices;
+using System.Security.Principal;
 
 namespace HovText
 {
@@ -56,10 +57,22 @@ namespace HovText
                     break;
             }
 
+            string adminOrNot;
+            if (IsRunningAsAdministrator())
+            {
+                adminOrNot = "running with administrative privileges";
+            }
+            else
+            {
+                adminOrNot = "running as non-privileged";
+            }
+
             Log("------------------------------------------------------------------------------");
             Log("Send this log to the developer via the \"Feedback\" tab, if you experience any problems.");
             Log("------------------------------------------------------------------------------");
             Log("Started HovText [" + appVer + "] logging");
+            Log("Executable file [" + Settings.pathAndExe + "]");
+            Log("Application privileges [" + adminOrNot + "]");
             Log("OS version = [" + os + "]");
             Log("OS language = [" + osLang + "]");
             Log("OS keyboard = [" + langSetup + "]");
@@ -90,16 +103,28 @@ namespace HovText
             {
                 if (logMessage == "")
                 {
-                    File.AppendAllText(Settings.troubleshootLogfile, Environment.NewLine);
+                    File.AppendAllText(Settings.pathAndLog, Environment.NewLine);
                 }
                 else
                 {
-                    File.AppendAllText(Settings.troubleshootLogfile, DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff") + " " + logMessage + Environment.NewLine);
+                    File.AppendAllText(Settings.pathAndLog, DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff") + " " + logMessage + Environment.NewLine);
                 }
             }
 
             // Output to the Visual Studio "Output" console
             Debug.WriteLine(logMessage);
+        }
+
+
+        // ###########################################################################################
+        // Check if application is run as admin - could be useful for logging as paths may be different
+        // ###########################################################################################
+
+        public static bool IsRunningAsAdministrator()
+        {
+            WindowsIdentity identity = WindowsIdentity.GetCurrent();
+            WindowsPrincipal principal = new WindowsPrincipal(identity);
+            return principal.IsInRole(WindowsBuiltInRole.Administrator);
         }
 
 

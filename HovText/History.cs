@@ -1,4 +1,5 @@
 ﻿using HovText.Properties;
+using System;
 using System.Drawing;
 using System.Linq;
 using System.Threading;
@@ -22,6 +23,8 @@ namespace HovText
         private static bool isEntryAtBottom = false; // is the active entry at the bottom position (oldest entry)
         public static int entriesInList;
         private static int entryInList = 0; // this is number X of Y (this stores the "X")
+        private System.Windows.Forms.Timer _flashTimer;
+        private Color _flashColor;
 
 
         // ###########################################################################################
@@ -847,6 +850,9 @@ namespace HovText
             }
         }
 
+        /*
+        
+        Rewrote this as I got a global exception - so asked ChatGPT4 :-)
 
         // ###########################################################################################
         // Blink the top line in the history when it reaches oldest or newest element
@@ -876,6 +882,37 @@ namespace HovText
             Thread.Sleep(interval / 2);
             UpdateElement(ColorTranslator.FromHtml(Settings.historyColorsHeader[Settings.historyColorTheme]));
             Thread.Sleep(interval / 2);
+        }
+
+        */
+
+        private void flashTimer_Tick(object sender, System.EventArgs e)
+        {
+            if (this.Controls["uiHistoryHeadline"].BackColor == _flashColor)
+            {
+                this.Controls["uiHistoryHeadline"].BackColor = ColorTranslator.FromHtml(Settings.historyColorsHeader[Settings.historyColorTheme]);
+                _flashTimer.Stop(); // stop the Timer after the color has been toggled
+            }
+            else
+            {
+                this.Controls["uiHistoryHeadline"].BackColor = _flashColor;
+            }
+        }
+
+        private void Flash()
+        {
+            _flashColor = ColorTranslator.FromHtml(Settings.historyColorsEntry[Settings.historyColorTheme]);
+            if (_flashTimer == null)
+            {
+                _flashTimer = new System.Windows.Forms.Timer();
+                _flashTimer.Interval = 50;
+                _flashTimer.Tick += flashTimer_Tick;
+            }
+            else if (_flashTimer.Enabled) // check if the Timer is already running
+            {
+                return; // if so, exit the method without starting the Timer again
+            }
+            _flashTimer.Start();
         }
 
 
