@@ -103,9 +103,9 @@ namespace HovText.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
         /// </summary>
-        internal static System.Drawing.Icon Square_New_Active_48x48 {
+        internal static System.Drawing.Icon Square_New_Active_Edited_48x48 {
             get {
-                object obj = ResourceManager.GetObject("Square_New_Active_48x48", resourceCulture);
+                object obj = ResourceManager.GetObject("Square_New_Active_Edited_48x48", resourceCulture);
                 return ((System.Drawing.Icon)(obj));
             }
         }
@@ -113,9 +113,9 @@ namespace HovText.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
         /// </summary>
-        internal static System.Drawing.Icon Square_New_Hotkey_48x48 {
+        internal static System.Drawing.Icon Square_New_Hotkey_Edited_48x48 {
             get {
-                object obj = ResourceManager.GetObject("Square_New_Hotkey_48x48", resourceCulture);
+                object obj = ResourceManager.GetObject("Square_New_Hotkey_Edited_48x48", resourceCulture);
                 return ((System.Drawing.Icon)(obj));
             }
         }
@@ -123,9 +123,9 @@ namespace HovText.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
         /// </summary>
-        internal static System.Drawing.Icon Square_New_Inactive_48x48 {
+        internal static System.Drawing.Icon Square_New_Inactive_Edited_48x48 {
             get {
-                object obj = ResourceManager.GetObject("Square_New_Inactive_48x48", resourceCulture);
+                object obj = ResourceManager.GetObject("Square_New_Inactive_Edited_48x48", resourceCulture);
                 return ((System.Drawing.Icon)(obj));
             }
         }

@@ -6,6 +6,7 @@ using System.Linq;
 using System.Management;
 using System.Runtime.InteropServices;
 using System.Security.Principal;
+using System.Windows.Forms;
 
 namespace HovText
 {
@@ -101,13 +102,24 @@ namespace HovText
         {
             if (Settings.isTroubleshootEnabled)
             {
-                if (logMessage == "")
+                try
                 {
-                    File.AppendAllText(Settings.pathAndLog, Environment.NewLine);
+                    if (logMessage == "")
+                    {
+                        File.AppendAllText(Settings.pathAndLog, Environment.NewLine);
+                    }
+                    else
+                    {
+                        File.AppendAllText(Settings.pathAndLog, DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff") + " " + logMessage + Environment.NewLine);
+                    }
                 }
-                else
+                catch (Exception ex)
                 {
-                    File.AppendAllText(Settings.pathAndLog, DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff") + " " + logMessage + Environment.NewLine);
+                    MessageBox.Show(
+                        "Exception for logfile:\n\nMessage:\n"+ ex.Message +"\n\nStackTrace:\n"+ ex.StackTrace,
+                        "Cannot write to troubleshooting logfile",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Error);
                 }
             }
 

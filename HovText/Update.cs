@@ -47,7 +47,7 @@ namespace HovText
             Settings.OpenExecuteableLocation(appPath);
 
             // Download executeable
-            System.Diagnostics.Process.Start(Settings.hovtextPage+"download/"+ GuiAppVerOnline.Text +"/HovText.exe");
+            System.Diagnostics.Process.Start(Settings.hovtextPage +"/download/"+ GuiAppVerOnline.Text +"/HovText.exe");
         }
 
 

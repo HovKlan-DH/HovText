@@ -15,6 +15,8 @@ using System.Text;
 using System.Windows.Forms;
 using NHotkey.WindowsForms; // https://github.com/thomaslevesque/NHotkey
 using Newtonsoft.Json; // https://www.newtonsoft.com/json
+using System.Management;
+using System.Net.Http;
 
 // ----------------------------------------------------------------------------
 // Upload application to these places:
@@ -153,7 +155,7 @@ namespace HovText
         private static IntPtr originatingHandle = IntPtr.Zero;
         private static bool isFirstCallAfterHotkey = true;
         public static bool isSettingsFormVisible;
-        public static string hovtextPage = "https://hovtext.com/";
+        public static string hovtextPage = "https://hovtext.com";
         internal static Settings settings;
         public static bool isTroubleshootEnabled;
         public static bool hasTroubleshootLogged;
@@ -167,6 +169,8 @@ namespace HovText
         private static string originatingApplicationName = "";
         public static int activeDisplay; // selected display to show the history (default will be the main display)
         private static string hotkey; // needed for validating the keys as it is not set in the event
+        public static string cpuArchitecture;
+        public static string osVersion;
         private static bool firstTimeLaunch;
         private static string buildType = ""; // Debug, Release
         private static string baseDirectory;
@@ -177,11 +181,11 @@ namespace HovText
         private static string pathAndTempExe;
         private static string pathAndTempCmd;
         private static string pathAndTempLog;
-        private static string troubleshootLog = "HovText-troubleshooting.txt";
-        private static string saveContentFileExist = "HovText-save-content-in-logfile.txt"; // should ONLY be used by Dennis!
-        private static string tempExe = "HovText-new.exe";
-        private static string tempCmd = "HovText-batch-update.cmd";
-        private static string tempLog = "HovText-batch-update-log.txt";
+        readonly string troubleshootLog = "HovText-troubleshooting.txt";
+        readonly string saveContentFileExist = "HovText-save-content-in-logfile.txt"; // should ONLY be used by Dennis!
+        static readonly string tempExe = "HovText-new.exe";
+        static readonly string tempCmd = "HovText-batch-update.cmd";
+        static readonly string tempLog = "HovText-batch-update-log.txt";
 
 
         // ###########################################################################################
@@ -235,6 +239,31 @@ namespace HovText
 
             // Set the application version
             appVer = (date + " " + buildTypeTmp + rev).Trim();
+
+            // Get OS name and update text in "Privacy" tab
+            // https://stackoverflow.com/a/50330392/2028935
+            osVersion = (string)(from x in new ManagementObjectSearcher("SELECT Caption FROM Win32_OperatingSystem").Get().Cast<ManagementObject>() select x.GetPropertyValue("Caption")).FirstOrDefault();
+            
+            // Get the CPU architechture and update text in "Privacy" tab
+            Architecture cpuArchitectureObj = RuntimeInformation.ProcessArchitecture;
+            switch (cpuArchitectureObj)
+            {
+                case Architecture.X86:
+                    cpuArchitecture = "x86/32bit";
+                    break;
+                case Architecture.X64:
+                    cpuArchitecture = "x64/64bit";
+                    break;
+                case Architecture.Arm:
+                    cpuArchitecture = "ARM/32bit";
+                    break;
+                case Architecture.Arm64:
+                    cpuArchitecture = "ARM64/64bit";
+                    break;
+                default:
+                    cpuArchitecture = "unknown";
+                    break;
+            }
 
             // Get paths and files
             baseDirectory = AppDomain.CurrentDomain.BaseDirectory;
@@ -302,7 +331,7 @@ namespace HovText
             sb.Append(@" This application is open source and you can use it on any computer you want without any cost. You are of course encouraged to donate some $$$, if you use it and want to motivate for continues support :-) It is \ul not\ulnone  allowed to sell or distribute it in any commercial regard without written consent from the developer. \line ");
             sb.Append(@" \line ");
             sb.Append(@" Visit the HovText home page where you also can contact the developers: \line ");
-            sb.Append(@" https://hovtext.com/ \line ");
+            sb.Append(@" "+ hovtextPage + @" \line ");
             sb.Append(@" \line ");
             sb.Append(@" Kind regards, ");
             sb.Append(@" \line ");
@@ -314,7 +343,7 @@ namespace HovText
             // Write text (URL) for the "Privacy" page
             var sb2 = new StringBuilder();
             sb2.Append(@"{\rtf1\ansi");
-            sb2.Append(@" https://hovtext.com/funfacts/ ");
+            sb2.Append(@" "+ hovtextPage + @"/funfacts ");
             sb2.Append('}');
             PrivacyLabelUrl.Rtf = sb2.ToString();
 
@@ -1221,7 +1250,22 @@ namespace HovText
                 ServicePointManager.Expect100Continue = true;
                 ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12 | SecurityProtocolType.Tls13;
                 webClient.Headers.Add("user-agent", ("HovText " + appVer).Trim());
-                string versionOnline = webClient.DownloadString(hovtextPage + "autoupdate/");
+
+                // Prepare the POST data
+                var postData = new System.Collections.Specialized.NameValueCollection
+                {
+                    { "osVersion", osVersion },
+                    { "cpuArchitecture", cpuArchitecture }
+                };
+
+                // Send the POST data to the server
+                byte[] responseBytes = webClient.UploadValues(hovtextPage + "/autoupdate/", postData);
+
+                // Convert the response bytes to a string
+                string versionOnline = Encoding.UTF8.GetString(responseBytes);
+
+                // Download the new stable version
+//                string versionOnline = webClient.DownloadString(hovtextPage + "/autoupdate/");
                 if (versionOnline.Substring(0, 7) == "Version")
                 {
                     versionOnline = versionOnline.Substring(9);
@@ -1237,7 +1281,7 @@ namespace HovText
                     }
                 }
             }
-            catch (WebException ex)
+            catch (Exception ex)
             {
                 // Catch the exception though this is not so critical that we need to disturb the developer
                 Logging.Log("Exception raised (Settings):");
@@ -1255,7 +1299,7 @@ namespace HovText
         // In some cases the application does not exit(???) when auto-installing.
         // ###########################################################################################
 
-        private void terminateTimer_Tick(object sender, EventArgs e)
+        private void TerminateTimer_Tick(object sender, EventArgs e)
         {
             Logging.Log("Forcing application termination after 5 seconds timeout!!!");
             Logging.EndLogging();
@@ -2551,7 +2595,7 @@ namespace HovText
             string releaseTrain = "";
             releaseTrain += buildType == "Debug" ? "-dev" : "";
 
-            System.Diagnostics.Process.Start(hovtextPage + "documentation" + releaseTrain + "/#" + selectedTab);
+            System.Diagnostics.Process.Start(hovtextPage + "/documentation" + releaseTrain + "/#" + selectedTab);
             Logging.Log("Clicked the \"Help\" for \"" + selectedTab + "\"");
         }
 
@@ -3341,8 +3385,12 @@ namespace HovText
 
         private void GuiTroubleshootEnabled_CheckedChanged(object sender, EventArgs e)
         {
+
             if (GuiTroubleshootEnabled.Checked)
             {
+                // Get new status now, if logging is enabled or disabled
+                isTroubleshootEnabled = GuiTroubleshootEnabled.Checked;
+
                 if (!hasTroubleshootLogged)
                 {
                     Logging.StartLogging();
@@ -3353,11 +3401,13 @@ namespace HovText
             {
                 Logging.EndLogging();
                 hasTroubleshootLogged = false;
+
+                // Wait with new status, so we can do the end-logginf first
+                isTroubleshootEnabled = GuiTroubleshootEnabled.Checked;
             }
 
             // Save it to the registry
             string status = GuiTroubleshootEnabled.Checked ? "1" : "0";
-            isTroubleshootEnabled = GuiTroubleshootEnabled.Checked;
             SetRegistryKey(registryPath, "TroubleshootEnable", status);
 
             // If there is a logfile present then enable the UI fields for it
@@ -3427,7 +3477,7 @@ namespace HovText
         // Troubleshooting, refresh the buttons for the logfile, if viewing the "Advanced" tab
         // ###########################################################################################
 
-        private void TabControl_Selected(object sender, TabControlEventArgs e)
+        private async void TabControl_Selected(object sender, TabControlEventArgs e)
         {
             // "Advanced" tab
             if (TabControl.SelectedTab.AccessibilityObject.Name == "Advanced")
@@ -3498,16 +3548,17 @@ namespace HovText
                     ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12 | SecurityProtocolType.Tls13;
                     webClient.Headers.Add("user-agent", ("HovText " + AboutLabelVersion.Text).Trim());
 
-                    // Create a collection of name/value pairs to send to the server
+                    // Prepare the POST data
                     var postData = new System.Collections.Specialized.NameValueCollection
                     {
-                        { "version", appVer }
+                        { "osVersion", osVersion },
+                        { "cpuArchitecture", cpuArchitecture }
                     };
-
+        
                     // Send the data to the server using the UploadValues method
-                    byte[] responseBytes = webClient.UploadValues("https://hovtext.com/autoupdate/privacy/", postData);
+                    byte[] responseBytes = webClient.UploadValues(hovtextPage +"/autoupdate/privacy/", postData);
 
-                    // Vonvert the response bytes to a string
+                    // Convert the response bytes to a string
                     string responseBody = Encoding.UTF8.GetString(responseBytes);
 
                     // Parse the JSON response using JsonConvert.DeserializeObject
@@ -3517,6 +3568,8 @@ namespace HovText
                     PrivacyLabelTimestampData.Text = data.timestamp;
                     PrivacyLabelIpaddrData.Text = data.ipaddr;
                     PrivacyLabelVersionData.Text = data.version;
+                    PrivacyLabelOsData.Text = data.osVersion;
+                    PrivacyLabelCpuData.Text = data.cpuArchitecture;
                     PrivacyLabelCodeData.Text = data.countryCode;
                     PrivacyLabelCountryData.Text = data.countryName;
                 }
@@ -3532,6 +3585,8 @@ namespace HovText
                     PrivacyLabelTimestampData.Text = serverDown;
                     PrivacyLabelIpaddrData.Text = serverDown;
                     PrivacyLabelVersionData.Text = serverDown;
+                    PrivacyLabelOsData.Text = serverDown;
+                    PrivacyLabelCpuData.Text = serverDown;
                     PrivacyLabelCodeData.Text = serverDown;
                     PrivacyLabelCountryData.Text = serverDown;
                 }
@@ -3607,9 +3662,9 @@ namespace HovText
                     data["feedback"] = feedback;
 
                     // Send it to the server
-                    var response = webClient.UploadValues(hovtextPage + "contact/sendmail/", "POST", data);
+                    var response = webClient.UploadValues(hovtextPage + "/contact/sendmail/", "POST", data);
                     string resultFromServer = Encoding.UTF8.GetString(response);
-//                    Logging.Log("Result from posting to web page [" + hovtextPage + "contact/sendmail/]");
+//                    Logging.Log("Result from posting to web page [" + hovtextPage + "/contact/sendmail/]");
 //                    Logging.Log("  [" + resultFromServer + "]");
                     if (resultFromServer == "Success")
                     {
@@ -3723,7 +3778,7 @@ namespace HovText
             OpenExecuteableLocation(appPath);
 
             // Download executeable
-            System.Diagnostics.Process.Start(hovtextPage + "autoupdate/development/HovText.exe");
+            System.Diagnostics.Process.Start(hovtextPage + "/autoupdate/development/HovText.exe");
 
             Logging.Log("Clicked the \"Download\" development version");
         }
@@ -3991,7 +4046,7 @@ namespace HovText
                 webClient.DownloadFile(appUrl, pathAndTempExe);
 
                 string stepsForStable =
-    @"rem --   * Go to https://hovtext.com/download and download newest HovText       --
+    @"rem --   * Go to "+ hovtextPage + @"/download and download newest HovText       --
 rem --   * In the ""Advanced"" tab click the ""Open executeable location""          --
 rem --   * Close / exit the running HovText application                         --
 rem --   * Replace the executeable file                                         --
@@ -4071,7 +4126,7 @@ del ""%~f0"" >> """ + pathAndTempLog + @"""
 
                 // Exit HovText so batch file can process
                 Logging.Log("Exiting application gracefully");
-                Logging.Log("HovText should be relaunched with new version after exit");
+                Logging.Log("HovText will be relaunched with new version after exit");
                 Application.Exit();
             }
             catch (WebException ex)
@@ -4179,13 +4234,13 @@ del ""%~f0"" >> """ + pathAndTempLog + @"""
                     {
                         if (isApplicationEnabled)
                         {
-                            notifyIcon.Icon = Resources.Square_New_Hotkey_48x48;
-                            Icon = Resources.Square_New_Hotkey_48x48;
+                            notifyIcon.Icon = Resources.Square_New_Hotkey_Edited_48x48;
+                            Icon = Resources.Square_New_Hotkey_Edited_48x48;
                         }
                         else
                         {
-                            notifyIcon.Icon = Resources.Square_New_Inactive_48x48;
-                            Icon = Resources.Square_New_Inactive_48x48;
+                            notifyIcon.Icon = Resources.Square_New_Inactive_Edited_48x48;
+                            Icon = Resources.Square_New_Inactive_Edited_48x48;
                         }
                     }
                     else
@@ -4221,13 +4276,13 @@ del ""%~f0"" >> """ + pathAndTempLog + @"""
                     {
                         if (isApplicationEnabled)
                         {
-                            notifyIcon.Icon = Resources.Square_New_Active_48x48;
-                            Icon = Resources.Square_New_Active_48x48;
+                            notifyIcon.Icon = Resources.Square_New_Active_Edited_48x48;
+                            Icon = Resources.Square_New_Active_Edited_48x48;
                         }
                         else
                         {
-                            notifyIcon.Icon = Resources.Square_New_Inactive_48x48;
-                            Icon = Resources.Square_New_Inactive_48x48;
+                            notifyIcon.Icon = Resources.Square_New_Inactive_Edited_48x48;
+                            Icon = Resources.Square_New_Inactive_Edited_48x48;
                         }
                     }
                     else
@@ -4269,7 +4324,7 @@ del ""%~f0"" >> """ + pathAndTempLog + @"""
                 ServicePointManager.Expect100Continue = true;
                 ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12 | SecurityProtocolType.Tls13;
                 webClient.Headers.Add("user-agent", ("HovText " + AboutLabelVersion.Text).Trim());
-                string checkedVersion = webClient.DownloadString(hovtextPage + "autoupdate/development/");
+                string checkedVersion = webClient.DownloadString(hovtextPage + "/autoupdate/development/");
                 if (checkedVersion.Substring(0, 7) == "Version")
                 {
                     if (checkedVersion != "Version: No development version available")

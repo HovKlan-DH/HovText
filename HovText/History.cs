@@ -1,8 +1,6 @@
 ﻿using HovText.Properties;
-using System;
 using System.Drawing;
 using System.Linq;
-using System.Threading;
 using System.Windows.Forms;
 
 namespace HovText
@@ -852,7 +850,12 @@ namespace HovText
 
         /*
         
-        Rewrote this as I got a global exception - so asked ChatGPT4 :-)
+        Rewrote this as I introduced catching global exception - and I caught an exception,
+        so I asked ChatGPT4 for help solving this - and below is suggested GPT4 code, compared
+        to my (found on StackOverflow) code :-)
+
+        The new ChatGPT4 code seems more straight forward, not needing to "invoke" anything, which
+        I believe is not so ideal.
 
         // ###########################################################################################
         // Blink the top line in the history when it reaches oldest or newest element

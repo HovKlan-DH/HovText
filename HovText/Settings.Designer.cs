@@ -168,6 +168,10 @@
             this.GuiFeedbackText = new System.Windows.Forms.TextBox();
             this.GuiEmailAddr = new System.Windows.Forms.TextBox();
             this.tabPage8 = new System.Windows.Forms.TabPage();
+            this.PrivacyLabelCpuData = new System.Windows.Forms.Label();
+            this.PrivacyLabelOsData = new System.Windows.Forms.Label();
+            this.PrivacyLabelCpu = new System.Windows.Forms.Label();
+            this.PrivacyLabelOs = new System.Windows.Forms.Label();
             this.PrivacyLabelUrl = new System.Windows.Forms.RichTextBox();
             this.PrivacyLabelWhenData = new System.Windows.Forms.Label();
             this.PrivacyLabelWhen = new System.Windows.Forms.Label();
@@ -1808,6 +1812,10 @@
             // tabPage8
             // 
             this.tabPage8.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.tabPage8.Controls.Add(this.PrivacyLabelCpuData);
+            this.tabPage8.Controls.Add(this.PrivacyLabelOsData);
+            this.tabPage8.Controls.Add(this.PrivacyLabelCpu);
+            this.tabPage8.Controls.Add(this.PrivacyLabelOs);
             this.tabPage8.Controls.Add(this.PrivacyLabelUrl);
             this.tabPage8.Controls.Add(this.PrivacyLabelWhenData);
             this.tabPage8.Controls.Add(this.PrivacyLabelWhen);
@@ -1830,6 +1838,46 @@
             this.tabPage8.TabIndex = 8;
             this.tabPage8.Text = "Privacy";
             // 
+            // PrivacyLabelCpuData
+            // 
+            this.PrivacyLabelCpuData.Font = new System.Drawing.Font("Segoe UI", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.PrivacyLabelCpuData.ForeColor = System.Drawing.Color.Black;
+            this.PrivacyLabelCpuData.Location = new System.Drawing.Point(196, 304);
+            this.PrivacyLabelCpuData.Name = "PrivacyLabelCpuData";
+            this.PrivacyLabelCpuData.Size = new System.Drawing.Size(320, 26);
+            this.PrivacyLabelCpuData.TabIndex = 537;
+            this.PrivacyLabelCpuData.Text = "x64/64bit";
+            // 
+            // PrivacyLabelOsData
+            // 
+            this.PrivacyLabelOsData.Font = new System.Drawing.Font("Segoe UI", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.PrivacyLabelOsData.ForeColor = System.Drawing.Color.Black;
+            this.PrivacyLabelOsData.Location = new System.Drawing.Point(196, 273);
+            this.PrivacyLabelOsData.Name = "PrivacyLabelOsData";
+            this.PrivacyLabelOsData.Size = new System.Drawing.Size(320, 26);
+            this.PrivacyLabelOsData.TabIndex = 536;
+            this.PrivacyLabelOsData.Text = "Microsoft Windows 10 Home";
+            // 
+            // PrivacyLabelCpu
+            // 
+            this.PrivacyLabelCpu.Font = new System.Drawing.Font("Segoe UI", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.PrivacyLabelCpu.ForeColor = System.Drawing.Color.Black;
+            this.PrivacyLabelCpu.Location = new System.Drawing.Point(24, 304);
+            this.PrivacyLabelCpu.Name = "PrivacyLabelCpu";
+            this.PrivacyLabelCpu.Size = new System.Drawing.Size(146, 26);
+            this.PrivacyLabelCpu.TabIndex = 535;
+            this.PrivacyLabelCpu.Text = "CPU architecture";
+            // 
+            // PrivacyLabelOs
+            // 
+            this.PrivacyLabelOs.Font = new System.Drawing.Font("Segoe UI", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.PrivacyLabelOs.ForeColor = System.Drawing.Color.Black;
+            this.PrivacyLabelOs.Location = new System.Drawing.Point(24, 273);
+            this.PrivacyLabelOs.Name = "PrivacyLabelOs";
+            this.PrivacyLabelOs.Size = new System.Drawing.Size(146, 26);
+            this.PrivacyLabelOs.TabIndex = 534;
+            this.PrivacyLabelOs.Text = "Operative system";
+            // 
             // PrivacyLabelUrl
             // 
             this.PrivacyLabelUrl.BackColor = System.Drawing.Color.WhiteSmoke;
@@ -1845,7 +1893,7 @@
             // 
             this.PrivacyLabelWhenData.Font = new System.Drawing.Font("Segoe UI", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.PrivacyLabelWhenData.ForeColor = System.Drawing.Color.Black;
-            this.PrivacyLabelWhenData.Location = new System.Drawing.Point(196, 193);
+            this.PrivacyLabelWhenData.Location = new System.Drawing.Point(196, 180);
             this.PrivacyLabelWhenData.Name = "PrivacyLabelWhenData";
             this.PrivacyLabelWhenData.Size = new System.Drawing.Size(320, 26);
             this.PrivacyLabelWhenData.TabIndex = 530;
@@ -1855,7 +1903,7 @@
             // 
             this.PrivacyLabelWhen.Font = new System.Drawing.Font("Segoe UI", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.PrivacyLabelWhen.ForeColor = System.Drawing.Color.Black;
-            this.PrivacyLabelWhen.Location = new System.Drawing.Point(25, 193);
+            this.PrivacyLabelWhen.Location = new System.Drawing.Point(25, 180);
             this.PrivacyLabelWhen.Name = "PrivacyLabelWhen";
             this.PrivacyLabelWhen.Size = new System.Drawing.Size(146, 26);
             this.PrivacyLabelWhen.TabIndex = 529;
@@ -1865,7 +1913,7 @@
             // 
             this.PrivacyLabelCountryData.Font = new System.Drawing.Font("Segoe UI", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.PrivacyLabelCountryData.ForeColor = System.Drawing.Color.Black;
-            this.PrivacyLabelCountryData.Location = new System.Drawing.Point(196, 384);
+            this.PrivacyLabelCountryData.Location = new System.Drawing.Point(196, 397);
             this.PrivacyLabelCountryData.Name = "PrivacyLabelCountryData";
             this.PrivacyLabelCountryData.Size = new System.Drawing.Size(320, 26);
             this.PrivacyLabelCountryData.TabIndex = 528;
@@ -1875,7 +1923,7 @@
             // 
             this.PrivacyLabelCodeData.Font = new System.Drawing.Font("Segoe UI", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.PrivacyLabelCodeData.ForeColor = System.Drawing.Color.Black;
-            this.PrivacyLabelCodeData.Location = new System.Drawing.Point(196, 348);
+            this.PrivacyLabelCodeData.Location = new System.Drawing.Point(196, 366);
             this.PrivacyLabelCodeData.Name = "PrivacyLabelCodeData";
             this.PrivacyLabelCodeData.Size = new System.Drawing.Size(320, 26);
             this.PrivacyLabelCodeData.TabIndex = 527;
@@ -1885,7 +1933,7 @@
             // 
             this.PrivacyLabelIpaddrData.Font = new System.Drawing.Font("Segoe UI", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.PrivacyLabelIpaddrData.ForeColor = System.Drawing.Color.Black;
-            this.PrivacyLabelIpaddrData.Location = new System.Drawing.Point(196, 309);
+            this.PrivacyLabelIpaddrData.Location = new System.Drawing.Point(196, 335);
             this.PrivacyLabelIpaddrData.Name = "PrivacyLabelIpaddrData";
             this.PrivacyLabelIpaddrData.Size = new System.Drawing.Size(320, 26);
             this.PrivacyLabelIpaddrData.TabIndex = 526;
@@ -1895,21 +1943,21 @@
             // 
             this.PrivacyLabelVersionData.Font = new System.Drawing.Font("Segoe UI", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.PrivacyLabelVersionData.ForeColor = System.Drawing.Color.Black;
-            this.PrivacyLabelVersionData.Location = new System.Drawing.Point(196, 270);
+            this.PrivacyLabelVersionData.Location = new System.Drawing.Point(196, 242);
             this.PrivacyLabelVersionData.Name = "PrivacyLabelVersionData";
             this.PrivacyLabelVersionData.Size = new System.Drawing.Size(414, 26);
             this.PrivacyLabelVersionData.TabIndex = 525;
-            this.PrivacyLabelVersionData.Text = "2023-April-27 # DEVELOPMENT (rev. 2)";
+            this.PrivacyLabelVersionData.Text = "2023-May-12 # DEVELOPMENT (rev. 2)";
             // 
             // PrivacyLabelTimestampData
             // 
             this.PrivacyLabelTimestampData.Font = new System.Drawing.Font("Segoe UI", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.PrivacyLabelTimestampData.ForeColor = System.Drawing.Color.Black;
-            this.PrivacyLabelTimestampData.Location = new System.Drawing.Point(196, 231);
+            this.PrivacyLabelTimestampData.Location = new System.Drawing.Point(196, 211);
             this.PrivacyLabelTimestampData.Name = "PrivacyLabelTimestampData";
             this.PrivacyLabelTimestampData.Size = new System.Drawing.Size(346, 26);
             this.PrivacyLabelTimestampData.TabIndex = 524;
-            this.PrivacyLabelTimestampData.Text = "2023-04-27 22:29:01";
+            this.PrivacyLabelTimestampData.Text = "2023-05-12 09:33:01";
             // 
             // PrivacyLabelWhy
             // 
@@ -1925,7 +1973,7 @@
             // 
             this.PrivacyLabelVersion.Font = new System.Drawing.Font("Segoe UI", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.PrivacyLabelVersion.ForeColor = System.Drawing.Color.Black;
-            this.PrivacyLabelVersion.Location = new System.Drawing.Point(25, 270);
+            this.PrivacyLabelVersion.Location = new System.Drawing.Point(25, 242);
             this.PrivacyLabelVersion.Name = "PrivacyLabelVersion";
             this.PrivacyLabelVersion.Size = new System.Drawing.Size(146, 26);
             this.PrivacyLabelVersion.TabIndex = 522;
@@ -1935,7 +1983,7 @@
             // 
             this.PrivacyLabelTimestamp.Font = new System.Drawing.Font("Segoe UI", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.PrivacyLabelTimestamp.ForeColor = System.Drawing.Color.Black;
-            this.PrivacyLabelTimestamp.Location = new System.Drawing.Point(25, 231);
+            this.PrivacyLabelTimestamp.Location = new System.Drawing.Point(25, 211);
             this.PrivacyLabelTimestamp.Name = "PrivacyLabelTimestamp";
             this.PrivacyLabelTimestamp.Size = new System.Drawing.Size(146, 26);
             this.PrivacyLabelTimestamp.TabIndex = 521;
@@ -1945,7 +1993,7 @@
             // 
             this.PrivacyLabelCountry.Font = new System.Drawing.Font("Segoe UI", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.PrivacyLabelCountry.ForeColor = System.Drawing.Color.Black;
-            this.PrivacyLabelCountry.Location = new System.Drawing.Point(25, 387);
+            this.PrivacyLabelCountry.Location = new System.Drawing.Point(25, 397);
             this.PrivacyLabelCountry.Name = "PrivacyLabelCountry";
             this.PrivacyLabelCountry.Size = new System.Drawing.Size(146, 26);
             this.PrivacyLabelCountry.TabIndex = 520;
@@ -1955,7 +2003,7 @@
             // 
             this.PrivacyLabelCode.Font = new System.Drawing.Font("Segoe UI", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.PrivacyLabelCode.ForeColor = System.Drawing.Color.Black;
-            this.PrivacyLabelCode.Location = new System.Drawing.Point(25, 348);
+            this.PrivacyLabelCode.Location = new System.Drawing.Point(25, 366);
             this.PrivacyLabelCode.Name = "PrivacyLabelCode";
             this.PrivacyLabelCode.Size = new System.Drawing.Size(146, 26);
             this.PrivacyLabelCode.TabIndex = 519;
@@ -1965,7 +2013,7 @@
             // 
             this.PrivacyLabelIpaddr.Font = new System.Drawing.Font("Segoe UI", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.PrivacyLabelIpaddr.ForeColor = System.Drawing.Color.Black;
-            this.PrivacyLabelIpaddr.Location = new System.Drawing.Point(25, 309);
+            this.PrivacyLabelIpaddr.Location = new System.Drawing.Point(25, 335);
             this.PrivacyLabelIpaddr.Name = "PrivacyLabelIpaddr";
             this.PrivacyLabelIpaddr.Size = new System.Drawing.Size(146, 26);
             this.PrivacyLabelIpaddr.TabIndex = 518;
@@ -1994,7 +2042,7 @@
             // terminateTimer
             // 
             this.terminateTimer.Interval = 5000;
-            this.terminateTimer.Tick += new System.EventHandler(this.terminateTimer_Tick);
+            this.terminateTimer.Tick += new System.EventHandler(this.TerminateTimer_Tick);
             // 
             // Settings
             // 
@@ -2233,6 +2281,10 @@
         private System.Windows.Forms.Button GuiDevelopmentAutoInstall;
         private System.Windows.Forms.PictureBox GuiDevelopmentRefresh;
         private System.Windows.Forms.Timer terminateTimer;
+        private System.Windows.Forms.Label PrivacyLabelCpuData;
+        private System.Windows.Forms.Label PrivacyLabelOsData;
+        private System.Windows.Forms.Label PrivacyLabelCpu;
+        private System.Windows.Forms.Label PrivacyLabelOs;
     }
 
 }
