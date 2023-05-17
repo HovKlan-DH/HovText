@@ -16,7 +16,6 @@ using System.Windows.Forms;
 using NHotkey.WindowsForms; // https://github.com/thomaslevesque/NHotkey
 using Newtonsoft.Json; // https://www.newtonsoft.com/json
 using System.Management;
-using System.Net.Http;
 
 // ----------------------------------------------------------------------------
 // Upload application to these places:
@@ -1262,18 +1261,18 @@ namespace HovText
                 byte[] responseBytes = webClient.UploadValues(hovtextPage + "/autoupdate/", postData);
 
                 // Convert the response bytes to a string
-                string versionOnline = Encoding.UTF8.GetString(responseBytes);
+                string checkedVersion = Encoding.UTF8.GetString(responseBytes);
 
                 // Download the new stable version
 //                string versionOnline = webClient.DownloadString(hovtextPage + "/autoupdate/");
-                if (versionOnline.Substring(0, 7) == "Version")
+                if (checkedVersion.Substring(0, 7) == "Version")
                 {
-                    versionOnline = versionOnline.Substring(9);
-                    Logging.Log("  Stable version available = [" + versionOnline + "]");
+                    checkedVersion = checkedVersion.Substring(9);
+                    Logging.Log("  Stable version available = [" + checkedVersion + "]");
                     update.GuiAppVerYours.Text = appVer;
-                    update.GuiAppVerOnline.Text = versionOnline;
-                    string lastVersionOnline = GetRegistryKey(registryPath, "VersionOnline");
-                    if (lastVersionOnline != versionOnline && versionOnline != appVer)
+                    update.GuiAppVerOnline.Text = checkedVersion;
+                    string lastCheckedVersion = GetRegistryKey(registryPath, "CheckedVersion");
+                    if (lastCheckedVersion != checkedVersion && checkedVersion != appVer)
                     {
                         update.Show();
                         update.Activate();
@@ -1336,14 +1335,6 @@ namespace HovText
             string regVal;
 
             // Check if the following registry entries exists, and if so convert them to new values
-
-            // Convert "CheckedVersion" => "VersionOnline"
-            regVal = GetRegistryKey(registryPath, "CheckedVersion");
-            if (regVal != null || regVal?.Length == 0)
-            {
-                RegistryKeyCheckOrCreate(registryPath, "VersionOnline", regVal);
-                DeleteRegistryKey(registryPath, "CheckedVersion");
-            }
 
             // Convert "Hotkey1" => "HotkeyToggleApplication"
             regVal = GetRegistryKey(registryPath, "Hotkey1");
@@ -1454,6 +1445,13 @@ namespace HovText
             if (regVal != null || regVal?.Length == 0)
             {
                 DeleteRegistryKey(registryPath, "CheckUpdates");
+            }
+
+            // Delete "VersionOnline" - it was something used in development versions until I reverted back to "CheckedVersion"
+            regVal = GetRegistryKey(registryPath, "VersionOnline");
+            if (regVal != null || regVal?.Length == 0)
+            {
+                DeleteRegistryKey(registryPath, "VersionOnline");
             }
 
             // Delete "HistoryColorCustomBorder"
@@ -1602,9 +1600,9 @@ namespace HovText
             RegistryKeyCheckOrCreate(registryPath, "NotificationShown", "0");
             regVal = GetRegistryKey(registryPath, "NotificationShown");
             Logging.Log("    \"NotificationShown\" = [" + regVal + "]");
-            RegistryKeyCheckOrCreate(registryPath, "VersionOnline", appVer);
-            regVal = GetRegistryKey(registryPath, "VersionOnline");
-            Logging.Log("    \"VersionOnline\" = [" + regVal + "]");
+            RegistryKeyCheckOrCreate(registryPath, "CheckedVersion", appVer);
+            regVal = GetRegistryKey(registryPath, "checkedVersion");
+            Logging.Log("    \"CheckedVersion\" = [" + regVal + "]");
         }
 
 
@@ -4378,7 +4376,7 @@ del ""%~f0"" >> """ + pathAndTempLog + @"""
                 long fileSize = fileInfo.Length;
 
                 // React if the file is larger than 5MB
-                if (fileSize > 5 * 1_024_000)
+                if (fileSize > (10 * 1_024_000))
                 {
                     Logging.Log("Shown popup that the troubleshooting logfile is bigger than 5MB");
                     tooBigLogfile.Show();

@@ -1589,7 +1589,7 @@
             this.GuiAdvancedGroup2.Controls.Add(this.AdvancedLabelInfoDevelopment);
             this.GuiAdvancedGroup2.Location = new System.Drawing.Point(22, 221);
             this.GuiAdvancedGroup2.Name = "GuiAdvancedGroup2";
-            this.GuiAdvancedGroup2.Size = new System.Drawing.Size(594, 160);
+            this.GuiAdvancedGroup2.Size = new System.Drawing.Size(594, 170);
             this.GuiAdvancedGroup2.TabIndex = 510;
             this.GuiAdvancedGroup2.TabStop = false;
             this.GuiAdvancedGroup2.Text = "Development version";
@@ -1598,9 +1598,9 @@
             // 
             this.AdvancedLabelDevelopmentVersion.BackColor = System.Drawing.Color.Transparent;
             this.AdvancedLabelDevelopmentVersion.Enabled = false;
-            this.AdvancedLabelDevelopmentVersion.Location = new System.Drawing.Point(194, 39);
+            this.AdvancedLabelDevelopmentVersion.Location = new System.Drawing.Point(254, 37);
             this.AdvancedLabelDevelopmentVersion.Name = "AdvancedLabelDevelopmentVersion";
-            this.AdvancedLabelDevelopmentVersion.Size = new System.Drawing.Size(340, 34);
+            this.AdvancedLabelDevelopmentVersion.Size = new System.Drawing.Size(338, 34);
             this.AdvancedLabelDevelopmentVersion.TabIndex = 514;
             this.AdvancedLabelDevelopmentVersion.Text = "Please wait ...";
             this.AdvancedLabelDevelopmentVersion.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -1610,7 +1610,7 @@
             this.GuiDevelopmentRefresh.Cursor = System.Windows.Forms.Cursors.Hand;
             this.GuiDevelopmentRefresh.Image = ((System.Drawing.Image)(resources.GetObject("GuiDevelopmentRefresh.Image")));
             this.GuiDevelopmentRefresh.InitialImage = null;
-            this.GuiDevelopmentRefresh.Location = new System.Drawing.Point(170, 45);
+            this.GuiDevelopmentRefresh.Location = new System.Drawing.Point(230, 45);
             this.GuiDevelopmentRefresh.Name = "GuiDevelopmentRefresh";
             this.GuiDevelopmentRefresh.Size = new System.Drawing.Size(33, 29);
             this.GuiDevelopmentRefresh.TabIndex = 515;
@@ -1622,7 +1622,7 @@
             this.GuiDevelopmentAutoInstall.Enabled = false;
             this.GuiDevelopmentAutoInstall.Location = new System.Drawing.Point(28, 38);
             this.GuiDevelopmentAutoInstall.Name = "GuiDevelopmentAutoInstall";
-            this.GuiDevelopmentAutoInstall.Size = new System.Drawing.Size(126, 34);
+            this.GuiDevelopmentAutoInstall.Size = new System.Drawing.Size(186, 34);
             this.GuiDevelopmentAutoInstall.TabIndex = 511;
             this.GuiDevelopmentAutoInstall.Text = "Auto-install";
             this.GuiDevelopmentAutoInstall.UseVisualStyleBackColor = true;
@@ -1633,9 +1633,9 @@
             this.GuiDevelopmentDownload.Enabled = false;
             this.GuiDevelopmentDownload.Location = new System.Drawing.Point(28, 81);
             this.GuiDevelopmentDownload.Name = "GuiDevelopmentDownload";
-            this.GuiDevelopmentDownload.Size = new System.Drawing.Size(126, 34);
+            this.GuiDevelopmentDownload.Size = new System.Drawing.Size(186, 34);
             this.GuiDevelopmentDownload.TabIndex = 512;
-            this.GuiDevelopmentDownload.Text = "Download";
+            this.GuiDevelopmentDownload.Text = "Manual download";
             this.GuiDevelopmentDownload.UseVisualStyleBackColor = true;
             this.GuiDevelopmentDownload.Click += new System.EventHandler(this.GuiDevelopmentDownload_Click);
             // 
@@ -1644,9 +1644,9 @@
             this.AdvancedLabelInfoDevelopment.Enabled = false;
             this.AdvancedLabelInfoDevelopment.Font = new System.Drawing.Font("Segoe UI", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.AdvancedLabelInfoDevelopment.ForeColor = System.Drawing.Color.Red;
-            this.AdvancedLabelInfoDevelopment.Location = new System.Drawing.Point(166, 79);
+            this.AdvancedLabelInfoDevelopment.Location = new System.Drawing.Point(226, 79);
             this.AdvancedLabelInfoDevelopment.Name = "AdvancedLabelInfoDevelopment";
-            this.AdvancedLabelInfoDevelopment.Size = new System.Drawing.Size(405, 68);
+            this.AdvancedLabelInfoDevelopment.Size = new System.Drawing.Size(348, 88);
             this.AdvancedLabelInfoDevelopment.TabIndex = 513;
             this.AdvancedLabelInfoDevelopment.Text = "Recommended only to use if you want to test unreleased functionalities or bugfixe" +
     "s - it is not expected to be stable or polished in any way!";
@@ -1655,9 +1655,9 @@
             // 
             this.GuiAdvancedGroup3.Controls.Add(this.AdvancedLabelInfoCleanup);
             this.GuiAdvancedGroup3.Controls.Add(this.GuiCleanUpExit);
-            this.GuiAdvancedGroup3.Location = new System.Drawing.Point(22, 399);
+            this.GuiAdvancedGroup3.Location = new System.Drawing.Point(22, 409);
             this.GuiAdvancedGroup3.Name = "GuiAdvancedGroup3";
-            this.GuiAdvancedGroup3.Size = new System.Drawing.Size(594, 203);
+            this.GuiAdvancedGroup3.Size = new System.Drawing.Size(594, 193);
             this.GuiAdvancedGroup3.TabIndex = 520;
             this.GuiAdvancedGroup3.TabStop = false;
             this.GuiAdvancedGroup3.Text = "Clean-up all configuration settings";
@@ -1666,7 +1666,7 @@
             // 
             this.AdvancedLabelInfoCleanup.Font = new System.Drawing.Font("Segoe UI", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.AdvancedLabelInfoCleanup.ForeColor = System.Drawing.Color.Black;
-            this.AdvancedLabelInfoCleanup.Location = new System.Drawing.Point(26, 85);
+            this.AdvancedLabelInfoCleanup.Location = new System.Drawing.Point(26, 95);
             this.AdvancedLabelInfoCleanup.Name = "AdvancedLabelInfoCleanup";
             this.AdvancedLabelInfoCleanup.Size = new System.Drawing.Size(476, 97);
             this.AdvancedLabelInfoCleanup.TabIndex = 515;
@@ -1674,7 +1674,7 @@
             // 
             // GuiCleanUpExit
             // 
-            this.GuiCleanUpExit.Location = new System.Drawing.Point(28, 39);
+            this.GuiCleanUpExit.Location = new System.Drawing.Point(28, 49);
             this.GuiCleanUpExit.Name = "GuiCleanUpExit";
             this.GuiCleanUpExit.Size = new System.Drawing.Size(254, 34);
             this.GuiCleanUpExit.TabIndex = 521;
