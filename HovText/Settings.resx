@@ -333,26 +333,6 @@
         FrejtO1/EX2C22xDfqvym1YQ/R/WwXyKz7DvmgAAAABJRU5ErkJggg==
 </value>
   </data>
-  <data name="GuiDevelopmentRefresh.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        iVBORw0KGgoAAAANSUhEUgAAABQAAAAVCAYAAABG1c6oAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAL
-        DAAACwwBP0AiyAAAA1ZJREFUOE+lVd1Lk1Ecfvfhqn3pdKOtodKFzG1eKHohXkSEhjYxceRcOChoKYLf
-        uPk1hXnZXfdhBtEfEBJiUF1UV1lm0BfYhXUXYlFm5rae5/Ce8Ta9a/B4znnPeZ7zO78vlVwul8fMzIwx
-        lUrpOB8ZGXE2NzdfLysre64oyh7hdDqftbS0XBsdHS3jGZzVz87OGlWuiWNebG5uTghNTU0db2tru1Je
-        Xr5qNBq3IbQP/FGxz2+VlZUroVAoNj09LUQgpucYj8d9Qkxjldfn890FEVcJUIzIqpBrse/3+5eGh4e9
-        5Pb09Jy3Wq3rijQZYqfwe8yDer3+J8bfkmgwGHYIueYezvzgvKKiYrmrqysMsU8Wi+UdBQ00vaqq6p5K
-        /oYxS9GamprFSCTSiqf4gUB3d/eFQCCwpNPpfvEsxl2eBejjnMPhWBNPpj/wIaPemsFNWxAKce8ohMPh
-        TpvNtomzBwBfwjFbXFy8oSBiDgaAH3Hjnslk2u7t7T1DIixn1IXDCfoaQSvivKOjI6oRpF8zJSUl60pT
-        U1MSC/EEor6+/oYqJohayEzo6+sLut3up5IjYTabPyper/dBaWnpOrABvOzv7/el0+m8VYWYnJy0wI+3
-        QN5yuVwvkKevkZ+Cj5cuKxMTE45kMmlNJBI2jGZJlKlUCDzZND4+7sJoJg8gT8JyiPC/UFRlu+YWG6tF
-        teLEUSSt9XiZGSDfOjY25lL4fkD4QfXHGpJ0E+V1H8nu0QpJMDgLCwt65GYQuUffvwLeNjY2JhCcfyNF
-        2O32D7FY7CzJ8/Pzh3wpM6C2tvamljc4OOjBKLKcecR84jzb2toaJ4E5p30ec1KKRaPRc0VFRTvMXXAO
-        kC0P+Z0/2UlkkmaQ8e9RZh1SqBDYu4i0+UKOrK7Ozs5L3FPUuqQYIeuTDWI3GAzeBlnWsl+t5TsqJ4u6
-        /86z1dXVS+wJgB5rkeGfUc9XkZgrqhhvLew2bBrSX/lug6euonxP0joGS0F03sDcCD8MDQ2VF/RD0akB
-        2Q9pWb5MYe0ixNzkSl8rAwMDpzlB1zVwhNOPsft4PJ4nkghIH4s1rHrU3t5+WQZIGzjxB6aK2mUUCbmJ
-        buyqq6tLQ2Qbfvva0NCQkv9PCPpMez6Xyyl/AWgTtp7WXyHsAAAAAElFTkSuQmCC
-</value>
-  </data>
   <data name="PictureBox5.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAMAAAC6V+0/AAAABGdBTUEAALGPC/xhBQAAAwBQTFRFgICA
@@ -600,14 +580,25 @@
         wxgT/gMxJXum+LKFagAAAABJRU5ErkJggg==
 </value>
   </data>
-  <data name="AdvancedLabelInfoCleanup.Text" xml:space="preserve">
-    <value>Removes all registry settings, deletes the troubleshooting logfile and exits HovText. This is as if HovText has never been used on this system, and you just need to delete the "HovText.exe" file, if you want to clean everything.</value>
-  </data>
-  <data name="PrivacyLabelWhy.Text" xml:space="preserve">
-    <value>The data is solely being used at the below "Fun facts" page, to visualize from where and when HovText is being used. As an application developer, this is fun and interesting information, that we can see how much usage it has :-)</value>
-  </data>
-  <data name="PrivacyLabelSummary.Text" xml:space="preserve">
-    <value>It is important for us to highlight, that we do not harvest or sell your data - you are NOT the product here! This is why we want to showcase exactly what data is gathered and how it is used. Below you will see all the data being gathered - and we will guarantee there is no hidden identifier or alike that will track your specific installation.</value>
+  <data name="GuiDevelopmentRefresh.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABQAAAAVCAYAAABG1c6oAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAL
+        DAAACwwBP0AiyAAAA1ZJREFUOE+lVd1Lk1Ecfvfhqn3pdKOtodKFzG1eKHohXkSEhjYxceRcOChoKYLf
+        uPk1hXnZXfdhBtEfEBJiUF1UV1lm0BfYhXUXYlFm5rae5/Ce8Ta9a/B4znnPeZ7zO78vlVwul8fMzIwx
+        lUrpOB8ZGXE2NzdfLysre64oyh7hdDqftbS0XBsdHS3jGZzVz87OGlWuiWNebG5uTghNTU0db2tru1Je
+        Xr5qNBq3IbQP/FGxz2+VlZUroVAoNj09LUQgpucYj8d9Qkxjldfn890FEVcJUIzIqpBrse/3+5eGh4e9
+        5Pb09Jy3Wq3rijQZYqfwe8yDer3+J8bfkmgwGHYIueYezvzgvKKiYrmrqysMsU8Wi+UdBQ00vaqq6p5K
+        /oYxS9GamprFSCTSiqf4gUB3d/eFQCCwpNPpfvEsxl2eBejjnMPhWBNPpj/wIaPemsFNWxAKce8ohMPh
+        TpvNtomzBwBfwjFbXFy8oSBiDgaAH3Hjnslk2u7t7T1DIixn1IXDCfoaQSvivKOjI6oRpF8zJSUl60pT
+        U1MSC/EEor6+/oYqJohayEzo6+sLut3up5IjYTabPyper/dBaWnpOrABvOzv7/el0+m8VYWYnJy0wI+3
+        QN5yuVwvkKevkZ+Cj5cuKxMTE45kMmlNJBI2jGZJlKlUCDzZND4+7sJoJg8gT8JyiPC/UFRlu+YWG6tF
+        teLEUSSt9XiZGSDfOjY25lL4fkD4QfXHGpJ0E+V1H8nu0QpJMDgLCwt65GYQuUffvwLeNjY2JhCcfyNF
+        2O32D7FY7CzJ8/Pzh3wpM6C2tvamljc4OOjBKLKcecR84jzb2toaJ4E5p30ec1KKRaPRc0VFRTvMXXAO
+        kC0P+Z0/2UlkkmaQ8e9RZh1SqBDYu4i0+UKOrK7Ozs5L3FPUuqQYIeuTDWI3GAzeBlnWsl+t5TsqJ4u6
+        /86z1dXVS+wJgB5rkeGfUc9XkZgrqhhvLew2bBrSX/lug6euonxP0joGS0F03sDcCD8MDQ2VF/RD0akB
+        2Q9pWb5MYe0ixNzkSl8rAwMDpzlB1zVwhNOPsft4PJ4nkghIH4s1rHrU3t5+WQZIGzjxB6aK2mUUCbmJ
+        buyqq6tLQ2Qbfvva0NCQkv9PCPpMez6Xyyl/AWgTtp7WXyHsAAAAAElFTkSuQmCC
+</value>
   </data>
   <metadata name="colorDialogHeader.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>782, 18</value>
@@ -632,6 +623,12 @@
   </metadata>
   <metadata name="terminateTimer.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>310, 60</value>
+  </metadata>
+  <metadata name="colorDialogSearch.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>780, 72</value>
+  </metadata>
+  <metadata name="colorDialogSearchText.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>986, 74</value>
   </metadata>
   <metadata name="$this.TrayHeight" type="System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>118</value>
