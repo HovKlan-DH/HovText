@@ -1,9 +1,6 @@
 ﻿using HovText.Properties;
-using Newtonsoft.Json.Linq;
 using System;
-using System.Collections.Generic;
 using System.Drawing;
-using System.Drawing.Printing;
 using System.Linq;
 using System.Windows.Forms;
 using static HovText.Program;

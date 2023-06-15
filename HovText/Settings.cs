@@ -14,7 +14,6 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Windows.Forms;
 using NHotkey.WindowsForms; // https://github.com/thomaslevesque/NHotkey
-//using Newtonsoft.Json; // https://www.newtonsoft.com/json
 using System.Management;
 
 // ----------------------------------------------------------------------------
@@ -479,7 +478,7 @@ namespace HovText
             sb.Append(@"{\rtf1\ansi");
             sb.Append(@" This application is open source and you can use it on any computer you want without any cost. You are of course encouraged to donate some $$$, if you use it and want to motivate for continues support :-) It is \ul not\ulnone  allowed to sell or distribute it in any commercial regard without written consent from the developer. \line ");
             sb.Append(@" \line ");
-            sb.Append(@" Visit the HovText home page where you also can contact the developers: \line ");
+            sb.Append(@" Visit the HovText home page: \line ");
             sb.Append(@" "+ hovtextPage + @" \line ");
             sb.Append(@" \line ");
             sb.Append(@" Kind regards, ");
