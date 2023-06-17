@@ -2234,8 +2234,6 @@ namespace HovText
             historyColorsEntry["Custom"] = GetRegistryKey(registryPath, "HistoryColorCustomEntry");
             historyColorsEntryText["Custom"] = GetRegistryKey(registryPath, "HistoryColorCustomEntryText");
             historyColorsBorder["Custom"] = GetRegistryKey(registryPath, "HistoryColorCustomBorder");
-            EnableDisableCustomColor();
-            EnableDisableBorderColor();
             switch (historyColorTheme)
             {
                 case "Blue":
@@ -2258,6 +2256,7 @@ namespace HovText
                     GuiHistoryColorThemeYellow.Checked = true;
                     break;
             }
+            EnableDisableCustomColor();
             SetHistoryColors();
 
             // History location
@@ -2584,6 +2583,7 @@ namespace HovText
         // Enable or disable the border color
         // ###########################################################################################
 
+/*
         private void EnableDisableBorderColor()
         {
 
@@ -2601,7 +2601,7 @@ namespace HovText
                 GuiCustomBorder.BackColor = Color.WhiteSmoke;
             }
         }
-
+*/
 
         // ###########################################################################################
         // Change in the history color
@@ -4545,7 +4545,7 @@ namespace HovText
             SetRegistryKey(registryPath, "HistoryBorderThickness", historyBorderThickness.ToString());
             GuiShowFontActive.Refresh(); // update/redraw the border
             GuiShowFont.Refresh(); // update/redraw the border
-            EnableDisableBorderColor(); // to enable/disable the border color
+//            EnableDisableBorderColor(); // to enable/disable the border color
         }
 
 
