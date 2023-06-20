@@ -15,6 +15,9 @@ using System.Text;
 using System.Windows.Forms;
 using NHotkey.WindowsForms; // https://github.com/thomaslevesque/NHotkey
 using System.Management;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.ListView;
+using System.Text.RegularExpressions;
+using System.Security.Policy;
 
 // ----------------------------------------------------------------------------
 // Upload application to these places:
@@ -259,14 +262,15 @@ namespace HovText
                     { 30, true },
                     { 31, false }
                 };
-        #else
 */
-            public static SortedDictionary<int, string> entriesApplication = new SortedDictionary<int, string>();
-            public static SortedDictionary<int, string> entriesText = new SortedDictionary<int, string>();
-            public static SortedDictionary<int, bool> entriesImageTransparent = new SortedDictionary<int, bool>();
-            public static SortedDictionary<int, bool> entriesIsFavorite = new SortedDictionary<int, bool>();
-            public static SortedDictionary<int, bool> entriesShow = new SortedDictionary<int, bool>();
-//        #endif
+        public static SortedDictionary<int, string> entriesApplication = new SortedDictionary<int, string>();
+        public static SortedDictionary<int, string> entriesText = new SortedDictionary<int, string>();
+        public static SortedDictionary<int, bool> entriesImageTransparent = new SortedDictionary<int, bool>();
+        public static SortedDictionary<int, bool> entriesShow = new SortedDictionary<int, bool>();
+        public static SortedDictionary<int, bool> entriesIsFavorite = new SortedDictionary<int, bool>();
+        public static SortedDictionary<int, bool> entriesIsUrl = new SortedDictionary<int, bool>();
+        public static SortedDictionary<int, bool> entriesIsEmail = new SortedDictionary<int, bool>();
+        public static SortedDictionary<int, bool> entriesIsImage = new SortedDictionary<int, bool>();
         public static SortedDictionary<int, System.Drawing.Image> entriesImage = new SortedDictionary<int, System.Drawing.Image>();
         public static SortedList<int, Dictionary<string, object>> entriesOriginal = new SortedList<int, Dictionary<string, object>>();
         const int WM_CLIPBOARDUPDATE = 0x031D;
@@ -344,9 +348,27 @@ namespace HovText
             // Setup form and all elements
             InitializeComponent();
 
+            /*
+            string myUrl = "https://forms.office.com/pages/responsepage.aspx?id=2CH5Eg3zlkWmUnBFszhIWm7wyvOCaIdGlCht1uJWNQtUN0VTUUo2VEQxTEJVSjVaNkhOSEpOQkFUUCQlQCN0PWcu";
+            bool isUrl = Uri.IsWellFormedUriString(myUrl, UriKind.Absolute);
+            Console.WriteLine(isUrl);
+
+            try
+            {
+                Uri myUri = new Uri(myUrl);
+                isUrl = true;
+            }
+            catch (UriFormatException)
+            {
+                isUrl = false;
+            }
+            Console.WriteLine(isUrl);
+            */
+
+
             // Get build type
-            #if DEBUG
-                buildType = "Debug";
+#if DEBUG
+            buildType = "Debug";
             #else
                 buildType = "Release";
             #endif
@@ -811,10 +833,13 @@ namespace HovText
                 entriesText.Clear();
                 entriesImage.Clear();
                 entriesImageTransparent.Clear();
-                entriesIsFavorite.Clear();
                 entriesApplication.Clear();
                 entriesOriginal.Clear();
                 entriesShow.Clear();
+                entriesIsFavorite.Clear();
+                entriesIsUrl.Clear();
+                entriesIsEmail.Clear();
+                entriesIsImage.Clear();
             }
 
             // Proceed if the (cleartext) data is not already in the dictionary
@@ -837,8 +862,48 @@ namespace HovText
                 entriesText.Add(entryIndex, clipboardText);
                 entriesImage.Add(entryIndex, clipboardImage);
                 entriesImageTransparent.Add(entryIndex, isClipboardImageTransparent);
-                entriesIsFavorite.Add(entryIndex, false);
                 entriesShow.Add(entryIndex, true);
+                entriesIsFavorite.Add(entryIndex, false);
+
+                // Filter lists
+                /*
+                bool isUrl = Uri.IsWellFormedUriString(clipboardText, UriKind.Absolute);
+                if (isUrl)
+                {
+                    entriesIsUrl.Add(entryIndex, true);
+                }
+                else
+                {
+                    entriesIsUrl.Add(entryIndex, false);
+                }
+                */
+                bool isUrl;
+                try
+                {
+                    Uri myUri = new Uri(clipboardText);
+                    isUrl = true;
+                }
+                catch (UriFormatException)
+                {
+                    isUrl = false;
+                }
+                bool isEmail = Regex.IsMatch(clipboardText, @"^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$");
+                if (isEmail)
+                {
+                    entriesIsEmail.Add(entryIndex, true);
+                }
+                else
+                {
+                    entriesIsEmail.Add(entryIndex, false);
+                }
+                if (!isClipboardText)
+                {
+                    entriesIsImage.Add(entryIndex, true);
+                }
+                else
+                {
+                    entriesIsImage.Add(entryIndex, false);
+                }
 
                 // Walk through all (relevant) clipboard object formats and store them.
                 // I am not sure how to do this differently as it does not work if I take everything!?
@@ -1142,19 +1207,25 @@ namespace HovText
             entriesText.Add(insertKey, entriesText[entryIndex]);
             entriesImage.Add(insertKey, entriesImage[entryIndex]);
             entriesImageTransparent.Add(insertKey, entriesImageTransparent[entryIndex]);
-            entriesIsFavorite.Add(insertKey, entriesIsFavorite[entryIndex]);
             entriesApplication.Add(insertKey, entriesApplication[entryIndex]);
             entriesOriginal.Add(insertKey, entriesOriginal[entryIndex]);
             entriesShow.Add(insertKey, entriesShow[entryIndex]);
+            entriesIsFavorite.Add(insertKey, entriesIsFavorite[entryIndex]);
+            entriesIsUrl.Add(insertKey, entriesIsUrl[entryIndex]);
+            entriesIsEmail.Add(insertKey, entriesIsEmail[entryIndex]);
+            entriesIsImage.Add(insertKey, entriesIsImage[entryIndex]);
 
             // Remove the chosen entry, so it does not show duplicates
             entriesText.Remove(entryIndex);
             entriesImage.Remove(entryIndex);
             entriesImageTransparent.Remove(entryIndex);
-            entriesIsFavorite.Remove(entryIndex);
             entriesApplication.Remove(entryIndex);
             entriesOriginal.Remove(entryIndex);
             entriesShow.Remove(entryIndex);
+            entriesIsFavorite.Remove(entryIndex);
+            entriesIsUrl.Remove(entryIndex);
+            entriesIsEmail.Remove(entryIndex);
+            entriesIsImage.Remove(entryIndex);
 
             // Set the index to be the last one
             entryIndex = entriesText.Keys.Last();

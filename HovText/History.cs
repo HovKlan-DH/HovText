@@ -2,6 +2,7 @@
 using System;
 using System.Drawing;
 using System.Linq;
+using System.Runtime.ConstrainedExecution;
 using System.Windows.Forms;
 using static HovText.Program;
 
@@ -43,17 +44,28 @@ namespace HovText
 
         public void SetupForm(bool keepHeaders = false)
         {
-
-            bool hest = Settings.isHistoryHotkeyPressed;
+//            bool hest = Settings.isHistoryHotkeyPressed;
 
             // "keepHeaders = true" equals that headline + search will be kept - but all other elements are deleted
             if (keepHeaders)
             {
-                for (int i = this.Controls.Count - 1; i >= 2; i--)
+                for (int i = this.Controls.Count - 1; i >= 0; i--)
                 {
                     Control control = this.Controls[i];
-                    this.Controls.Remove(control);
-                    control.Dispose();
+                    // Remove any control element that contains "historyLabel" or "historyPictureBox"
+                    if (control.Name.Contains("historyLabel") || control.Name.Contains("historyPictureBox"))
+                    {
+                        this.Controls.Remove(control);
+                        control.Dispose();
+                    }
+                    /*
+                    Control control = this.Controls[i];
+                    if (this.Controls.ContainsKey("historyLabel") || this.Controls.ContainsKey("historyPictureBox"))
+                    {
+                        this.Controls.Remove(control);
+                        control.Dispose();
+                    }
+                    */
                 }
             }
 
@@ -1023,20 +1035,87 @@ namespace HovText
             ResetForm();
         }
 
+
         // ###########################################################################################
-        // 
+        // Search filter.
+        // Filter keywords:
+        //   :f[avorite] 
+        //   :u[rl]
+        //   :e[mail]
+        //   :i[mage]
         // ###########################################################################################
 
         private void Search_TextChanged(object sender, System.EventArgs e)
         {
-
             TextBox textBox = (TextBox)sender; // Cast the sender to TextBox
-            string searchText = textBox.Text;
+            string[] searchTexts = textBox.Text.Split(' '); // split the text by space
+
+            // Check if the input contains a word starting with ":u" or ":e"
+            string favoriteKeyword = searchTexts.FirstOrDefault(text => text.StartsWith(":f")); 
+            string urlKeyword = searchTexts.FirstOrDefault(text => text.StartsWith(":u"));
+            string emailKeyword = searchTexts.FirstOrDefault(text => text.StartsWith(":e"));
+            string imageKeyword = searchTexts.FirstOrDefault(text => text.StartsWith(":i"));
+
+            bool searchForFavorite = favoriteKeyword != null;
+            bool searchForUrl = urlKeyword != null;
+            bool searchForEmail = emailKeyword != null;
+            bool searchForImage = imageKeyword != null;
+
+            // If ":f" or ":u" or ":e" or ":i" is found, remove it from the searchTexts array
+            if (searchForFavorite)
+            {
+                searchTexts = searchTexts.Where(text => text != favoriteKeyword).ToArray();
+            }
+            if (searchForUrl)
+            {
+                searchTexts = searchTexts.Where(text => text != urlKeyword).ToArray();
+            }
+            if (searchForEmail)
+            {
+                searchTexts = searchTexts.Where(text => text != emailKeyword).ToArray();
+            }
+            if (searchForImage)
+            {
+                searchTexts = searchTexts.Where(text => text != imageKeyword).ToArray();
+            }
+
+            // Remove terms that start with ":" (except for ":u*" and ":e*")
+            searchTexts = searchTexts.Where(text => !text.StartsWith(":") || text == favoriteKeyword || text == urlKeyword || text == emailKeyword || text == imageKeyword).ToArray();
 
             // Perform a case-insensitive wildcard search using LINQ
             var searchResults = Settings.entriesText
-                .Where(entry => entry.Value.IndexOf(searchText, StringComparison.OrdinalIgnoreCase) >= 0)
+                .Where(entry =>
+                    searchTexts.All(searchText =>
+                        entry.Value.Split(' ')
+                        .Any(word => word.IndexOf(searchText, StringComparison.OrdinalIgnoreCase) >= 0)))
                 .ToList();
+
+            // If we're searching for favorites, URLs, Emails or Images, filter the search results to include only those
+            if (searchForFavorite)
+            {
+                searchResults = searchResults
+                    .Where(entry => Settings.entriesIsFavorite.ContainsKey(entry.Key) && Settings.entriesIsFavorite[entry.Key] == true)
+                    .ToList();
+            }
+            if (searchForUrl)
+            {
+                searchResults = searchResults
+                    .Where(entry => Settings.entriesIsUrl.ContainsKey(entry.Key) && Settings.entriesIsUrl[entry.Key] == true)
+                    .ToList();
+            }
+            if (searchForEmail)
+            {
+                searchResults = searchResults
+                    .Where(entry => Settings.entriesIsEmail.ContainsKey(entry.Key) && Settings.entriesIsEmail[entry.Key] == true)
+                    .ToList();
+            }
+            if (searchForImage)
+            {
+                searchResults = searchResults
+                    .Where(entry => Settings.entriesIsImage.ContainsKey(entry.Key) && Settings.entriesIsImage[entry.Key] == true)
+                    .ToList();
+            }
+            
 
             // Clear existing entries in entriesShow
             Settings.entriesShow.Clear();
@@ -1110,10 +1189,13 @@ namespace HovText
                 Settings.entriesText.Remove(entryActive);
                 Settings.entriesImage.Remove(entryActive);
                 Settings.entriesImageTransparent.Remove(entryActive);
-                Settings.entriesIsFavorite.Remove(entryActive);
                 Settings.entriesApplication.Remove(entryActive);
                 Settings.entriesOriginal.Remove(entryActive);
                 Settings.entriesShow.Remove(entryActive);
+                Settings.entriesIsFavorite.Remove(entryActive);
+                Settings.entriesIsUrl.Remove(entryActive);
+                Settings.entriesIsEmail.Remove(entryActive);
+                Settings.entriesIsImage.Remove(entryActive);
 
                 Settings.GetEntryCounter();
 

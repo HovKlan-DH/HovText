@@ -22,9 +22,9 @@ namespace HovText
         {
 
             // Set the global exception handlers
-//            AppDomain.CurrentDomain.UnhandledException += UnhandledExceptionHandler;
-//            Application.ThreadException += ThreadExceptionHandler;
-//            TaskScheduler.UnobservedTaskException += TaskExceptionHandler;
+            AppDomain.CurrentDomain.UnhandledException += UnhandledExceptionHandler;
+            Application.ThreadException += ThreadExceptionHandler;
+            TaskScheduler.UnobservedTaskException += TaskExceptionHandler;
 
             // Set troubleshooting boolean
             string regVal = Settings.GetRegistryKey(Settings.registryPath, "TroubleshootEnable");
