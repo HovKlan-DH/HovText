@@ -15,9 +15,7 @@ using System.Text;
 using System.Windows.Forms;
 using NHotkey.WindowsForms; // https://github.com/thomaslevesque/NHotkey
 using System.Management;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.ListView;
 using System.Text.RegularExpressions;
-using System.Security.Policy;
 
 // ----------------------------------------------------------------------------
 // Upload application to these places:
@@ -283,6 +281,7 @@ namespace HovText
         public static bool isFirstCallAfterHotkey = true;
         public static bool isSettingsFormVisible;
         public static string hovtextPage = "https://hovtext.com";
+        public static string hovtextPageDownload = "https://hovtext.com/download";
         internal static Settings settings;
         public static bool isTroubleshootEnabled;
         public static bool hasTroubleshootLogged;
@@ -348,27 +347,9 @@ namespace HovText
             // Setup form and all elements
             InitializeComponent();
 
-            /*
-            string myUrl = "https://forms.office.com/pages/responsepage.aspx?id=2CH5Eg3zlkWmUnBFszhIWm7wyvOCaIdGlCht1uJWNQtUN0VTUUo2VEQxTEJVSjVaNkhOSEpOQkFUUCQlQCN0PWcu";
-            bool isUrl = Uri.IsWellFormedUriString(myUrl, UriKind.Absolute);
-            Console.WriteLine(isUrl);
-
-            try
-            {
-                Uri myUri = new Uri(myUrl);
-                isUrl = true;
-            }
-            catch (UriFormatException)
-            {
-                isUrl = false;
-            }
-            Console.WriteLine(isUrl);
-            */
-
-
             // Get build type
-#if DEBUG
-            buildType = "Debug";
+            #if DEBUG
+                buildType = "Debug";
             #else
                 buildType = "Release";
             #endif
@@ -484,7 +465,6 @@ namespace HovText
             Logging.Log("Added HovText to clipboard chain");
 
             // Process clipboard at startup also (if application is enabled)
-//            if (GuiAppEnabled.Checked)
             if(isApplicationEnabled)
             {
                 ProcessClipboard();
@@ -498,7 +478,7 @@ namespace HovText
             // "test \ul text\ulnone  is good" for underline
             var sb = new StringBuilder();
             sb.Append(@"{\rtf1\ansi");
-            sb.Append(@" This application is open source and you can use it on any computer you want without any cost. You are of course encouraged to donate some $$$, if you use it and want to motivate for continues support :-) It is \ul not\ulnone  allowed to sell or distribute it in any commercial regard without written consent from the developer. \line ");
+            sb.Append(@" This application is open source and you can use it on any computer you want at no cost. You are of course encouraged to donate some $$$, if you use it and want to motivate for continues support :-) It is \ul not\ulnone  allowed to sell or distribute it in any commercial regard without written consent from the developer. \line ");
             sb.Append(@" \line ");
             sb.Append(@" Visit the HovText home page: \line ");
             sb.Append(@" "+ hovtextPage + @" \line ");
@@ -509,15 +489,6 @@ namespace HovText
             sb.Append(@" Jesper and Dennis ");
             sb.Append('}');
             AboutLabelDescription.Rtf = sb.ToString();
-
-            /*
-                        // Write text (URL) for the "Privacy" page
-                        var sb2 = new StringBuilder();
-                        sb2.Append(@"{\rtf1\ansi");
-                        sb2.Append(@" "+ hovtextPage + @"/funfacts ");
-                        sb2.Append('}');
-                        PrivacyLabelUrl.Rtf = sb2.ToString();
-            */
 
             GuiShowFontActive.Text = "Active entry\r\nLine 2\r\nLine 3\r\nLine 4\r\nLine 5\r\nLine 6\r\nLine 7";
             GuiShowFontEntry.Text = "Entry\r\nLine 2\r\nLine 3\r\nLine 4\r\nLine 5\r\nLine 6\r\nLine 7";
@@ -866,17 +837,6 @@ namespace HovText
                 entriesIsFavorite.Add(entryIndex, false);
 
                 // Filter lists
-                /*
-                bool isUrl = Uri.IsWellFormedUriString(clipboardText, UriKind.Absolute);
-                if (isUrl)
-                {
-                    entriesIsUrl.Add(entryIndex, true);
-                }
-                else
-                {
-                    entriesIsUrl.Add(entryIndex, false);
-                }
-                */
                 bool isUrl;
                 try
                 {
@@ -886,6 +846,13 @@ namespace HovText
                 catch (UriFormatException)
                 {
                     isUrl = false;
+                }
+                if (isUrl)
+                {
+                    entriesIsUrl.Add(entryIndex, true);
+                } else
+                {
+                    entriesIsUrl.Add(entryIndex, false);
                 }
                 bool isEmail = Regex.IsMatch(clipboardText, @"^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$");
                 if (isEmail)
@@ -1045,13 +1012,6 @@ namespace HovText
                             MessageBoxButtons.OK,
                             MessageBoxIcon.Error);
                 }
-
-//                // If the history UI is visible then update it dynamically
-//                if (history.Visible)
-//                {
-//                    history.SetupForm();
-//                    history.UpdateHistory("");
-//                }
             }
         }
 
@@ -1063,7 +1023,6 @@ namespace HovText
         public void GoEntryLowerNumber()
         {
             // Check if application is enabled
-//            if (GuiAppEnabled.Checked && entryCounter > 0)
             if (isApplicationEnabled && entryCounter > 0)
             {
 
@@ -1098,7 +1057,6 @@ namespace HovText
         public void GoEntryHigherNumber()
         {
             // Check if application is enabled
-//            if (GuiAppEnabled.Checked && entryCounter > 0)
             if (isApplicationEnabled && entryCounter > 0)
             {
 
@@ -1113,6 +1071,7 @@ namespace HovText
                     originatingApplicationName = GetActiveApplication();
                     history.SetupForm();
                 }
+
                 // Always change focus to HovText to ensure we can catch the key-up event
                 ChangeFocusToHovText();
 
@@ -1135,7 +1094,6 @@ namespace HovText
             isHistoryHotkeyPressed = false;
 
             // Check if application is enabled
-//            if (GuiAppEnabled.Checked && entryCounter > 0)
             if (isApplicationEnabled && entryCounter > 0)
             {
                 // Only proceed if we should actually restore something (we could come here from an empty favorite list view)
@@ -1239,18 +1197,11 @@ namespace HovText
         public void ToggleEnabled()
         {
             // Toggle the checkbox - this will also fire an "appEnabled_CheckedChanged" event
-//            GuiAppEnabled.Checked = !GuiAppEnabled.Checked;
             isApplicationEnabled = !isApplicationEnabled;
 
-//            if (GuiAppEnabled.Checked)
             if (isApplicationEnabled)
             {
                 Logging.Log("Enabled HovText");
-
-//                // Check if the history is enabled or not
-//                int historySearch = int.Parse((string)GetRegistryKey(registryPath, "HistorySearch"));
-//                int historyInstantSelect = int.Parse((string)GetRegistryKey(registryPath, "HistoryInstantSelect"));
-//                bool isEnabledHistory = historySearch == 1 || historyInstantSelect == 1;
 
                 // Add this application to the clipboard chain again
                 NativeMethods.AddClipboardFormatListener(this.Handle);
@@ -1269,9 +1220,7 @@ namespace HovText
                         GuiHotkeyBehaviourSystem.Checked = true;
                         GuiHotkeyPaste.Enabled = false;
                         break;
-                }
-
-                
+                }                                
 
                 GuiSearch.Enabled = true;
                 GuiInstantSelect.Enabled = true;
@@ -1322,94 +1271,6 @@ namespace HovText
             SetNotifyIcon();
         }
 
-
-        // ###########################################################################################
-        // Event that is triggede when application is toggled, either enabled or disabled
-        // ###########################################################################################
-
-/*
-        private void GuiAppEnabled_CheckedChanged(object sender, EventArgs e)
-        {
-            // Check if application is enabled
-            if (GuiAppEnabled.Checked)
-            {
-                Logging.Log("Enabled HovText");
-
-                // Add this application to the clipboard chain again
-                NativeMethods.AddClipboardFormatListener(this.Handle);
-                Logging.Log("Added HovText to clipboard chain");
-
-                ProcessClipboard();
-
-                string hotkeyBehaviour = GetRegistryKey(registryPath, "HotkeyBehaviour");
-                switch (hotkeyBehaviour)
-                {
-                    case "Paste":
-                        GuiHotkeyBehaviourPaste.Checked = true;
-                        GuiHotkeyPaste.Enabled = true;
-                        break;
-                    default:
-                        GuiHotkeyBehaviourSystem.Checked = true;
-                        GuiHotkeyPaste.Enabled = false;
-                        break;
-                }
-
-                // Enable other checkboxes
-                GuiHistoryEnabled.Enabled = true;
-                if (GuiHistoryEnabled.Checked)
-                {
-                    GuiCopyImages.Enabled = true;
-                    GuiPasteOnSelection.Enabled = true;
-                    GuiHotkeyEnable.Enabled = true;
-                    GuiHotkeyOlder.Enabled = true;
-                    GuiHotkeyNewer.Enabled = true;
-                    GuiFavoritesEnabled.Enabled = true;
-                    if (GuiFavoritesEnabled.Checked)
-                    {
-                        GuiHotkeyToggleFavorite.Enabled = true;
-                        GuiHotkeyToggleView.Enabled = true;
-                    }
-                }
-                GuiRestoreOriginal.Enabled = true;
-                GuiHotkeyBehaviourSystem.Enabled = true;
-                GuiHotkeyBehaviourPaste.Enabled = true;
-                GuiTrimWhitespaces.Enabled = true;
-            }
-            else
-            {
-                Logging.Log("Disabed HovText");
-
-                // Remove this application from the clipboard chain
-                NativeMethods.RemoveClipboardFormatListener(this.Handle);
-                Logging.Log("Removed HovText from clipboard chain");
-
-                // Restore the original clipboard format
-                if (isRestoreOriginal && entriesOriginal.Count > 0)
-                {
-                    RestoreOriginal(entryIndex);
-                }
-
-                // Disable other checkboxes
-                GuiHistoryEnabled.Enabled = false;
-                GuiFavoritesEnabled.Enabled = false;
-                GuiRestoreOriginal.Enabled = false;
-                GuiCopyImages.Enabled = false;
-                GuiTrimWhitespaces.Enabled = false;
-                GuiPasteOnSelection.Enabled = false;
-                GuiHotkeyEnable.Enabled = false;
-                GuiHotkeyOlder.Enabled = false;
-                GuiHotkeyNewer.Enabled = false;
-                GuiHotkeyPaste.Enabled = false;
-                GuiHotkeyBehaviourSystem.Enabled = false;
-                GuiHotkeyBehaviourPaste.Enabled = false;
-                GuiFavoritesEnabled.Enabled = false;
-                GuiHotkeyToggleFavorite.Enabled = false;
-                GuiHotkeyToggleView.Enabled = false;
-            }
-
-            SetNotifyIcon();
-        }
-*/
 
         // ###########################################################################################
         // Hide the "Settings" form - called when application is minimized
@@ -1589,7 +1450,6 @@ namespace HovText
                 string checkedVersion = Encoding.UTF8.GetString(responseBytes);
 
                 // Download the new stable version
-//                string versionOnline = webClient.DownloadString(hovtextPage + "/autoupdate/");
                 if (checkedVersion.Substring(0, 7) == "Version")
                 {
                     checkedVersion = checkedVersion.Substring(9);
@@ -2172,10 +2032,6 @@ namespace HovText
                     break;
             }
 
-//            // Hotkey for "Toggle application on/off"
-//            GuiHotkeyEnable.Enabled = true;
-
-
             // ------------------------------------------
             // "General" tab
             // ------------------------------------------
@@ -2185,12 +2041,10 @@ namespace HovText
             if (getKey == null)
             {
                 GuiStartWithWindows.Checked = false;
-//                Logging.Log("Start with Windows = [No]");
             }
             else
             {
                 GuiStartWithWindows.Checked = true;
-//                Logging.Log("Start with Windows = [Yes]");
 
                 // Overwrite "Run" if it does not contain "HovText.exe" or "--start-minimized"
                 string runEntry = GetRegistryKey(registryPathRun, "HovText");
@@ -2221,7 +2075,6 @@ namespace HovText
             // Close terminates HovText
             int closeTerminates = int.Parse((string)GetRegistryKey(registryPath, "CloseTerminates"));
             GuiCloseMinimize.Checked = closeTerminates == 1;
-//            isCloseMinimizes = GuiCloseMinimize.Checked;
             if (!GuiCloseMinimize.Checked)
             {
                 MinimizeBox = false;
@@ -2648,31 +2501,7 @@ namespace HovText
                 GuiCustomBorder.BackColor = Color.WhiteSmoke;
             }
         }
-
-
-        // ###########################################################################################
-        // Enable or disable the border color
-        // ###########################################################################################
-
-/*
-        private void EnableDisableBorderColor()
-        {
-
-            // Check if the "History border" checkbox is checked or if the element is enabled
-            if (historyBorderThickness > 0)
-            {
-                GuiCustomBorder.Enabled = true;
-                StyleLabelBorderColor.Enabled = true;
-                GuiCustomBorder.BackColor = ColorTranslator.FromHtml(historyColorsBorder[historyColorTheme]);
-            }
-            else
-            {
-                GuiCustomBorder.Enabled = false;
-                StyleLabelBorderColor.Enabled = false;
-                GuiCustomBorder.BackColor = Color.WhiteSmoke;
-            }
-        }
-*/
+         
 
         // ###########################################################################################
         // Change in the history color
@@ -2720,7 +2549,6 @@ namespace HovText
         private void GuiCloseMinimize_CheckedChanged(object sender, EventArgs e)
         {
             string status = GuiCloseMinimize.Checked ? "1" : "0";
-//            isCloseMinimizes = GuiCloseMinimize.Checked;
             SetRegistryKey(registryPath, "CloseTerminates", status);
             if (!GuiCloseMinimize.Checked)
             {
@@ -3092,11 +2920,7 @@ namespace HovText
 
         private void HotkeySearch(object sender, NHotkey.HotkeyEventArgs e)
         {
-
-            /* hest */
-
             // Check if application is enabled
-            //            if (GuiAppEnabled.Checked && entryCounter > 0)
             if (isApplicationEnabled && entryCounter > 0)
             {
 
@@ -3145,7 +2969,6 @@ namespace HovText
         private void HotkeyGetOlderEntry(object sender, NHotkey.HotkeyEventArgs e)
         {
             Logging.Log("Pressed the \"Get older history entry\" hotkey");
-            /* HEST */
             isHistoryHotkeyPressed = true;
             GoEntryLowerNumber();
             
@@ -3160,7 +2983,6 @@ namespace HovText
         private void HotkeyGetNewerEntry(object sender, NHotkey.HotkeyEventArgs e)
         {
             Logging.Log("Pressed the \"Get newer history entry\" hotkey");
-            /* HEST */
             isHistoryHotkeyPressed = true; 
             GoEntryHigherNumber();
             
@@ -3434,7 +3256,6 @@ namespace HovText
         private void ApplyHotkeys_Click(object sender, EventArgs e)
         {
             SetHotkeys("Apply hotkeys button press");
-//            GuiApplyHotkey.Focus();
         }
 
 
@@ -3837,8 +3658,6 @@ namespace HovText
         }
 
 
-
-
         // ###########################################################################################
         // Get customer color inputs
         // ###########################################################################################
@@ -4050,35 +3869,15 @@ namespace HovText
             // If there is a logfile present then enable the UI fields for it
             if (File.Exists(pathAndLog))
             {
-//                GuiTroubleshootOpenLocation.Enabled = true;
                 GuiTroubleshootDeleteFile.Enabled = true;
             }
         }
 
 
         // ###########################################################################################
-        // Troubleshooting, open explorer location for the logfile and highlight the file
+        // Troubleshooting, open explorer location for the executable and highlight the file
         // ###########################################################################################
 
-/*
-        private void GuiTroubleshootOpenLocation_Click(object sender, EventArgs e)
-        {
-            if (File.Exists(pathAndLog))
-            {
-                OpenExecuteableLocation(pathAndLog);
-                Logging.Log("Clicked the \"Open logfile location\"");
-            }
-            else
-            {
-                MessageBox.Show(pathAndLog + " does not exists!",
-                        "WARNING",
-                        MessageBoxButtons.OK,
-                        MessageBoxIcon.Warning);
-                GuiTroubleshootOpenLocation.Enabled = false;
-                GuiTroubleshootDeleteFile.Enabled = false;
-            }
-        }
-*/
         private void Button1_Click(object sender, EventArgs e)
         {
             string appPath = System.Reflection.Assembly.GetExecutingAssembly().Location;
@@ -4096,7 +3895,6 @@ namespace HovText
             if (File.Exists(pathAndLog))
             {
                 File.Delete(@pathAndLog);
-//                GuiTroubleshootOpenLocation.Enabled = false;
                 GuiTroubleshootDeleteFile.Enabled = false;
             }
             else
@@ -4105,7 +3903,6 @@ namespace HovText
                     "WARNING",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Warning);
-//                GuiTroubleshootOpenLocation.Enabled = false;
                 GuiTroubleshootDeleteFile.Enabled = false;
             }
         }
@@ -4122,12 +3919,10 @@ namespace HovText
             {
                 if (File.Exists(pathAndLog))
                 {
-//                    GuiTroubleshootOpenLocation.Enabled = true;
                     GuiTroubleshootDeleteFile.Enabled = true;
                 }
                 else
                 {
-//                    GuiTroubleshootOpenLocation.Enabled = false;
                     GuiTroubleshootDeleteFile.Enabled = false;
                 }
             }
@@ -4175,62 +3970,6 @@ namespace HovText
                     GuiAttachFile.Text = "Attach troubleshooting logfile (file does not exists)";
                 }
             }
-
-/*
-            // "Privacy" tab
-            if (TabControl.SelectedTab.AccessibilityObject.Name == "Privacy")
-            {
-                try
-                {
-                    WebClient webClient = new WebClient();
-                    ServicePointManager.Expect100Continue = true;
-                    ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12 | SecurityProtocolType.Tls13;
-                    webClient.Headers.Add("user-agent", ("HovText " + AboutLabelVersion.Text).Trim());
-
-                    // Prepare the POST data
-                    var postData = new System.Collections.Specialized.NameValueCollection
-                    {
-                        { "osVersion", osVersion },
-                        { "cpuArchitecture", cpuArchitecture }
-                    };
-        
-                    // Send the data to the server using the UploadValues method
-                    byte[] responseBytes = webClient.UploadValues(hovtextPage +"/autoupdate/privacy/", postData);
-
-                    // Convert the response bytes to a string
-                    string responseBody = Encoding.UTF8.GetString(responseBytes);
-
-                    // Parse the JSON response using JsonConvert.DeserializeObject
-                    dynamic data = JsonConvert.DeserializeObject(responseBody);
-
-                    // Set the text of the labels
-                    PrivacyLabelTimestampData.Text = data.timestamp;
-                    PrivacyLabelIpaddrData.Text = data.ipaddr;
-                    PrivacyLabelVersionData.Text = data.version;
-                    PrivacyLabelOsData.Text = data.osVersion;
-                    PrivacyLabelCpuData.Text = data.cpuArchitecture;
-//                    PrivacyLabelCodeData.Text = data.countryCode;
-                    PrivacyLabelCountryData.Text = data.countryName;
-                }
-                catch (WebException ex)
-                {
-                    // Catch the exception though this is not so critical that we need to disturb the developer
-                    Logging.Log("Exception raised (Settings):");
-                    Logging.Log("  Cannot connect with server to submit \"Privacy\" information:");
-                    Logging.Log("  " + ex.Message);
-
-                    // Set the text of the labels
-                    string serverDown = "Cannot connect with server - retry later ...";
-                    PrivacyLabelTimestampData.Text = serverDown;
-                    PrivacyLabelIpaddrData.Text = serverDown;
-                    PrivacyLabelVersionData.Text = serverDown;
-                    PrivacyLabelOsData.Text = serverDown;
-                    PrivacyLabelCpuData.Text = serverDown;
-//                    PrivacyLabelCodeData.Text = serverDown;
-                    PrivacyLabelCountryData.Text = serverDown;
-                }
-            }
-*/
         }
 
 
@@ -4304,8 +4043,6 @@ namespace HovText
                     // Send it to the server
                     var response = webClient.UploadValues(hovtextPage + "/contact/sendmail/", "POST", data);
                     string resultFromServer = Encoding.UTF8.GetString(response);
-//                    Logging.Log("Result from posting to web page [" + hovtextPage + "/contact/sendmail/]");
-//                    Logging.Log("  [" + resultFromServer + "]");
                     if (resultFromServer == "Success")
                     {
                         GuiEmailAddr.Text = "";
@@ -4511,7 +4248,7 @@ namespace HovText
 
         private void PopulateDisplaySetup()
         {
-            // remove all elements
+            // Remove all elements
             GuiLayoutGroup3.Controls.Clear();
 
             // Build new radio buttons
@@ -4616,7 +4353,6 @@ namespace HovText
             SetRegistryKey(registryPath, "HistoryBorderThickness", historyBorderThickness.ToString());
             GuiShowFontActive.Refresh(); // update/redraw the border
             GuiShowFont.Refresh(); // update/redraw the border
-//            EnableDisableBorderColor(); // to enable/disable the border color
         }
 
 
@@ -4672,8 +4408,6 @@ namespace HovText
             //            
             */
 
-/* HEST DISABLED FOR NOW DUE TO WINDOWS DEFENDER FALSE-POSITIVE
-*/
             string urlToExe = versionType == "Development" ? "/autoupdate/development/HovText.exe" : "/download/" + versionType + "/HovText.exe";
             string appUrl = Settings.hovtextPage + urlToExe;
 

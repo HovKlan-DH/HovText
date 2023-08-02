@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text;
 using System.Windows.Forms;
 
 namespace HovText
@@ -13,6 +14,13 @@ namespace HovText
         public Update()
         {
             InitializeComponent();
+
+            // Update RTF text with a link
+            var sb = new StringBuilder();
+            sb.Append(@"{\rtf1\ansi");
+            sb.Append(@" Check what has changed on the HovText download page, " + Settings.hovtextPageDownload + @" \line ");
+            sb.Append('}');
+            UpdateGoToHomepage.Rtf = sb.ToString();
 
             // Close form on ESCAPE
             this.KeyPreview = true;
@@ -73,6 +81,12 @@ namespace HovText
             {
                 this.Close();
             }
+        }
+
+        private void UpdateGoToHomepage_LinkClicked(object sender, LinkClickedEventArgs e)
+        {
+            Logging.Log("Clicked the download page link in \"Update\"");
+            System.Diagnostics.Process.Start(e.LinkText);
         }
 
 

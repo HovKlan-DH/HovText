@@ -38,11 +38,12 @@
             this.GuiAppVerOnline = new System.Windows.Forms.Label();
             this.GuiUpdateButton3 = new System.Windows.Forms.Button();
             this.TextBox1 = new System.Windows.Forms.TextBox();
+            this.UpdateGoToHomepage = new System.Windows.Forms.RichTextBox();
             this.SuspendLayout();
             // 
             // GuiUpdateButton1
             // 
-            this.GuiUpdateButton1.Location = new System.Drawing.Point(400, 200);
+            this.GuiUpdateButton1.Location = new System.Drawing.Point(400, 228);
             this.GuiUpdateButton1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.GuiUpdateButton1.Name = "GuiUpdateButton1";
             this.GuiUpdateButton1.Size = new System.Drawing.Size(182, 37);
@@ -53,7 +54,7 @@
             // 
             // GuiUpdateButton2
             // 
-            this.GuiUpdateButton2.Location = new System.Drawing.Point(210, 200);
+            this.GuiUpdateButton2.Location = new System.Drawing.Point(210, 228);
             this.GuiUpdateButton2.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.GuiUpdateButton2.Name = "GuiUpdateButton2";
             this.GuiUpdateButton2.Size = new System.Drawing.Size(182, 37);
@@ -64,19 +65,19 @@
             // 
             // Label1
             // 
-            this.Label1.AutoSize = true;
             this.Label1.Location = new System.Drawing.Point(14, 30);
             this.Label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.Label1.Name = "Label1";
-            this.Label1.Size = new System.Drawing.Size(596, 25);
+            this.Label1.Size = new System.Drawing.Size(560, 58);
             this.Label1.TabIndex = 2;
-            this.Label1.Text = "The newest stable version of HovText is different than the version you use:";
+            this.Label1.Text = "The newest stable version available on the HovText home page is different from th" +
+    "e version you use.";
             // 
             // Label2
             // 
             this.Label2.AutoSize = true;
             this.Label2.Font = new System.Drawing.Font("Segoe UI", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Label2.Location = new System.Drawing.Point(43, 71);
+            this.Label2.Location = new System.Drawing.Point(43, 88);
             this.Label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.Label2.Name = "Label2";
             this.Label2.Size = new System.Drawing.Size(161, 31);
@@ -88,7 +89,7 @@
             // 
             this.Label3.AutoSize = true;
             this.Label3.Font = new System.Drawing.Font("Segoe UI", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Label3.Location = new System.Drawing.Point(43, 105);
+            this.Label3.Location = new System.Drawing.Point(43, 122);
             this.Label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.Label3.Name = "Label3";
             this.Label3.Size = new System.Drawing.Size(143, 31);
@@ -100,7 +101,7 @@
             // 
             this.GuiAppVerYours.AutoSize = true;
             this.GuiAppVerYours.Font = new System.Drawing.Font("Segoe UI", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.GuiAppVerYours.Location = new System.Drawing.Point(177, 105);
+            this.GuiAppVerYours.Location = new System.Drawing.Point(177, 122);
             this.GuiAppVerYours.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.GuiAppVerYours.Name = "GuiAppVerYours";
             this.GuiAppVerYours.Size = new System.Drawing.Size(28, 31);
@@ -112,7 +113,7 @@
             // 
             this.GuiAppVerOnline.AutoSize = true;
             this.GuiAppVerOnline.Font = new System.Drawing.Font("Segoe UI", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.GuiAppVerOnline.Location = new System.Drawing.Point(177, 71);
+            this.GuiAppVerOnline.Location = new System.Drawing.Point(177, 88);
             this.GuiAppVerOnline.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.GuiAppVerOnline.Name = "GuiAppVerOnline";
             this.GuiAppVerOnline.Size = new System.Drawing.Size(28, 31);
@@ -122,7 +123,7 @@
             // 
             // GuiUpdateButton3
             // 
-            this.GuiUpdateButton3.Location = new System.Drawing.Point(19, 200);
+            this.GuiUpdateButton3.Location = new System.Drawing.Point(19, 228);
             this.GuiUpdateButton3.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.GuiUpdateButton3.Name = "GuiUpdateButton3";
             this.GuiUpdateButton3.Size = new System.Drawing.Size(183, 37);
@@ -135,27 +136,41 @@
             // 
             this.TextBox1.BackColor = System.Drawing.SystemColors.Control;
             this.TextBox1.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.TextBox1.Location = new System.Drawing.Point(19, 158);
+            this.TextBox1.Location = new System.Drawing.Point(19, 188);
             this.TextBox1.Multiline = true;
             this.TextBox1.Name = "TextBox1";
-            this.TextBox1.Size = new System.Drawing.Size(555, 39);
+            this.TextBox1.Size = new System.Drawing.Size(555, 32);
             this.TextBox1.TabIndex = 8;
-            this.TextBox1.Text = "Please choose one of the below options to proceed.";
+            this.TextBox1.Text = "Please choose one of the options below to proceed:";
+            // 
+            // UpdateGoToHomepage
+            // 
+            this.UpdateGoToHomepage.BackColor = System.Drawing.SystemColors.Control;
+            this.UpdateGoToHomepage.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.UpdateGoToHomepage.Location = new System.Drawing.Point(22, 166);
+            this.UpdateGoToHomepage.Name = "UpdateGoToHomepage";
+            this.UpdateGoToHomepage.ReadOnly = true;
+            this.UpdateGoToHomepage.Size = new System.Drawing.Size(552, 42);
+            this.UpdateGoToHomepage.TabIndex = 9;
+            this.UpdateGoToHomepage.TabStop = false;
+            this.UpdateGoToHomepage.Text = "#";
+            this.UpdateGoToHomepage.LinkClicked += new System.Windows.Forms.LinkClickedEventHandler(this.UpdateGoToHomepage_LinkClicked);
             // 
             // Update
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(601, 268);
+            this.ClientSize = new System.Drawing.Size(601, 288);
             this.Controls.Add(this.GuiUpdateButton3);
+            this.Controls.Add(this.GuiUpdateButton2);
+            this.Controls.Add(this.GuiUpdateButton1);
             this.Controls.Add(this.TextBox1);
+            this.Controls.Add(this.UpdateGoToHomepage);
             this.Controls.Add(this.GuiAppVerOnline);
             this.Controls.Add(this.GuiAppVerYours);
             this.Controls.Add(this.Label3);
             this.Controls.Add(this.Label2);
             this.Controls.Add(this.Label1);
-            this.Controls.Add(this.GuiUpdateButton2);
-            this.Controls.Add(this.GuiUpdateButton1);
             this.Font = new System.Drawing.Font("Segoe UI", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
@@ -180,5 +195,6 @@
         public System.Windows.Forms.Label GuiAppVerOnline;
         private System.Windows.Forms.Button GuiUpdateButton3;
         private System.Windows.Forms.TextBox TextBox1;
+        private System.Windows.Forms.RichTextBox UpdateGoToHomepage;
     }
 }
