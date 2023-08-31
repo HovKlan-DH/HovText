@@ -3611,7 +3611,7 @@ namespace HovText
                 notifyIcon.ShowBalloonTip(
                     10000,
                     "HovText is still running",
-                    "HovText continues running in the background to perform its duties. You can see the icon in the tray area",
+                    "HovText continues running in the background to perform its duties. You can see the icon in the tray area.",
                     ToolTipIcon.Info
                     );
 
