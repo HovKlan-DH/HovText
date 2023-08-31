@@ -1,10 +1,15 @@
 # HovText
 
-HovText removes any text formatting from the clipboard and it works as a clipboard manager that can store and retrieve previous copied texts and images. Any text in the clipboard will be pasted as cleartext without any HTML code, font size, color or formatting etc. HovText remembers all copied texts and it is possible to restore the original formatting on the previous copied texts.
+```diff
++ NEW VERSION COMING IN SEPTEMBER OR OCTOBER 2023 :-)
+```
 
-A typical scenario is to copy a text from the internet and paste this into e.g. Outlook, Word or alike. If the copied text has formatting, then this will be pasted along also and that is often inconvenient as it spoils the current formatting for the document. Some applications has their own way of importing the unformatted text, but with HovText then ALL programs has this option and it works in the same way... all the time :-)
 
-You can say that it works basically in the same way as copying the formatted text to Notepad and then copy the text from Notepad and insert in to e.g. Word or Outlook + it will remove any whitespaces or new-lines in the beginning or end of the text.
+HovText is a Windows clipboard manager that also removes any text formatting from the clipboard. It can store and retrieve previous copied texts and images, and any text in the clipboard will be pasted as cleartext without any HTML code, font size, color or formatting etc. HovText remembers all copied texts and it is possible to restore the original formatting on the previous copied texts.
+
+A typical scenario is to copy a text from the internet and paste this into e.g. Outlook, Word or alike. If the copied text has some styling applied, then this will be pasted along also and that is often inconvenient as it spoils the current formatting for the document. Some applications has their own way of importing the raw unformatted text, but with HovText then ALL programs have this option and it works in the same way... all the time... easy :-)
+
+You can say that it works basically in the same way as pasting the formatted text to Notepad and then copy the text from Notepad and paste in to e.g. Word or Outlook + it will remove any whitespaces or new-lines in the beginning or end of the text.
 
 ## Capabilities
 
