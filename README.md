@@ -1,10 +1,5 @@
 # HovText
 
-```diff
-+ NEW VERSION COMING IN SEPTEMBER OR OCTOBER 2023 :-)
-```
-
-
 HovText is a Windows clipboard manager that also removes any text formatting from the clipboard. It can store and retrieve previous copied texts and images, and any text in the clipboard will be pasted as cleartext without any HTML code, font size, color or formatting etc. HovText remembers all copied texts and it is possible to restore the original formatting on the previous copied texts.
 
 A typical scenario is to copy a text from the internet and paste this into e.g. Outlook, Word or alike. If the copied text has some styling applied, then this will be pasted along also and that is often inconvenient as it spoils the current formatting for the document. Some applications has their own way of importing the raw unformatted text, but with HovText then ALL programs have this option and it works in the same way... all the time... easy :-)
@@ -45,10 +40,12 @@ The full documentation for how to use this application is available on the HovTe
 
 ![Style](https://hovtext.com/documentation/images/Style.jpg)
 
+![Colors](https://hovtext.com/documentation/images/Colors.jpg)
+
 ![Advanced](https://hovtext.com/documentation/images/Advanced.jpg)
 
 ![Feedback](https://hovtext.com/documentation/images/Feedback.jpg)
 
 ![About](https://hovtext.com/documentation/images/About.jpg)
 
-![History list with a few favorites marked](https://hovtext.com/documentation/images/HistoryList2.jpg)
+![History list](https://hovtext.com/documentation/images/HistoryList0jpg)
