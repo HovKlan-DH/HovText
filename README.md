@@ -10,6 +10,7 @@ You can say that it works basically in the same way as pasting the formatted tex
 
 * Removes all formatting from the clipboard
 * Remembers all copied texts and images that can be easily restored via a clipboard manager
+* Intuitive and fast UI for finding previous copied texts or images
 * Keeps the most used clipboard entries at top
 * Favorite entries can be marked for quicker retrival
 * Can restore original text formatting
@@ -48,4 +49,4 @@ The full documentation for how to use this application is available on the HovTe
 
 ![About](https://hovtext.com/documentation/images/About.jpg)
 
-![History list](https://hovtext.com/documentation/images/HistoryList0jpg)
+![History list](https://hovtext.com/documentation/images/HistoryList0.jpg)
