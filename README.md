@@ -33,7 +33,7 @@ The full documentation for how to use this application is available on the HovTe
 
 ## Screenshots
 
-![Settings](https://hovtext.com/documentation/images/General-NY.jpg)
+![Settings](https://hovtext.com/documentation/images/General.jpg)
 
 ![Hotkeys](https://hovtext.com/documentation/images/Hotkeys.jpg)
 
