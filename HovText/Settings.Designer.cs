@@ -186,6 +186,9 @@
             this.terminateTimer = new System.Windows.Forms.Timer(this.components);
             this.colorDialogSearch = new System.Windows.Forms.ColorDialog();
             this.colorDialogSearchText = new System.Windows.Forms.ColorDialog();
+            this.label3 = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
+            this.label9 = new System.Windows.Forms.Label();
             this.notifyIconMenuStrip.SuspendLayout();
             this.tabAbout.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.GuiPictureBox1)).BeginInit();
@@ -721,7 +724,6 @@
             this.GuiHotkeySearch.TabIndex = 212;
             this.GuiHotkeySearch.Text = "Default text";
             this.GuiHotkeySearch.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.GuiHotkeySearch.Click += new System.EventHandler(this.GuiHotkeySearch_Click);
             this.GuiHotkeySearch.Enter += new System.EventHandler(this.GuiHotkeySearch_Enter);
             this.GuiHotkeySearch.KeyDown += new System.Windows.Forms.KeyEventHandler(this.GuiHotkeySearch_KeyDown);
             // 
@@ -922,6 +924,9 @@
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.label9);
+            this.groupBox2.Controls.Add(this.label5);
+            this.groupBox2.Controls.Add(this.label3);
             this.groupBox2.Controls.Add(this.GuiAlwaysPasteOriginal);
             this.groupBox2.Controls.Add(this.GuiSearch);
             this.groupBox2.Controls.Add(this.GuiPasteOnSelection);
@@ -940,9 +945,9 @@
             this.GuiAlwaysPasteOriginal.AutoSize = true;
             this.GuiAlwaysPasteOriginal.Location = new System.Drawing.Point(28, 213);
             this.GuiAlwaysPasteOriginal.Name = "GuiAlwaysPasteOriginal";
-            this.GuiAlwaysPasteOriginal.Size = new System.Drawing.Size(345, 29);
+            this.GuiAlwaysPasteOriginal.Size = new System.Drawing.Size(435, 29);
             this.GuiAlwaysPasteOriginal.TabIndex = 126;
-            this.GuiAlwaysPasteOriginal.Text = "Always paste original clipboard entry";
+            this.GuiAlwaysPasteOriginal.Text = "Always paste original/formatted clipboard entry";
             this.GuiAlwaysPasteOriginal.UseVisualStyleBackColor = true;
             this.GuiAlwaysPasteOriginal.CheckedChanged += new System.EventHandler(this.GuiAlwaysPasteOriginal_CheckedChanged);
             // 
@@ -1904,6 +1909,36 @@
             this.terminateTimer.Interval = 5000;
             this.terminateTimer.Tick += new System.EventHandler(this.TerminateTimer_Tick);
             // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Font = new System.Drawing.Font("Segoe UI", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label3.Location = new System.Drawing.Point(258, 44);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(60, 17);
+            this.label3.TabIndex = 127;
+            this.label3.Text = "(Alt + S)";
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Font = new System.Drawing.Font("Segoe UI", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label5.Location = new System.Drawing.Point(314, 80);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(63, 17);
+            this.label5.TabIndex = 128;
+            this.label5.Text = "(Alt + H)";
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Font = new System.Drawing.Font("Segoe UI", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label9.Location = new System.Drawing.Point(383, 80);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(109, 17);
+            this.label9.TabIndex = 129;
+            this.label9.Text = "(Shift + Alt + H)";
+            // 
             // Settings
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(11F, 25F);
@@ -2136,6 +2171,9 @@
         private System.Windows.Forms.ColorDialog colorDialogSearchText;
         private System.Windows.Forms.CheckBox GuiAlwaysPasteOriginal;
         private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label label9;
     }
 
 }

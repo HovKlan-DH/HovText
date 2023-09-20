@@ -1039,10 +1039,13 @@ namespace HovText
         // ###########################################################################################
         // Search filter.
         // Filter keywords:
-        //   :f[avorite] 
-        //   :u[rl]
         //   :e[mail]
+        //   :f[avorite] 
         //   :i[mage]
+        //   :m[ail]
+        //   :p[icture]
+        //   :u[rl]
+        //   :w[eb]
         // ###########################################################################################
 
         private void Search_TextChanged(object sender, System.EventArgs e)
@@ -1052,14 +1055,17 @@ namespace HovText
 
             // Check if the input contains a word starting with ":u" or ":e"
             string favoriteKeyword = searchTexts.FirstOrDefault(text => text.StartsWith(":f")); 
-            string urlKeyword = searchTexts.FirstOrDefault(text => text.StartsWith(":u"));
-            string emailKeyword = searchTexts.FirstOrDefault(text => text.StartsWith(":e"));
-            string imageKeyword = searchTexts.FirstOrDefault(text => text.StartsWith(":i"));
+            string urlKeyword1 = searchTexts.FirstOrDefault(text => text.StartsWith(":u"));
+            string urlKeyword2 = searchTexts.FirstOrDefault(text => text.StartsWith(":w"));
+            string emailKeyword1 = searchTexts.FirstOrDefault(text => text.StartsWith(":e"));
+            string emailKeyword2 = searchTexts.FirstOrDefault(text => text.StartsWith(":m"));
+            string imageKeyword1 = searchTexts.FirstOrDefault(text => text.StartsWith(":i"));
+            string imageKeyword2 = searchTexts.FirstOrDefault(text => text.StartsWith(":p"));
 
             bool searchForFavorite = favoriteKeyword != null;
-            bool searchForUrl = urlKeyword != null;
-            bool searchForEmail = emailKeyword != null;
-            bool searchForImage = imageKeyword != null;
+            bool searchForUrl = urlKeyword1 != null || urlKeyword2 != null;
+            bool searchForEmail = emailKeyword1 != null || emailKeyword2 != null;
+            bool searchForImage = imageKeyword1 != null || imageKeyword2 != null;
 
             // If ":f" or ":u" or ":e" or ":i" is found, remove it from the searchTexts array
             if (searchForFavorite)
@@ -1068,19 +1074,19 @@ namespace HovText
             }
             if (searchForUrl)
             {
-                searchTexts = searchTexts.Where(text => text != urlKeyword).ToArray();
+                searchTexts = searchTexts.Where(text => text != urlKeyword1 && text != urlKeyword2).ToArray();
             }
             if (searchForEmail)
             {
-                searchTexts = searchTexts.Where(text => text != emailKeyword).ToArray();
+                searchTexts = searchTexts.Where(text => text != emailKeyword1 && text != emailKeyword2).ToArray();
             }
             if (searchForImage)
             {
-                searchTexts = searchTexts.Where(text => text != imageKeyword).ToArray();
+                searchTexts = searchTexts.Where(text => text != imageKeyword1 && text != imageKeyword2).ToArray();
             }
 
-            // Remove terms that start with ":" (except for ":u*" and ":e*")
-            searchTexts = searchTexts.Where(text => !text.StartsWith(":") || text == favoriteKeyword || text == urlKeyword || text == emailKeyword || text == imageKeyword).ToArray();
+            // Remove terms that start with ":" (except for the special ones)
+            searchTexts = searchTexts.Where(text => !text.StartsWith(":") || text == favoriteKeyword || text == urlKeyword1 || text == urlKeyword2 || text == emailKeyword1 || text == emailKeyword2 || text == imageKeyword1 || text == imageKeyword2).ToArray();
 
             // Perform a case-insensitive wildcard search using LINQ
             var searchResults = Settings.entriesText

@@ -43,7 +43,7 @@
             // 
             // GuiUpdateButton1
             // 
-            this.GuiUpdateButton1.Location = new System.Drawing.Point(400, 228);
+            this.GuiUpdateButton1.Location = new System.Drawing.Point(420, 228);
             this.GuiUpdateButton1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.GuiUpdateButton1.Name = "GuiUpdateButton1";
             this.GuiUpdateButton1.Size = new System.Drawing.Size(182, 37);
@@ -54,7 +54,7 @@
             // 
             // GuiUpdateButton2
             // 
-            this.GuiUpdateButton2.Location = new System.Drawing.Point(210, 228);
+            this.GuiUpdateButton2.Location = new System.Drawing.Point(220, 228);
             this.GuiUpdateButton2.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.GuiUpdateButton2.Name = "GuiUpdateButton2";
             this.GuiUpdateButton2.Size = new System.Drawing.Size(182, 37);
@@ -160,7 +160,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(601, 288);
+            this.ClientSize = new System.Drawing.Size(621, 288);
             this.Controls.Add(this.GuiUpdateButton3);
             this.Controls.Add(this.GuiUpdateButton2);
             this.Controls.Add(this.GuiUpdateButton1);

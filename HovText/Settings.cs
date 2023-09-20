@@ -495,6 +495,9 @@ namespace HovText
 
             // Set the initial text on the tray icon
             UpdateNotifyIconText();
+
+            // Update the location of the dynamic labels
+            UpdateLocationDynamicLabels();
         }
 
 
@@ -3016,6 +3019,32 @@ namespace HovText
 
 
         // ###########################################################################################
+        // Rearrange the dynamic labels for the "interface" hotkeys
+        // ###########################################################################################
+
+        private void UpdateLocationDynamicLabels()
+        {
+            Graphics g = GuiSearch.CreateGraphics();
+            SizeF size = g.MeasureString(GuiSearch.Text, GuiSearch.Font);
+            label3.Text = "(" + GuiHotkeySearch.Text + ")";
+            int centeredY = GuiSearch.Location.Y + (GuiSearch.Height - label3.Height) / 2;
+            label3.Location = new Point(GuiSearch.Location.X + (int)size.Width + 10 + 10, centeredY);
+
+            g = GuiInstantSelect.CreateGraphics();
+            size = g.MeasureString(GuiInstantSelect.Text, GuiInstantSelect.Font);
+            label5.Text = "(" + GuiHotkeyOlder.Text + ")";
+            centeredY = GuiInstantSelect.Location.Y + (GuiInstantSelect.Height - label5.Height) / 2;
+            label5.Location = new Point(GuiInstantSelect.Location.X + (int)size.Width + 10 + 10, centeredY);
+
+            g = label3.CreateGraphics();
+            size = g.MeasureString(label3.Text, label3.Font);
+            label9.Text = "(" + GuiHotkeyNewer.Text + ")";
+            centeredY = label5.Location.Y + (label5.Height - label9.Height) / 2;
+            label9.Location = new Point(label5.Location.X + (int)size.Width + 12, centeredY);
+        }
+
+
+        // ###########################################################################################
         // On "key down" in one of the hotkey fields then convert that in to a string
         // ###########################################################################################
 
@@ -3075,6 +3104,7 @@ namespace HovText
         {
             string hotkey = ConvertKeyboardInputToString(e);
             GuiHotkeySearch.Text = hotkey;
+            
             if (e.Alt)
             {
                 // https://stackoverflow.com/a/3068797/2028935
@@ -3150,14 +3180,9 @@ namespace HovText
 
         private void GuiHotkeySearch_Enter(object sender, EventArgs e)
         {
-        }
-
-        private void GuiHotkeySearch_Click(object sender, EventArgs e)
-        {
             hotkey = "hotkeySearch";
             ModifyHotkey();
         }
-
 
         private void HotkeyOlder_Enter(object sender, EventArgs e)
         {
@@ -3256,6 +3281,7 @@ namespace HovText
         private void ApplyHotkeys_Click(object sender, EventArgs e)
         {
             SetHotkeys("Apply hotkeys button press");
+            UpdateLocationDynamicLabels();
         }
 
 
