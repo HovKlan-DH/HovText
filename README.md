@@ -22,7 +22,6 @@ You can say that it works basically in the same way as pasting the formatted tex
 * Configurable global hotkeys for all actions
 * Built-in cleanup possibility as-if application has never been run on system
 * No installation required - portable executeable
-* Requires Windows 10 and .NET Framework 4.8 or newer
 * No transfer of data anywhere - no cloud or clipboard sharing
 * No registration or advertising - no nags
 * Freeware and open source available on GitHub
