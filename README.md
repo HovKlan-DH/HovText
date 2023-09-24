@@ -27,6 +27,12 @@ You can say that it works basically in the same way as pasting the formatted tex
 * No registration or advertising - no nags
 * Freeware and open source available on GitHub
 
+## Requirements
+
+HovText is compatible with 32-bit and 64-bit Windows systems, ranging from the ancient Windows XP to Windows 11. However, support is only provided for Windows 10, as it is currently what I am using at home :-)
+
+It requires .NET Frameowrk 4.8 or newer
+
 ## Documentation
 
 The full documentation for how to use this application is available on the HovText home page, https://hovtext.com/documentation/
