@@ -38,6 +38,8 @@ The full documentation for how to use this application is available on the HovTe
 
 ## Screenshots
 
+![History list](https://hovtext.com/documentation/images/HistoryList0.jpg)
+
 ![Settings](https://hovtext.com/documentation/images/General.jpg)
 
 ![Hotkeys](https://hovtext.com/documentation/images/Hotkeys.jpg)
@@ -53,5 +55,3 @@ The full documentation for how to use this application is available on the HovTe
 ![Feedback](https://hovtext.com/documentation/images/Feedback.jpg)
 
 ![About](https://hovtext.com/documentation/images/About.jpg)
-
-![History list](https://hovtext.com/documentation/images/HistoryList0.jpg)
