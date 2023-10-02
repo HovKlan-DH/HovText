@@ -1,6 +1,6 @@
 # HovText
 
-Official home page is https://hovtext.com/
+Official home page is https://hovtext.com
 
 HovText is a Windows clipboard manager that also removes any text formatting from the clipboard. It can store and retrieve previous copied texts and images, and any text in the clipboard will be pasted as cleartext without any HTML code, font size, color or formatting etc. HovText remembers all copied texts and it is possible to restore the original formatting on the previous copied texts.
 
