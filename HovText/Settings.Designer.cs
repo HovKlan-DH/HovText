@@ -92,6 +92,9 @@
             this.label8 = new System.Windows.Forms.Label();
             this.tabGeneral = new System.Windows.Forms.TabPage();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.label9 = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
             this.GuiAlwaysPasteOriginal = new System.Windows.Forms.CheckBox();
             this.GuiSearch = new System.Windows.Forms.CheckBox();
             this.GuiInstantSelect = new System.Windows.Forms.CheckBox();
@@ -186,9 +189,8 @@
             this.terminateTimer = new System.Windows.Forms.Timer(this.components);
             this.colorDialogSearch = new System.Windows.Forms.ColorDialog();
             this.colorDialogSearchText = new System.Windows.Forms.ColorDialog();
-            this.label3 = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
-            this.label9 = new System.Windows.Forms.Label();
+            this.GuiStartDisabled = new System.Windows.Forms.CheckBox();
+            this.GuiCopyClipboardStartup = new System.Windows.Forms.CheckBox();
             this.notifyIconMenuStrip.SuspendLayout();
             this.tabAbout.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.GuiPictureBox1)).BeginInit();
@@ -277,11 +279,12 @@
             this.GuiCloseMinimize.AutoSize = true;
             this.GuiCloseMinimize.Checked = true;
             this.GuiCloseMinimize.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.GuiCloseMinimize.Location = new System.Drawing.Point(29, 143);
+            this.GuiCloseMinimize.ForeColor = System.Drawing.Color.Red;
+            this.GuiCloseMinimize.Location = new System.Drawing.Point(29, 212);
             this.GuiCloseMinimize.Name = "GuiCloseMinimize";
-            this.GuiCloseMinimize.Size = new System.Drawing.Size(306, 29);
+            this.GuiCloseMinimize.Size = new System.Drawing.Size(361, 29);
             this.GuiCloseMinimize.TabIndex = 113;
-            this.GuiCloseMinimize.Text = "Close button terminates HovText";
+            this.GuiCloseMinimize.Text = "Close button minimizes HovText to tray";
             this.GuiCloseMinimize.UseVisualStyleBackColor = true;
             this.GuiCloseMinimize.CheckedChanged += new System.EventHandler(this.GuiCloseMinimize_CheckedChanged);
             // 
@@ -299,7 +302,7 @@
             // GuiHelp
             // 
             this.GuiHelp.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.GuiHelp.Location = new System.Drawing.Point(204, 588);
+            this.GuiHelp.Location = new System.Drawing.Point(204, 635);
             this.GuiHelp.Name = "GuiHelp";
             this.GuiHelp.Size = new System.Drawing.Size(262, 35);
             this.GuiHelp.TabIndex = 1000;
@@ -400,7 +403,7 @@
             this.tabLayout.Location = new System.Drawing.Point(4, 34);
             this.tabLayout.Name = "tabLayout";
             this.tabLayout.Padding = new System.Windows.Forms.Padding(3);
-            this.tabLayout.Size = new System.Drawing.Size(638, 585);
+            this.tabLayout.Size = new System.Drawing.Size(638, 637);
             this.tabLayout.TabIndex = 1;
             this.tabLayout.Text = "Layout";
             // 
@@ -649,7 +652,7 @@
             this.tabHotkeys.Location = new System.Drawing.Point(4, 34);
             this.tabHotkeys.Name = "tabHotkeys";
             this.tabHotkeys.Padding = new System.Windows.Forms.Padding(3);
-            this.tabHotkeys.Size = new System.Drawing.Size(638, 585);
+            this.tabHotkeys.Size = new System.Drawing.Size(638, 637);
             this.tabHotkeys.TabIndex = 4;
             this.tabHotkeys.Text = "Hotkeys";
             // 
@@ -914,16 +917,18 @@
             // 
             this.tabGeneral.BackColor = System.Drawing.Color.WhiteSmoke;
             this.tabGeneral.Controls.Add(this.groupBox2);
+            this.tabGeneral.Controls.Add(this.GuiStartDisabled);
             this.tabGeneral.Controls.Add(this.GuiGeneralGroup2);
             this.tabGeneral.Location = new System.Drawing.Point(4, 34);
             this.tabGeneral.Name = "tabGeneral";
             this.tabGeneral.Padding = new System.Windows.Forms.Padding(3);
-            this.tabGeneral.Size = new System.Drawing.Size(638, 585);
+            this.tabGeneral.Size = new System.Drawing.Size(638, 637);
             this.tabGeneral.TabIndex = 0;
             this.tabGeneral.Text = "General";
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.GuiCopyClipboardStartup);
             this.groupBox2.Controls.Add(this.label9);
             this.groupBox2.Controls.Add(this.label5);
             this.groupBox2.Controls.Add(this.label3);
@@ -933,21 +938,52 @@
             this.groupBox2.Controls.Add(this.GuiInstantSelect);
             this.groupBox2.Controls.Add(this.GuiFavoritesEnabled);
             this.groupBox2.Controls.Add(this.GuiCopyImages);
-            this.groupBox2.Location = new System.Drawing.Point(22, 257);
+            this.groupBox2.Location = new System.Drawing.Point(22, 300);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(594, 279);
             this.groupBox2.TabIndex = 120;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Clipboard history";
             // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Font = new System.Drawing.Font("Segoe UI", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label9.Location = new System.Drawing.Point(383, 80);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(109, 17);
+            this.label9.TabIndex = 129;
+            this.label9.Text = "(Shift + Alt + H)";
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Font = new System.Drawing.Font("Segoe UI", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label5.Location = new System.Drawing.Point(314, 80);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(63, 17);
+            this.label5.TabIndex = 128;
+            this.label5.Text = "(Alt + H)";
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Font = new System.Drawing.Font("Segoe UI", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label3.Location = new System.Drawing.Point(258, 44);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(60, 17);
+            this.label3.TabIndex = 127;
+            this.label3.Text = "(Alt + S)";
+            // 
             // GuiAlwaysPasteOriginal
             // 
             this.GuiAlwaysPasteOriginal.AutoSize = true;
+            this.GuiAlwaysPasteOriginal.ForeColor = System.Drawing.Color.Red;
             this.GuiAlwaysPasteOriginal.Location = new System.Drawing.Point(28, 213);
             this.GuiAlwaysPasteOriginal.Name = "GuiAlwaysPasteOriginal";
-            this.GuiAlwaysPasteOriginal.Size = new System.Drawing.Size(435, 29);
+            this.GuiAlwaysPasteOriginal.Size = new System.Drawing.Size(423, 29);
             this.GuiAlwaysPasteOriginal.TabIndex = 126;
-            this.GuiAlwaysPasteOriginal.Text = "Always paste original/formatted clipboard entry";
+            this.GuiAlwaysPasteOriginal.Text = "Always paste original/formatted clipboard text";
             this.GuiAlwaysPasteOriginal.UseVisualStyleBackColor = true;
             this.GuiAlwaysPasteOriginal.CheckedChanged += new System.EventHandler(this.GuiAlwaysPasteOriginal_CheckedChanged);
             // 
@@ -980,9 +1016,10 @@
             // GuiFavoritesEnabled
             // 
             this.GuiFavoritesEnabled.AutoSize = true;
+            this.GuiFavoritesEnabled.Font = new System.Drawing.Font("Segoe UI", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.GuiFavoritesEnabled.Location = new System.Drawing.Point(28, 108);
             this.GuiFavoritesEnabled.Name = "GuiFavoritesEnabled";
-            this.GuiFavoritesEnabled.Size = new System.Drawing.Size(168, 29);
+            this.GuiFavoritesEnabled.Size = new System.Drawing.Size(159, 29);
             this.GuiFavoritesEnabled.TabIndex = 123;
             this.GuiFavoritesEnabled.Text = "Enable favorites";
             this.GuiFavoritesEnabled.UseVisualStyleBackColor = true;
@@ -1010,7 +1047,7 @@
             this.GuiGeneralGroup2.Controls.Add(this.GuiTrimWhitespaces);
             this.GuiGeneralGroup2.Location = new System.Drawing.Point(22, 23);
             this.GuiGeneralGroup2.Name = "GuiGeneralGroup2";
-            this.GuiGeneralGroup2.Size = new System.Drawing.Size(594, 214);
+            this.GuiGeneralGroup2.Size = new System.Drawing.Size(594, 255);
             this.GuiGeneralGroup2.TabIndex = 100;
             this.GuiGeneralGroup2.TabStop = false;
             this.GuiGeneralGroup2.Text = "Behaviour";
@@ -1033,11 +1070,11 @@
             this.GuiRestoreOriginal.AutoSize = true;
             this.GuiRestoreOriginal.Checked = true;
             this.GuiRestoreOriginal.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.GuiRestoreOriginal.Location = new System.Drawing.Point(29, 73);
+            this.GuiRestoreOriginal.Location = new System.Drawing.Point(29, 109);
             this.GuiRestoreOriginal.Name = "GuiRestoreOriginal";
-            this.GuiRestoreOriginal.Size = new System.Drawing.Size(531, 29);
+            this.GuiRestoreOriginal.Size = new System.Drawing.Size(483, 29);
             this.GuiRestoreOriginal.TabIndex = 111;
-            this.GuiRestoreOriginal.Text = "Restore original clipboard entry when disabling application";
+            this.GuiRestoreOriginal.Text = "Restore original clipboard when disabling application";
             this.GuiRestoreOriginal.UseVisualStyleBackColor = true;
             this.GuiRestoreOriginal.CheckedChanged += new System.EventHandler(this.GuiRestoreOriginal_CheckedChanged);
             // 
@@ -1046,7 +1083,7 @@
             this.GuiTrimWhitespaces.AutoSize = true;
             this.GuiTrimWhitespaces.Checked = true;
             this.GuiTrimWhitespaces.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.GuiTrimWhitespaces.Location = new System.Drawing.Point(29, 108);
+            this.GuiTrimWhitespaces.Location = new System.Drawing.Point(29, 144);
             this.GuiTrimWhitespaces.Name = "GuiTrimWhitespaces";
             this.GuiTrimWhitespaces.Size = new System.Drawing.Size(358, 29);
             this.GuiTrimWhitespaces.TabIndex = 112;
@@ -1067,7 +1104,7 @@
             this.TabControl.Location = new System.Drawing.Point(12, 12);
             this.TabControl.Name = "TabControl";
             this.TabControl.SelectedIndex = 0;
-            this.TabControl.Size = new System.Drawing.Size(646, 623);
+            this.TabControl.Size = new System.Drawing.Size(646, 675);
             this.TabControl.TabIndex = 0;
             this.TabControl.Selected += new System.Windows.Forms.TabControlEventHandler(this.TabControl_Selected);
             // 
@@ -1079,7 +1116,7 @@
             this.tabStyle.Controls.Add(this.GuiStyleGroup2);
             this.tabStyle.Location = new System.Drawing.Point(4, 34);
             this.tabStyle.Name = "tabStyle";
-            this.tabStyle.Size = new System.Drawing.Size(638, 585);
+            this.tabStyle.Size = new System.Drawing.Size(638, 637);
             this.tabStyle.TabIndex = 5;
             this.tabStyle.Text = "Style";
             // 
@@ -1909,41 +1946,39 @@
             this.terminateTimer.Interval = 5000;
             this.terminateTimer.Tick += new System.EventHandler(this.TerminateTimer_Tick);
             // 
-            // label3
+            // GuiStartDisabled
             // 
-            this.label3.AutoSize = true;
-            this.label3.Font = new System.Drawing.Font("Segoe UI", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(258, 44);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(60, 17);
-            this.label3.TabIndex = 127;
-            this.label3.Text = "(Alt + S)";
+            this.GuiStartDisabled.AutoSize = true;
+            this.GuiStartDisabled.Checked = true;
+            this.GuiStartDisabled.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.GuiStartDisabled.ForeColor = System.Drawing.Color.Red;
+            this.GuiStartDisabled.Location = new System.Drawing.Point(197, 270);
+            this.GuiStartDisabled.Name = "GuiStartDisabled";
+            this.GuiStartDisabled.Size = new System.Drawing.Size(171, 29);
+            this.GuiStartDisabled.TabIndex = 114;
+            this.GuiStartDisabled.Text = "Start as disabled";
+            this.GuiStartDisabled.UseVisualStyleBackColor = true;
+            this.GuiStartDisabled.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
             // 
-            // label5
+            // GuiCopyClipboardStartup
             // 
-            this.label5.AutoSize = true;
-            this.label5.Font = new System.Drawing.Font("Segoe UI", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label5.Location = new System.Drawing.Point(314, 80);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(63, 17);
-            this.label5.TabIndex = 128;
-            this.label5.Text = "(Alt + H)";
-            // 
-            // label9
-            // 
-            this.label9.AutoSize = true;
-            this.label9.Font = new System.Drawing.Font("Segoe UI", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label9.Location = new System.Drawing.Point(383, 80);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(109, 17);
-            this.label9.TabIndex = 129;
-            this.label9.Text = "(Shift + Alt + H)";
+            this.GuiCopyClipboardStartup.AutoSize = true;
+            this.GuiCopyClipboardStartup.Checked = true;
+            this.GuiCopyClipboardStartup.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.GuiCopyClipboardStartup.ForeColor = System.Drawing.Color.Red;
+            this.GuiCopyClipboardStartup.Location = new System.Drawing.Point(184, 0);
+            this.GuiCopyClipboardStartup.Name = "GuiCopyClipboardStartup";
+            this.GuiCopyClipboardStartup.Size = new System.Drawing.Size(545, 29);
+            this.GuiCopyClipboardStartup.TabIndex = 115;
+            this.GuiCopyClipboardStartup.Text = "Copy clipboard at application launch or enabling application";
+            this.GuiCopyClipboardStartup.UseVisualStyleBackColor = true;
+            this.GuiCopyClipboardStartup.CheckedChanged += new System.EventHandler(this.checkBox2_CheckedChanged);
             // 
             // Settings
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(11F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(670, 646);
+            this.ClientSize = new System.Drawing.Size(670, 699);
             this.Controls.Add(this.GuiHelp);
             this.Controls.Add(this.TabControl);
             this.Font = new System.Drawing.Font("Segoe UI", 11.12727F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -1975,6 +2010,7 @@
             this.GuiHotkeysGroup2.ResumeLayout(false);
             this.GuiHotkeysGroup2.PerformLayout();
             this.tabGeneral.ResumeLayout(false);
+            this.tabGeneral.PerformLayout();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
             this.GuiGeneralGroup2.ResumeLayout(false);
@@ -2174,6 +2210,8 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.CheckBox GuiCopyClipboardStartup;
+        private System.Windows.Forms.CheckBox GuiStartDisabled;
     }
 
 }
