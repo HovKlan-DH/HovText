@@ -13,9 +13,10 @@ using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Windows.Forms;
-using NHotkey.WindowsForms; // https://github.com/thomaslevesque/NHotkey
 using System.Management;
 using System.Text.RegularExpressions;
+using NHotkey.WindowsForms; // https://github.com/thomaslevesque/NHotkey
+
 
 // ----------------------------------------------------------------------------
 // Upload application to these places:
@@ -129,7 +130,7 @@ namespace HovText
         private const string registryHotkeyToggleFavorite = "Space"; // hotkey "Toggle favorite entry"
         private const string registryHotkeyToggleView = "Q"; // hotkey "Toggle list view"
         private const string registryHotkeyBehaviour = "System"; // use system clipboard
-        private const string registryCloseTerminates = "0"; // 0 = minimize to tray, 1 = terminates
+        private const string registryCloseMinimizes = "1"; // 0 = terminates, 1 = minimize to tray
         private const string registryStartDisabled = "0"; // 0 = start active, 1 = start disabled
         private const string registryRestoreOriginal = "1"; // 1 = restore original
         private const string registryCopyImages = "1"; // 1 = copy images to history
@@ -139,7 +140,7 @@ namespace HovText
         private const string registryPasteOnSelection = "0"; // 0 = do not paste selected entry when selected
         private const string registryAlwaysPasteOriginal = "0"; // 1 = always paste original (formatted) text
         private const string registryTrimWhitespaces = "1"; // 1 = trim whitespaces
-        private const string registryCopyClipboardAtStartup = "1"; // 0 = do not copy/process clipboard, 1 = copy/process clipboard
+//        private const string registryCopyClipboardAtStartup = "1"; // 0 = do not copy/process clipboard, 1 = copy/process clipboard
         private const string registryTroubleshootEnable = "0"; // 0 = do not enable troubleshoot logging
         public static string iconSet = "Round"; // Round, SquareOld, SquareNew
         public static int historyMargin = 5;
@@ -151,7 +152,7 @@ namespace HovText
         public static bool isEnabledTrimWhitespacing;
         public static bool isRestoreOriginal;
         public static bool isStartDisabled;
-        public static bool isCopyClipboardAtStartup;
+//        public static bool isCopyClipboardAtStartup;
         public static bool isCopyImages;
 //        public static bool isCloseMinimizes;
         public static bool isClosedFromNotifyIcon;
@@ -475,10 +476,10 @@ namespace HovText
             Logging.Log("Added HovText to clipboard chain");
 
             // Process clipboard at startup also (if application is enabled)
-            if(isApplicationEnabled && isCopyClipboardAtStartup)
-            {
-                ProcessClipboard();
-            }
+//            if(isApplicationEnabled)
+//            {
+//                ProcessClipboard();
+//            }
 
             // Write text for the "About" page
 
@@ -546,7 +547,6 @@ namespace HovText
                         }
 
                         // Check if application is enabled
-//                        if (GuiAppEnabled.Checked)
                         if (isApplicationEnabled)
                         {
                             ProcessClipboard();
@@ -1221,10 +1221,10 @@ namespace HovText
                 Logging.Log("Added HovText to clipboard chain");
 
                 // Process clipboard, only if set by user
-                if (isCopyClipboardAtStartup)
-                {
-                    ProcessClipboard();
-                }
+//                if (isCopyClipboardAtStartup)
+//                {
+//                    ProcessClipboard();
+//                }
 
                 string hotkeyBehaviour = GetRegistryKey(registryPath, "HotkeyBehaviour");
                 switch (hotkeyBehaviour)
@@ -1348,7 +1348,7 @@ namespace HovText
                 return;
             }
 
-            if (GuiCloseMinimize.Checked || isClosedFromNotifyIcon)
+            if (!GuiCloseMinimize.Checked || isClosedFromNotifyIcon)
             {
                 Logging.Log("Exit HovText");
                 NativeMethods.RemoveClipboardFormatListener(this.Handle);
@@ -1673,7 +1673,7 @@ namespace HovText
             }
 
             // ------------------------------------------------------------------------------------
-            // Changes for the version 2023-????-??
+            // Changes for the version 2023-September-20
             // ------------------------------------------------------------------------------------
 
             // Convert "HistoryEnable" => "HistoryInstantSelect"
@@ -1700,6 +1700,20 @@ namespace HovText
                 RegistryKeyCheckOrCreate(registryPath, "CloseTerminates", regVal);
                 DeleteRegistryKey(registryPath, "CloseMinimizes");
             }
+
+            // ------------------------------------------------------------------------------------
+            // Changes for the version 2024-????????-??
+            // ------------------------------------------------------------------------------------
+
+            // Convert "CloseTerminates" => "CloseMinimizes" (back and forth it seems, ha)
+            regVal = GetRegistryKey(registryPath, "CloseTerminates");
+            if (regVal != null || regVal?.Length == 0)
+            {
+                regVal = regVal == "1" ? "0" : "1"; // set the oppesite of before
+                RegistryKeyCheckOrCreate(registryPath, "CloseMinimizes", regVal);
+                DeleteRegistryKey(registryPath, "CloseTerminates");
+            }
+
         }
 
 
@@ -1738,11 +1752,11 @@ namespace HovText
             RegistryKeyCheckOrCreate(registryPath, "StartDisabled", registryStartDisabled);
             RegistryKeyCheckOrCreate(registryPath, "RestoreOriginal", registryRestoreOriginal);
             RegistryKeyCheckOrCreate(registryPath, "TrimWhitespaces", registryTrimWhitespaces);
-            RegistryKeyCheckOrCreate(registryPath, "CloseTerminates", registryCloseTerminates);
+            RegistryKeyCheckOrCreate(registryPath, "CloseMinimizes", registryCloseMinimizes);
             RegistryKeyCheckOrCreate(registryPath, "HistorySearch", registryHistorySearch);
             RegistryKeyCheckOrCreate(registryPath, "HistoryInstantSelect", registryHistoryInstantSelect);
             RegistryKeyCheckOrCreate(registryPath, "FavoritesEnable", registryEnableFavorites);
-            RegistryKeyCheckOrCreate(registryPath, "CopyClipboardStartup", registryCopyClipboardAtStartup);
+//            RegistryKeyCheckOrCreate(registryPath, "CopyClipboardStartup", registryCopyClipboardAtStartup);
             RegistryKeyCheckOrCreate(registryPath, "CopyImages", registryCopyImages);
             RegistryKeyCheckOrCreate(registryPath, "PasteOnSelection", registryPasteOnSelection);
             RegistryKeyCheckOrCreate(registryPath, "AlwaysPasteOriginal", registryAlwaysPasteOriginal);
@@ -1753,16 +1767,16 @@ namespace HovText
             Logging.Log("    \"RestoreOriginal\" = [" + regVal + "]");
             regVal = GetRegistryKey(registryPath, "TrimWhitespaces");
             Logging.Log("    \"TrimWhitespaces\" = [" + regVal + "]"); 
-            regVal = GetRegistryKey(registryPath, "CloseTerminates");
-            Logging.Log("    \"CloseTerminates\" = [" + regVal + "]");
+            regVal = GetRegistryKey(registryPath, "CloseMinimizes");
+            Logging.Log("    \"CloseMinimizes\" = [" + regVal + "]");
             regVal = GetRegistryKey(registryPath, "HistorySearch");
             Logging.Log("    \"HistorySearch\" = [" + regVal + "]");
             regVal = GetRegistryKey(registryPath, "HistoryInstantSelect");
             Logging.Log("    \"HistoryInstantSelect\" = [" + regVal + "]");
             regVal = GetRegistryKey(registryPath, "FavoritesEnable");
             Logging.Log("    \"FavoritesEnable\" = [" + regVal + "]");
-            regVal = GetRegistryKey(registryPath, "CopyClipboardStartup");
-            Logging.Log("    \"CopyClipboardStartup\" = [" + regVal + "]");
+//            regVal = GetRegistryKey(registryPath, "CopyClipboardStartup");
+//            Logging.Log("    \"CopyClipboardStartup\" = [" + regVal + "]");
             regVal = GetRegistryKey(registryPath, "CopyImages");
             Logging.Log("    \"CopyImages\" = [" + regVal + "]");
             regVal = GetRegistryKey(registryPath, "PasteOnSelection");
@@ -2100,10 +2114,10 @@ namespace HovText
             GuiCopyImages.Checked = copyImages == 1;
             isCopyImages = GuiCopyImages.Checked;
 
-            // Close terminates HovText
-            int closeTerminates = int.Parse((string)GetRegistryKey(registryPath, "CloseTerminates"));
-            GuiCloseMinimize.Checked = closeTerminates == 1;
-            if (!GuiCloseMinimize.Checked)
+            // Close minimizes HovText
+            int closeMinimizes = int.Parse((string)GetRegistryKey(registryPath, "CloseMinimizes"));
+            GuiCloseMinimize.Checked = closeMinimizes == 1;
+            if (GuiCloseMinimize.Checked)
             {
                 MinimizeBox = false;
             }
@@ -2148,10 +2162,10 @@ namespace HovText
             GuiTrimWhitespaces.Checked = trimWhitespaces == 1;
             isEnabledTrimWhitespacing = GuiTrimWhitespaces.Checked;
 
-            // Copy clipboard at startup
-            int copyClipboardStartup = int.Parse((string)GetRegistryKey(registryPath, "CopyClipboardStartup"));
-            GuiCopyClipboardStartup.Checked = copyClipboardStartup == 1;
-            isCopyClipboardAtStartup = GuiCopyClipboardStartup.Checked;
+//            // Copy clipboard at startup
+//            int copyClipboardStartup = int.Parse((string)GetRegistryKey(registryPath, "CopyClipboardStartup"));
+//            GuiCopyClipboardStartup.Checked = copyClipboardStartup == 1;
+//            isCopyClipboardAtStartup = GuiCopyClipboardStartup.Checked;
 
 
 
@@ -2583,8 +2597,8 @@ namespace HovText
         private void GuiCloseMinimize_CheckedChanged(object sender, EventArgs e)
         {
             string status = GuiCloseMinimize.Checked ? "1" : "0";
-            SetRegistryKey(registryPath, "CloseTerminates", status);
-            if (!GuiCloseMinimize.Checked)
+            SetRegistryKey(registryPath, "CloseMinimizes", status);
+            if (GuiCloseMinimize.Checked)
             {
                 MinimizeBox = false;
             }
@@ -2769,6 +2783,32 @@ namespace HovText
             isEnabledTrimWhitespacing = GuiTrimWhitespaces.Checked;
             SetRegistryKey(registryPath, "TrimWhitespaces", status);
         }
+
+
+        // ###########################################################################################
+        // Changes in "Start disabled"
+        // ###########################################################################################
+
+        private void GuiStartDisabled_CheckedChanged(object sender, EventArgs e)
+        {
+            // Start as disabled
+            string status = GuiStartDisabled.Checked ? "1" : "0";
+            isStartDisabled = GuiStartDisabled.Checked;
+            SetRegistryKey(registryPath, "StartDisabled", status);
+        }
+
+
+        // ###########################################################################################
+        // Changes in "Copy clipboard at startup or enabling application"
+        // ###########################################################################################
+
+//        private void GuiCopyClipboardStartup_CheckedChanged(object sender, EventArgs e)
+//        {
+//            // Copy clipboard at startup
+//            string status = GuiCopyClipboardStartup.Checked ? "1" : "0";
+//            isCopyClipboardAtStartup = GuiCopyClipboardStartup.Checked;
+//            SetRegistryKey(registryPath, "CopyClipboardStartup", status);
+//        }
 
 
         // ###########################################################################################
@@ -3291,7 +3331,7 @@ namespace HovText
         // ###########################################################################################
 
         public static void RemoveAllHotkeys()
-        {                       
+        {
             HotkeyManager.Current.Remove("ToggleApplication");
             HotkeyManager.Current.Remove("Search");
             HotkeyManager.Current.Remove("GetOlderEntry");
@@ -4832,22 +4872,6 @@ del ""%~f0"" >> """ + pathAndTempLog + @"""
         private void Settings_Load(object sender, EventArgs e)
         {
             CheckIfUpdatedFromDevelopmentToStable();
-        }
-
-        private void checkBox1_CheckedChanged(object sender, EventArgs e)
-        {
-            // Start as disabled
-            string status = GuiStartDisabled.Checked ? "1" : "0";
-            isStartDisabled = GuiStartDisabled.Checked;
-            SetRegistryKey(registryPath, "StartDisabled", status);
-        }
-
-        private void checkBox2_CheckedChanged(object sender, EventArgs e)
-        {
-            // Copy clipboard at startup
-            string status = GuiCopyClipboardStartup.Checked ? "1" : "0";
-            isCopyClipboardAtStartup = GuiCopyClipboardStartup.Checked;
-            SetRegistryKey(registryPath, "CopyClipboardStartup", status);
         }
 
 

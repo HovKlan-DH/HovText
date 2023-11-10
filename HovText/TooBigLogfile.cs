@@ -6,7 +6,7 @@ namespace HovText
 {
     public partial class TooBigLogfile : Form
     {
-        private Settings _settings;
+        private readonly Settings _settings;
 
 
         // ###########################################################################################
