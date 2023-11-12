@@ -8,14 +8,18 @@ using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Management;
 using System.Net;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text;
-using System.Windows.Forms;
-using System.Management;
 using System.Text.RegularExpressions;
+using System.Windows.Forms;
 using NHotkey.WindowsForms; // https://github.com/thomaslevesque/NHotkey
+//using System.Drawing.Imaging;
+//using Newtonsoft.Json;
+using System.Runtime.Serialization.Formatters.Binary;
+using System.Threading.Tasks;
 
 
 // ----------------------------------------------------------------------------
@@ -140,7 +144,6 @@ namespace HovText
         private const string registryPasteOnSelection = "0"; // 0 = do not paste selected entry when selected
         private const string registryAlwaysPasteOriginal = "0"; // 1 = always paste original (formatted) text
         private const string registryTrimWhitespaces = "1"; // 1 = trim whitespaces
-//        private const string registryCopyClipboardAtStartup = "1"; // 0 = do not copy/process clipboard, 1 = copy/process clipboard
         private const string registryTroubleshootEnable = "0"; // 0 = do not enable troubleshoot logging
         public static string iconSet = "Round"; // Round, SquareOld, SquareNew
         public static int historyMargin = 5;
@@ -152,9 +155,7 @@ namespace HovText
         public static bool isEnabledTrimWhitespacing;
         public static bool isRestoreOriginal;
         public static bool isStartDisabled;
-//        public static bool isCopyClipboardAtStartup;
         public static bool isCopyImages;
-//        public static bool isCloseMinimizes;
         public static bool isClosedFromNotifyIcon;
         public static bool isHistoryHotkeyPressed;
         public static bool isHistoryMarginEnabled;
@@ -276,6 +277,7 @@ namespace HovText
         public static SortedDictionary<int, bool> entriesIsImage = new SortedDictionary<int, bool>();
         public static SortedDictionary<int, System.Drawing.Image> entriesImage = new SortedDictionary<int, System.Drawing.Image>();
         public static SortedList<int, Dictionary<string, object>> entriesOriginal = new SortedList<int, Dictionary<string, object>>();
+        public static SortedList<int, Dictionary<string, object>> entriesOriginal2 = new SortedList<int, Dictionary<string, object>>();
         const int WM_CLIPBOARDUPDATE = 0x031D;
         string whoUpdatedClipboardName = "";
         public static bool pasteOnHotkeySetCleartext;
@@ -293,6 +295,7 @@ namespace HovText
         private static bool resetApp = false;
         public static bool showFavoriteList = false; // will be true if the favorite list should be used/shown
         public static bool showFavoriteListLast = false; // used when doing search - to store if we previously was in the favorite list or not
+        private static bool isClipboardLoadingFromFile; // "true" when initial loading clipboard content from file
         readonly History history = new History();
         readonly Update update = new Update();
         readonly TooBigLogfile tooBigLogfile;
@@ -308,11 +311,13 @@ namespace HovText
         private static string baseDirectory;
         private static string exeOnly;
         public static string pathAndExe;
+        public static string pathAndData;
         public static string pathAndLog;
         private static string pathAndSpecial;
         private static string pathAndTempExe;
         private static string pathAndTempCmd;
         private static string pathAndTempLog;
+        readonly string dataFile = "HovText.bin";
         readonly string troubleshootLog = "HovText-troubleshooting.txt";
         readonly string saveContentFileExist = "HovText-save-content-in-logfile.txt"; // should ONLY be used by Dennis!
         static readonly string tempExe = "HovText-new.exe";
@@ -394,11 +399,11 @@ namespace HovText
             // Set the application version
             appVer = (date + " " + buildTypeTmp + rev).Trim();
 
-            // Get OS name and update text in "Privacy" tab
+            // Get OS name
             // https://stackoverflow.com/a/50330392/2028935
             osVersion = (string)(from x in new ManagementObjectSearcher("SELECT Caption FROM Win32_OperatingSystem").Get().Cast<ManagementObject>() select x.GetPropertyValue("Caption")).FirstOrDefault();
             
-            // Get the CPU architechture and update text in "Privacy" tab
+            // Get the CPU architechture
             Architecture cpuArchitectureObj = RuntimeInformation.ProcessArchitecture;
             switch (cpuArchitectureObj)
             {
@@ -423,6 +428,7 @@ namespace HovText
             baseDirectory = AppDomain.CurrentDomain.BaseDirectory;
             exeOnly = System.AppDomain.CurrentDomain.FriendlyName;
             pathAndExe = Path.Combine(baseDirectory, exeOnly);
+            pathAndData = Path.Combine(baseDirectory, dataFile);
             pathAndLog = Path.Combine(baseDirectory, troubleshootLog);
             pathAndSpecial = Path.Combine(baseDirectory, saveContentFileExist); // should ONLY be used by Dennis!
 
@@ -435,7 +441,7 @@ namespace HovText
             tooBigLogfile = new TooBigLogfile(this);
 
             // As the UI elements now have been initialized then we can setup the version
-            AboutLabelVersion.Text = "Version " + appVer;
+            AboutLabelVersion.Text = "Version " + appVer + " (x64)";
 
             // Mark very clearly with a color, that this is not a normal version (red equals danger) :-)
             if (buildType == "Debug")
@@ -475,7 +481,7 @@ namespace HovText
             NativeMethods.AddClipboardFormatListener(this.Handle);
             Logging.Log("Added HovText to clipboard chain");
 
-            // Process clipboard at startup also (if application is enabled)
+//            // Process clipboard at startup also (if application is enabled)
 //            if(isApplicationEnabled)
 //            {
 //                ProcessClipboard();
@@ -509,6 +515,280 @@ namespace HovText
 
             // Update the location of the dynamic labels
             UpdateLocationDynamicLabels();
+
+            panel1.BackColor = Color.FromArgb(128, 255, 255, 255);
+
+            // HEST 2  - load data
+            if (File.Exists(pathAndData))
+            {
+                isClipboardLoadingFromFile = true;
+
+                panel1.Dock = DockStyle.Fill;
+                panel1.Visible = true;
+                panel1.BringToFront();
+
+                // Calculate and set the label's location to center it within panel1
+                label11.AutoSize = false;
+                label11.Width = panel1.ClientSize.Width;
+                label11.Height = 30; // Set this to an appropriate value for your label
+                label11.TextAlign = ContentAlignment.MiddleCenter;
+                int x = (panel1.ClientSize.Width - label11.Width) / 2;
+                int y = (panel1.ClientSize.Height - label11.Height) / 2;
+                label11.Location = new Point(x, y);
+
+                LoadEntriesFromFile();
+            }
+
+        }
+
+        /*
+        public static void SaveEntriesToFile()
+        {
+            var binaryFormatter = new BinaryFormatter();
+
+            using (var fileStream = new FileStream(pathAndData, FileMode.Create))
+            {
+                binaryFormatter.Serialize(fileStream, entriesOriginal);
+            }
+        }
+        */
+        public static void SaveEntriesToFile()
+        {
+
+/*            
+            var binaryFormatter = new BinaryFormatter();
+
+            using (var fileStream = new FileStream(pathAndData, FileMode.Create))
+            {
+                // Log the count of entries being saved
+//                Console.WriteLine($"Saving {entriesOriginal.Count} entries to file.");
+                Logging.Log($"Saving {entriesOriginal.Count} entries to file.");
+
+
+                // Optional: Log details of each entry
+                foreach (var entry in entriesOriginal)
+                {
+//                    Console.WriteLine($"Saving entry {entry.Key} with {entry.Value.Count} items.");
+                    Logging.Log($"Saving entry {entry.Key} with {entry.Value.Count} items.");
+                    // You can add more detailed logging here if necessary,
+                    // for example, logging the keys of the dictionary in each entry.
+                }
+
+                binaryFormatter.Serialize(fileStream, entriesOriginal);
+
+                // Log completion
+//                Console.WriteLine("Entries saved successfully.");
+                Logging.Log("Entries saved successfully.");
+            }
+*/            
+        }
+
+        /*
+        public void LoadEntriesFromFile()
+        {
+            var binaryFormatter = new BinaryFormatter();
+
+            using (var fileStream = new FileStream(pathAndData, FileMode.Open))
+            {
+                entriesOriginal2 = (SortedList<int, Dictionary<string, object>>)binaryFormatter.Deserialize(fileStream);
+                foreach (var entry in entriesOriginal2)
+                {
+                    Dictionary<string, object> clipboardData = entry.Value;
+                    ProcessClipboard2(clipboardData);
+                }
+            }
+        }
+        */
+
+                
+        public void LoadEntriesFromFile()
+        {
+           
+            Task.Run(() =>
+            {
+
+                var binaryFormatter = new BinaryFormatter();
+
+                using (var fileStream = new FileStream(pathAndData, FileMode.Open))
+                {
+                    try
+                    {
+                        entriesOriginal2 = (SortedList<int, Dictionary<string, object>>)binaryFormatter.Deserialize(fileStream);
+                    }
+                    catch (Exception ex)
+                    {
+//                        Console.WriteLine("Deserialization error: " + ex.Message);
+                        Logging.Log("Deserialization error: " + ex.Message);
+                    }
+
+                    // Log the count of entries loaded
+//                    Console.WriteLine($"Loaded {entriesOriginal2.Count} entries from file.");
+                    Logging.Log($"Loaded {entriesOriginal2.Count} entries from file.");
+
+                    foreach (var entry in entriesOriginal2)
+                    {
+                        try
+                        {
+                            Dictionary<string, object> clipboardData = entry.Value;
+
+                            // Optional: Log details of each entry
+//                            Console.WriteLine($"Processing entry {entry.Key} with {clipboardData.Count} items.");
+                            Logging.Log($"Processing entry {entry.Key} with {clipboardData.Count} items.");
+                            // You can add more detailed logging here if necessary.
+
+                            ProcessClipboard2(clipboardData);
+                        }
+                        catch (Exception ex)
+                        {
+                            // Log exceptions if any occur during processing
+//                            Console.WriteLine($"ERROR: Error processing entry {entry.Key}: {ex.Message}");
+                            Logging.Log($"ERROR: Error processing entry {entry.Key}: {ex.Message}");
+                        }
+                    }
+
+                    // Log completion
+//                    Console.WriteLine("Entries processed successfully.");
+                    Logging.Log("Entries processed successfully.");
+
+                    // Before modifying panel1, check if invoke is required
+                    if (panel1.InvokeRequired)
+                    {
+                        // If we're not on the UI thread, we need to call Invoke
+                        panel1.Invoke(new Action(() =>
+                        {
+                            panel1.Visible = false;
+                            isClipboardLoadingFromFile = false;
+                        }));
+                    }
+                    else
+                    {
+                        // If we're on the UI thread, we can update the control directly
+                        panel1.Visible = false;
+                        isClipboardLoadingFromFile = false;
+                    }
+                }
+            });
+
+        }
+
+
+        public void ProcessClipboard2(Dictionary<string, object> clipboardData)
+        {
+            Debug.WriteLine(DateTime.Now.ToString("HH:mm:ss.fff") + " - ProcessClipboard2 Start");
+            // Check which text formats are available
+//            isClipboardText = clipboardData.ContainsKey(DataFormats.Text);
+            isClipboardText = clipboardData.ContainsKey(DataFormats.Text) ||
+                  clipboardData.ContainsKey(DataFormats.UnicodeText) ||
+                  clipboardData.ContainsKey(DataFormats.Rtf);
+            isClipboardImage = clipboardData.ContainsKey(DataFormats.Bitmap);
+
+            // Get clipboard content
+//            clipboardText = isClipboardText ? clipboardData[DataFormats.Text] as string : "";
+            clipboardImage = isClipboardImage ? clipboardData[DataFormats.Bitmap] as Image : null;
+
+            // Get TEXT clipboard content
+            if (clipboardData.ContainsKey(DataFormats.Text))
+            {
+                clipboardText = clipboardData[DataFormats.Text] as string;
+            }
+            else if (clipboardData.ContainsKey(DataFormats.UnicodeText))
+            {
+                clipboardText = clipboardData[DataFormats.UnicodeText] as string;
+            }
+            else if (clipboardData.ContainsKey(DataFormats.Rtf))
+            {
+                clipboardText = clipboardData[DataFormats.Rtf] as string;
+            }
+            else
+            {
+                clipboardText = ""; // No supported text format found
+            }
+
+
+
+            //            clipboardObject = Clipboard.GetDataObject();
+            // Create a new DataObject
+            DataObject dataObject = new DataObject();
+
+            // Add each item from clipboardData to the DataObject
+            foreach (var item in clipboardData)
+            {
+                dataObject.SetData(item.Key, item.Value);
+            }
+
+            // Now dataObject is equivalent to what you would get from Clipboard.GetDataObject()
+            clipboardObject = dataObject;
+
+            // Is clipboard text - also triggers when copying whitespaces only
+            if (isClipboardText)
+            {
+                // Check if there are any formatted text entries in the clipboard
+                bool isFormatted = false;
+                foreach (var format in clipboardObject.GetFormats(false))
+                {
+                    // If the format is anything but "Text" then we can break and deem this as formatted
+                    if (format.ToLower() != "text")
+                    {
+                        isFormatted = true;
+                        break;
+                    }
+                }
+
+                // Check if number of data formats equals 1 and this is unicode or if clipboard is different than last time
+                if (clipboardText != clipboardTextLast || isFormatted)
+                {
+                    // Trim the text
+                    if (isEnabledTrimWhitespacing)
+                    {
+                        clipboardText = clipboardText.Trim();
+                    }
+
+                    if (!string.IsNullOrEmpty(clipboardText))
+                    {
+                        // Set the last clipboard text to be identical to this one
+                        clipboardTextLast = clipboardText;
+
+                        // Add text to the entries array and update the clipboard
+                        AddEntry();
+                        GetEntryCounter();
+//                        SetClipboard();
+                        if (GuiHotkeyBehaviourPaste.Checked)
+                        {
+                            RestoreOriginal(entryIndex);
+                        }
+                    }
+                }
+            }
+            else if (isClipboardImage && isEnabledHistory) // Is clipboard an image
+            {
+                // Only proceed if we should copy the images also
+                if (isCopyImages)
+                {
+                    // Get hash value of picture in clipboard
+                    ImageConverter converter = new ImageConverter();
+                    byte[] byteArray = (byte[])converter.ConvertTo(clipboardImage, typeof(byte[]));
+                    string clipboardImageHash = Convert.ToBase64String(byteArray);
+
+                    if (clipboardImageHash != clipboardImageHashLast)
+                    {
+                        // Set the last clipboard image to be identical to this one
+                        clipboardImageHashLast = clipboardImageHash;
+
+                        // Check if picture is transparent
+                        System.Drawing.Image imgCopy = GetImageFromClipboard();
+                        isClipboardImageTransparent = false;
+                        if (imgCopy != null)
+                        {
+                            isClipboardImageTransparent = IsImageTransparent(imgCopy);
+                        }
+
+                        // Add the image to the entries array and update the clipboard
+                        AddEntry();
+                        GetEntryCounter();
+//                        SetClipboard();
+                    }
+                }
+            }
         }
 
 
@@ -827,7 +1107,12 @@ namespace HovText
             }
 
             // Proceed if the (cleartext) data is not already in the dictionary
-            bool isAlreadyInDataArray = IsClipboardContentAlreadyInDataArrays();
+
+            bool isAlreadyInDataArray = false;
+            if(!isClipboardLoadingFromFile) // we know when content is coming from file then it is already unique (and this function is slow!)
+            {
+                isAlreadyInDataArray = IsClipboardContentAlreadyInDataArrays();
+            }
             if (!isAlreadyInDataArray)
             {
                 if (isClipboardText)
@@ -838,7 +1123,6 @@ namespace HovText
                 {
                     Logging.Log("Adding new [IMAGE] clipboard to history from application ["+ whoUpdatedClipboardName +"]:");
                 }
-
                 // If this is the first time then set the index to 0
                 entryIndex = entryIndex >= 0 ? entriesText.Keys.Last() + 1 : 0;
 
@@ -850,16 +1134,7 @@ namespace HovText
                 entriesIsFavorite.Add(entryIndex, false);
 
                 // Filter lists
-                bool isUrl;
-                try
-                {
-                    Uri myUri = new Uri(clipboardText);
-                    isUrl = true;
-                }
-                catch (UriFormatException)
-                {
-                    isUrl = false;
-                }
+                bool isUrl = Uri.TryCreate(clipboardText, UriKind.Absolute, out Uri myUri);
                 if (isUrl)
                 {
                     entriesIsUrl.Add(entryIndex, true);
@@ -929,7 +1204,7 @@ namespace HovText
                     }
                     else
                     {
-                        Logging.Log("  Discarding format [" + format + "]");
+                        //Logging.Log("  Discarding format [" + format + "]");
                     }
                 }
                 entriesOriginal.Add(entryIndex, clipboardObjects);
@@ -940,7 +1215,7 @@ namespace HovText
                     whoUpdatedClipboardName = "(unknown)";
                 }
                 entriesApplication.Add(entryIndex, whoUpdatedClipboardName);
-
+                
                 Logging.Log("Entries in history list is now [" + entriesText.Count + "]");
             }
 
@@ -1144,6 +1419,8 @@ namespace HovText
 
         public static void GetEntryCounter()
         {
+            Debug.WriteLine(DateTime.Now.ToString("HH:mm:ss.fff") + " - GetEntryCounter"); 
+            
             entryCounter = 0;
 
             foreach (var key in entriesText.Keys)
@@ -1313,12 +1590,6 @@ namespace HovText
             System.Diagnostics.Process.Start(e.LinkText);
         }
 
-        private void RichTextBox1_LinkClicked(object sender, LinkClickedEventArgs e)
-        {
-            Logging.Log("Clicked the web page link in \"Privacy\"");
-            System.Diagnostics.Process.Start(e.LinkText);
-        }
-
 
         // ###########################################################################################
         // Unregister from the clipboard chain, and remove hotkeys when application is closing down
@@ -1334,6 +1605,19 @@ namespace HovText
                 Logging.Log("Removed HovText from clipboard chain");
 
                 RemoveAllHotkeys();
+
+
+
+
+                SaveEntriesToFile();
+
+
+
+
+
+
+
+
                 Logging.EndLogging();
 
                 // Delete the troubleshooting logfile as the very last thing
@@ -1355,6 +1639,12 @@ namespace HovText
                 Logging.Log("Removed HovText from clipboard chain");
 
                 RemoveAllHotkeys();
+
+
+
+
+                SaveEntriesToFile();
+
                 Logging.EndLogging();
 
                 // Delete the troubleshooting logfile as the very last thing
@@ -2827,6 +3117,7 @@ namespace HovText
             }
             else
             {
+                
                 Logging.Log("Started HovText in window mode");
             }
         }

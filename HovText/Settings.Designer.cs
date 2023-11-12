@@ -43,6 +43,7 @@
             this.updateTimer = new System.Windows.Forms.Timer(this.components);
             this.mouseClickTimer = new System.Windows.Forms.Timer(this.components);
             this.tabAbout = new System.Windows.Forms.TabPage();
+            this.label10 = new System.Windows.Forms.Label();
             this.GuiPictureBox1 = new System.Windows.Forms.PictureBox();
             this.AboutLabelDevelopment = new System.Windows.Forms.Label();
             this.AboutLabelDescription = new System.Windows.Forms.RichTextBox();
@@ -100,9 +101,9 @@
             this.GuiInstantSelect = new System.Windows.Forms.CheckBox();
             this.GuiFavoritesEnabled = new System.Windows.Forms.CheckBox();
             this.GuiCopyImages = new System.Windows.Forms.CheckBox();
-            this.GuiStartDisabled = new System.Windows.Forms.CheckBox();
             this.GuiGeneralGroup2 = new System.Windows.Forms.GroupBox();
             this.GuiStartWithWindows = new System.Windows.Forms.CheckBox();
+            this.GuiStartDisabled = new System.Windows.Forms.CheckBox();
             this.GuiRestoreOriginal = new System.Windows.Forms.CheckBox();
             this.GuiTrimWhitespaces = new System.Windows.Forms.CheckBox();
             this.TabControl = new System.Windows.Forms.TabControl();
@@ -190,6 +191,8 @@
             this.terminateTimer = new System.Windows.Forms.Timer(this.components);
             this.colorDialogSearch = new System.Windows.Forms.ColorDialog();
             this.colorDialogSearchText = new System.Windows.Forms.ColorDialog();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.label11 = new System.Windows.Forms.Label();
             this.notifyIconMenuStrip.SuspendLayout();
             this.tabAbout.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.GuiPictureBox1)).BeginInit();
@@ -231,6 +234,7 @@
             this.GuiAdvancedGroup3.SuspendLayout();
             this.GuiAdvancedGroup1.SuspendLayout();
             this.tabFeedback.SuspendLayout();
+            this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // notifyIcon
@@ -312,7 +316,7 @@
             // 
             // updateTimer
             // 
-            this.updateTimer.Interval = 5000;
+            this.updateTimer.Interval = 50000;
             this.updateTimer.Tick += new System.EventHandler(this.UpdateTimer_Tick);
             // 
             // mouseClickTimer
@@ -323,6 +327,7 @@
             // tabAbout
             // 
             this.tabAbout.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.tabAbout.Controls.Add(this.label10);
             this.tabAbout.Controls.Add(this.GuiPictureBox1);
             this.tabAbout.Controls.Add(this.AboutLabelDevelopment);
             this.tabAbout.Controls.Add(this.AboutLabelDescription);
@@ -330,9 +335,22 @@
             this.tabAbout.Controls.Add(this.AboutLabelVersion);
             this.tabAbout.Location = new System.Drawing.Point(4, 34);
             this.tabAbout.Name = "tabAbout";
-            this.tabAbout.Size = new System.Drawing.Size(638, 637);
+            this.tabAbout.Size = new System.Drawing.Size(638, 590);
             this.tabAbout.TabIndex = 3;
             this.tabAbout.Text = "About";
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.BackColor = System.Drawing.Color.Yellow;
+            this.label10.Font = new System.Drawing.Font("Segoe UI", 11.12727F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label10.Location = new System.Drawing.Point(545, 63);
+            this.label10.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(68, 25);
+            this.label10.TabIndex = 95;
+            this.label10.Text = "x64 bit";
+            this.label10.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // GuiPictureBox1
             // 
@@ -403,7 +421,7 @@
             this.tabLayout.Location = new System.Drawing.Point(4, 34);
             this.tabLayout.Name = "tabLayout";
             this.tabLayout.Padding = new System.Windows.Forms.Padding(3);
-            this.tabLayout.Size = new System.Drawing.Size(638, 637);
+            this.tabLayout.Size = new System.Drawing.Size(638, 590);
             this.tabLayout.TabIndex = 1;
             this.tabLayout.Text = "Layout";
             // 
@@ -1038,21 +1056,6 @@
             this.GuiCopyImages.UseVisualStyleBackColor = true;
             this.GuiCopyImages.CheckedChanged += new System.EventHandler(this.GuiCopyImages_CheckedChanged);
             // 
-            // GuiStartDisabled
-            // 
-            this.GuiStartDisabled.AutoSize = true;
-            this.GuiStartDisabled.BackColor = System.Drawing.Color.Yellow;
-            this.GuiStartDisabled.Checked = true;
-            this.GuiStartDisabled.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.GuiStartDisabled.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.GuiStartDisabled.Location = new System.Drawing.Point(29, 73);
-            this.GuiStartDisabled.Name = "GuiStartDisabled";
-            this.GuiStartDisabled.Size = new System.Drawing.Size(171, 29);
-            this.GuiStartDisabled.TabIndex = 114;
-            this.GuiStartDisabled.Text = "Start as disabled";
-            this.GuiStartDisabled.UseVisualStyleBackColor = false;
-            this.GuiStartDisabled.CheckedChanged += new System.EventHandler(this.GuiStartDisabled_CheckedChanged);
-            // 
             // GuiGeneralGroup2
             // 
             this.GuiGeneralGroup2.Controls.Add(this.GuiStartWithWindows);
@@ -1079,6 +1082,21 @@
             this.GuiStartWithWindows.Text = "Start with Windows";
             this.GuiStartWithWindows.UseVisualStyleBackColor = true;
             this.GuiStartWithWindows.CheckedChanged += new System.EventHandler(this.GuiStartWithWindows_CheckedChanged);
+            // 
+            // GuiStartDisabled
+            // 
+            this.GuiStartDisabled.AutoSize = true;
+            this.GuiStartDisabled.BackColor = System.Drawing.Color.Yellow;
+            this.GuiStartDisabled.Checked = true;
+            this.GuiStartDisabled.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.GuiStartDisabled.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.GuiStartDisabled.Location = new System.Drawing.Point(29, 73);
+            this.GuiStartDisabled.Name = "GuiStartDisabled";
+            this.GuiStartDisabled.Size = new System.Drawing.Size(171, 29);
+            this.GuiStartDisabled.TabIndex = 114;
+            this.GuiStartDisabled.Text = "Start as disabled";
+            this.GuiStartDisabled.UseVisualStyleBackColor = false;
+            this.GuiStartDisabled.CheckedChanged += new System.EventHandler(this.GuiStartDisabled_CheckedChanged);
             // 
             // GuiRestoreOriginal
             // 
@@ -1131,7 +1149,7 @@
             this.tabStyle.Controls.Add(this.GuiStyleGroup2);
             this.tabStyle.Location = new System.Drawing.Point(4, 34);
             this.tabStyle.Name = "tabStyle";
-            this.tabStyle.Size = new System.Drawing.Size(638, 637);
+            this.tabStyle.Size = new System.Drawing.Size(638, 590);
             this.tabStyle.TabIndex = 5;
             this.tabStyle.Text = "Style";
             // 
@@ -1365,7 +1383,7 @@
             this.tabColors.Controls.Add(this.GuiStyleGroup3);
             this.tabColors.Location = new System.Drawing.Point(4, 34);
             this.tabColors.Name = "tabColors";
-            this.tabColors.Size = new System.Drawing.Size(638, 637);
+            this.tabColors.Size = new System.Drawing.Size(638, 590);
             this.tabColors.TabIndex = 9;
             this.tabColors.Text = "Colors";
             // 
@@ -1733,7 +1751,7 @@
             this.tabAdvanced.Controls.Add(this.GuiAdvancedGroup1);
             this.tabAdvanced.Location = new System.Drawing.Point(4, 34);
             this.tabAdvanced.Name = "tabAdvanced";
-            this.tabAdvanced.Size = new System.Drawing.Size(638, 637);
+            this.tabAdvanced.Size = new System.Drawing.Size(638, 590);
             this.tabAdvanced.TabIndex = 6;
             this.tabAdvanced.Text = "Advanced";
             // 
@@ -1894,7 +1912,7 @@
             this.tabFeedback.Controls.Add(this.GuiEmailAddr);
             this.tabFeedback.Location = new System.Drawing.Point(4, 34);
             this.tabFeedback.Name = "tabFeedback";
-            this.tabFeedback.Size = new System.Drawing.Size(638, 637);
+            this.tabFeedback.Size = new System.Drawing.Size(638, 590);
             this.tabFeedback.TabIndex = 7;
             this.tabFeedback.Text = "Feedback";
             // 
@@ -1961,11 +1979,31 @@
             this.terminateTimer.Interval = 5000;
             this.terminateTimer.Tick += new System.EventHandler(this.TerminateTimer_Tick);
             // 
+            // panel1
+            // 
+            this.panel1.BackColor = System.Drawing.Color.IndianRed;
+            this.panel1.Controls.Add(this.label11);
+            this.panel1.Location = new System.Drawing.Point(338, 2);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(331, 61);
+            this.panel1.TabIndex = 115;
+            this.panel1.Visible = false;
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(12, 16);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(446, 25);
+            this.label11.TabIndex = 0;
+            this.label11.Text = "UI is awaiting cliopboard processing - please wait ...";
+            // 
             // Settings
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(11F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(670, 648);
+            this.Controls.Add(this.panel1);
             this.Controls.Add(this.GuiHelp);
             this.Controls.Add(this.TabControl);
             this.Font = new System.Drawing.Font("Segoe UI", 11.12727F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -2032,6 +2070,8 @@
             this.GuiAdvancedGroup1.PerformLayout();
             this.tabFeedback.ResumeLayout(false);
             this.tabFeedback.PerformLayout();
+            this.panel1.ResumeLayout(false);
+            this.panel1.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -2197,6 +2237,9 @@
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.CheckBox GuiStartDisabled;
+        private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Label label11;
     }
 
 }
