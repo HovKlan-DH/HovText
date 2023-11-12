@@ -555,7 +555,7 @@ namespace HovText
         public static void SaveEntriesToFile()
         {
 
-/*            
+            
             var binaryFormatter = new BinaryFormatter();
 
             using (var fileStream = new FileStream(pathAndData, FileMode.Create))
@@ -580,7 +580,6 @@ namespace HovText
 //                Console.WriteLine("Entries saved successfully.");
                 Logging.Log("Entries saved successfully.");
             }
-*/            
         }
 
         /*

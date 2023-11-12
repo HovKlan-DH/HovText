@@ -193,6 +193,15 @@
             this.colorDialogSearchText = new System.Windows.Forms.ColorDialog();
             this.panel1 = new System.Windows.Forms.Panel();
             this.label11 = new System.Windows.Forms.Label();
+            this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.label14 = new System.Windows.Forms.Label();
+            this.trackBar1 = new System.Windows.Forms.TrackBar();
+            this.checkBox1 = new System.Windows.Forms.CheckBox();
+            this.radioButton1 = new System.Windows.Forms.RadioButton();
+            this.radioButton2 = new System.Windows.Forms.RadioButton();
+            this.button1 = new System.Windows.Forms.Button();
+            this.label15 = new System.Windows.Forms.Label();
             this.notifyIconMenuStrip.SuspendLayout();
             this.tabAbout.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.GuiPictureBox1)).BeginInit();
@@ -235,6 +244,9 @@
             this.GuiAdvancedGroup1.SuspendLayout();
             this.tabFeedback.SuspendLayout();
             this.panel1.SuspendLayout();
+            this.tabPage1.SuspendLayout();
+            this.groupBox3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).BeginInit();
             this.SuspendLayout();
             // 
             // notifyIcon
@@ -306,7 +318,7 @@
             // GuiHelp
             // 
             this.GuiHelp.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.GuiHelp.Location = new System.Drawing.Point(204, 590);
+            this.GuiHelp.Location = new System.Drawing.Point(204, 587);
             this.GuiHelp.Name = "GuiHelp";
             this.GuiHelp.Size = new System.Drawing.Size(262, 35);
             this.GuiHelp.TabIndex = 1000;
@@ -335,7 +347,7 @@
             this.tabAbout.Controls.Add(this.AboutLabelVersion);
             this.tabAbout.Location = new System.Drawing.Point(4, 34);
             this.tabAbout.Name = "tabAbout";
-            this.tabAbout.Size = new System.Drawing.Size(638, 590);
+            this.tabAbout.Size = new System.Drawing.Size(638, 706);
             this.tabAbout.TabIndex = 3;
             this.tabAbout.Text = "About";
             // 
@@ -421,7 +433,7 @@
             this.tabLayout.Location = new System.Drawing.Point(4, 34);
             this.tabLayout.Name = "tabLayout";
             this.tabLayout.Padding = new System.Windows.Forms.Padding(3);
-            this.tabLayout.Size = new System.Drawing.Size(638, 590);
+            this.tabLayout.Size = new System.Drawing.Size(638, 586);
             this.tabLayout.TabIndex = 1;
             this.tabLayout.Text = "Layout";
             // 
@@ -670,7 +682,7 @@
             this.tabHotkeys.Location = new System.Drawing.Point(4, 34);
             this.tabHotkeys.Name = "tabHotkeys";
             this.tabHotkeys.Padding = new System.Windows.Forms.Padding(3);
-            this.tabHotkeys.Size = new System.Drawing.Size(638, 590);
+            this.tabHotkeys.Size = new System.Drawing.Size(638, 586);
             this.tabHotkeys.TabIndex = 4;
             this.tabHotkeys.Text = "Hotkeys";
             // 
@@ -763,7 +775,7 @@
             // 
             this.GuiHotkeyToggleView.BackColor = System.Drawing.SystemColors.Window;
             this.GuiHotkeyToggleView.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.GuiHotkeyToggleView.Location = new System.Drawing.Point(329, 242);
+            this.GuiHotkeyToggleView.Location = new System.Drawing.Point(329, 200);
             this.GuiHotkeyToggleView.Name = "GuiHotkeyToggleView";
             this.GuiHotkeyToggleView.ReadOnly = true;
             this.GuiHotkeyToggleView.Size = new System.Drawing.Size(235, 32);
@@ -777,7 +789,7 @@
             // 
             this.GuiHotkeyToggleFavorite.BackColor = System.Drawing.SystemColors.Window;
             this.GuiHotkeyToggleFavorite.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.GuiHotkeyToggleFavorite.Location = new System.Drawing.Point(329, 201);
+            this.GuiHotkeyToggleFavorite.Location = new System.Drawing.Point(329, 241);
             this.GuiHotkeyToggleFavorite.Name = "GuiHotkeyToggleFavorite";
             this.GuiHotkeyToggleFavorite.ReadOnly = true;
             this.GuiHotkeyToggleFavorite.Size = new System.Drawing.Size(235, 32);
@@ -791,18 +803,18 @@
             // 
             this.label12.AutoSize = true;
             this.label12.Font = new System.Drawing.Font("Segoe UI", 11.12727F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label12.Location = new System.Drawing.Point(26, 204);
+            this.label12.Location = new System.Drawing.Point(26, 244);
             this.label12.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(301, 25);
+            this.label12.Size = new System.Drawing.Size(185, 25);
             this.label12.TabIndex = 1007;
-            this.label12.Text = "Instant-select toggle favorite entry";
+            this.label12.Text = "Toggle favorite entry";
             // 
             // label13
             // 
             this.label13.AutoSize = true;
             this.label13.Font = new System.Drawing.Font("Segoe UI", 11.12727F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label13.Location = new System.Drawing.Point(26, 246);
+            this.label13.Location = new System.Drawing.Point(26, 204);
             this.label13.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label13.Name = "label13";
             this.label13.Size = new System.Drawing.Size(256, 25);
@@ -939,7 +951,7 @@
             this.tabGeneral.Location = new System.Drawing.Point(4, 34);
             this.tabGeneral.Name = "tabGeneral";
             this.tabGeneral.Padding = new System.Windows.Forms.Padding(3);
-            this.tabGeneral.Size = new System.Drawing.Size(638, 590);
+            this.tabGeneral.Size = new System.Drawing.Size(638, 586);
             this.tabGeneral.TabIndex = 0;
             this.tabGeneral.Text = "General";
             // 
@@ -1087,8 +1099,6 @@
             // 
             this.GuiStartDisabled.AutoSize = true;
             this.GuiStartDisabled.BackColor = System.Drawing.Color.Yellow;
-            this.GuiStartDisabled.Checked = true;
-            this.GuiStartDisabled.CheckState = System.Windows.Forms.CheckState.Checked;
             this.GuiStartDisabled.ForeColor = System.Drawing.SystemColors.ControlText;
             this.GuiStartDisabled.Location = new System.Drawing.Point(29, 73);
             this.GuiStartDisabled.Name = "GuiStartDisabled";
@@ -1127,6 +1137,7 @@
             // TabControl
             // 
             this.TabControl.Controls.Add(this.tabGeneral);
+            this.TabControl.Controls.Add(this.tabPage1);
             this.TabControl.Controls.Add(this.tabHotkeys);
             this.TabControl.Controls.Add(this.tabLayout);
             this.TabControl.Controls.Add(this.tabStyle);
@@ -1137,7 +1148,7 @@
             this.TabControl.Location = new System.Drawing.Point(12, 12);
             this.TabControl.Name = "TabControl";
             this.TabControl.SelectedIndex = 0;
-            this.TabControl.Size = new System.Drawing.Size(646, 628);
+            this.TabControl.Size = new System.Drawing.Size(646, 624);
             this.TabControl.TabIndex = 0;
             this.TabControl.Selected += new System.Windows.Forms.TabControlEventHandler(this.TabControl_Selected);
             // 
@@ -1149,7 +1160,7 @@
             this.tabStyle.Controls.Add(this.GuiStyleGroup2);
             this.tabStyle.Location = new System.Drawing.Point(4, 34);
             this.tabStyle.Name = "tabStyle";
-            this.tabStyle.Size = new System.Drawing.Size(638, 590);
+            this.tabStyle.Size = new System.Drawing.Size(638, 586);
             this.tabStyle.TabIndex = 5;
             this.tabStyle.Text = "Style";
             // 
@@ -1383,7 +1394,7 @@
             this.tabColors.Controls.Add(this.GuiStyleGroup3);
             this.tabColors.Location = new System.Drawing.Point(4, 34);
             this.tabColors.Name = "tabColors";
-            this.tabColors.Size = new System.Drawing.Size(638, 590);
+            this.tabColors.Size = new System.Drawing.Size(638, 586);
             this.tabColors.TabIndex = 9;
             this.tabColors.Text = "Colors";
             // 
@@ -1751,7 +1762,7 @@
             this.tabAdvanced.Controls.Add(this.GuiAdvancedGroup1);
             this.tabAdvanced.Location = new System.Drawing.Point(4, 34);
             this.tabAdvanced.Name = "tabAdvanced";
-            this.tabAdvanced.Size = new System.Drawing.Size(638, 590);
+            this.tabAdvanced.Size = new System.Drawing.Size(638, 586);
             this.tabAdvanced.TabIndex = 6;
             this.tabAdvanced.Text = "Advanced";
             // 
@@ -1912,7 +1923,7 @@
             this.tabFeedback.Controls.Add(this.GuiEmailAddr);
             this.tabFeedback.Location = new System.Drawing.Point(4, 34);
             this.tabFeedback.Name = "tabFeedback";
-            this.tabFeedback.Size = new System.Drawing.Size(638, 590);
+            this.tabFeedback.Size = new System.Drawing.Size(638, 706);
             this.tabFeedback.TabIndex = 7;
             this.tabFeedback.Text = "Feedback";
             // 
@@ -1998,14 +2009,114 @@
             this.label11.TabIndex = 0;
             this.label11.Text = "UI is awaiting cliopboard processing - please wait ...";
             // 
+            // tabPage1
+            // 
+            this.tabPage1.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.tabPage1.Controls.Add(this.groupBox3);
+            this.tabPage1.Location = new System.Drawing.Point(4, 34);
+            this.tabPage1.Name = "tabPage1";
+            this.tabPage1.Size = new System.Drawing.Size(638, 586);
+            this.tabPage1.TabIndex = 10;
+            this.tabPage1.Text = "Storage";
+            // 
+            // groupBox3
+            // 
+            this.groupBox3.Controls.Add(this.label15);
+            this.groupBox3.Controls.Add(this.button1);
+            this.groupBox3.Controls.Add(this.radioButton2);
+            this.groupBox3.Controls.Add(this.radioButton1);
+            this.groupBox3.Controls.Add(this.label14);
+            this.groupBox3.Controls.Add(this.trackBar1);
+            this.groupBox3.Controls.Add(this.checkBox1);
+            this.groupBox3.Location = new System.Drawing.Point(18, 35);
+            this.groupBox3.Name = "groupBox3";
+            this.groupBox3.Size = new System.Drawing.Size(594, 344);
+            this.groupBox3.TabIndex = 116;
+            this.groupBox3.TabStop = false;
+            this.groupBox3.Text = "Storage";
+            // 
+            // label14
+            // 
+            this.label14.AutoSize = true;
+            this.label14.Location = new System.Drawing.Point(24, 173);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(312, 25);
+            this.label14.TabIndex = 305;
+            this.label14.Text = "Amount of clipboard entries to save";
+            // 
+            // trackBar1
+            // 
+            this.trackBar1.LargeChange = 10;
+            this.trackBar1.Location = new System.Drawing.Point(29, 201);
+            this.trackBar1.Maximum = 250;
+            this.trackBar1.Minimum = 1;
+            this.trackBar1.Name = "trackBar1";
+            this.trackBar1.Size = new System.Drawing.Size(206, 56);
+            this.trackBar1.TabIndex = 306;
+            this.trackBar1.TickFrequency = 10;
+            this.trackBar1.TickStyle = System.Windows.Forms.TickStyle.Both;
+            this.trackBar1.Value = 1;
+            // 
+            // checkBox1
+            // 
+            this.checkBox1.AutoSize = true;
+            this.checkBox1.Checked = true;
+            this.checkBox1.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBox1.Location = new System.Drawing.Point(29, 38);
+            this.checkBox1.Name = "checkBox1";
+            this.checkBox1.Size = new System.Drawing.Size(319, 29);
+            this.checkBox1.TabIndex = 110;
+            this.checkBox1.Text = "Save clipboards to local computer";
+            this.checkBox1.UseVisualStyleBackColor = true;
+            // 
+            // radioButton1
+            // 
+            this.radioButton1.AutoSize = true;
+            this.radioButton1.Checked = true;
+            this.radioButton1.Location = new System.Drawing.Point(29, 87);
+            this.radioButton1.Name = "radioButton1";
+            this.radioButton1.Size = new System.Drawing.Size(190, 29);
+            this.radioButton1.TabIndex = 307;
+            this.radioButton1.TabStop = true;
+            this.radioButton1.Text = "Save all clipboards";
+            this.radioButton1.UseVisualStyleBackColor = true;
+            // 
+            // radioButton2
+            // 
+            this.radioButton2.AutoSize = true;
+            this.radioButton2.Location = new System.Drawing.Point(29, 122);
+            this.radioButton2.Name = "radioButton2";
+            this.radioButton2.Size = new System.Drawing.Size(206, 29);
+            this.radioButton2.TabIndex = 308;
+            this.radioButton2.Text = "Save only \"Favorites\"";
+            this.radioButton2.UseVisualStyleBackColor = true;
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(20, 275);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(253, 34);
+            this.button1.TabIndex = 504;
+            this.button1.Text = "Clear all clipboard entries";
+            this.button1.UseVisualStyleBackColor = true;
+            // 
+            // label15
+            // 
+            this.label15.AutoSize = true;
+            this.label15.Location = new System.Drawing.Point(241, 212);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(42, 25);
+            this.label15.TabIndex = 505;
+            this.label15.Text = "100";
+            // 
             // Settings
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(11F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(670, 648);
-            this.Controls.Add(this.panel1);
+            this.ClientSize = new System.Drawing.Size(670, 643);
             this.Controls.Add(this.GuiHelp);
             this.Controls.Add(this.TabControl);
+            this.Controls.Add(this.panel1);
             this.Font = new System.Drawing.Font("Segoe UI", 11.12727F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -2072,6 +2183,10 @@
             this.tabFeedback.PerformLayout();
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
+            this.tabPage1.ResumeLayout(false);
+            this.groupBox3.ResumeLayout(false);
+            this.groupBox3.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -2240,6 +2355,15 @@
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.TabPage tabPage1;
+        private System.Windows.Forms.GroupBox groupBox3;
+        private System.Windows.Forms.Label label14;
+        private System.Windows.Forms.TrackBar trackBar1;
+        private System.Windows.Forms.CheckBox checkBox1;
+        private System.Windows.Forms.RadioButton radioButton2;
+        private System.Windows.Forms.RadioButton radioButton1;
+        private System.Windows.Forms.Label label15;
+        private System.Windows.Forms.Button button1;
     }
 
 }
