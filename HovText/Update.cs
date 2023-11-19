@@ -1,4 +1,16 @@
-﻿using System;
+﻿/*
+##################################################################################################
+UPDATE
+------
+
+This is an information popup that will be shown, if a new version of HovText is available. It
+will show the user the version number of the new version and offer the user to either download
+the new version or to skip this version.
+
+##################################################################################################
+*/
+
+using System;
 using System.Text;
 using System.Windows.Forms;
 
@@ -40,7 +52,7 @@ namespace HovText
             Settings.DownloadInstall(GuiAppVerOnline.Text);
         }
 
-                
+
         // ###########################################################################################
         // Download
         // ###########################################################################################
@@ -55,7 +67,7 @@ namespace HovText
             Settings.OpenExecuteableLocation(appPath);
 
             // Download executeable
-            System.Diagnostics.Process.Start(Settings.hovtextPage +"/download/"+ GuiAppVerOnline.Text +"/HovText.exe");
+            System.Diagnostics.Process.Start(Settings.hovtextPage + "/download/" + GuiAppVerOnline.Text + "/HovText.exe");
         }
 
 
@@ -65,7 +77,7 @@ namespace HovText
 
         private void SkipVersion_Click(object sender, EventArgs e)
         {
-            Logging.Log("Update popup: Clicked the \"Skip this version\""); 
+            Logging.Log("Update popup: Clicked the \"Skip this version\"");
             Hide();
             Settings.SetRegistryKey(Settings.registryPath, "CheckedVersion", GuiAppVerOnline.Text);
         }
@@ -82,6 +94,11 @@ namespace HovText
                 this.Close();
             }
         }
+
+
+        // ###########################################################################################
+        // Open download page
+        // ###########################################################################################
 
         private void UpdateGoToHomepage_LinkClicked(object sender, LinkClickedEventArgs e)
         {

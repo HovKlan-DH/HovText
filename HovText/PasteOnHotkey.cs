@@ -1,4 +1,16 @@
-﻿using System.Threading;
+﻿/*
+##################################################################################################
+PASTE ON HOTKEY
+---------------
+
+This is a form that will be shown when the user presses the hotkey for pasting cleartext. It 
+will paste the cleartext clipboard to the active application and then restore the original 
+clipboard after 250ms.
+
+##################################################################################################
+*/
+
+using System.Threading;
 using System.Timers;
 using System.Windows.Forms;
 
@@ -62,7 +74,7 @@ namespace HovText
         // What should happen when the timer has reached its time
         // ###########################################################################################
 
-        public static void StartTimerToRestoreOriginal ()
+        public static void StartTimerToRestoreOriginal()
         {
             timerPasteOnHotkey.Enabled = true;
         }

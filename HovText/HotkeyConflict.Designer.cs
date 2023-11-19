@@ -40,7 +40,7 @@ namespace HovText
             this.label1.Font = new System.Drawing.Font("Segoe UI Semibold", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.Location = new System.Drawing.Point(38, 35);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(392, 25);
+            this.label1.Size = new System.Drawing.Size(381, 25);
             this.label1.TabIndex = 0;
             this.label1.Text = "There is a conflict with one or more hotkeys!";
             // 

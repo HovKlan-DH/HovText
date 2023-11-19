@@ -1,4 +1,16 @@
-﻿using System;
+﻿/*
+##################################################################################################
+TOO BIG LOGFILE
+---------------
+
+This is an information popup that will be shown, if the troubleshoot logfile has become
+larger than 10Mb. The it offers the user to either disable troubleshoot logging or to keep
+logging but truncate the logfile.
+
+##################################################################################################
+*/
+
+using System;
 using System.IO;
 using System.Windows.Forms;
 

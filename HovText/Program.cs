@@ -1,11 +1,23 @@
-﻿using System;
-using System.IO.Pipes;
+﻿/*
+##################################################################################################
+PROGRAM
+-------
+
+This is the main entry point for the HovText application. It will check if the application is
+already running and if so, it will send a message to the running instance to show the settings
+page. If the application is not running, it will start the application and show the settings page.
+
+##################################################################################################
+*/
+
+using Microsoft.Win32;
+using System;
 using System.IO;
+using System.IO.Pipes;
 using System.Runtime.InteropServices;
 using System.Threading;
-using System.Windows.Forms;
-using Microsoft.Win32;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace HovText
 {
@@ -35,7 +47,7 @@ namespace HovText
             Application.SetCompatibleTextRenderingDefault(false);
 
             // Check if .NET Framework 4.8 or newer is available
-            Version requiredFrameworkVersion = new Version(4,8);
+            Version requiredFrameworkVersion = new Version(4, 8);
             if (!IsNet48OrHigherInstalled())
             {
                 Logging.Log("Missing .NET Framework 4.8 or newer - quitting!");
@@ -131,6 +143,17 @@ namespace HovText
                 }
             }
 
+            // Check if we already did show the tray notification (this equals we do not need to show the "Welcome Guide" again)
+            string notificationShow = Settings.GetRegistryKey(Settings.registryPath, "NotificationShown");
+
+            // Show the "Welcome Guide" form as a modal dialog
+            if(notificationShow == "0")
+            {
+                Welcome welcomeForm = new Welcome();
+                welcomeForm.ShowDialog();
+            }
+
+            // Run the real application
             Application.Run(Settings);
 
             _mutex.ReleaseMutex();
@@ -175,24 +198,24 @@ namespace HovText
                         using (var reader = new StreamReader(ms))
                         {
                             var message = reader.ReadLine();
-                                if (message == "SHOW_SETTINGS")
-                                {
-                                    // Show the settings page in the existing instance.
-                                    Logging.Log("Application launched, with active application already running - showing \"Settings\"");
-                                    Settings.Invoke(new Action(() => Settings.ShowSettingsForm()));
-                                }
-                                if (message == "EXIT")
-                                {
-                                    // Exit the application
-                                    Settings.isClosedFromNotifyIcon = true;
-                                    Logging.Log("Application launched, with application already running - started with commandline option [--exit]");
-                                    Settings.Invoke(new Action(() => Settings.Close()));
-                                }
-                                if (message == "CLEANUP_AND_EXIT")
-                                {
-                                    // Clean-up and exit the application
-                                    Settings.Invoke(new Action(() => Settings.CleanupAndExit()));
-                                }
+                            if (message == "SHOW_SETTINGS")
+                            {
+                                // Show the settings page in the existing instance.
+                                Logging.Log("Application launched, with active application already running - showing \"Settings\"");
+                                Settings.Invoke(new Action(() => Settings.ShowSettingsForm()));
+                            }
+                            if (message == "EXIT")
+                            {
+                                // Exit the application
+                                Settings.isClosedFromNotifyIcon = true;
+                                Logging.Log("Application launched, with application already running - started with commandline option [--exit]");
+                                Settings.Invoke(new Action(() => Settings.Close()));
+                            }
+                            if (message == "CLEANUP_AND_EXIT")
+                            {
+                                // Clean-up and exit the application
+                                Settings.Invoke(new Action(() => Settings.CleanupAndExit()));
+                            }
                         }
                     }
                 }

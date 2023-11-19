@@ -1,30 +1,41 @@
-﻿using static HovText.Program;
+﻿/*
+##################################################################################################
+SETTINGS
+--------
+
+This is the main form for the HovText application.
+
+##################################################################################################
+*/
+
 using HovText.Properties;
 using Microsoft.Win32;
+using NHotkey.WindowsForms; // https://github.com/thomaslevesque/NHotkey
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Diagnostics;
 using System.Drawing;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Management;
 using System.Net;
 using System.Reflection;
 using System.Runtime.InteropServices;
+using System.Runtime.Serialization;
+using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using System.Text.RegularExpressions;
-using System.Windows.Forms;
-using NHotkey.WindowsForms; // https://github.com/thomaslevesque/NHotkey
-//using System.Drawing.Imaging;
-//using Newtonsoft.Json;
-using System.Runtime.Serialization.Formatters.Binary;
 using System.Threading.Tasks;
+using System.Windows.Forms;
+using static HovText.Program;
 
 
 // ----------------------------------------------------------------------------
 // Upload application to these places:
 // https://www.microsoft.com/en-us/wdsi/filesubmission
+// https://virustotal.com
 // ----------------------------------------------------------------------------
 
 // NuGet: "Costura.Fody" to merge the DLLs in to the EXE - to get only one EXE file for this application
@@ -131,15 +142,19 @@ namespace HovText
         private const string registryHotkeyGetNewerEntry = "Shift + Alt + H"; // hotkey "Show newer entry"
         private const string registryHotkeySearch = "Alt + S"; // hotkey "Search"
         private const string registryHotkeyPasteOnHotkey = "Alt + O"; // hotkey "Paste on hotkey"
-        private const string registryHotkeyToggleFavorite = "Space"; // hotkey "Toggle favorite entry"
+        private const string registryHotkeyToggleFavorite = "Oem5"; // hotkey "Toggle favorite entry"
         private const string registryHotkeyToggleView = "Q"; // hotkey "Toggle list view"
         private const string registryHotkeyBehaviour = "System"; // use system clipboard
+        private const string registryStorageSaveOnExit = "0"; // 0 = do not save clipboards at exit, 1 = save clipboards on exit
+        private const string registryStorageLoadOnLaunch = "1"; // 0 = do not load clipboards, 1 = load clipboards on launch
+        private const string registryStorageSaveType = "All"; // "All" or "Favorites"
+        private const string registryStorageSaveEntries = "100"; // number of clipboard entries to save
         private const string registryCloseMinimizes = "1"; // 0 = terminates, 1 = minimize to tray
         private const string registryStartDisabled = "0"; // 0 = start active, 1 = start disabled
         private const string registryRestoreOriginal = "1"; // 1 = restore original
         private const string registryCopyImages = "1"; // 1 = copy images to history
         private const string registryHistorySearch = "1"; // 1 = enable history and Search
-        private const string registryHistoryInstantSelect = "1"; // 1 = enable history and Instant-select
+        private const string registryHistoryInstantSelect = "0"; // 1 = enable history and Instant-select
         private const string registryEnableFavorites = "0"; // 0 = do not enable favorites
         private const string registryPasteOnSelection = "0"; // 0 = do not paste selected entry when selected
         private const string registryAlwaysPasteOriginal = "0"; // 1 = always paste original (formatted) text
@@ -168,116 +183,23 @@ namespace HovText
         string clipboardText = "";
         string clipboardTextLast = "";
         bool isClipboardImageTransparent;
-        System.Drawing.Image clipboardImage;
+        Image clipboardImage;
         string clipboardImageHashLast = "";
-        System.Windows.Forms.IDataObject clipboardObject;
-/*
-        #if DEBUG
-            public static SortedDictionary<int, string> entriesApplication = new SortedDictionary<int, string>()
-                {
-                    { 1, "App 1" },
-                    { 3, "App 2" },
-                    { 8, "App 3" },
-                    { 9, "App 4" },
-                    { 10, "App 5" },
-                    { 11, "App 6" },
-                    { 12, "App 7" },
-                    { 13, "App 8" },
-                    { 20, "App 9" },
-                    { 21, "App 10" },
-                    { 22, "App 11" },
-                    { 23, "App 12" },
-                    { 25, "App 13" },
-                    { 30, "App 14" },
-                    { 31, "App 15" }
-    //                { 32, "App 16" }
-                };
-            public static SortedDictionary<int, string> entriesText = new SortedDictionary<int, string>()
-                {
-                    { 1, "Text 1" },
-                    { 3, "Text 2" },
-                    { 8, "Text 3" },
-                    { 9, "Text 4" },
-                    { 10, "Text 5" },
-                    { 11, "Text 6" },
-                    { 12, "Text 7" },
-                    { 13, "Text 8" },
-                    { 20, "Text 9" },
-                    { 21, "Text 10" },
-                    { 22, "Text 11" },
-                    { 23, "Text 12" },
-                    { 25, "Text 13" },
-                    { 30, "Text 14" },
-                    { 31, "Text 15" }
-    //                { 32, "Text 16" }
-                };
-            public static SortedDictionary<int, bool> entriesImageTransparent = new SortedDictionary<int, bool>()
-                {
-                    { 1, false },
-                    { 3, false },
-                    { 8, false },
-                    { 9, false },
-                    { 10, false },
-                    { 11, false },
-                    { 12, false },
-                    { 13, false },
-                    { 20, false },
-                    { 21, false },
-                    { 22, false },
-                    { 23, false },
-                    { 25, false },
-                    { 30, false },
-                    { 31, false }
-    //                { 32, false }
-                };
-            public static SortedDictionary<int, bool> entriesIsFavorite = new SortedDictionary<int, bool>()
-                {
-                    { 1, false },
-                    { 3, false },
-                    { 8, false },
-                    { 9, false },
-                    { 10, false },
-                    { 11, false },
-                    { 12, false },
-                    { 13, false },
-                    { 20, false },
-                    { 21, false },
-                    { 22, false },
-                    { 23, false },
-                    { 25, false },
-                    { 30, false },
-                    { 31, false }
-                };
-            public static SortedDictionary<int, bool> entriesShow = new SortedDictionary<int, bool>()
-                {
-                    { 1, false },
-                    { 3, true },
-                    { 8, true },
-                    { 9, false },
-                    { 10, false },
-                    { 11, true },
-                    { 12, false },
-                    { 13, true },
-                    { 20, true },
-                    { 21, true },
-                    { 22, true },
-                    { 23, false },
-                    { 25, true },
-                    { 30, true },
-                    { 31, false }
-                };
-*/
+        IDataObject clipboardObject;
         public static SortedDictionary<int, string> entriesApplication = new SortedDictionary<int, string>();
+        public static SortedDictionary<int, string> entriesApplication2 = new SortedDictionary<int, string>();
         public static SortedDictionary<int, string> entriesText = new SortedDictionary<int, string>();
         public static SortedDictionary<int, bool> entriesImageTransparent = new SortedDictionary<int, bool>();
         public static SortedDictionary<int, bool> entriesShow = new SortedDictionary<int, bool>();
         public static SortedDictionary<int, bool> entriesIsFavorite = new SortedDictionary<int, bool>();
+        public static SortedDictionary<int, bool> entriesIsFavorite2 = new SortedDictionary<int, bool>();
         public static SortedDictionary<int, bool> entriesIsUrl = new SortedDictionary<int, bool>();
         public static SortedDictionary<int, bool> entriesIsEmail = new SortedDictionary<int, bool>();
         public static SortedDictionary<int, bool> entriesIsImage = new SortedDictionary<int, bool>();
-        public static SortedDictionary<int, System.Drawing.Image> entriesImage = new SortedDictionary<int, System.Drawing.Image>();
+        public static SortedDictionary<int, Image> entriesImage = new SortedDictionary<int, Image>();
         public static SortedList<int, Dictionary<string, object>> entriesOriginal = new SortedList<int, Dictionary<string, object>>();
         public static SortedList<int, Dictionary<string, object>> entriesOriginal2 = new SortedList<int, Dictionary<string, object>>();
+        private static Dictionary<string, object> clipboardData;
         const int WM_CLIPBOARDUPDATE = 0x031D;
         string whoUpdatedClipboardName = "";
         public static bool pasteOnHotkeySetCleartext;
@@ -296,6 +218,7 @@ namespace HovText
         public static bool showFavoriteList = false; // will be true if the favorite list should be used/shown
         public static bool showFavoriteListLast = false; // used when doing search - to store if we previously was in the favorite list or not
         private static bool isClipboardLoadingFromFile; // "true" when initial loading clipboard content from file
+        private int isClipboardLoadingFromFileKey;
         readonly History history = new History();
         readonly Update update = new Update();
         readonly TooBigLogfile tooBigLogfile;
@@ -324,6 +247,8 @@ namespace HovText
         static readonly string tempCmd = "HovText-batch-update.cmd";
         static readonly string tempLog = "HovText-batch-update-log.txt";
         private bool isApplicationEnabled = true;
+        public static byte[] encryptionKey;
+        public static byte[] encryptionInitializationVector;
 
 
         // ###########################################################################################
@@ -332,37 +257,15 @@ namespace HovText
 
         public Settings()
         {
-            /*
-            #if DEBUG
-                // Extract the keys from entriesImageTransparent dictionary
-                int[] keysArray = entriesImageTransparent.Keys.ToArray();
-                // Create a prefill array with default image objects
-                System.Drawing.Image[] prefillArray = new System.Drawing.Image[keysArray.Length];
-                // Populate the entriesImage dictionary using the prefill array
-                for (int i = 0; i < keysArray.Length; i++)
-                {
-                    int key = keysArray[i];
-                    entriesImage[key] = prefillArray[i];
-                }
-                // Iterate over the keys in the entriesImage dictionary
-                foreach (int key in entriesImage.Keys)
-                {
-                    entriesOriginal[key] = null;
-                }
-                entryIndex = 31;
-                entryCounter = 15;
-            #endif
-            */
-
             // Setup form and all elements
             InitializeComponent();
 
             // Get build type
-            #if DEBUG
-                buildType = "Debug";
-            #else
+#if DEBUG
+            buildType = "Debug";
+#else
                 buildType = "Release";
-            #endif
+#endif
 
             // Get application file version from assembly
             Assembly assemblyInfo = Assembly.GetExecutingAssembly();
@@ -402,7 +305,7 @@ namespace HovText
             // Get OS name
             // https://stackoverflow.com/a/50330392/2028935
             osVersion = (string)(from x in new ManagementObjectSearcher("SELECT Caption FROM Win32_OperatingSystem").Get().Cast<ManagementObject>() select x.GetPropertyValue("Caption")).FirstOrDefault();
-            
+
             // Get the CPU architechture
             Architecture cpuArchitectureObj = RuntimeInformation.ProcessArchitecture;
             switch (cpuArchitectureObj)
@@ -441,7 +344,7 @@ namespace HovText
             tooBigLogfile = new TooBigLogfile(this);
 
             // As the UI elements now have been initialized then we can setup the version
-            AboutLabelVersion.Text = "Version " + appVer + " (x64)";
+            AboutLabelVersion.Text = "Version " + appVer + " (64-bit)";
 
             // Mark very clearly with a color, that this is not a normal version (red equals danger) :-)
             if (buildType == "Debug")
@@ -481,12 +384,6 @@ namespace HovText
             NativeMethods.AddClipboardFormatListener(this.Handle);
             Logging.Log("Added HovText to clipboard chain");
 
-//            // Process clipboard at startup also (if application is enabled)
-//            if(isApplicationEnabled)
-//            {
-//                ProcessClipboard();
-//            }
-
             // Write text for the "About" page
 
             // Basic RTF formatting
@@ -495,10 +392,11 @@ namespace HovText
             // "test \ul text\ulnone  is good" for underline
             var sb = new StringBuilder();
             sb.Append(@"{\rtf1\ansi");
-            sb.Append(@" This application is open source and you can use it on any computer you want at no cost. You are of course encouraged to donate some $$$, if you use it and want to motivate for continues support :-) It is \ul not\ulnone  allowed to sell or distribute it in any commercial regard without written consent from the developer. \line ");
+            sb.Append(@" This application is open source and you can use it on any computer you want at no cost. You are of course encouraged to donate some $$$, if you use it and want to motivate for continues support :-) There are a couple of things we would like to look more deeply into; e.g. code signing certificate and a more modern UI and these comes with a hefty price tag for us. \line\line");
+            sb.Append(@" It is \ul not\ulnone  allowed to sell or distribute it in any commercial regard without written consent from the developer. \line ");
             sb.Append(@" \line ");
             sb.Append(@" Visit the HovText home page: \line ");
-            sb.Append(@" "+ hovtextPage + @" \line ");
+            sb.Append(@" " + hovtextPage + @" \line ");
             sb.Append(@" \line ");
             sb.Append(@" Kind regards, ");
             sb.Append(@" \line ");
@@ -516,277 +414,242 @@ namespace HovText
             // Update the location of the dynamic labels
             UpdateLocationDynamicLabels();
 
-            panel1.BackColor = Color.FromArgb(128, 255, 255, 255);
+            GuiLoadingPanel.BackColor = Color.FromArgb(128, 255, 255, 255);
 
-            // HEST 2  - load data
-            if (File.Exists(pathAndData))
+            // Should we load the clipboard data file?
+            if (GuiStorageLoadClipboard.Checked)
             {
-                isClipboardLoadingFromFile = true;
+                if (File.Exists(pathAndData))
+                {
+                    isClipboardLoadingFromFile = true; // calling many of the same functions, but somewhere we need to do special stuff when this is loaded from start
 
-                panel1.Dock = DockStyle.Fill;
-                panel1.Visible = true;
-                panel1.BringToFront();
+                    // Show the "Loading" panel
+                    GuiLoadingPanel.Dock = DockStyle.Fill;
+                    GuiLoadingPanel.Visible = true;
+                    if(buildType == "Debug")
+                    {
+                        GuiLoadingPanel.BackColor = Color.IndianRed;
+                    } else
+                    {
+                        GuiLoadingPanel.BackColor = Color.WhiteSmoke;
+                    }
+                    GuiLoadingPanel.BringToFront();
 
-                // Calculate and set the label's location to center it within panel1
-                label11.AutoSize = false;
-                label11.Width = panel1.ClientSize.Width;
-                label11.Height = 30; // Set this to an appropriate value for your label
-                label11.TextAlign = ContentAlignment.MiddleCenter;
-                int x = (panel1.ClientSize.Width - label11.Width) / 2;
-                int y = (panel1.ClientSize.Height - label11.Height) / 2;
-                label11.Location = new Point(x, y);
+                    // Calculate and set the label's location to center it within panel1
+                    GuiLoadingText.AutoSize = false;
+                    GuiLoadingText.Width = GuiLoadingPanel.ClientSize.Width;
+                    GuiLoadingText.Height = 30; // Set this to an appropriate value for your label
+                    GuiLoadingText.TextAlign = ContentAlignment.MiddleCenter;
+                    int x = (GuiLoadingPanel.ClientSize.Width - GuiLoadingText.Width) / 2;
+                    int y = (GuiLoadingPanel.ClientSize.Height - GuiLoadingText.Height) / 2;
+                    GuiLoadingText.Location = new Point(x, y);
 
-                LoadEntriesFromFile();
+                    LoadEntriesFromFile();
+                }
             }
 
+            // Update meory status and clipboard entries in "Advanced" tab
+            LogMemoryConsumed();
+            UpdateAdvancedStatus();
         }
+                
 
-        /*
-        public static void SaveEntriesToFile()
+        // ###########################################################################################
+        // Save history to a data file
+        // ###########################################################################################
+
+        public void SaveEntriesToFile()
         {
-            var binaryFormatter = new BinaryFormatter();
-
-            using (var fileStream = new FileStream(pathAndData, FileMode.Create))
+            if (GuiStorageChooseFavorites.Checked)
             {
-                binaryFormatter.Serialize(fileStream, entriesOriginal);
-            }
-        }
-        */
-        public static void SaveEntriesToFile()
-        {
+                // Temporary list to hold keys to be removed
+                List<int> keysToRemove = new List<int>();
 
-            
-            var binaryFormatter = new BinaryFormatter();
-
-            using (var fileStream = new FileStream(pathAndData, FileMode.Create))
-            {
-                // Log the count of entries being saved
-//                Console.WriteLine($"Saving {entriesOriginal.Count} entries to file.");
-                Logging.Log($"Saving {entriesOriginal.Count} entries to file.");
-
-
-                // Optional: Log details of each entry
+                // Walk through the original entries and check if they are favorites
                 foreach (var entry in entriesOriginal)
                 {
-//                    Console.WriteLine($"Saving entry {entry.Key} with {entry.Value.Count} items.");
-                    Logging.Log($"Saving entry {entry.Key} with {entry.Value.Count} items.");
-                    // You can add more detailed logging here if necessary,
-                    // for example, logging the keys of the dictionary in each entry.
-                }
+                    int key = entry.Key;
 
-                binaryFormatter.Serialize(fileStream, entriesOriginal);
-
-                // Log completion
-//                Console.WriteLine("Entries saved successfully.");
-                Logging.Log("Entries saved successfully.");
-            }
-        }
-
-        /*
-        public void LoadEntriesFromFile()
-        {
-            var binaryFormatter = new BinaryFormatter();
-
-            using (var fileStream = new FileStream(pathAndData, FileMode.Open))
-            {
-                entriesOriginal2 = (SortedList<int, Dictionary<string, object>>)binaryFormatter.Deserialize(fileStream);
-                foreach (var entry in entriesOriginal2)
-                {
-                    Dictionary<string, object> clipboardData = entry.Value;
-                    ProcessClipboard2(clipboardData);
-                }
-            }
-        }
-        */
-
-                
-        public void LoadEntriesFromFile()
-        {
-           
-            Task.Run(() =>
-            {
-
-                var binaryFormatter = new BinaryFormatter();
-
-                using (var fileStream = new FileStream(pathAndData, FileMode.Open))
-                {
-                    try
+                    // Check if the key exists in entriesIsFavorite and if its value is true
+                    if (entriesIsFavorite.TryGetValue(key, out bool isFavorite) && isFavorite)
                     {
-                        entriesOriginal2 = (SortedList<int, Dictionary<string, object>>)binaryFormatter.Deserialize(fileStream);
-                    }
-                    catch (Exception ex)
-                    {
-//                        Console.WriteLine("Deserialization error: " + ex.Message);
-                        Logging.Log("Deserialization error: " + ex.Message);
-                    }
-
-                    // Log the count of entries loaded
-//                    Console.WriteLine($"Loaded {entriesOriginal2.Count} entries from file.");
-                    Logging.Log($"Loaded {entriesOriginal2.Count} entries from file.");
-
-                    foreach (var entry in entriesOriginal2)
-                    {
-                        try
-                        {
-                            Dictionary<string, object> clipboardData = entry.Value;
-
-                            // Optional: Log details of each entry
-//                            Console.WriteLine($"Processing entry {entry.Key} with {clipboardData.Count} items.");
-                            Logging.Log($"Processing entry {entry.Key} with {clipboardData.Count} items.");
-                            // You can add more detailed logging here if necessary.
-
-                            ProcessClipboard2(clipboardData);
-                        }
-                        catch (Exception ex)
-                        {
-                            // Log exceptions if any occur during processing
-//                            Console.WriteLine($"ERROR: Error processing entry {entry.Key}: {ex.Message}");
-                            Logging.Log($"ERROR: Error processing entry {entry.Key}: {ex.Message}");
-                        }
-                    }
-
-                    // Log completion
-//                    Console.WriteLine("Entries processed successfully.");
-                    Logging.Log("Entries processed successfully.");
-
-                    // Before modifying panel1, check if invoke is required
-                    if (panel1.InvokeRequired)
-                    {
-                        // If we're not on the UI thread, we need to call Invoke
-                        panel1.Invoke(new Action(() =>
-                        {
-                            panel1.Visible = false;
-                            isClipboardLoadingFromFile = false;
-                        }));
+                        Logging.Log("Entry index [" + key + "] is a favorite and saved");
                     }
                     else
                     {
-                        // If we're on the UI thread, we can update the control directly
-                        panel1.Visible = false;
-                        isClipboardLoadingFromFile = false;
+                        keysToRemove.Add(key); // Add key to the removal list
+
                     }
                 }
-            });
 
+                // Remove the entries
+                foreach (var key in keysToRemove)
+                {
+                    entriesOriginal.Remove(key);
+                    entriesIsFavorite.Remove(key);
+                    entriesApplication.Remove(key);
+                }
+            }
+
+            // Number of entries to keep
+            int keepCount = GuiStorageEntries.Value;
+
+            // Remove entries if there are more than the number of entries to keep
+            if (entriesOriginal.Count > keepCount)
+            {
+                int removeCount = entriesOriginal.Count - keepCount; // number of entries to remove
+
+                // Get the keys of the entries to remove
+                List<int> keysToRemove = entriesOriginal.Keys.Take(removeCount).ToList();
+
+                // Remove the entries not needed
+                foreach (var key in keysToRemove)
+                {
+                    entriesOriginal.Remove(key);
+                    entriesIsFavorite.Remove(key);
+                    entriesApplication.Remove(key);
+                }
+            }
+
+            // Create a composite object (containing two dictionaries) to serialize
+            var dataToSerialize = new Tuple<
+                SortedList<int, Dictionary<string, object>>,
+                SortedDictionary<int, bool>,
+                SortedDictionary<int, string>
+            >(entriesOriginal, entriesIsFavorite, entriesApplication);
+
+            // Serialize and encrypt the composite object
+            var binaryFormatter = new BinaryFormatter();
+            using (var memoryStream = new MemoryStream())
+            {
+                binaryFormatter.Serialize(memoryStream, dataToSerialize);
+                var serializedData = memoryStream.ToArray();
+                var encryptedData = Encryption.EncryptStringToBytes_Aes(serializedData, encryptionKey, encryptionInitializationVector);
+                using (var fileStream = new FileStream(pathAndData, FileMode.Create))
+                {
+                    fileStream.Write(encryptedData, 0, encryptedData.Length);
+                    Logging.Log("Entries and favorites saved successfully.");
+                }
+            }
         }
 
 
-        public void ProcessClipboard2(Dictionary<string, object> clipboardData)
+        // ###########################################################################################
+        // Load history from data file
+        // ###########################################################################################
+
+        public void LoadEntriesFromFile()
         {
-            Debug.WriteLine(DateTime.Now.ToString("HH:mm:ss.fff") + " - ProcessClipboard2 Start");
-            // Check which text formats are available
-//            isClipboardText = clipboardData.ContainsKey(DataFormats.Text);
-            isClipboardText = clipboardData.ContainsKey(DataFormats.Text) ||
-                  clipboardData.ContainsKey(DataFormats.UnicodeText) ||
-                  clipboardData.ContainsKey(DataFormats.Rtf);
-            isClipboardImage = clipboardData.ContainsKey(DataFormats.Bitmap);
+            // Parallel processing the loading of the file
+            Task.Run(() =>
+            {
+                try
+                {
+                    using (var fileStream = new FileStream(pathAndData, FileMode.Open))
+                    {
+                        Logging.Log("Reading encrypted data file:");
 
-            // Get clipboard content
-//            clipboardText = isClipboardText ? clipboardData[DataFormats.Text] as string : "";
-            clipboardImage = isClipboardImage ? clipboardData[DataFormats.Bitmap] as Image : null;
+                        // Read the encrypted data from the file
+                        byte[] encryptedData = new byte[fileStream.Length];
+                        fileStream.Read(encryptedData, 0, encryptedData.Length);
 
-            // Get TEXT clipboard content
-            if (clipboardData.ContainsKey(DataFormats.Text))
+                        // Decrypt the data
+                        var decryptedData = Encryption.DecryptStringFromBytes_Aes(encryptedData, encryptionKey, encryptionInitializationVector);
+
+                        // Check if decryption was successful
+                        if (decryptedData == null)
+                        {
+                            Logging.Log("Encryption mismatches - data file ignored and will be overwritten at exit");
+                        }
+                        else
+                        {
+                            try
+                            {
+                                using (var memoryStream = new MemoryStream(decryptedData))
+                                {
+                                    var binaryFormatter = new BinaryFormatter();
+                                    //var loadedData = (Tuple<SortedList<int, Dictionary<string, object>>, SortedDictionary<int, bool>>)binaryFormatter.Deserialize(memoryStream);
+                                    var loadedData = (Tuple<
+                                        SortedList<int, Dictionary<string, object>>,
+                                        SortedDictionary<int, bool>,
+                                        SortedDictionary<int, string>
+                                    >)binaryFormatter.Deserialize(memoryStream);
+
+                                    // Extract the dictionaries from the tuple into temporary dictionaries
+                                    entriesOriginal2 = loadedData.Item1;
+                                    entriesIsFavorite2 = loadedData.Item2;
+                                    entriesApplication2 = loadedData.Item3;
+                                }
+                            }
+                            catch (SerializationException ex)
+                            {
+                                Logging.Log($"Error during deserialization: {ex.Message}");
+                                entriesOriginal2 = null;
+                                entriesIsFavorite2 = null;
+                                entriesApplication2 = null;
+                            }
+
+                            // Process entries if decryption was successful
+                            if (entriesOriginal2 != null)
+                            {
+                                Logging.Log("---");
+                                foreach (var entry in entriesOriginal2)
+                                {
+                                    try
+                                    {
+                                        clipboardData = entry.Value;
+                                        Logging.Log($"Processing entry index [{entry.Key}] with [{clipboardData.Count}] formats");
+                                        isClipboardLoadingFromFileKey = entry.Key;
+                                        ProcessClipboard();
+                                        clipboardData = null;
+                                    }
+                                    catch (Exception ex)
+                                    {
+                                        Logging.Log($"ERROR: Error processing entry {entry.Key}: {ex.Message}");
+                                    }
+                                }
+                                Logging.Log("---");
+                                Logging.Log($"Loaded [{entriesOriginal2.Count}] entries from data file");
+
+                                entriesOriginal2 = null;
+                                entriesIsFavorite2 = null;
+                                entriesApplication2 = null;
+                            }
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    // Handle other exceptions
+                    Logging.Log("Error during file loading: " + ex.Message);
+                }
+                finally
+                {
+                    // This code will run regardless of decryption success or failure
+                    UpdatePanelVisibility();
+                }
+            });
+        }
+
+
+        // ###########################################################################################
+        // Update "loading" panel visibility
+        // ###########################################################################################
+
+        private void UpdatePanelVisibility()
+        {
+            if (GuiLoadingPanel.InvokeRequired)
             {
-                clipboardText = clipboardData[DataFormats.Text] as string;
-            }
-            else if (clipboardData.ContainsKey(DataFormats.UnicodeText))
-            {
-                clipboardText = clipboardData[DataFormats.UnicodeText] as string;
-            }
-            else if (clipboardData.ContainsKey(DataFormats.Rtf))
-            {
-                clipboardText = clipboardData[DataFormats.Rtf] as string;
+                GuiLoadingPanel.Invoke(new Action(() =>
+                {
+                    GuiLoadingPanel.Visible = false;
+                    isClipboardLoadingFromFile = false;
+                }));
             }
             else
             {
-                clipboardText = ""; // No supported text format found
-            }
-
-
-
-            //            clipboardObject = Clipboard.GetDataObject();
-            // Create a new DataObject
-            DataObject dataObject = new DataObject();
-
-            // Add each item from clipboardData to the DataObject
-            foreach (var item in clipboardData)
-            {
-                dataObject.SetData(item.Key, item.Value);
-            }
-
-            // Now dataObject is equivalent to what you would get from Clipboard.GetDataObject()
-            clipboardObject = dataObject;
-
-            // Is clipboard text - also triggers when copying whitespaces only
-            if (isClipboardText)
-            {
-                // Check if there are any formatted text entries in the clipboard
-                bool isFormatted = false;
-                foreach (var format in clipboardObject.GetFormats(false))
-                {
-                    // If the format is anything but "Text" then we can break and deem this as formatted
-                    if (format.ToLower() != "text")
-                    {
-                        isFormatted = true;
-                        break;
-                    }
-                }
-
-                // Check if number of data formats equals 1 and this is unicode or if clipboard is different than last time
-                if (clipboardText != clipboardTextLast || isFormatted)
-                {
-                    // Trim the text
-                    if (isEnabledTrimWhitespacing)
-                    {
-                        clipboardText = clipboardText.Trim();
-                    }
-
-                    if (!string.IsNullOrEmpty(clipboardText))
-                    {
-                        // Set the last clipboard text to be identical to this one
-                        clipboardTextLast = clipboardText;
-
-                        // Add text to the entries array and update the clipboard
-                        AddEntry();
-                        GetEntryCounter();
-//                        SetClipboard();
-                        if (GuiHotkeyBehaviourPaste.Checked)
-                        {
-                            RestoreOriginal(entryIndex);
-                        }
-                    }
-                }
-            }
-            else if (isClipboardImage && isEnabledHistory) // Is clipboard an image
-            {
-                // Only proceed if we should copy the images also
-                if (isCopyImages)
-                {
-                    // Get hash value of picture in clipboard
-                    ImageConverter converter = new ImageConverter();
-                    byte[] byteArray = (byte[])converter.ConvertTo(clipboardImage, typeof(byte[]));
-                    string clipboardImageHash = Convert.ToBase64String(byteArray);
-
-                    if (clipboardImageHash != clipboardImageHashLast)
-                    {
-                        // Set the last clipboard image to be identical to this one
-                        clipboardImageHashLast = clipboardImageHash;
-
-                        // Check if picture is transparent
-                        System.Drawing.Image imgCopy = GetImageFromClipboard();
-                        isClipboardImageTransparent = false;
-                        if (imgCopy != null)
-                        {
-                            isClipboardImageTransparent = IsImageTransparent(imgCopy);
-                        }
-
-                        // Add the image to the entries array and update the clipboard
-                        AddEntry();
-                        GetEntryCounter();
-//                        SetClipboard();
-                    }
-                }
+                GuiLoadingPanel.Visible = false;
+                isClipboardLoadingFromFile = false;
             }
         }
 
@@ -845,14 +708,56 @@ namespace HovText
 
         private void ProcessClipboard()
         {
-            // Check which text formats are available
-            isClipboardText = Clipboard.ContainsText();
-            isClipboardImage = Clipboard.ContainsImage();
+            // This can come from either the clipboard chain or from the "LoadEntriesFromFile" function
+            if (clipboardData != null) // this then comes from the "LoadEntriesFromFile"
+            {
+                isClipboardText = clipboardData.ContainsKey(DataFormats.Text) ||
+                    clipboardData.ContainsKey(DataFormats.UnicodeText) ||
+                    clipboardData.ContainsKey(DataFormats.Rtf);
+                isClipboardImage = clipboardData.ContainsKey(DataFormats.Bitmap);
 
-            // Get clipboard content
-            clipboardText = isClipboardText ? Clipboard.GetText() : "";
-            clipboardImage = isClipboardImage ? Clipboard.GetImage() : null;
-            clipboardObject = Clipboard.GetDataObject();
+                clipboardImage = isClipboardImage ? clipboardData[DataFormats.Bitmap] as Image : null;
+
+                // Get TEXT clipboard content
+                if (clipboardData.ContainsKey(DataFormats.Text))
+                {
+                    clipboardText = clipboardData[DataFormats.Text] as string;
+                }
+                else if (clipboardData.ContainsKey(DataFormats.UnicodeText))
+                {
+                    clipboardText = clipboardData[DataFormats.UnicodeText] as string;
+                }
+                else if (clipboardData.ContainsKey(DataFormats.Rtf))
+                {
+                    clipboardText = clipboardData[DataFormats.Rtf] as string;
+                }
+                else
+                {
+                    clipboardText = ""; // no supported text format found
+                }
+
+                DataObject dataObject = new DataObject();
+
+                // Add each item from clipboardData to the DataObject
+                foreach (var item in clipboardData)
+                {
+                    dataObject.SetData(item.Key, item.Value);
+                }
+
+                // Now dataObject is equivalent to what you would get from Clipboard.GetDataObject()
+                clipboardObject = dataObject;
+            }
+            else // .. and this comes from the normal clipboard chain
+            {
+                // Check which text formats are available
+                isClipboardText = Clipboard.ContainsText();
+                isClipboardImage = Clipboard.ContainsImage();
+
+                // Get clipboard content
+                clipboardText = isClipboardText ? Clipboard.GetText() : "";
+                clipboardImage = isClipboardImage ? Clipboard.GetImage() : null;
+                clipboardObject = Clipboard.GetDataObject();
+            }
 
             // Is clipboard text - also triggers when copying whitespaces only
             if (isClipboardText)
@@ -886,10 +791,17 @@ namespace HovText
                         // Add text to the entries array and update the clipboard
                         AddEntry();
                         GetEntryCounter();
-                        SetClipboard();
-                        if (GuiHotkeyBehaviourPaste.Checked)
+                        if (!GuiAlwaysPasteOriginal.Checked)
                         {
-                            RestoreOriginal(entryIndex);
+                            if (clipboardData == null) // this is when we are loading from file
+                            {
+                                SetClipboard();
+                            }
+//    /*if (GuiHotkeyBehaviourPaste.Checked)*/
+//                            if (GuiAlwaysPasteOriginal.Checked)
+//                            {
+//                                RestoreOriginal(entryIndex);
+//                            }
                         }
                     }
                 }
@@ -910,7 +822,7 @@ namespace HovText
                         clipboardImageHashLast = clipboardImageHash;
 
                         // Check if picture is transparent
-                        System.Drawing.Image imgCopy = GetImageFromClipboard();
+                        Image imgCopy = GetImageFromClipboard();
                         isClipboardImageTransparent = false;
                         if (imgCopy != null)
                         {
@@ -920,7 +832,10 @@ namespace HovText
                         // Add the image to the entries array and update the clipboard
                         AddEntry();
                         GetEntryCounter();
-                        SetClipboard();
+//                        if (clipboardData == null)
+//                        {
+//                            SetClipboard();
+//                        }
                     }
                 }
             }
@@ -933,7 +848,7 @@ namespace HovText
         // It will also get the transparency alpha channel from the clipboard image
         // ###########################################################################################
 
-        private static System.Drawing.Image GetImageFromClipboard()
+        private static Image GetImageFromClipboard()
         {
             if (Clipboard.GetDataObject() == null) return null;
             if (Clipboard.GetDataObject().GetDataPresent(DataFormats.Dib))
@@ -942,7 +857,7 @@ namespace HovText
                 byte[] dib;
                 try
                 {
-                    dib = ((System.IO.MemoryStream)Clipboard.GetData(DataFormats.Dib)).ToArray();
+                    dib = ((MemoryStream)Clipboard.GetData(DataFormats.Dib)).ToArray();
                 }
                 catch (Exception ex)
                 {
@@ -981,7 +896,7 @@ namespace HovText
         // https://stackoverflow.com/a/2570002/2028935
         // ###########################################################################################
 
-        private static bool IsImageTransparent(System.Drawing.Image image)
+        private static bool IsImageTransparent(Image image)
         {
             Bitmap img = new Bitmap(image);
             for (int y = 0; y < img.Height; ++y)
@@ -1084,6 +999,27 @@ namespace HovText
 
 
         // ###########################################################################################
+        // Clear all the history - as-if we just launched the application
+        // ###########################################################################################
+
+        private void ClearHistory()
+        {
+            entryCounter = -1;
+            entryIndex = -1;
+            entriesText.Clear();
+            entriesImage.Clear();
+            entriesImageTransparent.Clear();
+            entriesApplication.Clear();
+            entriesOriginal.Clear();
+            entriesShow.Clear();
+            entriesIsFavorite.Clear();
+            entriesIsUrl.Clear();
+            entriesIsEmail.Clear();
+            entriesIsImage.Clear();
+        }
+
+
+        // ###########################################################################################
         // Add the content from clipboard to the data arrays
         // ###########################################################################################
 
@@ -1092,6 +1028,7 @@ namespace HovText
             // Clear the dictionaries if we do not catch the history
             if (!isEnabledHistory)
             {
+                /*
                 entryIndex = -1;
                 entriesText.Clear();
                 entriesImage.Clear();
@@ -1103,12 +1040,16 @@ namespace HovText
                 entriesIsUrl.Clear();
                 entriesIsEmail.Clear();
                 entriesIsImage.Clear();
+                */
+                ///*
+                ClearHistory();
+                //*/
             }
 
             // Proceed if the (cleartext) data is not already in the dictionary
 
             bool isAlreadyInDataArray = false;
-            if(!isClipboardLoadingFromFile) // we know when content is coming from file then it is already unique (and this function is slow!)
+            if (!isClipboardLoadingFromFile) // we know when content is coming from file then it is already unique (and this function is slow!)
             {
                 isAlreadyInDataArray = IsClipboardContentAlreadyInDataArrays();
             }
@@ -1116,11 +1057,11 @@ namespace HovText
             {
                 if (isClipboardText)
                 {
-                    Logging.Log("Adding new [TEXT] clipboard to history from application ["+ whoUpdatedClipboardName +"]:");
+                    Logging.Log("Adding new [TEXT] clipboard to history from application [" + whoUpdatedClipboardName + "]:");
                 }
                 else
                 {
-                    Logging.Log("Adding new [IMAGE] clipboard to history from application ["+ whoUpdatedClipboardName +"]:");
+                    Logging.Log("Adding new [IMAGE] clipboard to history from application [" + whoUpdatedClipboardName + "]:");
                 }
                 // If this is the first time then set the index to 0
                 entryIndex = entryIndex >= 0 ? entriesText.Keys.Last() + 1 : 0;
@@ -1130,14 +1071,23 @@ namespace HovText
                 entriesImage.Add(entryIndex, clipboardImage);
                 entriesImageTransparent.Add(entryIndex, isClipboardImageTransparent);
                 entriesShow.Add(entryIndex, true);
-                entriesIsFavorite.Add(entryIndex, false);
+                if (isClipboardLoadingFromFile)
+                {
+                    bool hest = entriesIsFavorite2[isClipboardLoadingFromFileKey];
+                    entriesIsFavorite.Add(entryIndex, hest);
+                }
+                else
+                {
+                    entriesIsFavorite.Add(entryIndex, false);
+                }
 
-                // Filter lists
-                bool isUrl = Uri.TryCreate(clipboardText, UriKind.Absolute, out Uri myUri);
+                // Filter lists (HTTP and HTTPS)
+                bool isUrl = Uri.TryCreate(clipboardText, UriKind.Absolute, out Uri myUri) && (myUri.Scheme == Uri.UriSchemeHttp || myUri.Scheme == Uri.UriSchemeHttps || myUri.Scheme == Uri.UriSchemeFtp || myUri.Scheme == "ws" || myUri.Scheme == "wss");
                 if (isUrl)
                 {
                     entriesIsUrl.Add(entryIndex, true);
-                } else
+                }
+                else
                 {
                     entriesIsUrl.Add(entryIndex, false);
                 }
@@ -1195,7 +1145,8 @@ namespace HovText
                         {
                             // WILL SAVE CONTENT COPIED TO CLIPBOARD!!! Used for debugging purpose
                             Logging.Log("  Adding format [" + format + "] with value [" + clipboardObject.GetData(format) + "]");
-                        } else
+                        }
+                        else
                         {
                             // Standard logging for everyone else - do NOT save any content to the logfile! :-)
                             Logging.Log("  Adding format [" + format + "]");
@@ -1213,13 +1164,23 @@ namespace HovText
                 {
                     whoUpdatedClipboardName = "(unknown)";
                 }
-                entriesApplication.Add(entryIndex, whoUpdatedClipboardName);
-                
+                if (isClipboardLoadingFromFile)
+                {
+                    string hest = entriesApplication2[isClipboardLoadingFromFileKey];
+                    entriesApplication.Add(entryIndex, hest);
+                }
+                else
+                {
+                    entriesApplication.Add(entryIndex, whoUpdatedClipboardName);
+                }
+
                 Logging.Log("Entries in history list is now [" + entriesText.Count + "]");
             }
 
             // Update the entries on the tray icon
             UpdateNotifyIconText();
+
+            LogMemoryConsumed();
         }
 
 
@@ -1230,12 +1191,12 @@ namespace HovText
         public void SetClipboard()
         {
             string entryText = clipboardText;
-            System.Drawing.Image entryImage;
+            Image entryImage;
             bool isEntryText = isClipboardText;
             bool isEntryImage = isClipboardImage;
 
             if (entriesText.Count > 0)
-            {            
+            {
                 if (isEnabledHistory)
                 {
                     entryText = entriesText[entryIndex];
@@ -1418,8 +1379,6 @@ namespace HovText
 
         public static void GetEntryCounter()
         {
-            Debug.WriteLine(DateTime.Now.ToString("HH:mm:ss.fff") + " - GetEntryCounter"); 
-            
             entryCounter = 0;
 
             foreach (var key in entriesText.Keys)
@@ -1432,7 +1391,7 @@ namespace HovText
             }
 
             // Reset counter
-            if(entryCounter == 0)
+            if (entryCounter == 0)
             {
                 entryIndex = -1;
             }
@@ -1496,12 +1455,6 @@ namespace HovText
                 NativeMethods.AddClipboardFormatListener(this.Handle);
                 Logging.Log("Added HovText to clipboard chain");
 
-                // Process clipboard, only if set by user
-//                if (isCopyClipboardAtStartup)
-//                {
-//                    ProcessClipboard();
-//                }
-
                 string hotkeyBehaviour = GetRegistryKey(registryPath, "HotkeyBehaviour");
                 switch (hotkeyBehaviour)
                 {
@@ -1513,7 +1466,7 @@ namespace HovText
                         GuiHotkeyBehaviourSystem.Checked = true;
                         GuiHotkeyPaste.Enabled = false;
                         break;
-                }                                
+                }
 
                 GuiSearch.Enabled = true;
                 GuiInstantSelect.Enabled = true;
@@ -1521,6 +1474,7 @@ namespace HovText
 
                 SetFieldsBasedOnHistoryEnabled();
 
+                GuiFavoritesEnabled.Enabled = true;
                 GuiRestoreOriginal.Enabled = true;
                 GuiHotkeyBehaviourSystem.Enabled = true;
                 GuiHotkeyBehaviourPaste.Enabled = true;
@@ -1556,7 +1510,6 @@ namespace HovText
                 GuiHotkeyPaste.Enabled = false;
                 GuiHotkeyBehaviourSystem.Enabled = false;
                 GuiHotkeyBehaviourPaste.Enabled = false;
-                GuiFavoritesEnabled.Enabled = false;
                 GuiHotkeyToggleFavorite.Enabled = false;
                 GuiHotkeyToggleView.Enabled = false;
             }
@@ -1591,6 +1544,25 @@ namespace HovText
 
 
         // ###########################################################################################
+        // Delete troubleshoot logfile and clipboard data file
+        // ###########################################################################################
+
+        private void DeleteFiles()
+        {
+            // Troubleshoot logfile
+            if (File.Exists(pathAndLog))
+            {
+                File.Delete(@pathAndLog);
+            }
+            // Clipboard data file
+            if (File.Exists(pathAndData))
+            {
+                File.Delete(@pathAndData);
+            }
+        }
+
+
+        // ###########################################################################################
         // Unregister from the clipboard chain, and remove hotkeys when application is closing down
         // ###########################################################################################
 
@@ -1605,27 +1577,18 @@ namespace HovText
 
                 RemoveAllHotkeys();
 
-
-
-
-                SaveEntriesToFile();
-
-
-
-
-
-
-
+                // Should we save the clipboard to data file?
+                if (GuiStorageSaveClipboard.Checked)
+                {
+                    SaveEntriesToFile();
+                }
 
                 Logging.EndLogging();
 
                 // Delete the troubleshooting logfile as the very last thing
                 if (resetApp)
                 {
-                    if (File.Exists(pathAndLog))
-                    {
-                        File.Delete(@pathAndLog);
-                    }
+                    DeleteFiles();
                 }
 
                 return;
@@ -1639,20 +1602,18 @@ namespace HovText
 
                 RemoveAllHotkeys();
 
-
-
-
-                SaveEntriesToFile();
+                // Should we save the clipboard to data file?
+                if (GuiStorageSaveClipboard.Checked)
+                {
+                    SaveEntriesToFile();
+                }
 
                 Logging.EndLogging();
 
                 // Delete the troubleshooting logfile as the very last thing
                 if (resetApp)
                 {
-                    if (File.Exists(pathAndLog))
-                    {
-                        File.Delete(@pathAndLog);
-                    }
+                    DeleteFiles();
                 }
 
                 return;
@@ -1664,11 +1625,7 @@ namespace HovText
                 NativeMethods.RemoveClipboardFormatListener(this.Handle);
                 RemoveAllHotkeys();
 
-                // Delete the troubleshooting logfile as the very last thing
-                if (File.Exists(pathAndLog))
-                {
-                    File.Delete(@pathAndLog);
-                }
+                DeleteFiles();
 
                 return;
             }
@@ -1679,6 +1636,7 @@ namespace HovText
                 ShowTrayNotification();
                 Hide();
             }
+
             e.Cancel = true;
         }
 
@@ -1765,9 +1723,16 @@ namespace HovText
                     string lastCheckedVersion = GetRegistryKey(registryPath, "CheckedVersion");
                     if (lastCheckedVersion != checkedVersion && checkedVersion != appVer)
                     {
-                        update.Show();
-                        update.Activate();
-                        Logging.Log("  Notified on new [STABLE] version available");
+                        string notificationShown = GetRegistryKey(registryPath, "NotificationShown");
+                        if (notificationShown == "1")
+                        {
+                            update.Show();
+                            update.Activate();
+                            Logging.Log("  Notified on new [STABLE] version available");
+                        } else
+                        {
+                            Logging.Log("  Did not notify on new [STABLE] version available, as \"Notification\" has not yet been shown");
+                        }
                     }
                 }
             }
@@ -1803,7 +1768,6 @@ namespace HovText
 
         private static void ConvertLegacyRegistry()
         {
-
             // Check if the "HovText" path exists in HKEY_CURRENT_USER\SOFTWARE registry
             using (RegistryKey registryPathExists = Registry.CurrentUser.OpenSubKey(registryPath))
             {
@@ -1819,176 +1783,180 @@ namespace HovText
                 }
             }
 
-            string regVal;
-
-            // ------------------------------------------------------------------------------------
-            // Below is the chronological order for the changes needed.
-            // New versions will need to go at the bottom of this.
-            // ------------------------------------------------------------------------------------
-
-            // ------------------------------------------------------------------------------------
-            // Changes for the version 2023-May-17
-            // ------------------------------------------------------------------------------------
-
-            // Check or create "HovText" and "HovText\DisplayLayout" paths in HKEY_CURRENT_USER\SOFTWARE registry
+            // Check or create the main "HovText" and "HovText\DisplayLayout" paths in HKEY_CURRENT_USER\SOFTWARE registry
             RegistryPathCheckOrCreate(registryPath);
             RegistryPathCheckOrCreate(registryPathDisplays);
-                        
-            // Check if the following registry entries exists, and if so convert them to new values
 
-            // Convert "Hotkey1" => "HotkeyToggleApplication"
-            regVal = GetRegistryKey(registryPath, "Hotkey1");
-            if (regVal != null || regVal?.Length == 0)
-            {
-                RegistryKeyCheckOrCreate(registryPath, "HotkeyToggleApplication", regVal);
-                DeleteRegistryKey(registryPath, "Hotkey1");
-            }
+            string regVal;
 
-            // Convert "Hotkey2" => "HotkeyGetOlderEntry"
-            regVal = GetRegistryKey(registryPath, "Hotkey2");
-            if (regVal != null || regVal?.Length == 0)
-            {
-                RegistryKeyCheckOrCreate(registryPath, "HotkeyGetOlderEntry", regVal);
-                DeleteRegistryKey(registryPath, "Hotkey2");
-            }
+            /*
 
-            // Convert "Hotkey3" => "HotkeyGetNewerEntry"
-            regVal = GetRegistryKey(registryPath, "Hotkey3");
-            if (regVal != null || regVal?.Length == 0)
-            {
-                RegistryKeyCheckOrCreate(registryPath, "HotkeyGetNewerEntry", regVal);
-                DeleteRegistryKey(registryPath, "Hotkey3");
-            }
+            
+                        // ------------------------------------------------------------------------------------
+                        // Below is the chronological order for the changes needed.
+                        // New versions will need to go at the bottom of this.
+                        // ------------------------------------------------------------------------------------
 
-            // Convert "Hotkey4" => "HotkeyPasteOnHotkey"
-            regVal = GetRegistryKey(registryPath, "Hotkey4");
-            if (regVal != null || regVal?.Length == 0)
-            {
-                RegistryKeyCheckOrCreate(registryPath, "HotkeyPasteOnHotkey", regVal);
-                DeleteRegistryKey(registryPath, "Hotkey4");
-            }
+                        // ------------------------------------------------------------------------------------
+                        // Changes for the version 2023-May-17
+                        // ------------------------------------------------------------------------------------
 
-            // Convert "Hotkey5" => "HotkeyToggleFavorite"
-            regVal = GetRegistryKey(registryPath, "Hotkey5");
-            if (regVal != null || regVal?.Length == 0)
-            {
-                RegistryKeyCheckOrCreate(registryPath, "HotkeyToggleFavorite", regVal);
-                DeleteRegistryKey(registryPath, "Hotkey5");
-            }
+                        // Check if the following registry entries exists, and if so convert them to new values
 
-            // Convert "Hotkey6" => "HotkeyToggleView"
-            regVal = GetRegistryKey(registryPath, "Hotkey6");
-            if (regVal != null || regVal?.Length == 0)
-            {
-                RegistryKeyCheckOrCreate(registryPath, "HotkeyToggleView", regVal);
-                DeleteRegistryKey(registryPath, "Hotkey6");
-            }
+                        // Convert "Hotkey1" => "HotkeyToggleApplication"
+                        regVal = GetRegistryKey(registryPath, "Hotkey1");
+                        if (regVal != null || regVal?.Length == 0)
+                        {
+                            RegistryKeyCheckOrCreate(registryPath, "HotkeyToggleApplication", regVal);
+                            DeleteRegistryKey(registryPath, "Hotkey1");
+                        }
 
-            // Convert "HistoryActiveBorder" => "HistoryBorderThickness"
-            regVal = GetRegistryKey(registryPath, "HistoryActiveBorder");
-            if (regVal != null || regVal?.Length == 0)
-            {
-                if (regVal == "0")
-                {
-                    RegistryKeyCheckOrCreate(registryPath, "HistoryBorderThickness", regVal);
-                }
-                else
-                {
-                    RegistryKeyCheckOrCreate(registryPath, "HistoryBorderThickness", historyBorderThickness.ToString());
-                }
-                DeleteRegistryKey(registryPath, "HistoryActiveBorder");
-            }
+                        // Convert "Hotkey2" => "HotkeyGetOlderEntry"
+                        regVal = GetRegistryKey(registryPath, "Hotkey2");
+                        if (regVal != null || regVal?.Length == 0)
+                        {
+                            RegistryKeyCheckOrCreate(registryPath, "HotkeyGetOlderEntry", regVal);
+                            DeleteRegistryKey(registryPath, "Hotkey2");
+                        }
 
-            // Convert "HistoryColor" => "HistoryColorTheme"
-            regVal = GetRegistryKey(registryPath, "HistoryColor");
-            if (regVal != null || regVal?.Length == 0)
-            {
-                RegistryKeyCheckOrCreate(registryPath, "HistoryColorTheme", regVal);
-                DeleteRegistryKey(registryPath, "HistoryColor");
-            }
+                        // Convert "Hotkey3" => "HotkeyGetNewerEntry"
+                        regVal = GetRegistryKey(registryPath, "Hotkey3");
+                        if (regVal != null || regVal?.Length == 0)
+                        {
+                            RegistryKeyCheckOrCreate(registryPath, "HotkeyGetNewerEntry", regVal);
+                            DeleteRegistryKey(registryPath, "Hotkey3");
+                        }
 
-            // Convert "HistoryColorCustomTop" => "HistoryColorCustomHeader"
-            regVal = GetRegistryKey(registryPath, "HistoryColorCustomTop");
-            if (regVal != null || regVal?.Length == 0)
-            {
-                RegistryKeyCheckOrCreate(registryPath, "HistoryColorCustomHeader", regVal);
-                DeleteRegistryKey(registryPath, "HistoryColorCustomTop");
-            }
+                        // Convert "Hotkey4" => "HotkeyPasteOnHotkey"
+                        regVal = GetRegistryKey(registryPath, "Hotkey4");
+                        if (regVal != null || regVal?.Length == 0)
+                        {
+                            RegistryKeyCheckOrCreate(registryPath, "HotkeyPasteOnHotkey", regVal);
+                            DeleteRegistryKey(registryPath, "Hotkey4");
+                        }
 
-            // Convert "HistoryColorCustomBottom" => "HistoryColorCustomEntry"
-            regVal = GetRegistryKey(registryPath, "HistoryColorCustomBottom");
-            if (regVal != null || regVal?.Length == 0)
-            {
-                RegistryKeyCheckOrCreate(registryPath, "HistoryColorCustomEntry", regVal);
-                DeleteRegistryKey(registryPath, "HistoryColorCustomBottom");
-            }
+                        // Convert "Hotkey5" => "HotkeyToggleFavorite"
+                        regVal = GetRegistryKey(registryPath, "Hotkey5");
+                        if (regVal != null || regVal?.Length == 0)
+                        {
+                            RegistryKeyCheckOrCreate(registryPath, "HotkeyToggleFavorite", regVal);
+                            DeleteRegistryKey(registryPath, "Hotkey5");
+                        }
 
-            // Convert "HistoryColorCustomText" => "HistoryColorCustomEntryText"
-            regVal = GetRegistryKey(registryPath, "HistoryColorCustomText");
-            if (regVal != null || regVal?.Length == 0)
-            {
-                RegistryKeyCheckOrCreate(registryPath, "HistoryColorCustomEntryText", regVal);
-                DeleteRegistryKey(registryPath, "HistoryColorCustomText");
-            }
+                        // Convert "Hotkey6" => "HotkeyToggleView"
+                        regVal = GetRegistryKey(registryPath, "Hotkey6");
+                        if (regVal != null || regVal?.Length == 0)
+                        {
+                            RegistryKeyCheckOrCreate(registryPath, "HotkeyToggleView", regVal);
+                            DeleteRegistryKey(registryPath, "Hotkey6");
+                        }
 
-            // Convert "ScreenSelection" => new unique screen setup identification
-            regVal = GetRegistryKey(registryPath, "ScreenSelection");
-            if (regVal != null || regVal?.Length == 0)
-            {
-                string displaysId = GetUniqueDisplayLayout();
-                RegistryKeyCheckOrCreate(registryPathDisplays, displaysId, regVal);
-                DeleteRegistryKey(registryPath, "HistoryColorCustomText");
-            }
+                        // Convert "HistoryActiveBorder" => "HistoryBorderThickness"
+                        regVal = GetRegistryKey(registryPath, "HistoryActiveBorder");
+                        if (regVal != null || regVal?.Length == 0)
+                        {
+                            if (regVal == "0")
+                            {
+                                RegistryKeyCheckOrCreate(registryPath, "HistoryBorderThickness", regVal);
+                            }
+                            else
+                            {
+                                RegistryKeyCheckOrCreate(registryPath, "HistoryBorderThickness", historyBorderThickness.ToString());
+                            }
+                            DeleteRegistryKey(registryPath, "HistoryActiveBorder");
+                        }
 
-            // Delete "CheckUpdates"
-            regVal = GetRegistryKey(registryPath, "CheckUpdates");
-            if (regVal != null || regVal?.Length == 0)
-            {
-                DeleteRegistryKey(registryPath, "CheckUpdates");
-            }
+                        // Convert "HistoryColor" => "HistoryColorTheme"
+                        regVal = GetRegistryKey(registryPath, "HistoryColor");
+                        if (regVal != null || regVal?.Length == 0)
+                        {
+                            RegistryKeyCheckOrCreate(registryPath, "HistoryColorTheme", regVal);
+                            DeleteRegistryKey(registryPath, "HistoryColor");
+                        }
 
-            // Delete "VersionOnline" - it was something used in development versions until I reverted back to "CheckedVersion"
-            regVal = GetRegistryKey(registryPath, "VersionOnline");
-            if (regVal != null || regVal?.Length == 0)
-            {
-                DeleteRegistryKey(registryPath, "VersionOnline");
-            }
+                        // Convert "HistoryColorCustomTop" => "HistoryColorCustomHeader"
+                        regVal = GetRegistryKey(registryPath, "HistoryColorCustomTop");
+                        if (regVal != null || regVal?.Length == 0)
+                        {
+                            RegistryKeyCheckOrCreate(registryPath, "HistoryColorCustomHeader", regVal);
+                            DeleteRegistryKey(registryPath, "HistoryColorCustomTop");
+                        }
 
-            // Delete "HistoryColorCustomBorder"
-            regVal = GetRegistryKey(registryPath, "HistoryColorCustomBorder");
-            if (regVal != null || regVal?.Length == 0)
-            {
-                DeleteRegistryKey(registryPath, "HistoryColorCustomBorder");
-            }
+                        // Convert "HistoryColorCustomBottom" => "HistoryColorCustomEntry"
+                        regVal = GetRegistryKey(registryPath, "HistoryColorCustomBottom");
+                        if (regVal != null || regVal?.Length == 0)
+                        {
+                            RegistryKeyCheckOrCreate(registryPath, "HistoryColorCustomEntry", regVal);
+                            DeleteRegistryKey(registryPath, "HistoryColorCustomBottom");
+                        }
 
-            // ------------------------------------------------------------------------------------
-            // Changes for the version 2023-September-20
-            // ------------------------------------------------------------------------------------
+                        // Convert "HistoryColorCustomText" => "HistoryColorCustomEntryText"
+                        regVal = GetRegistryKey(registryPath, "HistoryColorCustomText");
+                        if (regVal != null || regVal?.Length == 0)
+                        {
+                            RegistryKeyCheckOrCreate(registryPath, "HistoryColorCustomEntryText", regVal);
+                            DeleteRegistryKey(registryPath, "HistoryColorCustomText");
+                        }
 
-            // Convert "HistoryEnable" => "HistoryInstantSelect"
-            regVal = GetRegistryKey(registryPath, "HistoryEnable");
-            if (regVal != null || regVal?.Length == 0)
-            {
-                RegistryKeyCheckOrCreate(registryPath, "HistoryInstantSelect", regVal);
-                DeleteRegistryKey(registryPath, "HistoryEnable");
-            }
+                        // Convert "ScreenSelection" => new unique screen setup identification
+                        regVal = GetRegistryKey(registryPath, "ScreenSelection");
+                        if (regVal != null || regVal?.Length == 0)
+                        {
+                            string displaysId = GetUniqueDisplayLayout();
+                            RegistryKeyCheckOrCreate(registryPathDisplays, displaysId, regVal);
+                            DeleteRegistryKey(registryPath, "HistoryColorCustomText");
+                        }
 
-            // Convert "HistoryColorBorder" => "HistoryColorCustomBorder"
-            regVal = GetRegistryKey(registryPath, "HistoryColorBorder");
-            if (regVal != null || regVal?.Length == 0)
-            {
-                RegistryKeyCheckOrCreate(registryPath, "HistoryColorCustomBorder", regVal);
-                DeleteRegistryKey(registryPath, "HistoryColorBorder");
-            }
+                        // Delete "CheckUpdates"
+                        regVal = GetRegistryKey(registryPath, "CheckUpdates");
+                        if (regVal != null || regVal?.Length == 0)
+                        {
+                            DeleteRegistryKey(registryPath, "CheckUpdates");
+                        }
 
-            // Convert "CloseMinimizes" => "CloseTerminates"
-            regVal = GetRegistryKey(registryPath, "CloseMinimizes");
-            if (regVal != null || regVal?.Length == 0)
-            {
-                regVal = regVal == "1" ? "0" : "1"; // set the oppesite of before
-                RegistryKeyCheckOrCreate(registryPath, "CloseTerminates", regVal);
-                DeleteRegistryKey(registryPath, "CloseMinimizes");
-            }
+                        // Delete "VersionOnline" - it was something used in development versions until I reverted back to "CheckedVersion"
+                        regVal = GetRegistryKey(registryPath, "VersionOnline");
+                        if (regVal != null || regVal?.Length == 0)
+                        {
+                            DeleteRegistryKey(registryPath, "VersionOnline");
+                        }
+
+                        // Delete "HistoryColorCustomBorder"
+                        regVal = GetRegistryKey(registryPath, "HistoryColorCustomBorder");
+                        if (regVal != null || regVal?.Length == 0)
+                        {
+                            DeleteRegistryKey(registryPath, "HistoryColorCustomBorder");
+                        }
+
+                        // ------------------------------------------------------------------------------------
+                        // Changes for the version 2023-September-20
+                        // ------------------------------------------------------------------------------------
+
+                        // Convert "HistoryEnable" => "HistoryInstantSelect"
+                        regVal = GetRegistryKey(registryPath, "HistoryEnable");
+                        if (regVal != null || regVal?.Length == 0)
+                        {
+                            RegistryKeyCheckOrCreate(registryPath, "HistoryInstantSelect", regVal);
+                            DeleteRegistryKey(registryPath, "HistoryEnable");
+                        }
+
+                        // Convert "HistoryColorBorder" => "HistoryColorCustomBorder"
+                        regVal = GetRegistryKey(registryPath, "HistoryColorBorder");
+                        if (regVal != null || regVal?.Length == 0)
+                        {
+                            RegistryKeyCheckOrCreate(registryPath, "HistoryColorCustomBorder", regVal);
+                            DeleteRegistryKey(registryPath, "HistoryColorBorder");
+                        }
+
+                        // Convert "CloseMinimizes" => "CloseTerminates"
+                        regVal = GetRegistryKey(registryPath, "CloseMinimizes");
+                        if (regVal != null || regVal?.Length == 0)
+                        {
+                            regVal = regVal == "1" ? "0" : "1"; // set the oppesite of before
+                            RegistryKeyCheckOrCreate(registryPath, "CloseTerminates", regVal);
+                            DeleteRegistryKey(registryPath, "CloseMinimizes");
+                        }
+            */
 
             // ------------------------------------------------------------------------------------
             // Changes for the version 2024-????????-??
@@ -2003,11 +1971,30 @@ namespace HovText
                 DeleteRegistryKey(registryPath, "CloseTerminates");
             }
 
+            // Convert "HotkeyToggleFavorite" if it has "Space" as default key AND the "Search" interface is enabled
+            regVal = GetRegistryKey(registryPath, "HistorySearch");
+            if (regVal != null || regVal == "1")
+            {
+                regVal = GetRegistryKey(registryPath, "HotkeyToggleFavorite");
+                if (regVal != null || regVal?.Length == 0)
+                {
+                    // Build an array containing not-allowed characters
+                    string[] alphaKeys = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".ToCharArray().Select(c => c.ToString()).ToArray();
+                    string[] numericKeys = Enumerable.Range(0, 10).Select(n => $"D{n}").ToArray(); // Correct representation for numeric keys
+                    string[] allKeys = alphaKeys.Concat(numericKeys).ToArray();
+
+                    // Convert the value from registry, if it is within the "not allowed" array
+                    if (regVal == "Space" || allKeys.Contains(regVal))
+                    {
+                        SetRegistryKey(registryPath, "HotkeyToggleFavorite", registryHotkeyToggleFavorite);
+                    }
+                }
+            }
         }
 
 
         // ###########################################################################################
-        // Initialize registry - check if all registry paths and keys have been created
+        // Initialize registry - check if all relevant registry paths and keys have been created
         // ###########################################################################################
 
         private static void InitializeRegistry()
@@ -2032,7 +2019,8 @@ namespace HovText
             if (regVal != null || regVal?.Length > 0)
             {
                 Logging.Log("    \"StartWithWindows\" = [Yes]");
-            } else 
+            }
+            else
             {
                 Logging.Log("    \"StartWithWindows\" = [No]");
 
@@ -2045,17 +2033,16 @@ namespace HovText
             RegistryKeyCheckOrCreate(registryPath, "HistorySearch", registryHistorySearch);
             RegistryKeyCheckOrCreate(registryPath, "HistoryInstantSelect", registryHistoryInstantSelect);
             RegistryKeyCheckOrCreate(registryPath, "FavoritesEnable", registryEnableFavorites);
-//            RegistryKeyCheckOrCreate(registryPath, "CopyClipboardStartup", registryCopyClipboardAtStartup);
             RegistryKeyCheckOrCreate(registryPath, "CopyImages", registryCopyImages);
             RegistryKeyCheckOrCreate(registryPath, "PasteOnSelection", registryPasteOnSelection);
             RegistryKeyCheckOrCreate(registryPath, "AlwaysPasteOriginal", registryAlwaysPasteOriginal);
 
             regVal = GetRegistryKey(registryPath, "StartDisabled");
-            Logging.Log("    \"StartDisabled\" = [" + regVal + "]"); 
+            Logging.Log("    \"StartDisabled\" = [" + regVal + "]");
             regVal = GetRegistryKey(registryPath, "RestoreOriginal");
             Logging.Log("    \"RestoreOriginal\" = [" + regVal + "]");
             regVal = GetRegistryKey(registryPath, "TrimWhitespaces");
-            Logging.Log("    \"TrimWhitespaces\" = [" + regVal + "]"); 
+            Logging.Log("    \"TrimWhitespaces\" = [" + regVal + "]");
             regVal = GetRegistryKey(registryPath, "CloseMinimizes");
             Logging.Log("    \"CloseMinimizes\" = [" + regVal + "]");
             regVal = GetRegistryKey(registryPath, "HistorySearch");
@@ -2064,14 +2051,82 @@ namespace HovText
             Logging.Log("    \"HistoryInstantSelect\" = [" + regVal + "]");
             regVal = GetRegistryKey(registryPath, "FavoritesEnable");
             Logging.Log("    \"FavoritesEnable\" = [" + regVal + "]");
-//            regVal = GetRegistryKey(registryPath, "CopyClipboardStartup");
-//            Logging.Log("    \"CopyClipboardStartup\" = [" + regVal + "]");
             regVal = GetRegistryKey(registryPath, "CopyImages");
             Logging.Log("    \"CopyImages\" = [" + regVal + "]");
             regVal = GetRegistryKey(registryPath, "PasteOnSelection");
             Logging.Log("    \"PasteOnSelection\" = [" + regVal + "]");
             regVal = GetRegistryKey(registryPath, "AlwaysPasteOriginal");
             Logging.Log("    \"AlwaysPasteOriginal\" = [" + regVal + "]");
+
+            // Storage
+            // -------
+            Logging.Log("  Storage:");
+
+            RegistryKeyCheckOrCreate(registryPath, "StorageSaveOnExit", registryStorageSaveOnExit);
+            RegistryKeyCheckOrCreate(registryPath, "StorageLoadOnLaunch", registryStorageLoadOnLaunch);
+            RegistryKeyCheckOrCreate(registryPath, "StorageSaveType", registryStorageSaveType);
+            RegistryKeyCheckOrCreate(registryPath, "StorageSaveEntries", registryStorageSaveEntries);
+
+            regVal = GetRegistryKey(registryPath, "StorageSaveOnExit");
+            Logging.Log("    \"StorageSaveOnExit\" = [" + regVal + "]");
+            regVal = GetRegistryKey(registryPath, "StorageLoadOnLaunch");
+            Logging.Log("    \"StorageLoadOnLaunch\" = [" + regVal + "]");
+            regVal = GetRegistryKey(registryPath, "StorageSaveType");
+            Logging.Log("    \"StorageSaveType\" = [" + regVal + "]");
+            regVal = GetRegistryKey(registryPath, "StorageSaveEntries");
+            Logging.Log("    \"StorageSaveEntries\" = [" + regVal + "]");
+
+            // Encryption
+            byte[] key;
+            byte[] iv;
+            Encryption.GenerateKeyAndIV(out key, out iv);
+            string strKey = Convert.ToBase64String(key);
+            string strIv = Convert.ToBase64String(iv);
+            RegistryKeyCheckOrCreate(registryPath, "EncryptionKey", strKey);
+            RegistryKeyCheckOrCreate(registryPath, "EncryptionInitializationVector", strIv);
+            strKey = GetRegistryKey(registryPath, "EncryptionKey");
+            strIv = GetRegistryKey(registryPath, "EncryptionInitializationVector");
+            try
+            {
+                key = Convert.FromBase64String(strKey);
+            }
+            catch (FormatException)
+            {
+                key = new byte[1]; // invalidate this byte array
+            }
+            try
+            {
+                iv = Convert.FromBase64String(strIv);
+            }
+            catch (FormatException)
+            {
+                iv = new byte[1]; // invalidate this byte array
+            }
+
+            if (buildType == "Debug")
+            {
+                Logging.Log("    \"EncryptionKey\" = [" + strKey + "]");
+                Logging.Log("    \"EncryptionInitializationVector\" = [" + strIv + "]");
+            }
+            else
+            {
+                Logging.Log("    \"EncryptionKey\" = [not logged in stable version]");
+                Logging.Log("    \"EncryptionInitializationVector\" = [not logged in stable version]");
+            }
+
+            key = key.Length != 32 ? null : key;
+            iv = iv.Length != 16 ? null : iv;
+            if (key == null || iv == null)
+            {
+                Encryption.GenerateKeyAndIV(out key, out iv);
+                strKey = Convert.ToBase64String(key);
+                strIv = Convert.ToBase64String(iv);
+                SetRegistryKey(registryPath, "EncryptionKey", strKey);
+                SetRegistryKey(registryPath, "EncryptionInitializationVector", strIv);
+                Logging.Log("    \"EncryptionKey\" has been reset as it was invalid");
+                Logging.Log("    \"EncryptionInitializationVector\" has been reset as it was invalid");
+
+            }
 
             // Hotkeys
             // -------
@@ -2085,7 +2140,7 @@ namespace HovText
             RegistryKeyCheckOrCreate(registryPath, "HotkeyToggleFavorite", registryHotkeyToggleFavorite);
             RegistryKeyCheckOrCreate(registryPath, "HotkeyToggleView", registryHotkeyToggleView);
             RegistryKeyCheckOrCreate(registryPath, "HotkeyPasteOnHotkey", registryHotkeyPasteOnHotkey);
-            
+
             regVal = GetRegistryKey(registryPath, "HotkeyBehaviour");
             Logging.Log("    \"HotkeyBehaviour\" = [" + regVal + "]");
             regVal = GetRegistryKey(registryPath, "HotkeyToggleApplication");
@@ -2117,7 +2172,7 @@ namespace HovText
             RegistryKeyCheckOrCreate(registryPath, "HistoryMargin", historyMargin.ToString());
             RegistryKeyCheckOrCreate(registryPath, "HistoryLocation", historyLocation);
             RegistryKeyCheckOrCreate(registryPathDisplays, displaysId, activeDisplay.ToString());
-            
+
             regVal = GetRegistryKey(registryPath, "HistoryEntries");
             Logging.Log("    \"HistoryEntries\" = [" + regVal + "]");
             regVal = GetRegistryKey(registryPath, "HistorySizeWidth");
@@ -2163,7 +2218,7 @@ namespace HovText
             RegistryKeyCheckOrCreate(registryPath, "HistoryColorCustomEntry", historyColorsEntry["Custom"]);
             RegistryKeyCheckOrCreate(registryPath, "HistoryColorCustomEntryText", historyColorsEntryText["Custom"]);
             RegistryKeyCheckOrCreate(registryPath, "HistoryColorCustomBorder", historyColorsBorder["Custom"]);
-                        
+
             regVal = GetRegistryKey(registryPath, "HistoryColorTheme");
             Logging.Log("    \"HistoryColorTheme\" = [" + regVal + "]");
             regVal = GetRegistryKey(registryPath, "HistoryColorCustomHeader");
@@ -2190,14 +2245,13 @@ namespace HovText
             Logging.Log("  Advanced:");
 
             RegistryKeyCheckOrCreate(registryPath, "TroubleshootEnable", registryTroubleshootEnable);
-            
+
             regVal = GetRegistryKey(registryPath, "TroubleshootEnable");
             Logging.Log("    \"TroubleshootEnable\" = [" + regVal + "]");
 
             // Misc
             // ----
-            Logging.Log("  Misc:"); 
-
+            Logging.Log("  Misc:");
             RegistryKeyCheckOrCreate(registryPath, "NotificationShown", "0");
             RegistryKeyCheckOrCreate(registryPath, "CheckedVersion", appVer);
 
@@ -2209,7 +2263,7 @@ namespace HovText
 
 
         // ###########################################################################################
-        // Check if the registry path exists - if not then create it
+        // Check if the main registry path exists - if not then create it
         // ###########################################################################################
 
         private static void RegistryPathCheckOrCreate(string regPath)
@@ -2246,7 +2300,7 @@ namespace HovText
 
 
         // ###########################################################################################
-        // Get regsitry key value
+        // Get registry key value (string)
         // ###########################################################################################
 
         public static string GetRegistryKey(string path, string key)
@@ -2262,6 +2316,42 @@ namespace HovText
                     return "";
                 }
             }
+        }
+
+
+        // ###########################################################################################
+        // Get registry key value (byte[])
+        // ###########################################################################################
+
+        public static byte[] GetRegistryKeyBytes(string path, string key)
+        {
+            try
+            {
+                using (RegistryKey getKey = Registry.CurrentUser.OpenSubKey(path))
+                {
+                    if (getKey != null)
+                    {
+                        object value = getKey.GetValue(key);
+                        if (value != null)
+                        {
+                            return Convert.FromBase64String(value.ToString());
+                        }
+                    }
+                }
+            }
+            catch (FormatException ex)
+            {
+                // Handle the case where the string is not a valid Base64 string
+                // Example: Log the exception
+                Logging.Log("Invalid Base64 string: " + ex.Message);
+            }
+            catch (Exception ex)
+            {
+                // Handle other types of exceptions if necessary
+                // Example: Log the exception
+                Logging.Log("An error occurred - needs more investigation: " + ex.Message);
+            }
+            return null;
         }
 
 
@@ -2425,16 +2515,16 @@ namespace HovText
             // Enable favorites
             int favoritesEnabled = int.Parse((string)GetRegistryKey(registryPath, "FavoritesEnable"));
             GuiFavoritesEnabled.Checked = favoritesEnabled == 1;
-            isEnabledFavorites = GuiFavoritesEnabled.Checked && GuiInstantSelect.Checked;
+            isEnabledFavorites = GuiFavoritesEnabled.Checked;
             if (isEnabledFavorites)
             {
                 GuiHotkeyToggleFavorite.Enabled = true;
-                GuiHotkeyToggleView.Enabled = true;
+                GuiStorageChooseFavorites.Enabled = true;
             }
             else
             {
                 GuiHotkeyToggleFavorite.Enabled = false;
-                GuiHotkeyToggleView.Enabled = false;
+                GuiStorageChooseFavorites.Enabled = false;
             }
 
             // Paste on history selection
@@ -2451,18 +2541,57 @@ namespace HovText
             GuiTrimWhitespaces.Checked = trimWhitespaces == 1;
             isEnabledTrimWhitespacing = GuiTrimWhitespaces.Checked;
 
-//            // Copy clipboard at startup
-//            int copyClipboardStartup = int.Parse((string)GetRegistryKey(registryPath, "CopyClipboardStartup"));
-//            GuiCopyClipboardStartup.Checked = copyClipboardStartup == 1;
-//            isCopyClipboardAtStartup = GuiCopyClipboardStartup.Checked;
 
+            // ------------------------------------------
+            // "Storage" tab
+            // ------------------------------------------
+
+            // Save clipboards on exit
+            int saveOnExit = int.Parse((string)GetRegistryKey(registryPath, "StorageSaveOnExit"));
+            GuiStorageSaveClipboard.Checked = saveOnExit == 1;
+
+            // Load clipboards on launch
+            int loadOnLaunch = int.Parse((string)GetRegistryKey(registryPath, "StorageLoadOnLaunch"));
+            GuiStorageLoadClipboard.Checked = loadOnLaunch == 1;
+
+            // Save type (all or favorites only)
+            string saveType = GetRegistryKey(registryPath, "StorageSaveType");
+            switch (saveType)
+            {
+                case "All":
+                    GuiStorageChooseAll.Checked = true;
+                    break;
+                default: // Favorites
+                    if(isEnabledFavorites)
+                    {
+                        GuiStorageChooseFavorites.Checked = true;
+                    } else
+                    {
+                        GuiStorageChooseAll.Checked = true;
+                        GuiStorageChooseFavorites.Enabled = false;
+                    }
+
+                    break;
+            }
+
+            // Save number of entries
+            int entries = Int32.Parse(GetRegistryKey(registryPath, "StorageSaveEntries"));
+            GuiStorageEntries.Value = entries;
+            GuiStorageEntriesText.Text = entries.ToString();
+
+
+            // ------------------------------------------
+            // Encryption
+            // ------------------------------------------
+            encryptionKey = GetRegistryKeyBytes(registryPath, "EncryptionKey");
+            encryptionInitializationVector = GetRegistryKeyBytes(registryPath, "EncryptionInitializationVector");
 
 
             // ------------------------------------------
             // "Apperance" tab
             // ------------------------------------------
 
-            // History entries
+            // Clipboard entries
             historyListElements = Int32.Parse(GetRegistryKey(registryPath, "HistoryEntries"));
             GuiHistoryElements.Value = historyListElements;
             LabelHistoryElements.Text = historyListElements.ToString();
@@ -2586,11 +2715,6 @@ namespace HovText
             // Troubleshooting
             int troubleshootEnable = int.Parse((string)GetRegistryKey(registryPath, "TroubleshootEnable"));
             GuiTroubleshootEnabled.Checked = troubleshootEnable == 1;
-//            if (buildType == "Debug")
-//            {
-//                // Enable troubleshoot logfile, if this is a DEVELOPMENT version
-//                GuiTroubleshootEnabled.Checked = true;
-//            }
         }
 
 
@@ -2806,7 +2930,7 @@ namespace HovText
             }
             else
             {
-                GuiStyleGroup4.Enabled = false; 
+                GuiStyleGroup4.Enabled = false;
                 GuiCustomHeader.Enabled = false;
                 GuiCustomHeaderText.Enabled = false;
                 GuiCustomSearch.Enabled = false;
@@ -2838,7 +2962,7 @@ namespace HovText
                 GuiCustomBorder.BackColor = Color.WhiteSmoke;
             }
         }
-         
+
 
         // ###########################################################################################
         // Change in the history color
@@ -2934,7 +3058,7 @@ namespace HovText
             RemoveAllHotkeys();
             SetFieldsBasedOnHistoryEnabled();
         }
-        
+
         private void GuiInstantSelect_CheckedChanged(object sender, EventArgs e)
         {
             // History enabled
@@ -2944,35 +3068,42 @@ namespace HovText
             SetFieldsBasedOnHistoryEnabled();
         }
 
-        private void SetFieldsBasedOnHistoryEnabled ()
+        private void SetFieldsBasedOnHistoryEnabled()
         {
             isEnabledHistory = GuiInstantSelect.Checked || GuiSearch.Checked;
 
             if (GuiSearch.Checked)
             {
                 GuiHotkeySearch.Enabled = true;
-            } else
+                label3.Enabled = true;
+            }
+            else
             {
                 GuiHotkeySearch.Enabled = false;
+                label3.Enabled = false;
             }
 
             if (GuiInstantSelect.Checked)
             {
-                GuiFavoritesEnabled.Enabled = true;
                 GuiHotkeyOlder.Enabled = true;
                 GuiHotkeyNewer.Enabled = true;
-            } else
+                label5.Enabled = true;
+                label9.Enabled = true;
+            }
+            else
             {
-                GuiFavoritesEnabled.Enabled = false;
                 GuiHotkeyOlder.Enabled = false;
                 GuiHotkeyNewer.Enabled = false;
+                label5.Enabled = false;
+                label9.Enabled = false;
             }
 
-            if (GuiFavoritesEnabled.Checked && GuiInstantSelect.Checked)
+            if (GuiFavoritesEnabled.Checked)
             {
                 GuiHotkeyToggleFavorite.Enabled = true;
                 GuiHotkeyToggleView.Enabled = true;
-            } else
+            }
+            else
             {
                 GuiHotkeyToggleFavorite.Enabled = false;
                 GuiHotkeyToggleView.Enabled = false;
@@ -2983,11 +3114,14 @@ namespace HovText
                 GuiCopyImages.Enabled = true;
                 GuiPasteOnSelection.Enabled = true;
                 GuiAlwaysPasteOriginal.Enabled = true;
-            } else
+                GuiFavoritesEnabled.Enabled = true;
+            }
+            else
             {
                 GuiCopyImages.Enabled = false;
                 GuiPasteOnSelection.Enabled = false;
                 GuiAlwaysPasteOriginal.Enabled = false;
+                GuiFavoritesEnabled.Enabled = false;
             }
 
             // Set the clipboard again, as there could be changes how "GuiAlwaysPasteOriginal" behaves
@@ -3002,7 +3136,7 @@ namespace HovText
 
 
         // ###########################################################################################
-        // Make sure the clipboard is correct, if this checkbox is toggled
+        // Changes in "Always paste original/formatted clipboard text"
         // ###########################################################################################
 
         private void GuiAlwaysPasteOriginal_CheckedChanged(object sender, EventArgs e)
@@ -3026,24 +3160,31 @@ namespace HovText
             if (isEnabledFavorites)
             {
                 GuiHotkeyToggleFavorite.Enabled = true;
-                GuiHotkeyToggleView.Enabled = true;
+                GuiStorageChooseFavorites.Enabled = true;
             }
             else
             {
                 GuiHotkeyToggleFavorite.Enabled = false;
-                GuiHotkeyToggleView.Enabled = false;
+                GuiStorageChooseFavorites.Enabled = false;
                 showFavoriteList = false;
 
-                // Reset all favorites
-                if (entriesIsFavorite.Count > 0)
+                // If we previously did save "Favorites only" then we need to change that to "All"
+                if(GuiStorageChooseFavorites.Checked)
                 {
-                    for (int i = 0; i <= entriesIsFavorite.ElementAt(Settings.entriesIsFavorite.Count - 1).Key; i++)
+                    GuiStorageChooseAll.Checked = true;
+                    GuiStorageChooseFavorites.Enabled = false;
+                }
+            }
+
+            // Reset all favorites
+            if (entriesIsFavorite.Count > 0)
+            {
+                for (int i = 0; i <= entriesIsFavorite.ElementAt(Settings.entriesIsFavorite.Count - 1).Key; i++)
+                {
+                    bool doesKeyExist = Settings.entriesText.ContainsKey(i);
+                    if (doesKeyExist)
                     {
-                        bool doesKeyExist = Settings.entriesText.ContainsKey(i);
-                        if (doesKeyExist)
-                        {
-                            entriesIsFavorite[i] = false;
-                        }
+                        entriesIsFavorite[i] = false;
                     }
                 }
             }
@@ -3088,19 +3229,6 @@ namespace HovText
 
 
         // ###########################################################################################
-        // Changes in "Copy clipboard at startup or enabling application"
-        // ###########################################################################################
-
-//        private void GuiCopyClipboardStartup_CheckedChanged(object sender, EventArgs e)
-//        {
-//            // Copy clipboard at startup
-//            string status = GuiCopyClipboardStartup.Checked ? "1" : "0";
-//            isCopyClipboardAtStartup = GuiCopyClipboardStartup.Checked;
-//            SetRegistryKey(registryPath, "CopyClipboardStartup", status);
-//        }
-
-
-        // ###########################################################################################
         // When application starts up then check if it should be minimized at once (when started with Windows)
         // https://stackoverflow.com/a/8486441/2028935
         // ###########################################################################################
@@ -3116,7 +3244,7 @@ namespace HovText
             }
             else
             {
-                
+
                 Logging.Log("Started HovText in window mode");
             }
         }
@@ -3262,12 +3390,6 @@ namespace HovText
 
 
         // ###########################################################################################
-        // Hotkey handling - how do I get this in to its own file or class!? Hmmm... for later
-        // I feel this code is clumsy and inefficient so probably need rewrite!
-        // ###########################################################################################
-
-
-        // ###########################################################################################
         // Action for the "Toggle application on/off" hotkey
         // ###########################################################################################
 
@@ -3292,7 +3414,8 @@ namespace HovText
                 if (history.Visible)
                 {
                     history.ActionEscape();
-                } else
+                }
+                else
                 {
 
                     Logging.Log("Pressed the \"Search\" interface hotkey");
@@ -3325,7 +3448,7 @@ namespace HovText
             e.Handled = true;
         }
 
-                
+
         // ###########################################################################################
         // Action for the "Show older entry" hotkey
         // ###########################################################################################
@@ -3335,7 +3458,7 @@ namespace HovText
             Logging.Log("Pressed the \"Get older history entry\" hotkey");
             isHistoryHotkeyPressed = true;
             GoEntryLowerNumber();
-            
+
             e.Handled = true;
         }
 
@@ -3347,13 +3470,13 @@ namespace HovText
         private void HotkeyGetNewerEntry(object sender, NHotkey.HotkeyEventArgs e)
         {
             Logging.Log("Pressed the \"Get newer history entry\" hotkey");
-            isHistoryHotkeyPressed = true; 
+            isHistoryHotkeyPressed = true;
             GoEntryHigherNumber();
-            
+
             e.Handled = true;
         }
 
-                
+
         // ###########################################################################################
         // Action for the "Paste on hotkey" hotkey
         // ###########################################################################################
@@ -3362,7 +3485,7 @@ namespace HovText
         {
             Logging.Log("Pressed the \"Paste only on hotkey\" hotkey");
 
-            // Only proceed if there are history entries
+            // Only proceed if there are clipboard entries
             if (entriesText.Count > 0)
             {
                 // Get active application and change focus to HovText
@@ -3406,6 +3529,12 @@ namespace HovText
 
 
         // ###########################################################################################
+        // Hotkey handling - how do I get this in to its own file or class!? Hmmm... for later
+        // I feel this code is clumsy and inefficient so probably need rewrite!?
+        // ###########################################################################################
+
+
+        // ###########################################################################################
         // On "key down" in one of the hotkey fields then convert that in to a string
         // ###########################################################################################
 
@@ -3427,6 +3556,16 @@ namespace HovText
             keyCode = keyCode == "Menu" ? "Unsupported" : keyCode;
             keyCode = keyCode == "ControlKey" ? "Unsupported" : keyCode;
             keyCode = keyCode == "ShiftKey" ? "Unsupported" : keyCode;
+            keyCode = hotkey == "hotkeyToggleFavorite" && keyCode == "Space" ? "Unsupported" : keyCode;
+
+            string[] alphaKeys = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".ToCharArray().Select(c => c.ToString()).ToArray();
+            string[] numericKeys = Enumerable.Range(0, 10).Select(n => $"D{n}").ToArray(); // Correct representation for numeric keys
+
+            foreach (string key in alphaKeys.Concat(numericKeys))
+            {
+                keyCode = hotkey == "hotkeyToggleFavorite" && keyCode == key ? "Unsupported" : keyCode;
+            }
+
             keyCode = hotkey == "hotkeyToggleFavorite" && (isShift || isAlt || isControl) ? "Unsupported" : keyCode;
             keyCode = hotkey == "hotkeyToggleView" && (isShift || isAlt || isControl) ? "Unsupported" : keyCode;
 
@@ -3447,7 +3586,7 @@ namespace HovText
 
 
         // ###########################################################################################
-        // Catch keyboard input on the  hotkey fields
+        // Catch keyboard input on the hotkey fields
         // ###########################################################################################
 
         private void HotkeyEnable_KeyDown(object sender, KeyEventArgs e)
@@ -3465,14 +3604,14 @@ namespace HovText
         {
             string hotkey = ConvertKeyboardInputToString(e);
             GuiHotkeySearch.Text = hotkey;
-            
+
             if (e.Alt)
             {
                 // https://stackoverflow.com/a/3068797/2028935
                 e.SuppressKeyPress = true;
             }
         }
-        
+
         private void HotkeyOlder_KeyDown(object sender, KeyEventArgs e)
         {
             string hotkey = ConvertKeyboardInputToString(e);
@@ -3889,7 +4028,7 @@ namespace HovText
             {
                 GuiHotkeySearch.BackColor = SystemColors.Window;
             }
-            
+
             // "Get older entry"
             if (hotkeyGetOlderEntry == "Unsupported" || hotkeyGetOlderEntry == "Hotkey conflicts")
             {
@@ -4138,7 +4277,7 @@ namespace HovText
             }
             ActiveControl = null; // do not focus this form - so we can reclick the textbox again right after
         }
-        
+
         private void GuiCustomEntry_Enter(object sender, EventArgs e)
         {
             colorDialogEntry.Color = GuiShowFontEntry.BackColor;
@@ -4168,7 +4307,7 @@ namespace HovText
             }
             ActiveControl = null; // do not focus this form - so we can reclick the textbox again right after
         }
-        
+
         private void GuiCustomBorder_Enter(object sender, EventArgs e)
         {
             colorDialogBorder.Color = GuiCustomBorder.BackColor;
@@ -4197,7 +4336,7 @@ namespace HovText
                 // Set padding
                 if (historyBorderThickness >= 2)
                 {
-                    GuiShowFont.Padding = new Padding(historyBorderThickness - 2); 
+                    GuiShowFont.Padding = new Padding(historyBorderThickness - 2);
                     GuiShowFontActive.Padding = new Padding(historyBorderThickness - 2);
                     GuiShowFontEntry.Padding = new Padding(historyBorderThickness - 2);
                 }
@@ -4265,7 +4404,7 @@ namespace HovText
         // Troubleshooting, open explorer location for the executable and highlight the file
         // ###########################################################################################
 
-        private void Button1_Click(object sender, EventArgs e)
+        private void GuiExecuteableOpenLocation_Click(object sender, EventArgs e)
         {
             string appPath = System.Reflection.Assembly.GetExecutingAssembly().Location;
             OpenExecuteableLocation(appPath);
@@ -4339,7 +4478,8 @@ namespace HovText
                             GuiAttachFile.Text = "Attach troubleshooting logfile (" + fileSize.ToString() + " " + fileDescription + " - must not exceed 5MB)";
                             GuiAttachFile.Enabled = false;
                             GuiAttachFile.Checked = false;
-                        } else
+                        }
+                        else
                         {
                             GuiAttachFile.Text = "Attach troubleshooting logfile (" + fileSize.ToString() + " " + fileDescription + ")";
                             GuiAttachFile.Enabled = true;
@@ -4542,7 +4682,7 @@ namespace HovText
             OpenExecuteableLocation(appPath);
 
             // Download executeable
-            System.Diagnostics.Process.Start(hovtextPage + "/autoupdate/development/HovText.exe");
+            Process.Start(hovtextPage + "/autoupdate/development/HovText.exe");
 
             Logging.Log("Clicked the \"Download\" development version");
         }
@@ -4810,7 +4950,7 @@ namespace HovText
                 webClient.DownloadFile(appUrl, pathAndTempExe);
 
                 string stepsForStable =
-    @"rem --   * Go to "+ hovtextPage + @"/download and download newest HovText       --
+    @"rem --   * Go to " + hovtextPage + @"/download and download newest HovText       --
 rem --   * In the ""Advanced"" tab click the ""Open executeable location""          --
 rem --   * Close / exit the running HovText application                         --
 rem --   * Replace the executeable file                                         --
@@ -4843,11 +4983,11 @@ echo > """ + pathAndTempLog + @"""
 
 rem Wait until HovText process finishes
 :wait
-  timeout /T 1 >> """+ pathAndTempLog + @"""
-  tasklist /NH /fi ""IMAGENAME eq "+ exeOnly + @""" | find /I """+ exeOnly + @""" >> """+ pathAndTempLog + @""" && goto :wait
+  timeout /T 1 >> """ + pathAndTempLog + @"""
+  tasklist /NH /fi ""IMAGENAME eq " + exeOnly + @""" | find /I """ + exeOnly + @""" >> """ + pathAndTempLog + @""" && goto :wait
 
 rem Move temporary (new) file to same location as existing
-timeout /T 2 >> """+ pathAndTempLog + @"""
+timeout /T 2 >> """ + pathAndTempLog + @"""
 echo Moving: """ + pathAndTempExe + @""" to """ + pathAndExe + @""" >> """ + pathAndTempLog + @"""
 move /y """ + pathAndTempExe + @""" """ + pathAndExe + @""" >> """ + pathAndTempLog + @"""
 IF %ERRORLEVEL% NEQ 0 (
@@ -4869,7 +5009,7 @@ del ""%~f0"" >> """ + pathAndTempLog + @"""
                 File.WriteAllText(pathAndTempCmd, batchContents);
 
                 // Unblock batch file and newly downloaded executable
-                Logging.Log("Unblocking batch file ["+ pathAndTempCmd + "]");
+                Logging.Log("Unblocking batch file [" + pathAndTempCmd + "]");
                 UnblockFile(pathAndTempCmd);
                 Logging.Log("Unblocking new executable [" + pathAndTempExe + "]");
                 UnblockFile(pathAndTempExe);
@@ -4914,7 +5054,6 @@ del ""%~f0"" >> """ + pathAndTempLog + @"""
 
         private static void UnblockFile(string fileAndPath)
         {
-
             // Prepare for unblocking the file via Powershell
             string command = $"get-childitem {fileAndPath} | Unblock-File -Verbose";
             Process process = new Process();
@@ -4976,10 +5115,11 @@ del ""%~f0"" >> """ + pathAndTempLog + @"""
         {
             string iconSet = GetRegistryKey(registryPath, "IconSet"); // Round, SquareNew, SquareOld
             string hotkeyBehaviour = GetRegistryKey(registryPath, "HotkeyBehaviour"); // System, Paste
-                                                                                      //            bool isApplicationEnabled = GuiAppEnabled.Checked; // True, False
-            #if DEBUG
+
+            if (buildType == "Debug")
+            {
                 this.Text = "HovText DEVELOPMENT version";
-            #endif
+            }
 
             switch (hotkeyBehaviour)
             {
@@ -5144,19 +5284,14 @@ del ""%~f0"" >> """ + pathAndTempLog + @"""
                 FileInfo fileInfo = new FileInfo(pathAndLog);
                 long fileSize = fileInfo.Length;
 
-                // React if the file is larger than 5MB
+                // React if the file is larger than 10MB
                 if (fileSize > (10 * 1_024_000))
                 {
-                    Logging.Log("Shown popup that the troubleshooting logfile is bigger than 5MB");
+                    Logging.Log("Shown popup that the troubleshooting logfile is bigger than 10MB");
                     tooBigLogfile.Show();
                     tooBigLogfile.Activate();
                 }
             }
-        }
-
-        public void UpdateTroubleshootDisabled()
-        {
-            GuiTroubleshootEnabled.Checked = false;
         }
 
         private void Settings_Load(object sender, EventArgs e)
@@ -5166,5 +5301,156 @@ del ""%~f0"" >> """ + pathAndTempLog + @"""
 
 
         // ###########################################################################################
+        // Disable troubleshoot logging
+        // ###########################################################################################
+
+        public void UpdateTroubleshootDisabled()
+        {
+            GuiTroubleshootEnabled.Checked = false;
+        }
+
+
+        // ###########################################################################################
+        // Update amount of entries to save to file
+        // ###########################################################################################
+
+        private void GuiStorageEntries_ValueChanged(object sender, EventArgs e)
+        {
+            GuiStorageEntriesText.Text = GuiStorageEntries.Value.ToString();
+            SetRegistryKey(registryPath, "StorageSaveEntries", GuiStorageEntriesText.Text);
+        }
+
+
+        // ###########################################################################################
+        // Update if we should save the clipboard on exit or not
+        // ###########################################################################################
+
+        private void GuiStorageSaveClipboard_CheckedChanged(object sender, EventArgs e)
+        {
+            string status = GuiStorageSaveClipboard.Checked ? "1" : "0";
+            SetRegistryKey(registryPath, "StorageSaveOnExit", status);
+            GuiStorageChooseAll_EnableDisableSave();
+        }
+
+
+        // ###########################################################################################
+        // Update if we should load the clipboard on application launch or not
+        // ###########################################################################################
+
+        private void GuiStorageLoadClipboard_CheckedChanged(object sender, EventArgs e)
+        {
+            string status = GuiStorageLoadClipboard.Checked ? "1" : "0";
+            SetRegistryKey(registryPath, "StorageLoadOnLaunch", status);
+        }
+
+
+        // ###########################################################################################
+        // Update which clipboard type we should save
+        // ###########################################################################################
+
+        private void GuiStorageChooseFavorites_CheckedChanged(object sender, EventArgs e)
+        {
+            string status = GuiStorageChooseAll.Checked ? "All" : "Favorites";
+            SetRegistryKey(registryPath, "StorageSaveType", status);
+        }
+
+
+        // ###########################################################################################
+        // Update which clipboard type we should save
+        // ###########################################################################################
+
+        private void GuiStorageChooseAll_EnableDisableSave()
+        {
+            if (GuiStorageSaveClipboard.Checked)
+            {
+                GuiStorageChooseAll.Enabled = true;
+                GuiStorageEntries.Enabled = true;
+                if (GuiStorageSaveClipboard.Checked)
+                {
+                    if (isEnabledFavorites)
+                    {
+                        GuiStorageChooseFavorites.Enabled = true;
+                    }
+                    else
+                    {
+                        GuiStorageChooseFavorites.Enabled = false;
+                    }
+                }
+            }
+            else
+            {
+                GuiStorageChooseAll.Enabled = false;
+                GuiStorageChooseFavorites.Enabled = false;
+                GuiStorageEntries.Enabled = false;
+            }
+        }
+
+
+        // ###########################################################################################
+        // Clear history
+        // ###########################################################################################
+
+        private void GuiClearHistory_Click_2(object sender, EventArgs e)
+        {
+            int count = entriesOriginal.Count;
+
+            Logging.Log($"Cleaning all [" + count + "] history elements");
+            ClearHistory();
+            UpdateNotifyIconText();
+
+            // Trigger the garbage collector to see the impact immediately
+            GC.Collect();
+            GC.WaitForPendingFinalizers();
+
+            LogMemoryConsumed();
+        }
+
+
+        // ###########################################################################################
+        // Log the amount of memory used
+        // -----------------------------
+        // Quote ChatGPT:
+        // Process.WorkingSet64: Gives a more comprehensive view, including both managed
+        // and unmanaged memory, but it represents the memory used by the entire process,
+        // which may include overhead from the .NET runtime and other libraries.
+        // ###########################################################################################
+
+        private string GetMemoryUsage()
+        {
+            Process currentProcess = Process.GetCurrentProcess();
+            double memoryInMB = currentProcess.WorkingSet64 / 1024d / 1024d;
+
+            // Format the output to one decimal place with a comma as a thousand separator
+            string formattedMemoryUsage = memoryInMB.ToString("N1", CultureInfo.InvariantCulture);
+
+            return formattedMemoryUsage;
+        }
+
+        private void LogMemoryConsumed()
+        {
+            string tmp = GetMemoryUsage();
+
+            Logging.Log($"Memory usage: {tmp} MB");
+        }
+
+        private void UpdateAdvancedStatus()
+        {
+            string tmp = GetMemoryUsage();
+            GuiMemoryUsed.Text = "Memory usage: " + tmp + " MB";
+            GuiHistoryEntriesCount.Text = "Clipboard entries: " + entriesOriginal.Count.ToString();
+        }
+
+        private void advancedTimer_Tick(object sender, EventArgs e)
+        {
+            if (this.Visible)
+            {
+                UpdateAdvancedStatus();
+            }
+        }
+
+
+        // ###########################################################################################
     }
+
+
 }

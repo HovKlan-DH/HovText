@@ -1,4 +1,15 @@
-﻿using System;
+﻿/*
+##################################################################################################
+LOGGING
+-------
+
+This is where all logging is done. It is done both to a file and to the "Debug" console.
+It has a lock so that multiple threads can write to the logfile without corrupting it.
+
+##################################################################################################
+*/
+
+using System;
 using System.Diagnostics;
 using System.Globalization;
 using System.IO;
@@ -13,6 +24,9 @@ namespace HovText
 
     class Logging
     {
+        // Lock that will hold and release logging of the logfile
+        private static readonly object _logLock = new object();
+
         // ###########################################################################################
         // Main - Logging
         // ###########################################################################################
@@ -102,28 +116,31 @@ namespace HovText
         {
             if (Settings.isTroubleshootEnabled)
             {
-                try
+                lock (_logLock)
                 {
-                    if (logMessage == "")
+                    try
                     {
-                        File.AppendAllText(Settings.pathAndLog, Environment.NewLine);
+                        if (string.IsNullOrEmpty(logMessage))
+                        {
+                            File.AppendAllText(Settings.pathAndLog, Environment.NewLine);
+                        }
+                        else
+                        {
+                            string timestampedMessage = $"{DateTime.Now:yyyy-MM-dd HH:mm:ss.fff} {logMessage}{Environment.NewLine}";
+                            File.AppendAllText(Settings.pathAndLog, timestampedMessage);
+                        }
                     }
-                    else
+                    catch (Exception ex)
                     {
-                        File.AppendAllText(Settings.pathAndLog, DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff") + " " + logMessage + Environment.NewLine);
+                        MessageBox.Show(
+                            $"Exception for logfile:\n\nMessage:\n{ex.Message}\n\nStackTrace:\n{ex.StackTrace}",
+                            "Cannot write to troubleshooting logfile",
+                            MessageBoxButtons.OK,
+                            MessageBoxIcon.Error);
                     }
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(
-                        "Exception for logfile:\n\nMessage:\n"+ ex.Message +"\n\nStackTrace:\n"+ ex.StackTrace,
-                        "Cannot write to troubleshooting logfile",
-                        MessageBoxButtons.OK,
-                        MessageBoxIcon.Error);
                 }
             }
 
-            // Output to the Visual Studio "Output" console
             Debug.WriteLine(logMessage);
         }
 

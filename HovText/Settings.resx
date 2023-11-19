@@ -333,6 +333,9 @@
         FrejtO1/EX2C22xDfqvym1YQ/R/WwXyKz7DvmgAAAABJRU5ErkJggg==
 </value>
   </data>
+  <data name="GuiStorageInfo.Text" xml:space="preserve">
+    <value>Storage is per default disabled as you need to know that storing many clipboard entries can cripple the responsiveness of the UI. You are encouraged to test it out and see if it is something you want to use, but do set a reasonable (low) amount of entries you want to save. This is of course dependent on computer power.</value>
+  </data>
   <data name="PictureBox5.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAMAAAC6V+0/AAAABGdBTUEAALGPC/xhBQAAAwBQTFRFgICA
@@ -607,7 +610,7 @@
     <value>981, 18</value>
   </metadata>
   <metadata name="colorDialogEntryText.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>981, 50</value>
+    <value>17, 101</value>
   </metadata>
   <metadata name="colorDialogBorder.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>577, 20</value>
@@ -616,7 +619,7 @@
     <value>1162, 18</value>
   </metadata>
   <metadata name="colorDialogHeaderText.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>783, 50</value>
+    <value>1027, 60</value>
   </metadata>
   <metadata name="colorDialogActiveText.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>1164, 48</value>
@@ -625,10 +628,13 @@
     <value>310, 60</value>
   </metadata>
   <metadata name="colorDialogSearch.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>780, 72</value>
+    <value>634, 60</value>
   </metadata>
   <metadata name="colorDialogSearchText.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>986, 74</value>
+    <value>817, 60</value>
+  </metadata>
+  <metadata name="advancedTimer.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>472, 60</value>
   </metadata>
   <metadata name="$this.TrayHeight" type="System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>118</value>
