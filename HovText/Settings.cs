@@ -18,6 +18,7 @@ using System.Diagnostics;
 using System.Drawing;
 using System.Globalization;
 using System.IO;
+using System.IO.Compression;
 using System.Linq;
 using System.Management;
 using System.Net;
@@ -147,7 +148,7 @@ namespace HovText
         private const string registryHotkeyBehaviour = "System"; // use system clipboard
         private const string registryStorageSaveOnExit = "0"; // 0 = do not save clipboards at exit, 1 = save clipboards on exit
         private const string registryStorageLoadOnLaunch = "1"; // 0 = do not load clipboards, 1 = load clipboards on launch
-        private const string registryStorageSaveType = "All"; // "All" or "Favorites"
+        private const string registryStorageSaveType = "Text"; // "Text", "Favorites" or "All"
         private const string registryStorageSaveEntries = "100"; // number of clipboard entries to save
         private const string registryCloseMinimizes = "1"; // 0 = terminates, 1 = minimize to tray
         private const string registryStartDisabled = "0"; // 0 = start active, 1 = start disabled
@@ -190,6 +191,7 @@ namespace HovText
         public static SortedDictionary<int, string> entriesApplication2 = new SortedDictionary<int, string>();
         public static SortedDictionary<int, string> entriesText = new SortedDictionary<int, string>();
         public static SortedDictionary<int, bool> entriesImageTransparent = new SortedDictionary<int, bool>();
+        public static SortedDictionary<int, bool> entriesImageTransparent2 = new SortedDictionary<int, bool>();
         public static SortedDictionary<int, bool> entriesShow = new SortedDictionary<int, bool>();
         public static SortedDictionary<int, bool> entriesIsFavorite = new SortedDictionary<int, bool>();
         public static SortedDictionary<int, bool> entriesIsFavorite2 = new SortedDictionary<int, bool>();
@@ -197,6 +199,7 @@ namespace HovText
         public static SortedDictionary<int, bool> entriesIsEmail = new SortedDictionary<int, bool>();
         public static SortedDictionary<int, bool> entriesIsImage = new SortedDictionary<int, bool>();
         public static SortedDictionary<int, Image> entriesImage = new SortedDictionary<int, Image>();
+        public static SortedDictionary<int, Image> entriesImageTrans = new SortedDictionary<int, Image>();
         public static SortedList<int, Dictionary<string, object>> entriesOriginal = new SortedList<int, Dictionary<string, object>>();
         public static SortedList<int, Dictionary<string, object>> entriesOriginal2 = new SortedList<int, Dictionary<string, object>>();
         private static Dictionary<string, object> clipboardData;
@@ -460,11 +463,32 @@ namespace HovText
 
         public void SaveEntriesToFile()
         {
+            // Define a temporary List for keys that should be removed
+            List<int> keysToRemove = new List<int>();
+
+            // Should we only save "Text" entries
+            if (GuiStorageChooseText.Checked)
+            {
+                // Walk through the original entries and check if they are favorites
+                foreach (var entry in entriesOriginal)
+                {
+                    int key = entry.Key;
+
+                    // Check if the key exists in entriesIsFavorite and if its value is true
+                    if (entriesIsImage.TryGetValue(key, out bool isImage) && !isImage)
+                    {
+                        Logging.Log("Entry index [" + key + "] is text and saved");
+                    }
+                    else
+                    {
+                        keysToRemove.Add(key); // Add key to the removal list
+                    }
+                }
+            }
+            
+            // Should we only save "Favorites"
             if (GuiStorageChooseFavorites.Checked)
             {
-                // Temporary list to hold keys to be removed
-                List<int> keysToRemove = new List<int>();
-
                 // Walk through the original entries and check if they are favorites
                 foreach (var entry in entriesOriginal)
                 {
@@ -478,15 +502,18 @@ namespace HovText
                     else
                     {
                         keysToRemove.Add(key); // Add key to the removal list
-
                     }
                 }
+            }
 
-                // Remove the entries
+            // Remove the entries
+            if (GuiStorageChooseText.Checked || GuiStorageChooseFavorites.Checked)
+            {
                 foreach (var key in keysToRemove)
                 {
                     entriesOriginal.Remove(key);
                     entriesIsFavorite.Remove(key);
+                    entriesImageTransparent.Remove(key);
                     entriesApplication.Remove(key);
                 }
             }
@@ -500,25 +527,57 @@ namespace HovText
                 int removeCount = entriesOriginal.Count - keepCount; // number of entries to remove
 
                 // Get the keys of the entries to remove
-                List<int> keysToRemove = entriesOriginal.Keys.Take(removeCount).ToList();
+                keysToRemove = entriesOriginal.Keys.Take(removeCount).ToList();
 
                 // Remove the entries not needed
                 foreach (var key in keysToRemove)
                 {
                     entriesOriginal.Remove(key);
                     entriesIsFavorite.Remove(key);
+                    entriesImageTransparent.Remove(key);
                     entriesApplication.Remove(key);
                 }
             }
 
-            // Create a composite object (containing two dictionaries) to serialize
+            // Update the Tuple type declaration to include the new dictionary
             var dataToSerialize = new Tuple<
                 SortedList<int, Dictionary<string, object>>,
                 SortedDictionary<int, bool>,
-                SortedDictionary<int, string>
-            >(entriesOriginal, entriesIsFavorite, entriesApplication);
+                SortedDictionary<int, string>,
+                SortedDictionary<int, bool>
+            >(entriesOriginal, entriesIsFavorite, entriesApplication, entriesImageTransparent);
 
-            // Serialize and encrypt the composite object
+            // Serialization process
+            var binaryFormatter = new BinaryFormatter();
+            using (var memoryStream = new MemoryStream())
+            {
+                binaryFormatter.Serialize(memoryStream, dataToSerialize);
+                var serializedData = memoryStream.ToArray();
+
+                // Compress the serialized data
+                using (var compressedStream = new MemoryStream())
+                {
+                    using (var compressionStream = new GZipStream(compressedStream, CompressionMode.Compress))
+                    {
+                        compressionStream.Write(serializedData, 0, serializedData.Length);
+                    }
+
+                    var compressedData = compressedStream.ToArray();
+
+                    // Encrypt the compressed data
+                    var encryptedData = Encryption.EncryptStringToBytes_Aes(compressedData, encryptionKey, encryptionInitializationVector);
+
+                    // Write the encrypted data to a file
+                    using (var fileStream = new FileStream(pathAndData, FileMode.Create))
+                    {
+                        fileStream.Write(encryptedData, 0, encryptedData.Length);
+                        Logging.Log("Clipboards, favorites, and image transparency settings saved successfully.");
+                    }
+                }
+            }
+
+            /*
+            // Serialization and encryption process remains the same
             var binaryFormatter = new BinaryFormatter();
             using (var memoryStream = new MemoryStream())
             {
@@ -528,9 +587,11 @@ namespace HovText
                 using (var fileStream = new FileStream(pathAndData, FileMode.Create))
                 {
                     fileStream.Write(encryptedData, 0, encryptedData.Length);
-                    Logging.Log("Entries and favorites saved successfully.");
+                    Logging.Log("Clipboards, favorites, and image transparency settings saved successfully.");
                 }
             }
+            */
+            
         }
 
 
@@ -565,20 +626,138 @@ namespace HovText
                         {
                             try
                             {
-                                using (var memoryStream = new MemoryStream(decryptedData))
+                                // Decompress the decrypted data
+                                byte[] decompressedData;
+                                using (var compressedStream = new MemoryStream(decryptedData))
+                                using (var decompressionStream = new GZipStream(compressedStream, CompressionMode.Decompress))
+                                using (var resultStream = new MemoryStream())
+                                {
+                                    decompressionStream.CopyTo(resultStream);
+                                    decompressedData = resultStream.ToArray();
+                                }
+
+                                // Deserialize the decompressed data
+                                using (var memoryStream = new MemoryStream(decompressedData))
                                 {
                                     var binaryFormatter = new BinaryFormatter();
-                                    //var loadedData = (Tuple<SortedList<int, Dictionary<string, object>>, SortedDictionary<int, bool>>)binaryFormatter.Deserialize(memoryStream);
                                     var loadedData = (Tuple<
                                         SortedList<int, Dictionary<string, object>>,
                                         SortedDictionary<int, bool>,
-                                        SortedDictionary<int, string>
+                                        SortedDictionary<int, string>,
+                                        SortedDictionary<int, bool>
                                     >)binaryFormatter.Deserialize(memoryStream);
 
                                     // Extract the dictionaries from the tuple into temporary dictionaries
                                     entriesOriginal2 = loadedData.Item1;
                                     entriesIsFavorite2 = loadedData.Item2;
                                     entriesApplication2 = loadedData.Item3;
+                                    entriesImageTransparent2 = loadedData.Item4;
+                                }
+                            }
+                            catch (SerializationException ex)
+                            {
+                                Logging.Log($"Error during deserialization: {ex.Message}");
+                                entriesOriginal2 = null;
+                                entriesIsFavorite2 = null;
+                                entriesImageTransparent2 = null;
+                                entriesApplication2 = null;
+                            }
+
+                            // Process entries if decryption was successful
+                            if (entriesOriginal2 != null)
+                            {
+                                Logging.Log("---");
+                                foreach (var entry in entriesOriginal2)
+                                {
+                                    try
+                                    {
+                                        // Safely update GuiLoadingText on the UI thread
+                                        GuiLoadingText.Invoke((MethodInvoker)(() =>
+                                        {
+                                            GuiLoadingText.Text = $"Please wait while processing data file - loading entry [{entry.Key}] ...";
+                                        }));
+
+
+                                        clipboardData = entry.Value;
+                                        Logging.Log($"Processing entry index [{entry.Key}] with [{clipboardData.Count}] formats");
+                                        isClipboardLoadingFromFileKey = entry.Key;
+                                        ProcessClipboard();
+                                        clipboardData = null;
+                                    }
+                                    catch (Exception ex)
+                                    {
+                                        Logging.Log($"ERROR: Error processing entry {entry.Key}: {ex.Message}");
+                                    }
+                                }
+                                Logging.Log("---");
+                                Logging.Log($"Loaded [{entriesOriginal2.Count}] entries from data file");
+
+                                entriesOriginal2 = null;
+                                entriesIsFavorite2 = null;
+                                entriesImageTransparent2 = null;
+                                entriesApplication2 = null;
+                            }
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    // Handle other exceptions
+                    Logging.Log("Error during file loading: " + ex.Message);
+                }
+                finally
+                {
+                    // This code will run regardless of decryption success or failure
+                    UpdatePanelVisibility();
+                }
+            });
+        }
+        
+
+        /*        
+        public void LoadEntriesFromFile()
+        {
+            // Parallel processing the loading of the file
+            Task.Run(() =>
+            {
+                try
+                {
+                    using (var fileStream = new FileStream(pathAndData, FileMode.Open))
+                    {
+                        Logging.Log("Reading encrypted data file:");
+
+                        // Read the encrypted data from the file
+                        byte[] encryptedData = new byte[fileStream.Length];
+                        fileStream.Read(encryptedData, 0, encryptedData.Length);
+
+                        // Decrypt the data
+                        var decryptedData = Encryption.DecryptStringFromBytes_Aes(encryptedData, encryptionKey, encryptionInitializationVector);
+
+                        // Check if decryption was successful
+                        if (decryptedData == null)
+                        {
+                            Logging.Log("Encryption mismatches - data file ignored and will be overwritten at exit");
+                        }
+                        else
+                        {
+                            try
+                            {
+                                using (var memoryStream = new MemoryStream(decryptedData))
+                                {
+                                    var binaryFormatter = new BinaryFormatter();
+                                    var loadedData = (Tuple<
+                                        SortedList<int, Dictionary<string, object>>,
+                                        SortedDictionary<int, bool>,
+                                        SortedDictionary<int, string>
+//                                        ,
+//                                        SortedDictionary<int, bool>
+                                    >)binaryFormatter.Deserialize(memoryStream);
+
+                                    // Extract the dictionaries from the tuple into temporary dictionaries
+                                    entriesOriginal2 = loadedData.Item1;
+                                    entriesIsFavorite2 = loadedData.Item2;
+                                    entriesApplication2 = loadedData.Item3;
+//                                    entriesImageTransparent2 = loadedData.Item4;
                                 }
                             }
                             catch (SerializationException ex)
@@ -587,6 +766,7 @@ namespace HovText
                                 entriesOriginal2 = null;
                                 entriesIsFavorite2 = null;
                                 entriesApplication2 = null;
+                                entriesImageTransparent2 = null;
                             }
 
                             // Process entries if decryption was successful
@@ -613,6 +793,7 @@ namespace HovText
 
                                 entriesOriginal2 = null;
                                 entriesIsFavorite2 = null;
+                                entriesImageTransparent2 = null;
                                 entriesApplication2 = null;
                             }
                         }
@@ -630,6 +811,8 @@ namespace HovText
                 }
             });
         }
+        */
+        
 
 
         // ###########################################################################################
@@ -821,21 +1004,25 @@ namespace HovText
                         // Set the last clipboard image to be identical to this one
                         clipboardImageHashLast = clipboardImageHash;
 
-                        // Check if picture is transparent
-                        Image imgCopy = GetImageFromClipboard();
                         isClipboardImageTransparent = false;
-                        if (imgCopy != null)
+
+                        // Check if picture is transparent
+                        if (clipboardData == null)
                         {
-                            isClipboardImageTransparent = IsImageTransparent(imgCopy);
-                        }
+                            Image imgCopy = null;
+                            imgCopy = GetImageFromClipboard();
+                            if (imgCopy != null)
+                            {
+                                isClipboardImageTransparent = IsImageTransparent(imgCopy);
+                            }
+                        } else
+                        {
+                            isClipboardImageTransparent = entriesImageTransparent2[isClipboardLoadingFromFileKey];
+                        }                        
 
                         // Add the image to the entries array and update the clipboard
                         AddEntry();
                         GetEntryCounter();
-//                        if (clipboardData == null)
-//                        {
-//                            SetClipboard();
-//                        }
                     }
                 }
             }
@@ -847,7 +1034,7 @@ namespace HovText
         // https://github.com/skoshy/CopyTransparentImages/blob/304e383b8f3239496999087421545a9b4dc765e5/ConsoleApp2/Program.cs#L58
         // It will also get the transparency alpha channel from the clipboard image
         // ###########################################################################################
-
+        
         private static Image GetImageFromClipboard()
         {
             if (Clipboard.GetDataObject() == null) return null;
@@ -1008,6 +1195,7 @@ namespace HovText
             entryIndex = -1;
             entriesText.Clear();
             entriesImage.Clear();
+            entriesImageTrans.Clear();
             entriesImageTransparent.Clear();
             entriesApplication.Clear();
             entriesOriginal.Clear();
@@ -1069,7 +1257,26 @@ namespace HovText
                 // Add the text and image to the entries array
                 entriesText.Add(entryIndex, clipboardText);
                 entriesImage.Add(entryIndex, clipboardImage);
-                entriesImageTransparent.Add(entryIndex, isClipboardImageTransparent);
+                if (isClipboardLoadingFromFile)
+                {
+                    bool hest = entriesImageTransparent2[isClipboardLoadingFromFileKey];
+                    entriesImageTransparent.Add(entryIndex, hest);
+                }
+                else
+                {
+                    entriesImageTransparent.Add(entryIndex, isClipboardImageTransparent);
+
+                }
+                if (isClipboardImageTransparent && clipboardImage != null)
+                {
+                    Bitmap bmp = new Bitmap(clipboardImage);
+                    bmp.MakeTransparent(bmp.GetPixel(0, 0));
+                    entriesImageTrans.Add(entryIndex, (Image)bmp);
+                } else
+                {
+                    entriesImageTrans.Add(entryIndex, null);
+                }
+
                 entriesShow.Add(entryIndex, true);
                 if (isClipboardLoadingFromFile)
                 {
@@ -1270,6 +1477,8 @@ namespace HovText
 
         public void GoEntryLowerNumber()
         {
+            SuspendLayout();
+
             // Check if application is enabled
             if (isApplicationEnabled && entryCounter > 0)
             {
@@ -1286,7 +1495,7 @@ namespace HovText
                     history.SetupForm();
                 }
                 // Always change focus to HovText to ensure we can catch the key-up event
-                ChangeFocusToHovText();
+//                ChangeFocusToHovText();
 
                 // Only proceed if the entry counter is equal to or more than 0
                 if (entryCounter > 0)
@@ -1295,6 +1504,7 @@ namespace HovText
                     history.UpdateHistory("down");
                 }
             }
+            ResumeLayout();
         }
 
 
@@ -1321,7 +1531,7 @@ namespace HovText
                 }
 
                 // Always change focus to HovText to ensure we can catch the key-up event
-                ChangeFocusToHovText();
+//                ChangeFocusToHovText();
 
                 // Only proceed if the entry counter is less than the total amount of entries
                 if (entryCounter <= entriesText.Count)
@@ -1412,6 +1622,7 @@ namespace HovText
             // Copy the chosen entry to the top of the array lists (so it becomes the newest entry)
             entriesText.Add(insertKey, entriesText[entryIndex]);
             entriesImage.Add(insertKey, entriesImage[entryIndex]);
+            entriesImageTrans.Add(insertKey, entriesImageTrans[entryIndex]);
             entriesImageTransparent.Add(insertKey, entriesImageTransparent[entryIndex]);
             entriesApplication.Add(insertKey, entriesApplication[entryIndex]);
             entriesOriginal.Add(insertKey, entriesOriginal[entryIndex]);
@@ -1424,6 +1635,7 @@ namespace HovText
             // Remove the chosen entry, so it does not show duplicates
             entriesText.Remove(entryIndex);
             entriesImage.Remove(entryIndex);
+            entriesImageTrans.Remove(entryIndex);
             entriesImageTransparent.Remove(entryIndex);
             entriesApplication.Remove(entryIndex);
             entriesOriginal.Remove(entryIndex);
@@ -2561,16 +2773,19 @@ namespace HovText
                 case "All":
                     GuiStorageChooseAll.Checked = true;
                     break;
-                default: // Favorites
-                    if(isEnabledFavorites)
+                case "Favorites":
+                    if (isEnabledFavorites)
                     {
                         GuiStorageChooseFavorites.Checked = true;
-                    } else
+                    }
+                    else
                     {
-                        GuiStorageChooseAll.Checked = true;
+                        GuiStorageChooseText.Checked = true;
                         GuiStorageChooseFavorites.Enabled = false;
                     }
-
+                    break;
+                default: // Text
+                    GuiStorageChooseText.Checked = true;
                     break;
             }
 
@@ -3455,7 +3670,8 @@ namespace HovText
 
         private void HotkeyGetOlderEntry(object sender, NHotkey.HotkeyEventArgs e)
         {
-            Logging.Log("Pressed the \"Get older history entry\" hotkey");
+            //hest
+            //Logging.Log("Pressed the \"Get older history entry\" hotkey");
             isHistoryHotkeyPressed = true;
             GoEntryLowerNumber();
 
@@ -3469,7 +3685,8 @@ namespace HovText
 
         private void HotkeyGetNewerEntry(object sender, NHotkey.HotkeyEventArgs e)
         {
-            Logging.Log("Pressed the \"Get newer history entry\" hotkey");
+            //hest
+            //Logging.Log("Pressed the \"Get newer history entry\" hotkey");
             isHistoryHotkeyPressed = true;
             GoEntryHigherNumber();
 
@@ -5322,18 +5539,6 @@ del ""%~f0"" >> """ + pathAndTempLog + @"""
 
 
         // ###########################################################################################
-        // Update if we should save the clipboard on exit or not
-        // ###########################################################################################
-
-        private void GuiStorageSaveClipboard_CheckedChanged(object sender, EventArgs e)
-        {
-            string status = GuiStorageSaveClipboard.Checked ? "1" : "0";
-            SetRegistryKey(registryPath, "StorageSaveOnExit", status);
-            GuiStorageChooseAll_EnableDisableSave();
-        }
-
-
-        // ###########################################################################################
         // Update if we should load the clipboard on application launch or not
         // ###########################################################################################
 
@@ -5345,13 +5550,23 @@ del ""%~f0"" >> """ + pathAndTempLog + @"""
 
 
         // ###########################################################################################
-        // Update which clipboard type we should save
+        // Update which type of clipboards we should save
         // ###########################################################################################
 
-        private void GuiStorageChooseFavorites_CheckedChanged(object sender, EventArgs e)
+        private void GuiStorageChoose_CheckedChanged(object sender, EventArgs e)
         {
-            string status = GuiStorageChooseAll.Checked ? "All" : "Favorites";
-            SetRegistryKey(registryPath, "StorageSaveType", status);
+            string set;
+
+            if(GuiStorageChooseAll.Checked)
+            {
+                set = "All";
+            } else if(GuiStorageChooseFavorites.Checked) {
+                set = "Favorites";
+            } else {
+                set = "Text";
+            }
+
+            SetRegistryKey(registryPath, "StorageSaveType", set);
         }
 
 
@@ -5359,10 +5574,11 @@ del ""%~f0"" >> """ + pathAndTempLog + @"""
         // Update which clipboard type we should save
         // ###########################################################################################
 
-        private void GuiStorageChooseAll_EnableDisableSave()
+        private void GuiStorageSaveClipboard_CheckedChanged(object sender, EventArgs e)
         {
             if (GuiStorageSaveClipboard.Checked)
             {
+                GuiStorageChooseText.Enabled = true;
                 GuiStorageChooseAll.Enabled = true;
                 GuiStorageEntries.Enabled = true;
                 if (GuiStorageSaveClipboard.Checked)
@@ -5376,12 +5592,15 @@ del ""%~f0"" >> """ + pathAndTempLog + @"""
                         GuiStorageChooseFavorites.Enabled = false;
                     }
                 }
+                SetRegistryKey(registryPath, "StorageSaveOnExit", "1");
             }
             else
             {
+                GuiStorageChooseText.Enabled = false; 
                 GuiStorageChooseAll.Enabled = false;
                 GuiStorageChooseFavorites.Enabled = false;
                 GuiStorageEntries.Enabled = false;
+                SetRegistryKey(registryPath, "StorageSaveOnExit", "0");
             }
         }
 
@@ -5446,6 +5665,26 @@ del ""%~f0"" >> """ + pathAndTempLog + @"""
             {
                 UpdateAdvancedStatus();
             }
+        }
+
+
+        // ###########################################################################################
+        // Clear history
+        // ###########################################################################################
+
+        private void GuiClearHistory_Click(object sender, EventArgs e)
+        {
+            int count = entriesOriginal.Count;
+
+            Logging.Log($"Cleaning all [" + count + "] history elements");
+            ClearHistory();
+            UpdateNotifyIconText();
+
+            // Trigger the garbage collector to see the impact immediately
+            GC.Collect();
+            GC.WaitForPendingFinalizers();
+
+            LogMemoryConsumed();
         }
 
 

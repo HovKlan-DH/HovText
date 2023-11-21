@@ -11,8 +11,10 @@ different hotkeys for the history area.
 
 using HovText.Properties;
 using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using static HovText.Program;
 
@@ -37,6 +39,9 @@ namespace HovText
         private static int entryInList = 0; // this is number X of Y (this stores the "X")
         private Timer _flashTimer;
         private Color _flashColor;
+
+
+        private Dictionary<string, Control> controlCache = new Dictionary<string, Control>();
 
 
         // ###########################################################################################
@@ -393,6 +398,14 @@ namespace HovText
                 }
             }
 
+            // After all controls have been added to the form
+            // hest
+            controlCache.Clear(); // Clear previous entries if any
+            foreach (Control control in this.Controls)
+            {
+                controlCache.Add(control.Name, control);
+            }
+
             SetHistoryPosition();
             Show();
             Activate();
@@ -458,6 +471,8 @@ namespace HovText
 
         public void UpdateHistory(string direction)
         {
+            SuspendLayout();
+
             // Set the "first" and "last" IDs
             entryNewestBox = entryNewestBox == -1 ? GetNewestIndex() : entryNewestBox;
             entryNewest = entryNewest == -1 ? GetNewestIndex() : entryNewest;
@@ -483,8 +498,10 @@ namespace HovText
                 entriesInList = countFavorites < entriesInList ? countFavorites : entriesInList;
             }
 
+//            bool isFavorite;
             bool isTransparent;
             Image entryImage;
+            Image entryImageTransparent;
 
             // Proceed if we have more than one entry in the list (it also comes to here, if we are showing an empty favorite list)
             if (entriesInList > 0)
@@ -517,7 +534,9 @@ namespace HovText
                         // Get the array data
                         string entryText = Settings.entriesText[i];
                         entryImage = Settings.entriesImage[i];
+                        entryImageTransparent = Settings.entriesImageTrans[i];
                         bool isFavorite = Settings.entriesIsFavorite[i];
+                        isTransparent = Settings.entriesImageTransparent[i];
 
                         // Proceed if this is a valid entry, depending on the list view
                         if (!Settings.showFavoriteList || (Settings.showFavoriteList && isFavorite))
@@ -528,19 +547,23 @@ namespace HovText
                             if (!string.IsNullOrEmpty(entryText))
                             {
                                 // Find a form element with a specific name
-                                foreach (Control c in this.Controls.Find("historyLabel" + shownElements, true))
+                                Control historyLabel;
+                                if (controlCache.TryGetValue("historyLabel" + shownElements, out historyLabel))
                                 {
-                                    c.Text = entryText;
-                                    c.Visible = true;
-                                    c.Tag = i;
+                                    historyLabel.Text = entryText;
+                                    if (!historyLabel.Visible)
+                                    {
+                                        historyLabel.Visible = true;
+                                    }                                        
+                                    historyLabel.Tag = i;
 
                                     // Set the colors
                                     if (i == entryActive && showElements > 1)
                                     {
-                                        c.BackColor = ColorTranslator.FromHtml(Settings.historyColorsActive[Settings.historyColorTheme]);
-                                        c.ForeColor = ColorTranslator.FromHtml(Settings.historyColorsActiveText[Settings.historyColorTheme]);
-                                        changeBorderElement = c.Name;
-                                        c.Refresh();
+                                        historyLabel.BackColor = ColorTranslator.FromHtml(Settings.historyColorsActive[Settings.historyColorTheme]);
+                                        historyLabel.ForeColor = ColorTranslator.FromHtml(Settings.historyColorsActiveText[Settings.historyColorTheme]);
+                                        changeBorderElement = historyLabel.Name;
+//                                        historyLabel.Refresh();
 
                                         isEntryAtTop = shownElements == 1;
                                         isEntryAtBottom = shownElements == showElements;
@@ -548,8 +571,8 @@ namespace HovText
                                     }
                                     else
                                     {
-                                        c.BackColor = ColorTranslator.FromHtml(Settings.historyColorsEntry[Settings.historyColorTheme]);
-                                        c.ForeColor = ColorTranslator.FromHtml(Settings.historyColorsEntryText[Settings.historyColorTheme]);
+                                        historyLabel.BackColor = ColorTranslator.FromHtml(Settings.historyColorsEntry[Settings.historyColorTheme]);
+                                        historyLabel.ForeColor = ColorTranslator.FromHtml(Settings.historyColorsEntryText[Settings.historyColorTheme]);
 
                                         // Mark this as the active element, if there is only shown one entry
                                         if (i == entryActive && showElements == 1)
@@ -557,7 +580,7 @@ namespace HovText
                                             entryActiveList = shownElements;
                                         }
                                     }
-                                    favoriteBackgroundColor = c.BackColor;
+                                    favoriteBackgroundColor = historyLabel.BackColor;
                                 }
 
                             }
@@ -571,42 +594,38 @@ namespace HovText
                             if (entryImage != null)
                             {
                                 // Find a form element with a specific name
-                                foreach (Control c in this.Controls.Find("historyPictureBox" + shownElements, true))
+                                Control historyPictureBox;
+                                if (controlCache.TryGetValue("historyPictureBox" + shownElements, out historyPictureBox))
                                 {
                                     // Check if the image is transparent - if so make the image background transparent
-                                    isTransparent = Settings.entriesImageTransparent[i];
                                     if (isTransparent)
                                     {
-                                        Bitmap bmp = new Bitmap(entryImage);
-                                        bmp.MakeTransparent(bmp.GetPixel(0, 0));
-                                        ((PictureBox)c).Image = (Image)bmp;
+                                        ((PictureBox)historyPictureBox).Image = entryImageTransparent;
                                     }
                                     else
                                     {
-                                        ((PictureBox)c).Image = entryImage;
+                                        ((PictureBox)historyPictureBox).Image = entryImage;
                                     }
 
-                                    c.Visible = true;
-                                    c.Tag = i;
+                                    historyPictureBox.Visible = true;
+                                    historyPictureBox.Tag = i;
 
                                     // Set the colors
                                     if (i == entryActive && showElements > 1)
                                     {
-                                        c.BackColor = ColorTranslator.FromHtml(Settings.historyColorsActive[Settings.historyColorTheme]);
-                                        c.ForeColor = ColorTranslator.FromHtml(Settings.historyColorsActiveText[Settings.historyColorTheme]);
-                                        changeBorderElement = c.Name;
-                                        c.Refresh();
+                                        historyPictureBox.BackColor = ColorTranslator.FromHtml(Settings.historyColorsActive[Settings.historyColorTheme]);
+                                        historyPictureBox.ForeColor = ColorTranslator.FromHtml(Settings.historyColorsActiveText[Settings.historyColorTheme]);
+                                        changeBorderElement = historyPictureBox.Name;
+//                                        historyPictureBox.Refresh();
 
-                                        //isEntryAtTop = shownElements == 1 ? true : false;
                                         isEntryAtTop = shownElements == 1;
-                                        //isEntryAtBottom = shownElements == showElements ? true : false;
                                         isEntryAtBottom = shownElements == showElements;
                                         entryActiveList = shownElements;
                                     }
                                     else
                                     {
-                                        c.BackColor = ColorTranslator.FromHtml(Settings.historyColorsEntry[Settings.historyColorTheme]);
-                                        c.ForeColor = ColorTranslator.FromHtml(Settings.historyColorsEntryText[Settings.historyColorTheme]);
+                                        historyPictureBox.BackColor = ColorTranslator.FromHtml(Settings.historyColorsEntry[Settings.historyColorTheme]);
+                                        historyPictureBox.ForeColor = ColorTranslator.FromHtml(Settings.historyColorsEntryText[Settings.historyColorTheme]);
 
                                         // Mark this as the active element, if there is only shown one entry
                                         if (i == entryActive && showElements == 1)
@@ -614,7 +633,7 @@ namespace HovText
                                             entryActiveList = shownElements;
                                         }
                                     }
-                                    favoriteBackgroundColor = c.BackColor;
+                                    favoriteBackgroundColor = historyPictureBox.BackColor;
                                 }
                             }
                             else
@@ -626,17 +645,19 @@ namespace HovText
                             // Find the "favorite" picture box
                             if (Settings.isEnabledFavorites)
                             {
-                                foreach (Control c in this.Controls.Find("historyPictureBoxFav" + shownElements, true))
+                                Control historyPictureBoxFav;
+                                // Find a form element with a specific name
+                                if (controlCache.TryGetValue("historyPictureBoxFav" + shownElements, out historyPictureBoxFav))
                                 {
                                     if (isFavorite)
                                     {
-                                        c.BackColor = favoriteBackgroundColor;
-                                        c.BringToFront();
-                                        c.Visible = true;
+                                        historyPictureBoxFav.BackColor = favoriteBackgroundColor;
+                                        historyPictureBoxFav.BringToFront();
+                                        historyPictureBoxFav.Visible = true;
                                     }
                                     else
                                     {
-                                        c.Visible = false;
+                                        historyPictureBoxFav.Visible = false;
 
                                     }
                                 }
@@ -681,10 +702,30 @@ namespace HovText
             {
                 this.Controls["uiHistoryHeadline"].Text = "No data - change view";
             }
-            this.Controls["uiHistoryHeadline"].Refresh();
+//            this.Controls["uiHistoryHeadline"].Refresh();
 
             // Make sure that we will catch the key-up event
             TopMost = true;
+
+//            Refresh();
+            ResumeLayout();
+        }
+
+
+        private async Task<Image> LoadAndProcessImageAsync(string imagePath)
+        {
+            // Load the image asynchronously
+            Image image = await Task.Run(() => Image.FromFile(imagePath));
+
+            // Process the image (e.g., make transparent)
+            await Task.Run(() =>
+            {
+                Bitmap bmp = new Bitmap(image);
+                bmp.MakeTransparent(bmp.GetPixel(0, 0));
+                image = bmp;
+            });
+
+            return image;
         }
 
 
@@ -1295,7 +1336,8 @@ namespace HovText
             // UP
             if (e.KeyCode == Keys.Up)
             {
-                Logging.Log("Pressed \"Up\" arrow key");
+                //hest
+                //Logging.Log("Pressed \"Up\" arrow key");
                 Settings.settings.GoEntryHigherNumber();
                 e.SuppressKeyPress = true;
             }
@@ -1303,7 +1345,8 @@ namespace HovText
             // DOWN
             if (e.KeyCode == Keys.Down)
             {
-                Logging.Log("Pressed \"Down\" arrow key");
+                //hest
+                //Logging.Log("Pressed \"Down\" arrow key");
                 Settings.settings.GoEntryLowerNumber();
                 e.SuppressKeyPress = true;
             }

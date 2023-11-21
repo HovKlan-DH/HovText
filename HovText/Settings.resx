@@ -334,7 +334,7 @@
 </value>
   </data>
   <data name="GuiStorageInfo.Text" xml:space="preserve">
-    <value>Storage is per default disabled as you need to know that storing many clipboard entries can cripple the responsiveness of the UI. You are encouraged to test it out and see if it is something you want to use, but do set a reasonable (low) amount of entries you want to save. This is of course dependent on computer power.</value>
+    <value>Storage is per default disabled as you need to know that storing many (image) clipboard entries will cripple the responsiveness of the UI and consume a huge amount of memory! You are encouraged to test it out and see if it is something you want to use, but do set a reasonable (low) amount of entries you want to save. This is of course dependent on your computer configuration and power.</value>
   </data>
   <data name="PictureBox5.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>

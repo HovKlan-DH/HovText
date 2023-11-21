@@ -109,6 +109,7 @@
             this.TabControl = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.GuiStorageGroup2 = new System.Windows.Forms.GroupBox();
+            this.GuiStorageChooseText = new System.Windows.Forms.RadioButton();
             this.GuiStorageLoadClipboard = new System.Windows.Forms.CheckBox();
             this.GuiStorageSaveClipboard = new System.Windows.Forms.CheckBox();
             this.GuiStorageChooseType = new System.Windows.Forms.Label();
@@ -116,7 +117,6 @@
             this.GuiStorageChooseAmount = new System.Windows.Forms.Label();
             this.GuiStorageEntriesText = new System.Windows.Forms.Label();
             this.GuiStorageChooseAll = new System.Windows.Forms.RadioButton();
-            this.GuiClearHistory = new System.Windows.Forms.Button();
             this.GuiStorageChooseFavorites = new System.Windows.Forms.RadioButton();
             this.GuiStorageGroup1 = new System.Windows.Forms.GroupBox();
             this.GuiStorageInfo = new System.Windows.Forms.TextBox();
@@ -175,6 +175,7 @@
             this.GuiHistoryColorThemeBrown = new System.Windows.Forms.RadioButton();
             this.tabAdvanced = new System.Windows.Forms.TabPage();
             this.GuiAdvancedStatus = new System.Windows.Forms.GroupBox();
+            this.GuiClearHistory = new System.Windows.Forms.Button();
             this.GuiHistoryEntriesCount = new System.Windows.Forms.Label();
             this.GuiMemoryUsed = new System.Windows.Forms.Label();
             this.GuiAdvancedGroup2 = new System.Windows.Forms.GroupBox();
@@ -1178,6 +1179,7 @@
             // 
             // GuiStorageGroup2
             // 
+            this.GuiStorageGroup2.Controls.Add(this.GuiStorageChooseText);
             this.GuiStorageGroup2.Controls.Add(this.GuiStorageLoadClipboard);
             this.GuiStorageGroup2.Controls.Add(this.GuiStorageSaveClipboard);
             this.GuiStorageGroup2.Controls.Add(this.GuiStorageChooseType);
@@ -1185,14 +1187,26 @@
             this.GuiStorageGroup2.Controls.Add(this.GuiStorageChooseAmount);
             this.GuiStorageGroup2.Controls.Add(this.GuiStorageEntriesText);
             this.GuiStorageGroup2.Controls.Add(this.GuiStorageChooseAll);
-            this.GuiStorageGroup2.Controls.Add(this.GuiClearHistory);
             this.GuiStorageGroup2.Controls.Add(this.GuiStorageChooseFavorites);
-            this.GuiStorageGroup2.Location = new System.Drawing.Point(22, 175);
+            this.GuiStorageGroup2.Location = new System.Drawing.Point(22, 195);
             this.GuiStorageGroup2.Name = "GuiStorageGroup2";
-            this.GuiStorageGroup2.Size = new System.Drawing.Size(594, 360);
+            this.GuiStorageGroup2.Size = new System.Drawing.Size(594, 340);
             this.GuiStorageGroup2.TabIndex = 508;
             this.GuiStorageGroup2.TabStop = false;
             this.GuiStorageGroup2.Text = "Storage";
+            // 
+            // GuiStorageChooseText
+            // 
+            this.GuiStorageChooseText.AutoSize = true;
+            this.GuiStorageChooseText.Checked = true;
+            this.GuiStorageChooseText.Location = new System.Drawing.Point(29, 141);
+            this.GuiStorageChooseText.Name = "GuiStorageChooseText";
+            this.GuiStorageChooseText.Size = new System.Drawing.Size(242, 29);
+            this.GuiStorageChooseText.TabIndex = 509;
+            this.GuiStorageChooseText.TabStop = true;
+            this.GuiStorageChooseText.Text = "Save text clipboards only";
+            this.GuiStorageChooseText.UseVisualStyleBackColor = true;
+            this.GuiStorageChooseText.CheckedChanged += new System.EventHandler(this.GuiStorageChoose_CheckedChanged);
             // 
             // GuiStorageLoadClipboard
             // 
@@ -1232,7 +1246,7 @@
             // GuiStorageEntries
             // 
             this.GuiStorageEntries.LargeChange = 10;
-            this.GuiStorageEntries.Location = new System.Drawing.Point(20, 244);
+            this.GuiStorageEntries.Location = new System.Drawing.Point(20, 280);
             this.GuiStorageEntries.Maximum = 500;
             this.GuiStorageEntries.Minimum = 1;
             this.GuiStorageEntries.Name = "GuiStorageEntries";
@@ -1246,7 +1260,7 @@
             // GuiStorageChooseAmount
             // 
             this.GuiStorageChooseAmount.AutoSize = true;
-            this.GuiStorageChooseAmount.Location = new System.Drawing.Point(15, 216);
+            this.GuiStorageChooseAmount.Location = new System.Drawing.Point(15, 252);
             this.GuiStorageChooseAmount.Name = "GuiStorageChooseAmount";
             this.GuiStorageChooseAmount.Size = new System.Drawing.Size(312, 25);
             this.GuiStorageChooseAmount.TabIndex = 305;
@@ -1255,7 +1269,7 @@
             // GuiStorageEntriesText
             // 
             this.GuiStorageEntriesText.AutoSize = true;
-            this.GuiStorageEntriesText.Location = new System.Drawing.Point(232, 256);
+            this.GuiStorageEntriesText.Location = new System.Drawing.Point(232, 292);
             this.GuiStorageEntriesText.Name = "GuiStorageEntriesText";
             this.GuiStorageEntriesText.Size = new System.Drawing.Size(42, 25);
             this.GuiStorageEntriesText.TabIndex = 505;
@@ -1264,43 +1278,31 @@
             // GuiStorageChooseAll
             // 
             this.GuiStorageChooseAll.AutoSize = true;
-            this.GuiStorageChooseAll.Checked = true;
-            this.GuiStorageChooseAll.Location = new System.Drawing.Point(29, 141);
+            this.GuiStorageChooseAll.Location = new System.Drawing.Point(29, 211);
             this.GuiStorageChooseAll.Name = "GuiStorageChooseAll";
             this.GuiStorageChooseAll.Size = new System.Drawing.Size(190, 29);
             this.GuiStorageChooseAll.TabIndex = 307;
-            this.GuiStorageChooseAll.TabStop = true;
             this.GuiStorageChooseAll.Text = "Save all clipboards";
             this.GuiStorageChooseAll.UseVisualStyleBackColor = true;
-            this.GuiStorageChooseAll.CheckedChanged += new System.EventHandler(this.GuiStorageSaveClipboard_CheckedChanged);
-            // 
-            // GuiClearHistory
-            // 
-            this.GuiClearHistory.Location = new System.Drawing.Point(20, 306);
-            this.GuiClearHistory.Name = "GuiClearHistory";
-            this.GuiClearHistory.Size = new System.Drawing.Size(253, 34);
-            this.GuiClearHistory.TabIndex = 504;
-            this.GuiClearHistory.Text = "Clear all clipboard entries";
-            this.GuiClearHistory.UseVisualStyleBackColor = true;
-            this.GuiClearHistory.Click += new System.EventHandler(this.GuiClearHistory_Click_2);
+            this.GuiStorageChooseAll.CheckedChanged += new System.EventHandler(this.GuiStorageChoose_CheckedChanged);
             // 
             // GuiStorageChooseFavorites
             // 
             this.GuiStorageChooseFavorites.AutoSize = true;
-            this.GuiStorageChooseFavorites.Location = new System.Drawing.Point(29, 173);
+            this.GuiStorageChooseFavorites.Location = new System.Drawing.Point(29, 176);
             this.GuiStorageChooseFavorites.Name = "GuiStorageChooseFavorites";
             this.GuiStorageChooseFavorites.Size = new System.Drawing.Size(206, 29);
             this.GuiStorageChooseFavorites.TabIndex = 308;
-            this.GuiStorageChooseFavorites.Text = "Save only \"Favorites\"";
+            this.GuiStorageChooseFavorites.Text = "Save \"Favorites\" only";
             this.GuiStorageChooseFavorites.UseVisualStyleBackColor = true;
-            this.GuiStorageChooseFavorites.CheckedChanged += new System.EventHandler(this.GuiStorageChooseFavorites_CheckedChanged);
+            this.GuiStorageChooseFavorites.CheckedChanged += new System.EventHandler(this.GuiStorageChoose_CheckedChanged);
             // 
             // GuiStorageGroup1
             // 
             this.GuiStorageGroup1.Controls.Add(this.GuiStorageInfo);
             this.GuiStorageGroup1.Location = new System.Drawing.Point(22, 23);
             this.GuiStorageGroup1.Name = "GuiStorageGroup1";
-            this.GuiStorageGroup1.Size = new System.Drawing.Size(594, 132);
+            this.GuiStorageGroup1.Size = new System.Drawing.Size(594, 152);
             this.GuiStorageGroup1.TabIndex = 116;
             this.GuiStorageGroup1.TabStop = false;
             this.GuiStorageGroup1.Text = "Info";
@@ -1314,7 +1316,7 @@
             this.GuiStorageInfo.Multiline = true;
             this.GuiStorageInfo.Name = "GuiStorageInfo";
             this.GuiStorageInfo.ReadOnly = true;
-            this.GuiStorageInfo.Size = new System.Drawing.Size(553, 95);
+            this.GuiStorageInfo.Size = new System.Drawing.Size(553, 115);
             this.GuiStorageInfo.TabIndex = 506;
             this.GuiStorageInfo.Text = resources.GetString("GuiStorageInfo.Text");
             // 
@@ -1935,6 +1937,7 @@
             // 
             // GuiAdvancedStatus
             // 
+            this.GuiAdvancedStatus.Controls.Add(this.GuiClearHistory);
             this.GuiAdvancedStatus.Controls.Add(this.GuiHistoryEntriesCount);
             this.GuiAdvancedStatus.Controls.Add(this.GuiMemoryUsed);
             this.GuiAdvancedStatus.Location = new System.Drawing.Point(339, 23);
@@ -1943,6 +1946,16 @@
             this.GuiAdvancedStatus.TabIndex = 521;
             this.GuiAdvancedStatus.TabStop = false;
             this.GuiAdvancedStatus.Text = "Status";
+            // 
+            // GuiClearHistory
+            // 
+            this.GuiClearHistory.Location = new System.Drawing.Point(21, 119);
+            this.GuiClearHistory.Name = "GuiClearHistory";
+            this.GuiClearHistory.Size = new System.Drawing.Size(236, 34);
+            this.GuiClearHistory.TabIndex = 505;
+            this.GuiClearHistory.Text = "Clear all clipboard entries";
+            this.GuiClearHistory.UseVisualStyleBackColor = true;
+            this.GuiClearHistory.Click += new System.EventHandler(this.GuiClearHistory_Click);
             // 
             // GuiHistoryEntriesCount
             // 
@@ -2471,7 +2484,6 @@
         private System.Windows.Forms.RadioButton GuiStorageChooseFavorites;
         private System.Windows.Forms.RadioButton GuiStorageChooseAll;
         private System.Windows.Forms.Label GuiStorageEntriesText;
-        private System.Windows.Forms.Button GuiClearHistory;
         private System.Windows.Forms.TextBox GuiStorageInfo;
         private System.Windows.Forms.Label GuiStorageChooseType;
         private System.Windows.Forms.GroupBox GuiStorageGroup2;
@@ -2480,6 +2492,8 @@
         private System.Windows.Forms.Label GuiHistoryEntriesCount;
         private System.Windows.Forms.Label GuiMemoryUsed;
         private System.Windows.Forms.Timer advancedTimer;
+        private System.Windows.Forms.RadioButton GuiStorageChooseText;
+        private System.Windows.Forms.Button GuiClearHistory;
     }
 
 }
