@@ -12,6 +12,7 @@ different hotkeys for the history area.
 using HovText.Properties;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Threading.Tasks;
@@ -27,11 +28,11 @@ namespace HovText
         // Define "History" class variables - real spaghetti :-)
         // ###########################################################################################
         string changeBorderElement = ""; // the UI name for the element coming to the paint redraw event
-        private static int entryNewestBox = -1; // 0-indexed array ID for the first box element to show (this is the LAST element in the list, as this is the most recent one added)
-        private static int entryNewest = -1; // 0-indexed array ID for the first element in the full list
-        private static int entryOldest = -1; // 0-indexed array ID for the last element in the full list
-        private static int entryActive = -1; // 0-indexed array ID for the active entry
-        private static int entryActiveLast = -1; // 0-indexed array ID for the last active entry (only used to determine if it should "flash")
+        private static int entryNewestBox = -1; // 0-indexed array key for the first box element to show (this is the LAST element in the list, as this is the most recent one added)
+        private static int entryNewest = -1; // 0-indexed array key for the first element in the full list
+        private static int entryOldest = -1; // 0-indexed array key for the last element in the full list
+        private static int entryActive = -1; // 0-indexed array key for the active entry
+        private static int entryActiveLast = -1; // 0-indexed array key for the last active entry (only used to determine if it should "flash")
         private static int entryActiveList = -1; // human-readable list number for the active entry (1 => showElements)
         private static bool isEntryAtTop = false; // is the active entry at the top position (newest entry)
         private static bool isEntryAtBottom = false; // is the active entry at the bottom position (oldest entry)
@@ -563,7 +564,7 @@ namespace HovText
                                         historyLabel.BackColor = ColorTranslator.FromHtml(Settings.historyColorsActive[Settings.historyColorTheme]);
                                         historyLabel.ForeColor = ColorTranslator.FromHtml(Settings.historyColorsActiveText[Settings.historyColorTheme]);
                                         changeBorderElement = historyLabel.Name;
-//                                        historyLabel.Refresh();
+                                        historyLabel.Refresh();
 
                                         isEntryAtTop = shownElements == 1;
                                         isEntryAtBottom = shownElements == showElements;
@@ -616,7 +617,7 @@ namespace HovText
                                         historyPictureBox.BackColor = ColorTranslator.FromHtml(Settings.historyColorsActive[Settings.historyColorTheme]);
                                         historyPictureBox.ForeColor = ColorTranslator.FromHtml(Settings.historyColorsActiveText[Settings.historyColorTheme]);
                                         changeBorderElement = historyPictureBox.Name;
-//                                        historyPictureBox.Refresh();
+                                        historyPictureBox.Refresh();
 
                                         isEntryAtTop = shownElements == 1;
                                         isEntryAtBottom = shownElements == showElements;
@@ -702,7 +703,7 @@ namespace HovText
             {
                 this.Controls["uiHistoryHeadline"].Text = "No data - change view";
             }
-//            this.Controls["uiHistoryHeadline"].Refresh();
+            this.Controls["uiHistoryHeadline"].Refresh();
 
             // Make sure that we will catch the key-up event
             TopMost = true;
@@ -1303,10 +1304,46 @@ namespace HovText
                 Logging.Log("Pressed \"Delete\" key");
                 Logging.Log("Deleted key ID [" + entryActive + "]");
 
+                //foreach (var item in Settings.entriesText)
+                Debug.WriteLine("Indgang:");
+                foreach (var item in Settings.entriesText.Reverse()){
+                        Debug.WriteLine("key=["+ item.Key +"], val=["+ item.Value +"]");
+                }
+
+                int entryNewest2 = entryNewest;
+                int entryNewestBox2 = entryNewestBox;
+                int historyListElements = Settings.historyListElements;
+                int entryCounter = Settings.entryCounter;
+                int entryIndex2 = Settings.entryIndex;
+
+                int entryNewActive = 0;
+
+                if (entriesInList > 1)
+                {
+                    if (!isEntryAtBottom)
+                    {
+                        entryNewActive = GetNextIndex("down", entryActive);
+                    }
+                    else
+                    {
+                        entryNewActive = GetNextIndex("up", entryActive);
+//                        entryNewestBox = GetNextIndex("up", entryNewestBox);
+                        entryInList--;
+                    }
+                    //Settings.entryIndex = entryActive;
+
+                }
+                else
+                {
+                    //entryActive = GetNextIndex("up", entryActive);
+//                    ResetVariables();
+                }
+
                 // Remove the chosen entry, so it does not show duplicates
                 Settings.entriesText.Remove(entryActive);
                 Settings.entriesImage.Remove(entryActive);
                 Settings.entriesImageTransparent.Remove(entryActive);
+                Settings.entriesImageTrans.Remove(entryActive);
                 Settings.entriesApplication.Remove(entryActive);
                 Settings.entriesOriginal.Remove(entryActive);
                 Settings.entriesShow.Remove(entryActive);
@@ -1315,22 +1352,69 @@ namespace HovText
                 Settings.entriesIsEmail.Remove(entryActive);
                 Settings.entriesIsImage.Remove(entryActive);
 
+                entryActive = entryNewActive;
+                Settings.entryIndex--;
+
+                entriesInList--;
+
+
+
+                
                 Settings.GetEntryCounter();
 
-                ResetVariables();
-                SetupForm(true);
-                if (Settings.entryCounter > 0)
+
+
+                if (entriesInList > 1)
                 {
-                    UpdateHistory("");
+                    entryNewest = Settings.entriesText.Keys.Last();
+                    entryOldest = Settings.entriesText.Keys.First();
                 }
-                else
+
+
+                if(entriesInList > 0)
                 {
+                    int hest = entryNewestBox;
+                    int hestCompare = 0;
+                    bool goUp = false;
+                    int showElements = historyListElements > entriesInList ? entriesInList : historyListElements;
+                    for (int i=0; i < showElements; i++)
+                    {
+                        hest = GetNextIndex("down", hest);
+                        if(hest == hestCompare)
+                        {
+                            goUp = true;
+                        }
+                        hestCompare = hest;
+                    }
+
+                    if ((entryActive == entryOldest && entryNewestBox < entryNewest) || goUp)
+                    {
+                        entryNewestBox = GetNextIndex("up", entryNewestBox);
+                    }
+
+                    if (entriesInList <= historyListElements)
+                    {
+                        SetupForm(true);
+                    }
+
+                
+                    UpdateHistory("");
+                } else
+                {
+                    ResetVariables();
+                    ResetForm();
                     ActionEscape();
                 }
                 NativeMethods.SetForegroundWindow(this.Handle);
 
                 // https://stackoverflow.com/a/3068797/2028935
                 e.SuppressKeyPress = true;
+
+                Debug.WriteLine("Udgang:");
+                foreach (var item in Settings.entriesText.Reverse())
+                {
+                    Debug.WriteLine("key=[" + item.Key + "], val=[" + item.Value + "]");
+                }
             }
 
             // UP

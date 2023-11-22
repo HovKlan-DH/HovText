@@ -1204,7 +1204,7 @@
             this.GuiStorageChooseText.Size = new System.Drawing.Size(242, 29);
             this.GuiStorageChooseText.TabIndex = 509;
             this.GuiStorageChooseText.TabStop = true;
-            this.GuiStorageChooseText.Text = "Save text clipboards only";
+            this.GuiStorageChooseText.Text = "Save only text clipboards";
             this.GuiStorageChooseText.UseVisualStyleBackColor = true;
             this.GuiStorageChooseText.CheckedChanged += new System.EventHandler(this.GuiStorageChoose_CheckedChanged);
             // 
@@ -1291,9 +1291,9 @@
             this.GuiStorageChooseFavorites.AutoSize = true;
             this.GuiStorageChooseFavorites.Location = new System.Drawing.Point(29, 176);
             this.GuiStorageChooseFavorites.Name = "GuiStorageChooseFavorites";
-            this.GuiStorageChooseFavorites.Size = new System.Drawing.Size(206, 29);
+            this.GuiStorageChooseFavorites.Size = new System.Drawing.Size(291, 29);
             this.GuiStorageChooseFavorites.TabIndex = 308;
-            this.GuiStorageChooseFavorites.Text = "Save \"Favorites\" only";
+            this.GuiStorageChooseFavorites.Text = "Save only \"Favorite\" clipboards";
             this.GuiStorageChooseFavorites.UseVisualStyleBackColor = true;
             this.GuiStorageChooseFavorites.CheckedChanged += new System.EventHandler(this.GuiStorageChoose_CheckedChanged);
             // 
