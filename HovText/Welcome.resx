@@ -117,6 +117,29 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="guna2HtmlLabel1.Text" xml:space="preserve">
+    <value>HovText is a clipboard manager that helps you find previously copied texts or images and it can&lt;br /&gt;
+remove any text formatting/styling, leaving only the raw unformatted cleartext intact - though&lt;br /&gt;
+with the ability to restore the original formatting, if needed.&lt;br /&gt;
+&lt;br /&gt;
+
+Quick steps to get you started:&lt;br /&gt;
+&lt;br /&gt;
+
+* Copy some texts and images to populate the clipboard manager&lt;br /&gt;
+* Find a previous copied text or image by pressing &lt;span style='background-color:black; color:white;'&gt;&amp;nbsp; &lt;b&gt;ALT&lt;/b&gt; &amp;nbsp;&lt;/span&gt;  + &lt;span style='background-color:black; color:white;'&gt;&amp;nbsp; &lt;b&gt;S&lt;/b&gt; &amp;nbsp;&lt;/span&gt;&lt;br /&gt;
+* Search for any text (wildcard search) and divide multiple search criterias with space&lt;br /&gt;
+* Navigate with arrow keys or mouse scroll and select with &lt;span style='background-color:black; color:white;'&gt;&amp;nbsp; &lt;b&gt;ENTER&lt;/b&gt; &amp;nbsp;&lt;/span&gt; or mouse click&lt;br /&gt;
+* When pasting text then it will paste only the cleartext and not the formatted styling&lt;br /&gt;
+* Disable application to restore original text formatting (paste again)&lt;br /&gt;
+&lt;br /&gt;
+
+HovText is active from now on your system and it will launch automatically at Windows start-up.&lt;br /&gt;
+You can find its green icon visible in the tray area.&lt;br /&gt;
+&lt;br /&gt;
+
+Now dig into the "Settings" to setup your personal preferences :-)</value>
+  </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="$this.Icon" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>

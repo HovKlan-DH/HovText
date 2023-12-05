@@ -30,253 +30,292 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Settings));
-            this.notifyIcon = new System.Windows.Forms.NotifyIcon(this.components);
-            this.notifyIconMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.IconNotify = new System.Windows.Forms.NotifyIcon(this.components);
+            this.MenuStripIconNotify = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.gotoTabAbout = new System.Windows.Forms.ToolStripMenuItem();
             this.gotoSettings = new System.Windows.Forms.ToolStripMenuItem();
             this.gotoExit = new System.Windows.Forms.ToolStripMenuItem();
-            this.fontDialog = new System.Windows.Forms.FontDialog();
-            this.trayIcon = new System.Windows.Forms.ToolTip(this.components);
-            this.GuiCloseMinimize = new System.Windows.Forms.CheckBox();
-            this.GuiPasteOnSelection = new System.Windows.Forms.CheckBox();
-            this.GuiHelp = new System.Windows.Forms.Button();
-            this.updateTimer = new System.Windows.Forms.Timer(this.components);
-            this.mouseClickTimer = new System.Windows.Forms.Timer(this.components);
-            this.tabAbout = new System.Windows.Forms.TabPage();
-            this.label10 = new System.Windows.Forms.Label();
-            this.GuiPictureBox1 = new System.Windows.Forms.PictureBox();
-            this.AboutLabelDevelopment = new System.Windows.Forms.Label();
-            this.AboutLabelDescription = new System.Windows.Forms.RichTextBox();
-            this.AboutLabelHeadline = new System.Windows.Forms.Label();
-            this.AboutLabelVersion = new System.Windows.Forms.Label();
-            this.tabLayout = new System.Windows.Forms.TabPage();
-            this.GuiLayoutGroup3 = new System.Windows.Forms.GroupBox();
-            this.GuiLayoutGroup1 = new System.Windows.Forms.GroupBox();
-            this.LabelHistoryMargin = new System.Windows.Forms.Label();
-            this.LayoutLabelMargin = new System.Windows.Forms.Label();
-            this.GuiHistoryMargin = new System.Windows.Forms.TrackBar();
-            this.LayoutLabelWidth = new System.Windows.Forms.Label();
-            this.LabelHistoryElements = new System.Windows.Forms.Label();
-            this.LayoutLabelElements = new System.Windows.Forms.Label();
-            this.LabelHistorySizeHeight = new System.Windows.Forms.Label();
-            this.LayoutLabelHeight = new System.Windows.Forms.Label();
-            this.LabelHistorySizeWidth = new System.Windows.Forms.Label();
-            this.GuiHistoryElements = new System.Windows.Forms.TrackBar();
-            this.GuiHistorySizeWidth = new System.Windows.Forms.TrackBar();
-            this.GuiHistorySizeHeight = new System.Windows.Forms.TrackBar();
-            this.GuiLayoutGroup2 = new System.Windows.Forms.GroupBox();
-            this.GuiHistoryLocationRadioCenter = new System.Windows.Forms.RadioButton();
-            this.GuiHistoryLocationRadioLeftBottom = new System.Windows.Forms.RadioButton();
-            this.GuiHistoryLocationRadioLeftTop = new System.Windows.Forms.RadioButton();
-            this.GuiHistoryLocationRadioRightTop = new System.Windows.Forms.RadioButton();
-            this.GuiHistoryLocationRadioRightBottom = new System.Windows.Forms.RadioButton();
-            this.tabHotkeys = new System.Windows.Forms.TabPage();
-            this.GuiHotkeysGroup1 = new System.Windows.Forms.GroupBox();
-            this.GuiHotkeyBehaviourSystem = new System.Windows.Forms.RadioButton();
-            this.GuiHotkeyBehaviourPaste = new System.Windows.Forms.RadioButton();
-            this.GuiHotkeysGroup2 = new System.Windows.Forms.GroupBox();
-            this.GuiHotkeySearch = new System.Windows.Forms.TextBox();
-            this.label1 = new System.Windows.Forms.Label();
-            this.GuiHotkeyToggleView = new System.Windows.Forms.TextBox();
-            this.GuiHotkeyToggleFavorite = new System.Windows.Forms.TextBox();
-            this.label12 = new System.Windows.Forms.Label();
-            this.label13 = new System.Windows.Forms.Label();
-            this.GuiHotkeyPaste = new System.Windows.Forms.TextBox();
-            this.GuiHotkeyNewer = new System.Windows.Forms.TextBox();
-            this.GuiHotkeyOlder = new System.Windows.Forms.TextBox();
-            this.GuiCancelHotkey = new System.Windows.Forms.Button();
-            this.GuiHotkeyEnable = new System.Windows.Forms.TextBox();
-            this.GuiApplyHotkey = new System.Windows.Forms.Button();
-            this.label4 = new System.Windows.Forms.Label();
-            this.label6 = new System.Windows.Forms.Label();
-            this.label7 = new System.Windows.Forms.Label();
-            this.label8 = new System.Windows.Forms.Label();
-            this.tabGeneral = new System.Windows.Forms.TabPage();
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.label9 = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
-            this.GuiAlwaysPasteOriginal = new System.Windows.Forms.CheckBox();
-            this.GuiSearch = new System.Windows.Forms.CheckBox();
-            this.GuiInstantSelect = new System.Windows.Forms.CheckBox();
-            this.GuiFavoritesEnabled = new System.Windows.Forms.CheckBox();
-            this.GuiCopyImages = new System.Windows.Forms.CheckBox();
-            this.GuiGeneralGroup2 = new System.Windows.Forms.GroupBox();
-            this.GuiStartWithWindows = new System.Windows.Forms.CheckBox();
-            this.GuiStartDisabled = new System.Windows.Forms.CheckBox();
-            this.GuiRestoreOriginal = new System.Windows.Forms.CheckBox();
-            this.GuiTrimWhitespaces = new System.Windows.Forms.CheckBox();
-            this.TabControl = new System.Windows.Forms.TabControl();
-            this.tabPage1 = new System.Windows.Forms.TabPage();
-            this.GuiStorageGroup2 = new System.Windows.Forms.GroupBox();
-            this.GuiStorageChooseText = new System.Windows.Forms.RadioButton();
-            this.GuiStorageLoadClipboard = new System.Windows.Forms.CheckBox();
-            this.GuiStorageSaveClipboard = new System.Windows.Forms.CheckBox();
-            this.GuiStorageChooseType = new System.Windows.Forms.Label();
-            this.GuiStorageEntries = new System.Windows.Forms.TrackBar();
-            this.GuiStorageChooseAmount = new System.Windows.Forms.Label();
-            this.GuiStorageEntriesText = new System.Windows.Forms.Label();
-            this.GuiStorageChooseAll = new System.Windows.Forms.RadioButton();
-            this.GuiStorageChooseFavorites = new System.Windows.Forms.RadioButton();
-            this.GuiStorageGroup1 = new System.Windows.Forms.GroupBox();
-            this.GuiStorageInfo = new System.Windows.Forms.TextBox();
-            this.tabStyle = new System.Windows.Forms.TabPage();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.GuiShowFont = new System.Windows.Forms.Label();
-            this.GuiChangeFont = new System.Windows.Forms.Button();
-            this.GuiStyleGroup5 = new System.Windows.Forms.GroupBox();
-            this.PictureBox5 = new System.Windows.Forms.PictureBox();
-            this.PictureBox6 = new System.Windows.Forms.PictureBox();
-            this.PictureBox7 = new System.Windows.Forms.PictureBox();
-            this.PictureBox9 = new System.Windows.Forms.PictureBox();
-            this.PictureBox10 = new System.Windows.Forms.PictureBox();
-            this.PictureBox8 = new System.Windows.Forms.PictureBox();
-            this.PictureBox4 = new System.Windows.Forms.PictureBox();
-            this.PictureBox3 = new System.Windows.Forms.PictureBox();
-            this.PictureBox2 = new System.Windows.Forms.PictureBox();
-            this.GuiIconsSquareNew = new System.Windows.Forms.RadioButton();
-            this.GuiIconsSquareOld = new System.Windows.Forms.RadioButton();
-            this.GuiIconsRound = new System.Windows.Forms.RadioButton();
-            this.GuiStyleGroup2 = new System.Windows.Forms.GroupBox();
-            this.LabelBorderThickness = new System.Windows.Forms.Label();
-            this.StyleLabelThickness = new System.Windows.Forms.Label();
-            this.GuiBorderThickness = new System.Windows.Forms.TrackBar();
-            this.tabColors = new System.Windows.Forms.TabPage();
-            this.GuiStyleGroup1 = new System.Windows.Forms.GroupBox();
-            this.GuiShowFontSearch = new System.Windows.Forms.Label();
-            this.GuiShowFontEntry = new System.Windows.Forms.Label();
-            this.GuiShowFontActive = new System.Windows.Forms.Label();
-            this.GuiShowFontHeader = new System.Windows.Forms.Label();
-            this.GuiStyleGroup4 = new System.Windows.Forms.GroupBox();
-            this.StyleLabelSearchColorBackground = new System.Windows.Forms.Label();
-            this.GuiCustomSearchText = new System.Windows.Forms.TextBox();
-            this.StyleLabelSearchColorText = new System.Windows.Forms.Label();
-            this.GuiCustomSearch = new System.Windows.Forms.TextBox();
-            this.StyleLabelBorderColor = new System.Windows.Forms.Label();
-            this.StyleLabelEntryColorBackground = new System.Windows.Forms.Label();
-            this.GuiCustomBorder = new System.Windows.Forms.TextBox();
-            this.GuiCustomActiveText = new System.Windows.Forms.TextBox();
-            this.GuiCustomEntryText = new System.Windows.Forms.TextBox();
-            this.GuiCustomHeaderText = new System.Windows.Forms.TextBox();
-            this.StyleLabelEntryColorText = new System.Windows.Forms.Label();
-            this.StyleLabelActiveColorBackground = new System.Windows.Forms.Label();
-            this.GuiCustomEntry = new System.Windows.Forms.TextBox();
-            this.StyleLabelHeaderColorText = new System.Windows.Forms.Label();
-            this.GuiCustomActive = new System.Windows.Forms.TextBox();
-            this.StyleLabelActiveColorText = new System.Windows.Forms.Label();
-            this.GuiCustomHeader = new System.Windows.Forms.TextBox();
-            this.StyleLabelHeaderColorBackground = new System.Windows.Forms.Label();
-            this.GuiStyleGroup3 = new System.Windows.Forms.GroupBox();
-            this.GuiHistoryColorThemeContrast = new System.Windows.Forms.RadioButton();
-            this.GuiHistoryColorThemeCustom = new System.Windows.Forms.RadioButton();
-            this.GuiHistoryColorThemeYellow = new System.Windows.Forms.RadioButton();
-            this.GuiHistoryColorThemeGreen = new System.Windows.Forms.RadioButton();
-            this.GuiHistoryColorThemeBlue = new System.Windows.Forms.RadioButton();
-            this.GuiHistoryColorThemeBrown = new System.Windows.Forms.RadioButton();
-            this.tabAdvanced = new System.Windows.Forms.TabPage();
-            this.GuiAdvancedStatus = new System.Windows.Forms.GroupBox();
-            this.GuiClearHistory = new System.Windows.Forms.Button();
-            this.GuiHistoryEntriesCount = new System.Windows.Forms.Label();
-            this.GuiMemoryUsed = new System.Windows.Forms.Label();
-            this.GuiAdvancedGroup2 = new System.Windows.Forms.GroupBox();
-            this.AdvancedLabelDevelopmentVersion = new System.Windows.Forms.Label();
-            this.GuiDevelopmentRefresh = new System.Windows.Forms.PictureBox();
-            this.GuiDevelopmentAutoInstall = new System.Windows.Forms.Button();
-            this.GuiDevelopmentDownload = new System.Windows.Forms.Button();
-            this.AdvancedLabelInfoDevelopment = new System.Windows.Forms.Label();
-            this.GuiAdvancedGroup3 = new System.Windows.Forms.GroupBox();
-            this.label2 = new System.Windows.Forms.Label();
-            this.GuiCleanUpExit = new System.Windows.Forms.Button();
-            this.GuiAdvancedGroup1 = new System.Windows.Forms.GroupBox();
-            this.GuiExecuteableOpenLocation = new System.Windows.Forms.Button();
-            this.GuiTroubleshootDeleteFile = new System.Windows.Forms.Button();
-            this.GuiTroubleshootEnabled = new System.Windows.Forms.CheckBox();
-            this.tabFeedback = new System.Windows.Forms.TabPage();
-            this.GuiAttachFile = new System.Windows.Forms.CheckBox();
-            this.FeedbackLabelDescription = new System.Windows.Forms.Label();
-            this.FeedbackLabelEmail = new System.Windows.Forms.Label();
-            this.GuiSendFeedback = new System.Windows.Forms.Button();
-            this.GuiFeedbackText = new System.Windows.Forms.TextBox();
-            this.GuiEmailAddr = new System.Windows.Forms.TextBox();
-            this.colorDialogHeader = new System.Windows.Forms.ColorDialog();
-            this.colorDialogEntry = new System.Windows.Forms.ColorDialog();
-            this.colorDialogEntryText = new System.Windows.Forms.ColorDialog();
-            this.colorDialogBorder = new System.Windows.Forms.ColorDialog();
-            this.colorDialogActive = new System.Windows.Forms.ColorDialog();
-            this.colorDialogHeaderText = new System.Windows.Forms.ColorDialog();
-            this.colorDialogActiveText = new System.Windows.Forms.ColorDialog();
-            this.terminateTimer = new System.Windows.Forms.Timer(this.components);
-            this.colorDialogSearch = new System.Windows.Forms.ColorDialog();
-            this.colorDialogSearchText = new System.Windows.Forms.ColorDialog();
-            this.GuiLoadingPanel = new System.Windows.Forms.Panel();
-            this.GuiLoadingText = new System.Windows.Forms.Label();
-            this.advancedTimer = new System.Windows.Forms.Timer(this.components);
-            this.notifyIconMenuStrip.SuspendLayout();
-            this.tabAbout.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.GuiPictureBox1)).BeginInit();
-            this.tabLayout.SuspendLayout();
-            this.GuiLayoutGroup1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.GuiHistoryMargin)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.GuiHistoryElements)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.GuiHistorySizeWidth)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.GuiHistorySizeHeight)).BeginInit();
-            this.GuiLayoutGroup2.SuspendLayout();
-            this.tabHotkeys.SuspendLayout();
-            this.GuiHotkeysGroup1.SuspendLayout();
-            this.GuiHotkeysGroup2.SuspendLayout();
-            this.tabGeneral.SuspendLayout();
-            this.groupBox2.SuspendLayout();
-            this.GuiGeneralGroup2.SuspendLayout();
-            this.TabControl.SuspendLayout();
-            this.tabPage1.SuspendLayout();
-            this.GuiStorageGroup2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.GuiStorageEntries)).BeginInit();
-            this.GuiStorageGroup1.SuspendLayout();
-            this.tabStyle.SuspendLayout();
-            this.groupBox1.SuspendLayout();
-            this.GuiStyleGroup5.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.PictureBox5)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.PictureBox6)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.PictureBox7)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.PictureBox9)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.PictureBox10)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.PictureBox8)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.PictureBox4)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.PictureBox3)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.PictureBox2)).BeginInit();
-            this.GuiStyleGroup2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.GuiBorderThickness)).BeginInit();
-            this.tabColors.SuspendLayout();
-            this.GuiStyleGroup1.SuspendLayout();
-            this.GuiStyleGroup4.SuspendLayout();
-            this.GuiStyleGroup3.SuspendLayout();
-            this.tabAdvanced.SuspendLayout();
-            this.GuiAdvancedStatus.SuspendLayout();
-            this.GuiAdvancedGroup2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.GuiDevelopmentRefresh)).BeginInit();
-            this.GuiAdvancedGroup3.SuspendLayout();
-            this.GuiAdvancedGroup1.SuspendLayout();
-            this.tabFeedback.SuspendLayout();
-            this.GuiLoadingPanel.SuspendLayout();
+            this.FontDialog = new System.Windows.Forms.FontDialog();
+            this.IconTray = new System.Windows.Forms.ToolTip(this.components);
+            this.TimerUpdateVersion = new System.Windows.Forms.Timer(this.components);
+            this.TimerMouseClick = new System.Windows.Forms.Timer(this.components);
+            this.UiAboutPictureBoxPaypal = new System.Windows.Forms.PictureBox();
+            this.UiLayoutLabelMarginText = new System.Windows.Forms.Label();
+            this.UiLayoutLabelMargin = new System.Windows.Forms.Label();
+            this.UiLayoutLabelWidth = new System.Windows.Forms.Label();
+            this.UiLayoutLabelVisibleElementsText = new System.Windows.Forms.Label();
+            this.UiLayoutLabelVisibleElements = new System.Windows.Forms.Label();
+            this.UiLayoutLabelHeightText = new System.Windows.Forms.Label();
+            this.UiLayoutLabelHeight = new System.Windows.Forms.Label();
+            this.UiLayoutLabelWidthText = new System.Windows.Forms.Label();
+            this.UiHotkeysLabelSearch = new System.Windows.Forms.Label();
+            this.UiHotkeysLabelToggleFavorite = new System.Windows.Forms.Label();
+            this.UiHotkeysLabelPasteHotkey = new System.Windows.Forms.Label();
+            this.UiHotkeysLabelToggleApplication = new System.Windows.Forms.Label();
+            this.UiFormLabelLoadingPanel = new System.Windows.Forms.Panel();
+            this.UiFormLabelLoadingText = new System.Windows.Forms.Label();
+            this.UiStorageLabelWhichClipboardToSave = new System.Windows.Forms.Label();
+            this.UiStorageLabelAmountOfClipboardsToSave = new System.Windows.Forms.Label();
+            this.UiStorageTrackBarEntriesToSaveText = new System.Windows.Forms.Label();
+            this.UiStyleOictureBoxIcon9 = new System.Windows.Forms.PictureBox();
+            this.UiStyleOictureBoxIcon8 = new System.Windows.Forms.PictureBox();
+            this.UiStyleOictureBoxIcon7 = new System.Windows.Forms.PictureBox();
+            this.UiStyleOictureBoxIcon6 = new System.Windows.Forms.PictureBox();
+            this.UiStyleOictureBoxIcon5 = new System.Windows.Forms.PictureBox();
+            this.UiStyleOictureBoxIcon4 = new System.Windows.Forms.PictureBox();
+            this.UiStyleOictureBoxIcon3 = new System.Windows.Forms.PictureBox();
+            this.UiStyleOictureBoxIcon2 = new System.Windows.Forms.PictureBox();
+            this.UiStyleOictureBoxIcon1 = new System.Windows.Forms.PictureBox();
+            this.UiStyleLabelBorderText = new System.Windows.Forms.Label();
+            this.UiStyleLabelBorder = new System.Windows.Forms.Label();
+            this.UiColorsLabelSearch = new System.Windows.Forms.Label();
+            this.UiColorsLabelEntry = new System.Windows.Forms.Label();
+            this.UiColorsLabelActive = new System.Windows.Forms.Label();
+            this.UiColorsLabelHeader = new System.Windows.Forms.Label();
+            this.UiColorsLabelSearchBackground = new System.Windows.Forms.Label();
+            this.UiColorsLabelSearchText = new System.Windows.Forms.Label();
+            this.UiColorsLabelBorder = new System.Windows.Forms.Label();
+            this.UiColorsLabelEntryBackground = new System.Windows.Forms.Label();
+            this.UiColorsLabelEntryText = new System.Windows.Forms.Label();
+            this.UiColorsLabelActiveBackground = new System.Windows.Forms.Label();
+            this.UiColorsLabelHeaderText = new System.Windows.Forms.Label();
+            this.UiColorsLabelActiveText = new System.Windows.Forms.Label();
+            this.UiColorsLabelHeaderBackground = new System.Windows.Forms.Label();
+            this.UiAdvancedLabelClipboardEntries = new System.Windows.Forms.Label();
+            this.UiAdvancedLabelMemUsed = new System.Windows.Forms.Label();
+            this.UiAdvancedLabelDevVersion = new System.Windows.Forms.Label();
+            this.UiAdvancedPictureBoxDevRefresh = new System.Windows.Forms.PictureBox();
+            this.UiAdvancedLabelDisclaimer = new System.Windows.Forms.Label();
+            this.UiAdvancedLabelCleanup = new System.Windows.Forms.Label();
+            this.UiFeedbackLabelFeedback = new System.Windows.Forms.Label();
+            this.UiFeedbackLabelEmail = new System.Windows.Forms.Label();
+            this.ColorDialogHeader = new System.Windows.Forms.ColorDialog();
+            this.ColorDialogEntry = new System.Windows.Forms.ColorDialog();
+            this.ColorDialogEntryText = new System.Windows.Forms.ColorDialog();
+            this.ColorDialogBorder = new System.Windows.Forms.ColorDialog();
+            this.ColorDialogActive = new System.Windows.Forms.ColorDialog();
+            this.ColorDialogHeaderText = new System.Windows.Forms.ColorDialog();
+            this.ColorDialogActiveText = new System.Windows.Forms.ColorDialog();
+            this.TimerTerminate = new System.Windows.Forms.Timer(this.components);
+            this.ColorDialogSearch = new System.Windows.Forms.ColorDialog();
+            this.ColorDialogSearchText = new System.Windows.Forms.ColorDialog();
+            this.TimerAdvanced = new System.Windows.Forms.Timer(this.components);
+            this.UiFormControlBoxClose = new Guna.UI2.WinForms.Guna2ControlBox();
+            this.UiFormControlBoxMinimize = new Guna.UI2.WinForms.Guna2ControlBox();
+            this.UiFormPictureBoxIcon = new Guna.UI2.WinForms.Guna2PictureBox();
+            this.UiFormLabelApplicationName = new Guna.UI2.WinForms.Guna2HtmlLabel();
+            this.UiFormPanel = new Guna.UI2.WinForms.Guna2Panel();
+            this.UiFormLabelApplicationVersion = new Guna.UI2.WinForms.Guna2HtmlLabel();
+            this.UiFormTabControl = new Guna.UI2.WinForms.Guna2TabControl();
+            this.UiTabGeneral = new System.Windows.Forms.TabPage();
+            this.UiGeneralGroupBoxBehaviour = new Guna.UI2.WinForms.Guna2GroupBox();
+            this.UiGeneralLabelDisclaimer = new Guna.UI2.WinForms.Guna2HtmlLabel();
+            this.UiGeneralLabelStartWithWindows = new System.Windows.Forms.Label();
+            this.UiGeneralLabelStartDisabled = new System.Windows.Forms.Label();
+            this.UiGeneralLabelRestoreOriginal = new System.Windows.Forms.Label();
+            this.UiGeneralLabelTrimWhitespaces = new System.Windows.Forms.Label();
+            this.UiGeneralLabelCloseMinimizes = new System.Windows.Forms.Label();
+            this.UiGeneralToggleCloseMinimizes = new Guna.UI2.WinForms.Guna2ToggleSwitch();
+            this.UiGeneralToggleTrimWhitespaces = new Guna.UI2.WinForms.Guna2ToggleSwitch();
+            this.UiGeneralToggleRestoreOriginal = new Guna.UI2.WinForms.Guna2ToggleSwitch();
+            this.UiGeneralToggleStartDisabled = new Guna.UI2.WinForms.Guna2ToggleSwitch();
+            this.UiGeneralToggleStartWithWindows = new Guna.UI2.WinForms.Guna2ToggleSwitch();
+            this.UiGeneralGroupBoxClipboardList = new Guna.UI2.WinForms.Guna2GroupBox();
+            this.UiGeneralLabelEnableClipboardShortcut = new System.Windows.Forms.Label();
+            this.UiGeneralLabelAlwaysPasteOriginal = new System.Windows.Forms.Label();
+            this.UiGeneralLabelPasteToApplication = new System.Windows.Forms.Label();
+            this.UiGeneralLabelIncludeImages = new System.Windows.Forms.Label();
+            this.UiGeneralLabelEnableFavorites = new System.Windows.Forms.Label();
+            this.UiGeneralLabelEnableClipboard = new System.Windows.Forms.Label();
+            this.UiGeneralToggleAlwaysPasteOriginal = new Guna.UI2.WinForms.Guna2ToggleSwitch();
+            this.UiGeneralTogglePasteToApplication = new Guna.UI2.WinForms.Guna2ToggleSwitch();
+            this.UiGeneralToggleIncludeImages = new Guna.UI2.WinForms.Guna2ToggleSwitch();
+            this.UiGeneralToggleEnableFavorites = new Guna.UI2.WinForms.Guna2ToggleSwitch();
+            this.UiGeneralToggleEnableClipboard = new Guna.UI2.WinForms.Guna2ToggleSwitch();
+            this.UiTabStorage = new System.Windows.Forms.TabPage();
+            this.UiStorageGroupBoxStorage = new Guna.UI2.WinForms.Guna2GroupBox();
+            this.UiStorageLabelSaveOnlyTextEntries = new Guna.UI2.WinForms.Guna2HtmlLabel();
+            this.UiStorageLabelSaveOnlyFavoritesEntries = new Guna.UI2.WinForms.Guna2HtmlLabel();
+            this.UiStorageLabelSaveAllEntries = new Guna.UI2.WinForms.Guna2HtmlLabel();
+            this.UiStorageTrackBarEntriesToSave = new Guna.UI2.WinForms.Guna2TrackBar();
+            this.UiStorageLabelSaveAll = new System.Windows.Forms.Label();
+            this.UiStorageRadioSaveAll = new Guna.UI2.WinForms.Guna2CustomRadioButton();
+            this.UiStorageLabelSaveOnlyFavorites = new System.Windows.Forms.Label();
+            this.UiStorageRadioSaveOnlyFavorites = new Guna.UI2.WinForms.Guna2CustomRadioButton();
+            this.UiStorageLabelSaveOnlyText = new System.Windows.Forms.Label();
+            this.UiStorageRadioSaveOnlyText = new Guna.UI2.WinForms.Guna2CustomRadioButton();
+            this.UiStorageLabelLoadClipboards = new System.Windows.Forms.Label();
+            this.UiStorageToggleLoadClipboards = new Guna.UI2.WinForms.Guna2ToggleSwitch();
+            this.UiStorageLabelSaveClipboards = new System.Windows.Forms.Label();
+            this.UiStorageToggleSaveClipboards = new Guna.UI2.WinForms.Guna2ToggleSwitch();
+            this.UiStorageGroupBoxInfo = new Guna.UI2.WinForms.Guna2GroupBox();
+            this.UiStorageTextBoxInfo = new Guna.UI2.WinForms.Guna2TextBox();
+            this.UiTabHotkeys = new System.Windows.Forms.TabPage();
+            this.UiHotkeysGroupBoxHotkeys = new Guna.UI2.WinForms.Guna2GroupBox();
+            this.UiHotkeysButtonCancel = new Guna.UI2.WinForms.Guna2Button();
+            this.UiHotkeysButtonApply = new Guna.UI2.WinForms.Guna2Button();
+            this.UiHotkeysButtonToggleApplication = new Guna.UI2.WinForms.Guna2Button();
+            this.UiHotkeysButtonSearch = new Guna.UI2.WinForms.Guna2Button();
+            this.UiHotkeysButtonToggleFavorite = new Guna.UI2.WinForms.Guna2Button();
+            this.UiHotkeysButtonPasteHotkey = new Guna.UI2.WinForms.Guna2Button();
+            this.UiHotkeysGroupBoxPasteBehaviour = new Guna.UI2.WinForms.Guna2GroupBox();
+            this.UiHotkeysLabelPasteOnHotkey = new System.Windows.Forms.Label();
+            this.UiHotkeysRadioPasteOnHotkey = new Guna.UI2.WinForms.Guna2CustomRadioButton();
+            this.UiHotkeysLabelUseStandardWindowsMethod = new System.Windows.Forms.Label();
+            this.UiHotkeysRadioUseStandardWindowsMethod = new Guna.UI2.WinForms.Guna2CustomRadioButton();
+            this.UiTabLayout = new System.Windows.Forms.TabPage();
+            this.UiLayoutGroupBoxClipboardArea = new Guna.UI2.WinForms.Guna2GroupBox();
+            this.UiLayoutTrackBarMargin = new Guna.UI2.WinForms.Guna2TrackBar();
+            this.UiLayoutTrackBarHeight = new Guna.UI2.WinForms.Guna2TrackBar();
+            this.UiLayoutTrackBarWidth = new Guna.UI2.WinForms.Guna2TrackBar();
+            this.UiLayoutTrackBarVisibleElements = new Guna.UI2.WinForms.Guna2TrackBar();
+            this.UiLayoutGroupBoxShowClipboardListOn = new Guna.UI2.WinForms.Guna2GroupBox();
+            this.UiLayoutGroupBoxClipboardLocation = new Guna.UI2.WinForms.Guna2GroupBox();
+            this.UiLayoutLabelRightBottom = new System.Windows.Forms.Label();
+            this.UiLayoutRadioRightBottom = new Guna.UI2.WinForms.Guna2CustomRadioButton();
+            this.UiLayoutLabelRightTop = new System.Windows.Forms.Label();
+            this.UiLayoutRadioRightTop = new Guna.UI2.WinForms.Guna2CustomRadioButton();
+            this.UiLayoutLabelCenter = new System.Windows.Forms.Label();
+            this.UiLayoutRadioCenter = new Guna.UI2.WinForms.Guna2CustomRadioButton();
+            this.UiLayoutLabelLeftBottom = new System.Windows.Forms.Label();
+            this.UiLayoutRadioLeftBottom = new Guna.UI2.WinForms.Guna2CustomRadioButton();
+            this.UiLayoutLabelLeftTop = new System.Windows.Forms.Label();
+            this.UiLayoutRadioLeftTop = new Guna.UI2.WinForms.Guna2CustomRadioButton();
+            this.UiTabStyle = new System.Windows.Forms.TabPage();
+            this.UiStyleGroupBoxBorder = new Guna.UI2.WinForms.Guna2GroupBox();
+            this.UiStyleTrackBarBorder = new Guna.UI2.WinForms.Guna2TrackBar();
+            this.UiStyleGroupBoxFont = new Guna.UI2.WinForms.Guna2GroupBox();
+            this.UiStyleLabelFont = new Guna.UI2.WinForms.Guna2HtmlLabel();
+            this.UiStyleButtonFont = new Guna.UI2.WinForms.Guna2Button();
+            this.UiStyleGroupBoxIcon = new Guna.UI2.WinForms.Guna2GroupBox();
+            this.UiStyleLabelIconSquareOriginal = new System.Windows.Forms.Label();
+            this.UiStyleRadioIconSquareOriginal = new Guna.UI2.WinForms.Guna2CustomRadioButton();
+            this.UiStyleLabelIconSquareModern = new System.Windows.Forms.Label();
+            this.UiStyleRadioIconSquareModern = new Guna.UI2.WinForms.Guna2CustomRadioButton();
+            this.UiStyleLabelIconRoundModern = new System.Windows.Forms.Label();
+            this.UiStyleRadioIconRoundModern = new Guna.UI2.WinForms.Guna2CustomRadioButton();
+            this.UiTabColors = new System.Windows.Forms.TabPage();
+            this.UiColorsGroupBoxLooks = new Guna.UI2.WinForms.Guna2GroupBox();
+            this.UiColorsGroupBoxTheme = new Guna.UI2.WinForms.Guna2GroupBox();
+            this.UiColorsLabelCustom = new System.Windows.Forms.Label();
+            this.UiColorsRadioCustom = new Guna.UI2.WinForms.Guna2CustomRadioButton();
+            this.UiColorsLabelContrast = new System.Windows.Forms.Label();
+            this.UiColorsRadioContrast = new Guna.UI2.WinForms.Guna2CustomRadioButton();
+            this.UiColorsLabelYellow = new System.Windows.Forms.Label();
+            this.UiColorsRadioYellow = new Guna.UI2.WinForms.Guna2CustomRadioButton();
+            this.UiColorsLabelGreen = new System.Windows.Forms.Label();
+            this.UiColorsRadioGreen = new Guna.UI2.WinForms.Guna2CustomRadioButton();
+            this.UiColorsLabelBrown = new System.Windows.Forms.Label();
+            this.UiColorsRadioBrown = new Guna.UI2.WinForms.Guna2CustomRadioButton();
+            this.UiColorsLabelBlue = new System.Windows.Forms.Label();
+            this.UiColorsRadioBlue = new Guna.UI2.WinForms.Guna2CustomRadioButton();
+            this.UiColorsGroupBoxCustom = new Guna.UI2.WinForms.Guna2GroupBox();
+            this.UiColorsButtonBorder = new Guna.UI2.WinForms.Guna2Button();
+            this.UiColorsButtonEntryText = new Guna.UI2.WinForms.Guna2Button();
+            this.UiColorsButtonEntryBackground = new Guna.UI2.WinForms.Guna2Button();
+            this.UiColorsButtonActiveText = new Guna.UI2.WinForms.Guna2Button();
+            this.UiColorsButtonActiveBackground = new Guna.UI2.WinForms.Guna2Button();
+            this.UiColorsButtonSearchText = new Guna.UI2.WinForms.Guna2Button();
+            this.UiColorsButtonSearchBackground = new Guna.UI2.WinForms.Guna2Button();
+            this.UiColorsButtonHeaderText = new Guna.UI2.WinForms.Guna2Button();
+            this.UiColorsButtonHeaderBackground = new Guna.UI2.WinForms.Guna2Button();
+            this.UiTabAdvanced = new System.Windows.Forms.TabPage();
+            this.UiAdvancedGroupBoxCleanup = new Guna.UI2.WinForms.Guna2GroupBox();
+            this.UiAdvancedButtonCleanup = new Guna.UI2.WinForms.Guna2Button();
+            this.UiAdvancedGroupBoxTroubleshooting = new Guna.UI2.WinForms.Guna2GroupBox();
+            this.UiAdvancedButtonDeleteLog = new Guna.UI2.WinForms.Guna2Button();
+            this.UiAdvancedButtonOpenLocation = new Guna.UI2.WinForms.Guna2Button();
+            this.UiAdvancedLabelEnableLog = new System.Windows.Forms.Label();
+            this.UiAdvancedToggleEnableLog = new Guna.UI2.WinForms.Guna2ToggleSwitch();
+            this.UiAdvancedGroupBoxStatus = new Guna.UI2.WinForms.Guna2GroupBox();
+            this.UiAdvancedButtonClearClipboards = new Guna.UI2.WinForms.Guna2Button();
+            this.UiAdvancedGroupDevVersion = new Guna.UI2.WinForms.Guna2GroupBox();
+            this.UiAdvancedButtonAutoInstall = new Guna.UI2.WinForms.Guna2Button();
+            this.UiAdvancedButtonManualDownload = new Guna.UI2.WinForms.Guna2Button();
+            this.UiTabDoc = new System.Windows.Forms.TabPage();
+            this.UiDocLabelDonators = new Guna.UI2.WinForms.Guna2HtmlLabel();
+            this.UiDocButtonDonators = new Guna.UI2.WinForms.Guna2Button();
+            this.UiDocButtonGitHub = new Guna.UI2.WinForms.Guna2Button();
+            this.UiDocLabelGitHub = new Guna.UI2.WinForms.Guna2HtmlLabel();
+            this.UiDocButtonChangelog = new Guna.UI2.WinForms.Guna2Button();
+            this.UiDocLabelChangelog = new Guna.UI2.WinForms.Guna2HtmlLabel();
+            this.UiDocButtonOnlineDocumentation = new Guna.UI2.WinForms.Guna2Button();
+            this.UiDocLabelOnlineDocumentation = new Guna.UI2.WinForms.Guna2HtmlLabel();
+            this.UiTabFeedback = new System.Windows.Forms.TabPage();
+            this.UiFeedbackLabelIntro = new Guna.UI2.WinForms.Guna2TextBox();
+            this.UiFeedbackButtonSubmit = new Guna.UI2.WinForms.Guna2Button();
+            this.UiFeedbackTextBoxEmail = new Guna.UI2.WinForms.Guna2TextBox();
+            this.UiFeedbackLabelAttachLog = new System.Windows.Forms.Label();
+            this.UiFeedbackToggleAttachLog = new Guna.UI2.WinForms.Guna2ToggleSwitch();
+            this.UiFeedbackTextBoxFeedback = new Guna.UI2.WinForms.Guna2TextBox();
+            this.UiTabAbout = new System.Windows.Forms.TabPage();
+            this.UiAboutLabelHeadline = new Guna.UI2.WinForms.Guna2HtmlLabel();
+            this.UiAboutLabelRelease = new Guna.UI2.WinForms.Guna2HtmlLabel();
+            this.UiAboutLabelText = new Guna.UI2.WinForms.Guna2HtmlLabel();
+            this.UiFormGradientPanel = new Guna.UI2.WinForms.Guna2GradientPanel();
+            this.MenuStripIconNotify.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.UiAboutPictureBoxPaypal)).BeginInit();
+            this.UiFormLabelLoadingPanel.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.UiStyleOictureBoxIcon9)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.UiStyleOictureBoxIcon8)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.UiStyleOictureBoxIcon7)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.UiStyleOictureBoxIcon6)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.UiStyleOictureBoxIcon5)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.UiStyleOictureBoxIcon4)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.UiStyleOictureBoxIcon3)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.UiStyleOictureBoxIcon2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.UiStyleOictureBoxIcon1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.UiAdvancedPictureBoxDevRefresh)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.UiFormPictureBoxIcon)).BeginInit();
+            this.UiFormPanel.SuspendLayout();
+            this.UiFormTabControl.SuspendLayout();
+            this.UiTabGeneral.SuspendLayout();
+            this.UiGeneralGroupBoxBehaviour.SuspendLayout();
+            this.UiGeneralGroupBoxClipboardList.SuspendLayout();
+            this.UiTabStorage.SuspendLayout();
+            this.UiStorageGroupBoxStorage.SuspendLayout();
+            this.UiStorageGroupBoxInfo.SuspendLayout();
+            this.UiTabHotkeys.SuspendLayout();
+            this.UiHotkeysGroupBoxHotkeys.SuspendLayout();
+            this.UiHotkeysGroupBoxPasteBehaviour.SuspendLayout();
+            this.UiTabLayout.SuspendLayout();
+            this.UiLayoutGroupBoxClipboardArea.SuspendLayout();
+            this.UiLayoutGroupBoxClipboardLocation.SuspendLayout();
+            this.UiTabStyle.SuspendLayout();
+            this.UiStyleGroupBoxBorder.SuspendLayout();
+            this.UiStyleGroupBoxFont.SuspendLayout();
+            this.UiStyleGroupBoxIcon.SuspendLayout();
+            this.UiTabColors.SuspendLayout();
+            this.UiColorsGroupBoxLooks.SuspendLayout();
+            this.UiColorsGroupBoxTheme.SuspendLayout();
+            this.UiColorsGroupBoxCustom.SuspendLayout();
+            this.UiTabAdvanced.SuspendLayout();
+            this.UiAdvancedGroupBoxCleanup.SuspendLayout();
+            this.UiAdvancedGroupBoxTroubleshooting.SuspendLayout();
+            this.UiAdvancedGroupBoxStatus.SuspendLayout();
+            this.UiAdvancedGroupDevVersion.SuspendLayout();
+            this.UiTabDoc.SuspendLayout();
+            this.UiTabFeedback.SuspendLayout();
+            this.UiTabAbout.SuspendLayout();
             this.SuspendLayout();
             // 
-            // notifyIcon
+            // IconNotify
             // 
-            this.notifyIcon.ContextMenuStrip = this.notifyIconMenuStrip;
-            this.notifyIcon.Text = "HovText";
-            this.notifyIcon.Visible = true;
-            this.notifyIcon.MouseClick += new System.Windows.Forms.MouseEventHandler(this.NotifyIcon_MouseClick);
-            this.notifyIcon.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.NotifyIcon_MouseDoubleClick);
+            this.IconNotify.ContextMenuStrip = this.MenuStripIconNotify;
+            this.IconNotify.Text = "HovText";
+            this.IconNotify.Visible = true;
+            this.IconNotify.MouseClick += new System.Windows.Forms.MouseEventHandler(this.NotifyIcon_MouseClick);
+            this.IconNotify.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.NotifyIcon_MouseDoubleClick);
             // 
-            // notifyIconMenuStrip
+            // MenuStripIconNotify
             // 
-            this.notifyIconMenuStrip.ImageScalingSize = new System.Drawing.Size(20, 20);
-            this.notifyIconMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.MenuStripIconNotify.ImageScalingSize = new System.Drawing.Size(20, 20);
+            this.MenuStripIconNotify.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.gotoTabAbout,
             this.gotoSettings,
             this.gotoExit});
-            this.notifyIconMenuStrip.Name = "notofyIconMenuStrip";
-            this.notifyIconMenuStrip.Size = new System.Drawing.Size(178, 76);
+            this.MenuStripIconNotify.Name = "notofyIconMenuStrip";
+            this.MenuStripIconNotify.Size = new System.Drawing.Size(178, 76);
             // 
             // gotoTabAbout
             // 
@@ -300,1942 +339,3084 @@
             this.gotoExit.Text = "Exit";
             this.gotoExit.Click += new System.EventHandler(this.TrayIconExit_Click);
             // 
-            // GuiCloseMinimize
-            // 
-            this.GuiCloseMinimize.AutoSize = true;
-            this.GuiCloseMinimize.BackColor = System.Drawing.Color.Yellow;
-            this.GuiCloseMinimize.Checked = true;
-            this.GuiCloseMinimize.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.GuiCloseMinimize.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.GuiCloseMinimize.Location = new System.Drawing.Point(29, 178);
-            this.GuiCloseMinimize.Name = "GuiCloseMinimize";
-            this.GuiCloseMinimize.Size = new System.Drawing.Size(361, 29);
-            this.GuiCloseMinimize.TabIndex = 113;
-            this.GuiCloseMinimize.Text = "Close button minimizes HovText to tray";
-            this.GuiCloseMinimize.UseVisualStyleBackColor = false;
-            this.GuiCloseMinimize.CheckedChanged += new System.EventHandler(this.GuiCloseMinimize_CheckedChanged);
-            // 
-            // GuiPasteOnSelection
-            // 
-            this.GuiPasteOnSelection.AutoSize = true;
-            this.GuiPasteOnSelection.Location = new System.Drawing.Point(29, 178);
-            this.GuiPasteOnSelection.Name = "GuiPasteOnSelection";
-            this.GuiPasteOnSelection.Size = new System.Drawing.Size(445, 29);
-            this.GuiPasteOnSelection.TabIndex = 125;
-            this.GuiPasteOnSelection.Text = "Paste to active application on clipboard selection";
-            this.GuiPasteOnSelection.UseVisualStyleBackColor = true;
-            this.GuiPasteOnSelection.CheckedChanged += new System.EventHandler(this.GuiPasteOnSelection_CheckedChanged);
-            // 
-            // GuiHelp
-            // 
-            this.GuiHelp.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.GuiHelp.Location = new System.Drawing.Point(204, 587);
-            this.GuiHelp.Name = "GuiHelp";
-            this.GuiHelp.Size = new System.Drawing.Size(262, 35);
-            this.GuiHelp.TabIndex = 1000;
-            this.GuiHelp.Text = "Show online help for this tab";
-            this.GuiHelp.UseVisualStyleBackColor = true;
-            this.GuiHelp.Click += new System.EventHandler(this.GuiHelp_Click);
-            // 
-            // updateTimer
-            // 
-            this.updateTimer.Interval = 10000;
-            this.updateTimer.Tick += new System.EventHandler(this.UpdateTimer_Tick);
-            // 
-            // mouseClickTimer
-            // 
-            this.mouseClickTimer.Interval = 300;
-            this.mouseClickTimer.Tick += new System.EventHandler(this.MouseClickTimer_Tick);
-            // 
-            // tabAbout
-            // 
-            this.tabAbout.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.tabAbout.Controls.Add(this.label10);
-            this.tabAbout.Controls.Add(this.GuiPictureBox1);
-            this.tabAbout.Controls.Add(this.AboutLabelDevelopment);
-            this.tabAbout.Controls.Add(this.AboutLabelDescription);
-            this.tabAbout.Controls.Add(this.AboutLabelHeadline);
-            this.tabAbout.Controls.Add(this.AboutLabelVersion);
-            this.tabAbout.Location = new System.Drawing.Point(4, 34);
-            this.tabAbout.Name = "tabAbout";
-            this.tabAbout.Size = new System.Drawing.Size(638, 586);
-            this.tabAbout.TabIndex = 3;
-            this.tabAbout.Text = "About";
-            // 
-            // label10
-            // 
-            this.label10.AutoSize = true;
-            this.label10.BackColor = System.Drawing.Color.Yellow;
-            this.label10.Font = new System.Drawing.Font("Segoe UI", 11.12727F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label10.Location = new System.Drawing.Point(545, 63);
-            this.label10.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(68, 25);
-            this.label10.TabIndex = 95;
-            this.label10.Text = "x64 bit";
-            this.label10.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // GuiPictureBox1
-            // 
-            this.GuiPictureBox1.BackColor = System.Drawing.Color.Transparent;
-            this.GuiPictureBox1.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.GuiPictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("GuiPictureBox1.Image")));
-            this.GuiPictureBox1.Location = new System.Drawing.Point(263, 445);
-            this.GuiPictureBox1.Name = "GuiPictureBox1";
-            this.GuiPictureBox1.Size = new System.Drawing.Size(134, 71);
-            this.GuiPictureBox1.TabIndex = 94;
-            this.GuiPictureBox1.TabStop = false;
-            this.GuiPictureBox1.Click += new System.EventHandler(this.PictureBox1_Click);
-            // 
-            // AboutLabelDevelopment
-            // 
-            this.AboutLabelDevelopment.BackColor = System.Drawing.Color.IndianRed;
-            this.AboutLabelDevelopment.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.AboutLabelDevelopment.Font = new System.Drawing.Font("Segoe UI", 11.12727F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.AboutLabelDevelopment.ForeColor = System.Drawing.Color.WhiteSmoke;
-            this.AboutLabelDevelopment.Location = new System.Drawing.Point(346, 286);
-            this.AboutLabelDevelopment.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.AboutLabelDevelopment.Name = "AboutLabelDevelopment";
-            this.AboutLabelDevelopment.Size = new System.Drawing.Size(241, 125);
-            this.AboutLabelDevelopment.TabIndex = 93;
-            this.AboutLabelDevelopment.Text = "Red color means DANGER - this is a DEVELOPMENT version, which is most likely full" +
-    " of bugs. Please update to a real/stable version as soon as possible";
-            this.AboutLabelDevelopment.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // AboutLabelDescription
-            // 
-            this.AboutLabelDescription.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.AboutLabelDescription.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.AboutLabelDescription.Location = new System.Drawing.Point(28, 110);
-            this.AboutLabelDescription.Name = "AboutLabelDescription";
-            this.AboutLabelDescription.ReadOnly = true;
-            this.AboutLabelDescription.Size = new System.Drawing.Size(571, 316);
-            this.AboutLabelDescription.TabIndex = 91;
-            this.AboutLabelDescription.TabStop = false;
-            this.AboutLabelDescription.Text = "This text will be replaced";
-            this.AboutLabelDescription.LinkClicked += new System.Windows.Forms.LinkClickedEventHandler(this.AboutBox_LinkClicked);
-            // 
-            // AboutLabelHeadline
-            // 
-            this.AboutLabelHeadline.AutoSize = true;
-            this.AboutLabelHeadline.Font = new System.Drawing.Font("Segoe UI", 24F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.AboutLabelHeadline.Location = new System.Drawing.Point(20, 18);
-            this.AboutLabelHeadline.Name = "AboutLabelHeadline";
-            this.AboutLabelHeadline.Size = new System.Drawing.Size(518, 54);
-            this.AboutLabelHeadline.TabIndex = 50;
-            this.AboutLabelHeadline.Text = "HovText # Rebooted edition";
-            // 
-            // AboutLabelVersion
-            // 
-            this.AboutLabelVersion.AutoSize = true;
-            this.AboutLabelVersion.Font = new System.Drawing.Font("Segoe UI", 11.12727F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.AboutLabelVersion.Location = new System.Drawing.Point(24, 63);
-            this.AboutLabelVersion.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.AboutLabelVersion.Name = "AboutLabelVersion";
-            this.AboutLabelVersion.Size = new System.Drawing.Size(220, 25);
-            this.AboutLabelVersion.TabIndex = 49;
-            this.AboutLabelVersion.Text = "This text will be replaced";
-            this.AboutLabelVersion.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // tabLayout
-            // 
-            this.tabLayout.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.tabLayout.Controls.Add(this.GuiLayoutGroup3);
-            this.tabLayout.Controls.Add(this.GuiLayoutGroup1);
-            this.tabLayout.Controls.Add(this.GuiLayoutGroup2);
-            this.tabLayout.Location = new System.Drawing.Point(4, 34);
-            this.tabLayout.Name = "tabLayout";
-            this.tabLayout.Padding = new System.Windows.Forms.Padding(3);
-            this.tabLayout.Size = new System.Drawing.Size(638, 586);
-            this.tabLayout.TabIndex = 1;
-            this.tabLayout.Text = "Layout";
-            // 
-            // GuiLayoutGroup3
-            // 
-            this.GuiLayoutGroup3.Location = new System.Drawing.Point(331, 263);
-            this.GuiLayoutGroup3.Name = "GuiLayoutGroup3";
-            this.GuiLayoutGroup3.Size = new System.Drawing.Size(285, 273);
-            this.GuiLayoutGroup3.TabIndex = 320;
-            this.GuiLayoutGroup3.TabStop = false;
-            this.GuiLayoutGroup3.Text = "Show clipboard on";
-            // 
-            // GuiLayoutGroup1
-            // 
-            this.GuiLayoutGroup1.Controls.Add(this.LabelHistoryMargin);
-            this.GuiLayoutGroup1.Controls.Add(this.LayoutLabelMargin);
-            this.GuiLayoutGroup1.Controls.Add(this.GuiHistoryMargin);
-            this.GuiLayoutGroup1.Controls.Add(this.LayoutLabelWidth);
-            this.GuiLayoutGroup1.Controls.Add(this.LabelHistoryElements);
-            this.GuiLayoutGroup1.Controls.Add(this.LayoutLabelElements);
-            this.GuiLayoutGroup1.Controls.Add(this.LabelHistorySizeHeight);
-            this.GuiLayoutGroup1.Controls.Add(this.LayoutLabelHeight);
-            this.GuiLayoutGroup1.Controls.Add(this.LabelHistorySizeWidth);
-            this.GuiLayoutGroup1.Controls.Add(this.GuiHistoryElements);
-            this.GuiLayoutGroup1.Controls.Add(this.GuiHistorySizeWidth);
-            this.GuiLayoutGroup1.Controls.Add(this.GuiHistorySizeHeight);
-            this.GuiLayoutGroup1.Location = new System.Drawing.Point(22, 23);
-            this.GuiLayoutGroup1.Name = "GuiLayoutGroup1";
-            this.GuiLayoutGroup1.Size = new System.Drawing.Size(285, 513);
-            this.GuiLayoutGroup1.TabIndex = 300;
-            this.GuiLayoutGroup1.TabStop = false;
-            this.GuiLayoutGroup1.Text = "Clipboard area";
-            // 
-            // LabelHistoryMargin
-            // 
-            this.LabelHistoryMargin.AutoSize = true;
-            this.LabelHistoryMargin.Location = new System.Drawing.Point(228, 335);
-            this.LabelHistoryMargin.Name = "LabelHistoryMargin";
-            this.LabelHistoryMargin.Size = new System.Drawing.Size(42, 25);
-            this.LabelHistoryMargin.TabIndex = 307;
-            this.LabelHistoryMargin.Text = "5px";
-            // 
-            // LayoutLabelMargin
-            // 
-            this.LayoutLabelMargin.AutoSize = true;
-            this.LayoutLabelMargin.Location = new System.Drawing.Point(21, 303);
-            this.LayoutLabelMargin.Name = "LayoutLabelMargin";
-            this.LayoutLabelMargin.Size = new System.Drawing.Size(150, 25);
-            this.LayoutLabelMargin.TabIndex = 304;
-            this.LayoutLabelMargin.Text = "Margin to edges";
-            // 
-            // GuiHistoryMargin
-            // 
-            this.GuiHistoryMargin.Location = new System.Drawing.Point(16, 326);
-            this.GuiHistoryMargin.Maximum = 50;
-            this.GuiHistoryMargin.Name = "GuiHistoryMargin";
-            this.GuiHistoryMargin.Size = new System.Drawing.Size(206, 56);
-            this.GuiHistoryMargin.TabIndex = 304;
-            this.GuiHistoryMargin.TickFrequency = 10;
-            this.GuiHistoryMargin.TickStyle = System.Windows.Forms.TickStyle.Both;
-            this.GuiHistoryMargin.ValueChanged += new System.EventHandler(this.GuiHistoryMargin_ValueChanged);
-            // 
-            // LayoutLabelWidth
-            // 
-            this.LayoutLabelWidth.AutoSize = true;
-            this.LayoutLabelWidth.Location = new System.Drawing.Point(21, 127);
-            this.LayoutLabelWidth.Name = "LayoutLabelWidth";
-            this.LayoutLabelWidth.Size = new System.Drawing.Size(63, 25);
-            this.LayoutLabelWidth.TabIndex = 73;
-            this.LayoutLabelWidth.Text = "Width";
-            // 
-            // LabelHistoryElements
-            // 
-            this.LabelHistoryElements.AutoSize = true;
-            this.LabelHistoryElements.Location = new System.Drawing.Point(228, 72);
-            this.LabelHistoryElements.Name = "LabelHistoryElements";
-            this.LabelHistoryElements.Size = new System.Drawing.Size(22, 25);
-            this.LabelHistoryElements.TabIndex = 77;
-            this.LabelHistoryElements.Text = "1";
-            // 
-            // LayoutLabelElements
-            // 
-            this.LayoutLabelElements.AutoSize = true;
-            this.LayoutLabelElements.Location = new System.Drawing.Point(21, 40);
-            this.LayoutLabelElements.Name = "LayoutLabelElements";
-            this.LayoutLabelElements.Size = new System.Drawing.Size(149, 25);
-            this.LayoutLabelElements.TabIndex = 76;
-            this.LayoutLabelElements.Text = "Visible elements";
-            // 
-            // LabelHistorySizeHeight
-            // 
-            this.LabelHistorySizeHeight.AutoSize = true;
-            this.LabelHistorySizeHeight.Location = new System.Drawing.Point(228, 247);
-            this.LabelHistorySizeHeight.Name = "LabelHistorySizeHeight";
-            this.LabelHistorySizeHeight.Size = new System.Drawing.Size(48, 25);
-            this.LabelHistorySizeHeight.TabIndex = 72;
-            this.LabelHistorySizeHeight.Text = "20%";
-            // 
-            // LayoutLabelHeight
-            // 
-            this.LayoutLabelHeight.AutoSize = true;
-            this.LayoutLabelHeight.Location = new System.Drawing.Point(20, 215);
-            this.LayoutLabelHeight.Name = "LayoutLabelHeight";
-            this.LayoutLabelHeight.Size = new System.Drawing.Size(68, 25);
-            this.LayoutLabelHeight.TabIndex = 74;
-            this.LayoutLabelHeight.Text = "Height";
-            // 
-            // LabelHistorySizeWidth
-            // 
-            this.LabelHistorySizeWidth.AutoSize = true;
-            this.LabelHistorySizeWidth.Location = new System.Drawing.Point(228, 162);
-            this.LabelHistorySizeWidth.Name = "LabelHistorySizeWidth";
-            this.LabelHistorySizeWidth.Size = new System.Drawing.Size(48, 25);
-            this.LabelHistorySizeWidth.TabIndex = 71;
-            this.LabelHistorySizeWidth.Text = "30%";
-            // 
-            // GuiHistoryElements
-            // 
-            this.GuiHistoryElements.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.GuiHistoryElements.LargeChange = 1;
-            this.GuiHistoryElements.Location = new System.Drawing.Point(16, 62);
-            this.GuiHistoryElements.Maximum = 30;
-            this.GuiHistoryElements.Minimum = 1;
-            this.GuiHistoryElements.Name = "GuiHistoryElements";
-            this.GuiHistoryElements.Size = new System.Drawing.Size(206, 56);
-            this.GuiHistoryElements.TabIndex = 301;
-            this.GuiHistoryElements.TickFrequency = 5;
-            this.GuiHistoryElements.TickStyle = System.Windows.Forms.TickStyle.Both;
-            this.GuiHistoryElements.Value = 1;
-            this.GuiHistoryElements.Scroll += new System.EventHandler(this.HistoryElements_Scroll);
-            // 
-            // GuiHistorySizeWidth
-            // 
-            this.GuiHistorySizeWidth.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.GuiHistorySizeWidth.Location = new System.Drawing.Point(16, 150);
-            this.GuiHistorySizeWidth.Maximum = 100;
-            this.GuiHistorySizeWidth.Minimum = 10;
-            this.GuiHistorySizeWidth.Name = "GuiHistorySizeWidth";
-            this.GuiHistorySizeWidth.Size = new System.Drawing.Size(206, 56);
-            this.GuiHistorySizeWidth.TabIndex = 302;
-            this.GuiHistorySizeWidth.TickFrequency = 10;
-            this.GuiHistorySizeWidth.TickStyle = System.Windows.Forms.TickStyle.Both;
-            this.GuiHistorySizeWidth.Value = 10;
-            this.GuiHistorySizeWidth.ValueChanged += new System.EventHandler(this.HistorySizeWidth_ValueChanged);
-            // 
-            // GuiHistorySizeHeight
-            // 
-            this.GuiHistorySizeHeight.Location = new System.Drawing.Point(16, 238);
-            this.GuiHistorySizeHeight.Maximum = 100;
-            this.GuiHistorySizeHeight.Minimum = 10;
-            this.GuiHistorySizeHeight.Name = "GuiHistorySizeHeight";
-            this.GuiHistorySizeHeight.Size = new System.Drawing.Size(206, 56);
-            this.GuiHistorySizeHeight.SmallChange = 5;
-            this.GuiHistorySizeHeight.TabIndex = 303;
-            this.GuiHistorySizeHeight.TickFrequency = 10;
-            this.GuiHistorySizeHeight.TickStyle = System.Windows.Forms.TickStyle.Both;
-            this.GuiHistorySizeHeight.Value = 10;
-            this.GuiHistorySizeHeight.ValueChanged += new System.EventHandler(this.HistorySizeHeight_ValueChanged);
-            // 
-            // GuiLayoutGroup2
-            // 
-            this.GuiLayoutGroup2.Controls.Add(this.GuiHistoryLocationRadioCenter);
-            this.GuiLayoutGroup2.Controls.Add(this.GuiHistoryLocationRadioLeftBottom);
-            this.GuiLayoutGroup2.Controls.Add(this.GuiHistoryLocationRadioLeftTop);
-            this.GuiLayoutGroup2.Controls.Add(this.GuiHistoryLocationRadioRightTop);
-            this.GuiLayoutGroup2.Controls.Add(this.GuiHistoryLocationRadioRightBottom);
-            this.GuiLayoutGroup2.Location = new System.Drawing.Point(331, 23);
-            this.GuiLayoutGroup2.Name = "GuiLayoutGroup2";
-            this.GuiLayoutGroup2.Size = new System.Drawing.Size(285, 220);
-            this.GuiLayoutGroup2.TabIndex = 310;
-            this.GuiLayoutGroup2.TabStop = false;
-            this.GuiLayoutGroup2.Text = "Clipboard location";
-            // 
-            // GuiHistoryLocationRadioCenter
-            // 
-            this.GuiHistoryLocationRadioCenter.AutoSize = true;
-            this.GuiHistoryLocationRadioCenter.Font = new System.Drawing.Font("Segoe UI", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.GuiHistoryLocationRadioCenter.Location = new System.Drawing.Point(29, 108);
-            this.GuiHistoryLocationRadioCenter.Name = "GuiHistoryLocationRadioCenter";
-            this.GuiHistoryLocationRadioCenter.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.GuiHistoryLocationRadioCenter.Size = new System.Drawing.Size(84, 29);
-            this.GuiHistoryLocationRadioCenter.TabIndex = 313;
-            this.GuiHistoryLocationRadioCenter.Text = "Center";
-            this.GuiHistoryLocationRadioCenter.UseVisualStyleBackColor = true;
-            this.GuiHistoryLocationRadioCenter.CheckedChanged += new System.EventHandler(this.GuiHistoryLocationRadioCenter_CheckedChanged);
-            // 
-            // GuiHistoryLocationRadioLeftBottom
-            // 
-            this.GuiHistoryLocationRadioLeftBottom.AutoSize = true;
-            this.GuiHistoryLocationRadioLeftBottom.Font = new System.Drawing.Font("Segoe UI", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.GuiHistoryLocationRadioLeftBottom.Location = new System.Drawing.Point(29, 73);
-            this.GuiHistoryLocationRadioLeftBottom.Name = "GuiHistoryLocationRadioLeftBottom";
-            this.GuiHistoryLocationRadioLeftBottom.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.GuiHistoryLocationRadioLeftBottom.Size = new System.Drawing.Size(127, 29);
-            this.GuiHistoryLocationRadioLeftBottom.TabIndex = 312;
-            this.GuiHistoryLocationRadioLeftBottom.Text = "Left Bottom";
-            this.GuiHistoryLocationRadioLeftBottom.UseVisualStyleBackColor = true;
-            this.GuiHistoryLocationRadioLeftBottom.CheckedChanged += new System.EventHandler(this.GuiHistoryLocationRadioLeftBottom_CheckedChanged);
-            // 
-            // GuiHistoryLocationRadioLeftTop
-            // 
-            this.GuiHistoryLocationRadioLeftTop.AutoSize = true;
-            this.GuiHistoryLocationRadioLeftTop.Font = new System.Drawing.Font("Segoe UI", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.GuiHistoryLocationRadioLeftTop.Location = new System.Drawing.Point(29, 38);
-            this.GuiHistoryLocationRadioLeftTop.Name = "GuiHistoryLocationRadioLeftTop";
-            this.GuiHistoryLocationRadioLeftTop.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.GuiHistoryLocationRadioLeftTop.Size = new System.Drawing.Size(96, 29);
-            this.GuiHistoryLocationRadioLeftTop.TabIndex = 311;
-            this.GuiHistoryLocationRadioLeftTop.Text = "Left Top";
-            this.GuiHistoryLocationRadioLeftTop.UseVisualStyleBackColor = true;
-            this.GuiHistoryLocationRadioLeftTop.CheckedChanged += new System.EventHandler(this.GuiHistoryLocationRadioLeftTop_CheckedChanged);
-            // 
-            // GuiHistoryLocationRadioRightTop
-            // 
-            this.GuiHistoryLocationRadioRightTop.AutoSize = true;
-            this.GuiHistoryLocationRadioRightTop.Font = new System.Drawing.Font("Segoe UI", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.GuiHistoryLocationRadioRightTop.Location = new System.Drawing.Point(29, 143);
-            this.GuiHistoryLocationRadioRightTop.Name = "GuiHistoryLocationRadioRightTop";
-            this.GuiHistoryLocationRadioRightTop.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.GuiHistoryLocationRadioRightTop.Size = new System.Drawing.Size(109, 29);
-            this.GuiHistoryLocationRadioRightTop.TabIndex = 314;
-            this.GuiHistoryLocationRadioRightTop.Text = "Right Top";
-            this.GuiHistoryLocationRadioRightTop.UseVisualStyleBackColor = true;
-            this.GuiHistoryLocationRadioRightTop.CheckedChanged += new System.EventHandler(this.GuiHistoryLocationRadioRightTop_CheckedChanged);
-            // 
-            // GuiHistoryLocationRadioRightBottom
-            // 
-            this.GuiHistoryLocationRadioRightBottom.AutoSize = true;
-            this.GuiHistoryLocationRadioRightBottom.Checked = true;
-            this.GuiHistoryLocationRadioRightBottom.Font = new System.Drawing.Font("Segoe UI", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.GuiHistoryLocationRadioRightBottom.Location = new System.Drawing.Point(29, 178);
-            this.GuiHistoryLocationRadioRightBottom.Name = "GuiHistoryLocationRadioRightBottom";
-            this.GuiHistoryLocationRadioRightBottom.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.GuiHistoryLocationRadioRightBottom.Size = new System.Drawing.Size(140, 29);
-            this.GuiHistoryLocationRadioRightBottom.TabIndex = 315;
-            this.GuiHistoryLocationRadioRightBottom.TabStop = true;
-            this.GuiHistoryLocationRadioRightBottom.Text = "Right Bottom";
-            this.GuiHistoryLocationRadioRightBottom.UseVisualStyleBackColor = true;
-            this.GuiHistoryLocationRadioRightBottom.CheckedChanged += new System.EventHandler(this.GuiHistoryLocationRadioRightBottom_CheckedChanged);
-            // 
-            // tabHotkeys
-            // 
-            this.tabHotkeys.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.tabHotkeys.Controls.Add(this.GuiHotkeysGroup1);
-            this.tabHotkeys.Controls.Add(this.GuiHotkeysGroup2);
-            this.tabHotkeys.Location = new System.Drawing.Point(4, 34);
-            this.tabHotkeys.Name = "tabHotkeys";
-            this.tabHotkeys.Padding = new System.Windows.Forms.Padding(3);
-            this.tabHotkeys.Size = new System.Drawing.Size(638, 586);
-            this.tabHotkeys.TabIndex = 4;
-            this.tabHotkeys.Text = "Hotkeys";
-            // 
-            // GuiHotkeysGroup1
-            // 
-            this.GuiHotkeysGroup1.Controls.Add(this.GuiHotkeyBehaviourSystem);
-            this.GuiHotkeysGroup1.Controls.Add(this.GuiHotkeyBehaviourPaste);
-            this.GuiHotkeysGroup1.Location = new System.Drawing.Point(22, 23);
-            this.GuiHotkeysGroup1.Name = "GuiHotkeysGroup1";
-            this.GuiHotkeysGroup1.Size = new System.Drawing.Size(594, 118);
-            this.GuiHotkeysGroup1.TabIndex = 200;
-            this.GuiHotkeysGroup1.TabStop = false;
-            this.GuiHotkeysGroup1.Text = "Paste behaviour";
-            // 
-            // GuiHotkeyBehaviourSystem
-            // 
-            this.GuiHotkeyBehaviourSystem.AutoSize = true;
-            this.GuiHotkeyBehaviourSystem.Checked = true;
-            this.GuiHotkeyBehaviourSystem.Location = new System.Drawing.Point(29, 38);
-            this.GuiHotkeyBehaviourSystem.Name = "GuiHotkeyBehaviourSystem";
-            this.GuiHotkeyBehaviourSystem.Size = new System.Drawing.Size(226, 29);
-            this.GuiHotkeyBehaviourSystem.TabIndex = 201;
-            this.GuiHotkeyBehaviourSystem.TabStop = true;
-            this.GuiHotkeyBehaviourSystem.Text = "Use standard Windows";
-            this.GuiHotkeyBehaviourSystem.UseVisualStyleBackColor = true;
-            this.GuiHotkeyBehaviourSystem.CheckedChanged += new System.EventHandler(this.GuiHotkeyBehaviourSystem_CheckedChanged);
-            // 
-            // GuiHotkeyBehaviourPaste
-            // 
-            this.GuiHotkeyBehaviourPaste.AutoSize = true;
-            this.GuiHotkeyBehaviourPaste.Location = new System.Drawing.Point(29, 73);
-            this.GuiHotkeyBehaviourPaste.Name = "GuiHotkeyBehaviourPaste";
-            this.GuiHotkeyBehaviourPaste.Size = new System.Drawing.Size(206, 29);
-            this.GuiHotkeyBehaviourPaste.TabIndex = 202;
-            this.GuiHotkeyBehaviourPaste.Text = "Paste only on hotkey";
-            this.GuiHotkeyBehaviourPaste.UseVisualStyleBackColor = true;
-            this.GuiHotkeyBehaviourPaste.CheckedChanged += new System.EventHandler(this.GuiHotkeyBehaviourPaste_CheckedChanged);
-            // 
-            // GuiHotkeysGroup2
-            // 
-            this.GuiHotkeysGroup2.Controls.Add(this.GuiHotkeySearch);
-            this.GuiHotkeysGroup2.Controls.Add(this.label1);
-            this.GuiHotkeysGroup2.Controls.Add(this.GuiHotkeyToggleView);
-            this.GuiHotkeysGroup2.Controls.Add(this.GuiHotkeyToggleFavorite);
-            this.GuiHotkeysGroup2.Controls.Add(this.label12);
-            this.GuiHotkeysGroup2.Controls.Add(this.label13);
-            this.GuiHotkeysGroup2.Controls.Add(this.GuiHotkeyPaste);
-            this.GuiHotkeysGroup2.Controls.Add(this.GuiHotkeyNewer);
-            this.GuiHotkeysGroup2.Controls.Add(this.GuiHotkeyOlder);
-            this.GuiHotkeysGroup2.Controls.Add(this.GuiCancelHotkey);
-            this.GuiHotkeysGroup2.Controls.Add(this.GuiHotkeyEnable);
-            this.GuiHotkeysGroup2.Controls.Add(this.GuiApplyHotkey);
-            this.GuiHotkeysGroup2.Controls.Add(this.label4);
-            this.GuiHotkeysGroup2.Controls.Add(this.label6);
-            this.GuiHotkeysGroup2.Controls.Add(this.label7);
-            this.GuiHotkeysGroup2.Controls.Add(this.label8);
-            this.GuiHotkeysGroup2.Location = new System.Drawing.Point(22, 161);
-            this.GuiHotkeysGroup2.Name = "GuiHotkeysGroup2";
-            this.GuiHotkeysGroup2.Size = new System.Drawing.Size(594, 374);
-            this.GuiHotkeysGroup2.TabIndex = 210;
-            this.GuiHotkeysGroup2.TabStop = false;
-            this.GuiHotkeysGroup2.Text = "Hotkeys";
-            // 
-            // GuiHotkeySearch
-            // 
-            this.GuiHotkeySearch.BackColor = System.Drawing.SystemColors.Window;
-            this.GuiHotkeySearch.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.GuiHotkeySearch.Location = new System.Drawing.Point(329, 78);
-            this.GuiHotkeySearch.Name = "GuiHotkeySearch";
-            this.GuiHotkeySearch.ReadOnly = true;
-            this.GuiHotkeySearch.Size = new System.Drawing.Size(235, 32);
-            this.GuiHotkeySearch.TabIndex = 212;
-            this.GuiHotkeySearch.Text = "Default text";
-            this.GuiHotkeySearch.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.GuiHotkeySearch.Enter += new System.EventHandler(this.GuiHotkeySearch_Enter);
-            this.GuiHotkeySearch.KeyDown += new System.Windows.Forms.KeyEventHandler(this.GuiHotkeySearch_KeyDown);
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Segoe UI", 11.12727F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(26, 81);
-            this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(69, 25);
-            this.label1.TabIndex = 1010;
-            this.label1.Text = "Search";
-            // 
-            // GuiHotkeyToggleView
-            // 
-            this.GuiHotkeyToggleView.BackColor = System.Drawing.SystemColors.Window;
-            this.GuiHotkeyToggleView.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.GuiHotkeyToggleView.Location = new System.Drawing.Point(329, 200);
-            this.GuiHotkeyToggleView.Name = "GuiHotkeyToggleView";
-            this.GuiHotkeyToggleView.ReadOnly = true;
-            this.GuiHotkeyToggleView.Size = new System.Drawing.Size(235, 32);
-            this.GuiHotkeyToggleView.TabIndex = 216;
-            this.GuiHotkeyToggleView.Text = "Default text";
-            this.GuiHotkeyToggleView.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.GuiHotkeyToggleView.Enter += new System.EventHandler(this.HotkeyToggleView_Enter);
-            this.GuiHotkeyToggleView.KeyDown += new System.Windows.Forms.KeyEventHandler(this.HotkeyToggleView_KeyDown);
-            // 
-            // GuiHotkeyToggleFavorite
-            // 
-            this.GuiHotkeyToggleFavorite.BackColor = System.Drawing.SystemColors.Window;
-            this.GuiHotkeyToggleFavorite.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.GuiHotkeyToggleFavorite.Location = new System.Drawing.Point(329, 241);
-            this.GuiHotkeyToggleFavorite.Name = "GuiHotkeyToggleFavorite";
-            this.GuiHotkeyToggleFavorite.ReadOnly = true;
-            this.GuiHotkeyToggleFavorite.Size = new System.Drawing.Size(235, 32);
-            this.GuiHotkeyToggleFavorite.TabIndex = 215;
-            this.GuiHotkeyToggleFavorite.Text = "Default text";
-            this.GuiHotkeyToggleFavorite.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.GuiHotkeyToggleFavorite.Enter += new System.EventHandler(this.HotkeyToggleFavorite_Enter);
-            this.GuiHotkeyToggleFavorite.KeyDown += new System.Windows.Forms.KeyEventHandler(this.HotkeyToggleFavorite_KeyDown);
-            // 
-            // label12
-            // 
-            this.label12.AutoSize = true;
-            this.label12.Font = new System.Drawing.Font("Segoe UI", 11.12727F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label12.Location = new System.Drawing.Point(26, 244);
-            this.label12.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(185, 25);
-            this.label12.TabIndex = 1007;
-            this.label12.Text = "Toggle favorite entry";
-            // 
-            // label13
-            // 
-            this.label13.AutoSize = true;
-            this.label13.Font = new System.Drawing.Font("Segoe UI", 11.12727F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label13.Location = new System.Drawing.Point(26, 204);
-            this.label13.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(256, 25);
-            this.label13.TabIndex = 1008;
-            this.label13.Text = "Instant-select toggle list view";
-            // 
-            // GuiHotkeyPaste
-            // 
-            this.GuiHotkeyPaste.BackColor = System.Drawing.SystemColors.Window;
-            this.GuiHotkeyPaste.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.GuiHotkeyPaste.Location = new System.Drawing.Point(329, 283);
-            this.GuiHotkeyPaste.Name = "GuiHotkeyPaste";
-            this.GuiHotkeyPaste.ReadOnly = true;
-            this.GuiHotkeyPaste.Size = new System.Drawing.Size(235, 32);
-            this.GuiHotkeyPaste.TabIndex = 217;
-            this.GuiHotkeyPaste.Text = "Default text";
-            this.GuiHotkeyPaste.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.GuiHotkeyPaste.Enter += new System.EventHandler(this.HotkeyPaste_Enter);
-            this.GuiHotkeyPaste.KeyDown += new System.Windows.Forms.KeyEventHandler(this.HotkeyPaste_KeyDown);
-            // 
-            // GuiHotkeyNewer
-            // 
-            this.GuiHotkeyNewer.BackColor = System.Drawing.SystemColors.Window;
-            this.GuiHotkeyNewer.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.GuiHotkeyNewer.Location = new System.Drawing.Point(329, 160);
-            this.GuiHotkeyNewer.Name = "GuiHotkeyNewer";
-            this.GuiHotkeyNewer.ReadOnly = true;
-            this.GuiHotkeyNewer.Size = new System.Drawing.Size(235, 32);
-            this.GuiHotkeyNewer.TabIndex = 214;
-            this.GuiHotkeyNewer.Text = "Default text";
-            this.GuiHotkeyNewer.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.GuiHotkeyNewer.Enter += new System.EventHandler(this.HotkeyNewer_Enter);
-            this.GuiHotkeyNewer.KeyDown += new System.Windows.Forms.KeyEventHandler(this.HotkeyNewer_KeyDown);
-            // 
-            // GuiHotkeyOlder
-            // 
-            this.GuiHotkeyOlder.BackColor = System.Drawing.SystemColors.Window;
-            this.GuiHotkeyOlder.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.GuiHotkeyOlder.Location = new System.Drawing.Point(329, 119);
-            this.GuiHotkeyOlder.Name = "GuiHotkeyOlder";
-            this.GuiHotkeyOlder.ReadOnly = true;
-            this.GuiHotkeyOlder.Size = new System.Drawing.Size(235, 32);
-            this.GuiHotkeyOlder.TabIndex = 213;
-            this.GuiHotkeyOlder.Text = "Default text";
-            this.GuiHotkeyOlder.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.GuiHotkeyOlder.Enter += new System.EventHandler(this.HotkeyOlder_Enter);
-            this.GuiHotkeyOlder.KeyDown += new System.Windows.Forms.KeyEventHandler(this.HotkeyOlder_KeyDown);
-            // 
-            // GuiCancelHotkey
-            // 
-            this.GuiCancelHotkey.Enabled = false;
-            this.GuiCancelHotkey.Location = new System.Drawing.Point(452, 323);
-            this.GuiCancelHotkey.Name = "GuiCancelHotkey";
-            this.GuiCancelHotkey.Size = new System.Drawing.Size(112, 38);
-            this.GuiCancelHotkey.TabIndex = 221;
-            this.GuiCancelHotkey.Text = "Cancel";
-            this.GuiCancelHotkey.UseVisualStyleBackColor = true;
-            this.GuiCancelHotkey.Click += new System.EventHandler(this.CancelHotkey_Click);
-            // 
-            // GuiHotkeyEnable
-            // 
-            this.GuiHotkeyEnable.BackColor = System.Drawing.SystemColors.Window;
-            this.GuiHotkeyEnable.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.GuiHotkeyEnable.Location = new System.Drawing.Point(329, 37);
-            this.GuiHotkeyEnable.Name = "GuiHotkeyEnable";
-            this.GuiHotkeyEnable.ReadOnly = true;
-            this.GuiHotkeyEnable.Size = new System.Drawing.Size(235, 32);
-            this.GuiHotkeyEnable.TabIndex = 211;
-            this.GuiHotkeyEnable.Text = "Default text";
-            this.GuiHotkeyEnable.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.GuiHotkeyEnable.Enter += new System.EventHandler(this.HotkeyEnable_Enter);
-            this.GuiHotkeyEnable.KeyDown += new System.Windows.Forms.KeyEventHandler(this.HotkeyEnable_KeyDown);
-            // 
-            // GuiApplyHotkey
-            // 
-            this.GuiApplyHotkey.Enabled = false;
-            this.GuiApplyHotkey.Location = new System.Drawing.Point(329, 323);
-            this.GuiApplyHotkey.Name = "GuiApplyHotkey";
-            this.GuiApplyHotkey.Size = new System.Drawing.Size(112, 38);
-            this.GuiApplyHotkey.TabIndex = 220;
-            this.GuiApplyHotkey.Text = "Apply";
-            this.GuiApplyHotkey.UseVisualStyleBackColor = true;
-            this.GuiApplyHotkey.Click += new System.EventHandler(this.ApplyHotkeys_Click);
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Font = new System.Drawing.Font("Segoe UI", 11.12727F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.Location = new System.Drawing.Point(26, 287);
-            this.label4.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(144, 25);
-            this.label4.TabIndex = 1003;
-            this.label4.Text = "Paste on hotkey";
-            // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Font = new System.Drawing.Font("Segoe UI", 11.12727F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label6.Location = new System.Drawing.Point(26, 122);
-            this.label6.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(222, 25);
-            this.label6.TabIndex = 1001;
-            this.label6.Text = "Instant-select older entry";
-            // 
-            // label7
-            // 
-            this.label7.AutoSize = true;
-            this.label7.Font = new System.Drawing.Font("Segoe UI", 11.12727F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label7.Location = new System.Drawing.Point(26, 163);
-            this.label7.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(230, 25);
-            this.label7.TabIndex = 1002;
-            this.label7.Text = "Instant-select newer entry";
-            // 
-            // label8
-            // 
-            this.label8.AutoSize = true;
-            this.label8.Font = new System.Drawing.Font("Segoe UI", 11.12727F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label8.Location = new System.Drawing.Point(27, 41);
-            this.label8.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(224, 25);
-            this.label8.TabIndex = 1000;
-            this.label8.Text = "Toggle application on/off";
-            // 
-            // tabGeneral
-            // 
-            this.tabGeneral.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.tabGeneral.Controls.Add(this.groupBox2);
-            this.tabGeneral.Controls.Add(this.GuiGeneralGroup2);
-            this.tabGeneral.Location = new System.Drawing.Point(4, 34);
-            this.tabGeneral.Name = "tabGeneral";
-            this.tabGeneral.Padding = new System.Windows.Forms.Padding(3);
-            this.tabGeneral.Size = new System.Drawing.Size(638, 586);
-            this.tabGeneral.TabIndex = 0;
-            this.tabGeneral.Text = "General";
-            // 
-            // groupBox2
-            // 
-            this.groupBox2.Controls.Add(this.label9);
-            this.groupBox2.Controls.Add(this.label5);
-            this.groupBox2.Controls.Add(this.label3);
-            this.groupBox2.Controls.Add(this.GuiAlwaysPasteOriginal);
-            this.groupBox2.Controls.Add(this.GuiSearch);
-            this.groupBox2.Controls.Add(this.GuiPasteOnSelection);
-            this.groupBox2.Controls.Add(this.GuiInstantSelect);
-            this.groupBox2.Controls.Add(this.GuiFavoritesEnabled);
-            this.groupBox2.Controls.Add(this.GuiCopyImages);
-            this.groupBox2.Location = new System.Drawing.Point(22, 268);
-            this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(594, 267);
-            this.groupBox2.TabIndex = 120;
-            this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "Clipboard list";
-            // 
-            // label9
-            // 
-            this.label9.AutoSize = true;
-            this.label9.Font = new System.Drawing.Font("Segoe UI", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label9.Location = new System.Drawing.Point(383, 80);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(109, 17);
-            this.label9.TabIndex = 129;
-            this.label9.Text = "(Shift + Alt + H)";
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Font = new System.Drawing.Font("Segoe UI", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label5.Location = new System.Drawing.Point(314, 80);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(63, 17);
-            this.label5.TabIndex = 128;
-            this.label5.Text = "(Alt + H)";
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Font = new System.Drawing.Font("Segoe UI", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(258, 44);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(60, 17);
-            this.label3.TabIndex = 127;
-            this.label3.Text = "(Alt + S)";
-            // 
-            // GuiAlwaysPasteOriginal
-            // 
-            this.GuiAlwaysPasteOriginal.AutoSize = true;
-            this.GuiAlwaysPasteOriginal.BackColor = System.Drawing.Color.Yellow;
-            this.GuiAlwaysPasteOriginal.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.GuiAlwaysPasteOriginal.Location = new System.Drawing.Point(28, 213);
-            this.GuiAlwaysPasteOriginal.Name = "GuiAlwaysPasteOriginal";
-            this.GuiAlwaysPasteOriginal.Size = new System.Drawing.Size(423, 29);
-            this.GuiAlwaysPasteOriginal.TabIndex = 126;
-            this.GuiAlwaysPasteOriginal.Text = "Always paste original/formatted clipboard text";
-            this.GuiAlwaysPasteOriginal.UseVisualStyleBackColor = false;
-            this.GuiAlwaysPasteOriginal.CheckedChanged += new System.EventHandler(this.GuiAlwaysPasteOriginal_CheckedChanged);
-            // 
-            // GuiSearch
-            // 
-            this.GuiSearch.AutoSize = true;
-            this.GuiSearch.Checked = true;
-            this.GuiSearch.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.GuiSearch.Location = new System.Drawing.Point(29, 38);
-            this.GuiSearch.Name = "GuiSearch";
-            this.GuiSearch.Size = new System.Drawing.Size(230, 29);
-            this.GuiSearch.TabIndex = 121;
-            this.GuiSearch.Text = "Enable search interface";
-            this.GuiSearch.UseVisualStyleBackColor = true;
-            this.GuiSearch.CheckedChanged += new System.EventHandler(this.GuiSearch_CheckedChanged);
-            // 
-            // GuiInstantSelect
-            // 
-            this.GuiInstantSelect.AutoSize = true;
-            this.GuiInstantSelect.Checked = true;
-            this.GuiInstantSelect.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.GuiInstantSelect.Location = new System.Drawing.Point(28, 73);
-            this.GuiInstantSelect.Name = "GuiInstantSelect";
-            this.GuiInstantSelect.Size = new System.Drawing.Size(288, 29);
-            this.GuiInstantSelect.TabIndex = 122;
-            this.GuiInstantSelect.Text = "Enable instant-select interface";
-            this.GuiInstantSelect.UseVisualStyleBackColor = true;
-            this.GuiInstantSelect.CheckedChanged += new System.EventHandler(this.GuiInstantSelect_CheckedChanged);
-            // 
-            // GuiFavoritesEnabled
-            // 
-            this.GuiFavoritesEnabled.AutoSize = true;
-            this.GuiFavoritesEnabled.Font = new System.Drawing.Font("Segoe UI", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.GuiFavoritesEnabled.Location = new System.Drawing.Point(28, 108);
-            this.GuiFavoritesEnabled.Name = "GuiFavoritesEnabled";
-            this.GuiFavoritesEnabled.Size = new System.Drawing.Size(159, 29);
-            this.GuiFavoritesEnabled.TabIndex = 123;
-            this.GuiFavoritesEnabled.Text = "Enable favorites";
-            this.GuiFavoritesEnabled.UseVisualStyleBackColor = true;
-            this.GuiFavoritesEnabled.CheckedChanged += new System.EventHandler(this.GuiFavoritesEnabled_CheckedChanged);
-            // 
-            // GuiCopyImages
-            // 
-            this.GuiCopyImages.AutoSize = true;
-            this.GuiCopyImages.Checked = true;
-            this.GuiCopyImages.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.GuiCopyImages.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.GuiCopyImages.Location = new System.Drawing.Point(28, 143);
-            this.GuiCopyImages.Name = "GuiCopyImages";
-            this.GuiCopyImages.Size = new System.Drawing.Size(329, 29);
-            this.GuiCopyImages.TabIndex = 124;
-            this.GuiCopyImages.Text = "Include images in clipboard history";
-            this.GuiCopyImages.UseVisualStyleBackColor = true;
-            this.GuiCopyImages.CheckedChanged += new System.EventHandler(this.GuiCopyImages_CheckedChanged);
-            // 
-            // GuiGeneralGroup2
-            // 
-            this.GuiGeneralGroup2.Controls.Add(this.GuiStartWithWindows);
-            this.GuiGeneralGroup2.Controls.Add(this.GuiStartDisabled);
-            this.GuiGeneralGroup2.Controls.Add(this.GuiRestoreOriginal);
-            this.GuiGeneralGroup2.Controls.Add(this.GuiCloseMinimize);
-            this.GuiGeneralGroup2.Controls.Add(this.GuiTrimWhitespaces);
-            this.GuiGeneralGroup2.Location = new System.Drawing.Point(22, 23);
-            this.GuiGeneralGroup2.Name = "GuiGeneralGroup2";
-            this.GuiGeneralGroup2.Size = new System.Drawing.Size(594, 225);
-            this.GuiGeneralGroup2.TabIndex = 100;
-            this.GuiGeneralGroup2.TabStop = false;
-            this.GuiGeneralGroup2.Text = "Behaviour";
-            // 
-            // GuiStartWithWindows
-            // 
-            this.GuiStartWithWindows.AutoSize = true;
-            this.GuiStartWithWindows.Checked = true;
-            this.GuiStartWithWindows.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.GuiStartWithWindows.Location = new System.Drawing.Point(29, 38);
-            this.GuiStartWithWindows.Name = "GuiStartWithWindows";
-            this.GuiStartWithWindows.Size = new System.Drawing.Size(196, 29);
-            this.GuiStartWithWindows.TabIndex = 110;
-            this.GuiStartWithWindows.Text = "Start with Windows";
-            this.GuiStartWithWindows.UseVisualStyleBackColor = true;
-            this.GuiStartWithWindows.CheckedChanged += new System.EventHandler(this.GuiStartWithWindows_CheckedChanged);
-            // 
-            // GuiStartDisabled
-            // 
-            this.GuiStartDisabled.AutoSize = true;
-            this.GuiStartDisabled.BackColor = System.Drawing.Color.Yellow;
-            this.GuiStartDisabled.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.GuiStartDisabled.Location = new System.Drawing.Point(29, 73);
-            this.GuiStartDisabled.Name = "GuiStartDisabled";
-            this.GuiStartDisabled.Size = new System.Drawing.Size(171, 29);
-            this.GuiStartDisabled.TabIndex = 114;
-            this.GuiStartDisabled.Text = "Start as disabled";
-            this.GuiStartDisabled.UseVisualStyleBackColor = false;
-            this.GuiStartDisabled.CheckedChanged += new System.EventHandler(this.GuiStartDisabled_CheckedChanged);
-            // 
-            // GuiRestoreOriginal
-            // 
-            this.GuiRestoreOriginal.AutoSize = true;
-            this.GuiRestoreOriginal.Checked = true;
-            this.GuiRestoreOriginal.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.GuiRestoreOriginal.Location = new System.Drawing.Point(29, 108);
-            this.GuiRestoreOriginal.Name = "GuiRestoreOriginal";
-            this.GuiRestoreOriginal.Size = new System.Drawing.Size(483, 29);
-            this.GuiRestoreOriginal.TabIndex = 111;
-            this.GuiRestoreOriginal.Text = "Restore original clipboard when disabling application";
-            this.GuiRestoreOriginal.UseVisualStyleBackColor = true;
-            this.GuiRestoreOriginal.CheckedChanged += new System.EventHandler(this.GuiRestoreOriginal_CheckedChanged);
-            // 
-            // GuiTrimWhitespaces
-            // 
-            this.GuiTrimWhitespaces.AutoSize = true;
-            this.GuiTrimWhitespaces.BackColor = System.Drawing.Color.Yellow;
-            this.GuiTrimWhitespaces.Checked = true;
-            this.GuiTrimWhitespaces.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.GuiTrimWhitespaces.Location = new System.Drawing.Point(29, 143);
-            this.GuiTrimWhitespaces.Name = "GuiTrimWhitespaces";
-            this.GuiTrimWhitespaces.Size = new System.Drawing.Size(358, 29);
-            this.GuiTrimWhitespaces.TabIndex = 112;
-            this.GuiTrimWhitespaces.Text = "Trim whitespaces and empty new-lines";
-            this.GuiTrimWhitespaces.UseVisualStyleBackColor = false;
-            this.GuiTrimWhitespaces.CheckedChanged += new System.EventHandler(this.GuiTrimWhitespaces_CheckedChanged);
-            // 
-            // TabControl
-            // 
-            this.TabControl.Controls.Add(this.tabGeneral);
-            this.TabControl.Controls.Add(this.tabPage1);
-            this.TabControl.Controls.Add(this.tabHotkeys);
-            this.TabControl.Controls.Add(this.tabLayout);
-            this.TabControl.Controls.Add(this.tabStyle);
-            this.TabControl.Controls.Add(this.tabColors);
-            this.TabControl.Controls.Add(this.tabAdvanced);
-            this.TabControl.Controls.Add(this.tabFeedback);
-            this.TabControl.Controls.Add(this.tabAbout);
-            this.TabControl.Location = new System.Drawing.Point(12, 12);
-            this.TabControl.Name = "TabControl";
-            this.TabControl.SelectedIndex = 0;
-            this.TabControl.Size = new System.Drawing.Size(646, 624);
-            this.TabControl.TabIndex = 0;
-            this.TabControl.Selected += new System.Windows.Forms.TabControlEventHandler(this.TabControl_Selected);
-            // 
-            // tabPage1
-            // 
-            this.tabPage1.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.tabPage1.Controls.Add(this.GuiStorageGroup2);
-            this.tabPage1.Controls.Add(this.GuiStorageGroup1);
-            this.tabPage1.Location = new System.Drawing.Point(4, 34);
-            this.tabPage1.Name = "tabPage1";
-            this.tabPage1.Size = new System.Drawing.Size(638, 586);
-            this.tabPage1.TabIndex = 10;
-            this.tabPage1.Text = "Storage";
-            // 
-            // GuiStorageGroup2
-            // 
-            this.GuiStorageGroup2.Controls.Add(this.GuiStorageChooseText);
-            this.GuiStorageGroup2.Controls.Add(this.GuiStorageLoadClipboard);
-            this.GuiStorageGroup2.Controls.Add(this.GuiStorageSaveClipboard);
-            this.GuiStorageGroup2.Controls.Add(this.GuiStorageChooseType);
-            this.GuiStorageGroup2.Controls.Add(this.GuiStorageEntries);
-            this.GuiStorageGroup2.Controls.Add(this.GuiStorageChooseAmount);
-            this.GuiStorageGroup2.Controls.Add(this.GuiStorageEntriesText);
-            this.GuiStorageGroup2.Controls.Add(this.GuiStorageChooseAll);
-            this.GuiStorageGroup2.Controls.Add(this.GuiStorageChooseFavorites);
-            this.GuiStorageGroup2.Location = new System.Drawing.Point(22, 195);
-            this.GuiStorageGroup2.Name = "GuiStorageGroup2";
-            this.GuiStorageGroup2.Size = new System.Drawing.Size(594, 340);
-            this.GuiStorageGroup2.TabIndex = 508;
-            this.GuiStorageGroup2.TabStop = false;
-            this.GuiStorageGroup2.Text = "Storage";
-            // 
-            // GuiStorageChooseText
-            // 
-            this.GuiStorageChooseText.AutoSize = true;
-            this.GuiStorageChooseText.Checked = true;
-            this.GuiStorageChooseText.Location = new System.Drawing.Point(29, 141);
-            this.GuiStorageChooseText.Name = "GuiStorageChooseText";
-            this.GuiStorageChooseText.Size = new System.Drawing.Size(242, 29);
-            this.GuiStorageChooseText.TabIndex = 509;
-            this.GuiStorageChooseText.TabStop = true;
-            this.GuiStorageChooseText.Text = "Save only text clipboards";
-            this.GuiStorageChooseText.UseVisualStyleBackColor = true;
-            this.GuiStorageChooseText.CheckedChanged += new System.EventHandler(this.GuiStorageChoose_CheckedChanged);
-            // 
-            // GuiStorageLoadClipboard
-            // 
-            this.GuiStorageLoadClipboard.AutoSize = true;
-            this.GuiStorageLoadClipboard.Checked = true;
-            this.GuiStorageLoadClipboard.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.GuiStorageLoadClipboard.Location = new System.Drawing.Point(29, 73);
-            this.GuiStorageLoadClipboard.Name = "GuiStorageLoadClipboard";
-            this.GuiStorageLoadClipboard.Size = new System.Drawing.Size(344, 29);
-            this.GuiStorageLoadClipboard.TabIndex = 508;
-            this.GuiStorageLoadClipboard.Text = "Load clipboards from local computer";
-            this.GuiStorageLoadClipboard.UseVisualStyleBackColor = true;
-            this.GuiStorageLoadClipboard.CheckedChanged += new System.EventHandler(this.GuiStorageLoadClipboard_CheckedChanged);
-            // 
-            // GuiStorageSaveClipboard
-            // 
-            this.GuiStorageSaveClipboard.AutoSize = true;
-            this.GuiStorageSaveClipboard.Checked = true;
-            this.GuiStorageSaveClipboard.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.GuiStorageSaveClipboard.Location = new System.Drawing.Point(29, 38);
-            this.GuiStorageSaveClipboard.Name = "GuiStorageSaveClipboard";
-            this.GuiStorageSaveClipboard.Size = new System.Drawing.Size(319, 29);
-            this.GuiStorageSaveClipboard.TabIndex = 110;
-            this.GuiStorageSaveClipboard.Text = "Save clipboards to local computer";
-            this.GuiStorageSaveClipboard.UseVisualStyleBackColor = true;
-            this.GuiStorageSaveClipboard.CheckedChanged += new System.EventHandler(this.GuiStorageSaveClipboard_CheckedChanged);
-            // 
-            // GuiStorageChooseType
-            // 
-            this.GuiStorageChooseType.AutoSize = true;
-            this.GuiStorageChooseType.Location = new System.Drawing.Point(15, 110);
-            this.GuiStorageChooseType.Name = "GuiStorageChooseType";
-            this.GuiStorageChooseType.Size = new System.Drawing.Size(277, 25);
-            this.GuiStorageChooseType.TabIndex = 507;
-            this.GuiStorageChooseType.Text = "Which clipboard entries to save";
-            // 
-            // GuiStorageEntries
-            // 
-            this.GuiStorageEntries.LargeChange = 10;
-            this.GuiStorageEntries.Location = new System.Drawing.Point(20, 280);
-            this.GuiStorageEntries.Maximum = 500;
-            this.GuiStorageEntries.Minimum = 1;
-            this.GuiStorageEntries.Name = "GuiStorageEntries";
-            this.GuiStorageEntries.Size = new System.Drawing.Size(206, 56);
-            this.GuiStorageEntries.TabIndex = 306;
-            this.GuiStorageEntries.TickFrequency = 10;
-            this.GuiStorageEntries.TickStyle = System.Windows.Forms.TickStyle.Both;
-            this.GuiStorageEntries.Value = 1;
-            this.GuiStorageEntries.ValueChanged += new System.EventHandler(this.GuiStorageEntries_ValueChanged);
-            // 
-            // GuiStorageChooseAmount
-            // 
-            this.GuiStorageChooseAmount.AutoSize = true;
-            this.GuiStorageChooseAmount.Location = new System.Drawing.Point(15, 252);
-            this.GuiStorageChooseAmount.Name = "GuiStorageChooseAmount";
-            this.GuiStorageChooseAmount.Size = new System.Drawing.Size(312, 25);
-            this.GuiStorageChooseAmount.TabIndex = 305;
-            this.GuiStorageChooseAmount.Text = "Amount of clipboard entries to save";
-            // 
-            // GuiStorageEntriesText
-            // 
-            this.GuiStorageEntriesText.AutoSize = true;
-            this.GuiStorageEntriesText.Location = new System.Drawing.Point(232, 292);
-            this.GuiStorageEntriesText.Name = "GuiStorageEntriesText";
-            this.GuiStorageEntriesText.Size = new System.Drawing.Size(42, 25);
-            this.GuiStorageEntriesText.TabIndex = 505;
-            this.GuiStorageEntriesText.Text = "100";
-            // 
-            // GuiStorageChooseAll
-            // 
-            this.GuiStorageChooseAll.AutoSize = true;
-            this.GuiStorageChooseAll.Location = new System.Drawing.Point(29, 211);
-            this.GuiStorageChooseAll.Name = "GuiStorageChooseAll";
-            this.GuiStorageChooseAll.Size = new System.Drawing.Size(190, 29);
-            this.GuiStorageChooseAll.TabIndex = 307;
-            this.GuiStorageChooseAll.Text = "Save all clipboards";
-            this.GuiStorageChooseAll.UseVisualStyleBackColor = true;
-            this.GuiStorageChooseAll.CheckedChanged += new System.EventHandler(this.GuiStorageChoose_CheckedChanged);
-            // 
-            // GuiStorageChooseFavorites
-            // 
-            this.GuiStorageChooseFavorites.AutoSize = true;
-            this.GuiStorageChooseFavorites.Location = new System.Drawing.Point(29, 176);
-            this.GuiStorageChooseFavorites.Name = "GuiStorageChooseFavorites";
-            this.GuiStorageChooseFavorites.Size = new System.Drawing.Size(291, 29);
-            this.GuiStorageChooseFavorites.TabIndex = 308;
-            this.GuiStorageChooseFavorites.Text = "Save only \"Favorite\" clipboards";
-            this.GuiStorageChooseFavorites.UseVisualStyleBackColor = true;
-            this.GuiStorageChooseFavorites.CheckedChanged += new System.EventHandler(this.GuiStorageChoose_CheckedChanged);
-            // 
-            // GuiStorageGroup1
-            // 
-            this.GuiStorageGroup1.Controls.Add(this.GuiStorageInfo);
-            this.GuiStorageGroup1.Location = new System.Drawing.Point(22, 23);
-            this.GuiStorageGroup1.Name = "GuiStorageGroup1";
-            this.GuiStorageGroup1.Size = new System.Drawing.Size(594, 152);
-            this.GuiStorageGroup1.TabIndex = 116;
-            this.GuiStorageGroup1.TabStop = false;
-            this.GuiStorageGroup1.Text = "Info";
-            // 
-            // GuiStorageInfo
-            // 
-            this.GuiStorageInfo.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.GuiStorageInfo.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.GuiStorageInfo.Font = new System.Drawing.Font("Segoe UI", 10.2F);
-            this.GuiStorageInfo.Location = new System.Drawing.Point(20, 31);
-            this.GuiStorageInfo.Multiline = true;
-            this.GuiStorageInfo.Name = "GuiStorageInfo";
-            this.GuiStorageInfo.ReadOnly = true;
-            this.GuiStorageInfo.Size = new System.Drawing.Size(553, 115);
-            this.GuiStorageInfo.TabIndex = 506;
-            this.GuiStorageInfo.Text = resources.GetString("GuiStorageInfo.Text");
-            // 
-            // tabStyle
-            // 
-            this.tabStyle.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.tabStyle.Controls.Add(this.groupBox1);
-            this.tabStyle.Controls.Add(this.GuiStyleGroup5);
-            this.tabStyle.Controls.Add(this.GuiStyleGroup2);
-            this.tabStyle.Location = new System.Drawing.Point(4, 34);
-            this.tabStyle.Name = "tabStyle";
-            this.tabStyle.Size = new System.Drawing.Size(638, 586);
-            this.tabStyle.TabIndex = 5;
-            this.tabStyle.Text = "Style";
-            // 
-            // groupBox1
-            // 
-            this.groupBox1.Controls.Add(this.GuiShowFont);
-            this.groupBox1.Controls.Add(this.GuiChangeFont);
-            this.groupBox1.Location = new System.Drawing.Point(22, 23);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(285, 235);
-            this.groupBox1.TabIndex = 400;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Font";
-            // 
-            // GuiShowFont
-            // 
-            this.GuiShowFont.BackColor = System.Drawing.SystemColors.Control;
-            this.GuiShowFont.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.GuiShowFont.Location = new System.Drawing.Point(29, 102);
-            this.GuiShowFont.Name = "GuiShowFont";
-            this.GuiShowFont.Padding = new System.Windows.Forms.Padding(5);
-            this.GuiShowFont.Size = new System.Drawing.Size(227, 111);
-            this.GuiShowFont.TabIndex = 402;
-            // 
-            // GuiChangeFont
-            // 
-            this.GuiChangeFont.Location = new System.Drawing.Point(29, 50);
-            this.GuiChangeFont.Name = "GuiChangeFont";
-            this.GuiChangeFont.Size = new System.Drawing.Size(129, 34);
-            this.GuiChangeFont.TabIndex = 401;
-            this.GuiChangeFont.Text = "Change font";
-            this.GuiChangeFont.UseVisualStyleBackColor = true;
-            this.GuiChangeFont.Click += new System.EventHandler(this.GuiChangeFont_Click);
-            // 
-            // GuiStyleGroup5
-            // 
-            this.GuiStyleGroup5.Controls.Add(this.PictureBox5);
-            this.GuiStyleGroup5.Controls.Add(this.PictureBox6);
-            this.GuiStyleGroup5.Controls.Add(this.PictureBox7);
-            this.GuiStyleGroup5.Controls.Add(this.PictureBox9);
-            this.GuiStyleGroup5.Controls.Add(this.PictureBox10);
-            this.GuiStyleGroup5.Controls.Add(this.PictureBox8);
-            this.GuiStyleGroup5.Controls.Add(this.PictureBox4);
-            this.GuiStyleGroup5.Controls.Add(this.PictureBox3);
-            this.GuiStyleGroup5.Controls.Add(this.PictureBox2);
-            this.GuiStyleGroup5.Controls.Add(this.GuiIconsSquareNew);
-            this.GuiStyleGroup5.Controls.Add(this.GuiIconsSquareOld);
-            this.GuiStyleGroup5.Controls.Add(this.GuiIconsRound);
-            this.GuiStyleGroup5.Location = new System.Drawing.Point(331, 23);
-            this.GuiStyleGroup5.Name = "GuiStyleGroup5";
-            this.GuiStyleGroup5.Size = new System.Drawing.Size(285, 513);
-            this.GuiStyleGroup5.TabIndex = 430;
-            this.GuiStyleGroup5.TabStop = false;
-            this.GuiStyleGroup5.Text = "Icon set";
-            // 
-            // PictureBox5
-            // 
-            this.PictureBox5.Image = ((System.Drawing.Image)(resources.GetObject("PictureBox5.Image")));
-            this.PictureBox5.InitialImage = null;
-            this.PictureBox5.Location = new System.Drawing.Point(227, 109);
-            this.PictureBox5.Name = "PictureBox5";
-            this.PictureBox5.Size = new System.Drawing.Size(28, 28);
-            this.PictureBox5.TabIndex = 418;
-            this.PictureBox5.TabStop = false;
-            // 
-            // PictureBox6
-            // 
-            this.PictureBox6.Image = ((System.Drawing.Image)(resources.GetObject("PictureBox6.Image")));
-            this.PictureBox6.InitialImage = null;
-            this.PictureBox6.Location = new System.Drawing.Point(199, 109);
-            this.PictureBox6.Name = "PictureBox6";
-            this.PictureBox6.Size = new System.Drawing.Size(28, 28);
-            this.PictureBox6.TabIndex = 417;
-            this.PictureBox6.TabStop = false;
-            // 
-            // PictureBox7
-            // 
-            this.PictureBox7.Image = ((System.Drawing.Image)(resources.GetObject("PictureBox7.Image")));
-            this.PictureBox7.InitialImage = null;
-            this.PictureBox7.Location = new System.Drawing.Point(171, 109);
-            this.PictureBox7.Name = "PictureBox7";
-            this.PictureBox7.Size = new System.Drawing.Size(28, 28);
-            this.PictureBox7.TabIndex = 416;
-            this.PictureBox7.TabStop = false;
-            // 
-            // PictureBox9
-            // 
-            this.PictureBox9.Image = ((System.Drawing.Image)(resources.GetObject("PictureBox9.Image")));
-            this.PictureBox9.InitialImage = null;
-            this.PictureBox9.Location = new System.Drawing.Point(227, 74);
-            this.PictureBox9.Name = "PictureBox9";
-            this.PictureBox9.Size = new System.Drawing.Size(28, 28);
-            this.PictureBox9.TabIndex = 434;
-            this.PictureBox9.TabStop = false;
-            // 
-            // PictureBox10
-            // 
-            this.PictureBox10.Image = ((System.Drawing.Image)(resources.GetObject("PictureBox10.Image")));
-            this.PictureBox10.InitialImage = null;
-            this.PictureBox10.Location = new System.Drawing.Point(199, 74);
-            this.PictureBox10.Name = "PictureBox10";
-            this.PictureBox10.Size = new System.Drawing.Size(28, 28);
-            this.PictureBox10.TabIndex = 435;
-            this.PictureBox10.TabStop = false;
-            // 
-            // PictureBox8
-            // 
-            this.PictureBox8.Image = ((System.Drawing.Image)(resources.GetObject("PictureBox8.Image")));
-            this.PictureBox8.InitialImage = null;
-            this.PictureBox8.Location = new System.Drawing.Point(171, 74);
-            this.PictureBox8.Name = "PictureBox8";
-            this.PictureBox8.Size = new System.Drawing.Size(28, 28);
-            this.PictureBox8.TabIndex = 433;
-            this.PictureBox8.TabStop = false;
-            // 
-            // PictureBox4
-            // 
-            this.PictureBox4.Image = ((System.Drawing.Image)(resources.GetObject("PictureBox4.Image")));
-            this.PictureBox4.InitialImage = null;
-            this.PictureBox4.Location = new System.Drawing.Point(227, 39);
-            this.PictureBox4.Name = "PictureBox4";
-            this.PictureBox4.Size = new System.Drawing.Size(28, 28);
-            this.PictureBox4.TabIndex = 415;
-            this.PictureBox4.TabStop = false;
-            // 
-            // PictureBox3
-            // 
-            this.PictureBox3.Image = ((System.Drawing.Image)(resources.GetObject("PictureBox3.Image")));
-            this.PictureBox3.InitialImage = null;
-            this.PictureBox3.Location = new System.Drawing.Point(199, 39);
-            this.PictureBox3.Name = "PictureBox3";
-            this.PictureBox3.Size = new System.Drawing.Size(28, 28);
-            this.PictureBox3.TabIndex = 414;
-            this.PictureBox3.TabStop = false;
-            // 
-            // PictureBox2
-            // 
-            this.PictureBox2.Image = ((System.Drawing.Image)(resources.GetObject("PictureBox2.Image")));
-            this.PictureBox2.InitialImage = null;
-            this.PictureBox2.Location = new System.Drawing.Point(171, 39);
-            this.PictureBox2.Name = "PictureBox2";
-            this.PictureBox2.Size = new System.Drawing.Size(28, 28);
-            this.PictureBox2.TabIndex = 413;
-            this.PictureBox2.TabStop = false;
-            // 
-            // GuiIconsSquareNew
-            // 
-            this.GuiIconsSquareNew.AutoSize = true;
-            this.GuiIconsSquareNew.Location = new System.Drawing.Point(29, 73);
-            this.GuiIconsSquareNew.Name = "GuiIconsSquareNew";
-            this.GuiIconsSquareNew.Size = new System.Drawing.Size(168, 29);
-            this.GuiIconsSquareNew.TabIndex = 432;
-            this.GuiIconsSquareNew.TabStop = true;
-            this.GuiIconsSquareNew.Text = "Square, Modern";
-            this.GuiIconsSquareNew.UseVisualStyleBackColor = true;
-            this.GuiIconsSquareNew.CheckedChanged += new System.EventHandler(this.GuiIconsSquareNew_CheckedChanged);
-            // 
-            // GuiIconsSquareOld
-            // 
-            this.GuiIconsSquareOld.AutoSize = true;
-            this.GuiIconsSquareOld.Location = new System.Drawing.Point(29, 108);
-            this.GuiIconsSquareOld.Name = "GuiIconsSquareOld";
-            this.GuiIconsSquareOld.Size = new System.Drawing.Size(169, 29);
-            this.GuiIconsSquareOld.TabIndex = 433;
-            this.GuiIconsSquareOld.TabStop = true;
-            this.GuiIconsSquareOld.Text = "Square, Original";
-            this.GuiIconsSquareOld.UseVisualStyleBackColor = true;
-            this.GuiIconsSquareOld.CheckedChanged += new System.EventHandler(this.GuiIconsSquare_CheckedChanged);
-            // 
-            // GuiIconsRound
-            // 
-            this.GuiIconsRound.AutoSize = true;
-            this.GuiIconsRound.Checked = true;
-            this.GuiIconsRound.Location = new System.Drawing.Point(29, 38);
-            this.GuiIconsRound.Name = "GuiIconsRound";
-            this.GuiIconsRound.Size = new System.Drawing.Size(163, 29);
-            this.GuiIconsRound.TabIndex = 431;
-            this.GuiIconsRound.TabStop = true;
-            this.GuiIconsRound.Text = "Round, Modern";
-            this.GuiIconsRound.UseVisualStyleBackColor = true;
-            this.GuiIconsRound.CheckedChanged += new System.EventHandler(this.GuiIconsRound_CheckedChanged);
-            // 
-            // GuiStyleGroup2
-            // 
-            this.GuiStyleGroup2.Controls.Add(this.LabelBorderThickness);
-            this.GuiStyleGroup2.Controls.Add(this.StyleLabelThickness);
-            this.GuiStyleGroup2.Controls.Add(this.GuiBorderThickness);
-            this.GuiStyleGroup2.Location = new System.Drawing.Point(22, 278);
-            this.GuiStyleGroup2.Name = "GuiStyleGroup2";
-            this.GuiStyleGroup2.Size = new System.Drawing.Size(285, 258);
-            this.GuiStyleGroup2.TabIndex = 410;
-            this.GuiStyleGroup2.TabStop = false;
-            this.GuiStyleGroup2.Text = "Border for active entry";
-            // 
-            // LabelBorderThickness
-            // 
-            this.LabelBorderThickness.AutoSize = true;
-            this.LabelBorderThickness.Location = new System.Drawing.Point(228, 77);
-            this.LabelBorderThickness.Name = "LabelBorderThickness";
-            this.LabelBorderThickness.Size = new System.Drawing.Size(22, 25);
-            this.LabelBorderThickness.TabIndex = 414;
-            this.LabelBorderThickness.Text = "1";
-            // 
-            // StyleLabelThickness
-            // 
-            this.StyleLabelThickness.AutoSize = true;
-            this.StyleLabelThickness.Location = new System.Drawing.Point(21, 37);
-            this.StyleLabelThickness.Name = "StyleLabelThickness";
-            this.StyleLabelThickness.Size = new System.Drawing.Size(93, 25);
-            this.StyleLabelThickness.TabIndex = 412;
-            this.StyleLabelThickness.Text = "Thickness";
-            // 
-            // GuiBorderThickness
-            // 
-            this.GuiBorderThickness.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.GuiBorderThickness.LargeChange = 1;
-            this.GuiBorderThickness.Location = new System.Drawing.Point(16, 67);
-            this.GuiBorderThickness.Name = "GuiBorderThickness";
-            this.GuiBorderThickness.Size = new System.Drawing.Size(206, 56);
-            this.GuiBorderThickness.TabIndex = 411;
-            this.GuiBorderThickness.TickFrequency = 5;
-            this.GuiBorderThickness.TickStyle = System.Windows.Forms.TickStyle.Both;
-            this.GuiBorderThickness.Value = 1;
-            this.GuiBorderThickness.Scroll += new System.EventHandler(this.GuiBorderThickness_Scroll);
-            // 
-            // tabColors
-            // 
-            this.tabColors.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.tabColors.Controls.Add(this.GuiStyleGroup1);
-            this.tabColors.Controls.Add(this.GuiStyleGroup4);
-            this.tabColors.Controls.Add(this.GuiStyleGroup3);
-            this.tabColors.Location = new System.Drawing.Point(4, 34);
-            this.tabColors.Name = "tabColors";
-            this.tabColors.Size = new System.Drawing.Size(638, 586);
-            this.tabColors.TabIndex = 9;
-            this.tabColors.Text = "Colors";
-            // 
-            // GuiStyleGroup1
-            // 
-            this.GuiStyleGroup1.Controls.Add(this.GuiShowFontSearch);
-            this.GuiStyleGroup1.Controls.Add(this.GuiShowFontEntry);
-            this.GuiStyleGroup1.Controls.Add(this.GuiShowFontActive);
-            this.GuiStyleGroup1.Controls.Add(this.GuiShowFontHeader);
-            this.GuiStyleGroup1.Location = new System.Drawing.Point(22, 202);
-            this.GuiStyleGroup1.Name = "GuiStyleGroup1";
-            this.GuiStyleGroup1.Size = new System.Drawing.Size(285, 334);
-            this.GuiStyleGroup1.TabIndex = 434;
-            this.GuiStyleGroup1.TabStop = false;
-            this.GuiStyleGroup1.Text = "How it looks";
-            // 
-            // GuiShowFontSearch
-            // 
-            this.GuiShowFontSearch.BackColor = System.Drawing.SystemColors.Control;
-            this.GuiShowFontSearch.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.GuiShowFontSearch.Location = new System.Drawing.Point(29, 84);
-            this.GuiShowFontSearch.Name = "GuiShowFontSearch";
-            this.GuiShowFontSearch.Padding = new System.Windows.Forms.Padding(5);
-            this.GuiShowFontSearch.Size = new System.Drawing.Size(225, 42);
-            this.GuiShowFontSearch.TabIndex = 403;
-            this.GuiShowFontSearch.Text = "Search";
-            this.GuiShowFontSearch.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // GuiShowFontEntry
-            // 
-            this.GuiShowFontEntry.BackColor = System.Drawing.SystemColors.Control;
-            this.GuiShowFontEntry.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.GuiShowFontEntry.Location = new System.Drawing.Point(29, 214);
-            this.GuiShowFontEntry.Name = "GuiShowFontEntry";
-            this.GuiShowFontEntry.Padding = new System.Windows.Forms.Padding(5, 25, 5, 5);
-            this.GuiShowFontEntry.Size = new System.Drawing.Size(225, 90);
-            this.GuiShowFontEntry.TabIndex = 402;
-            // 
-            // GuiShowFontActive
-            // 
-            this.GuiShowFontActive.BackColor = System.Drawing.SystemColors.Control;
-            this.GuiShowFontActive.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.GuiShowFontActive.Location = new System.Drawing.Point(29, 125);
-            this.GuiShowFontActive.Name = "GuiShowFontActive";
-            this.GuiShowFontActive.Padding = new System.Windows.Forms.Padding(5, 25, 5, 5);
-            this.GuiShowFontActive.Size = new System.Drawing.Size(225, 90);
-            this.GuiShowFontActive.TabIndex = 75;
-            // 
-            // GuiShowFontHeader
-            // 
-            this.GuiShowFontHeader.BackColor = System.Drawing.SystemColors.Control;
-            this.GuiShowFontHeader.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.GuiShowFontHeader.Location = new System.Drawing.Point(29, 43);
-            this.GuiShowFontHeader.Name = "GuiShowFontHeader";
-            this.GuiShowFontHeader.Padding = new System.Windows.Forms.Padding(5);
-            this.GuiShowFontHeader.Size = new System.Drawing.Size(225, 42);
-            this.GuiShowFontHeader.TabIndex = 74;
-            this.GuiShowFontHeader.Text = "Header";
-            this.GuiShowFontHeader.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // GuiStyleGroup4
-            // 
-            this.GuiStyleGroup4.Controls.Add(this.StyleLabelSearchColorBackground);
-            this.GuiStyleGroup4.Controls.Add(this.GuiCustomSearchText);
-            this.GuiStyleGroup4.Controls.Add(this.StyleLabelSearchColorText);
-            this.GuiStyleGroup4.Controls.Add(this.GuiCustomSearch);
-            this.GuiStyleGroup4.Controls.Add(this.StyleLabelBorderColor);
-            this.GuiStyleGroup4.Controls.Add(this.StyleLabelEntryColorBackground);
-            this.GuiStyleGroup4.Controls.Add(this.GuiCustomBorder);
-            this.GuiStyleGroup4.Controls.Add(this.GuiCustomActiveText);
-            this.GuiStyleGroup4.Controls.Add(this.GuiCustomEntryText);
-            this.GuiStyleGroup4.Controls.Add(this.GuiCustomHeaderText);
-            this.GuiStyleGroup4.Controls.Add(this.StyleLabelEntryColorText);
-            this.GuiStyleGroup4.Controls.Add(this.StyleLabelActiveColorBackground);
-            this.GuiStyleGroup4.Controls.Add(this.GuiCustomEntry);
-            this.GuiStyleGroup4.Controls.Add(this.StyleLabelHeaderColorText);
-            this.GuiStyleGroup4.Controls.Add(this.GuiCustomActive);
-            this.GuiStyleGroup4.Controls.Add(this.StyleLabelActiveColorText);
-            this.GuiStyleGroup4.Controls.Add(this.GuiCustomHeader);
-            this.GuiStyleGroup4.Controls.Add(this.StyleLabelHeaderColorBackground);
-            this.GuiStyleGroup4.Location = new System.Drawing.Point(331, 23);
-            this.GuiStyleGroup4.Name = "GuiStyleGroup4";
-            this.GuiStyleGroup4.Size = new System.Drawing.Size(285, 513);
-            this.GuiStyleGroup4.TabIndex = 460;
-            this.GuiStyleGroup4.TabStop = false;
-            this.GuiStyleGroup4.Text = "Customer colors";
-            // 
-            // StyleLabelSearchColorBackground
-            // 
-            this.StyleLabelSearchColorBackground.AutoSize = true;
-            this.StyleLabelSearchColorBackground.Location = new System.Drawing.Point(13, 132);
-            this.StyleLabelSearchColorBackground.Name = "StyleLabelSearchColorBackground";
-            this.StyleLabelSearchColorBackground.Size = new System.Drawing.Size(175, 25);
-            this.StyleLabelSearchColorBackground.TabIndex = 442;
-            this.StyleLabelSearchColorBackground.Text = "Search background";
-            // 
-            // GuiCustomSearchText
-            // 
-            this.GuiCustomSearchText.BackColor = System.Drawing.SystemColors.Window;
-            this.GuiCustomSearchText.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.GuiCustomSearchText.Location = new System.Drawing.Point(168, 159);
-            this.GuiCustomSearchText.Name = "GuiCustomSearchText";
-            this.GuiCustomSearchText.ReadOnly = true;
-            this.GuiCustomSearchText.Size = new System.Drawing.Size(92, 32);
-            this.GuiCustomSearchText.TabIndex = 464;
-            this.GuiCustomSearchText.Enter += new System.EventHandler(this.GuiCustomSearchText_Enter);
-            // 
-            // StyleLabelSearchColorText
-            // 
-            this.StyleLabelSearchColorText.AutoSize = true;
-            this.StyleLabelSearchColorText.Location = new System.Drawing.Point(13, 163);
-            this.StyleLabelSearchColorText.Name = "StyleLabelSearchColorText";
-            this.StyleLabelSearchColorText.Size = new System.Drawing.Size(105, 25);
-            this.StyleLabelSearchColorText.TabIndex = 443;
-            this.StyleLabelSearchColorText.Text = "Search text";
-            // 
-            // GuiCustomSearch
-            // 
-            this.GuiCustomSearch.BackColor = System.Drawing.SystemColors.Window;
-            this.GuiCustomSearch.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.GuiCustomSearch.Location = new System.Drawing.Point(168, 129);
-            this.GuiCustomSearch.Name = "GuiCustomSearch";
-            this.GuiCustomSearch.ReadOnly = true;
-            this.GuiCustomSearch.Size = new System.Drawing.Size(92, 32);
-            this.GuiCustomSearch.TabIndex = 463;
-            this.GuiCustomSearch.Enter += new System.EventHandler(this.GuiCustomSearch_Enter);
-            // 
-            // StyleLabelBorderColor
-            // 
-            this.StyleLabelBorderColor.AutoSize = true;
-            this.StyleLabelBorderColor.Location = new System.Drawing.Point(13, 409);
-            this.StyleLabelBorderColor.Name = "StyleLabelBorderColor";
-            this.StyleLabelBorderColor.Size = new System.Drawing.Size(69, 25);
-            this.StyleLabelBorderColor.TabIndex = 437;
-            this.StyleLabelBorderColor.Text = "Border";
-            // 
-            // StyleLabelEntryColorBackground
-            // 
-            this.StyleLabelEntryColorBackground.AutoSize = true;
-            this.StyleLabelEntryColorBackground.Location = new System.Drawing.Point(10, 316);
-            this.StyleLabelEntryColorBackground.Name = "StyleLabelEntryColorBackground";
-            this.StyleLabelEntryColorBackground.Size = new System.Drawing.Size(161, 25);
-            this.StyleLabelEntryColorBackground.TabIndex = 100;
-            this.StyleLabelEntryColorBackground.Text = "Entry background";
-            // 
-            // GuiCustomBorder
-            // 
-            this.GuiCustomBorder.BackColor = System.Drawing.SystemColors.Window;
-            this.GuiCustomBorder.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.GuiCustomBorder.Location = new System.Drawing.Point(165, 405);
-            this.GuiCustomBorder.Name = "GuiCustomBorder";
-            this.GuiCustomBorder.ReadOnly = true;
-            this.GuiCustomBorder.Size = new System.Drawing.Size(92, 32);
-            this.GuiCustomBorder.TabIndex = 469;
-            this.GuiCustomBorder.Enter += new System.EventHandler(this.GuiCustomBorder_Enter);
-            // 
-            // GuiCustomActiveText
-            // 
-            this.GuiCustomActiveText.BackColor = System.Drawing.SystemColors.Window;
-            this.GuiCustomActiveText.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.GuiCustomActiveText.Location = new System.Drawing.Point(165, 251);
-            this.GuiCustomActiveText.Name = "GuiCustomActiveText";
-            this.GuiCustomActiveText.ReadOnly = true;
-            this.GuiCustomActiveText.Size = new System.Drawing.Size(92, 32);
-            this.GuiCustomActiveText.TabIndex = 466;
-            this.GuiCustomActiveText.Enter += new System.EventHandler(this.GuiCustomActiveText_Enter);
-            // 
-            // GuiCustomEntryText
-            // 
-            this.GuiCustomEntryText.BackColor = System.Drawing.SystemColors.Window;
-            this.GuiCustomEntryText.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.GuiCustomEntryText.Location = new System.Drawing.Point(165, 343);
-            this.GuiCustomEntryText.Name = "GuiCustomEntryText";
-            this.GuiCustomEntryText.ReadOnly = true;
-            this.GuiCustomEntryText.Size = new System.Drawing.Size(92, 32);
-            this.GuiCustomEntryText.TabIndex = 468;
-            this.GuiCustomEntryText.Enter += new System.EventHandler(this.GuiCustomEntryText_Enter);
-            // 
-            // GuiCustomHeaderText
-            // 
-            this.GuiCustomHeaderText.BackColor = System.Drawing.SystemColors.Window;
-            this.GuiCustomHeaderText.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.GuiCustomHeaderText.Enabled = false;
-            this.GuiCustomHeaderText.Location = new System.Drawing.Point(165, 67);
-            this.GuiCustomHeaderText.Name = "GuiCustomHeaderText";
-            this.GuiCustomHeaderText.ReadOnly = true;
-            this.GuiCustomHeaderText.Size = new System.Drawing.Size(92, 32);
-            this.GuiCustomHeaderText.TabIndex = 462;
-            this.GuiCustomHeaderText.Enter += new System.EventHandler(this.GuiCustomHeaderText_Enter);
-            // 
-            // StyleLabelEntryColorText
-            // 
-            this.StyleLabelEntryColorText.AutoSize = true;
-            this.StyleLabelEntryColorText.Location = new System.Drawing.Point(10, 347);
-            this.StyleLabelEntryColorText.Name = "StyleLabelEntryColorText";
-            this.StyleLabelEntryColorText.Size = new System.Drawing.Size(91, 25);
-            this.StyleLabelEntryColorText.TabIndex = 102;
-            this.StyleLabelEntryColorText.Text = "Entry text";
-            // 
-            // StyleLabelActiveColorBackground
-            // 
-            this.StyleLabelActiveColorBackground.AutoSize = true;
-            this.StyleLabelActiveColorBackground.Location = new System.Drawing.Point(13, 223);
-            this.StyleLabelActiveColorBackground.Name = "StyleLabelActiveColorBackground";
-            this.StyleLabelActiveColorBackground.Size = new System.Drawing.Size(169, 25);
-            this.StyleLabelActiveColorBackground.TabIndex = 435;
-            this.StyleLabelActiveColorBackground.Text = "Active background";
-            // 
-            // GuiCustomEntry
-            // 
-            this.GuiCustomEntry.BackColor = System.Drawing.SystemColors.Window;
-            this.GuiCustomEntry.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.GuiCustomEntry.Location = new System.Drawing.Point(165, 313);
-            this.GuiCustomEntry.Name = "GuiCustomEntry";
-            this.GuiCustomEntry.ReadOnly = true;
-            this.GuiCustomEntry.Size = new System.Drawing.Size(92, 32);
-            this.GuiCustomEntry.TabIndex = 467;
-            this.GuiCustomEntry.Enter += new System.EventHandler(this.GuiCustomEntry_Enter);
-            // 
-            // StyleLabelHeaderColorText
-            // 
-            this.StyleLabelHeaderColorText.AutoSize = true;
-            this.StyleLabelHeaderColorText.Enabled = false;
-            this.StyleLabelHeaderColorText.Location = new System.Drawing.Point(11, 71);
-            this.StyleLabelHeaderColorText.Name = "StyleLabelHeaderColorText";
-            this.StyleLabelHeaderColorText.Size = new System.Drawing.Size(109, 25);
-            this.StyleLabelHeaderColorText.TabIndex = 437;
-            this.StyleLabelHeaderColorText.Text = "Header text";
-            // 
-            // GuiCustomActive
-            // 
-            this.GuiCustomActive.BackColor = System.Drawing.SystemColors.Window;
-            this.GuiCustomActive.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.GuiCustomActive.Location = new System.Drawing.Point(165, 221);
-            this.GuiCustomActive.Name = "GuiCustomActive";
-            this.GuiCustomActive.ReadOnly = true;
-            this.GuiCustomActive.Size = new System.Drawing.Size(92, 32);
-            this.GuiCustomActive.TabIndex = 465;
-            this.GuiCustomActive.Enter += new System.EventHandler(this.GuiCustomActive_Enter);
-            // 
-            // StyleLabelActiveColorText
-            // 
-            this.StyleLabelActiveColorText.AutoSize = true;
-            this.StyleLabelActiveColorText.Location = new System.Drawing.Point(13, 255);
-            this.StyleLabelActiveColorText.Name = "StyleLabelActiveColorText";
-            this.StyleLabelActiveColorText.Size = new System.Drawing.Size(99, 25);
-            this.StyleLabelActiveColorText.TabIndex = 441;
-            this.StyleLabelActiveColorText.Text = "Active text";
-            // 
-            // GuiCustomHeader
-            // 
-            this.GuiCustomHeader.BackColor = System.Drawing.SystemColors.Window;
-            this.GuiCustomHeader.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.GuiCustomHeader.Enabled = false;
-            this.GuiCustomHeader.Location = new System.Drawing.Point(165, 37);
-            this.GuiCustomHeader.Name = "GuiCustomHeader";
-            this.GuiCustomHeader.ReadOnly = true;
-            this.GuiCustomHeader.Size = new System.Drawing.Size(92, 32);
-            this.GuiCustomHeader.TabIndex = 461;
-            this.GuiCustomHeader.Enter += new System.EventHandler(this.GuiCustomHeader_Enter);
-            // 
-            // StyleLabelHeaderColorBackground
-            // 
-            this.StyleLabelHeaderColorBackground.AutoSize = true;
-            this.StyleLabelHeaderColorBackground.Enabled = false;
-            this.StyleLabelHeaderColorBackground.Location = new System.Drawing.Point(11, 40);
-            this.StyleLabelHeaderColorBackground.Name = "StyleLabelHeaderColorBackground";
-            this.StyleLabelHeaderColorBackground.Size = new System.Drawing.Size(179, 25);
-            this.StyleLabelHeaderColorBackground.TabIndex = 99;
-            this.StyleLabelHeaderColorBackground.Text = "Header background";
-            // 
-            // GuiStyleGroup3
-            // 
-            this.GuiStyleGroup3.Controls.Add(this.GuiHistoryColorThemeContrast);
-            this.GuiStyleGroup3.Controls.Add(this.GuiHistoryColorThemeCustom);
-            this.GuiStyleGroup3.Controls.Add(this.GuiHistoryColorThemeYellow);
-            this.GuiStyleGroup3.Controls.Add(this.GuiHistoryColorThemeGreen);
-            this.GuiStyleGroup3.Controls.Add(this.GuiHistoryColorThemeBlue);
-            this.GuiStyleGroup3.Controls.Add(this.GuiHistoryColorThemeBrown);
-            this.GuiStyleGroup3.Location = new System.Drawing.Point(22, 23);
-            this.GuiStyleGroup3.Name = "GuiStyleGroup3";
-            this.GuiStyleGroup3.Size = new System.Drawing.Size(285, 159);
-            this.GuiStyleGroup3.TabIndex = 450;
-            this.GuiStyleGroup3.TabStop = false;
-            this.GuiStyleGroup3.Text = "Color theme";
-            // 
-            // GuiHistoryColorThemeContrast
-            // 
-            this.GuiHistoryColorThemeContrast.AutoSize = true;
-            this.GuiHistoryColorThemeContrast.Location = new System.Drawing.Point(158, 73);
-            this.GuiHistoryColorThemeContrast.Name = "GuiHistoryColorThemeContrast";
-            this.GuiHistoryColorThemeContrast.Size = new System.Drawing.Size(104, 29);
-            this.GuiHistoryColorThemeContrast.TabIndex = 455;
-            this.GuiHistoryColorThemeContrast.TabStop = true;
-            this.GuiHistoryColorThemeContrast.Text = "Contrast";
-            this.GuiHistoryColorThemeContrast.UseVisualStyleBackColor = true;
-            this.GuiHistoryColorThemeContrast.CheckedChanged += new System.EventHandler(this.GuiHistoryColorTheme_CheckedChanged);
-            // 
-            // GuiHistoryColorThemeCustom
-            // 
-            this.GuiHistoryColorThemeCustom.AutoSize = true;
-            this.GuiHistoryColorThemeCustom.Location = new System.Drawing.Point(158, 108);
-            this.GuiHistoryColorThemeCustom.Name = "GuiHistoryColorThemeCustom";
-            this.GuiHistoryColorThemeCustom.Size = new System.Drawing.Size(97, 29);
-            this.GuiHistoryColorThemeCustom.TabIndex = 456;
-            this.GuiHistoryColorThemeCustom.TabStop = true;
-            this.GuiHistoryColorThemeCustom.Text = "Custom";
-            this.GuiHistoryColorThemeCustom.UseVisualStyleBackColor = true;
-            this.GuiHistoryColorThemeCustom.CheckedChanged += new System.EventHandler(this.GuiHistoryColorTheme_CheckedChanged);
-            // 
-            // GuiHistoryColorThemeYellow
-            // 
-            this.GuiHistoryColorThemeYellow.AutoSize = true;
-            this.GuiHistoryColorThemeYellow.Checked = true;
-            this.GuiHistoryColorThemeYellow.Location = new System.Drawing.Point(158, 38);
-            this.GuiHistoryColorThemeYellow.Name = "GuiHistoryColorThemeYellow";
-            this.GuiHistoryColorThemeYellow.Size = new System.Drawing.Size(87, 29);
-            this.GuiHistoryColorThemeYellow.TabIndex = 454;
-            this.GuiHistoryColorThemeYellow.TabStop = true;
-            this.GuiHistoryColorThemeYellow.Text = "Yellow";
-            this.GuiHistoryColorThemeYellow.UseVisualStyleBackColor = true;
-            this.GuiHistoryColorThemeYellow.CheckedChanged += new System.EventHandler(this.GuiHistoryColorTheme_CheckedChanged);
-            // 
-            // GuiHistoryColorThemeGreen
-            // 
-            this.GuiHistoryColorThemeGreen.AutoSize = true;
-            this.GuiHistoryColorThemeGreen.Location = new System.Drawing.Point(29, 108);
-            this.GuiHistoryColorThemeGreen.Name = "GuiHistoryColorThemeGreen";
-            this.GuiHistoryColorThemeGreen.Size = new System.Drawing.Size(84, 29);
-            this.GuiHistoryColorThemeGreen.TabIndex = 453;
-            this.GuiHistoryColorThemeGreen.TabStop = true;
-            this.GuiHistoryColorThemeGreen.Text = "Green";
-            this.GuiHistoryColorThemeGreen.UseVisualStyleBackColor = true;
-            this.GuiHistoryColorThemeGreen.CheckedChanged += new System.EventHandler(this.GuiHistoryColorTheme_CheckedChanged);
-            // 
-            // GuiHistoryColorThemeBlue
-            // 
-            this.GuiHistoryColorThemeBlue.AutoSize = true;
-            this.GuiHistoryColorThemeBlue.Location = new System.Drawing.Point(29, 38);
-            this.GuiHistoryColorThemeBlue.Name = "GuiHistoryColorThemeBlue";
-            this.GuiHistoryColorThemeBlue.Size = new System.Drawing.Size(70, 29);
-            this.GuiHistoryColorThemeBlue.TabIndex = 451;
-            this.GuiHistoryColorThemeBlue.TabStop = true;
-            this.GuiHistoryColorThemeBlue.Text = "Blue";
-            this.GuiHistoryColorThemeBlue.UseVisualStyleBackColor = true;
-            this.GuiHistoryColorThemeBlue.CheckedChanged += new System.EventHandler(this.GuiHistoryColorTheme_CheckedChanged);
-            // 
-            // GuiHistoryColorThemeBrown
-            // 
-            this.GuiHistoryColorThemeBrown.AutoSize = true;
-            this.GuiHistoryColorThemeBrown.Location = new System.Drawing.Point(29, 73);
-            this.GuiHistoryColorThemeBrown.Name = "GuiHistoryColorThemeBrown";
-            this.GuiHistoryColorThemeBrown.Size = new System.Drawing.Size(87, 29);
-            this.GuiHistoryColorThemeBrown.TabIndex = 452;
-            this.GuiHistoryColorThemeBrown.TabStop = true;
-            this.GuiHistoryColorThemeBrown.Text = "Brown";
-            this.GuiHistoryColorThemeBrown.UseVisualStyleBackColor = true;
-            this.GuiHistoryColorThemeBrown.CheckedChanged += new System.EventHandler(this.GuiHistoryColorTheme_CheckedChanged);
-            // 
-            // tabAdvanced
-            // 
-            this.tabAdvanced.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.tabAdvanced.Controls.Add(this.GuiAdvancedStatus);
-            this.tabAdvanced.Controls.Add(this.GuiAdvancedGroup2);
-            this.tabAdvanced.Controls.Add(this.GuiAdvancedGroup3);
-            this.tabAdvanced.Controls.Add(this.GuiAdvancedGroup1);
-            this.tabAdvanced.Location = new System.Drawing.Point(4, 34);
-            this.tabAdvanced.Name = "tabAdvanced";
-            this.tabAdvanced.Size = new System.Drawing.Size(638, 586);
-            this.tabAdvanced.TabIndex = 6;
-            this.tabAdvanced.Text = "Advanced";
-            // 
-            // GuiAdvancedStatus
-            // 
-            this.GuiAdvancedStatus.Controls.Add(this.GuiClearHistory);
-            this.GuiAdvancedStatus.Controls.Add(this.GuiHistoryEntriesCount);
-            this.GuiAdvancedStatus.Controls.Add(this.GuiMemoryUsed);
-            this.GuiAdvancedStatus.Location = new System.Drawing.Point(339, 23);
-            this.GuiAdvancedStatus.Name = "GuiAdvancedStatus";
-            this.GuiAdvancedStatus.Size = new System.Drawing.Size(277, 165);
-            this.GuiAdvancedStatus.TabIndex = 521;
-            this.GuiAdvancedStatus.TabStop = false;
-            this.GuiAdvancedStatus.Text = "Status";
-            // 
-            // GuiClearHistory
-            // 
-            this.GuiClearHistory.Location = new System.Drawing.Point(21, 119);
-            this.GuiClearHistory.Name = "GuiClearHistory";
-            this.GuiClearHistory.Size = new System.Drawing.Size(236, 34);
-            this.GuiClearHistory.TabIndex = 505;
-            this.GuiClearHistory.Text = "Clear all clipboard entries";
-            this.GuiClearHistory.UseVisualStyleBackColor = true;
-            this.GuiClearHistory.Click += new System.EventHandler(this.GuiClearHistory_Click);
-            // 
-            // GuiHistoryEntriesCount
-            // 
-            this.GuiHistoryEntriesCount.AutoSize = true;
-            this.GuiHistoryEntriesCount.Location = new System.Drawing.Point(24, 42);
-            this.GuiHistoryEntriesCount.Name = "GuiHistoryEntriesCount";
-            this.GuiHistoryEntriesCount.Size = new System.Drawing.Size(177, 25);
-            this.GuiHistoryEntriesCount.TabIndex = 1;
-            this.GuiHistoryEntriesCount.Text = "Clipboard entries: X";
-            // 
-            // GuiMemoryUsed
-            // 
-            this.GuiMemoryUsed.AutoSize = true;
-            this.GuiMemoryUsed.Location = new System.Drawing.Point(24, 77);
-            this.GuiMemoryUsed.Name = "GuiMemoryUsed";
-            this.GuiMemoryUsed.Size = new System.Drawing.Size(180, 25);
-            this.GuiMemoryUsed.TabIndex = 0;
-            this.GuiMemoryUsed.Text = "Memory used: X MB";
-            // 
-            // GuiAdvancedGroup2
-            // 
-            this.GuiAdvancedGroup2.Controls.Add(this.AdvancedLabelDevelopmentVersion);
-            this.GuiAdvancedGroup2.Controls.Add(this.GuiDevelopmentRefresh);
-            this.GuiAdvancedGroup2.Controls.Add(this.GuiDevelopmentAutoInstall);
-            this.GuiAdvancedGroup2.Controls.Add(this.GuiDevelopmentDownload);
-            this.GuiAdvancedGroup2.Controls.Add(this.AdvancedLabelInfoDevelopment);
-            this.GuiAdvancedGroup2.Location = new System.Drawing.Point(22, 208);
-            this.GuiAdvancedGroup2.Name = "GuiAdvancedGroup2";
-            this.GuiAdvancedGroup2.Size = new System.Drawing.Size(594, 192);
-            this.GuiAdvancedGroup2.TabIndex = 510;
-            this.GuiAdvancedGroup2.TabStop = false;
-            this.GuiAdvancedGroup2.Text = "Development version available for testing";
-            // 
-            // AdvancedLabelDevelopmentVersion
-            // 
-            this.AdvancedLabelDevelopmentVersion.BackColor = System.Drawing.Color.Transparent;
-            this.AdvancedLabelDevelopmentVersion.Enabled = false;
-            this.AdvancedLabelDevelopmentVersion.Location = new System.Drawing.Point(60, 36);
-            this.AdvancedLabelDevelopmentVersion.Name = "AdvancedLabelDevelopmentVersion";
-            this.AdvancedLabelDevelopmentVersion.Size = new System.Drawing.Size(338, 34);
-            this.AdvancedLabelDevelopmentVersion.TabIndex = 514;
-            this.AdvancedLabelDevelopmentVersion.Text = "Please wait ...";
-            this.AdvancedLabelDevelopmentVersion.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.AdvancedLabelDevelopmentVersion.Click += new System.EventHandler(this.GuiDevelopmentRefresh_Click);
-            // 
-            // GuiDevelopmentRefresh
-            // 
-            this.GuiDevelopmentRefresh.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.GuiDevelopmentRefresh.Image = ((System.Drawing.Image)(resources.GetObject("GuiDevelopmentRefresh.Image")));
-            this.GuiDevelopmentRefresh.InitialImage = null;
-            this.GuiDevelopmentRefresh.Location = new System.Drawing.Point(35, 43);
-            this.GuiDevelopmentRefresh.Name = "GuiDevelopmentRefresh";
-            this.GuiDevelopmentRefresh.Size = new System.Drawing.Size(33, 29);
-            this.GuiDevelopmentRefresh.TabIndex = 515;
-            this.GuiDevelopmentRefresh.TabStop = false;
-            this.GuiDevelopmentRefresh.Click += new System.EventHandler(this.GuiDevelopmentRefresh_Click);
-            // 
-            // GuiDevelopmentAutoInstall
-            // 
-            this.GuiDevelopmentAutoInstall.Enabled = false;
-            this.GuiDevelopmentAutoInstall.Location = new System.Drawing.Point(28, 87);
-            this.GuiDevelopmentAutoInstall.Name = "GuiDevelopmentAutoInstall";
-            this.GuiDevelopmentAutoInstall.Size = new System.Drawing.Size(186, 34);
-            this.GuiDevelopmentAutoInstall.TabIndex = 511;
-            this.GuiDevelopmentAutoInstall.Text = "Auto-install";
-            this.GuiDevelopmentAutoInstall.UseVisualStyleBackColor = true;
-            this.GuiDevelopmentAutoInstall.Click += new System.EventHandler(this.Button1_Click_1);
-            // 
-            // GuiDevelopmentDownload
-            // 
-            this.GuiDevelopmentDownload.Enabled = false;
-            this.GuiDevelopmentDownload.Location = new System.Drawing.Point(28, 131);
-            this.GuiDevelopmentDownload.Name = "GuiDevelopmentDownload";
-            this.GuiDevelopmentDownload.Size = new System.Drawing.Size(186, 34);
-            this.GuiDevelopmentDownload.TabIndex = 512;
-            this.GuiDevelopmentDownload.Text = "Manual download";
-            this.GuiDevelopmentDownload.UseVisualStyleBackColor = true;
-            this.GuiDevelopmentDownload.Click += new System.EventHandler(this.GuiDevelopmentDownload_Click);
-            // 
-            // AdvancedLabelInfoDevelopment
-            // 
-            this.AdvancedLabelInfoDevelopment.Enabled = false;
-            this.AdvancedLabelInfoDevelopment.Font = new System.Drawing.Font("Segoe UI", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.AdvancedLabelInfoDevelopment.ForeColor = System.Drawing.Color.Red;
-            this.AdvancedLabelInfoDevelopment.Location = new System.Drawing.Point(240, 87);
-            this.AdvancedLabelInfoDevelopment.Name = "AdvancedLabelInfoDevelopment";
-            this.AdvancedLabelInfoDevelopment.Size = new System.Drawing.Size(337, 96);
-            this.AdvancedLabelInfoDevelopment.TabIndex = 513;
-            this.AdvancedLabelInfoDevelopment.Text = "Recommended only to use if you want to test unreleased functionalities or bugfixe" +
+            // TimerUpdateVersion
+            // 
+            this.TimerUpdateVersion.Interval = 10000;
+            this.TimerUpdateVersion.Tick += new System.EventHandler(this.UpdateTimer_Tick);
+            // 
+            // TimerMouseClick
+            // 
+            this.TimerMouseClick.Interval = 300;
+            this.TimerMouseClick.Tick += new System.EventHandler(this.MouseClickTimer_Tick);
+            // 
+            // UiAboutPictureBoxPaypal
+            // 
+            this.UiAboutPictureBoxPaypal.BackColor = System.Drawing.Color.Transparent;
+            this.UiAboutPictureBoxPaypal.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.UiAboutPictureBoxPaypal.Image = ((System.Drawing.Image)(resources.GetObject("UiAboutPictureBoxPaypal.Image")));
+            this.UiAboutPictureBoxPaypal.Location = new System.Drawing.Point(209, 428);
+            this.UiAboutPictureBoxPaypal.Name = "UiAboutPictureBoxPaypal";
+            this.UiAboutPictureBoxPaypal.Size = new System.Drawing.Size(134, 71);
+            this.UiAboutPictureBoxPaypal.TabIndex = 94;
+            this.UiAboutPictureBoxPaypal.TabStop = false;
+            this.UiAboutPictureBoxPaypal.Click += new System.EventHandler(this.PictureBox1_Click);
+            // 
+            // UiLayoutLabelMarginText
+            // 
+            this.UiLayoutLabelMarginText.AutoSize = true;
+            this.UiLayoutLabelMarginText.Location = new System.Drawing.Point(191, 321);
+            this.UiLayoutLabelMarginText.Name = "UiLayoutLabelMarginText";
+            this.UiLayoutLabelMarginText.Size = new System.Drawing.Size(42, 25);
+            this.UiLayoutLabelMarginText.TabIndex = 307;
+            this.UiLayoutLabelMarginText.Text = "5px";
+            // 
+            // UiLayoutLabelMargin
+            // 
+            this.UiLayoutLabelMargin.AutoSize = true;
+            this.UiLayoutLabelMargin.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.UiLayoutLabelMargin.Location = new System.Drawing.Point(17, 293);
+            this.UiLayoutLabelMargin.Name = "UiLayoutLabelMargin";
+            this.UiLayoutLabelMargin.Size = new System.Drawing.Size(135, 23);
+            this.UiLayoutLabelMargin.TabIndex = 304;
+            this.UiLayoutLabelMargin.Text = "Margin to edges";
+            // 
+            // UiLayoutLabelWidth
+            // 
+            this.UiLayoutLabelWidth.AutoSize = true;
+            this.UiLayoutLabelWidth.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.UiLayoutLabelWidth.Location = new System.Drawing.Point(17, 133);
+            this.UiLayoutLabelWidth.Name = "UiLayoutLabelWidth";
+            this.UiLayoutLabelWidth.Size = new System.Drawing.Size(56, 23);
+            this.UiLayoutLabelWidth.TabIndex = 73;
+            this.UiLayoutLabelWidth.Text = "Width";
+            // 
+            // UiLayoutLabelVisibleElementsText
+            // 
+            this.UiLayoutLabelVisibleElementsText.AutoSize = true;
+            this.UiLayoutLabelVisibleElementsText.Location = new System.Drawing.Point(191, 81);
+            this.UiLayoutLabelVisibleElementsText.Name = "UiLayoutLabelVisibleElementsText";
+            this.UiLayoutLabelVisibleElementsText.Size = new System.Drawing.Size(22, 25);
+            this.UiLayoutLabelVisibleElementsText.TabIndex = 77;
+            this.UiLayoutLabelVisibleElementsText.Text = "1";
+            // 
+            // UiLayoutLabelVisibleElements
+            // 
+            this.UiLayoutLabelVisibleElements.AutoSize = true;
+            this.UiLayoutLabelVisibleElements.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.UiLayoutLabelVisibleElements.Location = new System.Drawing.Point(17, 53);
+            this.UiLayoutLabelVisibleElements.Name = "UiLayoutLabelVisibleElements";
+            this.UiLayoutLabelVisibleElements.Size = new System.Drawing.Size(133, 23);
+            this.UiLayoutLabelVisibleElements.TabIndex = 76;
+            this.UiLayoutLabelVisibleElements.Text = "Visible elements";
+            // 
+            // UiLayoutLabelHeightText
+            // 
+            this.UiLayoutLabelHeightText.AutoSize = true;
+            this.UiLayoutLabelHeightText.Location = new System.Drawing.Point(191, 241);
+            this.UiLayoutLabelHeightText.Name = "UiLayoutLabelHeightText";
+            this.UiLayoutLabelHeightText.Size = new System.Drawing.Size(48, 25);
+            this.UiLayoutLabelHeightText.TabIndex = 72;
+            this.UiLayoutLabelHeightText.Text = "20%";
+            // 
+            // UiLayoutLabelHeight
+            // 
+            this.UiLayoutLabelHeight.AutoSize = true;
+            this.UiLayoutLabelHeight.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.UiLayoutLabelHeight.Location = new System.Drawing.Point(17, 213);
+            this.UiLayoutLabelHeight.Name = "UiLayoutLabelHeight";
+            this.UiLayoutLabelHeight.Size = new System.Drawing.Size(61, 23);
+            this.UiLayoutLabelHeight.TabIndex = 74;
+            this.UiLayoutLabelHeight.Text = "Height";
+            // 
+            // UiLayoutLabelWidthText
+            // 
+            this.UiLayoutLabelWidthText.AutoSize = true;
+            this.UiLayoutLabelWidthText.Location = new System.Drawing.Point(191, 161);
+            this.UiLayoutLabelWidthText.Name = "UiLayoutLabelWidthText";
+            this.UiLayoutLabelWidthText.Size = new System.Drawing.Size(48, 25);
+            this.UiLayoutLabelWidthText.TabIndex = 71;
+            this.UiLayoutLabelWidthText.Text = "30%";
+            // 
+            // UiHotkeysLabelSearch
+            // 
+            this.UiHotkeysLabelSearch.AutoSize = true;
+            this.UiHotkeysLabelSearch.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.UiHotkeysLabelSearch.Location = new System.Drawing.Point(51, 106);
+            this.UiHotkeysLabelSearch.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.UiHotkeysLabelSearch.Name = "UiHotkeysLabelSearch";
+            this.UiHotkeysLabelSearch.Size = new System.Drawing.Size(153, 23);
+            this.UiHotkeysLabelSearch.TabIndex = 1010;
+            this.UiHotkeysLabelSearch.Text = "Show clipboard list";
+            // 
+            // UiHotkeysLabelToggleFavorite
+            // 
+            this.UiHotkeysLabelToggleFavorite.AutoSize = true;
+            this.UiHotkeysLabelToggleFavorite.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.UiHotkeysLabelToggleFavorite.Location = new System.Drawing.Point(39, 150);
+            this.UiHotkeysLabelToggleFavorite.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.UiHotkeysLabelToggleFavorite.Name = "UiHotkeysLabelToggleFavorite";
+            this.UiHotkeysLabelToggleFavorite.Size = new System.Drawing.Size(166, 23);
+            this.UiHotkeysLabelToggleFavorite.TabIndex = 1007;
+            this.UiHotkeysLabelToggleFavorite.Text = "Toggle favorite entry";
+            // 
+            // UiHotkeysLabelPasteHotkey
+            // 
+            this.UiHotkeysLabelPasteHotkey.AutoSize = true;
+            this.UiHotkeysLabelPasteHotkey.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.UiHotkeysLabelPasteHotkey.Location = new System.Drawing.Point(66, 195);
+            this.UiHotkeysLabelPasteHotkey.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.UiHotkeysLabelPasteHotkey.Name = "UiHotkeysLabelPasteHotkey";
+            this.UiHotkeysLabelPasteHotkey.Size = new System.Drawing.Size(131, 23);
+            this.UiHotkeysLabelPasteHotkey.TabIndex = 1003;
+            this.UiHotkeysLabelPasteHotkey.Text = "Paste on hotkey";
+            // 
+            // UiHotkeysLabelToggleApplication
+            // 
+            this.UiHotkeysLabelToggleApplication.AutoSize = true;
+            this.UiHotkeysLabelToggleApplication.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.UiHotkeysLabelToggleApplication.Location = new System.Drawing.Point(13, 59);
+            this.UiHotkeysLabelToggleApplication.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.UiHotkeysLabelToggleApplication.Name = "UiHotkeysLabelToggleApplication";
+            this.UiHotkeysLabelToggleApplication.Size = new System.Drawing.Size(201, 23);
+            this.UiHotkeysLabelToggleApplication.TabIndex = 1000;
+            this.UiHotkeysLabelToggleApplication.Text = "Toggle application on/off";
+            // 
+            // UiFormLabelLoadingPanel
+            // 
+            this.UiFormLabelLoadingPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(56)))), ((int)(((byte)(97)))), ((int)(((byte)(55)))));
+            this.UiFormLabelLoadingPanel.Controls.Add(this.UiFormLabelLoadingText);
+            this.UiFormLabelLoadingPanel.Location = new System.Drawing.Point(431, 11);
+            this.UiFormLabelLoadingPanel.Name = "UiFormLabelLoadingPanel";
+            this.UiFormLabelLoadingPanel.Size = new System.Drawing.Size(198, 61);
+            this.UiFormLabelLoadingPanel.TabIndex = 0;
+            this.UiFormLabelLoadingPanel.Visible = false;
+            // 
+            // UiFormLabelLoadingText
+            // 
+            this.UiFormLabelLoadingText.AutoSize = true;
+            this.UiFormLabelLoadingText.BackColor = System.Drawing.Color.Transparent;
+            this.UiFormLabelLoadingText.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.UiFormLabelLoadingText.Location = new System.Drawing.Point(12, 16);
+            this.UiFormLabelLoadingText.Name = "UiFormLabelLoadingText";
+            this.UiFormLabelLoadingText.Size = new System.Drawing.Size(342, 25);
+            this.UiFormLabelLoadingText.TabIndex = 0;
+            this.UiFormLabelLoadingText.Text = "Please wait while processing data file ...";
+            // 
+            // UiStorageLabelWhichClipboardToSave
+            // 
+            this.UiStorageLabelWhichClipboardToSave.AutoSize = true;
+            this.UiStorageLabelWhichClipboardToSave.Location = new System.Drawing.Point(12, 134);
+            this.UiStorageLabelWhichClipboardToSave.Name = "UiStorageLabelWhichClipboardToSave";
+            this.UiStorageLabelWhichClipboardToSave.Size = new System.Drawing.Size(277, 25);
+            this.UiStorageLabelWhichClipboardToSave.TabIndex = 507;
+            this.UiStorageLabelWhichClipboardToSave.Text = "Which clipboard entries to save";
+            // 
+            // UiStorageLabelAmountOfClipboardsToSave
+            // 
+            this.UiStorageLabelAmountOfClipboardsToSave.AutoSize = true;
+            this.UiStorageLabelAmountOfClipboardsToSave.Location = new System.Drawing.Point(12, 276);
+            this.UiStorageLabelAmountOfClipboardsToSave.Name = "UiStorageLabelAmountOfClipboardsToSave";
+            this.UiStorageLabelAmountOfClipboardsToSave.Size = new System.Drawing.Size(312, 25);
+            this.UiStorageLabelAmountOfClipboardsToSave.TabIndex = 305;
+            this.UiStorageLabelAmountOfClipboardsToSave.Text = "Amount of clipboard entries to save";
+            // 
+            // UiStorageTrackBarEntriesToSaveText
+            // 
+            this.UiStorageTrackBarEntriesToSaveText.AutoSize = true;
+            this.UiStorageTrackBarEntriesToSaveText.Location = new System.Drawing.Point(277, 307);
+            this.UiStorageTrackBarEntriesToSaveText.Name = "UiStorageTrackBarEntriesToSaveText";
+            this.UiStorageTrackBarEntriesToSaveText.Size = new System.Drawing.Size(22, 25);
+            this.UiStorageTrackBarEntriesToSaveText.TabIndex = 505;
+            this.UiStorageTrackBarEntriesToSaveText.Text = "1";
+            // 
+            // UiStyleOictureBoxIcon9
+            // 
+            this.UiStyleOictureBoxIcon9.Image = ((System.Drawing.Image)(resources.GetObject("UiStyleOictureBoxIcon9.Image")));
+            this.UiStyleOictureBoxIcon9.InitialImage = null;
+            this.UiStyleOictureBoxIcon9.Location = new System.Drawing.Point(215, 122);
+            this.UiStyleOictureBoxIcon9.Name = "UiStyleOictureBoxIcon9";
+            this.UiStyleOictureBoxIcon9.Size = new System.Drawing.Size(28, 28);
+            this.UiStyleOictureBoxIcon9.TabIndex = 418;
+            this.UiStyleOictureBoxIcon9.TabStop = false;
+            // 
+            // UiStyleOictureBoxIcon8
+            // 
+            this.UiStyleOictureBoxIcon8.Image = ((System.Drawing.Image)(resources.GetObject("UiStyleOictureBoxIcon8.Image")));
+            this.UiStyleOictureBoxIcon8.InitialImage = null;
+            this.UiStyleOictureBoxIcon8.Location = new System.Drawing.Point(187, 122);
+            this.UiStyleOictureBoxIcon8.Name = "UiStyleOictureBoxIcon8";
+            this.UiStyleOictureBoxIcon8.Size = new System.Drawing.Size(28, 28);
+            this.UiStyleOictureBoxIcon8.TabIndex = 417;
+            this.UiStyleOictureBoxIcon8.TabStop = false;
+            // 
+            // UiStyleOictureBoxIcon7
+            // 
+            this.UiStyleOictureBoxIcon7.Image = ((System.Drawing.Image)(resources.GetObject("UiStyleOictureBoxIcon7.Image")));
+            this.UiStyleOictureBoxIcon7.InitialImage = null;
+            this.UiStyleOictureBoxIcon7.Location = new System.Drawing.Point(159, 122);
+            this.UiStyleOictureBoxIcon7.Name = "UiStyleOictureBoxIcon7";
+            this.UiStyleOictureBoxIcon7.Size = new System.Drawing.Size(28, 28);
+            this.UiStyleOictureBoxIcon7.TabIndex = 416;
+            this.UiStyleOictureBoxIcon7.TabStop = false;
+            // 
+            // UiStyleOictureBoxIcon6
+            // 
+            this.UiStyleOictureBoxIcon6.Image = ((System.Drawing.Image)(resources.GetObject("UiStyleOictureBoxIcon6.Image")));
+            this.UiStyleOictureBoxIcon6.InitialImage = null;
+            this.UiStyleOictureBoxIcon6.Location = new System.Drawing.Point(215, 87);
+            this.UiStyleOictureBoxIcon6.Name = "UiStyleOictureBoxIcon6";
+            this.UiStyleOictureBoxIcon6.Size = new System.Drawing.Size(28, 28);
+            this.UiStyleOictureBoxIcon6.TabIndex = 434;
+            this.UiStyleOictureBoxIcon6.TabStop = false;
+            // 
+            // UiStyleOictureBoxIcon5
+            // 
+            this.UiStyleOictureBoxIcon5.Image = ((System.Drawing.Image)(resources.GetObject("UiStyleOictureBoxIcon5.Image")));
+            this.UiStyleOictureBoxIcon5.InitialImage = null;
+            this.UiStyleOictureBoxIcon5.Location = new System.Drawing.Point(187, 87);
+            this.UiStyleOictureBoxIcon5.Name = "UiStyleOictureBoxIcon5";
+            this.UiStyleOictureBoxIcon5.Size = new System.Drawing.Size(28, 28);
+            this.UiStyleOictureBoxIcon5.TabIndex = 435;
+            this.UiStyleOictureBoxIcon5.TabStop = false;
+            // 
+            // UiStyleOictureBoxIcon4
+            // 
+            this.UiStyleOictureBoxIcon4.Image = ((System.Drawing.Image)(resources.GetObject("UiStyleOictureBoxIcon4.Image")));
+            this.UiStyleOictureBoxIcon4.InitialImage = null;
+            this.UiStyleOictureBoxIcon4.Location = new System.Drawing.Point(159, 88);
+            this.UiStyleOictureBoxIcon4.Name = "UiStyleOictureBoxIcon4";
+            this.UiStyleOictureBoxIcon4.Size = new System.Drawing.Size(28, 28);
+            this.UiStyleOictureBoxIcon4.TabIndex = 433;
+            this.UiStyleOictureBoxIcon4.TabStop = false;
+            // 
+            // UiStyleOictureBoxIcon3
+            // 
+            this.UiStyleOictureBoxIcon3.Image = ((System.Drawing.Image)(resources.GetObject("UiStyleOictureBoxIcon3.Image")));
+            this.UiStyleOictureBoxIcon3.InitialImage = null;
+            this.UiStyleOictureBoxIcon3.Location = new System.Drawing.Point(215, 53);
+            this.UiStyleOictureBoxIcon3.Name = "UiStyleOictureBoxIcon3";
+            this.UiStyleOictureBoxIcon3.Size = new System.Drawing.Size(28, 28);
+            this.UiStyleOictureBoxIcon3.TabIndex = 415;
+            this.UiStyleOictureBoxIcon3.TabStop = false;
+            // 
+            // UiStyleOictureBoxIcon2
+            // 
+            this.UiStyleOictureBoxIcon2.Image = ((System.Drawing.Image)(resources.GetObject("UiStyleOictureBoxIcon2.Image")));
+            this.UiStyleOictureBoxIcon2.InitialImage = null;
+            this.UiStyleOictureBoxIcon2.Location = new System.Drawing.Point(187, 53);
+            this.UiStyleOictureBoxIcon2.Name = "UiStyleOictureBoxIcon2";
+            this.UiStyleOictureBoxIcon2.Size = new System.Drawing.Size(28, 28);
+            this.UiStyleOictureBoxIcon2.TabIndex = 414;
+            this.UiStyleOictureBoxIcon2.TabStop = false;
+            // 
+            // UiStyleOictureBoxIcon1
+            // 
+            this.UiStyleOictureBoxIcon1.Image = ((System.Drawing.Image)(resources.GetObject("UiStyleOictureBoxIcon1.Image")));
+            this.UiStyleOictureBoxIcon1.InitialImage = null;
+            this.UiStyleOictureBoxIcon1.Location = new System.Drawing.Point(159, 53);
+            this.UiStyleOictureBoxIcon1.Name = "UiStyleOictureBoxIcon1";
+            this.UiStyleOictureBoxIcon1.Size = new System.Drawing.Size(28, 28);
+            this.UiStyleOictureBoxIcon1.TabIndex = 413;
+            this.UiStyleOictureBoxIcon1.TabStop = false;
+            // 
+            // UiStyleLabelBorderText
+            // 
+            this.UiStyleLabelBorderText.AutoSize = true;
+            this.UiStyleLabelBorderText.Location = new System.Drawing.Point(194, 81);
+            this.UiStyleLabelBorderText.Name = "UiStyleLabelBorderText";
+            this.UiStyleLabelBorderText.Size = new System.Drawing.Size(22, 25);
+            this.UiStyleLabelBorderText.TabIndex = 414;
+            this.UiStyleLabelBorderText.Text = "1";
+            // 
+            // UiStyleLabelBorder
+            // 
+            this.UiStyleLabelBorder.AutoSize = true;
+            this.UiStyleLabelBorder.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.UiStyleLabelBorder.Location = new System.Drawing.Point(12, 53);
+            this.UiStyleLabelBorder.Name = "UiStyleLabelBorder";
+            this.UiStyleLabelBorder.Size = new System.Drawing.Size(135, 23);
+            this.UiStyleLabelBorder.TabIndex = 412;
+            this.UiStyleLabelBorder.Text = "Border thickness";
+            // 
+            // UiColorsLabelSearch
+            // 
+            this.UiColorsLabelSearch.BackColor = System.Drawing.SystemColors.Control;
+            this.UiColorsLabelSearch.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.UiColorsLabelSearch.Location = new System.Drawing.Point(15, 95);
+            this.UiColorsLabelSearch.Name = "UiColorsLabelSearch";
+            this.UiColorsLabelSearch.Padding = new System.Windows.Forms.Padding(5);
+            this.UiColorsLabelSearch.Size = new System.Drawing.Size(220, 42);
+            this.UiColorsLabelSearch.TabIndex = 403;
+            this.UiColorsLabelSearch.Text = "Search";
+            this.UiColorsLabelSearch.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // UiColorsLabelEntry
+            // 
+            this.UiColorsLabelEntry.BackColor = System.Drawing.SystemColors.Control;
+            this.UiColorsLabelEntry.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.UiColorsLabelEntry.Location = new System.Drawing.Point(15, 225);
+            this.UiColorsLabelEntry.Name = "UiColorsLabelEntry";
+            this.UiColorsLabelEntry.Padding = new System.Windows.Forms.Padding(5, 25, 5, 5);
+            this.UiColorsLabelEntry.Size = new System.Drawing.Size(220, 90);
+            this.UiColorsLabelEntry.TabIndex = 402;
+            // 
+            // UiColorsLabelActive
+            // 
+            this.UiColorsLabelActive.BackColor = System.Drawing.SystemColors.Control;
+            this.UiColorsLabelActive.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.UiColorsLabelActive.Location = new System.Drawing.Point(15, 136);
+            this.UiColorsLabelActive.Name = "UiColorsLabelActive";
+            this.UiColorsLabelActive.Padding = new System.Windows.Forms.Padding(5, 25, 5, 5);
+            this.UiColorsLabelActive.Size = new System.Drawing.Size(220, 90);
+            this.UiColorsLabelActive.TabIndex = 75;
+            // 
+            // UiColorsLabelHeader
+            // 
+            this.UiColorsLabelHeader.BackColor = System.Drawing.SystemColors.Control;
+            this.UiColorsLabelHeader.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.UiColorsLabelHeader.Location = new System.Drawing.Point(15, 54);
+            this.UiColorsLabelHeader.Name = "UiColorsLabelHeader";
+            this.UiColorsLabelHeader.Padding = new System.Windows.Forms.Padding(5);
+            this.UiColorsLabelHeader.Size = new System.Drawing.Size(220, 42);
+            this.UiColorsLabelHeader.TabIndex = 74;
+            this.UiColorsLabelHeader.Text = "Header";
+            this.UiColorsLabelHeader.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // UiColorsLabelSearchBackground
+            // 
+            this.UiColorsLabelSearchBackground.AutoSize = true;
+            this.UiColorsLabelSearchBackground.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.UiColorsLabelSearchBackground.Location = new System.Drawing.Point(12, 158);
+            this.UiColorsLabelSearchBackground.Name = "UiColorsLabelSearchBackground";
+            this.UiColorsLabelSearchBackground.Size = new System.Drawing.Size(157, 23);
+            this.UiColorsLabelSearchBackground.TabIndex = 442;
+            this.UiColorsLabelSearchBackground.Text = "Search background";
+            // 
+            // UiColorsLabelSearchText
+            // 
+            this.UiColorsLabelSearchText.AutoSize = true;
+            this.UiColorsLabelSearchText.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.UiColorsLabelSearchText.Location = new System.Drawing.Point(12, 188);
+            this.UiColorsLabelSearchText.Name = "UiColorsLabelSearchText";
+            this.UiColorsLabelSearchText.Size = new System.Drawing.Size(95, 23);
+            this.UiColorsLabelSearchText.TabIndex = 443;
+            this.UiColorsLabelSearchText.Text = "Search text";
+            // 
+            // UiColorsLabelBorder
+            // 
+            this.UiColorsLabelBorder.AutoSize = true;
+            this.UiColorsLabelBorder.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.UiColorsLabelBorder.Location = new System.Drawing.Point(12, 430);
+            this.UiColorsLabelBorder.Name = "UiColorsLabelBorder";
+            this.UiColorsLabelBorder.Size = new System.Drawing.Size(61, 23);
+            this.UiColorsLabelBorder.TabIndex = 437;
+            this.UiColorsLabelBorder.Text = "Border";
+            // 
+            // UiColorsLabelEntryBackground
+            // 
+            this.UiColorsLabelEntryBackground.AutoSize = true;
+            this.UiColorsLabelEntryBackground.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.UiColorsLabelEntryBackground.Location = new System.Drawing.Point(12, 342);
+            this.UiColorsLabelEntryBackground.Name = "UiColorsLabelEntryBackground";
+            this.UiColorsLabelEntryBackground.Size = new System.Drawing.Size(145, 23);
+            this.UiColorsLabelEntryBackground.TabIndex = 100;
+            this.UiColorsLabelEntryBackground.Text = "Entry background";
+            // 
+            // UiColorsLabelEntryText
+            // 
+            this.UiColorsLabelEntryText.AutoSize = true;
+            this.UiColorsLabelEntryText.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.UiColorsLabelEntryText.Location = new System.Drawing.Point(12, 372);
+            this.UiColorsLabelEntryText.Name = "UiColorsLabelEntryText";
+            this.UiColorsLabelEntryText.Size = new System.Drawing.Size(83, 23);
+            this.UiColorsLabelEntryText.TabIndex = 102;
+            this.UiColorsLabelEntryText.Text = "Entry text";
+            // 
+            // UiColorsLabelActiveBackground
+            // 
+            this.UiColorsLabelActiveBackground.AutoSize = true;
+            this.UiColorsLabelActiveBackground.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.UiColorsLabelActiveBackground.Location = new System.Drawing.Point(13, 249);
+            this.UiColorsLabelActiveBackground.Name = "UiColorsLabelActiveBackground";
+            this.UiColorsLabelActiveBackground.Size = new System.Drawing.Size(152, 23);
+            this.UiColorsLabelActiveBackground.TabIndex = 435;
+            this.UiColorsLabelActiveBackground.Text = "Active background";
+            // 
+            // UiColorsLabelHeaderText
+            // 
+            this.UiColorsLabelHeaderText.AutoSize = true;
+            this.UiColorsLabelHeaderText.Enabled = false;
+            this.UiColorsLabelHeaderText.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.UiColorsLabelHeaderText.Location = new System.Drawing.Point(12, 91);
+            this.UiColorsLabelHeaderText.Name = "UiColorsLabelHeaderText";
+            this.UiColorsLabelHeaderText.Size = new System.Drawing.Size(99, 23);
+            this.UiColorsLabelHeaderText.TabIndex = 437;
+            this.UiColorsLabelHeaderText.Text = "Header text";
+            // 
+            // UiColorsLabelActiveText
+            // 
+            this.UiColorsLabelActiveText.AutoSize = true;
+            this.UiColorsLabelActiveText.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.UiColorsLabelActiveText.Location = new System.Drawing.Point(13, 279);
+            this.UiColorsLabelActiveText.Name = "UiColorsLabelActiveText";
+            this.UiColorsLabelActiveText.Size = new System.Drawing.Size(90, 23);
+            this.UiColorsLabelActiveText.TabIndex = 441;
+            this.UiColorsLabelActiveText.Text = "Active text";
+            // 
+            // UiColorsLabelHeaderBackground
+            // 
+            this.UiColorsLabelHeaderBackground.AutoSize = true;
+            this.UiColorsLabelHeaderBackground.Enabled = false;
+            this.UiColorsLabelHeaderBackground.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.UiColorsLabelHeaderBackground.Location = new System.Drawing.Point(12, 60);
+            this.UiColorsLabelHeaderBackground.Name = "UiColorsLabelHeaderBackground";
+            this.UiColorsLabelHeaderBackground.Size = new System.Drawing.Size(161, 23);
+            this.UiColorsLabelHeaderBackground.TabIndex = 99;
+            this.UiColorsLabelHeaderBackground.Text = "Header background";
+            // 
+            // UiAdvancedLabelClipboardEntries
+            // 
+            this.UiAdvancedLabelClipboardEntries.AutoSize = true;
+            this.UiAdvancedLabelClipboardEntries.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.UiAdvancedLabelClipboardEntries.ForeColor = System.Drawing.Color.Black;
+            this.UiAdvancedLabelClipboardEntries.Location = new System.Drawing.Point(27, 52);
+            this.UiAdvancedLabelClipboardEntries.Name = "UiAdvancedLabelClipboardEntries";
+            this.UiAdvancedLabelClipboardEntries.Size = new System.Drawing.Size(158, 23);
+            this.UiAdvancedLabelClipboardEntries.TabIndex = 1;
+            this.UiAdvancedLabelClipboardEntries.Text = "Clipboard entries: 0";
+            // 
+            // UiAdvancedLabelMemUsed
+            // 
+            this.UiAdvancedLabelMemUsed.AutoSize = true;
+            this.UiAdvancedLabelMemUsed.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.UiAdvancedLabelMemUsed.ForeColor = System.Drawing.Color.Black;
+            this.UiAdvancedLabelMemUsed.Location = new System.Drawing.Point(27, 86);
+            this.UiAdvancedLabelMemUsed.Name = "UiAdvancedLabelMemUsed";
+            this.UiAdvancedLabelMemUsed.Size = new System.Drawing.Size(162, 23);
+            this.UiAdvancedLabelMemUsed.TabIndex = 0;
+            this.UiAdvancedLabelMemUsed.Text = "Memory used: 0 MB";
+            // 
+            // UiAdvancedLabelDevVersion
+            // 
+            this.UiAdvancedLabelDevVersion.BackColor = System.Drawing.Color.Transparent;
+            this.UiAdvancedLabelDevVersion.Enabled = false;
+            this.UiAdvancedLabelDevVersion.Font = new System.Drawing.Font("Segoe UI Semibold", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.UiAdvancedLabelDevVersion.Location = new System.Drawing.Point(47, 51);
+            this.UiAdvancedLabelDevVersion.Name = "UiAdvancedLabelDevVersion";
+            this.UiAdvancedLabelDevVersion.Size = new System.Drawing.Size(338, 34);
+            this.UiAdvancedLabelDevVersion.TabIndex = 514;
+            this.UiAdvancedLabelDevVersion.Text = "Please wait ...";
+            this.UiAdvancedLabelDevVersion.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.UiAdvancedLabelDevVersion.Click += new System.EventHandler(this.GuiDevelopmentRefresh_Click);
+            // 
+            // UiAdvancedPictureBoxDevRefresh
+            // 
+            this.UiAdvancedPictureBoxDevRefresh.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.UiAdvancedPictureBoxDevRefresh.Image = ((System.Drawing.Image)(resources.GetObject("UiAdvancedPictureBoxDevRefresh.Image")));
+            this.UiAdvancedPictureBoxDevRefresh.InitialImage = null;
+            this.UiAdvancedPictureBoxDevRefresh.Location = new System.Drawing.Point(22, 58);
+            this.UiAdvancedPictureBoxDevRefresh.Name = "UiAdvancedPictureBoxDevRefresh";
+            this.UiAdvancedPictureBoxDevRefresh.Size = new System.Drawing.Size(33, 29);
+            this.UiAdvancedPictureBoxDevRefresh.TabIndex = 515;
+            this.UiAdvancedPictureBoxDevRefresh.TabStop = false;
+            this.UiAdvancedPictureBoxDevRefresh.Click += new System.EventHandler(this.GuiDevelopmentRefresh_Click);
+            // 
+            // UiAdvancedLabelDisclaimer
+            // 
+            this.UiAdvancedLabelDisclaimer.Enabled = false;
+            this.UiAdvancedLabelDisclaimer.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.UiAdvancedLabelDisclaimer.ForeColor = System.Drawing.Color.Firebrick;
+            this.UiAdvancedLabelDisclaimer.Location = new System.Drawing.Point(200, 101);
+            this.UiAdvancedLabelDisclaimer.Name = "UiAdvancedLabelDisclaimer";
+            this.UiAdvancedLabelDisclaimer.Size = new System.Drawing.Size(303, 96);
+            this.UiAdvancedLabelDisclaimer.TabIndex = 513;
+            this.UiAdvancedLabelDisclaimer.Text = "Recommended only to use if you want to test unreleased functionalities or bugfixe" +
     "s - it is not expected to be stable or polished in any way!";
             // 
-            // GuiAdvancedGroup3
+            // UiAdvancedLabelCleanup
             // 
-            this.GuiAdvancedGroup3.Controls.Add(this.label2);
-            this.GuiAdvancedGroup3.Controls.Add(this.GuiCleanUpExit);
-            this.GuiAdvancedGroup3.Location = new System.Drawing.Point(22, 420);
-            this.GuiAdvancedGroup3.Name = "GuiAdvancedGroup3";
-            this.GuiAdvancedGroup3.Size = new System.Drawing.Size(594, 115);
-            this.GuiAdvancedGroup3.TabIndex = 520;
-            this.GuiAdvancedGroup3.TabStop = false;
-            this.GuiAdvancedGroup3.Text = "Clean-up all application settings";
-            // 
-            // label2
-            // 
-            this.label2.Font = new System.Drawing.Font("Segoe UI", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.ForeColor = System.Drawing.Color.Black;
-            this.label2.Location = new System.Drawing.Point(240, 38);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(319, 70);
-            this.label2.TabIndex = 516;
-            this.label2.Text = "Will remove all application registry settings including troubleshooting and data " +
+            this.UiAdvancedLabelCleanup.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.UiAdvancedLabelCleanup.ForeColor = System.Drawing.Color.Black;
+            this.UiAdvancedLabelCleanup.Location = new System.Drawing.Point(228, 57);
+            this.UiAdvancedLabelCleanup.Name = "UiAdvancedLabelCleanup";
+            this.UiAdvancedLabelCleanup.Size = new System.Drawing.Size(272, 70);
+            this.UiAdvancedLabelCleanup.TabIndex = 516;
+            this.UiAdvancedLabelCleanup.Text = "Will remove all application registry settings including troubleshooting and data " +
     "files";
             // 
-            // GuiCleanUpExit
+            // UiFeedbackLabelFeedback
             // 
-            this.GuiCleanUpExit.Location = new System.Drawing.Point(28, 38);
-            this.GuiCleanUpExit.Name = "GuiCleanUpExit";
-            this.GuiCleanUpExit.Size = new System.Drawing.Size(186, 60);
-            this.GuiCleanUpExit.TabIndex = 521;
-            this.GuiCleanUpExit.Text = "Clean-up and exit HovText";
-            this.GuiCleanUpExit.UseVisualStyleBackColor = true;
-            this.GuiCleanUpExit.Click += new System.EventHandler(this.GuiCleanUpExit_Click);
+            this.UiFeedbackLabelFeedback.AutoSize = true;
+            this.UiFeedbackLabelFeedback.Font = new System.Drawing.Font("Segoe UI", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.UiFeedbackLabelFeedback.Location = new System.Drawing.Point(13, 199);
+            this.UiFeedbackLabelFeedback.Name = "UiFeedbackLabelFeedback";
+            this.UiFeedbackLabelFeedback.Size = new System.Drawing.Size(121, 23);
+            this.UiFeedbackLabelFeedback.TabIndex = 515;
+            this.UiFeedbackLabelFeedback.Text = "Your feedback:";
             // 
-            // GuiAdvancedGroup1
+            // UiFeedbackLabelEmail
             // 
-            this.GuiAdvancedGroup1.Controls.Add(this.GuiExecuteableOpenLocation);
-            this.GuiAdvancedGroup1.Controls.Add(this.GuiTroubleshootDeleteFile);
-            this.GuiAdvancedGroup1.Controls.Add(this.GuiTroubleshootEnabled);
-            this.GuiAdvancedGroup1.Location = new System.Drawing.Point(22, 23);
-            this.GuiAdvancedGroup1.Name = "GuiAdvancedGroup1";
-            this.GuiAdvancedGroup1.Size = new System.Drawing.Size(308, 165);
-            this.GuiAdvancedGroup1.TabIndex = 500;
-            this.GuiAdvancedGroup1.TabStop = false;
-            this.GuiAdvancedGroup1.Text = "Troubleshooting";
+            this.UiFeedbackLabelEmail.AutoSize = true;
+            this.UiFeedbackLabelEmail.Font = new System.Drawing.Font("Segoe UI", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.UiFeedbackLabelEmail.Location = new System.Drawing.Point(13, 123);
+            this.UiFeedbackLabelEmail.Name = "UiFeedbackLabelEmail";
+            this.UiFeedbackLabelEmail.Size = new System.Drawing.Size(235, 23);
+            this.UiFeedbackLabelEmail.TabIndex = 514;
+            this.UiFeedbackLabelEmail.Text = "Your email address (optional):";
             // 
-            // GuiExecuteableOpenLocation
+            // TimerTerminate
             // 
-            this.GuiExecuteableOpenLocation.Location = new System.Drawing.Point(28, 75);
-            this.GuiExecuteableOpenLocation.Name = "GuiExecuteableOpenLocation";
-            this.GuiExecuteableOpenLocation.Size = new System.Drawing.Size(186, 34);
-            this.GuiExecuteableOpenLocation.TabIndex = 504;
-            this.GuiExecuteableOpenLocation.Text = "Open file location";
-            this.GuiExecuteableOpenLocation.UseVisualStyleBackColor = true;
-            this.GuiExecuteableOpenLocation.Click += new System.EventHandler(this.GuiExecuteableOpenLocation_Click);
+            this.TimerTerminate.Interval = 5000;
+            this.TimerTerminate.Tick += new System.EventHandler(this.TerminateTimer_Tick);
             // 
-            // GuiTroubleshootDeleteFile
+            // TimerAdvanced
             // 
-            this.GuiTroubleshootDeleteFile.Location = new System.Drawing.Point(28, 119);
-            this.GuiTroubleshootDeleteFile.Name = "GuiTroubleshootDeleteFile";
-            this.GuiTroubleshootDeleteFile.Size = new System.Drawing.Size(186, 34);
-            this.GuiTroubleshootDeleteFile.TabIndex = 503;
-            this.GuiTroubleshootDeleteFile.Text = "Delete logfile";
-            this.GuiTroubleshootDeleteFile.UseVisualStyleBackColor = true;
-            this.GuiTroubleshootDeleteFile.Click += new System.EventHandler(this.GuiTroubleshootDeleteFile_Click);
+            this.TimerAdvanced.Enabled = true;
+            this.TimerAdvanced.Interval = 1000;
+            this.TimerAdvanced.Tick += new System.EventHandler(this.advancedTimer_Tick);
             // 
-            // GuiTroubleshootEnabled
+            // UiFormControlBoxClose
             // 
-            this.GuiTroubleshootEnabled.AutoSize = true;
-            this.GuiTroubleshootEnabled.Location = new System.Drawing.Point(29, 38);
-            this.GuiTroubleshootEnabled.Name = "GuiTroubleshootEnabled";
-            this.GuiTroubleshootEnabled.Size = new System.Drawing.Size(274, 29);
-            this.GuiTroubleshootEnabled.TabIndex = 501;
-            this.GuiTroubleshootEnabled.Text = "Enable troubleshoot logging";
-            this.GuiTroubleshootEnabled.UseVisualStyleBackColor = true;
-            this.GuiTroubleshootEnabled.CheckedChanged += new System.EventHandler(this.GuiTroubleshootEnabled_CheckedChanged);
+            this.UiFormControlBoxClose.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.UiFormControlBoxClose.Animated = true;
+            this.UiFormControlBoxClose.ControlBoxStyle = Guna.UI2.WinForms.Enums.ControlBoxStyle.Custom;
+            this.UiFormControlBoxClose.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.UiFormControlBoxClose.FillColor = System.Drawing.Color.Transparent;
+            this.UiFormControlBoxClose.HoverState.FillColor = System.Drawing.Color.Firebrick;
+            this.UiFormControlBoxClose.HoverState.IconColor = System.Drawing.Color.White;
+            this.UiFormControlBoxClose.IconColor = System.Drawing.Color.LightGray;
+            this.UiFormControlBoxClose.Location = new System.Drawing.Point(694, 1);
+            this.UiFormControlBoxClose.Name = "UiFormControlBoxClose";
+            this.UiFormControlBoxClose.Size = new System.Drawing.Size(45, 29);
+            this.UiFormControlBoxClose.TabIndex = 1;
             // 
-            // tabFeedback
+            // UiFormControlBoxMinimize
             // 
-            this.tabFeedback.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.tabFeedback.Controls.Add(this.GuiAttachFile);
-            this.tabFeedback.Controls.Add(this.FeedbackLabelDescription);
-            this.tabFeedback.Controls.Add(this.FeedbackLabelEmail);
-            this.tabFeedback.Controls.Add(this.GuiSendFeedback);
-            this.tabFeedback.Controls.Add(this.GuiFeedbackText);
-            this.tabFeedback.Controls.Add(this.GuiEmailAddr);
-            this.tabFeedback.Location = new System.Drawing.Point(4, 34);
-            this.tabFeedback.Name = "tabFeedback";
-            this.tabFeedback.Size = new System.Drawing.Size(638, 586);
-            this.tabFeedback.TabIndex = 7;
-            this.tabFeedback.Text = "Feedback";
+            this.UiFormControlBoxMinimize.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.UiFormControlBoxMinimize.Animated = true;
+            this.UiFormControlBoxMinimize.ControlBoxStyle = Guna.UI2.WinForms.Enums.ControlBoxStyle.Custom;
+            this.UiFormControlBoxMinimize.ControlBoxType = Guna.UI2.WinForms.Enums.ControlBoxType.MinimizeBox;
+            this.UiFormControlBoxMinimize.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.UiFormControlBoxMinimize.FillColor = System.Drawing.Color.Transparent;
+            this.UiFormControlBoxMinimize.HoverState.FillColor = System.Drawing.Color.DarkSeaGreen;
+            this.UiFormControlBoxMinimize.HoverState.IconColor = System.Drawing.Color.White;
+            this.UiFormControlBoxMinimize.IconColor = System.Drawing.Color.LightGray;
+            this.UiFormControlBoxMinimize.Location = new System.Drawing.Point(652, 1);
+            this.UiFormControlBoxMinimize.Name = "UiFormControlBoxMinimize";
+            this.UiFormControlBoxMinimize.Size = new System.Drawing.Size(45, 29);
+            this.UiFormControlBoxMinimize.TabIndex = 2;
             // 
-            // GuiAttachFile
+            // UiFormPictureBoxIcon
             // 
-            this.GuiAttachFile.AutoSize = true;
-            this.GuiAttachFile.Location = new System.Drawing.Point(30, 419);
-            this.GuiAttachFile.Name = "GuiAttachFile";
-            this.GuiAttachFile.Size = new System.Drawing.Size(286, 29);
-            this.GuiAttachFile.TabIndex = 604;
-            this.GuiAttachFile.Text = "Attach troubleshooting logfile";
-            this.GuiAttachFile.UseVisualStyleBackColor = true;
-            this.GuiAttachFile.CheckedChanged += new System.EventHandler(this.GuiAttachFile_CheckedChanged);
+            this.UiFormPictureBoxIcon.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(56)))), ((int)(((byte)(97)))), ((int)(((byte)(55)))));
+            this.UiFormPictureBoxIcon.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.UiFormPictureBoxIcon.ErrorImage = ((System.Drawing.Image)(resources.GetObject("UiFormPictureBoxIcon.ErrorImage")));
+            this.UiFormPictureBoxIcon.FillColor = System.Drawing.Color.Transparent;
+            this.UiFormPictureBoxIcon.Image = ((System.Drawing.Image)(resources.GetObject("UiFormPictureBoxIcon.Image")));
+            this.UiFormPictureBoxIcon.ImageRotate = 0F;
+            this.UiFormPictureBoxIcon.Location = new System.Drawing.Point(12, 19);
+            this.UiFormPictureBoxIcon.Name = "UiFormPictureBoxIcon";
+            this.UiFormPictureBoxIcon.Size = new System.Drawing.Size(48, 48);
+            this.UiFormPictureBoxIcon.TabIndex = 3;
+            this.UiFormPictureBoxIcon.TabStop = false;
+            this.UiFormPictureBoxIcon.Click += new System.EventHandler(this.UiFormPictureBoxIcon_Click);
             // 
-            // FeedbackLabelDescription
+            // UiFormLabelApplicationName
             // 
-            this.FeedbackLabelDescription.AutoSize = true;
-            this.FeedbackLabelDescription.Location = new System.Drawing.Point(25, 102);
-            this.FeedbackLabelDescription.Name = "FeedbackLabelDescription";
-            this.FeedbackLabelDescription.Size = new System.Drawing.Size(135, 25);
-            this.FeedbackLabelDescription.TabIndex = 515;
-            this.FeedbackLabelDescription.Text = "Your feedback:";
+            this.UiFormLabelApplicationName.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(56)))), ((int)(((byte)(97)))), ((int)(((byte)(55)))));
+            this.UiFormLabelApplicationName.Font = new System.Drawing.Font("Segoe UI Semibold", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.UiFormLabelApplicationName.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(227)))), ((int)(((byte)(227)))), ((int)(((byte)(227)))));
+            this.UiFormLabelApplicationName.IsSelectionEnabled = false;
+            this.UiFormLabelApplicationName.Location = new System.Drawing.Point(69, 11);
+            this.UiFormLabelApplicationName.Name = "UiFormLabelApplicationName";
+            this.UiFormLabelApplicationName.Size = new System.Drawing.Size(129, 47);
+            this.UiFormLabelApplicationName.TabIndex = 0;
+            this.UiFormLabelApplicationName.TabStop = false;
+            this.UiFormLabelApplicationName.Text = "HovText";
             // 
-            // FeedbackLabelEmail
+            // UiFormPanel
             // 
-            this.FeedbackLabelEmail.AutoSize = true;
-            this.FeedbackLabelEmail.Location = new System.Drawing.Point(25, 24);
-            this.FeedbackLabelEmail.Name = "FeedbackLabelEmail";
-            this.FeedbackLabelEmail.Size = new System.Drawing.Size(262, 25);
-            this.FeedbackLabelEmail.TabIndex = 514;
-            this.FeedbackLabelEmail.Text = "Your email address (optional):";
+            this.UiFormPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(56)))), ((int)(((byte)(97)))), ((int)(((byte)(55)))));
+            this.UiFormPanel.Controls.Add(this.UiFormLabelLoadingPanel);
+            this.UiFormPanel.Controls.Add(this.UiFormLabelApplicationName);
+            this.UiFormPanel.Controls.Add(this.UiFormPictureBoxIcon);
+            this.UiFormPanel.Controls.Add(this.UiFormLabelApplicationVersion);
+            this.UiFormPanel.Controls.Add(this.UiFormControlBoxClose);
+            this.UiFormPanel.Controls.Add(this.UiFormControlBoxMinimize);
+            this.UiFormPanel.Cursor = System.Windows.Forms.Cursors.SizeAll;
+            this.UiFormPanel.FillColor = System.Drawing.Color.Transparent;
+            this.UiFormPanel.Location = new System.Drawing.Point(1, 1);
+            this.UiFormPanel.Name = "UiFormPanel";
+            this.UiFormPanel.Size = new System.Drawing.Size(740, 80);
+            this.UiFormPanel.TabIndex = 0;
             // 
-            // GuiSendFeedback
+            // UiFormLabelApplicationVersion
             // 
-            this.GuiSendFeedback.Enabled = false;
-            this.GuiSendFeedback.Location = new System.Drawing.Point(30, 465);
-            this.GuiSendFeedback.Name = "GuiSendFeedback";
-            this.GuiSendFeedback.Size = new System.Drawing.Size(160, 34);
-            this.GuiSendFeedback.TabIndex = 605;
-            this.GuiSendFeedback.Text = "Send feedback";
-            this.GuiSendFeedback.UseVisualStyleBackColor = true;
-            this.GuiSendFeedback.Click += new System.EventHandler(this.GuiSendFeedback_Click);
+            this.UiFormLabelApplicationVersion.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(56)))), ((int)(((byte)(97)))), ((int)(((byte)(55)))));
+            this.UiFormLabelApplicationVersion.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.UiFormLabelApplicationVersion.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(227)))), ((int)(((byte)(227)))), ((int)(((byte)(227)))));
+            this.UiFormLabelApplicationVersion.IsSelectionEnabled = false;
+            this.UiFormLabelApplicationVersion.Location = new System.Drawing.Point(69, 45);
+            this.UiFormLabelApplicationVersion.Name = "UiFormLabelApplicationVersion";
+            this.UiFormLabelApplicationVersion.Size = new System.Drawing.Size(161, 27);
+            this.UiFormLabelApplicationVersion.TabIndex = 0;
+            this.UiFormLabelApplicationVersion.TabStop = false;
+            this.UiFormLabelApplicationVersion.Text = "2023-November-25";
             // 
-            // GuiFeedbackText
+            // UiFormTabControl
             // 
-            this.GuiFeedbackText.Location = new System.Drawing.Point(30, 130);
-            this.GuiFeedbackText.MaxLength = 0;
-            this.GuiFeedbackText.Multiline = true;
-            this.GuiFeedbackText.Name = "GuiFeedbackText";
-            this.GuiFeedbackText.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.GuiFeedbackText.Size = new System.Drawing.Size(573, 283);
-            this.GuiFeedbackText.TabIndex = 601;
-            this.GuiFeedbackText.TextChanged += new System.EventHandler(this.GuiFeedbackText_TextChanged);
+            this.UiFormTabControl.Alignment = System.Windows.Forms.TabAlignment.Left;
+            this.UiFormTabControl.Controls.Add(this.UiTabGeneral);
+            this.UiFormTabControl.Controls.Add(this.UiTabStorage);
+            this.UiFormTabControl.Controls.Add(this.UiTabHotkeys);
+            this.UiFormTabControl.Controls.Add(this.UiTabLayout);
+            this.UiFormTabControl.Controls.Add(this.UiTabStyle);
+            this.UiFormTabControl.Controls.Add(this.UiTabColors);
+            this.UiFormTabControl.Controls.Add(this.UiTabAdvanced);
+            this.UiFormTabControl.Controls.Add(this.UiTabDoc);
+            this.UiFormTabControl.Controls.Add(this.UiTabFeedback);
+            this.UiFormTabControl.Controls.Add(this.UiTabAbout);
+            this.UiFormTabControl.Cursor = System.Windows.Forms.Cursors.Default;
+            this.UiFormTabControl.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.UiFormTabControl.ItemSize = new System.Drawing.Size(180, 50);
+            this.UiFormTabControl.Location = new System.Drawing.Point(1, 105);
+            this.UiFormTabControl.Name = "UiFormTabControl";
+            this.UiFormTabControl.SelectedIndex = 0;
+            this.UiFormTabControl.Size = new System.Drawing.Size(740, 577);
+            this.UiFormTabControl.TabButtonHoverState.BorderColor = System.Drawing.Color.Empty;
+            this.UiFormTabControl.TabButtonHoverState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(227)))), ((int)(((byte)(220)))));
+            this.UiFormTabControl.TabButtonHoverState.Font = new System.Drawing.Font("Segoe UI Semibold", 12F);
+            this.UiFormTabControl.TabButtonHoverState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.UiFormTabControl.TabButtonHoverState.InnerColor = System.Drawing.Color.FromArgb(((int)(((byte)(56)))), ((int)(((byte)(97)))), ((int)(((byte)(55)))));
+            this.UiFormTabControl.TabButtonIdleState.BorderColor = System.Drawing.Color.Empty;
+            this.UiFormTabControl.TabButtonIdleState.FillColor = System.Drawing.Color.White;
+            this.UiFormTabControl.TabButtonIdleState.Font = new System.Drawing.Font("Segoe UI Semibold", 12F);
+            this.UiFormTabControl.TabButtonIdleState.ForeColor = System.Drawing.Color.DimGray;
+            this.UiFormTabControl.TabButtonIdleState.InnerColor = System.Drawing.Color.White;
+            this.UiFormTabControl.TabButtonSelectedState.BorderColor = System.Drawing.Color.Empty;
+            this.UiFormTabControl.TabButtonSelectedState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(56)))), ((int)(((byte)(97)))), ((int)(((byte)(55)))));
+            this.UiFormTabControl.TabButtonSelectedState.Font = new System.Drawing.Font("Segoe UI Semibold", 12F);
+            this.UiFormTabControl.TabButtonSelectedState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(227)))), ((int)(((byte)(227)))), ((int)(((byte)(227)))));
+            this.UiFormTabControl.TabButtonSelectedState.InnerColor = System.Drawing.Color.FromArgb(((int)(((byte)(56)))), ((int)(((byte)(97)))), ((int)(((byte)(55)))));
+            this.UiFormTabControl.TabButtonSize = new System.Drawing.Size(180, 50);
+            this.UiFormTabControl.TabButtonTextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.UiFormTabControl.TabButtonTextOffset = new System.Drawing.Point(-10, 0);
+            this.UiFormTabControl.TabIndex = 10;
+            this.UiFormTabControl.TabMenuBackColor = System.Drawing.Color.White;
+            this.UiFormTabControl.Selected += new System.Windows.Forms.TabControlEventHandler(this.TabControl_Selected);
             // 
-            // GuiEmailAddr
+            // UiTabGeneral
             // 
-            this.GuiEmailAddr.Location = new System.Drawing.Point(30, 52);
-            this.GuiEmailAddr.Name = "GuiEmailAddr";
-            this.GuiEmailAddr.Size = new System.Drawing.Size(578, 32);
-            this.GuiEmailAddr.TabIndex = 600;
+            this.UiTabGeneral.Controls.Add(this.UiGeneralGroupBoxBehaviour);
+            this.UiTabGeneral.Controls.Add(this.UiGeneralGroupBoxClipboardList);
+            this.UiTabGeneral.Location = new System.Drawing.Point(184, 4);
+            this.UiTabGeneral.Name = "UiTabGeneral";
+            this.UiTabGeneral.Padding = new System.Windows.Forms.Padding(3);
+            this.UiTabGeneral.Size = new System.Drawing.Size(552, 569);
+            this.UiTabGeneral.TabIndex = 0;
+            this.UiTabGeneral.Text = "General";
+            this.UiTabGeneral.UseVisualStyleBackColor = true;
             // 
-            // terminateTimer
+            // UiGeneralGroupBoxBehaviour
             // 
-            this.terminateTimer.Interval = 5000;
-            this.terminateTimer.Tick += new System.EventHandler(this.TerminateTimer_Tick);
+            this.UiGeneralGroupBoxBehaviour.BorderRadius = 5;
+            this.UiGeneralGroupBoxBehaviour.Controls.Add(this.UiGeneralLabelDisclaimer);
+            this.UiGeneralGroupBoxBehaviour.Controls.Add(this.UiGeneralLabelStartWithWindows);
+            this.UiGeneralGroupBoxBehaviour.Controls.Add(this.UiGeneralLabelStartDisabled);
+            this.UiGeneralGroupBoxBehaviour.Controls.Add(this.UiGeneralLabelRestoreOriginal);
+            this.UiGeneralGroupBoxBehaviour.Controls.Add(this.UiGeneralLabelTrimWhitespaces);
+            this.UiGeneralGroupBoxBehaviour.Controls.Add(this.UiGeneralLabelCloseMinimizes);
+            this.UiGeneralGroupBoxBehaviour.Controls.Add(this.UiGeneralToggleCloseMinimizes);
+            this.UiGeneralGroupBoxBehaviour.Controls.Add(this.UiGeneralToggleTrimWhitespaces);
+            this.UiGeneralGroupBoxBehaviour.Controls.Add(this.UiGeneralToggleRestoreOriginal);
+            this.UiGeneralGroupBoxBehaviour.Controls.Add(this.UiGeneralToggleStartDisabled);
+            this.UiGeneralGroupBoxBehaviour.Controls.Add(this.UiGeneralToggleStartWithWindows);
+            this.UiGeneralGroupBoxBehaviour.CustomBorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(227)))), ((int)(((byte)(220)))));
+            this.UiGeneralGroupBoxBehaviour.Font = new System.Drawing.Font("Segoe UI", 11F);
+            this.UiGeneralGroupBoxBehaviour.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.UiGeneralGroupBoxBehaviour.Location = new System.Drawing.Point(13, 1);
+            this.UiGeneralGroupBoxBehaviour.Name = "UiGeneralGroupBoxBehaviour";
+            this.UiGeneralGroupBoxBehaviour.Size = new System.Drawing.Size(525, 241);
+            this.UiGeneralGroupBoxBehaviour.TabIndex = 100;
+            this.UiGeneralGroupBoxBehaviour.Text = "Behaviour";
             // 
-            // GuiLoadingPanel
+            // UiGeneralLabelDisclaimer
             // 
-            this.GuiLoadingPanel.BackColor = System.Drawing.Color.IndianRed;
-            this.GuiLoadingPanel.Controls.Add(this.GuiLoadingText);
-            this.GuiLoadingPanel.Location = new System.Drawing.Point(0, 587);
-            this.GuiLoadingPanel.Name = "GuiLoadingPanel";
-            this.GuiLoadingPanel.Size = new System.Drawing.Size(198, 61);
-            this.GuiLoadingPanel.TabIndex = 115;
-            this.GuiLoadingPanel.Visible = false;
+            this.UiGeneralLabelDisclaimer.AutoSize = false;
+            this.UiGeneralLabelDisclaimer.BackColor = System.Drawing.Color.IndianRed;
+            this.UiGeneralLabelDisclaimer.ForeColor = System.Drawing.Color.White;
+            this.UiGeneralLabelDisclaimer.IsSelectionEnabled = false;
+            this.UiGeneralLabelDisclaimer.Location = new System.Drawing.Point(238, -1);
+            this.UiGeneralLabelDisclaimer.Name = "UiGeneralLabelDisclaimer";
+            this.UiGeneralLabelDisclaimer.Size = new System.Drawing.Size(287, 112);
+            this.UiGeneralLabelDisclaimer.TabIndex = 130;
+            this.UiGeneralLabelDisclaimer.Text = "Red color means <b>DANGER</b> - this is a <b>DEVELOPMENT</b> version, which is mo" +
+    "st likely full of bugs. Please update to a real/stable version as soon as possib" +
+    "le";
+            this.UiGeneralLabelDisclaimer.TextAlignment = System.Drawing.ContentAlignment.MiddleCenter;
+            this.UiGeneralLabelDisclaimer.Visible = false;
             // 
-            // GuiLoadingText
+            // UiGeneralLabelStartWithWindows
             // 
-            this.GuiLoadingText.AutoSize = true;
-            this.GuiLoadingText.BackColor = System.Drawing.Color.Transparent;
-            this.GuiLoadingText.Location = new System.Drawing.Point(12, 16);
-            this.GuiLoadingText.Name = "GuiLoadingText";
-            this.GuiLoadingText.Size = new System.Drawing.Size(342, 25);
-            this.GuiLoadingText.TabIndex = 0;
-            this.GuiLoadingText.Text = "Please wait while processing data file ...";
+            this.UiGeneralLabelStartWithWindows.AutoSize = true;
+            this.UiGeneralLabelStartWithWindows.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.UiGeneralLabelStartWithWindows.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.UiGeneralLabelStartWithWindows.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.UiGeneralLabelStartWithWindows.Location = new System.Drawing.Point(59, 52);
+            this.UiGeneralLabelStartWithWindows.Name = "UiGeneralLabelStartWithWindows";
+            this.UiGeneralLabelStartWithWindows.Size = new System.Drawing.Size(156, 23);
+            this.UiGeneralLabelStartWithWindows.TabIndex = 0;
+            this.UiGeneralLabelStartWithWindows.Text = "Start with Windows";
+            this.UiGeneralLabelStartWithWindows.Click += new System.EventHandler(this.UiGeneralLabelStartWithWindows_Click);
             // 
-            // advancedTimer
+            // UiGeneralLabelStartDisabled
             // 
-            this.advancedTimer.Enabled = true;
-            this.advancedTimer.Interval = 1000;
-            this.advancedTimer.Tick += new System.EventHandler(this.advancedTimer_Tick);
+            this.UiGeneralLabelStartDisabled.AutoSize = true;
+            this.UiGeneralLabelStartDisabled.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.UiGeneralLabelStartDisabled.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.UiGeneralLabelStartDisabled.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.UiGeneralLabelStartDisabled.Location = new System.Drawing.Point(59, 83);
+            this.UiGeneralLabelStartDisabled.Name = "UiGeneralLabelStartDisabled";
+            this.UiGeneralLabelStartDisabled.Size = new System.Drawing.Size(134, 23);
+            this.UiGeneralLabelStartDisabled.TabIndex = 0;
+            this.UiGeneralLabelStartDisabled.Text = "Start as disabled";
+            this.UiGeneralLabelStartDisabled.Click += new System.EventHandler(this.UiGeneralLabelStartDisabled_Click);
+            // 
+            // UiGeneralLabelRestoreOriginal
+            // 
+            this.UiGeneralLabelRestoreOriginal.AutoSize = true;
+            this.UiGeneralLabelRestoreOriginal.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.UiGeneralLabelRestoreOriginal.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.UiGeneralLabelRestoreOriginal.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.UiGeneralLabelRestoreOriginal.Location = new System.Drawing.Point(59, 114);
+            this.UiGeneralLabelRestoreOriginal.Name = "UiGeneralLabelRestoreOriginal";
+            this.UiGeneralLabelRestoreOriginal.Size = new System.Drawing.Size(413, 23);
+            this.UiGeneralLabelRestoreOriginal.TabIndex = 0;
+            this.UiGeneralLabelRestoreOriginal.Text = "Restore original clipboard when disabling application";
+            this.UiGeneralLabelRestoreOriginal.Click += new System.EventHandler(this.UiGeneralLabelRestoreOriginal_Click);
+            // 
+            // UiGeneralLabelTrimWhitespaces
+            // 
+            this.UiGeneralLabelTrimWhitespaces.AutoSize = true;
+            this.UiGeneralLabelTrimWhitespaces.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.UiGeneralLabelTrimWhitespaces.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.UiGeneralLabelTrimWhitespaces.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.UiGeneralLabelTrimWhitespaces.Location = new System.Drawing.Point(59, 145);
+            this.UiGeneralLabelTrimWhitespaces.Name = "UiGeneralLabelTrimWhitespaces";
+            this.UiGeneralLabelTrimWhitespaces.Size = new System.Drawing.Size(303, 23);
+            this.UiGeneralLabelTrimWhitespaces.TabIndex = 0;
+            this.UiGeneralLabelTrimWhitespaces.Text = "Trim whitespaces and empty new-lines";
+            this.UiGeneralLabelTrimWhitespaces.Click += new System.EventHandler(this.UiGeneralLabelTrimWhitespaces_Click);
+            // 
+            // UiGeneralLabelCloseMinimizes
+            // 
+            this.UiGeneralLabelCloseMinimizes.AutoSize = true;
+            this.UiGeneralLabelCloseMinimizes.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.UiGeneralLabelCloseMinimizes.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.UiGeneralLabelCloseMinimizes.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.UiGeneralLabelCloseMinimizes.Location = new System.Drawing.Point(59, 176);
+            this.UiGeneralLabelCloseMinimizes.Name = "UiGeneralLabelCloseMinimizes";
+            this.UiGeneralLabelCloseMinimizes.Size = new System.Drawing.Size(309, 23);
+            this.UiGeneralLabelCloseMinimizes.TabIndex = 0;
+            this.UiGeneralLabelCloseMinimizes.Text = "Close button minimizes HovText to tray";
+            this.UiGeneralLabelCloseMinimizes.Click += new System.EventHandler(this.UiGeneralLabelCloseMinimizes_Click);
+            // 
+            // UiGeneralToggleCloseMinimizes
+            // 
+            this.UiGeneralToggleCloseMinimizes.Checked = true;
+            this.UiGeneralToggleCloseMinimizes.CheckedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
+            this.UiGeneralToggleCloseMinimizes.CheckedState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(56)))), ((int)(((byte)(97)))), ((int)(((byte)(55)))));
+            this.UiGeneralToggleCloseMinimizes.CheckedState.InnerBorderColor = System.Drawing.Color.White;
+            this.UiGeneralToggleCloseMinimizes.CheckedState.InnerColor = System.Drawing.Color.White;
+            this.UiGeneralToggleCloseMinimizes.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.UiGeneralToggleCloseMinimizes.Location = new System.Drawing.Point(18, 178);
+            this.UiGeneralToggleCloseMinimizes.Name = "UiGeneralToggleCloseMinimizes";
+            this.UiGeneralToggleCloseMinimizes.Size = new System.Drawing.Size(35, 20);
+            this.UiGeneralToggleCloseMinimizes.TabIndex = 1004;
+            this.UiGeneralToggleCloseMinimizes.UncheckedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(125)))), ((int)(((byte)(137)))), ((int)(((byte)(149)))));
+            this.UiGeneralToggleCloseMinimizes.UncheckedState.FillColor = System.Drawing.Color.DarkGray;
+            this.UiGeneralToggleCloseMinimizes.UncheckedState.InnerBorderColor = System.Drawing.Color.White;
+            this.UiGeneralToggleCloseMinimizes.UncheckedState.InnerColor = System.Drawing.Color.White;
+            this.UiGeneralToggleCloseMinimizes.CheckedChanged += new System.EventHandler(this.GuiCloseMinimize_CheckedChanged);
+            // 
+            // UiGeneralToggleTrimWhitespaces
+            // 
+            this.UiGeneralToggleTrimWhitespaces.Checked = true;
+            this.UiGeneralToggleTrimWhitespaces.CheckedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
+            this.UiGeneralToggleTrimWhitespaces.CheckedState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(56)))), ((int)(((byte)(97)))), ((int)(((byte)(55)))));
+            this.UiGeneralToggleTrimWhitespaces.CheckedState.InnerBorderColor = System.Drawing.Color.White;
+            this.UiGeneralToggleTrimWhitespaces.CheckedState.InnerColor = System.Drawing.Color.White;
+            this.UiGeneralToggleTrimWhitespaces.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.UiGeneralToggleTrimWhitespaces.Location = new System.Drawing.Point(18, 147);
+            this.UiGeneralToggleTrimWhitespaces.Name = "UiGeneralToggleTrimWhitespaces";
+            this.UiGeneralToggleTrimWhitespaces.Size = new System.Drawing.Size(35, 20);
+            this.UiGeneralToggleTrimWhitespaces.TabIndex = 1003;
+            this.UiGeneralToggleTrimWhitespaces.UncheckedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(125)))), ((int)(((byte)(137)))), ((int)(((byte)(149)))));
+            this.UiGeneralToggleTrimWhitespaces.UncheckedState.FillColor = System.Drawing.Color.DarkGray;
+            this.UiGeneralToggleTrimWhitespaces.UncheckedState.InnerBorderColor = System.Drawing.Color.White;
+            this.UiGeneralToggleTrimWhitespaces.UncheckedState.InnerColor = System.Drawing.Color.White;
+            this.UiGeneralToggleTrimWhitespaces.CheckedChanged += new System.EventHandler(this.GuiTrimWhitespaces_CheckedChanged);
+            // 
+            // UiGeneralToggleRestoreOriginal
+            // 
+            this.UiGeneralToggleRestoreOriginal.Checked = true;
+            this.UiGeneralToggleRestoreOriginal.CheckedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
+            this.UiGeneralToggleRestoreOriginal.CheckedState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(56)))), ((int)(((byte)(97)))), ((int)(((byte)(55)))));
+            this.UiGeneralToggleRestoreOriginal.CheckedState.InnerBorderColor = System.Drawing.Color.White;
+            this.UiGeneralToggleRestoreOriginal.CheckedState.InnerColor = System.Drawing.Color.White;
+            this.UiGeneralToggleRestoreOriginal.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.UiGeneralToggleRestoreOriginal.Location = new System.Drawing.Point(18, 116);
+            this.UiGeneralToggleRestoreOriginal.Name = "UiGeneralToggleRestoreOriginal";
+            this.UiGeneralToggleRestoreOriginal.Size = new System.Drawing.Size(35, 20);
+            this.UiGeneralToggleRestoreOriginal.TabIndex = 1002;
+            this.UiGeneralToggleRestoreOriginal.UncheckedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(125)))), ((int)(((byte)(137)))), ((int)(((byte)(149)))));
+            this.UiGeneralToggleRestoreOriginal.UncheckedState.FillColor = System.Drawing.Color.DarkGray;
+            this.UiGeneralToggleRestoreOriginal.UncheckedState.InnerBorderColor = System.Drawing.Color.White;
+            this.UiGeneralToggleRestoreOriginal.UncheckedState.InnerColor = System.Drawing.Color.White;
+            this.UiGeneralToggleRestoreOriginal.CheckedChanged += new System.EventHandler(this.GuiRestoreOriginal_CheckedChanged);
+            // 
+            // UiGeneralToggleStartDisabled
+            // 
+            this.UiGeneralToggleStartDisabled.CheckedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
+            this.UiGeneralToggleStartDisabled.CheckedState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(56)))), ((int)(((byte)(97)))), ((int)(((byte)(55)))));
+            this.UiGeneralToggleStartDisabled.CheckedState.InnerBorderColor = System.Drawing.Color.White;
+            this.UiGeneralToggleStartDisabled.CheckedState.InnerColor = System.Drawing.Color.White;
+            this.UiGeneralToggleStartDisabled.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.UiGeneralToggleStartDisabled.Location = new System.Drawing.Point(18, 85);
+            this.UiGeneralToggleStartDisabled.Name = "UiGeneralToggleStartDisabled";
+            this.UiGeneralToggleStartDisabled.Size = new System.Drawing.Size(35, 20);
+            this.UiGeneralToggleStartDisabled.TabIndex = 1001;
+            this.UiGeneralToggleStartDisabled.UncheckedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(213)))), ((int)(((byte)(218)))), ((int)(((byte)(223)))));
+            this.UiGeneralToggleStartDisabled.UncheckedState.FillColor = System.Drawing.Color.DarkGray;
+            this.UiGeneralToggleStartDisabled.UncheckedState.InnerBorderColor = System.Drawing.Color.White;
+            this.UiGeneralToggleStartDisabled.UncheckedState.InnerColor = System.Drawing.Color.White;
+            this.UiGeneralToggleStartDisabled.CheckedChanged += new System.EventHandler(this.GuiStartDisabled_CheckedChanged);
+            // 
+            // UiGeneralToggleStartWithWindows
+            // 
+            this.UiGeneralToggleStartWithWindows.Checked = true;
+            this.UiGeneralToggleStartWithWindows.CheckedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
+            this.UiGeneralToggleStartWithWindows.CheckedState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(56)))), ((int)(((byte)(97)))), ((int)(((byte)(55)))));
+            this.UiGeneralToggleStartWithWindows.CheckedState.InnerBorderColor = System.Drawing.Color.White;
+            this.UiGeneralToggleStartWithWindows.CheckedState.InnerColor = System.Drawing.Color.White;
+            this.UiGeneralToggleStartWithWindows.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.UiGeneralToggleStartWithWindows.Location = new System.Drawing.Point(18, 54);
+            this.UiGeneralToggleStartWithWindows.Name = "UiGeneralToggleStartWithWindows";
+            this.UiGeneralToggleStartWithWindows.Size = new System.Drawing.Size(35, 20);
+            this.UiGeneralToggleStartWithWindows.TabIndex = 1000;
+            this.UiGeneralToggleStartWithWindows.UncheckedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(125)))), ((int)(((byte)(137)))), ((int)(((byte)(149)))));
+            this.UiGeneralToggleStartWithWindows.UncheckedState.FillColor = System.Drawing.Color.DarkGray;
+            this.UiGeneralToggleStartWithWindows.UncheckedState.InnerBorderColor = System.Drawing.Color.White;
+            this.UiGeneralToggleStartWithWindows.UncheckedState.InnerColor = System.Drawing.Color.White;
+            this.UiGeneralToggleStartWithWindows.CheckedChanged += new System.EventHandler(this.GuiStartWithWindows_CheckedChanged);
+            // 
+            // UiGeneralGroupBoxClipboardList
+            // 
+            this.UiGeneralGroupBoxClipboardList.BorderRadius = 5;
+            this.UiGeneralGroupBoxClipboardList.Controls.Add(this.UiGeneralLabelEnableClipboardShortcut);
+            this.UiGeneralGroupBoxClipboardList.Controls.Add(this.UiGeneralLabelAlwaysPasteOriginal);
+            this.UiGeneralGroupBoxClipboardList.Controls.Add(this.UiGeneralLabelPasteToApplication);
+            this.UiGeneralGroupBoxClipboardList.Controls.Add(this.UiGeneralLabelIncludeImages);
+            this.UiGeneralGroupBoxClipboardList.Controls.Add(this.UiGeneralLabelEnableFavorites);
+            this.UiGeneralGroupBoxClipboardList.Controls.Add(this.UiGeneralLabelEnableClipboard);
+            this.UiGeneralGroupBoxClipboardList.Controls.Add(this.UiGeneralToggleAlwaysPasteOriginal);
+            this.UiGeneralGroupBoxClipboardList.Controls.Add(this.UiGeneralTogglePasteToApplication);
+            this.UiGeneralGroupBoxClipboardList.Controls.Add(this.UiGeneralToggleIncludeImages);
+            this.UiGeneralGroupBoxClipboardList.Controls.Add(this.UiGeneralToggleEnableFavorites);
+            this.UiGeneralGroupBoxClipboardList.Controls.Add(this.UiGeneralToggleEnableClipboard);
+            this.UiGeneralGroupBoxClipboardList.CustomBorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(227)))), ((int)(((byte)(220)))));
+            this.UiGeneralGroupBoxClipboardList.Font = new System.Drawing.Font("Segoe UI", 11F);
+            this.UiGeneralGroupBoxClipboardList.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.UiGeneralGroupBoxClipboardList.Location = new System.Drawing.Point(13, 259);
+            this.UiGeneralGroupBoxClipboardList.Name = "UiGeneralGroupBoxClipboardList";
+            this.UiGeneralGroupBoxClipboardList.Size = new System.Drawing.Size(525, 297);
+            this.UiGeneralGroupBoxClipboardList.TabIndex = 101;
+            this.UiGeneralGroupBoxClipboardList.Text = "Clipboard list";
+            // 
+            // UiGeneralLabelEnableClipboardShortcut
+            // 
+            this.UiGeneralLabelEnableClipboardShortcut.AutoSize = true;
+            this.UiGeneralLabelEnableClipboardShortcut.Cursor = System.Windows.Forms.Cursors.Default;
+            this.UiGeneralLabelEnableClipboardShortcut.Font = new System.Drawing.Font("Segoe UI", 8F, System.Drawing.FontStyle.Bold);
+            this.UiGeneralLabelEnableClipboardShortcut.Location = new System.Drawing.Point(197, 55);
+            this.UiGeneralLabelEnableClipboardShortcut.Name = "UiGeneralLabelEnableClipboardShortcut";
+            this.UiGeneralLabelEnableClipboardShortcut.Size = new System.Drawing.Size(64, 19);
+            this.UiGeneralLabelEnableClipboardShortcut.TabIndex = 0;
+            this.UiGeneralLabelEnableClipboardShortcut.Text = "(Alt + S)";
+            // 
+            // UiGeneralLabelAlwaysPasteOriginal
+            // 
+            this.UiGeneralLabelAlwaysPasteOriginal.AutoSize = true;
+            this.UiGeneralLabelAlwaysPasteOriginal.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.UiGeneralLabelAlwaysPasteOriginal.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.UiGeneralLabelAlwaysPasteOriginal.Location = new System.Drawing.Point(59, 176);
+            this.UiGeneralLabelAlwaysPasteOriginal.Name = "UiGeneralLabelAlwaysPasteOriginal";
+            this.UiGeneralLabelAlwaysPasteOriginal.Size = new System.Drawing.Size(362, 23);
+            this.UiGeneralLabelAlwaysPasteOriginal.TabIndex = 0;
+            this.UiGeneralLabelAlwaysPasteOriginal.Text = "Always paste original/formatted clipboard text";
+            this.UiGeneralLabelAlwaysPasteOriginal.Click += new System.EventHandler(this.UiGeneralLabelAlwaysPasteOriginal_Click);
+            // 
+            // UiGeneralLabelPasteToApplication
+            // 
+            this.UiGeneralLabelPasteToApplication.AutoSize = true;
+            this.UiGeneralLabelPasteToApplication.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.UiGeneralLabelPasteToApplication.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.UiGeneralLabelPasteToApplication.Location = new System.Drawing.Point(59, 145);
+            this.UiGeneralLabelPasteToApplication.Name = "UiGeneralLabelPasteToApplication";
+            this.UiGeneralLabelPasteToApplication.Size = new System.Drawing.Size(382, 23);
+            this.UiGeneralLabelPasteToApplication.TabIndex = 0;
+            this.UiGeneralLabelPasteToApplication.Text = "Paste to active application on clipboard selection";
+            this.UiGeneralLabelPasteToApplication.Click += new System.EventHandler(this.UiGeneralLabelPasteToApplication_Click);
+            // 
+            // UiGeneralLabelIncludeImages
+            // 
+            this.UiGeneralLabelIncludeImages.AutoSize = true;
+            this.UiGeneralLabelIncludeImages.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.UiGeneralLabelIncludeImages.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.UiGeneralLabelIncludeImages.Location = new System.Drawing.Point(59, 114);
+            this.UiGeneralLabelIncludeImages.Name = "UiGeneralLabelIncludeImages";
+            this.UiGeneralLabelIncludeImages.Size = new System.Drawing.Size(246, 23);
+            this.UiGeneralLabelIncludeImages.TabIndex = 0;
+            this.UiGeneralLabelIncludeImages.Text = "Include images in clipboard list";
+            this.UiGeneralLabelIncludeImages.Click += new System.EventHandler(this.UiGeneralLabelIncludeImages_Click);
+            // 
+            // UiGeneralLabelEnableFavorites
+            // 
+            this.UiGeneralLabelEnableFavorites.AutoSize = true;
+            this.UiGeneralLabelEnableFavorites.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.UiGeneralLabelEnableFavorites.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.UiGeneralLabelEnableFavorites.Location = new System.Drawing.Point(59, 83);
+            this.UiGeneralLabelEnableFavorites.Name = "UiGeneralLabelEnableFavorites";
+            this.UiGeneralLabelEnableFavorites.Size = new System.Drawing.Size(130, 23);
+            this.UiGeneralLabelEnableFavorites.TabIndex = 0;
+            this.UiGeneralLabelEnableFavorites.Text = "Enable favorites";
+            this.UiGeneralLabelEnableFavorites.Click += new System.EventHandler(this.UiGeneralLabelEnableFavorites_Click);
+            // 
+            // UiGeneralLabelEnableClipboard
+            // 
+            this.UiGeneralLabelEnableClipboard.AutoSize = true;
+            this.UiGeneralLabelEnableClipboard.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.UiGeneralLabelEnableClipboard.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.UiGeneralLabelEnableClipboard.Location = new System.Drawing.Point(59, 52);
+            this.UiGeneralLabelEnableClipboard.Name = "UiGeneralLabelEnableClipboard";
+            this.UiGeneralLabelEnableClipboard.Size = new System.Drawing.Size(163, 23);
+            this.UiGeneralLabelEnableClipboard.TabIndex = 0;
+            this.UiGeneralLabelEnableClipboard.Text = "Enable clipboard list";
+            this.UiGeneralLabelEnableClipboard.Click += new System.EventHandler(this.UiGeneralLabelEnableClipboard_Click);
+            // 
+            // UiGeneralToggleAlwaysPasteOriginal
+            // 
+            this.UiGeneralToggleAlwaysPasteOriginal.CheckedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
+            this.UiGeneralToggleAlwaysPasteOriginal.CheckedState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(56)))), ((int)(((byte)(97)))), ((int)(((byte)(55)))));
+            this.UiGeneralToggleAlwaysPasteOriginal.CheckedState.InnerBorderColor = System.Drawing.Color.White;
+            this.UiGeneralToggleAlwaysPasteOriginal.CheckedState.InnerColor = System.Drawing.Color.White;
+            this.UiGeneralToggleAlwaysPasteOriginal.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.UiGeneralToggleAlwaysPasteOriginal.Location = new System.Drawing.Point(18, 178);
+            this.UiGeneralToggleAlwaysPasteOriginal.Name = "UiGeneralToggleAlwaysPasteOriginal";
+            this.UiGeneralToggleAlwaysPasteOriginal.Size = new System.Drawing.Size(35, 20);
+            this.UiGeneralToggleAlwaysPasteOriginal.TabIndex = 1009;
+            this.UiGeneralToggleAlwaysPasteOriginal.UncheckedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(125)))), ((int)(((byte)(137)))), ((int)(((byte)(149)))));
+            this.UiGeneralToggleAlwaysPasteOriginal.UncheckedState.FillColor = System.Drawing.Color.DarkGray;
+            this.UiGeneralToggleAlwaysPasteOriginal.UncheckedState.InnerBorderColor = System.Drawing.Color.White;
+            this.UiGeneralToggleAlwaysPasteOriginal.UncheckedState.InnerColor = System.Drawing.Color.White;
+            this.UiGeneralToggleAlwaysPasteOriginal.CheckedChanged += new System.EventHandler(this.GuiAlwaysPasteOriginal_CheckedChanged);
+            // 
+            // UiGeneralTogglePasteToApplication
+            // 
+            this.UiGeneralTogglePasteToApplication.CheckedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
+            this.UiGeneralTogglePasteToApplication.CheckedState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(56)))), ((int)(((byte)(97)))), ((int)(((byte)(55)))));
+            this.UiGeneralTogglePasteToApplication.CheckedState.InnerBorderColor = System.Drawing.Color.White;
+            this.UiGeneralTogglePasteToApplication.CheckedState.InnerColor = System.Drawing.Color.White;
+            this.UiGeneralTogglePasteToApplication.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.UiGeneralTogglePasteToApplication.Location = new System.Drawing.Point(18, 147);
+            this.UiGeneralTogglePasteToApplication.Name = "UiGeneralTogglePasteToApplication";
+            this.UiGeneralTogglePasteToApplication.Size = new System.Drawing.Size(35, 20);
+            this.UiGeneralTogglePasteToApplication.TabIndex = 1008;
+            this.UiGeneralTogglePasteToApplication.UncheckedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(125)))), ((int)(((byte)(137)))), ((int)(((byte)(149)))));
+            this.UiGeneralTogglePasteToApplication.UncheckedState.FillColor = System.Drawing.Color.DarkGray;
+            this.UiGeneralTogglePasteToApplication.UncheckedState.InnerBorderColor = System.Drawing.Color.White;
+            this.UiGeneralTogglePasteToApplication.UncheckedState.InnerColor = System.Drawing.Color.White;
+            this.UiGeneralTogglePasteToApplication.CheckedChanged += new System.EventHandler(this.GuiPasteOnSelection_CheckedChanged);
+            // 
+            // UiGeneralToggleIncludeImages
+            // 
+            this.UiGeneralToggleIncludeImages.Checked = true;
+            this.UiGeneralToggleIncludeImages.CheckedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
+            this.UiGeneralToggleIncludeImages.CheckedState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(56)))), ((int)(((byte)(97)))), ((int)(((byte)(55)))));
+            this.UiGeneralToggleIncludeImages.CheckedState.InnerBorderColor = System.Drawing.Color.White;
+            this.UiGeneralToggleIncludeImages.CheckedState.InnerColor = System.Drawing.Color.White;
+            this.UiGeneralToggleIncludeImages.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.UiGeneralToggleIncludeImages.Location = new System.Drawing.Point(18, 116);
+            this.UiGeneralToggleIncludeImages.Name = "UiGeneralToggleIncludeImages";
+            this.UiGeneralToggleIncludeImages.Size = new System.Drawing.Size(35, 20);
+            this.UiGeneralToggleIncludeImages.TabIndex = 1007;
+            this.UiGeneralToggleIncludeImages.UncheckedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(125)))), ((int)(((byte)(137)))), ((int)(((byte)(149)))));
+            this.UiGeneralToggleIncludeImages.UncheckedState.FillColor = System.Drawing.Color.DarkGray;
+            this.UiGeneralToggleIncludeImages.UncheckedState.InnerBorderColor = System.Drawing.Color.White;
+            this.UiGeneralToggleIncludeImages.UncheckedState.InnerColor = System.Drawing.Color.White;
+            this.UiGeneralToggleIncludeImages.CheckedChanged += new System.EventHandler(this.GuiCopyImages_CheckedChanged);
+            // 
+            // UiGeneralToggleEnableFavorites
+            // 
+            this.UiGeneralToggleEnableFavorites.CheckedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
+            this.UiGeneralToggleEnableFavorites.CheckedState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(56)))), ((int)(((byte)(97)))), ((int)(((byte)(55)))));
+            this.UiGeneralToggleEnableFavorites.CheckedState.InnerBorderColor = System.Drawing.Color.White;
+            this.UiGeneralToggleEnableFavorites.CheckedState.InnerColor = System.Drawing.Color.White;
+            this.UiGeneralToggleEnableFavorites.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.UiGeneralToggleEnableFavorites.Location = new System.Drawing.Point(18, 85);
+            this.UiGeneralToggleEnableFavorites.Name = "UiGeneralToggleEnableFavorites";
+            this.UiGeneralToggleEnableFavorites.Size = new System.Drawing.Size(35, 20);
+            this.UiGeneralToggleEnableFavorites.TabIndex = 1006;
+            this.UiGeneralToggleEnableFavorites.UncheckedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(125)))), ((int)(((byte)(137)))), ((int)(((byte)(149)))));
+            this.UiGeneralToggleEnableFavorites.UncheckedState.FillColor = System.Drawing.Color.DarkGray;
+            this.UiGeneralToggleEnableFavorites.UncheckedState.InnerBorderColor = System.Drawing.Color.White;
+            this.UiGeneralToggleEnableFavorites.UncheckedState.InnerColor = System.Drawing.Color.White;
+            this.UiGeneralToggleEnableFavorites.CheckedChanged += new System.EventHandler(this.GuiFavoritesEnabled_CheckedChanged);
+            // 
+            // UiGeneralToggleEnableClipboard
+            // 
+            this.UiGeneralToggleEnableClipboard.Checked = true;
+            this.UiGeneralToggleEnableClipboard.CheckedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
+            this.UiGeneralToggleEnableClipboard.CheckedState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(56)))), ((int)(((byte)(97)))), ((int)(((byte)(55)))));
+            this.UiGeneralToggleEnableClipboard.CheckedState.InnerBorderColor = System.Drawing.Color.White;
+            this.UiGeneralToggleEnableClipboard.CheckedState.InnerColor = System.Drawing.Color.White;
+            this.UiGeneralToggleEnableClipboard.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.UiGeneralToggleEnableClipboard.Location = new System.Drawing.Point(18, 54);
+            this.UiGeneralToggleEnableClipboard.Name = "UiGeneralToggleEnableClipboard";
+            this.UiGeneralToggleEnableClipboard.Size = new System.Drawing.Size(35, 20);
+            this.UiGeneralToggleEnableClipboard.TabIndex = 1005;
+            this.UiGeneralToggleEnableClipboard.UncheckedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(125)))), ((int)(((byte)(137)))), ((int)(((byte)(149)))));
+            this.UiGeneralToggleEnableClipboard.UncheckedState.FillColor = System.Drawing.Color.DarkGray;
+            this.UiGeneralToggleEnableClipboard.UncheckedState.InnerBorderColor = System.Drawing.Color.White;
+            this.UiGeneralToggleEnableClipboard.UncheckedState.InnerColor = System.Drawing.Color.White;
+            this.UiGeneralToggleEnableClipboard.CheckedChanged += new System.EventHandler(this.GuiSearch_CheckedChanged);
+            // 
+            // UiTabStorage
+            // 
+            this.UiTabStorage.Controls.Add(this.UiStorageGroupBoxStorage);
+            this.UiTabStorage.Controls.Add(this.UiStorageGroupBoxInfo);
+            this.UiTabStorage.Location = new System.Drawing.Point(184, 4);
+            this.UiTabStorage.Name = "UiTabStorage";
+            this.UiTabStorage.Padding = new System.Windows.Forms.Padding(3);
+            this.UiTabStorage.Size = new System.Drawing.Size(552, 569);
+            this.UiTabStorage.TabIndex = 1;
+            this.UiTabStorage.Text = "Storage";
+            this.UiTabStorage.UseVisualStyleBackColor = true;
+            // 
+            // UiStorageGroupBoxStorage
+            // 
+            this.UiStorageGroupBoxStorage.BorderRadius = 5;
+            this.UiStorageGroupBoxStorage.Controls.Add(this.UiStorageLabelSaveOnlyTextEntries);
+            this.UiStorageGroupBoxStorage.Controls.Add(this.UiStorageLabelSaveOnlyFavoritesEntries);
+            this.UiStorageGroupBoxStorage.Controls.Add(this.UiStorageLabelSaveAllEntries);
+            this.UiStorageGroupBoxStorage.Controls.Add(this.UiStorageTrackBarEntriesToSave);
+            this.UiStorageGroupBoxStorage.Controls.Add(this.UiStorageLabelSaveAll);
+            this.UiStorageGroupBoxStorage.Controls.Add(this.UiStorageRadioSaveAll);
+            this.UiStorageGroupBoxStorage.Controls.Add(this.UiStorageLabelSaveOnlyFavorites);
+            this.UiStorageGroupBoxStorage.Controls.Add(this.UiStorageRadioSaveOnlyFavorites);
+            this.UiStorageGroupBoxStorage.Controls.Add(this.UiStorageLabelSaveOnlyText);
+            this.UiStorageGroupBoxStorage.Controls.Add(this.UiStorageRadioSaveOnlyText);
+            this.UiStorageGroupBoxStorage.Controls.Add(this.UiStorageLabelLoadClipboards);
+            this.UiStorageGroupBoxStorage.Controls.Add(this.UiStorageToggleLoadClipboards);
+            this.UiStorageGroupBoxStorage.Controls.Add(this.UiStorageLabelSaveClipboards);
+            this.UiStorageGroupBoxStorage.Controls.Add(this.UiStorageToggleSaveClipboards);
+            this.UiStorageGroupBoxStorage.Controls.Add(this.UiStorageTrackBarEntriesToSaveText);
+            this.UiStorageGroupBoxStorage.Controls.Add(this.UiStorageLabelWhichClipboardToSave);
+            this.UiStorageGroupBoxStorage.Controls.Add(this.UiStorageLabelAmountOfClipboardsToSave);
+            this.UiStorageGroupBoxStorage.CustomBorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(227)))), ((int)(((byte)(220)))));
+            this.UiStorageGroupBoxStorage.Font = new System.Drawing.Font("Segoe UI", 11F);
+            this.UiStorageGroupBoxStorage.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.UiStorageGroupBoxStorage.Location = new System.Drawing.Point(13, 201);
+            this.UiStorageGroupBoxStorage.Name = "UiStorageGroupBoxStorage";
+            this.UiStorageGroupBoxStorage.Size = new System.Drawing.Size(525, 355);
+            this.UiStorageGroupBoxStorage.TabIndex = 510;
+            this.UiStorageGroupBoxStorage.Text = "Storage";
+            // 
+            // UiStorageLabelSaveOnlyTextEntries
+            // 
+            this.UiStorageLabelSaveOnlyTextEntries.BackColor = System.Drawing.Color.Transparent;
+            this.UiStorageLabelSaveOnlyTextEntries.Font = new System.Drawing.Font("Segoe UI Semibold", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.UiStorageLabelSaveOnlyTextEntries.IsSelectionEnabled = false;
+            this.UiStorageLabelSaveOnlyTextEntries.Location = new System.Drawing.Point(212, 169);
+            this.UiStorageLabelSaveOnlyTextEntries.Name = "UiStorageLabelSaveOnlyTextEntries";
+            this.UiStorageLabelSaveOnlyTextEntries.Size = new System.Drawing.Size(63, 19);
+            this.UiStorageLabelSaveOnlyTextEntries.TabIndex = 523;
+            this.UiStorageLabelSaveOnlyTextEntries.Text = "(0 entries)";
+            // 
+            // UiStorageLabelSaveOnlyFavoritesEntries
+            // 
+            this.UiStorageLabelSaveOnlyFavoritesEntries.BackColor = System.Drawing.Color.Transparent;
+            this.UiStorageLabelSaveOnlyFavoritesEntries.Font = new System.Drawing.Font("Segoe UI Semibold", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.UiStorageLabelSaveOnlyFavoritesEntries.IsSelectionEnabled = false;
+            this.UiStorageLabelSaveOnlyFavoritesEntries.Location = new System.Drawing.Point(248, 199);
+            this.UiStorageLabelSaveOnlyFavoritesEntries.Name = "UiStorageLabelSaveOnlyFavoritesEntries";
+            this.UiStorageLabelSaveOnlyFavoritesEntries.Size = new System.Drawing.Size(63, 19);
+            this.UiStorageLabelSaveOnlyFavoritesEntries.TabIndex = 522;
+            this.UiStorageLabelSaveOnlyFavoritesEntries.Text = "(0 entries)";
+            // 
+            // UiStorageLabelSaveAllEntries
+            // 
+            this.UiStorageLabelSaveAllEntries.BackColor = System.Drawing.Color.Transparent;
+            this.UiStorageLabelSaveAllEntries.Font = new System.Drawing.Font("Segoe UI Semibold", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.UiStorageLabelSaveAllEntries.IsSelectionEnabled = false;
+            this.UiStorageLabelSaveAllEntries.Location = new System.Drawing.Point(172, 231);
+            this.UiStorageLabelSaveAllEntries.Name = "UiStorageLabelSaveAllEntries";
+            this.UiStorageLabelSaveAllEntries.Size = new System.Drawing.Size(63, 19);
+            this.UiStorageLabelSaveAllEntries.TabIndex = 521;
+            this.UiStorageLabelSaveAllEntries.Text = "(0 entries)";
+            // 
+            // UiStorageTrackBarEntriesToSave
+            // 
+            this.UiStorageTrackBarEntriesToSave.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.UiStorageTrackBarEntriesToSave.Location = new System.Drawing.Point(18, 309);
+            this.UiStorageTrackBarEntriesToSave.Maximum = 10000;
+            this.UiStorageTrackBarEntriesToSave.Minimum = 1;
+            this.UiStorageTrackBarEntriesToSave.Name = "UiStorageTrackBarEntriesToSave";
+            this.UiStorageTrackBarEntriesToSave.Size = new System.Drawing.Size(253, 23);
+            this.UiStorageTrackBarEntriesToSave.TabIndex = 520;
+            this.UiStorageTrackBarEntriesToSave.ThumbColor = System.Drawing.Color.FromArgb(((int)(((byte)(56)))), ((int)(((byte)(97)))), ((int)(((byte)(55)))));
+            this.UiStorageTrackBarEntriesToSave.Value = 1;
+            this.UiStorageTrackBarEntriesToSave.ValueChanged += new System.EventHandler(this.GuiStorageEntries_ValueChanged);
+            // 
+            // UiStorageLabelSaveAll
+            // 
+            this.UiStorageLabelSaveAll.AutoSize = true;
+            this.UiStorageLabelSaveAll.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.UiStorageLabelSaveAll.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.UiStorageLabelSaveAll.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.UiStorageLabelSaveAll.Location = new System.Drawing.Point(44, 228);
+            this.UiStorageLabelSaveAll.Name = "UiStorageLabelSaveAll";
+            this.UiStorageLabelSaveAll.Size = new System.Drawing.Size(150, 23);
+            this.UiStorageLabelSaveAll.TabIndex = 519;
+            this.UiStorageLabelSaveAll.Text = "Save all clipboards";
+            this.UiStorageLabelSaveAll.Click += new System.EventHandler(this.UiStorageLabelSaveAll_Click);
+            // 
+            // UiStorageRadioSaveAll
+            // 
+            this.UiStorageRadioSaveAll.CheckedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
+            this.UiStorageRadioSaveAll.CheckedState.BorderThickness = 0;
+            this.UiStorageRadioSaveAll.CheckedState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(56)))), ((int)(((byte)(97)))), ((int)(((byte)(55)))));
+            this.UiStorageRadioSaveAll.CheckedState.InnerColor = System.Drawing.Color.White;
+            this.UiStorageRadioSaveAll.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.UiStorageRadioSaveAll.Location = new System.Drawing.Point(18, 230);
+            this.UiStorageRadioSaveAll.Name = "UiStorageRadioSaveAll";
+            this.UiStorageRadioSaveAll.Size = new System.Drawing.Size(20, 20);
+            this.UiStorageRadioSaveAll.TabIndex = 518;
+            this.UiStorageRadioSaveAll.Text = "guna2CustomRadioButton3";
+            this.UiStorageRadioSaveAll.UncheckedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(125)))), ((int)(((byte)(137)))), ((int)(((byte)(149)))));
+            this.UiStorageRadioSaveAll.UncheckedState.BorderThickness = 2;
+            this.UiStorageRadioSaveAll.UncheckedState.FillColor = System.Drawing.Color.Transparent;
+            this.UiStorageRadioSaveAll.UncheckedState.InnerColor = System.Drawing.Color.Transparent;
+            this.UiStorageRadioSaveAll.CheckedChanged += new System.EventHandler(this.GuiStorageChoose_CheckedChanged);
+            // 
+            // UiStorageLabelSaveOnlyFavorites
+            // 
+            this.UiStorageLabelSaveOnlyFavorites.AutoSize = true;
+            this.UiStorageLabelSaveOnlyFavorites.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.UiStorageLabelSaveOnlyFavorites.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.UiStorageLabelSaveOnlyFavorites.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.UiStorageLabelSaveOnlyFavorites.Location = new System.Drawing.Point(44, 197);
+            this.UiStorageLabelSaveOnlyFavorites.Name = "UiStorageLabelSaveOnlyFavorites";
+            this.UiStorageLabelSaveOnlyFavorites.Size = new System.Drawing.Size(243, 23);
+            this.UiStorageLabelSaveOnlyFavorites.TabIndex = 517;
+            this.UiStorageLabelSaveOnlyFavorites.Text = "Save only \"Favorite\" clipboards";
+            this.UiStorageLabelSaveOnlyFavorites.Click += new System.EventHandler(this.UiStorageLabelSaveOnlyFavorites_Click);
+            // 
+            // UiStorageRadioSaveOnlyFavorites
+            // 
+            this.UiStorageRadioSaveOnlyFavorites.CheckedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
+            this.UiStorageRadioSaveOnlyFavorites.CheckedState.BorderThickness = 0;
+            this.UiStorageRadioSaveOnlyFavorites.CheckedState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(56)))), ((int)(((byte)(97)))), ((int)(((byte)(55)))));
+            this.UiStorageRadioSaveOnlyFavorites.CheckedState.InnerColor = System.Drawing.Color.White;
+            this.UiStorageRadioSaveOnlyFavorites.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.UiStorageRadioSaveOnlyFavorites.Location = new System.Drawing.Point(18, 199);
+            this.UiStorageRadioSaveOnlyFavorites.Name = "UiStorageRadioSaveOnlyFavorites";
+            this.UiStorageRadioSaveOnlyFavorites.Size = new System.Drawing.Size(20, 20);
+            this.UiStorageRadioSaveOnlyFavorites.TabIndex = 516;
+            this.UiStorageRadioSaveOnlyFavorites.Text = "guna2CustomRadioButton2";
+            this.UiStorageRadioSaveOnlyFavorites.UncheckedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(125)))), ((int)(((byte)(137)))), ((int)(((byte)(149)))));
+            this.UiStorageRadioSaveOnlyFavorites.UncheckedState.BorderThickness = 2;
+            this.UiStorageRadioSaveOnlyFavorites.UncheckedState.FillColor = System.Drawing.Color.Transparent;
+            this.UiStorageRadioSaveOnlyFavorites.UncheckedState.InnerColor = System.Drawing.Color.Transparent;
+            this.UiStorageRadioSaveOnlyFavorites.CheckedChanged += new System.EventHandler(this.GuiStorageChoose_CheckedChanged);
+            // 
+            // UiStorageLabelSaveOnlyText
+            // 
+            this.UiStorageLabelSaveOnlyText.AutoSize = true;
+            this.UiStorageLabelSaveOnlyText.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.UiStorageLabelSaveOnlyText.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.UiStorageLabelSaveOnlyText.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.UiStorageLabelSaveOnlyText.Location = new System.Drawing.Point(44, 166);
+            this.UiStorageLabelSaveOnlyText.Name = "UiStorageLabelSaveOnlyText";
+            this.UiStorageLabelSaveOnlyText.Size = new System.Drawing.Size(199, 23);
+            this.UiStorageLabelSaveOnlyText.TabIndex = 515;
+            this.UiStorageLabelSaveOnlyText.Text = "Save only text clipboards";
+            this.UiStorageLabelSaveOnlyText.Click += new System.EventHandler(this.UiStorageLabelSaveOnlyText_Click);
+            // 
+            // UiStorageRadioSaveOnlyText
+            // 
+            this.UiStorageRadioSaveOnlyText.CheckedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
+            this.UiStorageRadioSaveOnlyText.CheckedState.BorderThickness = 0;
+            this.UiStorageRadioSaveOnlyText.CheckedState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(56)))), ((int)(((byte)(97)))), ((int)(((byte)(55)))));
+            this.UiStorageRadioSaveOnlyText.CheckedState.InnerColor = System.Drawing.Color.White;
+            this.UiStorageRadioSaveOnlyText.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.UiStorageRadioSaveOnlyText.Location = new System.Drawing.Point(18, 168);
+            this.UiStorageRadioSaveOnlyText.Name = "UiStorageRadioSaveOnlyText";
+            this.UiStorageRadioSaveOnlyText.Size = new System.Drawing.Size(20, 20);
+            this.UiStorageRadioSaveOnlyText.TabIndex = 514;
+            this.UiStorageRadioSaveOnlyText.Text = "guna2CustomRadioButton1";
+            this.UiStorageRadioSaveOnlyText.UncheckedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(125)))), ((int)(((byte)(137)))), ((int)(((byte)(149)))));
+            this.UiStorageRadioSaveOnlyText.UncheckedState.BorderThickness = 2;
+            this.UiStorageRadioSaveOnlyText.UncheckedState.FillColor = System.Drawing.Color.Transparent;
+            this.UiStorageRadioSaveOnlyText.UncheckedState.InnerColor = System.Drawing.Color.Transparent;
+            this.UiStorageRadioSaveOnlyText.CheckedChanged += new System.EventHandler(this.GuiStorageChoose_CheckedChanged);
+            // 
+            // UiStorageLabelLoadClipboards
+            // 
+            this.UiStorageLabelLoadClipboards.AutoSize = true;
+            this.UiStorageLabelLoadClipboards.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.UiStorageLabelLoadClipboards.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.UiStorageLabelLoadClipboards.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.UiStorageLabelLoadClipboards.Location = new System.Drawing.Point(59, 83);
+            this.UiStorageLabelLoadClipboards.Name = "UiStorageLabelLoadClipboards";
+            this.UiStorageLabelLoadClipboards.Size = new System.Drawing.Size(371, 23);
+            this.UiStorageLabelLoadClipboards.TabIndex = 513;
+            this.UiStorageLabelLoadClipboards.Text = "Load clipboards from local computer on launch";
+            this.UiStorageLabelLoadClipboards.Click += new System.EventHandler(this.UiStorageLabelLoadClipboards_Click);
+            // 
+            // UiStorageToggleLoadClipboards
+            // 
+            this.UiStorageToggleLoadClipboards.Checked = true;
+            this.UiStorageToggleLoadClipboards.CheckedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
+            this.UiStorageToggleLoadClipboards.CheckedState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(56)))), ((int)(((byte)(97)))), ((int)(((byte)(55)))));
+            this.UiStorageToggleLoadClipboards.CheckedState.InnerBorderColor = System.Drawing.Color.White;
+            this.UiStorageToggleLoadClipboards.CheckedState.InnerColor = System.Drawing.Color.White;
+            this.UiStorageToggleLoadClipboards.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.UiStorageToggleLoadClipboards.Location = new System.Drawing.Point(18, 85);
+            this.UiStorageToggleLoadClipboards.Name = "UiStorageToggleLoadClipboards";
+            this.UiStorageToggleLoadClipboards.Size = new System.Drawing.Size(35, 20);
+            this.UiStorageToggleLoadClipboards.TabIndex = 512;
+            this.UiStorageToggleLoadClipboards.UncheckedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(125)))), ((int)(((byte)(137)))), ((int)(((byte)(149)))));
+            this.UiStorageToggleLoadClipboards.UncheckedState.FillColor = System.Drawing.Color.DarkGray;
+            this.UiStorageToggleLoadClipboards.UncheckedState.InnerBorderColor = System.Drawing.Color.White;
+            this.UiStorageToggleLoadClipboards.UncheckedState.InnerColor = System.Drawing.Color.White;
+            this.UiStorageToggleLoadClipboards.CheckedChanged += new System.EventHandler(this.GuiStorageLoadClipboard_CheckedChanged);
+            // 
+            // UiStorageLabelSaveClipboards
+            // 
+            this.UiStorageLabelSaveClipboards.AutoSize = true;
+            this.UiStorageLabelSaveClipboards.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.UiStorageLabelSaveClipboards.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.UiStorageLabelSaveClipboards.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.UiStorageLabelSaveClipboards.Location = new System.Drawing.Point(59, 52);
+            this.UiStorageLabelSaveClipboards.Name = "UiStorageLabelSaveClipboards";
+            this.UiStorageLabelSaveClipboards.Size = new System.Drawing.Size(325, 23);
+            this.UiStorageLabelSaveClipboards.TabIndex = 511;
+            this.UiStorageLabelSaveClipboards.Text = "Save clipboards to local computer on exit";
+            this.UiStorageLabelSaveClipboards.Click += new System.EventHandler(this.UiStorageLabelSaveClipboards_Click);
+            // 
+            // UiStorageToggleSaveClipboards
+            // 
+            this.UiStorageToggleSaveClipboards.Checked = true;
+            this.UiStorageToggleSaveClipboards.CheckedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
+            this.UiStorageToggleSaveClipboards.CheckedState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(56)))), ((int)(((byte)(97)))), ((int)(((byte)(55)))));
+            this.UiStorageToggleSaveClipboards.CheckedState.InnerBorderColor = System.Drawing.Color.White;
+            this.UiStorageToggleSaveClipboards.CheckedState.InnerColor = System.Drawing.Color.White;
+            this.UiStorageToggleSaveClipboards.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.UiStorageToggleSaveClipboards.Location = new System.Drawing.Point(18, 54);
+            this.UiStorageToggleSaveClipboards.Name = "UiStorageToggleSaveClipboards";
+            this.UiStorageToggleSaveClipboards.Size = new System.Drawing.Size(35, 20);
+            this.UiStorageToggleSaveClipboards.TabIndex = 510;
+            this.UiStorageToggleSaveClipboards.UncheckedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(125)))), ((int)(((byte)(137)))), ((int)(((byte)(149)))));
+            this.UiStorageToggleSaveClipboards.UncheckedState.FillColor = System.Drawing.Color.DarkGray;
+            this.UiStorageToggleSaveClipboards.UncheckedState.InnerBorderColor = System.Drawing.Color.White;
+            this.UiStorageToggleSaveClipboards.UncheckedState.InnerColor = System.Drawing.Color.White;
+            this.UiStorageToggleSaveClipboards.CheckedChanged += new System.EventHandler(this.GuiStorageSaveClipboard_CheckedChanged);
+            // 
+            // UiStorageGroupBoxInfo
+            // 
+            this.UiStorageGroupBoxInfo.BorderRadius = 5;
+            this.UiStorageGroupBoxInfo.Controls.Add(this.UiStorageTextBoxInfo);
+            this.UiStorageGroupBoxInfo.CustomBorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(227)))), ((int)(((byte)(220)))));
+            this.UiStorageGroupBoxInfo.Font = new System.Drawing.Font("Segoe UI", 11F);
+            this.UiStorageGroupBoxInfo.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.UiStorageGroupBoxInfo.Location = new System.Drawing.Point(13, 1);
+            this.UiStorageGroupBoxInfo.Name = "UiStorageGroupBoxInfo";
+            this.UiStorageGroupBoxInfo.Size = new System.Drawing.Size(525, 183);
+            this.UiStorageGroupBoxInfo.TabIndex = 509;
+            this.UiStorageGroupBoxInfo.Text = "Info";
+            // 
+            // UiStorageTextBoxInfo
+            // 
+            this.UiStorageTextBoxInfo.BorderColor = System.Drawing.Color.Transparent;
+            this.UiStorageTextBoxInfo.BorderThickness = 0;
+            this.UiStorageTextBoxInfo.Cursor = System.Windows.Forms.Cursors.IBeam;
+            this.UiStorageTextBoxInfo.DefaultText = resources.GetString("UiStorageTextBoxInfo.DefaultText");
+            this.UiStorageTextBoxInfo.DisabledState.BorderColor = System.Drawing.Color.Transparent;
+            this.UiStorageTextBoxInfo.DisabledState.FillColor = System.Drawing.Color.Transparent;
+            this.UiStorageTextBoxInfo.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.UiStorageTextBoxInfo.DisabledState.PlaceholderForeColor = System.Drawing.Color.Transparent;
+            this.UiStorageTextBoxInfo.Enabled = false;
+            this.UiStorageTextBoxInfo.FocusedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
+            this.UiStorageTextBoxInfo.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.UiStorageTextBoxInfo.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.UiStorageTextBoxInfo.HoverState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
+            this.UiStorageTextBoxInfo.Location = new System.Drawing.Point(3, 45);
+            this.UiStorageTextBoxInfo.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
+            this.UiStorageTextBoxInfo.Multiline = true;
+            this.UiStorageTextBoxInfo.Name = "UiStorageTextBoxInfo";
+            this.UiStorageTextBoxInfo.PasswordChar = '\0';
+            this.UiStorageTextBoxInfo.PlaceholderText = "";
+            this.UiStorageTextBoxInfo.ReadOnly = true;
+            this.UiStorageTextBoxInfo.SelectedText = "";
+            this.UiStorageTextBoxInfo.Size = new System.Drawing.Size(458, 133);
+            this.UiStorageTextBoxInfo.TabIndex = 510;
+            // 
+            // UiTabHotkeys
+            // 
+            this.UiTabHotkeys.Controls.Add(this.UiHotkeysGroupBoxHotkeys);
+            this.UiTabHotkeys.Controls.Add(this.UiHotkeysGroupBoxPasteBehaviour);
+            this.UiTabHotkeys.Location = new System.Drawing.Point(184, 4);
+            this.UiTabHotkeys.Name = "UiTabHotkeys";
+            this.UiTabHotkeys.Padding = new System.Windows.Forms.Padding(3);
+            this.UiTabHotkeys.Size = new System.Drawing.Size(552, 569);
+            this.UiTabHotkeys.TabIndex = 2;
+            this.UiTabHotkeys.Text = "Hotkeys";
+            this.UiTabHotkeys.UseVisualStyleBackColor = true;
+            // 
+            // UiHotkeysGroupBoxHotkeys
+            // 
+            this.UiHotkeysGroupBoxHotkeys.BorderRadius = 5;
+            this.UiHotkeysGroupBoxHotkeys.Controls.Add(this.UiHotkeysButtonCancel);
+            this.UiHotkeysGroupBoxHotkeys.Controls.Add(this.UiHotkeysButtonApply);
+            this.UiHotkeysGroupBoxHotkeys.Controls.Add(this.UiHotkeysButtonToggleApplication);
+            this.UiHotkeysGroupBoxHotkeys.Controls.Add(this.UiHotkeysButtonSearch);
+            this.UiHotkeysGroupBoxHotkeys.Controls.Add(this.UiHotkeysButtonToggleFavorite);
+            this.UiHotkeysGroupBoxHotkeys.Controls.Add(this.UiHotkeysButtonPasteHotkey);
+            this.UiHotkeysGroupBoxHotkeys.Controls.Add(this.UiHotkeysLabelSearch);
+            this.UiHotkeysGroupBoxHotkeys.Controls.Add(this.UiHotkeysLabelToggleApplication);
+            this.UiHotkeysGroupBoxHotkeys.Controls.Add(this.UiHotkeysLabelPasteHotkey);
+            this.UiHotkeysGroupBoxHotkeys.Controls.Add(this.UiHotkeysLabelToggleFavorite);
+            this.UiHotkeysGroupBoxHotkeys.CustomBorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(227)))), ((int)(((byte)(220)))));
+            this.UiHotkeysGroupBoxHotkeys.Font = new System.Drawing.Font("Segoe UI", 11F);
+            this.UiHotkeysGroupBoxHotkeys.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.UiHotkeysGroupBoxHotkeys.Location = new System.Drawing.Point(13, 201);
+            this.UiHotkeysGroupBoxHotkeys.Name = "UiHotkeysGroupBoxHotkeys";
+            this.UiHotkeysGroupBoxHotkeys.Size = new System.Drawing.Size(525, 355);
+            this.UiHotkeysGroupBoxHotkeys.TabIndex = 212;
+            this.UiHotkeysGroupBoxHotkeys.Text = "Hotkeys";
+            // 
+            // UiHotkeysButtonCancel
+            // 
+            this.UiHotkeysButtonCancel.AutoRoundedCorners = true;
+            this.UiHotkeysButtonCancel.BorderRadius = 15;
+            this.UiHotkeysButtonCancel.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.UiHotkeysButtonCancel.DisabledState.BorderColor = System.Drawing.Color.Silver;
+            this.UiHotkeysButtonCancel.DisabledState.CustomBorderColor = System.Drawing.Color.Silver;
+            this.UiHotkeysButtonCancel.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(226)))), ((int)(((byte)(226)))), ((int)(((byte)(226)))));
+            this.UiHotkeysButtonCancel.DisabledState.ForeColor = System.Drawing.Color.Gray;
+            this.UiHotkeysButtonCancel.Enabled = false;
+            this.UiHotkeysButtonCancel.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(56)))), ((int)(((byte)(97)))), ((int)(((byte)(55)))));
+            this.UiHotkeysButtonCancel.Font = new System.Drawing.Font("Segoe UI Semibold", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.UiHotkeysButtonCancel.ForeColor = System.Drawing.Color.White;
+            this.UiHotkeysButtonCancel.Location = new System.Drawing.Point(329, 236);
+            this.UiHotkeysButtonCancel.Name = "UiHotkeysButtonCancel";
+            this.UiHotkeysButtonCancel.Size = new System.Drawing.Size(121, 32);
+            this.UiHotkeysButtonCancel.TabIndex = 1005;
+            this.UiHotkeysButtonCancel.Text = "Cancel";
+            this.UiHotkeysButtonCancel.Click += new System.EventHandler(this.CancelHotkey_Click);
+            // 
+            // UiHotkeysButtonApply
+            // 
+            this.UiHotkeysButtonApply.AutoRoundedCorners = true;
+            this.UiHotkeysButtonApply.BorderRadius = 15;
+            this.UiHotkeysButtonApply.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.UiHotkeysButtonApply.DisabledState.BorderColor = System.Drawing.Color.Silver;
+            this.UiHotkeysButtonApply.DisabledState.CustomBorderColor = System.Drawing.Color.Silver;
+            this.UiHotkeysButtonApply.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(226)))), ((int)(((byte)(226)))), ((int)(((byte)(226)))));
+            this.UiHotkeysButtonApply.DisabledState.ForeColor = System.Drawing.Color.Gray;
+            this.UiHotkeysButtonApply.Enabled = false;
+            this.UiHotkeysButtonApply.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(56)))), ((int)(((byte)(97)))), ((int)(((byte)(55)))));
+            this.UiHotkeysButtonApply.Font = new System.Drawing.Font("Segoe UI Semibold", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.UiHotkeysButtonApply.ForeColor = System.Drawing.Color.White;
+            this.UiHotkeysButtonApply.Location = new System.Drawing.Point(188, 236);
+            this.UiHotkeysButtonApply.Name = "UiHotkeysButtonApply";
+            this.UiHotkeysButtonApply.Size = new System.Drawing.Size(121, 32);
+            this.UiHotkeysButtonApply.TabIndex = 1004;
+            this.UiHotkeysButtonApply.Text = "Apply";
+            this.UiHotkeysButtonApply.Click += new System.EventHandler(this.ApplyHotkeys_Click);
+            // 
+            // UiHotkeysButtonToggleApplication
+            // 
+            this.UiHotkeysButtonToggleApplication.AutoRoundedCorners = true;
+            this.UiHotkeysButtonToggleApplication.BorderRadius = 15;
+            this.UiHotkeysButtonToggleApplication.BorderThickness = 1;
+            this.UiHotkeysButtonToggleApplication.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.UiHotkeysButtonToggleApplication.DisabledState.BorderColor = System.Drawing.Color.Silver;
+            this.UiHotkeysButtonToggleApplication.DisabledState.CustomBorderColor = System.Drawing.Color.Silver;
+            this.UiHotkeysButtonToggleApplication.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(226)))), ((int)(((byte)(226)))), ((int)(((byte)(226)))));
+            this.UiHotkeysButtonToggleApplication.DisabledState.ForeColor = System.Drawing.Color.Gray;
+            this.UiHotkeysButtonToggleApplication.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(227)))), ((int)(((byte)(220)))));
+            this.UiHotkeysButtonToggleApplication.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.UiHotkeysButtonToggleApplication.ForeColor = System.Drawing.Color.Black;
+            this.UiHotkeysButtonToggleApplication.Location = new System.Drawing.Point(188, 54);
+            this.UiHotkeysButtonToggleApplication.Name = "UiHotkeysButtonToggleApplication";
+            this.UiHotkeysButtonToggleApplication.Size = new System.Drawing.Size(262, 32);
+            this.UiHotkeysButtonToggleApplication.TabIndex = 1000;
+            this.UiHotkeysButtonToggleApplication.Text = "Default text";
+            this.UiHotkeysButtonToggleApplication.Click += new System.EventHandler(this.HotkeyEnable_Enter);
+            this.UiHotkeysButtonToggleApplication.KeyDown += new System.Windows.Forms.KeyEventHandler(this.HotkeyEnable_KeyDown);
+            // 
+            // UiHotkeysButtonSearch
+            // 
+            this.UiHotkeysButtonSearch.AutoRoundedCorners = true;
+            this.UiHotkeysButtonSearch.BorderRadius = 15;
+            this.UiHotkeysButtonSearch.BorderThickness = 1;
+            this.UiHotkeysButtonSearch.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.UiHotkeysButtonSearch.DisabledState.BorderColor = System.Drawing.Color.Silver;
+            this.UiHotkeysButtonSearch.DisabledState.CustomBorderColor = System.Drawing.Color.Silver;
+            this.UiHotkeysButtonSearch.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(226)))), ((int)(((byte)(226)))), ((int)(((byte)(226)))));
+            this.UiHotkeysButtonSearch.DisabledState.ForeColor = System.Drawing.Color.Gray;
+            this.UiHotkeysButtonSearch.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(227)))), ((int)(((byte)(220)))));
+            this.UiHotkeysButtonSearch.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.UiHotkeysButtonSearch.ForeColor = System.Drawing.Color.Black;
+            this.UiHotkeysButtonSearch.Location = new System.Drawing.Point(188, 101);
+            this.UiHotkeysButtonSearch.Name = "UiHotkeysButtonSearch";
+            this.UiHotkeysButtonSearch.Size = new System.Drawing.Size(262, 32);
+            this.UiHotkeysButtonSearch.TabIndex = 1001;
+            this.UiHotkeysButtonSearch.Text = "Default text";
+            this.UiHotkeysButtonSearch.Click += new System.EventHandler(this.GuiHotkeySearch_Enter);
+            this.UiHotkeysButtonSearch.KeyDown += new System.Windows.Forms.KeyEventHandler(this.GuiHotkeySearch_KeyDown);
+            // 
+            // UiHotkeysButtonToggleFavorite
+            // 
+            this.UiHotkeysButtonToggleFavorite.AutoRoundedCorners = true;
+            this.UiHotkeysButtonToggleFavorite.BorderRadius = 15;
+            this.UiHotkeysButtonToggleFavorite.BorderThickness = 1;
+            this.UiHotkeysButtonToggleFavorite.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.UiHotkeysButtonToggleFavorite.DisabledState.BorderColor = System.Drawing.Color.Silver;
+            this.UiHotkeysButtonToggleFavorite.DisabledState.CustomBorderColor = System.Drawing.Color.Silver;
+            this.UiHotkeysButtonToggleFavorite.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(226)))), ((int)(((byte)(226)))), ((int)(((byte)(226)))));
+            this.UiHotkeysButtonToggleFavorite.DisabledState.ForeColor = System.Drawing.Color.Gray;
+            this.UiHotkeysButtonToggleFavorite.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(227)))), ((int)(((byte)(220)))));
+            this.UiHotkeysButtonToggleFavorite.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.UiHotkeysButtonToggleFavorite.ForeColor = System.Drawing.Color.Black;
+            this.UiHotkeysButtonToggleFavorite.Location = new System.Drawing.Point(188, 146);
+            this.UiHotkeysButtonToggleFavorite.Name = "UiHotkeysButtonToggleFavorite";
+            this.UiHotkeysButtonToggleFavorite.Size = new System.Drawing.Size(262, 32);
+            this.UiHotkeysButtonToggleFavorite.TabIndex = 1002;
+            this.UiHotkeysButtonToggleFavorite.Text = "Default text";
+            this.UiHotkeysButtonToggleFavorite.Click += new System.EventHandler(this.HotkeyToggleFavorite_Enter);
+            this.UiHotkeysButtonToggleFavorite.KeyDown += new System.Windows.Forms.KeyEventHandler(this.HotkeyToggleFavorite_KeyDown);
+            // 
+            // UiHotkeysButtonPasteHotkey
+            // 
+            this.UiHotkeysButtonPasteHotkey.AutoRoundedCorners = true;
+            this.UiHotkeysButtonPasteHotkey.BorderRadius = 15;
+            this.UiHotkeysButtonPasteHotkey.BorderThickness = 1;
+            this.UiHotkeysButtonPasteHotkey.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.UiHotkeysButtonPasteHotkey.DisabledState.BorderColor = System.Drawing.Color.Silver;
+            this.UiHotkeysButtonPasteHotkey.DisabledState.CustomBorderColor = System.Drawing.Color.Silver;
+            this.UiHotkeysButtonPasteHotkey.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(226)))), ((int)(((byte)(226)))), ((int)(((byte)(226)))));
+            this.UiHotkeysButtonPasteHotkey.DisabledState.ForeColor = System.Drawing.Color.Gray;
+            this.UiHotkeysButtonPasteHotkey.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(227)))), ((int)(((byte)(220)))));
+            this.UiHotkeysButtonPasteHotkey.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.UiHotkeysButtonPasteHotkey.ForeColor = System.Drawing.Color.Black;
+            this.UiHotkeysButtonPasteHotkey.Location = new System.Drawing.Point(188, 191);
+            this.UiHotkeysButtonPasteHotkey.Name = "UiHotkeysButtonPasteHotkey";
+            this.UiHotkeysButtonPasteHotkey.Size = new System.Drawing.Size(262, 32);
+            this.UiHotkeysButtonPasteHotkey.TabIndex = 1003;
+            this.UiHotkeysButtonPasteHotkey.Text = "Default text";
+            this.UiHotkeysButtonPasteHotkey.Click += new System.EventHandler(this.HotkeyPaste_Enter);
+            this.UiHotkeysButtonPasteHotkey.KeyDown += new System.Windows.Forms.KeyEventHandler(this.HotkeyPaste_KeyDown);
+            // 
+            // UiHotkeysGroupBoxPasteBehaviour
+            // 
+            this.UiHotkeysGroupBoxPasteBehaviour.BorderRadius = 5;
+            this.UiHotkeysGroupBoxPasteBehaviour.Controls.Add(this.UiHotkeysLabelPasteOnHotkey);
+            this.UiHotkeysGroupBoxPasteBehaviour.Controls.Add(this.UiHotkeysRadioPasteOnHotkey);
+            this.UiHotkeysGroupBoxPasteBehaviour.Controls.Add(this.UiHotkeysLabelUseStandardWindowsMethod);
+            this.UiHotkeysGroupBoxPasteBehaviour.Controls.Add(this.UiHotkeysRadioUseStandardWindowsMethod);
+            this.UiHotkeysGroupBoxPasteBehaviour.CustomBorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(227)))), ((int)(((byte)(220)))));
+            this.UiHotkeysGroupBoxPasteBehaviour.Font = new System.Drawing.Font("Segoe UI", 11F);
+            this.UiHotkeysGroupBoxPasteBehaviour.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.UiHotkeysGroupBoxPasteBehaviour.Location = new System.Drawing.Point(13, 1);
+            this.UiHotkeysGroupBoxPasteBehaviour.Name = "UiHotkeysGroupBoxPasteBehaviour";
+            this.UiHotkeysGroupBoxPasteBehaviour.Size = new System.Drawing.Size(525, 183);
+            this.UiHotkeysGroupBoxPasteBehaviour.TabIndex = 211;
+            this.UiHotkeysGroupBoxPasteBehaviour.Text = "Paste behaviour";
+            // 
+            // UiHotkeysLabelPasteOnHotkey
+            // 
+            this.UiHotkeysLabelPasteOnHotkey.AutoSize = true;
+            this.UiHotkeysLabelPasteOnHotkey.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.UiHotkeysLabelPasteOnHotkey.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.UiHotkeysLabelPasteOnHotkey.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.UiHotkeysLabelPasteOnHotkey.Location = new System.Drawing.Point(44, 83);
+            this.UiHotkeysLabelPasteOnHotkey.Name = "UiHotkeysLabelPasteOnHotkey";
+            this.UiHotkeysLabelPasteOnHotkey.Size = new System.Drawing.Size(168, 23);
+            this.UiHotkeysLabelPasteOnHotkey.TabIndex = 951;
+            this.UiHotkeysLabelPasteOnHotkey.Text = "Paste only on hotkey";
+            this.UiHotkeysLabelPasteOnHotkey.Click += new System.EventHandler(this.UiHotkeysLabelPasteOnHotkey_Click);
+            // 
+            // UiHotkeysRadioPasteOnHotkey
+            // 
+            this.UiHotkeysRadioPasteOnHotkey.CheckedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
+            this.UiHotkeysRadioPasteOnHotkey.CheckedState.BorderThickness = 0;
+            this.UiHotkeysRadioPasteOnHotkey.CheckedState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(56)))), ((int)(((byte)(97)))), ((int)(((byte)(55)))));
+            this.UiHotkeysRadioPasteOnHotkey.CheckedState.InnerColor = System.Drawing.Color.White;
+            this.UiHotkeysRadioPasteOnHotkey.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.UiHotkeysRadioPasteOnHotkey.Location = new System.Drawing.Point(18, 85);
+            this.UiHotkeysRadioPasteOnHotkey.Name = "UiHotkeysRadioPasteOnHotkey";
+            this.UiHotkeysRadioPasteOnHotkey.Size = new System.Drawing.Size(20, 20);
+            this.UiHotkeysRadioPasteOnHotkey.TabIndex = 518;
+            this.UiHotkeysRadioPasteOnHotkey.Text = "guna2CustomRadioButton5";
+            this.UiHotkeysRadioPasteOnHotkey.UncheckedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(125)))), ((int)(((byte)(137)))), ((int)(((byte)(149)))));
+            this.UiHotkeysRadioPasteOnHotkey.UncheckedState.BorderThickness = 2;
+            this.UiHotkeysRadioPasteOnHotkey.UncheckedState.FillColor = System.Drawing.Color.Transparent;
+            this.UiHotkeysRadioPasteOnHotkey.UncheckedState.InnerColor = System.Drawing.Color.Transparent;
+            this.UiHotkeysRadioPasteOnHotkey.CheckedChanged += new System.EventHandler(this.GuiHotkeyBehaviourPaste_CheckedChanged);
+            // 
+            // UiHotkeysLabelUseStandardWindowsMethod
+            // 
+            this.UiHotkeysLabelUseStandardWindowsMethod.AutoSize = true;
+            this.UiHotkeysLabelUseStandardWindowsMethod.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.UiHotkeysLabelUseStandardWindowsMethod.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.UiHotkeysLabelUseStandardWindowsMethod.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.UiHotkeysLabelUseStandardWindowsMethod.Location = new System.Drawing.Point(44, 52);
+            this.UiHotkeysLabelUseStandardWindowsMethod.Name = "UiHotkeysLabelUseStandardWindowsMethod";
+            this.UiHotkeysLabelUseStandardWindowsMethod.Size = new System.Drawing.Size(328, 23);
+            this.UiHotkeysLabelUseStandardWindowsMethod.TabIndex = 950;
+            this.UiHotkeysLabelUseStandardWindowsMethod.Text = "Use standard Windows methods for paste";
+            this.UiHotkeysLabelUseStandardWindowsMethod.Click += new System.EventHandler(this.UiHotkeysLabelUseStandardWindowsMethod_Click);
+            // 
+            // UiHotkeysRadioUseStandardWindowsMethod
+            // 
+            this.UiHotkeysRadioUseStandardWindowsMethod.CheckedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
+            this.UiHotkeysRadioUseStandardWindowsMethod.CheckedState.BorderThickness = 0;
+            this.UiHotkeysRadioUseStandardWindowsMethod.CheckedState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(56)))), ((int)(((byte)(97)))), ((int)(((byte)(55)))));
+            this.UiHotkeysRadioUseStandardWindowsMethod.CheckedState.InnerColor = System.Drawing.Color.White;
+            this.UiHotkeysRadioUseStandardWindowsMethod.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.UiHotkeysRadioUseStandardWindowsMethod.Location = new System.Drawing.Point(18, 54);
+            this.UiHotkeysRadioUseStandardWindowsMethod.Name = "UiHotkeysRadioUseStandardWindowsMethod";
+            this.UiHotkeysRadioUseStandardWindowsMethod.Size = new System.Drawing.Size(20, 20);
+            this.UiHotkeysRadioUseStandardWindowsMethod.TabIndex = 516;
+            this.UiHotkeysRadioUseStandardWindowsMethod.Text = "guna2CustomRadioButton4";
+            this.UiHotkeysRadioUseStandardWindowsMethod.UncheckedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(125)))), ((int)(((byte)(137)))), ((int)(((byte)(149)))));
+            this.UiHotkeysRadioUseStandardWindowsMethod.UncheckedState.BorderThickness = 2;
+            this.UiHotkeysRadioUseStandardWindowsMethod.UncheckedState.FillColor = System.Drawing.Color.Transparent;
+            this.UiHotkeysRadioUseStandardWindowsMethod.UncheckedState.InnerColor = System.Drawing.Color.Transparent;
+            this.UiHotkeysRadioUseStandardWindowsMethod.CheckedChanged += new System.EventHandler(this.GuiHotkeyBehaviourSystem_CheckedChanged);
+            // 
+            // UiTabLayout
+            // 
+            this.UiTabLayout.Controls.Add(this.UiLayoutGroupBoxClipboardArea);
+            this.UiTabLayout.Controls.Add(this.UiLayoutGroupBoxShowClipboardListOn);
+            this.UiTabLayout.Controls.Add(this.UiLayoutGroupBoxClipboardLocation);
+            this.UiTabLayout.Location = new System.Drawing.Point(184, 4);
+            this.UiTabLayout.Name = "UiTabLayout";
+            this.UiTabLayout.Padding = new System.Windows.Forms.Padding(3);
+            this.UiTabLayout.Size = new System.Drawing.Size(552, 569);
+            this.UiTabLayout.TabIndex = 3;
+            this.UiTabLayout.Text = "Layout";
+            this.UiTabLayout.UseVisualStyleBackColor = true;
+            // 
+            // UiLayoutGroupBoxClipboardArea
+            // 
+            this.UiLayoutGroupBoxClipboardArea.BorderRadius = 5;
+            this.UiLayoutGroupBoxClipboardArea.Controls.Add(this.UiLayoutTrackBarMargin);
+            this.UiLayoutGroupBoxClipboardArea.Controls.Add(this.UiLayoutTrackBarHeight);
+            this.UiLayoutGroupBoxClipboardArea.Controls.Add(this.UiLayoutTrackBarWidth);
+            this.UiLayoutGroupBoxClipboardArea.Controls.Add(this.UiLayoutTrackBarVisibleElements);
+            this.UiLayoutGroupBoxClipboardArea.Controls.Add(this.UiLayoutLabelMarginText);
+            this.UiLayoutGroupBoxClipboardArea.Controls.Add(this.UiLayoutLabelMargin);
+            this.UiLayoutGroupBoxClipboardArea.Controls.Add(this.UiLayoutLabelWidth);
+            this.UiLayoutGroupBoxClipboardArea.Controls.Add(this.UiLayoutLabelWidthText);
+            this.UiLayoutGroupBoxClipboardArea.Controls.Add(this.UiLayoutLabelVisibleElementsText);
+            this.UiLayoutGroupBoxClipboardArea.Controls.Add(this.UiLayoutLabelHeight);
+            this.UiLayoutGroupBoxClipboardArea.Controls.Add(this.UiLayoutLabelVisibleElements);
+            this.UiLayoutGroupBoxClipboardArea.Controls.Add(this.UiLayoutLabelHeightText);
+            this.UiLayoutGroupBoxClipboardArea.CustomBorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(227)))), ((int)(((byte)(220)))));
+            this.UiLayoutGroupBoxClipboardArea.Font = new System.Drawing.Font("Segoe UI", 11F);
+            this.UiLayoutGroupBoxClipboardArea.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.UiLayoutGroupBoxClipboardArea.Location = new System.Drawing.Point(13, 1);
+            this.UiLayoutGroupBoxClipboardArea.Name = "UiLayoutGroupBoxClipboardArea";
+            this.UiLayoutGroupBoxClipboardArea.Size = new System.Drawing.Size(250, 555);
+            this.UiLayoutGroupBoxClipboardArea.TabIndex = 322;
+            this.UiLayoutGroupBoxClipboardArea.Text = "Clipboard area";
+            // 
+            // UiLayoutTrackBarMargin
+            // 
+            this.UiLayoutTrackBarMargin.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.UiLayoutTrackBarMargin.Location = new System.Drawing.Point(24, 323);
+            this.UiLayoutTrackBarMargin.Maximum = 50;
+            this.UiLayoutTrackBarMargin.Name = "UiLayoutTrackBarMargin";
+            this.UiLayoutTrackBarMargin.Size = new System.Drawing.Size(161, 23);
+            this.UiLayoutTrackBarMargin.TabIndex = 524;
+            this.UiLayoutTrackBarMargin.ThumbColor = System.Drawing.Color.FromArgb(((int)(((byte)(56)))), ((int)(((byte)(97)))), ((int)(((byte)(55)))));
+            this.UiLayoutTrackBarMargin.Value = 0;
+            this.UiLayoutTrackBarMargin.ValueChanged += new System.EventHandler(this.GuiHistoryMargin_ValueChanged);
+            // 
+            // UiLayoutTrackBarHeight
+            // 
+            this.UiLayoutTrackBarHeight.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.UiLayoutTrackBarHeight.Location = new System.Drawing.Point(24, 243);
+            this.UiLayoutTrackBarHeight.Minimum = 10;
+            this.UiLayoutTrackBarHeight.Name = "UiLayoutTrackBarHeight";
+            this.UiLayoutTrackBarHeight.Size = new System.Drawing.Size(161, 23);
+            this.UiLayoutTrackBarHeight.TabIndex = 523;
+            this.UiLayoutTrackBarHeight.ThumbColor = System.Drawing.Color.FromArgb(((int)(((byte)(56)))), ((int)(((byte)(97)))), ((int)(((byte)(55)))));
+            this.UiLayoutTrackBarHeight.Value = 10;
+            this.UiLayoutTrackBarHeight.ValueChanged += new System.EventHandler(this.HistorySizeHeight_ValueChanged);
+            // 
+            // UiLayoutTrackBarWidth
+            // 
+            this.UiLayoutTrackBarWidth.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.UiLayoutTrackBarWidth.Location = new System.Drawing.Point(24, 163);
+            this.UiLayoutTrackBarWidth.Minimum = 10;
+            this.UiLayoutTrackBarWidth.Name = "UiLayoutTrackBarWidth";
+            this.UiLayoutTrackBarWidth.Size = new System.Drawing.Size(161, 23);
+            this.UiLayoutTrackBarWidth.TabIndex = 522;
+            this.UiLayoutTrackBarWidth.ThumbColor = System.Drawing.Color.FromArgb(((int)(((byte)(56)))), ((int)(((byte)(97)))), ((int)(((byte)(55)))));
+            this.UiLayoutTrackBarWidth.Value = 10;
+            this.UiLayoutTrackBarWidth.ValueChanged += new System.EventHandler(this.HistorySizeWidth_ValueChanged);
+            // 
+            // UiLayoutTrackBarVisibleElements
+            // 
+            this.UiLayoutTrackBarVisibleElements.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.UiLayoutTrackBarVisibleElements.LargeChange = 1;
+            this.UiLayoutTrackBarVisibleElements.Location = new System.Drawing.Point(24, 83);
+            this.UiLayoutTrackBarVisibleElements.Maximum = 30;
+            this.UiLayoutTrackBarVisibleElements.Minimum = 1;
+            this.UiLayoutTrackBarVisibleElements.Name = "UiLayoutTrackBarVisibleElements";
+            this.UiLayoutTrackBarVisibleElements.Size = new System.Drawing.Size(161, 23);
+            this.UiLayoutTrackBarVisibleElements.TabIndex = 521;
+            this.UiLayoutTrackBarVisibleElements.ThumbColor = System.Drawing.Color.FromArgb(((int)(((byte)(56)))), ((int)(((byte)(97)))), ((int)(((byte)(55)))));
+            this.UiLayoutTrackBarVisibleElements.Value = 1;
+            this.UiLayoutTrackBarVisibleElements.ValueChanged += new System.EventHandler(this.HistoryElements_Scroll);
+            // 
+            // UiLayoutGroupBoxShowClipboardListOn
+            // 
+            this.UiLayoutGroupBoxShowClipboardListOn.BorderRadius = 5;
+            this.UiLayoutGroupBoxShowClipboardListOn.CustomBorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(227)))), ((int)(((byte)(220)))));
+            this.UiLayoutGroupBoxShowClipboardListOn.Font = new System.Drawing.Font("Segoe UI", 11F);
+            this.UiLayoutGroupBoxShowClipboardListOn.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.UiLayoutGroupBoxShowClipboardListOn.Location = new System.Drawing.Point(288, 251);
+            this.UiLayoutGroupBoxShowClipboardListOn.Name = "UiLayoutGroupBoxShowClipboardListOn";
+            this.UiLayoutGroupBoxShowClipboardListOn.Size = new System.Drawing.Size(250, 305);
+            this.UiLayoutGroupBoxShowClipboardListOn.TabIndex = 323;
+            this.UiLayoutGroupBoxShowClipboardListOn.Text = "Show clipboard list on";
+            // 
+            // UiLayoutGroupBoxClipboardLocation
+            // 
+            this.UiLayoutGroupBoxClipboardLocation.BorderRadius = 5;
+            this.UiLayoutGroupBoxClipboardLocation.Controls.Add(this.UiLayoutLabelRightBottom);
+            this.UiLayoutGroupBoxClipboardLocation.Controls.Add(this.UiLayoutRadioRightBottom);
+            this.UiLayoutGroupBoxClipboardLocation.Controls.Add(this.UiLayoutLabelRightTop);
+            this.UiLayoutGroupBoxClipboardLocation.Controls.Add(this.UiLayoutRadioRightTop);
+            this.UiLayoutGroupBoxClipboardLocation.Controls.Add(this.UiLayoutLabelCenter);
+            this.UiLayoutGroupBoxClipboardLocation.Controls.Add(this.UiLayoutRadioCenter);
+            this.UiLayoutGroupBoxClipboardLocation.Controls.Add(this.UiLayoutLabelLeftBottom);
+            this.UiLayoutGroupBoxClipboardLocation.Controls.Add(this.UiLayoutRadioLeftBottom);
+            this.UiLayoutGroupBoxClipboardLocation.Controls.Add(this.UiLayoutLabelLeftTop);
+            this.UiLayoutGroupBoxClipboardLocation.Controls.Add(this.UiLayoutRadioLeftTop);
+            this.UiLayoutGroupBoxClipboardLocation.CustomBorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(227)))), ((int)(((byte)(220)))));
+            this.UiLayoutGroupBoxClipboardLocation.Font = new System.Drawing.Font("Segoe UI", 11F);
+            this.UiLayoutGroupBoxClipboardLocation.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.UiLayoutGroupBoxClipboardLocation.Location = new System.Drawing.Point(288, 1);
+            this.UiLayoutGroupBoxClipboardLocation.Name = "UiLayoutGroupBoxClipboardLocation";
+            this.UiLayoutGroupBoxClipboardLocation.Size = new System.Drawing.Size(250, 233);
+            this.UiLayoutGroupBoxClipboardLocation.TabIndex = 321;
+            this.UiLayoutGroupBoxClipboardLocation.Text = "Clipboard location";
+            // 
+            // UiLayoutLabelRightBottom
+            // 
+            this.UiLayoutLabelRightBottom.AutoSize = true;
+            this.UiLayoutLabelRightBottom.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.UiLayoutLabelRightBottom.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.UiLayoutLabelRightBottom.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.UiLayoutLabelRightBottom.Location = new System.Drawing.Point(44, 189);
+            this.UiLayoutLabelRightBottom.Name = "UiLayoutLabelRightBottom";
+            this.UiLayoutLabelRightBottom.Size = new System.Drawing.Size(112, 23);
+            this.UiLayoutLabelRightBottom.TabIndex = 960;
+            this.UiLayoutLabelRightBottom.Text = "Right Bottom";
+            this.UiLayoutLabelRightBottom.Click += new System.EventHandler(this.ClipboardLocation_Click);
+            // 
+            // UiLayoutRadioRightBottom
+            // 
+            this.UiLayoutRadioRightBottom.CheckedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
+            this.UiLayoutRadioRightBottom.CheckedState.BorderThickness = 0;
+            this.UiLayoutRadioRightBottom.CheckedState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(56)))), ((int)(((byte)(97)))), ((int)(((byte)(55)))));
+            this.UiLayoutRadioRightBottom.CheckedState.InnerColor = System.Drawing.Color.White;
+            this.UiLayoutRadioRightBottom.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.UiLayoutRadioRightBottom.Location = new System.Drawing.Point(18, 190);
+            this.UiLayoutRadioRightBottom.Name = "UiLayoutRadioRightBottom";
+            this.UiLayoutRadioRightBottom.Size = new System.Drawing.Size(20, 20);
+            this.UiLayoutRadioRightBottom.TabIndex = 959;
+            this.UiLayoutRadioRightBottom.Text = "guna2CustomRadioButton10";
+            this.UiLayoutRadioRightBottom.UncheckedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(125)))), ((int)(((byte)(137)))), ((int)(((byte)(149)))));
+            this.UiLayoutRadioRightBottom.UncheckedState.BorderThickness = 2;
+            this.UiLayoutRadioRightBottom.UncheckedState.FillColor = System.Drawing.Color.Transparent;
+            this.UiLayoutRadioRightBottom.UncheckedState.InnerColor = System.Drawing.Color.Transparent;
+            this.UiLayoutRadioRightBottom.CheckedChanged += new System.EventHandler(this.GuiHistoryLocation_CheckedChanged);
+            // 
+            // UiLayoutLabelRightTop
+            // 
+            this.UiLayoutLabelRightTop.AutoSize = true;
+            this.UiLayoutLabelRightTop.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.UiLayoutLabelRightTop.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.UiLayoutLabelRightTop.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.UiLayoutLabelRightTop.Location = new System.Drawing.Point(44, 155);
+            this.UiLayoutLabelRightTop.Name = "UiLayoutLabelRightTop";
+            this.UiLayoutLabelRightTop.Size = new System.Drawing.Size(82, 23);
+            this.UiLayoutLabelRightTop.TabIndex = 958;
+            this.UiLayoutLabelRightTop.Text = "Right Top";
+            this.UiLayoutLabelRightTop.Click += new System.EventHandler(this.ClipboardLocation_Click);
+            // 
+            // UiLayoutRadioRightTop
+            // 
+            this.UiLayoutRadioRightTop.CheckedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
+            this.UiLayoutRadioRightTop.CheckedState.BorderThickness = 0;
+            this.UiLayoutRadioRightTop.CheckedState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(56)))), ((int)(((byte)(97)))), ((int)(((byte)(55)))));
+            this.UiLayoutRadioRightTop.CheckedState.InnerColor = System.Drawing.Color.White;
+            this.UiLayoutRadioRightTop.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.UiLayoutRadioRightTop.Location = new System.Drawing.Point(18, 156);
+            this.UiLayoutRadioRightTop.Name = "UiLayoutRadioRightTop";
+            this.UiLayoutRadioRightTop.Size = new System.Drawing.Size(20, 20);
+            this.UiLayoutRadioRightTop.TabIndex = 957;
+            this.UiLayoutRadioRightTop.Text = "guna2CustomRadioButton9";
+            this.UiLayoutRadioRightTop.UncheckedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(125)))), ((int)(((byte)(137)))), ((int)(((byte)(149)))));
+            this.UiLayoutRadioRightTop.UncheckedState.BorderThickness = 2;
+            this.UiLayoutRadioRightTop.UncheckedState.FillColor = System.Drawing.Color.Transparent;
+            this.UiLayoutRadioRightTop.UncheckedState.InnerColor = System.Drawing.Color.Transparent;
+            this.UiLayoutRadioRightTop.CheckedChanged += new System.EventHandler(this.GuiHistoryLocation_CheckedChanged);
+            // 
+            // UiLayoutLabelCenter
+            // 
+            this.UiLayoutLabelCenter.AutoSize = true;
+            this.UiLayoutLabelCenter.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.UiLayoutLabelCenter.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.UiLayoutLabelCenter.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.UiLayoutLabelCenter.Location = new System.Drawing.Point(44, 121);
+            this.UiLayoutLabelCenter.Name = "UiLayoutLabelCenter";
+            this.UiLayoutLabelCenter.Size = new System.Drawing.Size(61, 23);
+            this.UiLayoutLabelCenter.TabIndex = 956;
+            this.UiLayoutLabelCenter.Text = "Center";
+            this.UiLayoutLabelCenter.Click += new System.EventHandler(this.ClipboardLocation_Click);
+            // 
+            // UiLayoutRadioCenter
+            // 
+            this.UiLayoutRadioCenter.CheckedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
+            this.UiLayoutRadioCenter.CheckedState.BorderThickness = 0;
+            this.UiLayoutRadioCenter.CheckedState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(56)))), ((int)(((byte)(97)))), ((int)(((byte)(55)))));
+            this.UiLayoutRadioCenter.CheckedState.InnerColor = System.Drawing.Color.White;
+            this.UiLayoutRadioCenter.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.UiLayoutRadioCenter.Location = new System.Drawing.Point(18, 122);
+            this.UiLayoutRadioCenter.Name = "UiLayoutRadioCenter";
+            this.UiLayoutRadioCenter.Size = new System.Drawing.Size(20, 20);
+            this.UiLayoutRadioCenter.TabIndex = 955;
+            this.UiLayoutRadioCenter.Text = "guna2CustomRadioButton8";
+            this.UiLayoutRadioCenter.UncheckedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(125)))), ((int)(((byte)(137)))), ((int)(((byte)(149)))));
+            this.UiLayoutRadioCenter.UncheckedState.BorderThickness = 2;
+            this.UiLayoutRadioCenter.UncheckedState.FillColor = System.Drawing.Color.Transparent;
+            this.UiLayoutRadioCenter.UncheckedState.InnerColor = System.Drawing.Color.Transparent;
+            this.UiLayoutRadioCenter.CheckedChanged += new System.EventHandler(this.GuiHistoryLocation_CheckedChanged);
+            // 
+            // UiLayoutLabelLeftBottom
+            // 
+            this.UiLayoutLabelLeftBottom.AutoSize = true;
+            this.UiLayoutLabelLeftBottom.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.UiLayoutLabelLeftBottom.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.UiLayoutLabelLeftBottom.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.UiLayoutLabelLeftBottom.Location = new System.Drawing.Point(44, 87);
+            this.UiLayoutLabelLeftBottom.Name = "UiLayoutLabelLeftBottom";
+            this.UiLayoutLabelLeftBottom.Size = new System.Drawing.Size(100, 23);
+            this.UiLayoutLabelLeftBottom.TabIndex = 954;
+            this.UiLayoutLabelLeftBottom.Text = "Left Bottom";
+            this.UiLayoutLabelLeftBottom.Click += new System.EventHandler(this.ClipboardLocation_Click);
+            // 
+            // UiLayoutRadioLeftBottom
+            // 
+            this.UiLayoutRadioLeftBottom.CheckedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
+            this.UiLayoutRadioLeftBottom.CheckedState.BorderThickness = 0;
+            this.UiLayoutRadioLeftBottom.CheckedState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(56)))), ((int)(((byte)(97)))), ((int)(((byte)(55)))));
+            this.UiLayoutRadioLeftBottom.CheckedState.InnerColor = System.Drawing.Color.White;
+            this.UiLayoutRadioLeftBottom.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.UiLayoutRadioLeftBottom.Location = new System.Drawing.Point(18, 88);
+            this.UiLayoutRadioLeftBottom.Name = "UiLayoutRadioLeftBottom";
+            this.UiLayoutRadioLeftBottom.Size = new System.Drawing.Size(20, 20);
+            this.UiLayoutRadioLeftBottom.TabIndex = 953;
+            this.UiLayoutRadioLeftBottom.Text = "guna2CustomRadioButton7";
+            this.UiLayoutRadioLeftBottom.UncheckedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(125)))), ((int)(((byte)(137)))), ((int)(((byte)(149)))));
+            this.UiLayoutRadioLeftBottom.UncheckedState.BorderThickness = 2;
+            this.UiLayoutRadioLeftBottom.UncheckedState.FillColor = System.Drawing.Color.Transparent;
+            this.UiLayoutRadioLeftBottom.UncheckedState.InnerColor = System.Drawing.Color.Transparent;
+            this.UiLayoutRadioLeftBottom.CheckedChanged += new System.EventHandler(this.GuiHistoryLocation_CheckedChanged);
+            // 
+            // UiLayoutLabelLeftTop
+            // 
+            this.UiLayoutLabelLeftTop.AutoSize = true;
+            this.UiLayoutLabelLeftTop.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.UiLayoutLabelLeftTop.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.UiLayoutLabelLeftTop.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.UiLayoutLabelLeftTop.Location = new System.Drawing.Point(44, 53);
+            this.UiLayoutLabelLeftTop.Name = "UiLayoutLabelLeftTop";
+            this.UiLayoutLabelLeftTop.Size = new System.Drawing.Size(70, 23);
+            this.UiLayoutLabelLeftTop.TabIndex = 952;
+            this.UiLayoutLabelLeftTop.Text = "Left Top";
+            this.UiLayoutLabelLeftTop.Click += new System.EventHandler(this.ClipboardLocation_Click);
+            // 
+            // UiLayoutRadioLeftTop
+            // 
+            this.UiLayoutRadioLeftTop.CheckedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
+            this.UiLayoutRadioLeftTop.CheckedState.BorderThickness = 0;
+            this.UiLayoutRadioLeftTop.CheckedState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(56)))), ((int)(((byte)(97)))), ((int)(((byte)(55)))));
+            this.UiLayoutRadioLeftTop.CheckedState.InnerColor = System.Drawing.Color.White;
+            this.UiLayoutRadioLeftTop.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.UiLayoutRadioLeftTop.Location = new System.Drawing.Point(18, 54);
+            this.UiLayoutRadioLeftTop.Name = "UiLayoutRadioLeftTop";
+            this.UiLayoutRadioLeftTop.Size = new System.Drawing.Size(20, 20);
+            this.UiLayoutRadioLeftTop.TabIndex = 951;
+            this.UiLayoutRadioLeftTop.Text = "guna2CustomRadioButton6";
+            this.UiLayoutRadioLeftTop.UncheckedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(125)))), ((int)(((byte)(137)))), ((int)(((byte)(149)))));
+            this.UiLayoutRadioLeftTop.UncheckedState.BorderThickness = 2;
+            this.UiLayoutRadioLeftTop.UncheckedState.FillColor = System.Drawing.Color.Transparent;
+            this.UiLayoutRadioLeftTop.UncheckedState.InnerColor = System.Drawing.Color.Transparent;
+            this.UiLayoutRadioLeftTop.CheckedChanged += new System.EventHandler(this.GuiHistoryLocation_CheckedChanged);
+            // 
+            // UiTabStyle
+            // 
+            this.UiTabStyle.Controls.Add(this.UiStyleGroupBoxBorder);
+            this.UiTabStyle.Controls.Add(this.UiStyleGroupBoxFont);
+            this.UiTabStyle.Controls.Add(this.UiStyleGroupBoxIcon);
+            this.UiTabStyle.Location = new System.Drawing.Point(184, 4);
+            this.UiTabStyle.Name = "UiTabStyle";
+            this.UiTabStyle.Padding = new System.Windows.Forms.Padding(3);
+            this.UiTabStyle.Size = new System.Drawing.Size(552, 569);
+            this.UiTabStyle.TabIndex = 4;
+            this.UiTabStyle.Text = "Style";
+            this.UiTabStyle.UseVisualStyleBackColor = true;
+            // 
+            // UiStyleGroupBoxBorder
+            // 
+            this.UiStyleGroupBoxBorder.BorderRadius = 5;
+            this.UiStyleGroupBoxBorder.Controls.Add(this.UiStyleTrackBarBorder);
+            this.UiStyleGroupBoxBorder.Controls.Add(this.UiStyleLabelBorderText);
+            this.UiStyleGroupBoxBorder.Controls.Add(this.UiStyleLabelBorder);
+            this.UiStyleGroupBoxBorder.CustomBorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(227)))), ((int)(((byte)(220)))));
+            this.UiStyleGroupBoxBorder.Font = new System.Drawing.Font("Segoe UI", 11F);
+            this.UiStyleGroupBoxBorder.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.UiStyleGroupBoxBorder.Location = new System.Drawing.Point(13, 323);
+            this.UiStyleGroupBoxBorder.Name = "UiStyleGroupBoxBorder";
+            this.UiStyleGroupBoxBorder.Size = new System.Drawing.Size(250, 233);
+            this.UiStyleGroupBoxBorder.TabIndex = 433;
+            this.UiStyleGroupBoxBorder.Text = "Border for active entry";
+            // 
+            // UiStyleTrackBarBorder
+            // 
+            this.UiStyleTrackBarBorder.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.UiStyleTrackBarBorder.LargeChange = 1;
+            this.UiStyleTrackBarBorder.Location = new System.Drawing.Point(18, 83);
+            this.UiStyleTrackBarBorder.Maximum = 10;
+            this.UiStyleTrackBarBorder.Name = "UiStyleTrackBarBorder";
+            this.UiStyleTrackBarBorder.Size = new System.Drawing.Size(170, 23);
+            this.UiStyleTrackBarBorder.TabIndex = 523;
+            this.UiStyleTrackBarBorder.ThumbColor = System.Drawing.Color.FromArgb(((int)(((byte)(56)))), ((int)(((byte)(97)))), ((int)(((byte)(55)))));
+            this.UiStyleTrackBarBorder.Value = 0;
+            this.UiStyleTrackBarBorder.ValueChanged += new System.EventHandler(this.GuiBorderThickness_Scroll);
+            // 
+            // UiStyleGroupBoxFont
+            // 
+            this.UiStyleGroupBoxFont.BorderRadius = 5;
+            this.UiStyleGroupBoxFont.Controls.Add(this.UiStyleLabelFont);
+            this.UiStyleGroupBoxFont.Controls.Add(this.UiStyleButtonFont);
+            this.UiStyleGroupBoxFont.CustomBorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(227)))), ((int)(((byte)(220)))));
+            this.UiStyleGroupBoxFont.Font = new System.Drawing.Font("Segoe UI", 11F);
+            this.UiStyleGroupBoxFont.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.UiStyleGroupBoxFont.Location = new System.Drawing.Point(13, 1);
+            this.UiStyleGroupBoxFont.Name = "UiStyleGroupBoxFont";
+            this.UiStyleGroupBoxFont.Size = new System.Drawing.Size(250, 305);
+            this.UiStyleGroupBoxFont.TabIndex = 432;
+            this.UiStyleGroupBoxFont.Text = "Font";
+            // 
+            // UiStyleLabelFont
+            // 
+            this.UiStyleLabelFont.AutoSize = false;
+            this.UiStyleLabelFont.BackColor = System.Drawing.Color.Transparent;
+            this.UiStyleLabelFont.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.UiStyleLabelFont.Location = new System.Drawing.Point(15, 111);
+            this.UiStyleLabelFont.Name = "UiStyleLabelFont";
+            this.UiStyleLabelFont.Size = new System.Drawing.Size(220, 173);
+            this.UiStyleLabelFont.TabIndex = 1007;
+            this.UiStyleLabelFont.Text = "guna2HtmlLabel4";
+            // 
+            // UiStyleButtonFont
+            // 
+            this.UiStyleButtonFont.AutoRoundedCorners = true;
+            this.UiStyleButtonFont.BorderRadius = 15;
+            this.UiStyleButtonFont.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.UiStyleButtonFont.DisabledState.BorderColor = System.Drawing.Color.Silver;
+            this.UiStyleButtonFont.DisabledState.CustomBorderColor = System.Drawing.Color.Silver;
+            this.UiStyleButtonFont.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(226)))), ((int)(((byte)(226)))), ((int)(((byte)(226)))));
+            this.UiStyleButtonFont.DisabledState.ForeColor = System.Drawing.Color.Gray;
+            this.UiStyleButtonFont.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(56)))), ((int)(((byte)(97)))), ((int)(((byte)(55)))));
+            this.UiStyleButtonFont.Font = new System.Drawing.Font("Segoe UI Semibold", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.UiStyleButtonFont.ForeColor = System.Drawing.Color.White;
+            this.UiStyleButtonFont.Location = new System.Drawing.Point(-23, 57);
+            this.UiStyleButtonFont.Name = "UiStyleButtonFont";
+            this.UiStyleButtonFont.Size = new System.Drawing.Size(152, 32);
+            this.UiStyleButtonFont.TabIndex = 1006;
+            this.UiStyleButtonFont.Text = "Change font";
+            this.UiStyleButtonFont.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.UiStyleButtonFont.Click += new System.EventHandler(this.GuiChangeFont_Click);
+            // 
+            // UiStyleGroupBoxIcon
+            // 
+            this.UiStyleGroupBoxIcon.BorderRadius = 5;
+            this.UiStyleGroupBoxIcon.Controls.Add(this.UiStyleOictureBoxIcon9);
+            this.UiStyleGroupBoxIcon.Controls.Add(this.UiStyleOictureBoxIcon8);
+            this.UiStyleGroupBoxIcon.Controls.Add(this.UiStyleOictureBoxIcon7);
+            this.UiStyleGroupBoxIcon.Controls.Add(this.UiStyleOictureBoxIcon1);
+            this.UiStyleGroupBoxIcon.Controls.Add(this.UiStyleOictureBoxIcon2);
+            this.UiStyleGroupBoxIcon.Controls.Add(this.UiStyleOictureBoxIcon3);
+            this.UiStyleGroupBoxIcon.Controls.Add(this.UiStyleOictureBoxIcon6);
+            this.UiStyleGroupBoxIcon.Controls.Add(this.UiStyleOictureBoxIcon5);
+            this.UiStyleGroupBoxIcon.Controls.Add(this.UiStyleOictureBoxIcon4);
+            this.UiStyleGroupBoxIcon.Controls.Add(this.UiStyleLabelIconSquareOriginal);
+            this.UiStyleGroupBoxIcon.Controls.Add(this.UiStyleRadioIconSquareOriginal);
+            this.UiStyleGroupBoxIcon.Controls.Add(this.UiStyleLabelIconSquareModern);
+            this.UiStyleGroupBoxIcon.Controls.Add(this.UiStyleRadioIconSquareModern);
+            this.UiStyleGroupBoxIcon.Controls.Add(this.UiStyleLabelIconRoundModern);
+            this.UiStyleGroupBoxIcon.Controls.Add(this.UiStyleRadioIconRoundModern);
+            this.UiStyleGroupBoxIcon.CustomBorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(227)))), ((int)(((byte)(220)))));
+            this.UiStyleGroupBoxIcon.Font = new System.Drawing.Font("Segoe UI", 11F);
+            this.UiStyleGroupBoxIcon.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.UiStyleGroupBoxIcon.Location = new System.Drawing.Point(288, 1);
+            this.UiStyleGroupBoxIcon.Name = "UiStyleGroupBoxIcon";
+            this.UiStyleGroupBoxIcon.Size = new System.Drawing.Size(250, 555);
+            this.UiStyleGroupBoxIcon.TabIndex = 431;
+            this.UiStyleGroupBoxIcon.Text = "Icon set";
+            // 
+            // UiStyleLabelIconSquareOriginal
+            // 
+            this.UiStyleLabelIconSquareOriginal.AutoSize = true;
+            this.UiStyleLabelIconSquareOriginal.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.UiStyleLabelIconSquareOriginal.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.UiStyleLabelIconSquareOriginal.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.UiStyleLabelIconSquareOriginal.Location = new System.Drawing.Point(44, 121);
+            this.UiStyleLabelIconSquareOriginal.Name = "UiStyleLabelIconSquareOriginal";
+            this.UiStyleLabelIconSquareOriginal.Size = new System.Drawing.Size(132, 23);
+            this.UiStyleLabelIconSquareOriginal.TabIndex = 958;
+            this.UiStyleLabelIconSquareOriginal.Text = "Square, Original";
+            this.UiStyleLabelIconSquareOriginal.Click += new System.EventHandler(this.IconSet_Click);
+            // 
+            // UiStyleRadioIconSquareOriginal
+            // 
+            this.UiStyleRadioIconSquareOriginal.CheckedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
+            this.UiStyleRadioIconSquareOriginal.CheckedState.BorderThickness = 0;
+            this.UiStyleRadioIconSquareOriginal.CheckedState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(56)))), ((int)(((byte)(97)))), ((int)(((byte)(55)))));
+            this.UiStyleRadioIconSquareOriginal.CheckedState.InnerColor = System.Drawing.Color.White;
+            this.UiStyleRadioIconSquareOriginal.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.UiStyleRadioIconSquareOriginal.Location = new System.Drawing.Point(18, 122);
+            this.UiStyleRadioIconSquareOriginal.Name = "UiStyleRadioIconSquareOriginal";
+            this.UiStyleRadioIconSquareOriginal.Size = new System.Drawing.Size(20, 20);
+            this.UiStyleRadioIconSquareOriginal.TabIndex = 957;
+            this.UiStyleRadioIconSquareOriginal.Text = "guna2CustomRadioButton13";
+            this.UiStyleRadioIconSquareOriginal.UncheckedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(125)))), ((int)(((byte)(137)))), ((int)(((byte)(149)))));
+            this.UiStyleRadioIconSquareOriginal.UncheckedState.BorderThickness = 2;
+            this.UiStyleRadioIconSquareOriginal.UncheckedState.FillColor = System.Drawing.Color.Transparent;
+            this.UiStyleRadioIconSquareOriginal.UncheckedState.InnerColor = System.Drawing.Color.Transparent;
+            this.UiStyleRadioIconSquareOriginal.CheckedChanged += new System.EventHandler(this.GuiIconsSquare_CheckedChanged);
+            // 
+            // UiStyleLabelIconSquareModern
+            // 
+            this.UiStyleLabelIconSquareModern.AutoSize = true;
+            this.UiStyleLabelIconSquareModern.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.UiStyleLabelIconSquareModern.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.UiStyleLabelIconSquareModern.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.UiStyleLabelIconSquareModern.Location = new System.Drawing.Point(44, 87);
+            this.UiStyleLabelIconSquareModern.Name = "UiStyleLabelIconSquareModern";
+            this.UiStyleLabelIconSquareModern.Size = new System.Drawing.Size(132, 23);
+            this.UiStyleLabelIconSquareModern.TabIndex = 956;
+            this.UiStyleLabelIconSquareModern.Text = "Square, Modern";
+            this.UiStyleLabelIconSquareModern.Click += new System.EventHandler(this.IconSet_Click);
+            // 
+            // UiStyleRadioIconSquareModern
+            // 
+            this.UiStyleRadioIconSquareModern.CheckedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
+            this.UiStyleRadioIconSquareModern.CheckedState.BorderThickness = 0;
+            this.UiStyleRadioIconSquareModern.CheckedState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(56)))), ((int)(((byte)(97)))), ((int)(((byte)(55)))));
+            this.UiStyleRadioIconSquareModern.CheckedState.InnerColor = System.Drawing.Color.White;
+            this.UiStyleRadioIconSquareModern.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.UiStyleRadioIconSquareModern.Location = new System.Drawing.Point(18, 88);
+            this.UiStyleRadioIconSquareModern.Name = "UiStyleRadioIconSquareModern";
+            this.UiStyleRadioIconSquareModern.Size = new System.Drawing.Size(20, 20);
+            this.UiStyleRadioIconSquareModern.TabIndex = 955;
+            this.UiStyleRadioIconSquareModern.Text = "guna2CustomRadioButton12";
+            this.UiStyleRadioIconSquareModern.UncheckedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(125)))), ((int)(((byte)(137)))), ((int)(((byte)(149)))));
+            this.UiStyleRadioIconSquareModern.UncheckedState.BorderThickness = 2;
+            this.UiStyleRadioIconSquareModern.UncheckedState.FillColor = System.Drawing.Color.Transparent;
+            this.UiStyleRadioIconSquareModern.UncheckedState.InnerColor = System.Drawing.Color.Transparent;
+            this.UiStyleRadioIconSquareModern.CheckedChanged += new System.EventHandler(this.GuiIconsSquareNew_CheckedChanged);
+            // 
+            // UiStyleLabelIconRoundModern
+            // 
+            this.UiStyleLabelIconRoundModern.AutoSize = true;
+            this.UiStyleLabelIconRoundModern.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.UiStyleLabelIconRoundModern.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.UiStyleLabelIconRoundModern.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.UiStyleLabelIconRoundModern.Location = new System.Drawing.Point(44, 53);
+            this.UiStyleLabelIconRoundModern.Name = "UiStyleLabelIconRoundModern";
+            this.UiStyleLabelIconRoundModern.Size = new System.Drawing.Size(129, 23);
+            this.UiStyleLabelIconRoundModern.TabIndex = 954;
+            this.UiStyleLabelIconRoundModern.Text = "Round, Modern";
+            this.UiStyleLabelIconRoundModern.Click += new System.EventHandler(this.IconSet_Click);
+            // 
+            // UiStyleRadioIconRoundModern
+            // 
+            this.UiStyleRadioIconRoundModern.CheckedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
+            this.UiStyleRadioIconRoundModern.CheckedState.BorderThickness = 0;
+            this.UiStyleRadioIconRoundModern.CheckedState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(56)))), ((int)(((byte)(97)))), ((int)(((byte)(55)))));
+            this.UiStyleRadioIconRoundModern.CheckedState.InnerColor = System.Drawing.Color.White;
+            this.UiStyleRadioIconRoundModern.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.UiStyleRadioIconRoundModern.Location = new System.Drawing.Point(18, 54);
+            this.UiStyleRadioIconRoundModern.Name = "UiStyleRadioIconRoundModern";
+            this.UiStyleRadioIconRoundModern.Size = new System.Drawing.Size(20, 20);
+            this.UiStyleRadioIconRoundModern.TabIndex = 953;
+            this.UiStyleRadioIconRoundModern.Text = "guna2CustomRadioButton11";
+            this.UiStyleRadioIconRoundModern.UncheckedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(125)))), ((int)(((byte)(137)))), ((int)(((byte)(149)))));
+            this.UiStyleRadioIconRoundModern.UncheckedState.BorderThickness = 2;
+            this.UiStyleRadioIconRoundModern.UncheckedState.FillColor = System.Drawing.Color.Transparent;
+            this.UiStyleRadioIconRoundModern.UncheckedState.InnerColor = System.Drawing.Color.Transparent;
+            this.UiStyleRadioIconRoundModern.CheckedChanged += new System.EventHandler(this.GuiIconsRound_CheckedChanged);
+            // 
+            // UiTabColors
+            // 
+            this.UiTabColors.Controls.Add(this.UiColorsGroupBoxLooks);
+            this.UiTabColors.Controls.Add(this.UiColorsGroupBoxTheme);
+            this.UiTabColors.Controls.Add(this.UiColorsGroupBoxCustom);
+            this.UiTabColors.Location = new System.Drawing.Point(184, 4);
+            this.UiTabColors.Name = "UiTabColors";
+            this.UiTabColors.Padding = new System.Windows.Forms.Padding(3);
+            this.UiTabColors.Size = new System.Drawing.Size(552, 569);
+            this.UiTabColors.TabIndex = 5;
+            this.UiTabColors.Text = "Colors";
+            this.UiTabColors.UseVisualStyleBackColor = true;
+            // 
+            // UiColorsGroupBoxLooks
+            // 
+            this.UiColorsGroupBoxLooks.BorderRadius = 5;
+            this.UiColorsGroupBoxLooks.Controls.Add(this.UiColorsLabelSearch);
+            this.UiColorsGroupBoxLooks.Controls.Add(this.UiColorsLabelHeader);
+            this.UiColorsGroupBoxLooks.Controls.Add(this.UiColorsLabelEntry);
+            this.UiColorsGroupBoxLooks.Controls.Add(this.UiColorsLabelActive);
+            this.UiColorsGroupBoxLooks.CustomBorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(227)))), ((int)(((byte)(220)))));
+            this.UiColorsGroupBoxLooks.Font = new System.Drawing.Font("Segoe UI", 11F);
+            this.UiColorsGroupBoxLooks.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.UiColorsGroupBoxLooks.Location = new System.Drawing.Point(13, 186);
+            this.UiColorsGroupBoxLooks.Name = "UiColorsGroupBoxLooks";
+            this.UiColorsGroupBoxLooks.Size = new System.Drawing.Size(250, 370);
+            this.UiColorsGroupBoxLooks.TabIndex = 463;
+            this.UiColorsGroupBoxLooks.Text = "How it looks";
+            // 
+            // UiColorsGroupBoxTheme
+            // 
+            this.UiColorsGroupBoxTheme.BorderRadius = 5;
+            this.UiColorsGroupBoxTheme.Controls.Add(this.UiColorsLabelCustom);
+            this.UiColorsGroupBoxTheme.Controls.Add(this.UiColorsRadioCustom);
+            this.UiColorsGroupBoxTheme.Controls.Add(this.UiColorsLabelContrast);
+            this.UiColorsGroupBoxTheme.Controls.Add(this.UiColorsRadioContrast);
+            this.UiColorsGroupBoxTheme.Controls.Add(this.UiColorsLabelYellow);
+            this.UiColorsGroupBoxTheme.Controls.Add(this.UiColorsRadioYellow);
+            this.UiColorsGroupBoxTheme.Controls.Add(this.UiColorsLabelGreen);
+            this.UiColorsGroupBoxTheme.Controls.Add(this.UiColorsRadioGreen);
+            this.UiColorsGroupBoxTheme.Controls.Add(this.UiColorsLabelBrown);
+            this.UiColorsGroupBoxTheme.Controls.Add(this.UiColorsRadioBrown);
+            this.UiColorsGroupBoxTheme.Controls.Add(this.UiColorsLabelBlue);
+            this.UiColorsGroupBoxTheme.Controls.Add(this.UiColorsRadioBlue);
+            this.UiColorsGroupBoxTheme.CustomBorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(227)))), ((int)(((byte)(220)))));
+            this.UiColorsGroupBoxTheme.Font = new System.Drawing.Font("Segoe UI", 11F);
+            this.UiColorsGroupBoxTheme.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.UiColorsGroupBoxTheme.Location = new System.Drawing.Point(13, 1);
+            this.UiColorsGroupBoxTheme.Name = "UiColorsGroupBoxTheme";
+            this.UiColorsGroupBoxTheme.Size = new System.Drawing.Size(250, 168);
+            this.UiColorsGroupBoxTheme.TabIndex = 462;
+            this.UiColorsGroupBoxTheme.Text = "Color theme";
+            // 
+            // UiColorsLabelCustom
+            // 
+            this.UiColorsLabelCustom.AutoSize = true;
+            this.UiColorsLabelCustom.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.UiColorsLabelCustom.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.UiColorsLabelCustom.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.UiColorsLabelCustom.Location = new System.Drawing.Point(152, 122);
+            this.UiColorsLabelCustom.Name = "UiColorsLabelCustom";
+            this.UiColorsLabelCustom.Size = new System.Drawing.Size(69, 23);
+            this.UiColorsLabelCustom.TabIndex = 966;
+            this.UiColorsLabelCustom.Text = "Custom";
+            this.UiColorsLabelCustom.Click += new System.EventHandler(this.ColorTheme_Click);
+            // 
+            // UiColorsRadioCustom
+            // 
+            this.UiColorsRadioCustom.CheckedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
+            this.UiColorsRadioCustom.CheckedState.BorderThickness = 0;
+            this.UiColorsRadioCustom.CheckedState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(56)))), ((int)(((byte)(97)))), ((int)(((byte)(55)))));
+            this.UiColorsRadioCustom.CheckedState.InnerColor = System.Drawing.Color.White;
+            this.UiColorsRadioCustom.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.UiColorsRadioCustom.Location = new System.Drawing.Point(126, 122);
+            this.UiColorsRadioCustom.Name = "UiColorsRadioCustom";
+            this.UiColorsRadioCustom.Size = new System.Drawing.Size(20, 20);
+            this.UiColorsRadioCustom.TabIndex = 965;
+            this.UiColorsRadioCustom.Text = "Custom";
+            this.UiColorsRadioCustom.UncheckedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(125)))), ((int)(((byte)(137)))), ((int)(((byte)(149)))));
+            this.UiColorsRadioCustom.UncheckedState.BorderThickness = 2;
+            this.UiColorsRadioCustom.UncheckedState.FillColor = System.Drawing.Color.Transparent;
+            this.UiColorsRadioCustom.UncheckedState.InnerColor = System.Drawing.Color.Transparent;
+            this.UiColorsRadioCustom.CheckedChanged += new System.EventHandler(this.GuiHistoryColorTheme_CheckedChanged);
+            // 
+            // UiColorsLabelContrast
+            // 
+            this.UiColorsLabelContrast.AutoSize = true;
+            this.UiColorsLabelContrast.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.UiColorsLabelContrast.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.UiColorsLabelContrast.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.UiColorsLabelContrast.Location = new System.Drawing.Point(152, 88);
+            this.UiColorsLabelContrast.Name = "UiColorsLabelContrast";
+            this.UiColorsLabelContrast.Size = new System.Drawing.Size(75, 23);
+            this.UiColorsLabelContrast.TabIndex = 964;
+            this.UiColorsLabelContrast.Text = "Contrast";
+            this.UiColorsLabelContrast.Click += new System.EventHandler(this.ColorTheme_Click);
+            // 
+            // UiColorsRadioContrast
+            // 
+            this.UiColorsRadioContrast.CheckedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
+            this.UiColorsRadioContrast.CheckedState.BorderThickness = 0;
+            this.UiColorsRadioContrast.CheckedState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(56)))), ((int)(((byte)(97)))), ((int)(((byte)(55)))));
+            this.UiColorsRadioContrast.CheckedState.InnerColor = System.Drawing.Color.White;
+            this.UiColorsRadioContrast.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.UiColorsRadioContrast.Location = new System.Drawing.Point(126, 88);
+            this.UiColorsRadioContrast.Name = "UiColorsRadioContrast";
+            this.UiColorsRadioContrast.Size = new System.Drawing.Size(20, 20);
+            this.UiColorsRadioContrast.TabIndex = 963;
+            this.UiColorsRadioContrast.Text = "Contrast";
+            this.UiColorsRadioContrast.UncheckedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(125)))), ((int)(((byte)(137)))), ((int)(((byte)(149)))));
+            this.UiColorsRadioContrast.UncheckedState.BorderThickness = 2;
+            this.UiColorsRadioContrast.UncheckedState.FillColor = System.Drawing.Color.Transparent;
+            this.UiColorsRadioContrast.UncheckedState.InnerColor = System.Drawing.Color.Transparent;
+            this.UiColorsRadioContrast.CheckedChanged += new System.EventHandler(this.GuiHistoryColorTheme_CheckedChanged);
+            // 
+            // UiColorsLabelYellow
+            // 
+            this.UiColorsLabelYellow.AutoSize = true;
+            this.UiColorsLabelYellow.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.UiColorsLabelYellow.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.UiColorsLabelYellow.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.UiColorsLabelYellow.Location = new System.Drawing.Point(153, 52);
+            this.UiColorsLabelYellow.Name = "UiColorsLabelYellow";
+            this.UiColorsLabelYellow.Size = new System.Drawing.Size(57, 23);
+            this.UiColorsLabelYellow.TabIndex = 962;
+            this.UiColorsLabelYellow.Text = "Yellow";
+            this.UiColorsLabelYellow.Click += new System.EventHandler(this.ColorTheme_Click);
+            // 
+            // UiColorsRadioYellow
+            // 
+            this.UiColorsRadioYellow.CheckedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
+            this.UiColorsRadioYellow.CheckedState.BorderThickness = 0;
+            this.UiColorsRadioYellow.CheckedState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(56)))), ((int)(((byte)(97)))), ((int)(((byte)(55)))));
+            this.UiColorsRadioYellow.CheckedState.InnerColor = System.Drawing.Color.White;
+            this.UiColorsRadioYellow.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.UiColorsRadioYellow.Location = new System.Drawing.Point(126, 54);
+            this.UiColorsRadioYellow.Name = "UiColorsRadioYellow";
+            this.UiColorsRadioYellow.Size = new System.Drawing.Size(20, 20);
+            this.UiColorsRadioYellow.TabIndex = 961;
+            this.UiColorsRadioYellow.Text = "Yellow";
+            this.UiColorsRadioYellow.UncheckedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(125)))), ((int)(((byte)(137)))), ((int)(((byte)(149)))));
+            this.UiColorsRadioYellow.UncheckedState.BorderThickness = 2;
+            this.UiColorsRadioYellow.UncheckedState.FillColor = System.Drawing.Color.Transparent;
+            this.UiColorsRadioYellow.UncheckedState.InnerColor = System.Drawing.Color.Transparent;
+            this.UiColorsRadioYellow.CheckedChanged += new System.EventHandler(this.GuiHistoryColorTheme_CheckedChanged);
+            // 
+            // UiColorsLabelGreen
+            // 
+            this.UiColorsLabelGreen.AutoSize = true;
+            this.UiColorsLabelGreen.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.UiColorsLabelGreen.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.UiColorsLabelGreen.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.UiColorsLabelGreen.Location = new System.Drawing.Point(51, 122);
+            this.UiColorsLabelGreen.Name = "UiColorsLabelGreen";
+            this.UiColorsLabelGreen.Size = new System.Drawing.Size(56, 23);
+            this.UiColorsLabelGreen.TabIndex = 960;
+            this.UiColorsLabelGreen.Text = "Green";
+            this.UiColorsLabelGreen.Click += new System.EventHandler(this.ColorTheme_Click);
+            // 
+            // UiColorsRadioGreen
+            // 
+            this.UiColorsRadioGreen.CheckedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
+            this.UiColorsRadioGreen.CheckedState.BorderThickness = 0;
+            this.UiColorsRadioGreen.CheckedState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(56)))), ((int)(((byte)(97)))), ((int)(((byte)(55)))));
+            this.UiColorsRadioGreen.CheckedState.InnerColor = System.Drawing.Color.White;
+            this.UiColorsRadioGreen.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.UiColorsRadioGreen.Location = new System.Drawing.Point(25, 122);
+            this.UiColorsRadioGreen.Name = "UiColorsRadioGreen";
+            this.UiColorsRadioGreen.Size = new System.Drawing.Size(20, 20);
+            this.UiColorsRadioGreen.TabIndex = 959;
+            this.UiColorsRadioGreen.Text = "Green";
+            this.UiColorsRadioGreen.UncheckedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(125)))), ((int)(((byte)(137)))), ((int)(((byte)(149)))));
+            this.UiColorsRadioGreen.UncheckedState.BorderThickness = 2;
+            this.UiColorsRadioGreen.UncheckedState.FillColor = System.Drawing.Color.Transparent;
+            this.UiColorsRadioGreen.UncheckedState.InnerColor = System.Drawing.Color.Transparent;
+            this.UiColorsRadioGreen.CheckedChanged += new System.EventHandler(this.GuiHistoryColorTheme_CheckedChanged);
+            // 
+            // UiColorsLabelBrown
+            // 
+            this.UiColorsLabelBrown.AutoSize = true;
+            this.UiColorsLabelBrown.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.UiColorsLabelBrown.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.UiColorsLabelBrown.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.UiColorsLabelBrown.Location = new System.Drawing.Point(51, 88);
+            this.UiColorsLabelBrown.Name = "UiColorsLabelBrown";
+            this.UiColorsLabelBrown.Size = new System.Drawing.Size(58, 23);
+            this.UiColorsLabelBrown.TabIndex = 958;
+            this.UiColorsLabelBrown.Text = "Brown";
+            this.UiColorsLabelBrown.Click += new System.EventHandler(this.ColorTheme_Click);
+            // 
+            // UiColorsRadioBrown
+            // 
+            this.UiColorsRadioBrown.CheckedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
+            this.UiColorsRadioBrown.CheckedState.BorderThickness = 0;
+            this.UiColorsRadioBrown.CheckedState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(56)))), ((int)(((byte)(97)))), ((int)(((byte)(55)))));
+            this.UiColorsRadioBrown.CheckedState.InnerColor = System.Drawing.Color.White;
+            this.UiColorsRadioBrown.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.UiColorsRadioBrown.Location = new System.Drawing.Point(25, 88);
+            this.UiColorsRadioBrown.Name = "UiColorsRadioBrown";
+            this.UiColorsRadioBrown.Size = new System.Drawing.Size(20, 20);
+            this.UiColorsRadioBrown.TabIndex = 957;
+            this.UiColorsRadioBrown.Text = "Brown";
+            this.UiColorsRadioBrown.UncheckedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(125)))), ((int)(((byte)(137)))), ((int)(((byte)(149)))));
+            this.UiColorsRadioBrown.UncheckedState.BorderThickness = 2;
+            this.UiColorsRadioBrown.UncheckedState.FillColor = System.Drawing.Color.Transparent;
+            this.UiColorsRadioBrown.UncheckedState.InnerColor = System.Drawing.Color.Transparent;
+            this.UiColorsRadioBrown.CheckedChanged += new System.EventHandler(this.GuiHistoryColorTheme_CheckedChanged);
+            // 
+            // UiColorsLabelBlue
+            // 
+            this.UiColorsLabelBlue.AutoSize = true;
+            this.UiColorsLabelBlue.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.UiColorsLabelBlue.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.UiColorsLabelBlue.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.UiColorsLabelBlue.Location = new System.Drawing.Point(51, 52);
+            this.UiColorsLabelBlue.Name = "UiColorsLabelBlue";
+            this.UiColorsLabelBlue.Size = new System.Drawing.Size(43, 23);
+            this.UiColorsLabelBlue.TabIndex = 956;
+            this.UiColorsLabelBlue.Text = "Blue";
+            this.UiColorsLabelBlue.Click += new System.EventHandler(this.ColorTheme_Click);
+            // 
+            // UiColorsRadioBlue
+            // 
+            this.UiColorsRadioBlue.CheckedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
+            this.UiColorsRadioBlue.CheckedState.BorderThickness = 0;
+            this.UiColorsRadioBlue.CheckedState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(56)))), ((int)(((byte)(97)))), ((int)(((byte)(55)))));
+            this.UiColorsRadioBlue.CheckedState.InnerColor = System.Drawing.Color.White;
+            this.UiColorsRadioBlue.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.UiColorsRadioBlue.Location = new System.Drawing.Point(25, 54);
+            this.UiColorsRadioBlue.Name = "UiColorsRadioBlue";
+            this.UiColorsRadioBlue.Size = new System.Drawing.Size(20, 20);
+            this.UiColorsRadioBlue.TabIndex = 955;
+            this.UiColorsRadioBlue.Text = "Blue";
+            this.UiColorsRadioBlue.UncheckedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(125)))), ((int)(((byte)(137)))), ((int)(((byte)(149)))));
+            this.UiColorsRadioBlue.UncheckedState.BorderThickness = 2;
+            this.UiColorsRadioBlue.UncheckedState.FillColor = System.Drawing.Color.Transparent;
+            this.UiColorsRadioBlue.UncheckedState.InnerColor = System.Drawing.Color.Transparent;
+            this.UiColorsRadioBlue.CheckedChanged += new System.EventHandler(this.GuiHistoryColorTheme_CheckedChanged);
+            // 
+            // UiColorsGroupBoxCustom
+            // 
+            this.UiColorsGroupBoxCustom.BorderRadius = 5;
+            this.UiColorsGroupBoxCustom.Controls.Add(this.UiColorsButtonBorder);
+            this.UiColorsGroupBoxCustom.Controls.Add(this.UiColorsButtonEntryText);
+            this.UiColorsGroupBoxCustom.Controls.Add(this.UiColorsButtonEntryBackground);
+            this.UiColorsGroupBoxCustom.Controls.Add(this.UiColorsButtonActiveText);
+            this.UiColorsGroupBoxCustom.Controls.Add(this.UiColorsButtonActiveBackground);
+            this.UiColorsGroupBoxCustom.Controls.Add(this.UiColorsButtonSearchText);
+            this.UiColorsGroupBoxCustom.Controls.Add(this.UiColorsButtonSearchBackground);
+            this.UiColorsGroupBoxCustom.Controls.Add(this.UiColorsButtonHeaderText);
+            this.UiColorsGroupBoxCustom.Controls.Add(this.UiColorsButtonHeaderBackground);
+            this.UiColorsGroupBoxCustom.Controls.Add(this.UiColorsLabelSearchBackground);
+            this.UiColorsGroupBoxCustom.Controls.Add(this.UiColorsLabelHeaderBackground);
+            this.UiColorsGroupBoxCustom.Controls.Add(this.UiColorsLabelSearchText);
+            this.UiColorsGroupBoxCustom.Controls.Add(this.UiColorsLabelActiveText);
+            this.UiColorsGroupBoxCustom.Controls.Add(this.UiColorsLabelBorder);
+            this.UiColorsGroupBoxCustom.Controls.Add(this.UiColorsLabelHeaderText);
+            this.UiColorsGroupBoxCustom.Controls.Add(this.UiColorsLabelEntryBackground);
+            this.UiColorsGroupBoxCustom.Controls.Add(this.UiColorsLabelActiveBackground);
+            this.UiColorsGroupBoxCustom.Controls.Add(this.UiColorsLabelEntryText);
+            this.UiColorsGroupBoxCustom.CustomBorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(227)))), ((int)(((byte)(220)))));
+            this.UiColorsGroupBoxCustom.Font = new System.Drawing.Font("Segoe UI", 11F);
+            this.UiColorsGroupBoxCustom.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.UiColorsGroupBoxCustom.Location = new System.Drawing.Point(288, 1);
+            this.UiColorsGroupBoxCustom.Name = "UiColorsGroupBoxCustom";
+            this.UiColorsGroupBoxCustom.Size = new System.Drawing.Size(250, 555);
+            this.UiColorsGroupBoxCustom.TabIndex = 461;
+            this.UiColorsGroupBoxCustom.Text = "Custom colors";
+            // 
+            // UiColorsButtonBorder
+            // 
+            this.UiColorsButtonBorder.AutoRoundedCorners = true;
+            this.UiColorsButtonBorder.BorderRadius = 15;
+            this.UiColorsButtonBorder.BorderThickness = 1;
+            this.UiColorsButtonBorder.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.UiColorsButtonBorder.DisabledState.BorderColor = System.Drawing.Color.Silver;
+            this.UiColorsButtonBorder.DisabledState.CustomBorderColor = System.Drawing.Color.Silver;
+            this.UiColorsButtonBorder.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(226)))), ((int)(((byte)(226)))), ((int)(((byte)(226)))));
+            this.UiColorsButtonBorder.DisabledState.ForeColor = System.Drawing.Color.Gray;
+            this.UiColorsButtonBorder.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(227)))), ((int)(((byte)(220)))));
+            this.UiColorsButtonBorder.Font = new System.Drawing.Font("Segoe UI", 11F);
+            this.UiColorsButtonBorder.ForeColor = System.Drawing.Color.Black;
+            this.UiColorsButtonBorder.Location = new System.Drawing.Point(152, 425);
+            this.UiColorsButtonBorder.Name = "UiColorsButtonBorder";
+            this.UiColorsButtonBorder.Size = new System.Drawing.Size(113, 32);
+            this.UiColorsButtonBorder.TabIndex = 1009;
+            this.UiColorsButtonBorder.Click += new System.EventHandler(this.GuiCustomBorder_Enter);
+            // 
+            // UiColorsButtonEntryText
+            // 
+            this.UiColorsButtonEntryText.AutoRoundedCorners = true;
+            this.UiColorsButtonEntryText.BorderRadius = 15;
+            this.UiColorsButtonEntryText.BorderThickness = 1;
+            this.UiColorsButtonEntryText.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.UiColorsButtonEntryText.DisabledState.BorderColor = System.Drawing.Color.Silver;
+            this.UiColorsButtonEntryText.DisabledState.CustomBorderColor = System.Drawing.Color.Silver;
+            this.UiColorsButtonEntryText.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(226)))), ((int)(((byte)(226)))), ((int)(((byte)(226)))));
+            this.UiColorsButtonEntryText.DisabledState.ForeColor = System.Drawing.Color.Gray;
+            this.UiColorsButtonEntryText.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(227)))), ((int)(((byte)(220)))));
+            this.UiColorsButtonEntryText.Font = new System.Drawing.Font("Segoe UI", 11F);
+            this.UiColorsButtonEntryText.ForeColor = System.Drawing.Color.Black;
+            this.UiColorsButtonEntryText.Location = new System.Drawing.Point(152, 366);
+            this.UiColorsButtonEntryText.Name = "UiColorsButtonEntryText";
+            this.UiColorsButtonEntryText.Size = new System.Drawing.Size(113, 32);
+            this.UiColorsButtonEntryText.TabIndex = 1008;
+            this.UiColorsButtonEntryText.Click += new System.EventHandler(this.GuiCustomEntryText_Enter);
+            // 
+            // UiColorsButtonEntryBackground
+            // 
+            this.UiColorsButtonEntryBackground.AutoRoundedCorners = true;
+            this.UiColorsButtonEntryBackground.BorderRadius = 15;
+            this.UiColorsButtonEntryBackground.BorderThickness = 1;
+            this.UiColorsButtonEntryBackground.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.UiColorsButtonEntryBackground.DisabledState.BorderColor = System.Drawing.Color.Silver;
+            this.UiColorsButtonEntryBackground.DisabledState.CustomBorderColor = System.Drawing.Color.Silver;
+            this.UiColorsButtonEntryBackground.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(226)))), ((int)(((byte)(226)))), ((int)(((byte)(226)))));
+            this.UiColorsButtonEntryBackground.DisabledState.ForeColor = System.Drawing.Color.Gray;
+            this.UiColorsButtonEntryBackground.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(227)))), ((int)(((byte)(220)))));
+            this.UiColorsButtonEntryBackground.Font = new System.Drawing.Font("Segoe UI", 11F);
+            this.UiColorsButtonEntryBackground.ForeColor = System.Drawing.Color.Black;
+            this.UiColorsButtonEntryBackground.Location = new System.Drawing.Point(152, 335);
+            this.UiColorsButtonEntryBackground.Name = "UiColorsButtonEntryBackground";
+            this.UiColorsButtonEntryBackground.Size = new System.Drawing.Size(113, 32);
+            this.UiColorsButtonEntryBackground.TabIndex = 1007;
+            this.UiColorsButtonEntryBackground.Click += new System.EventHandler(this.GuiCustomEntry_Enter);
+            // 
+            // UiColorsButtonActiveText
+            // 
+            this.UiColorsButtonActiveText.AutoRoundedCorners = true;
+            this.UiColorsButtonActiveText.BorderRadius = 15;
+            this.UiColorsButtonActiveText.BorderThickness = 1;
+            this.UiColorsButtonActiveText.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.UiColorsButtonActiveText.DisabledState.BorderColor = System.Drawing.Color.Silver;
+            this.UiColorsButtonActiveText.DisabledState.CustomBorderColor = System.Drawing.Color.Silver;
+            this.UiColorsButtonActiveText.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(226)))), ((int)(((byte)(226)))), ((int)(((byte)(226)))));
+            this.UiColorsButtonActiveText.DisabledState.ForeColor = System.Drawing.Color.Gray;
+            this.UiColorsButtonActiveText.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(227)))), ((int)(((byte)(220)))));
+            this.UiColorsButtonActiveText.Font = new System.Drawing.Font("Segoe UI", 11F);
+            this.UiColorsButtonActiveText.ForeColor = System.Drawing.Color.Black;
+            this.UiColorsButtonActiveText.Location = new System.Drawing.Point(152, 273);
+            this.UiColorsButtonActiveText.Name = "UiColorsButtonActiveText";
+            this.UiColorsButtonActiveText.Size = new System.Drawing.Size(113, 32);
+            this.UiColorsButtonActiveText.TabIndex = 1006;
+            this.UiColorsButtonActiveText.Click += new System.EventHandler(this.GuiCustomActiveText_Enter);
+            // 
+            // UiColorsButtonActiveBackground
+            // 
+            this.UiColorsButtonActiveBackground.AutoRoundedCorners = true;
+            this.UiColorsButtonActiveBackground.BorderRadius = 15;
+            this.UiColorsButtonActiveBackground.BorderThickness = 1;
+            this.UiColorsButtonActiveBackground.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.UiColorsButtonActiveBackground.DisabledState.BorderColor = System.Drawing.Color.Silver;
+            this.UiColorsButtonActiveBackground.DisabledState.CustomBorderColor = System.Drawing.Color.Silver;
+            this.UiColorsButtonActiveBackground.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(226)))), ((int)(((byte)(226)))), ((int)(((byte)(226)))));
+            this.UiColorsButtonActiveBackground.DisabledState.ForeColor = System.Drawing.Color.Gray;
+            this.UiColorsButtonActiveBackground.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(227)))), ((int)(((byte)(220)))));
+            this.UiColorsButtonActiveBackground.Font = new System.Drawing.Font("Segoe UI", 11F);
+            this.UiColorsButtonActiveBackground.ForeColor = System.Drawing.Color.Black;
+            this.UiColorsButtonActiveBackground.Location = new System.Drawing.Point(152, 242);
+            this.UiColorsButtonActiveBackground.Name = "UiColorsButtonActiveBackground";
+            this.UiColorsButtonActiveBackground.Size = new System.Drawing.Size(113, 32);
+            this.UiColorsButtonActiveBackground.TabIndex = 1005;
+            this.UiColorsButtonActiveBackground.Click += new System.EventHandler(this.GuiCustomActive_Enter);
+            // 
+            // UiColorsButtonSearchText
+            // 
+            this.UiColorsButtonSearchText.AutoRoundedCorners = true;
+            this.UiColorsButtonSearchText.BorderRadius = 15;
+            this.UiColorsButtonSearchText.BorderThickness = 1;
+            this.UiColorsButtonSearchText.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.UiColorsButtonSearchText.DisabledState.BorderColor = System.Drawing.Color.Silver;
+            this.UiColorsButtonSearchText.DisabledState.CustomBorderColor = System.Drawing.Color.Silver;
+            this.UiColorsButtonSearchText.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(226)))), ((int)(((byte)(226)))), ((int)(((byte)(226)))));
+            this.UiColorsButtonSearchText.DisabledState.ForeColor = System.Drawing.Color.Gray;
+            this.UiColorsButtonSearchText.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(227)))), ((int)(((byte)(220)))));
+            this.UiColorsButtonSearchText.Font = new System.Drawing.Font("Segoe UI", 11F);
+            this.UiColorsButtonSearchText.ForeColor = System.Drawing.Color.Black;
+            this.UiColorsButtonSearchText.Location = new System.Drawing.Point(152, 182);
+            this.UiColorsButtonSearchText.Name = "UiColorsButtonSearchText";
+            this.UiColorsButtonSearchText.Size = new System.Drawing.Size(113, 32);
+            this.UiColorsButtonSearchText.TabIndex = 1004;
+            this.UiColorsButtonSearchText.Click += new System.EventHandler(this.GuiCustomSearchText_Enter);
+            // 
+            // UiColorsButtonSearchBackground
+            // 
+            this.UiColorsButtonSearchBackground.AutoRoundedCorners = true;
+            this.UiColorsButtonSearchBackground.BorderRadius = 15;
+            this.UiColorsButtonSearchBackground.BorderThickness = 1;
+            this.UiColorsButtonSearchBackground.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.UiColorsButtonSearchBackground.DisabledState.BorderColor = System.Drawing.Color.Silver;
+            this.UiColorsButtonSearchBackground.DisabledState.CustomBorderColor = System.Drawing.Color.Silver;
+            this.UiColorsButtonSearchBackground.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(226)))), ((int)(((byte)(226)))), ((int)(((byte)(226)))));
+            this.UiColorsButtonSearchBackground.DisabledState.ForeColor = System.Drawing.Color.Gray;
+            this.UiColorsButtonSearchBackground.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(227)))), ((int)(((byte)(220)))));
+            this.UiColorsButtonSearchBackground.Font = new System.Drawing.Font("Segoe UI", 11F);
+            this.UiColorsButtonSearchBackground.ForeColor = System.Drawing.Color.Black;
+            this.UiColorsButtonSearchBackground.Location = new System.Drawing.Point(152, 151);
+            this.UiColorsButtonSearchBackground.Name = "UiColorsButtonSearchBackground";
+            this.UiColorsButtonSearchBackground.Size = new System.Drawing.Size(113, 32);
+            this.UiColorsButtonSearchBackground.TabIndex = 1003;
+            this.UiColorsButtonSearchBackground.Click += new System.EventHandler(this.GuiCustomSearch_Enter);
+            // 
+            // UiColorsButtonHeaderText
+            // 
+            this.UiColorsButtonHeaderText.AutoRoundedCorners = true;
+            this.UiColorsButtonHeaderText.BorderRadius = 15;
+            this.UiColorsButtonHeaderText.BorderThickness = 1;
+            this.UiColorsButtonHeaderText.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.UiColorsButtonHeaderText.DisabledState.BorderColor = System.Drawing.Color.Silver;
+            this.UiColorsButtonHeaderText.DisabledState.CustomBorderColor = System.Drawing.Color.Silver;
+            this.UiColorsButtonHeaderText.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(226)))), ((int)(((byte)(226)))), ((int)(((byte)(226)))));
+            this.UiColorsButtonHeaderText.DisabledState.ForeColor = System.Drawing.Color.Gray;
+            this.UiColorsButtonHeaderText.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(227)))), ((int)(((byte)(220)))));
+            this.UiColorsButtonHeaderText.Font = new System.Drawing.Font("Segoe UI", 11F);
+            this.UiColorsButtonHeaderText.ForeColor = System.Drawing.Color.Black;
+            this.UiColorsButtonHeaderText.Location = new System.Drawing.Point(152, 85);
+            this.UiColorsButtonHeaderText.Name = "UiColorsButtonHeaderText";
+            this.UiColorsButtonHeaderText.Size = new System.Drawing.Size(113, 32);
+            this.UiColorsButtonHeaderText.TabIndex = 1002;
+            this.UiColorsButtonHeaderText.Click += new System.EventHandler(this.GuiCustomHeaderText_Enter);
+            // 
+            // UiColorsButtonHeaderBackground
+            // 
+            this.UiColorsButtonHeaderBackground.AutoRoundedCorners = true;
+            this.UiColorsButtonHeaderBackground.BorderRadius = 15;
+            this.UiColorsButtonHeaderBackground.BorderThickness = 1;
+            this.UiColorsButtonHeaderBackground.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.UiColorsButtonHeaderBackground.DisabledState.BorderColor = System.Drawing.Color.Silver;
+            this.UiColorsButtonHeaderBackground.DisabledState.CustomBorderColor = System.Drawing.Color.Silver;
+            this.UiColorsButtonHeaderBackground.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(226)))), ((int)(((byte)(226)))), ((int)(((byte)(226)))));
+            this.UiColorsButtonHeaderBackground.DisabledState.ForeColor = System.Drawing.Color.Gray;
+            this.UiColorsButtonHeaderBackground.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(227)))), ((int)(((byte)(220)))));
+            this.UiColorsButtonHeaderBackground.Font = new System.Drawing.Font("Segoe UI", 11F);
+            this.UiColorsButtonHeaderBackground.ForeColor = System.Drawing.Color.Black;
+            this.UiColorsButtonHeaderBackground.Location = new System.Drawing.Point(152, 54);
+            this.UiColorsButtonHeaderBackground.Name = "UiColorsButtonHeaderBackground";
+            this.UiColorsButtonHeaderBackground.Size = new System.Drawing.Size(113, 32);
+            this.UiColorsButtonHeaderBackground.TabIndex = 1001;
+            this.UiColorsButtonHeaderBackground.Click += new System.EventHandler(this.GuiCustomHeader_Enter);
+            // 
+            // UiTabAdvanced
+            // 
+            this.UiTabAdvanced.Controls.Add(this.UiAdvancedGroupBoxCleanup);
+            this.UiTabAdvanced.Controls.Add(this.UiAdvancedGroupBoxTroubleshooting);
+            this.UiTabAdvanced.Controls.Add(this.UiAdvancedGroupBoxStatus);
+            this.UiTabAdvanced.Controls.Add(this.UiAdvancedGroupDevVersion);
+            this.UiTabAdvanced.Location = new System.Drawing.Point(184, 4);
+            this.UiTabAdvanced.Name = "UiTabAdvanced";
+            this.UiTabAdvanced.Padding = new System.Windows.Forms.Padding(3);
+            this.UiTabAdvanced.Size = new System.Drawing.Size(552, 569);
+            this.UiTabAdvanced.TabIndex = 6;
+            this.UiTabAdvanced.Text = "Advanced";
+            this.UiTabAdvanced.UseVisualStyleBackColor = true;
+            // 
+            // UiAdvancedGroupBoxCleanup
+            // 
+            this.UiAdvancedGroupBoxCleanup.BorderRadius = 5;
+            this.UiAdvancedGroupBoxCleanup.Controls.Add(this.UiAdvancedButtonCleanup);
+            this.UiAdvancedGroupBoxCleanup.Controls.Add(this.UiAdvancedLabelCleanup);
+            this.UiAdvancedGroupBoxCleanup.CustomBorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(227)))), ((int)(((byte)(220)))));
+            this.UiAdvancedGroupBoxCleanup.Font = new System.Drawing.Font("Segoe UI", 11F);
+            this.UiAdvancedGroupBoxCleanup.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.UiAdvancedGroupBoxCleanup.Location = new System.Drawing.Point(13, 425);
+            this.UiAdvancedGroupBoxCleanup.Name = "UiAdvancedGroupBoxCleanup";
+            this.UiAdvancedGroupBoxCleanup.Size = new System.Drawing.Size(525, 131);
+            this.UiAdvancedGroupBoxCleanup.TabIndex = 525;
+            this.UiAdvancedGroupBoxCleanup.Text = "Clean-up all application settings";
+            // 
+            // UiAdvancedButtonCleanup
+            // 
+            this.UiAdvancedButtonCleanup.AutoRoundedCorners = true;
+            this.UiAdvancedButtonCleanup.BorderRadius = 15;
+            this.UiAdvancedButtonCleanup.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.UiAdvancedButtonCleanup.DisabledState.BorderColor = System.Drawing.Color.Silver;
+            this.UiAdvancedButtonCleanup.DisabledState.CustomBorderColor = System.Drawing.Color.Silver;
+            this.UiAdvancedButtonCleanup.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(226)))), ((int)(((byte)(226)))), ((int)(((byte)(226)))));
+            this.UiAdvancedButtonCleanup.DisabledState.ForeColor = System.Drawing.Color.Gray;
+            this.UiAdvancedButtonCleanup.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(56)))), ((int)(((byte)(97)))), ((int)(((byte)(55)))));
+            this.UiAdvancedButtonCleanup.Font = new System.Drawing.Font("Segoe UI Semibold", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.UiAdvancedButtonCleanup.ForeColor = System.Drawing.Color.White;
+            this.UiAdvancedButtonCleanup.Location = new System.Drawing.Point(-67, 57);
+            this.UiAdvancedButtonCleanup.Name = "UiAdvancedButtonCleanup";
+            this.UiAdvancedButtonCleanup.Size = new System.Drawing.Size(264, 32);
+            this.UiAdvancedButtonCleanup.TabIndex = 1009;
+            this.UiAdvancedButtonCleanup.Text = "Clean-up and exit HovText";
+            this.UiAdvancedButtonCleanup.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.UiAdvancedButtonCleanup.Click += new System.EventHandler(this.GuiCleanUpExit_Click);
+            // 
+            // UiAdvancedGroupBoxTroubleshooting
+            // 
+            this.UiAdvancedGroupBoxTroubleshooting.BorderRadius = 5;
+            this.UiAdvancedGroupBoxTroubleshooting.Controls.Add(this.UiAdvancedButtonDeleteLog);
+            this.UiAdvancedGroupBoxTroubleshooting.Controls.Add(this.UiAdvancedButtonOpenLocation);
+            this.UiAdvancedGroupBoxTroubleshooting.Controls.Add(this.UiAdvancedLabelEnableLog);
+            this.UiAdvancedGroupBoxTroubleshooting.Controls.Add(this.UiAdvancedToggleEnableLog);
+            this.UiAdvancedGroupBoxTroubleshooting.CustomBorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(227)))), ((int)(((byte)(220)))));
+            this.UiAdvancedGroupBoxTroubleshooting.Font = new System.Drawing.Font("Segoe UI", 11F);
+            this.UiAdvancedGroupBoxTroubleshooting.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.UiAdvancedGroupBoxTroubleshooting.Location = new System.Drawing.Point(13, 1);
+            this.UiAdvancedGroupBoxTroubleshooting.Name = "UiAdvancedGroupBoxTroubleshooting";
+            this.UiAdvancedGroupBoxTroubleshooting.Size = new System.Drawing.Size(250, 188);
+            this.UiAdvancedGroupBoxTroubleshooting.TabIndex = 524;
+            this.UiAdvancedGroupBoxTroubleshooting.Text = "Troubleshooting";
+            // 
+            // UiAdvancedButtonDeleteLog
+            // 
+            this.UiAdvancedButtonDeleteLog.AutoRoundedCorners = true;
+            this.UiAdvancedButtonDeleteLog.BorderRadius = 15;
+            this.UiAdvancedButtonDeleteLog.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.UiAdvancedButtonDeleteLog.DisabledState.BorderColor = System.Drawing.Color.Silver;
+            this.UiAdvancedButtonDeleteLog.DisabledState.CustomBorderColor = System.Drawing.Color.Silver;
+            this.UiAdvancedButtonDeleteLog.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(226)))), ((int)(((byte)(226)))), ((int)(((byte)(226)))));
+            this.UiAdvancedButtonDeleteLog.DisabledState.ForeColor = System.Drawing.Color.Gray;
+            this.UiAdvancedButtonDeleteLog.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(56)))), ((int)(((byte)(97)))), ((int)(((byte)(55)))));
+            this.UiAdvancedButtonDeleteLog.Font = new System.Drawing.Font("Segoe UI Semibold", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.UiAdvancedButtonDeleteLog.ForeColor = System.Drawing.Color.White;
+            this.UiAdvancedButtonDeleteLog.Location = new System.Drawing.Point(-44, 136);
+            this.UiAdvancedButtonDeleteLog.Name = "UiAdvancedButtonDeleteLog";
+            this.UiAdvancedButtonDeleteLog.Size = new System.Drawing.Size(195, 32);
+            this.UiAdvancedButtonDeleteLog.TabIndex = 1006;
+            this.UiAdvancedButtonDeleteLog.Text = "Delete logfile";
+            this.UiAdvancedButtonDeleteLog.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.UiAdvancedButtonDeleteLog.Click += new System.EventHandler(this.GuiTroubleshootDeleteFile_Click);
+            // 
+            // UiAdvancedButtonOpenLocation
+            // 
+            this.UiAdvancedButtonOpenLocation.AutoRoundedCorners = true;
+            this.UiAdvancedButtonOpenLocation.BorderRadius = 15;
+            this.UiAdvancedButtonOpenLocation.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.UiAdvancedButtonOpenLocation.DisabledState.BorderColor = System.Drawing.Color.Silver;
+            this.UiAdvancedButtonOpenLocation.DisabledState.CustomBorderColor = System.Drawing.Color.Silver;
+            this.UiAdvancedButtonOpenLocation.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(226)))), ((int)(((byte)(226)))), ((int)(((byte)(226)))));
+            this.UiAdvancedButtonOpenLocation.DisabledState.ForeColor = System.Drawing.Color.Gray;
+            this.UiAdvancedButtonOpenLocation.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(56)))), ((int)(((byte)(97)))), ((int)(((byte)(55)))));
+            this.UiAdvancedButtonOpenLocation.Font = new System.Drawing.Font("Segoe UI Semibold", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.UiAdvancedButtonOpenLocation.ForeColor = System.Drawing.Color.White;
+            this.UiAdvancedButtonOpenLocation.Location = new System.Drawing.Point(-44, 92);
+            this.UiAdvancedButtonOpenLocation.Name = "UiAdvancedButtonOpenLocation";
+            this.UiAdvancedButtonOpenLocation.Size = new System.Drawing.Size(195, 32);
+            this.UiAdvancedButtonOpenLocation.TabIndex = 1005;
+            this.UiAdvancedButtonOpenLocation.Text = "Open file location";
+            this.UiAdvancedButtonOpenLocation.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.UiAdvancedButtonOpenLocation.Click += new System.EventHandler(this.GuiExecuteableOpenLocation_Click);
+            // 
+            // UiAdvancedLabelEnableLog
+            // 
+            this.UiAdvancedLabelEnableLog.AutoSize = true;
+            this.UiAdvancedLabelEnableLog.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.UiAdvancedLabelEnableLog.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.UiAdvancedLabelEnableLog.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.UiAdvancedLabelEnableLog.Location = new System.Drawing.Point(59, 52);
+            this.UiAdvancedLabelEnableLog.Name = "UiAdvancedLabelEnableLog";
+            this.UiAdvancedLabelEnableLog.Size = new System.Drawing.Size(227, 23);
+            this.UiAdvancedLabelEnableLog.TabIndex = 506;
+            this.UiAdvancedLabelEnableLog.Text = "Enable troubleshoot logging";
+            this.UiAdvancedLabelEnableLog.Click += new System.EventHandler(this.UiAdvancedLabelEnableLog_Click);
+            // 
+            // UiAdvancedToggleEnableLog
+            // 
+            this.UiAdvancedToggleEnableLog.CheckedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
+            this.UiAdvancedToggleEnableLog.CheckedState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(56)))), ((int)(((byte)(97)))), ((int)(((byte)(55)))));
+            this.UiAdvancedToggleEnableLog.CheckedState.InnerBorderColor = System.Drawing.Color.White;
+            this.UiAdvancedToggleEnableLog.CheckedState.InnerColor = System.Drawing.Color.White;
+            this.UiAdvancedToggleEnableLog.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.UiAdvancedToggleEnableLog.Location = new System.Drawing.Point(18, 54);
+            this.UiAdvancedToggleEnableLog.Name = "UiAdvancedToggleEnableLog";
+            this.UiAdvancedToggleEnableLog.Size = new System.Drawing.Size(35, 20);
+            this.UiAdvancedToggleEnableLog.TabIndex = 505;
+            this.UiAdvancedToggleEnableLog.UncheckedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(125)))), ((int)(((byte)(137)))), ((int)(((byte)(149)))));
+            this.UiAdvancedToggleEnableLog.UncheckedState.FillColor = System.Drawing.Color.DarkGray;
+            this.UiAdvancedToggleEnableLog.UncheckedState.InnerBorderColor = System.Drawing.Color.White;
+            this.UiAdvancedToggleEnableLog.UncheckedState.InnerColor = System.Drawing.Color.White;
+            this.UiAdvancedToggleEnableLog.CheckedChanged += new System.EventHandler(this.GuiTroubleshootEnabled_CheckedChanged);
+            // 
+            // UiAdvancedGroupBoxStatus
+            // 
+            this.UiAdvancedGroupBoxStatus.BorderRadius = 5;
+            this.UiAdvancedGroupBoxStatus.Controls.Add(this.UiAdvancedButtonClearClipboards);
+            this.UiAdvancedGroupBoxStatus.Controls.Add(this.UiAdvancedLabelClipboardEntries);
+            this.UiAdvancedGroupBoxStatus.Controls.Add(this.UiAdvancedLabelMemUsed);
+            this.UiAdvancedGroupBoxStatus.CustomBorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(227)))), ((int)(((byte)(220)))));
+            this.UiAdvancedGroupBoxStatus.Font = new System.Drawing.Font("Segoe UI", 11F);
+            this.UiAdvancedGroupBoxStatus.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.UiAdvancedGroupBoxStatus.Location = new System.Drawing.Point(288, 1);
+            this.UiAdvancedGroupBoxStatus.Name = "UiAdvancedGroupBoxStatus";
+            this.UiAdvancedGroupBoxStatus.Size = new System.Drawing.Size(250, 188);
+            this.UiAdvancedGroupBoxStatus.TabIndex = 523;
+            this.UiAdvancedGroupBoxStatus.Text = "Status";
+            // 
+            // UiAdvancedButtonClearClipboards
+            // 
+            this.UiAdvancedButtonClearClipboards.AutoRoundedCorners = true;
+            this.UiAdvancedButtonClearClipboards.BorderRadius = 15;
+            this.UiAdvancedButtonClearClipboards.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.UiAdvancedButtonClearClipboards.DisabledState.BorderColor = System.Drawing.Color.Silver;
+            this.UiAdvancedButtonClearClipboards.DisabledState.CustomBorderColor = System.Drawing.Color.Silver;
+            this.UiAdvancedButtonClearClipboards.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(226)))), ((int)(((byte)(226)))), ((int)(((byte)(226)))));
+            this.UiAdvancedButtonClearClipboards.DisabledState.ForeColor = System.Drawing.Color.Gray;
+            this.UiAdvancedButtonClearClipboards.Enabled = false;
+            this.UiAdvancedButtonClearClipboards.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(56)))), ((int)(((byte)(97)))), ((int)(((byte)(55)))));
+            this.UiAdvancedButtonClearClipboards.Font = new System.Drawing.Font("Segoe UI Semibold", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.UiAdvancedButtonClearClipboards.ForeColor = System.Drawing.Color.White;
+            this.UiAdvancedButtonClearClipboards.Location = new System.Drawing.Point(54, 136);
+            this.UiAdvancedButtonClearClipboards.Name = "UiAdvancedButtonClearClipboards";
+            this.UiAdvancedButtonClearClipboards.Size = new System.Drawing.Size(224, 32);
+            this.UiAdvancedButtonClearClipboards.TabIndex = 1006;
+            this.UiAdvancedButtonClearClipboards.Text = "Clear all clipboard entries";
+            this.UiAdvancedButtonClearClipboards.TextAlign = System.Windows.Forms.HorizontalAlignment.Left;
+            this.UiAdvancedButtonClearClipboards.Click += new System.EventHandler(this.GuiClearHistory_Click);
+            // 
+            // UiAdvancedGroupDevVersion
+            // 
+            this.UiAdvancedGroupDevVersion.BorderRadius = 5;
+            this.UiAdvancedGroupDevVersion.Controls.Add(this.UiAdvancedButtonAutoInstall);
+            this.UiAdvancedGroupDevVersion.Controls.Add(this.UiAdvancedButtonManualDownload);
+            this.UiAdvancedGroupDevVersion.Controls.Add(this.UiAdvancedLabelDisclaimer);
+            this.UiAdvancedGroupDevVersion.Controls.Add(this.UiAdvancedLabelDevVersion);
+            this.UiAdvancedGroupDevVersion.Controls.Add(this.UiAdvancedPictureBoxDevRefresh);
+            this.UiAdvancedGroupDevVersion.CustomBorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(227)))), ((int)(((byte)(220)))));
+            this.UiAdvancedGroupDevVersion.Font = new System.Drawing.Font("Segoe UI", 11F);
+            this.UiAdvancedGroupDevVersion.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.UiAdvancedGroupDevVersion.Location = new System.Drawing.Point(13, 206);
+            this.UiAdvancedGroupDevVersion.Name = "UiAdvancedGroupDevVersion";
+            this.UiAdvancedGroupDevVersion.Size = new System.Drawing.Size(525, 202);
+            this.UiAdvancedGroupDevVersion.TabIndex = 522;
+            this.UiAdvancedGroupDevVersion.Text = "Development version available for testing";
+            // 
+            // UiAdvancedButtonAutoInstall
+            // 
+            this.UiAdvancedButtonAutoInstall.AutoRoundedCorners = true;
+            this.UiAdvancedButtonAutoInstall.BorderRadius = 15;
+            this.UiAdvancedButtonAutoInstall.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.UiAdvancedButtonAutoInstall.DisabledState.BorderColor = System.Drawing.Color.Silver;
+            this.UiAdvancedButtonAutoInstall.DisabledState.CustomBorderColor = System.Drawing.Color.Silver;
+            this.UiAdvancedButtonAutoInstall.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(226)))), ((int)(((byte)(226)))), ((int)(((byte)(226)))));
+            this.UiAdvancedButtonAutoInstall.DisabledState.ForeColor = System.Drawing.Color.Gray;
+            this.UiAdvancedButtonAutoInstall.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(56)))), ((int)(((byte)(97)))), ((int)(((byte)(55)))));
+            this.UiAdvancedButtonAutoInstall.Font = new System.Drawing.Font("Segoe UI Semibold", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.UiAdvancedButtonAutoInstall.ForeColor = System.Drawing.Color.White;
+            this.UiAdvancedButtonAutoInstall.Location = new System.Drawing.Point(-47, 101);
+            this.UiAdvancedButtonAutoInstall.Name = "UiAdvancedButtonAutoInstall";
+            this.UiAdvancedButtonAutoInstall.Size = new System.Drawing.Size(198, 32);
+            this.UiAdvancedButtonAutoInstall.TabIndex = 1008;
+            this.UiAdvancedButtonAutoInstall.Text = "Auto-install";
+            this.UiAdvancedButtonAutoInstall.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.UiAdvancedButtonAutoInstall.Click += new System.EventHandler(this.Button1_Click_1);
+            // 
+            // UiAdvancedButtonManualDownload
+            // 
+            this.UiAdvancedButtonManualDownload.AutoRoundedCorners = true;
+            this.UiAdvancedButtonManualDownload.BorderRadius = 15;
+            this.UiAdvancedButtonManualDownload.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.UiAdvancedButtonManualDownload.DisabledState.BorderColor = System.Drawing.Color.Silver;
+            this.UiAdvancedButtonManualDownload.DisabledState.CustomBorderColor = System.Drawing.Color.Silver;
+            this.UiAdvancedButtonManualDownload.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(226)))), ((int)(((byte)(226)))), ((int)(((byte)(226)))));
+            this.UiAdvancedButtonManualDownload.DisabledState.ForeColor = System.Drawing.Color.Gray;
+            this.UiAdvancedButtonManualDownload.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(56)))), ((int)(((byte)(97)))), ((int)(((byte)(55)))));
+            this.UiAdvancedButtonManualDownload.Font = new System.Drawing.Font("Segoe UI Semibold", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.UiAdvancedButtonManualDownload.ForeColor = System.Drawing.Color.White;
+            this.UiAdvancedButtonManualDownload.Location = new System.Drawing.Point(-57, 145);
+            this.UiAdvancedButtonManualDownload.Name = "UiAdvancedButtonManualDownload";
+            this.UiAdvancedButtonManualDownload.Size = new System.Drawing.Size(208, 32);
+            this.UiAdvancedButtonManualDownload.TabIndex = 1007;
+            this.UiAdvancedButtonManualDownload.Text = "Manual download";
+            this.UiAdvancedButtonManualDownload.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.UiAdvancedButtonManualDownload.Click += new System.EventHandler(this.GuiDevelopmentDownload_Click);
+            // 
+            // UiTabDoc
+            // 
+            this.UiTabDoc.Controls.Add(this.UiDocLabelDonators);
+            this.UiTabDoc.Controls.Add(this.UiDocButtonDonators);
+            this.UiTabDoc.Controls.Add(this.UiDocButtonGitHub);
+            this.UiTabDoc.Controls.Add(this.UiDocLabelGitHub);
+            this.UiTabDoc.Controls.Add(this.UiDocButtonChangelog);
+            this.UiTabDoc.Controls.Add(this.UiDocLabelChangelog);
+            this.UiTabDoc.Controls.Add(this.UiDocButtonOnlineDocumentation);
+            this.UiTabDoc.Controls.Add(this.UiDocLabelOnlineDocumentation);
+            this.UiTabDoc.Location = new System.Drawing.Point(184, 4);
+            this.UiTabDoc.Name = "UiTabDoc";
+            this.UiTabDoc.Padding = new System.Windows.Forms.Padding(3);
+            this.UiTabDoc.Size = new System.Drawing.Size(552, 569);
+            this.UiTabDoc.TabIndex = 9;
+            this.UiTabDoc.Text = "Documentation";
+            this.UiTabDoc.UseVisualStyleBackColor = true;
+            // 
+            // UiDocLabelDonators
+            // 
+            this.UiDocLabelDonators.AutoSize = false;
+            this.UiDocLabelDonators.BackColor = System.Drawing.Color.Transparent;
+            this.UiDocLabelDonators.Font = new System.Drawing.Font("Segoe UI", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.UiDocLabelDonators.IsSelectionEnabled = false;
+            this.UiDocLabelDonators.Location = new System.Drawing.Point(66, 321);
+            this.UiDocLabelDonators.Name = "UiDocLabelDonators";
+            this.UiDocLabelDonators.Size = new System.Drawing.Size(268, 107);
+            this.UiDocLabelDonators.TabIndex = 1009;
+            this.UiDocLabelDonators.Text = "Show the list of persons, throughout the entire lifetime of HovText, who has cont" +
+    "ributed to support :-)";
+            this.UiDocLabelDonators.TextAlignment = System.Drawing.ContentAlignment.TopRight;
+            // 
+            // UiDocButtonDonators
+            // 
+            this.UiDocButtonDonators.AutoRoundedCorners = true;
+            this.UiDocButtonDonators.BorderRadius = 20;
+            this.UiDocButtonDonators.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.UiDocButtonDonators.DisabledState.BorderColor = System.Drawing.Color.DarkGray;
+            this.UiDocButtonDonators.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
+            this.UiDocButtonDonators.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
+            this.UiDocButtonDonators.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(141)))), ((int)(((byte)(141)))), ((int)(((byte)(141)))));
+            this.UiDocButtonDonators.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(56)))), ((int)(((byte)(97)))), ((int)(((byte)(55)))));
+            this.UiDocButtonDonators.Font = new System.Drawing.Font("Segoe UI Semibold", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.UiDocButtonDonators.ForeColor = System.Drawing.Color.White;
+            this.UiDocButtonDonators.Location = new System.Drawing.Point(370, 321);
+            this.UiDocButtonDonators.Name = "UiDocButtonDonators";
+            this.UiDocButtonDonators.Size = new System.Drawing.Size(211, 42);
+            this.UiDocButtonDonators.TabIndex = 1008;
+            this.UiDocButtonDonators.Text = "Donators";
+            this.UiDocButtonDonators.TextAlign = System.Windows.Forms.HorizontalAlignment.Left;
+            this.UiDocButtonDonators.Click += new System.EventHandler(this.guna2Button27_Click);
+            // 
+            // UiDocButtonGitHub
+            // 
+            this.UiDocButtonGitHub.AutoRoundedCorners = true;
+            this.UiDocButtonGitHub.BorderRadius = 20;
+            this.UiDocButtonGitHub.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.UiDocButtonGitHub.DisabledState.BorderColor = System.Drawing.Color.DarkGray;
+            this.UiDocButtonGitHub.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
+            this.UiDocButtonGitHub.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
+            this.UiDocButtonGitHub.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(141)))), ((int)(((byte)(141)))), ((int)(((byte)(141)))));
+            this.UiDocButtonGitHub.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(56)))), ((int)(((byte)(97)))), ((int)(((byte)(55)))));
+            this.UiDocButtonGitHub.Font = new System.Drawing.Font("Segoe UI Semibold", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.UiDocButtonGitHub.ForeColor = System.Drawing.Color.White;
+            this.UiDocButtonGitHub.Location = new System.Drawing.Point(370, 462);
+            this.UiDocButtonGitHub.Name = "UiDocButtonGitHub";
+            this.UiDocButtonGitHub.Size = new System.Drawing.Size(211, 42);
+            this.UiDocButtonGitHub.TabIndex = 1004;
+            this.UiDocButtonGitHub.Text = "GitHub";
+            this.UiDocButtonGitHub.TextAlign = System.Windows.Forms.HorizontalAlignment.Left;
+            this.UiDocButtonGitHub.Click += new System.EventHandler(this.guna2Button26_Click);
+            // 
+            // UiDocLabelGitHub
+            // 
+            this.UiDocLabelGitHub.AutoSize = false;
+            this.UiDocLabelGitHub.BackColor = System.Drawing.Color.Transparent;
+            this.UiDocLabelGitHub.Font = new System.Drawing.Font("Segoe UI", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.UiDocLabelGitHub.IsSelectionEnabled = false;
+            this.UiDocLabelGitHub.Location = new System.Drawing.Point(66, 456);
+            this.UiDocLabelGitHub.Name = "UiDocLabelGitHub";
+            this.UiDocLabelGitHub.Size = new System.Drawing.Size(268, 107);
+            this.UiDocLabelGitHub.TabIndex = 1007;
+            this.UiDocLabelGitHub.Text = "At GitHub you can review the source code. HovText is written in C# and using Wind" +
+    "ows Forms.";
+            this.UiDocLabelGitHub.TextAlignment = System.Drawing.ContentAlignment.TopRight;
+            // 
+            // UiDocButtonChangelog
+            // 
+            this.UiDocButtonChangelog.AutoRoundedCorners = true;
+            this.UiDocButtonChangelog.BorderRadius = 20;
+            this.UiDocButtonChangelog.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.UiDocButtonChangelog.DisabledState.BorderColor = System.Drawing.Color.DarkGray;
+            this.UiDocButtonChangelog.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
+            this.UiDocButtonChangelog.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
+            this.UiDocButtonChangelog.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(141)))), ((int)(((byte)(141)))), ((int)(((byte)(141)))));
+            this.UiDocButtonChangelog.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(56)))), ((int)(((byte)(97)))), ((int)(((byte)(55)))));
+            this.UiDocButtonChangelog.Font = new System.Drawing.Font("Segoe UI Semibold", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.UiDocButtonChangelog.ForeColor = System.Drawing.Color.White;
+            this.UiDocButtonChangelog.Location = new System.Drawing.Point(370, 180);
+            this.UiDocButtonChangelog.Name = "UiDocButtonChangelog";
+            this.UiDocButtonChangelog.Size = new System.Drawing.Size(211, 42);
+            this.UiDocButtonChangelog.TabIndex = 1003;
+            this.UiDocButtonChangelog.Text = "Changelog";
+            this.UiDocButtonChangelog.TextAlign = System.Windows.Forms.HorizontalAlignment.Left;
+            this.UiDocButtonChangelog.Click += new System.EventHandler(this.guna2Button25_Click);
+            // 
+            // UiDocLabelChangelog
+            // 
+            this.UiDocLabelChangelog.AutoSize = false;
+            this.UiDocLabelChangelog.BackColor = System.Drawing.Color.Transparent;
+            this.UiDocLabelChangelog.Font = new System.Drawing.Font("Segoe UI", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.UiDocLabelChangelog.IsSelectionEnabled = false;
+            this.UiDocLabelChangelog.Location = new System.Drawing.Point(66, 180);
+            this.UiDocLabelChangelog.Name = "UiDocLabelChangelog";
+            this.UiDocLabelChangelog.Size = new System.Drawing.Size(268, 98);
+            this.UiDocLabelChangelog.TabIndex = 1006;
+            this.UiDocLabelChangelog.Text = "A full <i>Changelog</i> for all versions is available in the \"Download\" section o" +
+    "f the HovText home page.";
+            this.UiDocLabelChangelog.TextAlignment = System.Drawing.ContentAlignment.TopRight;
+            // 
+            // UiDocButtonOnlineDocumentation
+            // 
+            this.UiDocButtonOnlineDocumentation.AutoRoundedCorners = true;
+            this.UiDocButtonOnlineDocumentation.BorderRadius = 20;
+            this.UiDocButtonOnlineDocumentation.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.UiDocButtonOnlineDocumentation.DisabledState.BorderColor = System.Drawing.Color.DarkGray;
+            this.UiDocButtonOnlineDocumentation.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
+            this.UiDocButtonOnlineDocumentation.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
+            this.UiDocButtonOnlineDocumentation.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(141)))), ((int)(((byte)(141)))), ((int)(((byte)(141)))));
+            this.UiDocButtonOnlineDocumentation.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(56)))), ((int)(((byte)(97)))), ((int)(((byte)(55)))));
+            this.UiDocButtonOnlineDocumentation.Font = new System.Drawing.Font("Segoe UI Semibold", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.UiDocButtonOnlineDocumentation.ForeColor = System.Drawing.Color.White;
+            this.UiDocButtonOnlineDocumentation.Location = new System.Drawing.Point(370, 39);
+            this.UiDocButtonOnlineDocumentation.Name = "UiDocButtonOnlineDocumentation";
+            this.UiDocButtonOnlineDocumentation.Size = new System.Drawing.Size(211, 42);
+            this.UiDocButtonOnlineDocumentation.TabIndex = 1001;
+            this.UiDocButtonOnlineDocumentation.Text = "Online documentation";
+            this.UiDocButtonOnlineDocumentation.TextAlign = System.Windows.Forms.HorizontalAlignment.Left;
+            this.UiDocButtonOnlineDocumentation.Click += new System.EventHandler(this.GuiHelp_Click);
+            // 
+            // UiDocLabelOnlineDocumentation
+            // 
+            this.UiDocLabelOnlineDocumentation.AutoSize = false;
+            this.UiDocLabelOnlineDocumentation.BackColor = System.Drawing.Color.Transparent;
+            this.UiDocLabelOnlineDocumentation.Font = new System.Drawing.Font("Segoe UI", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.UiDocLabelOnlineDocumentation.IsSelectionEnabled = false;
+            this.UiDocLabelOnlineDocumentation.Location = new System.Drawing.Point(66, 39);
+            this.UiDocLabelOnlineDocumentation.Name = "UiDocLabelOnlineDocumentation";
+            this.UiDocLabelOnlineDocumentation.Size = new System.Drawing.Size(268, 110);
+            this.UiDocLabelOnlineDocumentation.TabIndex = 1005;
+            this.UiDocLabelOnlineDocumentation.Text = "You can view the documentation at the HovText home page, where all tabs and featu" +
+    "res are explained in details.";
+            this.UiDocLabelOnlineDocumentation.TextAlignment = System.Drawing.ContentAlignment.TopRight;
+            // 
+            // UiTabFeedback
+            // 
+            this.UiTabFeedback.Controls.Add(this.UiFeedbackLabelIntro);
+            this.UiTabFeedback.Controls.Add(this.UiFeedbackButtonSubmit);
+            this.UiTabFeedback.Controls.Add(this.UiFeedbackTextBoxEmail);
+            this.UiTabFeedback.Controls.Add(this.UiFeedbackLabelAttachLog);
+            this.UiTabFeedback.Controls.Add(this.UiFeedbackToggleAttachLog);
+            this.UiTabFeedback.Controls.Add(this.UiFeedbackTextBoxFeedback);
+            this.UiTabFeedback.Controls.Add(this.UiFeedbackLabelEmail);
+            this.UiTabFeedback.Controls.Add(this.UiFeedbackLabelFeedback);
+            this.UiTabFeedback.Location = new System.Drawing.Point(184, 4);
+            this.UiTabFeedback.Name = "UiTabFeedback";
+            this.UiTabFeedback.Padding = new System.Windows.Forms.Padding(3);
+            this.UiTabFeedback.Size = new System.Drawing.Size(552, 569);
+            this.UiTabFeedback.TabIndex = 7;
+            this.UiTabFeedback.Text = "Feedback";
+            this.UiTabFeedback.UseVisualStyleBackColor = true;
+            // 
+            // UiFeedbackLabelIntro
+            // 
+            this.UiFeedbackLabelIntro.BorderColor = System.Drawing.Color.Transparent;
+            this.UiFeedbackLabelIntro.BorderThickness = 0;
+            this.UiFeedbackLabelIntro.Cursor = System.Windows.Forms.Cursors.IBeam;
+            this.UiFeedbackLabelIntro.DefaultText = resources.GetString("UiFeedbackLabelIntro.DefaultText");
+            this.UiFeedbackLabelIntro.DisabledState.BorderColor = System.Drawing.Color.Transparent;
+            this.UiFeedbackLabelIntro.DisabledState.FillColor = System.Drawing.Color.Transparent;
+            this.UiFeedbackLabelIntro.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.UiFeedbackLabelIntro.DisabledState.PlaceholderForeColor = System.Drawing.Color.Transparent;
+            this.UiFeedbackLabelIntro.Enabled = false;
+            this.UiFeedbackLabelIntro.FocusedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
+            this.UiFeedbackLabelIntro.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.UiFeedbackLabelIntro.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.UiFeedbackLabelIntro.HoverState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
+            this.UiFeedbackLabelIntro.Location = new System.Drawing.Point(13, 1);
+            this.UiFeedbackLabelIntro.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
+            this.UiFeedbackLabelIntro.Multiline = true;
+            this.UiFeedbackLabelIntro.Name = "UiFeedbackLabelIntro";
+            this.UiFeedbackLabelIntro.PasswordChar = '\0';
+            this.UiFeedbackLabelIntro.PlaceholderText = "";
+            this.UiFeedbackLabelIntro.ReadOnly = true;
+            this.UiFeedbackLabelIntro.SelectedText = "";
+            this.UiFeedbackLabelIntro.Size = new System.Drawing.Size(521, 102);
+            this.UiFeedbackLabelIntro.TabIndex = 1010;
+            // 
+            // UiFeedbackButtonSubmit
+            // 
+            this.UiFeedbackButtonSubmit.AutoRoundedCorners = true;
+            this.UiFeedbackButtonSubmit.BorderRadius = 15;
+            this.UiFeedbackButtonSubmit.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.UiFeedbackButtonSubmit.DisabledState.BorderColor = System.Drawing.Color.Silver;
+            this.UiFeedbackButtonSubmit.DisabledState.CustomBorderColor = System.Drawing.Color.Silver;
+            this.UiFeedbackButtonSubmit.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(226)))), ((int)(((byte)(226)))), ((int)(((byte)(226)))));
+            this.UiFeedbackButtonSubmit.DisabledState.ForeColor = System.Drawing.Color.Gray;
+            this.UiFeedbackButtonSubmit.Enabled = false;
+            this.UiFeedbackButtonSubmit.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(56)))), ((int)(((byte)(97)))), ((int)(((byte)(55)))));
+            this.UiFeedbackButtonSubmit.Font = new System.Drawing.Font("Segoe UI Semibold", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.UiFeedbackButtonSubmit.ForeColor = System.Drawing.Color.White;
+            this.UiFeedbackButtonSubmit.Location = new System.Drawing.Point(-55, 490);
+            this.UiFeedbackButtonSubmit.Name = "UiFeedbackButtonSubmit";
+            this.UiFeedbackButtonSubmit.Size = new System.Drawing.Size(263, 32);
+            this.UiFeedbackButtonSubmit.TabIndex = 1009;
+            this.UiFeedbackButtonSubmit.Text = "Send feedback to developer";
+            this.UiFeedbackButtonSubmit.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.UiFeedbackButtonSubmit.Click += new System.EventHandler(this.GuiSendFeedback_Click);
+            // 
+            // UiFeedbackTextBoxEmail
+            // 
+            this.UiFeedbackTextBoxEmail.Cursor = System.Windows.Forms.Cursors.IBeam;
+            this.UiFeedbackTextBoxEmail.DefaultText = "";
+            this.UiFeedbackTextBoxEmail.DisabledState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(208)))), ((int)(((byte)(208)))), ((int)(((byte)(208)))));
+            this.UiFeedbackTextBoxEmail.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(226)))), ((int)(((byte)(226)))), ((int)(((byte)(226)))));
+            this.UiFeedbackTextBoxEmail.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(138)))), ((int)(((byte)(138)))), ((int)(((byte)(138)))));
+            this.UiFeedbackTextBoxEmail.DisabledState.PlaceholderForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(138)))), ((int)(((byte)(138)))), ((int)(((byte)(138)))));
+            this.UiFeedbackTextBoxEmail.FocusedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
+            this.UiFeedbackTextBoxEmail.Font = new System.Drawing.Font("Segoe UI", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.UiFeedbackTextBoxEmail.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.UiFeedbackTextBoxEmail.HoverState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
+            this.UiFeedbackTextBoxEmail.Location = new System.Drawing.Point(17, 147);
+            this.UiFeedbackTextBoxEmail.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.UiFeedbackTextBoxEmail.Name = "UiFeedbackTextBoxEmail";
+            this.UiFeedbackTextBoxEmail.PasswordChar = '\0';
+            this.UiFeedbackTextBoxEmail.PlaceholderText = "Email address";
+            this.UiFeedbackTextBoxEmail.SelectedText = "";
+            this.UiFeedbackTextBoxEmail.Size = new System.Drawing.Size(496, 34);
+            this.UiFeedbackTextBoxEmail.TabIndex = 609;
+            // 
+            // UiFeedbackLabelAttachLog
+            // 
+            this.UiFeedbackLabelAttachLog.AutoSize = true;
+            this.UiFeedbackLabelAttachLog.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.UiFeedbackLabelAttachLog.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.UiFeedbackLabelAttachLog.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.UiFeedbackLabelAttachLog.Location = new System.Drawing.Point(54, 442);
+            this.UiFeedbackLabelAttachLog.Name = "UiFeedbackLabelAttachLog";
+            this.UiFeedbackLabelAttachLog.Size = new System.Drawing.Size(214, 23);
+            this.UiFeedbackLabelAttachLog.TabIndex = 608;
+            this.UiFeedbackLabelAttachLog.Text = "Attach troubleshoot logfile";
+            this.UiFeedbackLabelAttachLog.Click += new System.EventHandler(this.UiFeedbackLabelAttachLog_Click);
+            // 
+            // UiFeedbackToggleAttachLog
+            // 
+            this.UiFeedbackToggleAttachLog.CheckedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
+            this.UiFeedbackToggleAttachLog.CheckedState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(56)))), ((int)(((byte)(97)))), ((int)(((byte)(55)))));
+            this.UiFeedbackToggleAttachLog.CheckedState.InnerBorderColor = System.Drawing.Color.White;
+            this.UiFeedbackToggleAttachLog.CheckedState.InnerColor = System.Drawing.Color.White;
+            this.UiFeedbackToggleAttachLog.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.UiFeedbackToggleAttachLog.Location = new System.Drawing.Point(13, 444);
+            this.UiFeedbackToggleAttachLog.Name = "UiFeedbackToggleAttachLog";
+            this.UiFeedbackToggleAttachLog.Size = new System.Drawing.Size(35, 20);
+            this.UiFeedbackToggleAttachLog.TabIndex = 607;
+            this.UiFeedbackToggleAttachLog.UncheckedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(125)))), ((int)(((byte)(137)))), ((int)(((byte)(149)))));
+            this.UiFeedbackToggleAttachLog.UncheckedState.FillColor = System.Drawing.Color.DarkGray;
+            this.UiFeedbackToggleAttachLog.UncheckedState.InnerBorderColor = System.Drawing.Color.White;
+            this.UiFeedbackToggleAttachLog.UncheckedState.InnerColor = System.Drawing.Color.White;
+            this.UiFeedbackToggleAttachLog.CheckedChanged += new System.EventHandler(this.GuiAttachFile_CheckedChanged);
+            // 
+            // UiFeedbackTextBoxFeedback
+            // 
+            this.UiFeedbackTextBoxFeedback.Cursor = System.Windows.Forms.Cursors.IBeam;
+            this.UiFeedbackTextBoxFeedback.DefaultText = "";
+            this.UiFeedbackTextBoxFeedback.DisabledState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(208)))), ((int)(((byte)(208)))), ((int)(((byte)(208)))));
+            this.UiFeedbackTextBoxFeedback.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(226)))), ((int)(((byte)(226)))), ((int)(((byte)(226)))));
+            this.UiFeedbackTextBoxFeedback.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(138)))), ((int)(((byte)(138)))), ((int)(((byte)(138)))));
+            this.UiFeedbackTextBoxFeedback.DisabledState.PlaceholderForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(138)))), ((int)(((byte)(138)))), ((int)(((byte)(138)))));
+            this.UiFeedbackTextBoxFeedback.FocusedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
+            this.UiFeedbackTextBoxFeedback.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.UiFeedbackTextBoxFeedback.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.UiFeedbackTextBoxFeedback.HoverState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
+            this.UiFeedbackTextBoxFeedback.Location = new System.Drawing.Point(17, 223);
+            this.UiFeedbackTextBoxFeedback.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.UiFeedbackTextBoxFeedback.Multiline = true;
+            this.UiFeedbackTextBoxFeedback.Name = "UiFeedbackTextBoxFeedback";
+            this.UiFeedbackTextBoxFeedback.PasswordChar = '\0';
+            this.UiFeedbackTextBoxFeedback.PlaceholderText = "Your feedback ...";
+            this.UiFeedbackTextBoxFeedback.SelectedText = "";
+            this.UiFeedbackTextBoxFeedback.Size = new System.Drawing.Size(496, 208);
+            this.UiFeedbackTextBoxFeedback.TabIndex = 606;
+            this.UiFeedbackTextBoxFeedback.TextChanged += new System.EventHandler(this.GuiFeedbackText_TextChanged);
+            // 
+            // UiTabAbout
+            // 
+            this.UiTabAbout.Controls.Add(this.UiAboutLabelHeadline);
+            this.UiTabAbout.Controls.Add(this.UiAboutPictureBoxPaypal);
+            this.UiTabAbout.Controls.Add(this.UiAboutLabelRelease);
+            this.UiTabAbout.Controls.Add(this.UiAboutLabelText);
+            this.UiTabAbout.Location = new System.Drawing.Point(184, 4);
+            this.UiTabAbout.Name = "UiTabAbout";
+            this.UiTabAbout.Padding = new System.Windows.Forms.Padding(3);
+            this.UiTabAbout.Size = new System.Drawing.Size(552, 569);
+            this.UiTabAbout.TabIndex = 8;
+            this.UiTabAbout.Text = "About";
+            this.UiTabAbout.UseVisualStyleBackColor = true;
+            // 
+            // UiAboutLabelHeadline
+            // 
+            this.UiAboutLabelHeadline.BackColor = System.Drawing.Color.Transparent;
+            this.UiAboutLabelHeadline.Font = new System.Drawing.Font("Segoe UI Semibold", 19.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.UiAboutLabelHeadline.IsSelectionEnabled = false;
+            this.UiAboutLabelHeadline.Location = new System.Drawing.Point(13, 1);
+            this.UiAboutLabelHeadline.Name = "UiAboutLabelHeadline";
+            this.UiAboutLabelHeadline.Size = new System.Drawing.Size(432, 47);
+            this.UiAboutLabelHeadline.TabIndex = 118;
+            this.UiAboutLabelHeadline.Text = "HovText # Rebooted edition";
+            // 
+            // UiAboutLabelRelease
+            // 
+            this.UiAboutLabelRelease.BackColor = System.Drawing.Color.Transparent;
+            this.UiAboutLabelRelease.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.UiAboutLabelRelease.IsSelectionEnabled = false;
+            this.UiAboutLabelRelease.Location = new System.Drawing.Point(13, 36);
+            this.UiAboutLabelRelease.Name = "UiAboutLabelRelease";
+            this.UiAboutLabelRelease.Size = new System.Drawing.Size(168, 27);
+            this.UiAboutLabelRelease.TabIndex = 117;
+            this.UiAboutLabelRelease.Text = "Stable release, 64-bit";
+            // 
+            // UiAboutLabelText
+            // 
+            this.UiAboutLabelText.AutoSize = false;
+            this.UiAboutLabelText.BackColor = System.Drawing.Color.Transparent;
+            this.UiAboutLabelText.Font = new System.Drawing.Font("Segoe UI", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.UiAboutLabelText.IsSelectionEnabled = false;
+            this.UiAboutLabelText.Location = new System.Drawing.Point(13, 100);
+            this.UiAboutLabelText.Name = "UiAboutLabelText";
+            this.UiAboutLabelText.Size = new System.Drawing.Size(500, 453);
+            this.UiAboutLabelText.TabIndex = 116;
+            this.UiAboutLabelText.Text = resources.GetString("UiAboutLabelText.Text");
+            // 
+            // UiFormGradientPanel
+            // 
+            this.UiFormGradientPanel.BackColor = System.Drawing.Color.White;
+            this.UiFormGradientPanel.Location = new System.Drawing.Point(1, 87);
+            this.UiFormGradientPanel.Name = "UiFormGradientPanel";
+            this.UiFormGradientPanel.Size = new System.Drawing.Size(740, 42);
+            this.UiFormGradientPanel.TabIndex = 0;
             // 
             // Settings
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(11F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(670, 643);
-            this.Controls.Add(this.GuiLoadingPanel);
-            this.Controls.Add(this.GuiHelp);
-            this.Controls.Add(this.TabControl);
+            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(56)))), ((int)(((byte)(97)))), ((int)(((byte)(55)))));
+            this.ClientSize = new System.Drawing.Size(743, 684);
+            this.Controls.Add(this.UiFormTabControl);
+            this.Controls.Add(this.UiFormGradientPanel);
+            this.Controls.Add(this.UiFormPanel);
             this.Font = new System.Drawing.Font("Segoe UI", 11.12727F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.MaximizeBox = false;
@@ -2244,256 +3425,295 @@
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainWindow_FormClosing);
             this.Shown += new System.EventHandler(this.MainWindow_Shown);
             this.Resize += new System.EventHandler(this.MainWindow_Resize);
-            this.notifyIconMenuStrip.ResumeLayout(false);
-            this.tabAbout.ResumeLayout(false);
-            this.tabAbout.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.GuiPictureBox1)).EndInit();
-            this.tabLayout.ResumeLayout(false);
-            this.GuiLayoutGroup1.ResumeLayout(false);
-            this.GuiLayoutGroup1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.GuiHistoryMargin)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.GuiHistoryElements)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.GuiHistorySizeWidth)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.GuiHistorySizeHeight)).EndInit();
-            this.GuiLayoutGroup2.ResumeLayout(false);
-            this.GuiLayoutGroup2.PerformLayout();
-            this.tabHotkeys.ResumeLayout(false);
-            this.GuiHotkeysGroup1.ResumeLayout(false);
-            this.GuiHotkeysGroup1.PerformLayout();
-            this.GuiHotkeysGroup2.ResumeLayout(false);
-            this.GuiHotkeysGroup2.PerformLayout();
-            this.tabGeneral.ResumeLayout(false);
-            this.groupBox2.ResumeLayout(false);
-            this.groupBox2.PerformLayout();
-            this.GuiGeneralGroup2.ResumeLayout(false);
-            this.GuiGeneralGroup2.PerformLayout();
-            this.TabControl.ResumeLayout(false);
-            this.tabPage1.ResumeLayout(false);
-            this.GuiStorageGroup2.ResumeLayout(false);
-            this.GuiStorageGroup2.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.GuiStorageEntries)).EndInit();
-            this.GuiStorageGroup1.ResumeLayout(false);
-            this.GuiStorageGroup1.PerformLayout();
-            this.tabStyle.ResumeLayout(false);
-            this.groupBox1.ResumeLayout(false);
-            this.GuiStyleGroup5.ResumeLayout(false);
-            this.GuiStyleGroup5.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.PictureBox5)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.PictureBox6)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.PictureBox7)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.PictureBox9)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.PictureBox10)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.PictureBox8)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.PictureBox4)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.PictureBox3)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.PictureBox2)).EndInit();
-            this.GuiStyleGroup2.ResumeLayout(false);
-            this.GuiStyleGroup2.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.GuiBorderThickness)).EndInit();
-            this.tabColors.ResumeLayout(false);
-            this.GuiStyleGroup1.ResumeLayout(false);
-            this.GuiStyleGroup4.ResumeLayout(false);
-            this.GuiStyleGroup4.PerformLayout();
-            this.GuiStyleGroup3.ResumeLayout(false);
-            this.GuiStyleGroup3.PerformLayout();
-            this.tabAdvanced.ResumeLayout(false);
-            this.GuiAdvancedStatus.ResumeLayout(false);
-            this.GuiAdvancedStatus.PerformLayout();
-            this.GuiAdvancedGroup2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.GuiDevelopmentRefresh)).EndInit();
-            this.GuiAdvancedGroup3.ResumeLayout(false);
-            this.GuiAdvancedGroup1.ResumeLayout(false);
-            this.GuiAdvancedGroup1.PerformLayout();
-            this.tabFeedback.ResumeLayout(false);
-            this.tabFeedback.PerformLayout();
-            this.GuiLoadingPanel.ResumeLayout(false);
-            this.GuiLoadingPanel.PerformLayout();
+            this.MenuStripIconNotify.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.UiAboutPictureBoxPaypal)).EndInit();
+            this.UiFormLabelLoadingPanel.ResumeLayout(false);
+            this.UiFormLabelLoadingPanel.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.UiStyleOictureBoxIcon9)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.UiStyleOictureBoxIcon8)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.UiStyleOictureBoxIcon7)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.UiStyleOictureBoxIcon6)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.UiStyleOictureBoxIcon5)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.UiStyleOictureBoxIcon4)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.UiStyleOictureBoxIcon3)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.UiStyleOictureBoxIcon2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.UiStyleOictureBoxIcon1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.UiAdvancedPictureBoxDevRefresh)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.UiFormPictureBoxIcon)).EndInit();
+            this.UiFormPanel.ResumeLayout(false);
+            this.UiFormPanel.PerformLayout();
+            this.UiFormTabControl.ResumeLayout(false);
+            this.UiTabGeneral.ResumeLayout(false);
+            this.UiGeneralGroupBoxBehaviour.ResumeLayout(false);
+            this.UiGeneralGroupBoxBehaviour.PerformLayout();
+            this.UiGeneralGroupBoxClipboardList.ResumeLayout(false);
+            this.UiGeneralGroupBoxClipboardList.PerformLayout();
+            this.UiTabStorage.ResumeLayout(false);
+            this.UiStorageGroupBoxStorage.ResumeLayout(false);
+            this.UiStorageGroupBoxStorage.PerformLayout();
+            this.UiStorageGroupBoxInfo.ResumeLayout(false);
+            this.UiTabHotkeys.ResumeLayout(false);
+            this.UiHotkeysGroupBoxHotkeys.ResumeLayout(false);
+            this.UiHotkeysGroupBoxHotkeys.PerformLayout();
+            this.UiHotkeysGroupBoxPasteBehaviour.ResumeLayout(false);
+            this.UiHotkeysGroupBoxPasteBehaviour.PerformLayout();
+            this.UiTabLayout.ResumeLayout(false);
+            this.UiLayoutGroupBoxClipboardArea.ResumeLayout(false);
+            this.UiLayoutGroupBoxClipboardArea.PerformLayout();
+            this.UiLayoutGroupBoxClipboardLocation.ResumeLayout(false);
+            this.UiLayoutGroupBoxClipboardLocation.PerformLayout();
+            this.UiTabStyle.ResumeLayout(false);
+            this.UiStyleGroupBoxBorder.ResumeLayout(false);
+            this.UiStyleGroupBoxBorder.PerformLayout();
+            this.UiStyleGroupBoxFont.ResumeLayout(false);
+            this.UiStyleGroupBoxIcon.ResumeLayout(false);
+            this.UiStyleGroupBoxIcon.PerformLayout();
+            this.UiTabColors.ResumeLayout(false);
+            this.UiColorsGroupBoxLooks.ResumeLayout(false);
+            this.UiColorsGroupBoxTheme.ResumeLayout(false);
+            this.UiColorsGroupBoxTheme.PerformLayout();
+            this.UiColorsGroupBoxCustom.ResumeLayout(false);
+            this.UiColorsGroupBoxCustom.PerformLayout();
+            this.UiTabAdvanced.ResumeLayout(false);
+            this.UiAdvancedGroupBoxCleanup.ResumeLayout(false);
+            this.UiAdvancedGroupBoxTroubleshooting.ResumeLayout(false);
+            this.UiAdvancedGroupBoxTroubleshooting.PerformLayout();
+            this.UiAdvancedGroupBoxStatus.ResumeLayout(false);
+            this.UiAdvancedGroupBoxStatus.PerformLayout();
+            this.UiAdvancedGroupDevVersion.ResumeLayout(false);
+            this.UiTabDoc.ResumeLayout(false);
+            this.UiTabFeedback.ResumeLayout(false);
+            this.UiTabFeedback.PerformLayout();
+            this.UiTabAbout.ResumeLayout(false);
+            this.UiTabAbout.PerformLayout();
             this.ResumeLayout(false);
 
         }
 
         #endregion
-        private System.Windows.Forms.NotifyIcon notifyIcon;
-        private System.Windows.Forms.FontDialog fontDialog;
-        private System.Windows.Forms.ContextMenuStrip notifyIconMenuStrip;
+        private System.Windows.Forms.NotifyIcon IconNotify;
+        private System.Windows.Forms.FontDialog FontDialog;
+        private System.Windows.Forms.ContextMenuStrip MenuStripIconNotify;
         private System.Windows.Forms.ToolStripMenuItem gotoSettings;
         private System.Windows.Forms.ToolStripMenuItem gotoExit;
         private System.Windows.Forms.ToolStripMenuItem gotoTabAbout;
-        private System.Windows.Forms.ToolTip trayIcon;
-        private System.Windows.Forms.Button GuiHelp;
-        private System.Windows.Forms.Timer updateTimer;
-        private System.Windows.Forms.Timer mouseClickTimer;
-        private System.Windows.Forms.TabPage tabAbout;
-        private System.Windows.Forms.RichTextBox AboutLabelDescription;
-        private System.Windows.Forms.Label AboutLabelHeadline;
-        private System.Windows.Forms.Label AboutLabelVersion;
-        private System.Windows.Forms.TabPage tabLayout;
-        private System.Windows.Forms.GroupBox GuiLayoutGroup1;
-        private System.Windows.Forms.Label LayoutLabelElements;
-        private System.Windows.Forms.Label LabelHistorySizeHeight;
-        private System.Windows.Forms.Label LayoutLabelHeight;
-        private System.Windows.Forms.Label LabelHistorySizeWidth;
-        private System.Windows.Forms.TrackBar GuiHistoryElements;
-        private System.Windows.Forms.Label LayoutLabelWidth;
-        private System.Windows.Forms.TrackBar GuiHistorySizeWidth;
-        private System.Windows.Forms.TrackBar GuiHistorySizeHeight;
-        private System.Windows.Forms.GroupBox GuiLayoutGroup2;
-        private System.Windows.Forms.TabPage tabHotkeys;
-        private System.Windows.Forms.GroupBox GuiHotkeysGroup1;
-        private System.Windows.Forms.RadioButton GuiHotkeyBehaviourSystem;
-        private System.Windows.Forms.RadioButton GuiHotkeyBehaviourPaste;
-        private System.Windows.Forms.GroupBox GuiHotkeysGroup2;
-        private System.Windows.Forms.TextBox GuiHotkeyPaste;
-        private System.Windows.Forms.TextBox GuiHotkeyNewer;
-        private System.Windows.Forms.TextBox GuiHotkeyOlder;
-        private System.Windows.Forms.Button GuiCancelHotkey;
-        private System.Windows.Forms.TextBox GuiHotkeyEnable;
-        private System.Windows.Forms.Button GuiApplyHotkey;
-        private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.Label label8;
-        private System.Windows.Forms.TabPage tabGeneral;
-        private System.Windows.Forms.GroupBox GuiGeneralGroup2;
-        private System.Windows.Forms.CheckBox GuiRestoreOriginal;
-        private System.Windows.Forms.CheckBox GuiCopyImages;
-        private System.Windows.Forms.CheckBox GuiPasteOnSelection;
-        private System.Windows.Forms.CheckBox GuiCloseMinimize;
-        private System.Windows.Forms.CheckBox GuiTrimWhitespaces;
-        private System.Windows.Forms.CheckBox GuiStartWithWindows;
-        private System.Windows.Forms.TabControl TabControl;
-        private System.Windows.Forms.Label LabelHistoryElements;
-        private System.Windows.Forms.RadioButton GuiHistoryLocationRadioRightBottom;
-        private System.Windows.Forms.RadioButton GuiHistoryLocationRadioLeftTop;
-        private System.Windows.Forms.RadioButton GuiHistoryLocationRadioRightTop;
-        private System.Windows.Forms.RadioButton GuiHistoryLocationRadioCenter;
-        private System.Windows.Forms.RadioButton GuiHistoryLocationRadioLeftBottom;
-        private System.Windows.Forms.ColorDialog colorDialogHeader;
-        private System.Windows.Forms.ColorDialog colorDialogEntry;
-        private System.Windows.Forms.ColorDialog colorDialogEntryText;
-        private System.Windows.Forms.TabPage tabStyle;
-        private System.Windows.Forms.GroupBox GuiStyleGroup2;
-        private System.Windows.Forms.ColorDialog colorDialogBorder;
-        private System.Windows.Forms.TabPage tabAdvanced;
-        private System.Windows.Forms.GroupBox GuiAdvancedGroup3;
-        private System.Windows.Forms.Button GuiCleanUpExit;
-        private System.Windows.Forms.GroupBox GuiAdvancedGroup1;
-        private System.Windows.Forms.Button GuiTroubleshootDeleteFile;
-        private System.Windows.Forms.CheckBox GuiTroubleshootEnabled;
-        private System.Windows.Forms.GroupBox GuiAdvancedGroup2;
-        private System.Windows.Forms.Button GuiDevelopmentDownload;
-        private System.Windows.Forms.TabPage tabFeedback;
-        private System.Windows.Forms.Button GuiSendFeedback;
-        private System.Windows.Forms.TextBox GuiFeedbackText;
-        private System.Windows.Forms.TextBox GuiEmailAddr;
-        private System.Windows.Forms.Label FeedbackLabelDescription;
-        private System.Windows.Forms.Label FeedbackLabelEmail;
-        private System.Windows.Forms.Label AdvancedLabelInfoDevelopment;
-        private System.Windows.Forms.Label AdvancedLabelDevelopmentVersion;
-        private System.Windows.Forms.GroupBox GuiLayoutGroup3;
-        private System.Windows.Forms.TextBox GuiHotkeyToggleView;
-        private System.Windows.Forms.TextBox GuiHotkeyToggleFavorite;
-        private System.Windows.Forms.Label label12;
-        private System.Windows.Forms.Label label13;
-        private System.Windows.Forms.CheckBox GuiFavoritesEnabled;
-        private System.Windows.Forms.GroupBox GuiStyleGroup5;
-        private System.Windows.Forms.PictureBox PictureBox2;
-        private System.Windows.Forms.PictureBox PictureBox3;
-        private System.Windows.Forms.PictureBox PictureBox4;
-        private System.Windows.Forms.PictureBox PictureBox5;
-        private System.Windows.Forms.PictureBox PictureBox6;
-        private System.Windows.Forms.PictureBox PictureBox7;
-        private System.Windows.Forms.RadioButton GuiIconsSquareOld;
-        private System.Windows.Forms.RadioButton GuiIconsRound;
-        private System.Windows.Forms.Label StyleLabelThickness;
-        private System.Windows.Forms.TrackBar GuiBorderThickness;
-        private System.Windows.Forms.Label LayoutLabelMargin;
-        private System.Windows.Forms.TrackBar GuiHistoryMargin;
-        private System.Windows.Forms.Label LabelBorderThickness;
-        private System.Windows.Forms.ColorDialog colorDialogActive;
-        private System.Windows.Forms.ColorDialog colorDialogHeaderText;
-        private System.Windows.Forms.ColorDialog colorDialogActiveText;
-        private System.Windows.Forms.Label LabelHistoryMargin;
-        private System.Windows.Forms.CheckBox GuiAttachFile;
-        private System.Windows.Forms.PictureBox PictureBox8;
-        private System.Windows.Forms.PictureBox PictureBox10;
-        private System.Windows.Forms.PictureBox PictureBox9;
-        private System.Windows.Forms.RadioButton GuiIconsSquareNew;
-        private System.Windows.Forms.Label AboutLabelDevelopment;
-        private System.Windows.Forms.Button GuiExecuteableOpenLocation;
-        private System.Windows.Forms.PictureBox GuiPictureBox1;
-        private System.Windows.Forms.Button GuiDevelopmentAutoInstall;
-        private System.Windows.Forms.PictureBox GuiDevelopmentRefresh;
-        private System.Windows.Forms.Timer terminateTimer;
-        private System.Windows.Forms.TabPage tabColors;
-        private System.Windows.Forms.GroupBox GuiStyleGroup3;
-        private System.Windows.Forms.RadioButton GuiHistoryColorThemeContrast;
-        private System.Windows.Forms.RadioButton GuiHistoryColorThemeCustom;
-        private System.Windows.Forms.RadioButton GuiHistoryColorThemeYellow;
-        private System.Windows.Forms.RadioButton GuiHistoryColorThemeGreen;
-        private System.Windows.Forms.RadioButton GuiHistoryColorThemeBlue;
-        private System.Windows.Forms.RadioButton GuiHistoryColorThemeBrown;
-        private System.Windows.Forms.Button GuiChangeFont;
-        private System.Windows.Forms.GroupBox GuiStyleGroup1;
-        private System.Windows.Forms.Label GuiShowFontEntry;
-        private System.Windows.Forms.Label GuiShowFontActive;
-        private System.Windows.Forms.Label GuiShowFontHeader;
-        private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.TextBox GuiHotkeySearch;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Label GuiShowFont;
-        private System.Windows.Forms.GroupBox GuiStyleGroup4;
-        private System.Windows.Forms.Label StyleLabelBorderColor;
-        private System.Windows.Forms.Label StyleLabelEntryColorBackground;
-        private System.Windows.Forms.TextBox GuiCustomBorder;
-        private System.Windows.Forms.TextBox GuiCustomActiveText;
-        private System.Windows.Forms.TextBox GuiCustomEntryText;
-        private System.Windows.Forms.TextBox GuiCustomHeaderText;
-        private System.Windows.Forms.Label StyleLabelEntryColorText;
-        private System.Windows.Forms.Label StyleLabelActiveColorBackground;
-        private System.Windows.Forms.TextBox GuiCustomEntry;
-        private System.Windows.Forms.Label StyleLabelHeaderColorText;
-        private System.Windows.Forms.TextBox GuiCustomActive;
-        private System.Windows.Forms.Label StyleLabelActiveColorText;
-        private System.Windows.Forms.TextBox GuiCustomHeader;
-        private System.Windows.Forms.Label StyleLabelHeaderColorBackground;
-        private System.Windows.Forms.Label StyleLabelSearchColorBackground;
-        private System.Windows.Forms.TextBox GuiCustomSearchText;
-        private System.Windows.Forms.Label StyleLabelSearchColorText;
-        private System.Windows.Forms.TextBox GuiCustomSearch;
-        private System.Windows.Forms.Label GuiShowFontSearch;
-        private System.Windows.Forms.GroupBox groupBox2;
-        private System.Windows.Forms.CheckBox GuiSearch;
-        private System.Windows.Forms.CheckBox GuiInstantSelect;
-        private System.Windows.Forms.ColorDialog colorDialogSearch;
-        private System.Windows.Forms.ColorDialog colorDialogSearchText;
-        private System.Windows.Forms.CheckBox GuiAlwaysPasteOriginal;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.Label label9;
-        private System.Windows.Forms.CheckBox GuiStartDisabled;
-        private System.Windows.Forms.Label label10;
-        private System.Windows.Forms.Panel GuiLoadingPanel;
-        private System.Windows.Forms.Label GuiLoadingText;
-        private System.Windows.Forms.TabPage tabPage1;
-        private System.Windows.Forms.GroupBox GuiStorageGroup1;
-        private System.Windows.Forms.Label GuiStorageChooseAmount;
-        private System.Windows.Forms.TrackBar GuiStorageEntries;
-        private System.Windows.Forms.CheckBox GuiStorageSaveClipboard;
-        private System.Windows.Forms.RadioButton GuiStorageChooseFavorites;
-        private System.Windows.Forms.RadioButton GuiStorageChooseAll;
-        private System.Windows.Forms.Label GuiStorageEntriesText;
-        private System.Windows.Forms.TextBox GuiStorageInfo;
-        private System.Windows.Forms.Label GuiStorageChooseType;
-        private System.Windows.Forms.GroupBox GuiStorageGroup2;
-        private System.Windows.Forms.CheckBox GuiStorageLoadClipboard;
-        private System.Windows.Forms.GroupBox GuiAdvancedStatus;
-        private System.Windows.Forms.Label GuiHistoryEntriesCount;
-        private System.Windows.Forms.Label GuiMemoryUsed;
-        private System.Windows.Forms.Timer advancedTimer;
-        private System.Windows.Forms.RadioButton GuiStorageChooseText;
-        private System.Windows.Forms.Button GuiClearHistory;
+        private System.Windows.Forms.ToolTip IconTray;
+        private System.Windows.Forms.Timer TimerUpdateVersion;
+        private System.Windows.Forms.Timer TimerMouseClick;
+        private System.Windows.Forms.Label UiLayoutLabelVisibleElements;
+        private System.Windows.Forms.Label UiLayoutLabelHeightText;
+        private System.Windows.Forms.Label UiLayoutLabelHeight;
+        private System.Windows.Forms.Label UiLayoutLabelWidthText;
+        private System.Windows.Forms.Label UiLayoutLabelWidth;
+        private System.Windows.Forms.Label UiHotkeysLabelPasteHotkey;
+        private System.Windows.Forms.Label UiHotkeysLabelToggleApplication;
+        private System.Windows.Forms.Label UiLayoutLabelVisibleElementsText;
+        private System.Windows.Forms.ColorDialog ColorDialogHeader;
+        private System.Windows.Forms.ColorDialog ColorDialogEntry;
+        private System.Windows.Forms.ColorDialog ColorDialogEntryText;
+        private System.Windows.Forms.ColorDialog ColorDialogBorder;
+        private System.Windows.Forms.Label UiFeedbackLabelFeedback;
+        private System.Windows.Forms.Label UiFeedbackLabelEmail;
+        private System.Windows.Forms.Label UiAdvancedLabelDisclaimer;
+        private System.Windows.Forms.Label UiAdvancedLabelDevVersion;
+        private System.Windows.Forms.Label UiHotkeysLabelToggleFavorite;
+        private System.Windows.Forms.PictureBox UiStyleOictureBoxIcon1;
+        private System.Windows.Forms.PictureBox UiStyleOictureBoxIcon2;
+        private System.Windows.Forms.PictureBox UiStyleOictureBoxIcon3;
+        private System.Windows.Forms.PictureBox UiStyleOictureBoxIcon9;
+        private System.Windows.Forms.PictureBox UiStyleOictureBoxIcon8;
+        private System.Windows.Forms.PictureBox UiStyleOictureBoxIcon7;
+        private System.Windows.Forms.Label UiStyleLabelBorder;
+        private System.Windows.Forms.Label UiLayoutLabelMargin;
+        private System.Windows.Forms.Label UiStyleLabelBorderText;
+        private System.Windows.Forms.ColorDialog ColorDialogActive;
+        private System.Windows.Forms.ColorDialog ColorDialogHeaderText;
+        private System.Windows.Forms.ColorDialog ColorDialogActiveText;
+        private System.Windows.Forms.Label UiLayoutLabelMarginText;
+        private System.Windows.Forms.PictureBox UiStyleOictureBoxIcon4;
+        private System.Windows.Forms.PictureBox UiStyleOictureBoxIcon5;
+        private System.Windows.Forms.PictureBox UiStyleOictureBoxIcon6;
+        private System.Windows.Forms.PictureBox UiAboutPictureBoxPaypal;
+        private System.Windows.Forms.PictureBox UiAdvancedPictureBoxDevRefresh;
+        private System.Windows.Forms.Timer TimerTerminate;
+        private System.Windows.Forms.Label UiColorsLabelEntry;
+        private System.Windows.Forms.Label UiColorsLabelActive;
+        private System.Windows.Forms.Label UiColorsLabelHeader;
+        private System.Windows.Forms.Label UiHotkeysLabelSearch;
+        private System.Windows.Forms.Label UiColorsLabelBorder;
+        private System.Windows.Forms.Label UiColorsLabelEntryBackground;
+        private System.Windows.Forms.Label UiColorsLabelEntryText;
+        private System.Windows.Forms.Label UiColorsLabelActiveBackground;
+        private System.Windows.Forms.Label UiColorsLabelHeaderText;
+        private System.Windows.Forms.Label UiColorsLabelActiveText;
+        private System.Windows.Forms.Label UiColorsLabelHeaderBackground;
+        private System.Windows.Forms.Label UiColorsLabelSearchBackground;
+        private System.Windows.Forms.Label UiColorsLabelSearchText;
+        private System.Windows.Forms.Label UiColorsLabelSearch;
+        private System.Windows.Forms.ColorDialog ColorDialogSearch;
+        private System.Windows.Forms.ColorDialog ColorDialogSearchText;
+        private System.Windows.Forms.Label UiAdvancedLabelCleanup;
+        private System.Windows.Forms.Panel UiFormLabelLoadingPanel;
+        private System.Windows.Forms.Label UiFormLabelLoadingText;
+        private System.Windows.Forms.Label UiStorageLabelAmountOfClipboardsToSave;
+        private System.Windows.Forms.Label UiStorageTrackBarEntriesToSaveText;
+        private System.Windows.Forms.Label UiStorageLabelWhichClipboardToSave;
+        private System.Windows.Forms.Label UiAdvancedLabelClipboardEntries;
+        private System.Windows.Forms.Label UiAdvancedLabelMemUsed;
+        private System.Windows.Forms.Timer TimerAdvanced;
+        private Guna.UI2.WinForms.Guna2ControlBox UiFormControlBoxClose;
+        private Guna.UI2.WinForms.Guna2ControlBox UiFormControlBoxMinimize;
+        private Guna.UI2.WinForms.Guna2PictureBox UiFormPictureBoxIcon;
+        private Guna.UI2.WinForms.Guna2HtmlLabel UiFormLabelApplicationName;
+        private Guna.UI2.WinForms.Guna2Panel UiFormPanel;
+        private Guna.UI2.WinForms.Guna2HtmlLabel UiFormLabelApplicationVersion;
+        private Guna.UI2.WinForms.Guna2TabControl UiFormTabControl;
+        private System.Windows.Forms.TabPage UiTabGeneral;
+        private System.Windows.Forms.TabPage UiTabStorage;
+        private System.Windows.Forms.TabPage UiTabHotkeys;
+        private System.Windows.Forms.TabPage UiTabLayout;
+        private System.Windows.Forms.TabPage UiTabStyle;
+        private System.Windows.Forms.TabPage UiTabColors;
+        private System.Windows.Forms.TabPage UiTabAdvanced;
+        private System.Windows.Forms.TabPage UiTabFeedback;
+        private System.Windows.Forms.TabPage UiTabAbout;
+        private Guna.UI2.WinForms.Guna2GroupBox UiGeneralGroupBoxBehaviour;
+        private Guna.UI2.WinForms.Guna2GroupBox UiGeneralGroupBoxClipboardList;
+        private Guna.UI2.WinForms.Guna2GroupBox UiAdvancedGroupDevVersion;
+        private Guna.UI2.WinForms.Guna2GroupBox UiAdvancedGroupBoxStatus;
+        private Guna.UI2.WinForms.Guna2GroupBox UiAdvancedGroupBoxTroubleshooting;
+        private Guna.UI2.WinForms.Guna2GroupBox UiAdvancedGroupBoxCleanup;
+        private Guna.UI2.WinForms.Guna2GroupBox UiColorsGroupBoxCustom;
+        private Guna.UI2.WinForms.Guna2GroupBox UiLayoutGroupBoxClipboardArea;
+        private Guna.UI2.WinForms.Guna2GroupBox UiLayoutGroupBoxShowClipboardListOn;
+        private Guna.UI2.WinForms.Guna2GroupBox UiLayoutGroupBoxClipboardLocation;
+        private Guna.UI2.WinForms.Guna2GroupBox UiStyleGroupBoxBorder;
+        private Guna.UI2.WinForms.Guna2GroupBox UiStyleGroupBoxFont;
+        private Guna.UI2.WinForms.Guna2GroupBox UiStyleGroupBoxIcon;
+        private Guna.UI2.WinForms.Guna2GroupBox UiColorsGroupBoxLooks;
+        private Guna.UI2.WinForms.Guna2GroupBox UiColorsGroupBoxTheme;
+        private Guna.UI2.WinForms.Guna2GroupBox UiStorageGroupBoxStorage;
+        private Guna.UI2.WinForms.Guna2GroupBox UiStorageGroupBoxInfo;
+        private Guna.UI2.WinForms.Guna2GroupBox UiHotkeysGroupBoxHotkeys;
+        private Guna.UI2.WinForms.Guna2GroupBox UiHotkeysGroupBoxPasteBehaviour;
+        private Guna.UI2.WinForms.Guna2ToggleSwitch UiGeneralToggleStartWithWindows;
+        private Guna.UI2.WinForms.Guna2ToggleSwitch UiGeneralToggleStartDisabled;
+        private Guna.UI2.WinForms.Guna2ToggleSwitch UiGeneralToggleRestoreOriginal;
+        private Guna.UI2.WinForms.Guna2ToggleSwitch UiGeneralToggleTrimWhitespaces;
+        private Guna.UI2.WinForms.Guna2ToggleSwitch UiGeneralToggleCloseMinimizes;
+        private Guna.UI2.WinForms.Guna2ToggleSwitch UiGeneralToggleEnableClipboard;
+        private Guna.UI2.WinForms.Guna2ToggleSwitch UiGeneralToggleEnableFavorites;
+        private Guna.UI2.WinForms.Guna2ToggleSwitch UiGeneralToggleIncludeImages;
+        private Guna.UI2.WinForms.Guna2ToggleSwitch UiGeneralTogglePasteToApplication;
+        private Guna.UI2.WinForms.Guna2ToggleSwitch UiGeneralToggleAlwaysPasteOriginal;
+        private System.Windows.Forms.TabPage UiTabDoc;
+        private Guna.UI2.WinForms.Guna2Button UiDocButtonOnlineDocumentation;
+        private System.Windows.Forms.Label UiGeneralLabelEnableClipboard;
+        private System.Windows.Forms.Label UiGeneralLabelEnableFavorites;
+        private System.Windows.Forms.Label UiGeneralLabelAlwaysPasteOriginal;
+        private System.Windows.Forms.Label UiGeneralLabelPasteToApplication;
+        private System.Windows.Forms.Label UiGeneralLabelIncludeImages;
+        private System.Windows.Forms.Label UiGeneralLabelStartWithWindows;
+        private System.Windows.Forms.Label UiGeneralLabelStartDisabled;
+        private System.Windows.Forms.Label UiGeneralLabelRestoreOriginal;
+        private System.Windows.Forms.Label UiGeneralLabelTrimWhitespaces;
+        private System.Windows.Forms.Label UiGeneralLabelCloseMinimizes;
+        private Guna.UI2.WinForms.Guna2TextBox UiStorageTextBoxInfo;
+        private Guna.UI2.WinForms.Guna2GradientPanel UiFormGradientPanel;
+        private System.Windows.Forms.Label UiStorageLabelSaveClipboards;
+        private Guna.UI2.WinForms.Guna2ToggleSwitch UiStorageToggleSaveClipboards;
+        private System.Windows.Forms.Label UiStorageLabelLoadClipboards;
+        private Guna.UI2.WinForms.Guna2ToggleSwitch UiStorageToggleLoadClipboards;
+        private System.Windows.Forms.Label UiStorageLabelSaveOnlyText;
+        private Guna.UI2.WinForms.Guna2CustomRadioButton UiStorageRadioSaveOnlyText;
+        private System.Windows.Forms.Label UiStorageLabelSaveAll;
+        private Guna.UI2.WinForms.Guna2CustomRadioButton UiStorageRadioSaveAll;
+        private System.Windows.Forms.Label UiStorageLabelSaveOnlyFavorites;
+        private Guna.UI2.WinForms.Guna2CustomRadioButton UiStorageRadioSaveOnlyFavorites;
+        private Guna.UI2.WinForms.Guna2TrackBar UiStorageTrackBarEntriesToSave;
+        private System.Windows.Forms.Label UiHotkeysLabelPasteOnHotkey;
+        private Guna.UI2.WinForms.Guna2CustomRadioButton UiHotkeysRadioPasteOnHotkey;
+        private System.Windows.Forms.Label UiHotkeysLabelUseStandardWindowsMethod;
+        private Guna.UI2.WinForms.Guna2CustomRadioButton UiHotkeysRadioUseStandardWindowsMethod;
+        private Guna.UI2.WinForms.Guna2Button UiHotkeysButtonPasteHotkey;
+        private Guna.UI2.WinForms.Guna2Button UiHotkeysButtonToggleApplication;
+        private Guna.UI2.WinForms.Guna2Button UiHotkeysButtonSearch;
+        private Guna.UI2.WinForms.Guna2Button UiHotkeysButtonToggleFavorite;
+        private Guna.UI2.WinForms.Guna2Button UiHotkeysButtonCancel;
+        private Guna.UI2.WinForms.Guna2Button UiHotkeysButtonApply;
+        private Guna.UI2.WinForms.Guna2TrackBar UiLayoutTrackBarMargin;
+        private Guna.UI2.WinForms.Guna2TrackBar UiLayoutTrackBarHeight;
+        private Guna.UI2.WinForms.Guna2TrackBar UiLayoutTrackBarWidth;
+        private Guna.UI2.WinForms.Guna2TrackBar UiLayoutTrackBarVisibleElements;
+        private System.Windows.Forms.Label UiLayoutLabelRightBottom;
+        private Guna.UI2.WinForms.Guna2CustomRadioButton UiLayoutRadioRightBottom;
+        private System.Windows.Forms.Label UiLayoutLabelRightTop;
+        private Guna.UI2.WinForms.Guna2CustomRadioButton UiLayoutRadioRightTop;
+        private System.Windows.Forms.Label UiLayoutLabelCenter;
+        private Guna.UI2.WinForms.Guna2CustomRadioButton UiLayoutRadioCenter;
+        private System.Windows.Forms.Label UiLayoutLabelLeftBottom;
+        private Guna.UI2.WinForms.Guna2CustomRadioButton UiLayoutRadioLeftBottom;
+        private System.Windows.Forms.Label UiLayoutLabelLeftTop;
+        private Guna.UI2.WinForms.Guna2CustomRadioButton UiLayoutRadioLeftTop;
+        private System.Windows.Forms.Label UiAdvancedLabelEnableLog;
+        private Guna.UI2.WinForms.Guna2ToggleSwitch UiAdvancedToggleEnableLog;
+        private Guna.UI2.WinForms.Guna2Button UiAdvancedButtonDeleteLog;
+        private Guna.UI2.WinForms.Guna2Button UiAdvancedButtonOpenLocation;
+        private Guna.UI2.WinForms.Guna2Button UiAdvancedButtonClearClipboards;
+        private Guna.UI2.WinForms.Guna2Button UiAdvancedButtonAutoInstall;
+        private Guna.UI2.WinForms.Guna2Button UiAdvancedButtonManualDownload;
+        private Guna.UI2.WinForms.Guna2Button UiAdvancedButtonCleanup;
+        private Guna.UI2.WinForms.Guna2Button UiStyleButtonFont;
+        private Guna.UI2.WinForms.Guna2HtmlLabel UiStyleLabelFont;
+        private Guna.UI2.WinForms.Guna2TrackBar UiStyleTrackBarBorder;
+        private System.Windows.Forms.Label UiStyleLabelIconSquareOriginal;
+        private Guna.UI2.WinForms.Guna2CustomRadioButton UiStyleRadioIconSquareOriginal;
+        private System.Windows.Forms.Label UiStyleLabelIconSquareModern;
+        private Guna.UI2.WinForms.Guna2CustomRadioButton UiStyleRadioIconSquareModern;
+        private System.Windows.Forms.Label UiStyleLabelIconRoundModern;
+        private Guna.UI2.WinForms.Guna2CustomRadioButton UiStyleRadioIconRoundModern;
+        private System.Windows.Forms.Label UiColorsLabelCustom;
+        private Guna.UI2.WinForms.Guna2CustomRadioButton UiColorsRadioCustom;
+        private System.Windows.Forms.Label UiColorsLabelContrast;
+        private Guna.UI2.WinForms.Guna2CustomRadioButton UiColorsRadioContrast;
+        private System.Windows.Forms.Label UiColorsLabelYellow;
+        private Guna.UI2.WinForms.Guna2CustomRadioButton UiColorsRadioYellow;
+        private System.Windows.Forms.Label UiColorsLabelGreen;
+        private Guna.UI2.WinForms.Guna2CustomRadioButton UiColorsRadioGreen;
+        private System.Windows.Forms.Label UiColorsLabelBrown;
+        private Guna.UI2.WinForms.Guna2CustomRadioButton UiColorsRadioBrown;
+        private System.Windows.Forms.Label UiColorsLabelBlue;
+        private Guna.UI2.WinForms.Guna2CustomRadioButton UiColorsRadioBlue;
+        private Guna.UI2.WinForms.Guna2Button UiColorsButtonHeaderBackground;
+        private Guna.UI2.WinForms.Guna2Button UiColorsButtonBorder;
+        private Guna.UI2.WinForms.Guna2Button UiColorsButtonEntryText;
+        private Guna.UI2.WinForms.Guna2Button UiColorsButtonEntryBackground;
+        private Guna.UI2.WinForms.Guna2Button UiColorsButtonActiveText;
+        private Guna.UI2.WinForms.Guna2Button UiColorsButtonActiveBackground;
+        private Guna.UI2.WinForms.Guna2Button UiColorsButtonSearchText;
+        private Guna.UI2.WinForms.Guna2Button UiColorsButtonSearchBackground;
+        private Guna.UI2.WinForms.Guna2Button UiColorsButtonHeaderText;
+        private Guna.UI2.WinForms.Guna2Button UiFeedbackButtonSubmit;
+        private Guna.UI2.WinForms.Guna2TextBox UiFeedbackTextBoxEmail;
+        private System.Windows.Forms.Label UiFeedbackLabelAttachLog;
+        private Guna.UI2.WinForms.Guna2ToggleSwitch UiFeedbackToggleAttachLog;
+        private Guna.UI2.WinForms.Guna2TextBox UiFeedbackTextBoxFeedback;
+        private Guna.UI2.WinForms.Guna2HtmlLabel UiAboutLabelText;
+        private Guna.UI2.WinForms.Guna2HtmlLabel UiAboutLabelRelease;
+        private Guna.UI2.WinForms.Guna2Button UiDocButtonGitHub;
+        private Guna.UI2.WinForms.Guna2Button UiDocButtonChangelog;
+        private Guna.UI2.WinForms.Guna2HtmlLabel UiAboutLabelHeadline;
+        private Guna.UI2.WinForms.Guna2HtmlLabel UiDocLabelOnlineDocumentation;
+        private Guna.UI2.WinForms.Guna2HtmlLabel UiDocLabelGitHub;
+        private Guna.UI2.WinForms.Guna2HtmlLabel UiDocLabelChangelog;
+        private Guna.UI2.WinForms.Guna2HtmlLabel UiStorageLabelSaveOnlyTextEntries;
+        private Guna.UI2.WinForms.Guna2HtmlLabel UiStorageLabelSaveOnlyFavoritesEntries;
+        private Guna.UI2.WinForms.Guna2HtmlLabel UiStorageLabelSaveAllEntries;
+        private Guna.UI2.WinForms.Guna2TextBox UiFeedbackLabelIntro;
+        private Guna.UI2.WinForms.Guna2HtmlLabel UiDocLabelDonators;
+        private Guna.UI2.WinForms.Guna2Button UiDocButtonDonators;
+        private System.Windows.Forms.Label UiGeneralLabelEnableClipboardShortcut;
+        private Guna.UI2.WinForms.Guna2HtmlLabel UiGeneralLabelDisclaimer;
     }
 
 }

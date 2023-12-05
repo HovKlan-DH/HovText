@@ -14,6 +14,7 @@ using Microsoft.Win32;
 using System;
 using System.IO;
 using System.IO.Pipes;
+using System.Linq;
 using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
@@ -27,6 +28,7 @@ namespace HovText
         public static string arg0 = "";
         private static Mutex _mutex;
         private static NamedPipeServerStream _pipeServer;
+        public static bool StartMinimized = false;
 
         [STAThread] // STAThreadAttribute indicates that the COM threading model for the application is single-threaded apartment, https://stackoverflow.com/a/1361048/2028935
 
@@ -74,6 +76,12 @@ namespace HovText
                     {
                         return 0;
                     }
+                }
+
+                // Check for start minimized argument
+                if (args.Contains("--start-minimized"))
+                {
+                    StartMinimized = true;
                 }
             }
 
@@ -144,10 +152,10 @@ namespace HovText
             }
 
             // Check if we already did show the tray notification (this equals we do not need to show the "Welcome Guide" again)
-            string notificationShow = Settings.GetRegistryKey(Settings.registryPath, "NotificationShown");
+            string welcomeShow = Settings.GetRegistryKey(Settings.registryPath, "WelcomeShown");
 
             // Show the "Welcome Guide" form as a modal dialog
-            if(notificationShow == "0")
+            if(welcomeShow != "1")
             {
                 Welcome welcomeForm = new Welcome();
                 welcomeForm.ShowDialog();
