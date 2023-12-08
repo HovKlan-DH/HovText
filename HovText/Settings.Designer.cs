@@ -84,7 +84,6 @@
             this.UiAdvancedLabelClipboardEntries = new System.Windows.Forms.Label();
             this.UiAdvancedLabelMemUsed = new System.Windows.Forms.Label();
             this.UiAdvancedLabelDevVersion = new System.Windows.Forms.Label();
-            this.UiAdvancedPictureBoxDevRefresh = new System.Windows.Forms.PictureBox();
             this.UiAdvancedLabelDisclaimer = new System.Windows.Forms.Label();
             this.UiAdvancedLabelCleanup = new System.Windows.Forms.Label();
             this.UiFeedbackLabelFeedback = new System.Windows.Forms.Label();
@@ -230,6 +229,9 @@
             this.UiAdvancedGroupBoxStatus = new Guna.UI2.WinForms.Guna2GroupBox();
             this.UiAdvancedButtonClearClipboards = new Guna.UI2.WinForms.Guna2Button();
             this.UiAdvancedGroupDevVersion = new Guna.UI2.WinForms.Guna2GroupBox();
+            this.UiAdvancedPanelDevRefresh = new System.Windows.Forms.Panel();
+            this.UiAdvancedPicture2BoxDevRefresh = new System.Windows.Forms.PictureBox();
+            this.UiAdvancedPicture1BoxDevRefresh = new System.Windows.Forms.PictureBox();
             this.UiAdvancedButtonAutoInstall = new Guna.UI2.WinForms.Guna2Button();
             this.UiAdvancedButtonManualDownload = new Guna.UI2.WinForms.Guna2Button();
             this.UiTabDoc = new System.Windows.Forms.TabPage();
@@ -265,7 +267,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.UiStyleOictureBoxIcon3)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.UiStyleOictureBoxIcon2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.UiStyleOictureBoxIcon1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.UiAdvancedPictureBoxDevRefresh)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.UiFormPictureBoxIcon)).BeginInit();
             this.UiFormPanel.SuspendLayout();
             this.UiFormTabControl.SuspendLayout();
@@ -294,6 +295,9 @@
             this.UiAdvancedGroupBoxTroubleshooting.SuspendLayout();
             this.UiAdvancedGroupBoxStatus.SuspendLayout();
             this.UiAdvancedGroupDevVersion.SuspendLayout();
+            this.UiAdvancedPanelDevRefresh.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.UiAdvancedPicture2BoxDevRefresh)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.UiAdvancedPicture1BoxDevRefresh)).BeginInit();
             this.UiTabDoc.SuspendLayout();
             this.UiTabFeedback.SuspendLayout();
             this.UiTabAbout.SuspendLayout();
@@ -474,12 +478,12 @@
             // 
             this.UiHotkeysLabelToggleApplication.AutoSize = true;
             this.UiHotkeysLabelToggleApplication.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.UiHotkeysLabelToggleApplication.Location = new System.Drawing.Point(13, 59);
+            this.UiHotkeysLabelToggleApplication.Location = new System.Drawing.Point(9, 59);
             this.UiHotkeysLabelToggleApplication.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.UiHotkeysLabelToggleApplication.Name = "UiHotkeysLabelToggleApplication";
-            this.UiHotkeysLabelToggleApplication.Size = new System.Drawing.Size(201, 23);
+            this.UiHotkeysLabelToggleApplication.Size = new System.Drawing.Size(210, 23);
             this.UiHotkeysLabelToggleApplication.TabIndex = 1000;
-            this.UiHotkeysLabelToggleApplication.Text = "Toggle application on/off";
+            this.UiHotkeysLabelToggleApplication.Text = "Enable/disable application";
             // 
             // UiFormLabelLoadingPanel
             // 
@@ -799,6 +803,7 @@
             // UiAdvancedLabelDevVersion
             // 
             this.UiAdvancedLabelDevVersion.BackColor = System.Drawing.Color.Transparent;
+            this.UiAdvancedLabelDevVersion.Cursor = System.Windows.Forms.Cursors.Hand;
             this.UiAdvancedLabelDevVersion.Enabled = false;
             this.UiAdvancedLabelDevVersion.Font = new System.Drawing.Font("Segoe UI Semibold", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.UiAdvancedLabelDevVersion.Location = new System.Drawing.Point(47, 51);
@@ -808,18 +813,6 @@
             this.UiAdvancedLabelDevVersion.Text = "Please wait ...";
             this.UiAdvancedLabelDevVersion.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.UiAdvancedLabelDevVersion.Click += new System.EventHandler(this.GuiDevelopmentRefresh_Click);
-            // 
-            // UiAdvancedPictureBoxDevRefresh
-            // 
-            this.UiAdvancedPictureBoxDevRefresh.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.UiAdvancedPictureBoxDevRefresh.Image = ((System.Drawing.Image)(resources.GetObject("UiAdvancedPictureBoxDevRefresh.Image")));
-            this.UiAdvancedPictureBoxDevRefresh.InitialImage = null;
-            this.UiAdvancedPictureBoxDevRefresh.Location = new System.Drawing.Point(22, 58);
-            this.UiAdvancedPictureBoxDevRefresh.Name = "UiAdvancedPictureBoxDevRefresh";
-            this.UiAdvancedPictureBoxDevRefresh.Size = new System.Drawing.Size(33, 29);
-            this.UiAdvancedPictureBoxDevRefresh.TabIndex = 515;
-            this.UiAdvancedPictureBoxDevRefresh.TabStop = false;
-            this.UiAdvancedPictureBoxDevRefresh.Click += new System.EventHandler(this.GuiDevelopmentRefresh_Click);
             // 
             // UiAdvancedLabelDisclaimer
             // 
@@ -1251,9 +1244,9 @@
             this.UiGeneralLabelAlwaysPasteOriginal.Font = new System.Drawing.Font("Segoe UI", 10F);
             this.UiGeneralLabelAlwaysPasteOriginal.Location = new System.Drawing.Point(59, 176);
             this.UiGeneralLabelAlwaysPasteOriginal.Name = "UiGeneralLabelAlwaysPasteOriginal";
-            this.UiGeneralLabelAlwaysPasteOriginal.Size = new System.Drawing.Size(362, 23);
+            this.UiGeneralLabelAlwaysPasteOriginal.Size = new System.Drawing.Size(286, 23);
             this.UiGeneralLabelAlwaysPasteOriginal.TabIndex = 0;
-            this.UiGeneralLabelAlwaysPasteOriginal.Text = "Always paste original/formatted clipboard text";
+            this.UiGeneralLabelAlwaysPasteOriginal.Text = "Always paste original/formatted text";
             this.UiGeneralLabelAlwaysPasteOriginal.Click += new System.EventHandler(this.UiGeneralLabelAlwaysPasteOriginal_Click);
             // 
             // UiGeneralLabelPasteToApplication
@@ -3003,11 +2996,11 @@
             // UiAdvancedGroupDevVersion
             // 
             this.UiAdvancedGroupDevVersion.BorderRadius = 5;
+            this.UiAdvancedGroupDevVersion.Controls.Add(this.UiAdvancedPanelDevRefresh);
             this.UiAdvancedGroupDevVersion.Controls.Add(this.UiAdvancedButtonAutoInstall);
             this.UiAdvancedGroupDevVersion.Controls.Add(this.UiAdvancedButtonManualDownload);
             this.UiAdvancedGroupDevVersion.Controls.Add(this.UiAdvancedLabelDisclaimer);
             this.UiAdvancedGroupDevVersion.Controls.Add(this.UiAdvancedLabelDevVersion);
-            this.UiAdvancedGroupDevVersion.Controls.Add(this.UiAdvancedPictureBoxDevRefresh);
             this.UiAdvancedGroupDevVersion.CustomBorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(227)))), ((int)(((byte)(220)))));
             this.UiAdvancedGroupDevVersion.Font = new System.Drawing.Font("Segoe UI", 11F);
             this.UiAdvancedGroupDevVersion.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
@@ -3016,6 +3009,41 @@
             this.UiAdvancedGroupDevVersion.Size = new System.Drawing.Size(525, 202);
             this.UiAdvancedGroupDevVersion.TabIndex = 522;
             this.UiAdvancedGroupDevVersion.Text = "Development version available for testing";
+            // 
+            // UiAdvancedPanelDevRefresh
+            // 
+            this.UiAdvancedPanelDevRefresh.Controls.Add(this.UiAdvancedPicture2BoxDevRefresh);
+            this.UiAdvancedPanelDevRefresh.Controls.Add(this.UiAdvancedPicture1BoxDevRefresh);
+            this.UiAdvancedPanelDevRefresh.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.UiAdvancedPanelDevRefresh.Location = new System.Drawing.Point(10, 50);
+            this.UiAdvancedPanelDevRefresh.Name = "UiAdvancedPanelDevRefresh";
+            this.UiAdvancedPanelDevRefresh.Size = new System.Drawing.Size(35, 35);
+            this.UiAdvancedPanelDevRefresh.TabIndex = 1010;
+            this.UiAdvancedPanelDevRefresh.Click += new System.EventHandler(this.GuiDevelopmentRefresh_Click);
+            // 
+            // UiAdvancedPicture2BoxDevRefresh
+            // 
+            this.UiAdvancedPicture2BoxDevRefresh.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.UiAdvancedPicture2BoxDevRefresh.Image = ((System.Drawing.Image)(resources.GetObject("UiAdvancedPicture2BoxDevRefresh.Image")));
+            this.UiAdvancedPicture2BoxDevRefresh.Location = new System.Drawing.Point(0, 0);
+            this.UiAdvancedPicture2BoxDevRefresh.Name = "UiAdvancedPicture2BoxDevRefresh";
+            this.UiAdvancedPicture2BoxDevRefresh.Size = new System.Drawing.Size(35, 35);
+            this.UiAdvancedPicture2BoxDevRefresh.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.UiAdvancedPicture2BoxDevRefresh.TabIndex = 1010;
+            this.UiAdvancedPicture2BoxDevRefresh.TabStop = false;
+            this.UiAdvancedPicture2BoxDevRefresh.Click += new System.EventHandler(this.GuiDevelopmentRefresh_Click);
+            // 
+            // UiAdvancedPicture1BoxDevRefresh
+            // 
+            this.UiAdvancedPicture1BoxDevRefresh.Cursor = System.Windows.Forms.Cursors.Default;
+            this.UiAdvancedPicture1BoxDevRefresh.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.UiAdvancedPicture1BoxDevRefresh.Image = ((System.Drawing.Image)(resources.GetObject("UiAdvancedPicture1BoxDevRefresh.Image")));
+            this.UiAdvancedPicture1BoxDevRefresh.Location = new System.Drawing.Point(0, 0);
+            this.UiAdvancedPicture1BoxDevRefresh.Name = "UiAdvancedPicture1BoxDevRefresh";
+            this.UiAdvancedPicture1BoxDevRefresh.Size = new System.Drawing.Size(35, 35);
+            this.UiAdvancedPicture1BoxDevRefresh.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.UiAdvancedPicture1BoxDevRefresh.TabIndex = 1009;
+            this.UiAdvancedPicture1BoxDevRefresh.TabStop = false;
             // 
             // UiAdvancedButtonAutoInstall
             // 
@@ -3390,7 +3418,7 @@
             // 
             this.UiAboutLabelText.AutoSize = false;
             this.UiAboutLabelText.BackColor = System.Drawing.Color.Transparent;
-            this.UiAboutLabelText.Font = new System.Drawing.Font("Segoe UI", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.UiAboutLabelText.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.UiAboutLabelText.IsSelectionEnabled = false;
             this.UiAboutLabelText.Location = new System.Drawing.Point(13, 100);
             this.UiAboutLabelText.Name = "UiAboutLabelText";
@@ -3438,7 +3466,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.UiStyleOictureBoxIcon3)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.UiStyleOictureBoxIcon2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.UiStyleOictureBoxIcon1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.UiAdvancedPictureBoxDevRefresh)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.UiFormPictureBoxIcon)).EndInit();
             this.UiFormPanel.ResumeLayout(false);
             this.UiFormPanel.PerformLayout();
@@ -3481,6 +3508,9 @@
             this.UiAdvancedGroupBoxStatus.ResumeLayout(false);
             this.UiAdvancedGroupBoxStatus.PerformLayout();
             this.UiAdvancedGroupDevVersion.ResumeLayout(false);
+            this.UiAdvancedPanelDevRefresh.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.UiAdvancedPicture2BoxDevRefresh)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.UiAdvancedPicture1BoxDevRefresh)).EndInit();
             this.UiTabDoc.ResumeLayout(false);
             this.UiTabFeedback.ResumeLayout(false);
             this.UiTabFeedback.PerformLayout();
@@ -3534,7 +3564,6 @@
         private System.Windows.Forms.PictureBox UiStyleOictureBoxIcon5;
         private System.Windows.Forms.PictureBox UiStyleOictureBoxIcon6;
         private System.Windows.Forms.PictureBox UiAboutPictureBoxPaypal;
-        private System.Windows.Forms.PictureBox UiAdvancedPictureBoxDevRefresh;
         private System.Windows.Forms.Timer TimerTerminate;
         private System.Windows.Forms.Label UiColorsLabelEntry;
         private System.Windows.Forms.Label UiColorsLabelActive;
@@ -3714,6 +3743,9 @@
         private Guna.UI2.WinForms.Guna2Button UiDocButtonDonators;
         private System.Windows.Forms.Label UiGeneralLabelEnableClipboardShortcut;
         private Guna.UI2.WinForms.Guna2HtmlLabel UiGeneralLabelDisclaimer;
+        private System.Windows.Forms.PictureBox UiAdvancedPicture1BoxDevRefresh;
+        private System.Windows.Forms.Panel UiAdvancedPanelDevRefresh;
+        private System.Windows.Forms.PictureBox UiAdvancedPicture2BoxDevRefresh;
     }
 
 }

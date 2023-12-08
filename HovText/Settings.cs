@@ -8,6 +8,7 @@ This is the main form for the HovText application.
 ##################################################################################################
 */
 
+
 using Guna.UI2.WinForms;
 using HovText.Properties;
 using Microsoft.Win32;
@@ -262,6 +263,7 @@ namespace HovText
         private int cornerRadius = 10; // Radius of the rounded corners
         private int borderWidth = 1; // Width of the border
         private int maxClipboardEntriesToSave = 500;
+        private bool isClosing = false;
 
 
         // ###########################################################################################
@@ -430,25 +432,10 @@ namespace HovText
             {
                 if (File.Exists(pathAndData))
                 {
-                    UiFormTabControl.Enabled = false;
-                    UiFormTabControl.TabButtonSelectedState.FillColor = Color.LightGray;
-                    UiFormTabControl.TabButtonSelectedState.ForeColor = Color.DarkGray;
-
                     isClipboardLoadingFromFile = true; // calling many of the same functions, but somewhere we need to do special stuff when this is loaded from start
 
                     // Show the "Loading" panel
-                    UiFormLabelLoadingPanel.Dock = DockStyle.Fill;
-                    UiFormLabelLoadingPanel.Visible = true;
-                    UiFormLabelLoadingPanel.BringToFront();
-
-                    // Calculate and set the label's location to center it within panel1
-                    UiFormLabelLoadingText.AutoSize = false;
-                    UiFormLabelLoadingText.Width = UiFormLabelLoadingPanel.ClientSize.Width;
-                    UiFormLabelLoadingText.Height = 30; // Set this to an appropriate value for your label
-                    UiFormLabelLoadingText.TextAlign = ContentAlignment.MiddleCenter;
-                    int x = (UiFormLabelLoadingPanel.ClientSize.Width - UiFormLabelLoadingText.Width) / 2;
-                    int y = (UiFormLabelLoadingPanel.ClientSize.Height - UiFormLabelLoadingText.Height) / 2;
-                    UiFormLabelLoadingText.Location = new Point(x, y);
+                    UpdateDataFileProcessingUi("Please wait while processing data file");
 
                     LoadEntriesFromFile();
                 }
@@ -470,14 +457,14 @@ namespace HovText
         }
 
 
-    // ###########################################################################################
-    // Save history to a data file
-    // ###########################################################################################
-
-    public void SaveEntriesToFile()
+        // ###########################################################################################
+        // Save history to a data file
+        // ###########################################################################################
+               
+        public void SaveEntriesToFile()
         {
             // Only save if the "Save" toggle is enabled
-            if(UiGeneralToggleEnableClipboard.Checked)
+            if (UiGeneralToggleEnableClipboard.Checked)
             {
 
                 // Temporary dictionaries/lists
@@ -1731,14 +1718,43 @@ namespace HovText
 
 
         // ###########################################################################################
+        // Update the closing UI for the "save file"
+        // ###########################################################################################
+
+        private void UpdateDataFileProcessingUi(string text)
+        {                    
+            // Update UI from the UI thread
+            UiFormTabControl.Enabled = false;
+            UiFormTabControl.TabButtonSelectedState.FillColor = Color.LightGray;
+            UiFormTabControl.TabButtonSelectedState.ForeColor = Color.DarkGray;
+
+            // Show the "Loading" panel
+            UiFormLabelLoadingText.Text = text;
+            UiFormLabelLoadingPanel.Dock = DockStyle.Fill;
+            UiFormLabelLoadingPanel.Visible = true;
+            UiFormLabelLoadingPanel.BringToFront();
+
+            // Calculate and set the label's location to center it within panel1
+            UiFormLabelLoadingText.AutoSize = false;
+            UiFormLabelLoadingText.Width = UiFormLabelLoadingPanel.ClientSize.Width;
+            UiFormLabelLoadingText.Height = 30; // Set this to an appropriate value for your label
+            UiFormLabelLoadingText.TextAlign = ContentAlignment.MiddleCenter;
+            int x = (UiFormLabelLoadingPanel.ClientSize.Width - UiFormLabelLoadingText.Width) / 2;
+            int y = (UiFormLabelLoadingPanel.ClientSize.Height - UiFormLabelLoadingText.Height) / 2;
+            UiFormLabelLoadingText.Location = new Point(x, y);
+        }
+
+
+        // ###########################################################################################
         // Unregister from the clipboard chain, and remove hotkeys when application is closing down
         // ###########################################################################################
 
-        private void MainWindow_FormClosing(object sender, FormClosingEventArgs e)
+        private async void MainWindow_FormClosing(object sender, FormClosingEventArgs e)
         {
             // In case windows is trying to shut down, don't hold up the process
             if (e.CloseReason == CloseReason.WindowsShutDown)
             {
+
                 Logging.Log("Exit HovText");
                 NativeMethods.RemoveClipboardFormatListener(this.Handle);
                 Logging.Log("Removed HovText from clipboard chain");
@@ -1750,7 +1766,6 @@ namespace HovText
                 {
                     SaveEntriesToFile();
                 }
-
 
                 Logging.EndLogging();
 
@@ -1774,19 +1789,28 @@ namespace HovText
                 return;
             }
 
+            // Normal exit
             if (!UiGeneralToggleCloseMinimizes.Checked || isClosedFromNotifyIcon)
             {
+                if (isClosing) return;
+                e.Cancel = true; // Prevent form from closing immediately
+
+                UpdateDataFileProcessingUi("Please wait while processing data file - saving relevant clipboards ...");
+
                 Logging.Log("Exit HovText");
                 NativeMethods.RemoveClipboardFormatListener(this.Handle);
                 Logging.Log("Removed HovText from clipboard chain");
 
                 RemoveAllHotkeys();
 
-                // Should we save the clipboard to data file?
-                if (UiStorageToggleSaveClipboards.Checked && !cleanupApp)
+                await Task.Run(() =>
                 {
-                    SaveEntriesToFile();
-                }
+                    // Should we save the clipboard to data file?
+                    if (UiStorageToggleSaveClipboards.Checked)
+                    {
+                        SaveEntriesToFile();
+                    }
+                });
 
                 Logging.EndLogging();
 
@@ -1796,6 +1820,9 @@ namespace HovText
                     DeleteFiles();
                 }
 
+                isClosing = true; // indicate that closing is in progress
+                this.BeginInvoke(new Action(() => this.Close())); // close the form on the UI thread
+                
                 return;
             }
 
@@ -1869,7 +1896,7 @@ namespace HovText
         {
             TimerUpdateVersion.Enabled = false;
 
-//            Logging.Log("Version check timer expired");
+            //            Logging.Log("Version check timer expired");
             Logging.Log("Versions in scope:");
             Logging.Log("  User is running version = [" + appVer + "]");
 
@@ -2462,6 +2489,8 @@ namespace HovText
 
             // Update timer
             TimerUpdateVersion.Enabled = true;
+            UiAdvancedPicture1BoxDevRefresh.Visible = true;
+            UiAdvancedPicture2BoxDevRefresh.Visible = false;
             UiAdvancedLabelDevVersion.Enabled = true;
             UiAdvancedLabelDisclaimer.Enabled = true;
             UiAdvancedLabelDevVersion.Text = "Please wait ...";
@@ -3261,11 +3290,13 @@ namespace HovText
         // ###########################################################################################
         // When clicking the "Exit" in the tray icon menu
         // ###########################################################################################
+                
 
         private void TrayIconExit_Click(object sender, EventArgs e)
         {
             Logging.Log("Clicked tray icon \"Exit\"");
             isClosedFromNotifyIcon = true;
+                        
             Close();
         }
 
@@ -4302,6 +4333,7 @@ namespace HovText
 
             // Exit HovText
             cleanupApp = true;
+
             Close();
         }
 
@@ -5048,6 +5080,9 @@ del ""%~f0"" >> """ + pathAndTempLog + @"""
         {
             UiAdvancedLabelDevVersion.Text = "Please wait ...";
 
+            UiAdvancedPicture1BoxDevRefresh.Visible = true;
+            UiAdvancedPicture2BoxDevRefresh.Visible = false;
+
             // Check for a new development version
             try
             {
@@ -5084,6 +5119,9 @@ del ""%~f0"" >> """ + pathAndTempLog + @"""
                     UiAdvancedLabelDevVersion.Text = "ERROR";
                     Logging.Log("  Development version available = [ERROR]");
                 }
+                UiAdvancedPicture1BoxDevRefresh.Visible = false;
+                UiAdvancedPicture2BoxDevRefresh.Visible = true;
+
             }
             catch (WebException ex)
             {
