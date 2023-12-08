@@ -8,7 +8,6 @@ This is the main form for the HovText application.
 ##################################################################################################
 */
 
-
 using Guna.UI2.WinForms;
 using HovText.Properties;
 using Microsoft.Win32;
@@ -19,7 +18,6 @@ using System.Collections.Specialized;
 using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Drawing2D;
-using System.Globalization;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
@@ -250,20 +248,21 @@ namespace HovText
         private static string pathAndTempLog;
         readonly string dataFile = "HovText.bin";
         readonly string troubleshootLog = "HovText-troubleshooting.txt";
-        readonly string saveContentFileExist = "HovText-save-content-in-logfile.txt"; // should ONLY be used by Dennis!
+        readonly string saveContentFileExist = "HovText-save-content-in-logfile.txt"; // should ONLY be used by Dennis/developer for debugging!!!
         static readonly string tempExe = "HovText-new.exe";
         static readonly string tempCmd = "HovText-batch-update.cmd";
         static readonly string tempLog = "HovText-batch-update-log.txt";
-        // Get the name for this HovText executable (it may not be "HovText.exe")
         static string exeFileNameWithPath;
         static string exeFileNameWithoutExtension;
         private bool isApplicationEnabled = true;
         public static byte[] encryptionKey;
         public static byte[] encryptionInitializationVector;
-        private int cornerRadius = 10; // Radius of the rounded corners
-        private int borderWidth = 1; // Width of the border
         private int maxClipboardEntriesToSave = 500;
         private bool isClosing = false;
+        private bool shownMemoryWarning = false; // "true" if the memory tray notification warning has been shown
+        private int memoryInMB = 0;
+        private int old_memoryInMB = -1;
+        int borderWidth = 1;
 
 
         // ###########################################################################################
@@ -400,10 +399,11 @@ namespace HovText
             InitializeRegistry();
             GetStartupSettings();
 
+            // Do not at all show the form, if it should start minimized
             if (Program.StartMinimized)
             {
                 this.WindowState = FormWindowState.Minimized;
-                this.ShowInTaskbar = false; // Optional, to hide the form from the taskbar
+//                this.ShowInTaskbar = false;
             }
 
             // Should we start in "disabled" mode?
@@ -439,14 +439,10 @@ namespace HovText
 
                     LoadEntriesFromFile();
                 }
-            } else
-            {
-                UiAdvancedButtonClearClipboards.Enabled = true;
+//            } else
+//            {
+//                UiAdvancedButtonClearClipboards.Enabled = true;
             }
-
-            // Update meory status and clipboard entries in "Advanced" tab
-            LogMemoryConsumed();
-            UpdateAdvancedStatus();
 
             // Catch "MouseDown" events for moving the application window
             UiFormPanel.MouseDown += new MouseEventHandler(TopBannerPanel_MouseDown);
@@ -454,15 +450,28 @@ namespace HovText
             UiFormLabelApplicationVersion.MouseDown += new MouseEventHandler(TopBannerPanel_MouseDown);
             UiFormLabelLoadingPanel.MouseDown += new MouseEventHandler(TopBannerPanel_MouseDown);
             UiFormLabelLoadingText.MouseDown += new MouseEventHandler(TopBannerPanel_MouseDown);
+
+            // Update meory status and clipboard entries in "Advanced" tab
+            GetMemoryConsumption();
+            LogMemoryConsumed();
+            UpdateStorageInfo();
+            UpdateAdvancedStatus();
+
+            // Start "GetMemoryConsumption" timer
+            TimerGetMemoryConsumption.Start();
         }
 
 
         // ###########################################################################################
         // Save history to a data file
         // ###########################################################################################
-               
+
         public void SaveEntriesToFile()
         {
+            // Start a stopwatch to measure the time it takes to save the data
+            Stopwatch stopwatch = new Stopwatch();
+            stopwatch.Start();
+
             // Only save if the "Save" toggle is enabled
             if (UiGeneralToggleEnableClipboard.Checked)
             {
@@ -583,6 +592,11 @@ namespace HovText
                     }
                 }
             }
+
+            // Stop the stopwatch and log the time it took to save the data
+            stopwatch.Stop();
+            string elapsedTimeFormatted = string.Format("Timing for saving clipboards to file: {0:hh\\:mm\\:ss\\.fff}", stopwatch.Elapsed);
+            Logging.Log(elapsedTimeFormatted);
         }
 
 
@@ -715,27 +729,29 @@ namespace HovText
 
         private void UpdatePanelVisibility()
         {
-            if (UiFormLabelLoadingPanel.InvokeRequired)
-            {
+//            if (UiFormLabelLoadingPanel.InvokeRequired)
+//            {
                 UiFormLabelLoadingPanel.Invoke(new Action(() =>
                 {
                     UiFormLabelLoadingPanel.Visible = false;
                     isClipboardLoadingFromFile = false;
-                    UiAdvancedButtonClearClipboards.Enabled = true; // enable the "Clear clipboards" button
+//                    UiAdvancedButtonClearClipboards.Enabled = true; // enable the "Clear clipboards" button
                     UiFormTabControl.Enabled = true;
                     UiFormTabControl.TabButtonSelectedState.FillColor = Color.FromArgb(56, 97, 55);
                     UiFormTabControl.TabButtonSelectedState.ForeColor = Color.FromArgb(227, 227, 227);
                 }));
-            }
-            else
-            {
-                UiFormLabelLoadingPanel.Visible = false;
-                isClipboardLoadingFromFile = false;
-                UiAdvancedButtonClearClipboards.Enabled = true; // enable the "Clear clipboards" button
-                UiFormTabControl.Enabled = true;
-                UiFormTabControl.TabButtonSelectedState.FillColor = Color.FromArgb(56, 97, 55);
-                UiFormTabControl.TabButtonSelectedState.ForeColor = Color.FromArgb(227, 227, 227);
-            }
+            /*
+                        }
+                        else
+                        {
+                            UiFormLabelLoadingPanel.Visible = false;
+                            isClipboardLoadingFromFile = false;
+                            UiAdvancedButtonClearClipboards.Enabled = true; // enable the "Clear clipboards" button
+                            UiFormTabControl.Enabled = true;
+                            UiFormTabControl.TabButtonSelectedState.FillColor = Color.FromArgb(56, 97, 55);
+                            UiFormTabControl.TabButtonSelectedState.ForeColor = Color.FromArgb(227, 227, 227);
+                        }
+            */
         }
 
 
@@ -758,7 +774,6 @@ namespace HovText
                         IntPtr whoUpdatedClipboardHwnd = NativeMethods.GetClipboardOwner();
                         uint threadId = NativeMethods.GetWindowThreadProcessId(whoUpdatedClipboardHwnd, out uint thisProcessId);
                         whoUpdatedClipboardName = Process.GetProcessById((int)thisProcessId).ProcessName;
-                        Debug.WriteLine("hest="+ whoUpdatedClipboardName);
 
                         // Do not process clipboard, if this is coming from HovText itself
                         if (whoUpdatedClipboardName != exeFileNameWithoutExtension)
@@ -1116,26 +1131,28 @@ namespace HovText
         {
             entryCounter = -1;
             entryIndex = -1;
-            entriesText.Clear();
-            entriesImage.Clear();
-            entriesImageTrans.Clear();
+            // ---
+            clipboardData = null;
             entriesApplication.Clear();
             entriesApplicationIcon.Clear();
+            entriesImage.Clear();
+            entriesImageTrans.Clear();
+            entriesIsEmail.Clear();
+            entriesIsFavorite.Clear();
+            entriesIsImage.Clear();
+            entriesIsTransparent.Clear();
+            entriesIsUrl.Clear();
             entriesOriginal.Clear();
             entriesShow.Clear();
-            entriesIsFavorite.Clear();
-            entriesIsUrl.Clear();
-            entriesIsEmail.Clear();
-            entriesIsTransparent.Clear();
-            entriesIsImage.Clear();
+            entriesText.Clear();
         }
 
 
-        // ###########################################################################################
-        // Add the content from clipboard to the data arrays
-        // ###########################################################################################
+    // ###########################################################################################
+    // Add the content from clipboard to the data arrays
+    // ###########################################################################################
 
-        private void AddEntry()
+    private void AddEntry()
         {
             // Clear the dictionaries if we do not catch the history
             if (!isEnabledHistory)
@@ -1291,8 +1308,6 @@ namespace HovText
 
             // Update the entries on the tray icon
             UpdateNotifyIconText();
-
-            LogMemoryConsumed();
         }
 
 
@@ -1681,7 +1696,7 @@ namespace HovText
         {
             if (WindowState == FormWindowState.Minimized)
             {
-                ShowTrayNotification();
+                ShowTrayNotifications("Running In Background");
                 Hide();
             }
         }
@@ -1840,7 +1855,7 @@ namespace HovText
             // Do not close as the X should minimize
             if (WindowState == FormWindowState.Normal)
             {
-                ShowTrayNotification();
+                ShowTrayNotifications("Running In Background");
                 Hide();
             }
 
@@ -3938,23 +3953,40 @@ namespace HovText
         // Show a notification if the user closes the application to tray for the very first time
         // ###########################################################################################
 
-        private void ShowTrayNotification()
+        private void ShowTrayNotifications(string action)
         {
+
             // Show a tray notification if this is the first time the user close the form (without exiting the application)
-            int notificationShown = int.Parse((string)GetRegistryKey(registryPath, "NotificationShown"));
-            if (notificationShown == 0)
+            if(action == "Running In Background")
+            {
+                int notificationShown = int.Parse((string)GetRegistryKey(registryPath, "NotificationShown"));
+                if (notificationShown == 0)
+                {
+                    IconNotify.Visible = true;
+                    IconNotify.ShowBalloonTip(
+                        10000,
+                        "HovText is still running",
+                        "HovText continues running in the background to perform its duties. You can see the icon in the tray area.",
+                        ToolTipIcon.Info
+                        );
+
+                    // Mark that we now have shown this
+                    SetRegistryKey(registryPath, "NotificationShown", "1");
+                }
+            }
+
+            // Show a tray notification if the application is consuming too much memory
+            if(action == "Memory Warning")
             {
                 IconNotify.Visible = true;
                 IconNotify.ShowBalloonTip(
-                    10000,
-                    "HovText is still running",
-                    "HovText continues running in the background to perform its duties. You can see the icon in the tray area.",
-                    ToolTipIcon.Info
+                    25000,
+                    "HovText is consuming more than 500 MB memory",
+                    "Please reduce the amount of images. View \"HovText Settings\" for more details.",
+                    ToolTipIcon.Warning
                     );
-
-                // Mark that we now have shown this
-                SetRegistryKey(registryPath, "NotificationShown", "1");
             }
+
         }
 
 
@@ -5267,28 +5299,46 @@ del ""%~f0"" >> """ + pathAndTempLog + @"""
         // which may include overhead from the .NET runtime and other libraries.
         // ###########################################################################################
 
-        private string GetMemoryUsage()
-        {
-            Process currentProcess = Process.GetCurrentProcess();
-            double memoryInMB = currentProcess.WorkingSet64 / 1024d / 1024d;
-
-            // Format the output to one decimal place with a comma as a thousand separator
-            string formattedMemoryUsage = memoryInMB.ToString("N1", CultureInfo.InvariantCulture);
-
-            return formattedMemoryUsage;
-        }
 
         private void LogMemoryConsumed()
         {
-            string tmp = GetMemoryUsage();
+            if(memoryInMB != old_memoryInMB)
+            {
+                Logging.Log("Memory consumption here-and-now: [" + memoryInMB + "] MB");
+            }
+            old_memoryInMB = memoryInMB;
+        }
 
-            Logging.Log($"Memory usage: {tmp} MB");
+        public void UpdateStorageInfo()
+        {
+            // In "Storage" tab and the the "Info" GroupBox
+            if (memoryInMB > 500)
+            {
+                if (!shownMemoryWarning)
+                {
+                    UiStorageGroupBoxInfo.CustomBorderColor = Color.IndianRed;
+                    UiStorageGroupBoxInfo.ForeColor = Color.White;
+                    UiStorageGroupBoxInfo.Text = "Info - Warning";
+                    guna2HtmlLabel2.ForeColor = Color.FromArgb(64, 64, 64);
+                    guna2HtmlLabel2.Text = "The high memory consumption indicates there <i>might</i> be a risk that the clipboard data cannot be saved in due time at computer shutdown or reboot! This is because it can take several seconds to save this much data to disk and Windows will enforce application termination when doing a Windows shutdown or reboot, if it takes too long.<br /><br />Please <b>reduce the amount of image clipboards</b>.";
+                    ShowTrayNotifications("Memory Warning");
+                    shownMemoryWarning = true;
+                }
+            }
+            else
+            {
+                UiStorageGroupBoxInfo.CustomBorderColor = Color.FromArgb(220, 227, 220);
+                UiStorageGroupBoxInfo.ForeColor = Color.FromArgb(64, 64, 64);
+                UiStorageGroupBoxInfo.Text = "Info";
+                guna2HtmlLabel2.Text = "Storage is per default configured to save only text entries, as you need to know that storing many image clipboards can cripple the responsiveness of the UI and consume a huge amount of memory! You are encouraged to test it, but do set a reasonable (low) amount of entries to save, if you include images. This of course fully depends on your computer configuration and resources.";
+            }
         }
 
         private void UpdateAdvancedStatus()
         {
-            string tmp = GetMemoryUsage();
-            UiAdvancedLabelMemUsed.Text = "Memory usage: " + tmp + " MB";
+            
+            string formattedMemoryUsage = "Memory usage: " + memoryInMB + " MB";
+            UiAdvancedLabelMemUsed.Text = formattedMemoryUsage;
 
             if (!isClipboardLoadingFromFile)
             {    
@@ -5320,17 +5370,9 @@ del ""%~f0"" >> """ + pathAndTempLog + @"""
                 else
                 {
                     UiStorageLabelSaveAllEntries.Text = "(" + countAll + " entries)";
-                }
+                }                  
             }
-        }
-
-        private void advancedTimer_Tick(object sender, EventArgs e)
-        {
-            if (this.Visible)
-            {
-                UpdateAdvancedStatus();
-            }
-        }
+        }     
 
 
         // ###########################################################################################
@@ -5354,8 +5396,6 @@ del ""%~f0"" >> """ + pathAndTempLog + @"""
             // Trigger the garbage collector to see the impact immediately
             GC.Collect();
             GC.WaitForPendingFinalizers();
-
-            LogMemoryConsumed();
         }
 
 
@@ -5485,6 +5525,7 @@ del ""%~f0"" >> """ + pathAndTempLog + @"""
 
         protected override void OnPaint(PaintEventArgs e)
         {
+            int cornerRadius = 10;
 
             base.OnPaint(e);
             Graphics g = e.Graphics;
@@ -5630,6 +5671,27 @@ del ""%~f0"" >> """ + pathAndTempLog + @"""
         private void UiFormPictureBoxIcon_Click(object sender, EventArgs e)
         {
             ToggleEnabled();
+        }
+
+
+        // ###########################################################################################
+        // Memory consumption timer
+        // ###########################################################################################
+
+        private void TimerGetMemoryConsumption_Tick(object sender, EventArgs e)
+        {
+            GetMemoryConsumption();
+            LogMemoryConsumed();
+            UpdateStorageInfo();
+            UpdateAdvancedStatus();
+        }
+
+        private void GetMemoryConsumption()
+        {
+            // Get the current memory usage
+            Process currentProcess = Process.GetCurrentProcess();
+            double tmp_memoryInMB = currentProcess.WorkingSet64 / 1024d / 1024d;
+            memoryInMB = (int) Math.Round(tmp_memoryInMB);
         }
 
 

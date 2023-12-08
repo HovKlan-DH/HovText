@@ -98,7 +98,6 @@
             this.TimerTerminate = new System.Windows.Forms.Timer(this.components);
             this.ColorDialogSearch = new System.Windows.Forms.ColorDialog();
             this.ColorDialogSearchText = new System.Windows.Forms.ColorDialog();
-            this.TimerAdvanced = new System.Windows.Forms.Timer(this.components);
             this.UiFormControlBoxClose = new Guna.UI2.WinForms.Guna2ControlBox();
             this.UiFormControlBoxMinimize = new Guna.UI2.WinForms.Guna2ControlBox();
             this.UiFormPictureBoxIcon = new Guna.UI2.WinForms.Guna2PictureBox();
@@ -148,7 +147,7 @@
             this.UiStorageLabelSaveClipboards = new System.Windows.Forms.Label();
             this.UiStorageToggleSaveClipboards = new Guna.UI2.WinForms.Guna2ToggleSwitch();
             this.UiStorageGroupBoxInfo = new Guna.UI2.WinForms.Guna2GroupBox();
-            this.UiStorageTextBoxInfo = new Guna.UI2.WinForms.Guna2TextBox();
+            this.guna2HtmlLabel2 = new Guna.UI2.WinForms.Guna2HtmlLabel();
             this.UiTabHotkeys = new System.Windows.Forms.TabPage();
             this.UiHotkeysGroupBoxHotkeys = new Guna.UI2.WinForms.Guna2GroupBox();
             this.UiHotkeysButtonCancel = new Guna.UI2.WinForms.Guna2Button();
@@ -255,6 +254,7 @@
             this.UiAboutLabelRelease = new Guna.UI2.WinForms.Guna2HtmlLabel();
             this.UiAboutLabelText = new Guna.UI2.WinForms.Guna2HtmlLabel();
             this.UiFormGradientPanel = new Guna.UI2.WinForms.Guna2GradientPanel();
+            this.TimerGetMemoryConsumption = new System.Windows.Forms.Timer(this.components);
             this.MenuStripIconNotify.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.UiAboutPictureBoxPaypal)).BeginInit();
             this.UiFormLabelLoadingPanel.SuspendLayout();
@@ -861,12 +861,6 @@
             // 
             this.TimerTerminate.Interval = 5000;
             this.TimerTerminate.Tick += new System.EventHandler(this.TerminateTimer_Tick);
-            // 
-            // TimerAdvanced
-            // 
-            this.TimerAdvanced.Enabled = true;
-            this.TimerAdvanced.Interval = 1000;
-            this.TimerAdvanced.Tick += new System.EventHandler(this.advancedTimer_Tick);
             // 
             // UiFormControlBoxClose
             // 
@@ -1629,7 +1623,7 @@
             // UiStorageGroupBoxInfo
             // 
             this.UiStorageGroupBoxInfo.BorderRadius = 5;
-            this.UiStorageGroupBoxInfo.Controls.Add(this.UiStorageTextBoxInfo);
+            this.UiStorageGroupBoxInfo.Controls.Add(this.guna2HtmlLabel2);
             this.UiStorageGroupBoxInfo.CustomBorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(227)))), ((int)(((byte)(220)))));
             this.UiStorageGroupBoxInfo.Font = new System.Drawing.Font("Segoe UI", 11F);
             this.UiStorageGroupBoxInfo.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
@@ -1639,31 +1633,17 @@
             this.UiStorageGroupBoxInfo.TabIndex = 509;
             this.UiStorageGroupBoxInfo.Text = "Info";
             // 
-            // UiStorageTextBoxInfo
+            // guna2HtmlLabel2
             // 
-            this.UiStorageTextBoxInfo.BorderColor = System.Drawing.Color.Transparent;
-            this.UiStorageTextBoxInfo.BorderThickness = 0;
-            this.UiStorageTextBoxInfo.Cursor = System.Windows.Forms.Cursors.IBeam;
-            this.UiStorageTextBoxInfo.DefaultText = resources.GetString("UiStorageTextBoxInfo.DefaultText");
-            this.UiStorageTextBoxInfo.DisabledState.BorderColor = System.Drawing.Color.Transparent;
-            this.UiStorageTextBoxInfo.DisabledState.FillColor = System.Drawing.Color.Transparent;
-            this.UiStorageTextBoxInfo.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.UiStorageTextBoxInfo.DisabledState.PlaceholderForeColor = System.Drawing.Color.Transparent;
-            this.UiStorageTextBoxInfo.Enabled = false;
-            this.UiStorageTextBoxInfo.FocusedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
-            this.UiStorageTextBoxInfo.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.UiStorageTextBoxInfo.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.UiStorageTextBoxInfo.HoverState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
-            this.UiStorageTextBoxInfo.Location = new System.Drawing.Point(3, 45);
-            this.UiStorageTextBoxInfo.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
-            this.UiStorageTextBoxInfo.Multiline = true;
-            this.UiStorageTextBoxInfo.Name = "UiStorageTextBoxInfo";
-            this.UiStorageTextBoxInfo.PasswordChar = '\0';
-            this.UiStorageTextBoxInfo.PlaceholderText = "";
-            this.UiStorageTextBoxInfo.ReadOnly = true;
-            this.UiStorageTextBoxInfo.SelectedText = "";
-            this.UiStorageTextBoxInfo.Size = new System.Drawing.Size(458, 133);
-            this.UiStorageTextBoxInfo.TabIndex = 510;
+            this.guna2HtmlLabel2.AutoSize = false;
+            this.guna2HtmlLabel2.BackColor = System.Drawing.Color.Transparent;
+            this.guna2HtmlLabel2.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.guna2HtmlLabel2.IsSelectionEnabled = false;
+            this.guna2HtmlLabel2.Location = new System.Drawing.Point(15, 55);
+            this.guna2HtmlLabel2.Name = "guna2HtmlLabel2";
+            this.guna2HtmlLabel2.Size = new System.Drawing.Size(485, 133);
+            this.guna2HtmlLabel2.TabIndex = 511;
+            this.guna2HtmlLabel2.Text = resources.GetString("guna2HtmlLabel2.Text");
             // 
             // UiTabHotkeys
             // 
@@ -2981,7 +2961,6 @@
             this.UiAdvancedButtonClearClipboards.DisabledState.CustomBorderColor = System.Drawing.Color.Silver;
             this.UiAdvancedButtonClearClipboards.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(226)))), ((int)(((byte)(226)))), ((int)(((byte)(226)))));
             this.UiAdvancedButtonClearClipboards.DisabledState.ForeColor = System.Drawing.Color.Gray;
-            this.UiAdvancedButtonClearClipboards.Enabled = false;
             this.UiAdvancedButtonClearClipboards.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(56)))), ((int)(((byte)(97)))), ((int)(((byte)(55)))));
             this.UiAdvancedButtonClearClipboards.Font = new System.Drawing.Font("Segoe UI Semibold", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.UiAdvancedButtonClearClipboards.ForeColor = System.Drawing.Color.White;
@@ -3434,6 +3413,11 @@
             this.UiFormGradientPanel.Size = new System.Drawing.Size(740, 42);
             this.UiFormGradientPanel.TabIndex = 0;
             // 
+            // TimerGetMemoryConsumption
+            // 
+            this.TimerGetMemoryConsumption.Interval = 5000;
+            this.TimerGetMemoryConsumption.Tick += new System.EventHandler(this.TimerGetMemoryConsumption_Tick);
+            // 
             // Settings
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(11F, 25F);
@@ -3589,7 +3573,6 @@
         private System.Windows.Forms.Label UiStorageLabelWhichClipboardToSave;
         private System.Windows.Forms.Label UiAdvancedLabelClipboardEntries;
         private System.Windows.Forms.Label UiAdvancedLabelMemUsed;
-        private System.Windows.Forms.Timer TimerAdvanced;
         private Guna.UI2.WinForms.Guna2ControlBox UiFormControlBoxClose;
         private Guna.UI2.WinForms.Guna2ControlBox UiFormControlBoxMinimize;
         private Guna.UI2.WinForms.Guna2PictureBox UiFormPictureBoxIcon;
@@ -3647,7 +3630,6 @@
         private System.Windows.Forms.Label UiGeneralLabelRestoreOriginal;
         private System.Windows.Forms.Label UiGeneralLabelTrimWhitespaces;
         private System.Windows.Forms.Label UiGeneralLabelCloseMinimizes;
-        private Guna.UI2.WinForms.Guna2TextBox UiStorageTextBoxInfo;
         private Guna.UI2.WinForms.Guna2GradientPanel UiFormGradientPanel;
         private System.Windows.Forms.Label UiStorageLabelSaveClipboards;
         private Guna.UI2.WinForms.Guna2ToggleSwitch UiStorageToggleSaveClipboards;
@@ -3746,6 +3728,8 @@
         private System.Windows.Forms.PictureBox UiAdvancedPicture1BoxDevRefresh;
         private System.Windows.Forms.Panel UiAdvancedPanelDevRefresh;
         private System.Windows.Forms.PictureBox UiAdvancedPicture2BoxDevRefresh;
+        private Guna.UI2.WinForms.Guna2HtmlLabel guna2HtmlLabel2;
+        private System.Windows.Forms.Timer TimerGetMemoryConsumption;
     }
 
 }

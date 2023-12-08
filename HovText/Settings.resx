@@ -133,7 +133,7 @@
     <value>181, 96</value>
   </metadata>
   <metadata name="TimerMouseClick.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>1166, 55</value>
+    <value>1266, 55</value>
   </metadata>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="UiAboutPictureBoxPaypal.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
@@ -610,9 +610,6 @@
   <metadata name="ColorDialogSearchText.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>24, 55</value>
   </metadata>
-  <metadata name="TimerAdvanced.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>1002, 55</value>
-  </metadata>
   <data name="UiFormPictureBoxIcon.ErrorImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAS
@@ -829,13 +826,13 @@
         AAAAAElFTkSuQmCC
 </value>
   </data>
-  <data name="UiStorageTextBoxInfo.DefaultText" xml:space="preserve">
+  <data name="guna2HtmlLabel2.Text" xml:space="preserve">
     <value>Storage is per default configured to save only text entries, as you need to know that storing many image clipboards can cripple the responsiveness of the UI and consume a huge amount of memory! You are encouraged to test it, but do set a reasonable (low) amount of entries to save, if you include images. This of course fully depends on your computer configuration and resources.</value>
   </data>
   <data name="UiAdvancedPicture2BoxDevRefresh.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAO
-        wAAADsABataJCQAAC6FJREFUeF7tWnlMm0cW715VVu2utOpW6kqtttr2j2qllbZSq/bPlUIDgQTSKwmB
+        vAAADrwBlbxySQAAC6FJREFUeF7tWnlMm0cW715VVu2utOpW6kqtttr2j2qllbZSq/bPlUIDgQTSKwmB
         hDMk3DeEQDCXiQFzg20uG+IAxgYDxjbGHLYhEHOlBJxAyrbpav9ou+1qD+12q1bat+/NNx8lR6tuE1In
         8U96ms/zzXwzvzdvZt6b8SM++ODDPcfKyspjbrf752ub63/gWQ8X3JcWjxksgx+7luZg9b2NKp798MAw
         Zd2t0KkhtTIfTM4x8GxePc5fPTwoUdZ8dDj3JJyU5kCy7HQaz3440GezPV+lUXwSnBoB+1KPwYnSHMiQ
@@ -2223,6 +2220,9 @@ Kind regards,&lt;br /&gt;
 
 Jesper and Dennis</value>
   </data>
+  <metadata name="TimerGetMemoryConsumption.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>1002, 55</value>
+  </metadata>
   <metadata name="$this.TrayHeight" type="System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>141</value>
   </metadata>

@@ -9,17 +9,13 @@ different hotkeys for the history area.
 ##################################################################################################
 */
 
-using Guna.UI2.WinForms;
 using HovText.Properties;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using static HovText.Program;
-using static System.Net.Mime.MediaTypeNames;
 
 
 namespace HovText
@@ -505,7 +501,7 @@ namespace HovText
         {
 //            SuspendLayout();
 
-            // Set the "first" and "last" IDs
+            // Set the "first" and "last" index
             entryNewestBox = entryNewestBox == -1 ? GetNewestIndex() : entryNewestBox;
             entryNewest = entryNewest == -1 ? GetNewestIndex() : entryNewest;
             entryOldest = GetOldestIndex();
@@ -550,10 +546,10 @@ namespace HovText
                 {
                     Color favoriteBackgroundColor = Color.Red;
 
-                    // Check if the array ID exists
+                    // Check if the array index exists
                     bool doesKeyExist = Settings.entriesText.ContainsKey(i);
 
-                    // Check if the array ID should be shown
+                    // Check if the array index should be shown
                     bool shouldEntryBeShown = false;
                     if (Settings.entriesShow.ContainsKey(i))
                     {
@@ -699,7 +695,6 @@ namespace HovText
                                     else
                                     {
                                         historyPictureBoxFav.Visible = false;
-
                                     }
                                 }
                             }
@@ -737,7 +732,6 @@ namespace HovText
                         }
                     }
                 }
-
 
                 // Set the headline
                 string entryApplication = Settings.entriesApplication[entryActive];
@@ -799,7 +793,7 @@ namespace HovText
 
 
         // ###########################################################################################
-        // Get the first (newest) array ID in the full array, depending on the view
+        // Get the first (newest) array index in the full array, depending on the view
         // ###########################################################################################
 
         private static int GetNewestIndex()
@@ -807,7 +801,7 @@ namespace HovText
             int first = entryNewestBox == -1 ? Settings.entryIndex : entryNewestBox;
             for (int i = first; i >= Settings.entriesText.ElementAt(0).Key; i--)
             {
-                // Proceed if the array ID exists
+                // Proceed if the array index exists
                 if (Settings.entriesText.ContainsKey(i))
                 {
                     if (!Settings.showFavoriteList && Settings.entriesShow[i])
@@ -825,7 +819,7 @@ namespace HovText
 
 
         // ###########################################################################################
-        // Get the last (oldest) array ID in the full array, depending on the view
+        // Get the last (oldest) array index in the full array, depending on the view
         // ###########################################################################################
 
         private static int GetOldestIndex()
@@ -833,7 +827,7 @@ namespace HovText
             int last = entryOldest == -1 ? Settings.entriesText.ElementAt(0).Key : entryOldest;
             for (int i = last; i <= Settings.entriesText.ElementAt(Settings.entriesText.Count - 1).Key; i++)
             {
-                // Proceed if the array ID exists
+                // Proceed if the array index exists
                 if (Settings.entriesText.ContainsKey(i))
                 {
                     if (!Settings.showFavoriteList && Settings.entriesShow[i])
@@ -851,7 +845,7 @@ namespace HovText
 
 
         // ###########################################################################################
-        // Get the next entry array ID, depending on the view and the direction, up/down
+        // Get the next entry array index, depending on the view and the direction, up/down
         // ###########################################################################################
 
         public static int GetNextIndex(string direction, int entryKey)
@@ -1384,13 +1378,7 @@ namespace HovText
             if (e.KeyCode == Keys.Delete)
             {
                 Logging.Log("Pressed \"Delete\" key");
-                Logging.Log("Deleted key ID [" + entryActive + "]");
-
-                //foreach (var item in Settings.entriesText)
-                Debug.WriteLine("Indgang:");
-                foreach (var item in Settings.entriesText.Reverse()){
-                        Debug.WriteLine("key=["+ item.Key +"], val=["+ item.Value +"]");
-                }
+                Logging.Log("Deleted key index [" + entryActive + "]");
 
                 int entryNewest2 = entryNewest;
                 int entryNewestBox2 = entryNewestBox;
@@ -1426,6 +1414,7 @@ namespace HovText
                 Settings.entriesImage.Remove(entryActive);
                 Settings.entriesImageTrans.Remove(entryActive);
                 Settings.entriesApplication.Remove(entryActive);
+                Settings.entriesApplicationIcon.Remove(entryActive);
                 Settings.entriesOriginal.Remove(entryActive);
                 Settings.entriesShow.Remove(entryActive);
                 Settings.entriesIsFavorite.Remove(entryActive);
@@ -1435,7 +1424,7 @@ namespace HovText
                 Settings.entriesIsTransparent.Remove(entryActive);
 
                 entryActive = entryNewActive;
-                Settings.entryIndex--;
+//                Settings.entryIndex--;
 
                 entriesInList--;
 
@@ -1478,7 +1467,6 @@ namespace HovText
                     {
                         SetupForm(true);
                     }
-
                 
                     UpdateHistory("");
                 } else
@@ -1492,11 +1480,8 @@ namespace HovText
                 // https://stackoverflow.com/a/3068797/2028935
                 e.SuppressKeyPress = true;
 
-                Debug.WriteLine("Udgang:");
-                foreach (var item in Settings.entriesText.Reverse())
-                {
-                    Debug.WriteLine("key=[" + item.Key + "], val=[" + item.Value + "]");
-                }
+//                // Log the consumption of memory
+//                Settings.settings.LogMemoryConsumed();
             }
 
             // UP
