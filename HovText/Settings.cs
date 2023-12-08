@@ -5319,8 +5319,8 @@ del ""%~f0"" >> """ + pathAndTempLog + @"""
                     UiStorageGroupBoxInfo.CustomBorderColor = Color.IndianRed;
                     UiStorageGroupBoxInfo.ForeColor = Color.White;
                     UiStorageGroupBoxInfo.Text = "Info - Warning";
-                    guna2HtmlLabel2.ForeColor = Color.FromArgb(64, 64, 64);
-                    guna2HtmlLabel2.Text = "The high memory consumption indicates there <i>might</i> be a risk that the clipboard data cannot be saved in due time at computer shutdown or reboot! This is because it can take several seconds to save this much data to disk and Windows will enforce application termination when doing a Windows shutdown or reboot, if it takes too long.<br /><br />Please <b>reduce the amount of image clipboards</b>.";
+                    UiStorageLabelInfo.ForeColor = Color.FromArgb(64, 64, 64);
+                    UiStorageLabelInfo.Text = "The high memory consumption indicates there <i>might</i> be a risk that the clipboard data cannot be saved in due time at computer shutdown or reboot! This is because it can take several seconds to save this much data to disk and Windows will enforce application termination when doing a Windows shutdown or reboot, if it takes too long.<br /><br />Please <b>reduce the amount of image clipboards</b>.";
                     ShowTrayNotifications("Memory Warning");
                     shownMemoryWarning = true;
                 }
@@ -5330,7 +5330,7 @@ del ""%~f0"" >> """ + pathAndTempLog + @"""
                 UiStorageGroupBoxInfo.CustomBorderColor = Color.FromArgb(220, 227, 220);
                 UiStorageGroupBoxInfo.ForeColor = Color.FromArgb(64, 64, 64);
                 UiStorageGroupBoxInfo.Text = "Info";
-                guna2HtmlLabel2.Text = "Storage is per default configured to save only text entries, as you need to know that storing many image clipboards can cripple the responsiveness of the UI and consume a huge amount of memory! You are encouraged to test it, but do set a reasonable (low) amount of entries to save, if you include images. This of course fully depends on your computer configuration and resources.";
+                UiStorageLabelInfo.Text = "Storage is per default configured to save only text entries, as you need to know that storing many image clipboards can cripple the responsiveness of the UI and consume a huge amount of memory! You are encouraged to test it, but do set a reasonable (low) amount of entries to save, if you include images. This of course fully depends on your computer configuration and resources.";
             }
         }
 

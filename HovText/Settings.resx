@@ -826,7 +826,7 @@
         AAAAAElFTkSuQmCC
 </value>
   </data>
-  <data name="guna2HtmlLabel2.Text" xml:space="preserve">
+  <data name="UiStorageLabelInfo.Text" xml:space="preserve">
     <value>Storage is per default configured to save only text entries, as you need to know that storing many image clipboards can cripple the responsiveness of the UI and consume a huge amount of memory! You are encouraged to test it, but do set a reasonable (low) amount of entries to save, if you include images. This of course fully depends on your computer configuration and resources.</value>
   </data>
   <data name="UiAdvancedPicture2BoxDevRefresh.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">

@@ -147,7 +147,7 @@
             this.UiStorageLabelSaveClipboards = new System.Windows.Forms.Label();
             this.UiStorageToggleSaveClipboards = new Guna.UI2.WinForms.Guna2ToggleSwitch();
             this.UiStorageGroupBoxInfo = new Guna.UI2.WinForms.Guna2GroupBox();
-            this.guna2HtmlLabel2 = new Guna.UI2.WinForms.Guna2HtmlLabel();
+            this.UiStorageLabelInfo = new Guna.UI2.WinForms.Guna2HtmlLabel();
             this.UiTabHotkeys = new System.Windows.Forms.TabPage();
             this.UiHotkeysGroupBoxHotkeys = new Guna.UI2.WinForms.Guna2GroupBox();
             this.UiHotkeysButtonCancel = new Guna.UI2.WinForms.Guna2Button();
@@ -910,6 +910,7 @@
             // 
             // UiFormLabelApplicationName
             // 
+            this.UiFormLabelApplicationName.AccessibleRole = System.Windows.Forms.AccessibleRole.None;
             this.UiFormLabelApplicationName.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(56)))), ((int)(((byte)(97)))), ((int)(((byte)(55)))));
             this.UiFormLabelApplicationName.Font = new System.Drawing.Font("Segoe UI Semibold", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.UiFormLabelApplicationName.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(227)))), ((int)(((byte)(227)))), ((int)(((byte)(227)))));
@@ -1623,7 +1624,7 @@
             // UiStorageGroupBoxInfo
             // 
             this.UiStorageGroupBoxInfo.BorderRadius = 5;
-            this.UiStorageGroupBoxInfo.Controls.Add(this.guna2HtmlLabel2);
+            this.UiStorageGroupBoxInfo.Controls.Add(this.UiStorageLabelInfo);
             this.UiStorageGroupBoxInfo.CustomBorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(227)))), ((int)(((byte)(220)))));
             this.UiStorageGroupBoxInfo.Font = new System.Drawing.Font("Segoe UI", 11F);
             this.UiStorageGroupBoxInfo.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
@@ -1633,17 +1634,17 @@
             this.UiStorageGroupBoxInfo.TabIndex = 509;
             this.UiStorageGroupBoxInfo.Text = "Info";
             // 
-            // guna2HtmlLabel2
+            // UiStorageLabelInfo
             // 
-            this.guna2HtmlLabel2.AutoSize = false;
-            this.guna2HtmlLabel2.BackColor = System.Drawing.Color.Transparent;
-            this.guna2HtmlLabel2.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.guna2HtmlLabel2.IsSelectionEnabled = false;
-            this.guna2HtmlLabel2.Location = new System.Drawing.Point(15, 55);
-            this.guna2HtmlLabel2.Name = "guna2HtmlLabel2";
-            this.guna2HtmlLabel2.Size = new System.Drawing.Size(485, 133);
-            this.guna2HtmlLabel2.TabIndex = 511;
-            this.guna2HtmlLabel2.Text = resources.GetString("guna2HtmlLabel2.Text");
+            this.UiStorageLabelInfo.AutoSize = false;
+            this.UiStorageLabelInfo.BackColor = System.Drawing.Color.Transparent;
+            this.UiStorageLabelInfo.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.UiStorageLabelInfo.IsSelectionEnabled = false;
+            this.UiStorageLabelInfo.Location = new System.Drawing.Point(15, 55);
+            this.UiStorageLabelInfo.Name = "UiStorageLabelInfo";
+            this.UiStorageLabelInfo.Size = new System.Drawing.Size(485, 133);
+            this.UiStorageLabelInfo.TabIndex = 511;
+            this.UiStorageLabelInfo.Text = resources.GetString("UiStorageLabelInfo.Text");
             // 
             // UiTabHotkeys
             // 
@@ -3728,7 +3729,7 @@
         private System.Windows.Forms.PictureBox UiAdvancedPicture1BoxDevRefresh;
         private System.Windows.Forms.Panel UiAdvancedPanelDevRefresh;
         private System.Windows.Forms.PictureBox UiAdvancedPicture2BoxDevRefresh;
-        private Guna.UI2.WinForms.Guna2HtmlLabel guna2HtmlLabel2;
+        private Guna.UI2.WinForms.Guna2HtmlLabel UiStorageLabelInfo;
         private System.Windows.Forms.Timer TimerGetMemoryConsumption;
     }
 
