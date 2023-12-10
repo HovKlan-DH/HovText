@@ -255,6 +255,7 @@
             this.UiAboutLabelText = new Guna.UI2.WinForms.Guna2HtmlLabel();
             this.UiFormGradientPanel = new Guna.UI2.WinForms.Guna2GradientPanel();
             this.TimerGetMemoryConsumption = new System.Windows.Forms.Timer(this.components);
+            this.TimerDeleteOldFiles = new System.Windows.Forms.Timer(this.components);
             this.MenuStripIconNotify.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.UiAboutPictureBoxPaypal)).BeginInit();
             this.UiFormLabelLoadingPanel.SuspendLayout();
@@ -3390,9 +3391,9 @@
             this.UiAboutLabelRelease.IsSelectionEnabled = false;
             this.UiAboutLabelRelease.Location = new System.Drawing.Point(13, 36);
             this.UiAboutLabelRelease.Name = "UiAboutLabelRelease";
-            this.UiAboutLabelRelease.Size = new System.Drawing.Size(168, 27);
+            this.UiAboutLabelRelease.Size = new System.Drawing.Size(174, 27);
             this.UiAboutLabelRelease.TabIndex = 117;
-            this.UiAboutLabelRelease.Text = "Stable release, 64-bit";
+            this.UiAboutLabelRelease.Text = "Stable release (64-bit)";
             // 
             // UiAboutLabelText
             // 
@@ -3418,6 +3419,12 @@
             // 
             this.TimerGetMemoryConsumption.Interval = 5000;
             this.TimerGetMemoryConsumption.Tick += new System.EventHandler(this.TimerGetMemoryConsumption_Tick);
+            // 
+            // TimerDeleteOldFiles
+            // 
+            this.TimerDeleteOldFiles.Enabled = true;
+            this.TimerDeleteOldFiles.Interval = 60000;
+            this.TimerDeleteOldFiles.Tick += new System.EventHandler(this.TimerDeleteOldFiles_Tick);
             // 
             // Settings
             // 
@@ -3731,6 +3738,7 @@
         private System.Windows.Forms.PictureBox UiAdvancedPicture2BoxDevRefresh;
         private Guna.UI2.WinForms.Guna2HtmlLabel UiStorageLabelInfo;
         private System.Windows.Forms.Timer TimerGetMemoryConsumption;
+        private System.Windows.Forms.Timer TimerDeleteOldFiles;
     }
 
 }

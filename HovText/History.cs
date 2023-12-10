@@ -733,9 +733,13 @@ namespace HovText
                     }
                 }
 
+                int orderOrg = Settings.entriesOrder[entryActive];
+//                int orderNow = Settings.entriesOrder[entryActiveLast];
+//                int y = entriesOrderLoad.IndexOf(entry.Key);
+
                 // Set the headline
                 string entryApplication = Settings.entriesApplication[entryActive];
-                this.Controls["uiHistoryHeadline"].Text = entryInList + " of " + entriesInList + " from \"" + entryApplication + "\"";
+                this.Controls["uiHistoryHeadline"].Text = "["+ entryActive +"]["+ orderOrg + "] " + entryInList + " of " + entriesInList + " from \"" + entryApplication + "\"";
                 if (Settings.entriesIsImage[entryActive])
                 {
                     isTransparent = Settings.entriesIsTransparent[entryActive];
@@ -1370,6 +1374,9 @@ namespace HovText
                 // Restore if we previously was in the favorite list
                 Settings.showFavoriteList = Settings.showFavoriteListLast;
 
+                // Save the new order of the entries
+                Settings.settings.SaveIndexesToFile();
+
                 // https://stackoverflow.com/a/3068797/2028935
                 e.SuppressKeyPress = true;
             }
@@ -1422,6 +1429,7 @@ namespace HovText
                 Settings.entriesIsEmail.Remove(entryActive);
                 Settings.entriesIsImage.Remove(entryActive);
                 Settings.entriesIsTransparent.Remove(entryActive);
+                Settings.entriesOrder.Remove(entryActive);
 
                 entryActive = entryNewActive;
 //                Settings.entryIndex--;
