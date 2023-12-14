@@ -131,11 +131,13 @@
             this.UiGeneralToggleEnableFavorites = new Guna.UI2.WinForms.Guna2ToggleSwitch();
             this.UiGeneralToggleEnableClipboard = new Guna.UI2.WinForms.Guna2ToggleSwitch();
             this.UiTabStorage = new System.Windows.Forms.TabPage();
+            this.guna2GroupBox1 = new Guna.UI2.WinForms.Guna2GroupBox();
+            this.guna2HtmlLabel1 = new Guna.UI2.WinForms.Guna2HtmlLabel();
+            this.UiStorageTrackBarEntriesToSave = new Guna.UI2.WinForms.Guna2TrackBar();
             this.UiStorageGroupBoxStorage = new Guna.UI2.WinForms.Guna2GroupBox();
             this.UiStorageLabelSaveOnlyTextEntries = new Guna.UI2.WinForms.Guna2HtmlLabel();
             this.UiStorageLabelSaveOnlyFavoritesEntries = new Guna.UI2.WinForms.Guna2HtmlLabel();
             this.UiStorageLabelSaveAllEntries = new Guna.UI2.WinForms.Guna2HtmlLabel();
-            this.UiStorageTrackBarEntriesToSave = new Guna.UI2.WinForms.Guna2TrackBar();
             this.UiStorageLabelSaveAll = new System.Windows.Forms.Label();
             this.UiStorageRadioSaveAll = new Guna.UI2.WinForms.Guna2CustomRadioButton();
             this.UiStorageLabelSaveOnlyFavorites = new System.Windows.Forms.Label();
@@ -146,8 +148,6 @@
             this.UiStorageToggleLoadClipboards = new Guna.UI2.WinForms.Guna2ToggleSwitch();
             this.UiStorageLabelSaveClipboards = new System.Windows.Forms.Label();
             this.UiStorageToggleSaveClipboards = new Guna.UI2.WinForms.Guna2ToggleSwitch();
-            this.UiStorageGroupBoxInfo = new Guna.UI2.WinForms.Guna2GroupBox();
-            this.UiStorageLabelInfo = new Guna.UI2.WinForms.Guna2HtmlLabel();
             this.UiTabHotkeys = new System.Windows.Forms.TabPage();
             this.UiHotkeysGroupBoxHotkeys = new Guna.UI2.WinForms.Guna2GroupBox();
             this.UiHotkeysButtonCancel = new Guna.UI2.WinForms.Guna2Button();
@@ -275,8 +275,8 @@
             this.UiGeneralGroupBoxBehaviour.SuspendLayout();
             this.UiGeneralGroupBoxClipboardList.SuspendLayout();
             this.UiTabStorage.SuspendLayout();
+            this.guna2GroupBox1.SuspendLayout();
             this.UiStorageGroupBoxStorage.SuspendLayout();
-            this.UiStorageGroupBoxInfo.SuspendLayout();
             this.UiTabHotkeys.SuspendLayout();
             this.UiHotkeysGroupBoxHotkeys.SuspendLayout();
             this.UiHotkeysGroupBoxPasteBehaviour.SuspendLayout();
@@ -446,6 +446,7 @@
             // 
             this.UiHotkeysLabelSearch.AutoSize = true;
             this.UiHotkeysLabelSearch.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.UiHotkeysLabelSearch.ForeColor = System.Drawing.Color.Black;
             this.UiHotkeysLabelSearch.Location = new System.Drawing.Point(51, 106);
             this.UiHotkeysLabelSearch.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.UiHotkeysLabelSearch.Name = "UiHotkeysLabelSearch";
@@ -457,6 +458,7 @@
             // 
             this.UiHotkeysLabelToggleFavorite.AutoSize = true;
             this.UiHotkeysLabelToggleFavorite.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.UiHotkeysLabelToggleFavorite.ForeColor = System.Drawing.Color.Black;
             this.UiHotkeysLabelToggleFavorite.Location = new System.Drawing.Point(39, 150);
             this.UiHotkeysLabelToggleFavorite.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.UiHotkeysLabelToggleFavorite.Name = "UiHotkeysLabelToggleFavorite";
@@ -468,6 +470,7 @@
             // 
             this.UiHotkeysLabelPasteHotkey.AutoSize = true;
             this.UiHotkeysLabelPasteHotkey.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.UiHotkeysLabelPasteHotkey.ForeColor = System.Drawing.Color.Black;
             this.UiHotkeysLabelPasteHotkey.Location = new System.Drawing.Point(66, 195);
             this.UiHotkeysLabelPasteHotkey.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.UiHotkeysLabelPasteHotkey.Name = "UiHotkeysLabelPasteHotkey";
@@ -479,6 +482,7 @@
             // 
             this.UiHotkeysLabelToggleApplication.AutoSize = true;
             this.UiHotkeysLabelToggleApplication.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.UiHotkeysLabelToggleApplication.ForeColor = System.Drawing.Color.Black;
             this.UiHotkeysLabelToggleApplication.Location = new System.Drawing.Point(9, 59);
             this.UiHotkeysLabelToggleApplication.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.UiHotkeysLabelToggleApplication.Name = "UiHotkeysLabelToggleApplication";
@@ -519,16 +523,16 @@
             // UiStorageLabelAmountOfClipboardsToSave
             // 
             this.UiStorageLabelAmountOfClipboardsToSave.AutoSize = true;
-            this.UiStorageLabelAmountOfClipboardsToSave.Location = new System.Drawing.Point(12, 276);
+            this.UiStorageLabelAmountOfClipboardsToSave.Location = new System.Drawing.Point(17, 53);
             this.UiStorageLabelAmountOfClipboardsToSave.Name = "UiStorageLabelAmountOfClipboardsToSave";
-            this.UiStorageLabelAmountOfClipboardsToSave.Size = new System.Drawing.Size(312, 25);
+            this.UiStorageLabelAmountOfClipboardsToSave.Size = new System.Drawing.Size(300, 25);
             this.UiStorageLabelAmountOfClipboardsToSave.TabIndex = 305;
-            this.UiStorageLabelAmountOfClipboardsToSave.Text = "Amount of clipboard entries to save";
+            this.UiStorageLabelAmountOfClipboardsToSave.Text = "Number of entries in clipboard list";
             // 
             // UiStorageTrackBarEntriesToSaveText
             // 
             this.UiStorageTrackBarEntriesToSaveText.AutoSize = true;
-            this.UiStorageTrackBarEntriesToSaveText.Location = new System.Drawing.Point(277, 307);
+            this.UiStorageTrackBarEntriesToSaveText.Location = new System.Drawing.Point(283, 83);
             this.UiStorageTrackBarEntriesToSaveText.Name = "UiStorageTrackBarEntriesToSaveText";
             this.UiStorageTrackBarEntriesToSaveText.Size = new System.Drawing.Size(22, 25);
             this.UiStorageTrackBarEntriesToSaveText.TabIndex = 505;
@@ -691,6 +695,7 @@
             // 
             this.UiColorsLabelSearchBackground.AutoSize = true;
             this.UiColorsLabelSearchBackground.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.UiColorsLabelSearchBackground.ForeColor = System.Drawing.Color.Black;
             this.UiColorsLabelSearchBackground.Location = new System.Drawing.Point(12, 158);
             this.UiColorsLabelSearchBackground.Name = "UiColorsLabelSearchBackground";
             this.UiColorsLabelSearchBackground.Size = new System.Drawing.Size(157, 23);
@@ -701,6 +706,7 @@
             // 
             this.UiColorsLabelSearchText.AutoSize = true;
             this.UiColorsLabelSearchText.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.UiColorsLabelSearchText.ForeColor = System.Drawing.Color.Black;
             this.UiColorsLabelSearchText.Location = new System.Drawing.Point(12, 188);
             this.UiColorsLabelSearchText.Name = "UiColorsLabelSearchText";
             this.UiColorsLabelSearchText.Size = new System.Drawing.Size(95, 23);
@@ -711,6 +717,7 @@
             // 
             this.UiColorsLabelBorder.AutoSize = true;
             this.UiColorsLabelBorder.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.UiColorsLabelBorder.ForeColor = System.Drawing.Color.Black;
             this.UiColorsLabelBorder.Location = new System.Drawing.Point(12, 430);
             this.UiColorsLabelBorder.Name = "UiColorsLabelBorder";
             this.UiColorsLabelBorder.Size = new System.Drawing.Size(61, 23);
@@ -721,6 +728,7 @@
             // 
             this.UiColorsLabelEntryBackground.AutoSize = true;
             this.UiColorsLabelEntryBackground.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.UiColorsLabelEntryBackground.ForeColor = System.Drawing.Color.Black;
             this.UiColorsLabelEntryBackground.Location = new System.Drawing.Point(12, 342);
             this.UiColorsLabelEntryBackground.Name = "UiColorsLabelEntryBackground";
             this.UiColorsLabelEntryBackground.Size = new System.Drawing.Size(145, 23);
@@ -731,6 +739,7 @@
             // 
             this.UiColorsLabelEntryText.AutoSize = true;
             this.UiColorsLabelEntryText.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.UiColorsLabelEntryText.ForeColor = System.Drawing.Color.Black;
             this.UiColorsLabelEntryText.Location = new System.Drawing.Point(12, 372);
             this.UiColorsLabelEntryText.Name = "UiColorsLabelEntryText";
             this.UiColorsLabelEntryText.Size = new System.Drawing.Size(83, 23);
@@ -741,6 +750,7 @@
             // 
             this.UiColorsLabelActiveBackground.AutoSize = true;
             this.UiColorsLabelActiveBackground.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.UiColorsLabelActiveBackground.ForeColor = System.Drawing.Color.Black;
             this.UiColorsLabelActiveBackground.Location = new System.Drawing.Point(13, 249);
             this.UiColorsLabelActiveBackground.Name = "UiColorsLabelActiveBackground";
             this.UiColorsLabelActiveBackground.Size = new System.Drawing.Size(152, 23);
@@ -752,6 +762,7 @@
             this.UiColorsLabelHeaderText.AutoSize = true;
             this.UiColorsLabelHeaderText.Enabled = false;
             this.UiColorsLabelHeaderText.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.UiColorsLabelHeaderText.ForeColor = System.Drawing.Color.Black;
             this.UiColorsLabelHeaderText.Location = new System.Drawing.Point(12, 91);
             this.UiColorsLabelHeaderText.Name = "UiColorsLabelHeaderText";
             this.UiColorsLabelHeaderText.Size = new System.Drawing.Size(99, 23);
@@ -762,6 +773,7 @@
             // 
             this.UiColorsLabelActiveText.AutoSize = true;
             this.UiColorsLabelActiveText.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.UiColorsLabelActiveText.ForeColor = System.Drawing.Color.Black;
             this.UiColorsLabelActiveText.Location = new System.Drawing.Point(13, 279);
             this.UiColorsLabelActiveText.Name = "UiColorsLabelActiveText";
             this.UiColorsLabelActiveText.Size = new System.Drawing.Size(90, 23);
@@ -773,6 +785,7 @@
             this.UiColorsLabelHeaderBackground.AutoSize = true;
             this.UiColorsLabelHeaderBackground.Enabled = false;
             this.UiColorsLabelHeaderBackground.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.UiColorsLabelHeaderBackground.ForeColor = System.Drawing.Color.Black;
             this.UiColorsLabelHeaderBackground.Location = new System.Drawing.Point(12, 60);
             this.UiColorsLabelHeaderBackground.Name = "UiColorsLabelHeaderBackground";
             this.UiColorsLabelHeaderBackground.Size = new System.Drawing.Size(161, 23);
@@ -830,7 +843,7 @@
             // UiAdvancedLabelCleanup
             // 
             this.UiAdvancedLabelCleanup.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.UiAdvancedLabelCleanup.ForeColor = System.Drawing.Color.Black;
+            this.UiAdvancedLabelCleanup.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.UiAdvancedLabelCleanup.Location = new System.Drawing.Point(228, 57);
             this.UiAdvancedLabelCleanup.Name = "UiAdvancedLabelCleanup";
             this.UiAdvancedLabelCleanup.Size = new System.Drawing.Size(272, 70);
@@ -1050,7 +1063,7 @@
             this.UiGeneralLabelStartWithWindows.AutoSize = true;
             this.UiGeneralLabelStartWithWindows.Cursor = System.Windows.Forms.Cursors.Hand;
             this.UiGeneralLabelStartWithWindows.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.UiGeneralLabelStartWithWindows.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.UiGeneralLabelStartWithWindows.ForeColor = System.Drawing.Color.Black;
             this.UiGeneralLabelStartWithWindows.Location = new System.Drawing.Point(59, 52);
             this.UiGeneralLabelStartWithWindows.Name = "UiGeneralLabelStartWithWindows";
             this.UiGeneralLabelStartWithWindows.Size = new System.Drawing.Size(156, 23);
@@ -1063,7 +1076,7 @@
             this.UiGeneralLabelStartDisabled.AutoSize = true;
             this.UiGeneralLabelStartDisabled.Cursor = System.Windows.Forms.Cursors.Hand;
             this.UiGeneralLabelStartDisabled.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.UiGeneralLabelStartDisabled.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.UiGeneralLabelStartDisabled.ForeColor = System.Drawing.Color.Black;
             this.UiGeneralLabelStartDisabled.Location = new System.Drawing.Point(59, 83);
             this.UiGeneralLabelStartDisabled.Name = "UiGeneralLabelStartDisabled";
             this.UiGeneralLabelStartDisabled.Size = new System.Drawing.Size(134, 23);
@@ -1076,7 +1089,7 @@
             this.UiGeneralLabelRestoreOriginal.AutoSize = true;
             this.UiGeneralLabelRestoreOriginal.Cursor = System.Windows.Forms.Cursors.Hand;
             this.UiGeneralLabelRestoreOriginal.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.UiGeneralLabelRestoreOriginal.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.UiGeneralLabelRestoreOriginal.ForeColor = System.Drawing.Color.Black;
             this.UiGeneralLabelRestoreOriginal.Location = new System.Drawing.Point(59, 114);
             this.UiGeneralLabelRestoreOriginal.Name = "UiGeneralLabelRestoreOriginal";
             this.UiGeneralLabelRestoreOriginal.Size = new System.Drawing.Size(413, 23);
@@ -1089,7 +1102,7 @@
             this.UiGeneralLabelTrimWhitespaces.AutoSize = true;
             this.UiGeneralLabelTrimWhitespaces.Cursor = System.Windows.Forms.Cursors.Hand;
             this.UiGeneralLabelTrimWhitespaces.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.UiGeneralLabelTrimWhitespaces.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.UiGeneralLabelTrimWhitespaces.ForeColor = System.Drawing.Color.Black;
             this.UiGeneralLabelTrimWhitespaces.Location = new System.Drawing.Point(59, 145);
             this.UiGeneralLabelTrimWhitespaces.Name = "UiGeneralLabelTrimWhitespaces";
             this.UiGeneralLabelTrimWhitespaces.Size = new System.Drawing.Size(303, 23);
@@ -1102,7 +1115,7 @@
             this.UiGeneralLabelCloseMinimizes.AutoSize = true;
             this.UiGeneralLabelCloseMinimizes.Cursor = System.Windows.Forms.Cursors.Hand;
             this.UiGeneralLabelCloseMinimizes.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.UiGeneralLabelCloseMinimizes.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.UiGeneralLabelCloseMinimizes.ForeColor = System.Drawing.Color.Black;
             this.UiGeneralLabelCloseMinimizes.Location = new System.Drawing.Point(59, 176);
             this.UiGeneralLabelCloseMinimizes.Name = "UiGeneralLabelCloseMinimizes";
             this.UiGeneralLabelCloseMinimizes.Size = new System.Drawing.Size(309, 23);
@@ -1238,6 +1251,7 @@
             this.UiGeneralLabelAlwaysPasteOriginal.AutoSize = true;
             this.UiGeneralLabelAlwaysPasteOriginal.Cursor = System.Windows.Forms.Cursors.Hand;
             this.UiGeneralLabelAlwaysPasteOriginal.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.UiGeneralLabelAlwaysPasteOriginal.ForeColor = System.Drawing.Color.Black;
             this.UiGeneralLabelAlwaysPasteOriginal.Location = new System.Drawing.Point(59, 176);
             this.UiGeneralLabelAlwaysPasteOriginal.Name = "UiGeneralLabelAlwaysPasteOriginal";
             this.UiGeneralLabelAlwaysPasteOriginal.Size = new System.Drawing.Size(286, 23);
@@ -1250,6 +1264,7 @@
             this.UiGeneralLabelPasteToApplication.AutoSize = true;
             this.UiGeneralLabelPasteToApplication.Cursor = System.Windows.Forms.Cursors.Hand;
             this.UiGeneralLabelPasteToApplication.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.UiGeneralLabelPasteToApplication.ForeColor = System.Drawing.Color.Black;
             this.UiGeneralLabelPasteToApplication.Location = new System.Drawing.Point(59, 145);
             this.UiGeneralLabelPasteToApplication.Name = "UiGeneralLabelPasteToApplication";
             this.UiGeneralLabelPasteToApplication.Size = new System.Drawing.Size(382, 23);
@@ -1262,6 +1277,7 @@
             this.UiGeneralLabelIncludeImages.AutoSize = true;
             this.UiGeneralLabelIncludeImages.Cursor = System.Windows.Forms.Cursors.Hand;
             this.UiGeneralLabelIncludeImages.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.UiGeneralLabelIncludeImages.ForeColor = System.Drawing.Color.Black;
             this.UiGeneralLabelIncludeImages.Location = new System.Drawing.Point(59, 114);
             this.UiGeneralLabelIncludeImages.Name = "UiGeneralLabelIncludeImages";
             this.UiGeneralLabelIncludeImages.Size = new System.Drawing.Size(246, 23);
@@ -1274,6 +1290,7 @@
             this.UiGeneralLabelEnableFavorites.AutoSize = true;
             this.UiGeneralLabelEnableFavorites.Cursor = System.Windows.Forms.Cursors.Hand;
             this.UiGeneralLabelEnableFavorites.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.UiGeneralLabelEnableFavorites.ForeColor = System.Drawing.Color.Black;
             this.UiGeneralLabelEnableFavorites.Location = new System.Drawing.Point(59, 83);
             this.UiGeneralLabelEnableFavorites.Name = "UiGeneralLabelEnableFavorites";
             this.UiGeneralLabelEnableFavorites.Size = new System.Drawing.Size(130, 23);
@@ -1286,6 +1303,7 @@
             this.UiGeneralLabelEnableClipboard.AutoSize = true;
             this.UiGeneralLabelEnableClipboard.Cursor = System.Windows.Forms.Cursors.Hand;
             this.UiGeneralLabelEnableClipboard.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.UiGeneralLabelEnableClipboard.ForeColor = System.Drawing.Color.Black;
             this.UiGeneralLabelEnableClipboard.Location = new System.Drawing.Point(59, 52);
             this.UiGeneralLabelEnableClipboard.Name = "UiGeneralLabelEnableClipboard";
             this.UiGeneralLabelEnableClipboard.Size = new System.Drawing.Size(163, 23);
@@ -1347,6 +1365,7 @@
             // 
             // UiGeneralToggleEnableFavorites
             // 
+            this.UiGeneralToggleEnableFavorites.Checked = true;
             this.UiGeneralToggleEnableFavorites.CheckedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
             this.UiGeneralToggleEnableFavorites.CheckedState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(56)))), ((int)(((byte)(97)))), ((int)(((byte)(55)))));
             this.UiGeneralToggleEnableFavorites.CheckedState.InnerBorderColor = System.Drawing.Color.White;
@@ -1382,8 +1401,8 @@
             // 
             // UiTabStorage
             // 
+            this.UiTabStorage.Controls.Add(this.guna2GroupBox1);
             this.UiTabStorage.Controls.Add(this.UiStorageGroupBoxStorage);
-            this.UiTabStorage.Controls.Add(this.UiStorageGroupBoxInfo);
             this.UiTabStorage.Location = new System.Drawing.Point(184, 4);
             this.UiTabStorage.Name = "UiTabStorage";
             this.UiTabStorage.Padding = new System.Windows.Forms.Padding(3);
@@ -1392,13 +1411,53 @@
             this.UiTabStorage.Text = "Storage";
             this.UiTabStorage.UseVisualStyleBackColor = true;
             // 
+            // guna2GroupBox1
+            // 
+            this.guna2GroupBox1.BorderRadius = 5;
+            this.guna2GroupBox1.Controls.Add(this.guna2HtmlLabel1);
+            this.guna2GroupBox1.Controls.Add(this.UiStorageTrackBarEntriesToSave);
+            this.guna2GroupBox1.Controls.Add(this.UiStorageTrackBarEntriesToSaveText);
+            this.guna2GroupBox1.Controls.Add(this.UiStorageLabelAmountOfClipboardsToSave);
+            this.guna2GroupBox1.CustomBorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(227)))), ((int)(((byte)(220)))));
+            this.guna2GroupBox1.Font = new System.Drawing.Font("Segoe UI", 11F);
+            this.guna2GroupBox1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.guna2GroupBox1.Location = new System.Drawing.Point(13, 315);
+            this.guna2GroupBox1.Name = "guna2GroupBox1";
+            this.guna2GroupBox1.Size = new System.Drawing.Size(525, 241);
+            this.guna2GroupBox1.TabIndex = 524;
+            this.guna2GroupBox1.Text = "Clipboards";
+            // 
+            // guna2HtmlLabel1
+            // 
+            this.guna2HtmlLabel1.BackColor = System.Drawing.Color.Transparent;
+            this.guna2HtmlLabel1.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.guna2HtmlLabel1.IsSelectionEnabled = false;
+            this.guna2HtmlLabel1.Location = new System.Drawing.Point(18, 130);
+            this.guna2HtmlLabel1.Name = "guna2HtmlLabel1";
+            this.guna2HtmlLabel1.Size = new System.Drawing.Size(452, 48);
+            this.guna2HtmlLabel1.TabIndex = 522;
+            this.guna2HtmlLabel1.Text = "When limit is reached, it will remove the oldest entries first.<br />\r\nWhen chang" +
+    "ed, it will update the list after next copy.";
+            // 
+            // UiStorageTrackBarEntriesToSave
+            // 
+            this.UiStorageTrackBarEntriesToSave.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.UiStorageTrackBarEntriesToSave.Location = new System.Drawing.Point(24, 83);
+            this.UiStorageTrackBarEntriesToSave.Maximum = 10000;
+            this.UiStorageTrackBarEntriesToSave.Minimum = 1;
+            this.UiStorageTrackBarEntriesToSave.Name = "UiStorageTrackBarEntriesToSave";
+            this.UiStorageTrackBarEntriesToSave.Size = new System.Drawing.Size(253, 23);
+            this.UiStorageTrackBarEntriesToSave.TabIndex = 520;
+            this.UiStorageTrackBarEntriesToSave.ThumbColor = System.Drawing.Color.FromArgb(((int)(((byte)(56)))), ((int)(((byte)(97)))), ((int)(((byte)(55)))));
+            this.UiStorageTrackBarEntriesToSave.Value = 1;
+            this.UiStorageTrackBarEntriesToSave.ValueChanged += new System.EventHandler(this.GuiStorageEntries_ValueChanged);
+            // 
             // UiStorageGroupBoxStorage
             // 
             this.UiStorageGroupBoxStorage.BorderRadius = 5;
             this.UiStorageGroupBoxStorage.Controls.Add(this.UiStorageLabelSaveOnlyTextEntries);
             this.UiStorageGroupBoxStorage.Controls.Add(this.UiStorageLabelSaveOnlyFavoritesEntries);
             this.UiStorageGroupBoxStorage.Controls.Add(this.UiStorageLabelSaveAllEntries);
-            this.UiStorageGroupBoxStorage.Controls.Add(this.UiStorageTrackBarEntriesToSave);
             this.UiStorageGroupBoxStorage.Controls.Add(this.UiStorageLabelSaveAll);
             this.UiStorageGroupBoxStorage.Controls.Add(this.UiStorageRadioSaveAll);
             this.UiStorageGroupBoxStorage.Controls.Add(this.UiStorageLabelSaveOnlyFavorites);
@@ -1409,17 +1468,15 @@
             this.UiStorageGroupBoxStorage.Controls.Add(this.UiStorageToggleLoadClipboards);
             this.UiStorageGroupBoxStorage.Controls.Add(this.UiStorageLabelSaveClipboards);
             this.UiStorageGroupBoxStorage.Controls.Add(this.UiStorageToggleSaveClipboards);
-            this.UiStorageGroupBoxStorage.Controls.Add(this.UiStorageTrackBarEntriesToSaveText);
             this.UiStorageGroupBoxStorage.Controls.Add(this.UiStorageLabelWhichClipboardToSave);
-            this.UiStorageGroupBoxStorage.Controls.Add(this.UiStorageLabelAmountOfClipboardsToSave);
             this.UiStorageGroupBoxStorage.CustomBorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(227)))), ((int)(((byte)(220)))));
             this.UiStorageGroupBoxStorage.Font = new System.Drawing.Font("Segoe UI", 11F);
             this.UiStorageGroupBoxStorage.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.UiStorageGroupBoxStorage.Location = new System.Drawing.Point(13, 201);
+            this.UiStorageGroupBoxStorage.Location = new System.Drawing.Point(13, 1);
             this.UiStorageGroupBoxStorage.Name = "UiStorageGroupBoxStorage";
-            this.UiStorageGroupBoxStorage.Size = new System.Drawing.Size(525, 355);
+            this.UiStorageGroupBoxStorage.Size = new System.Drawing.Size(525, 297);
             this.UiStorageGroupBoxStorage.TabIndex = 510;
-            this.UiStorageGroupBoxStorage.Text = "Storage";
+            this.UiStorageGroupBoxStorage.Text = "Local storage";
             // 
             // UiStorageLabelSaveOnlyTextEntries
             // 
@@ -1454,25 +1511,12 @@
             this.UiStorageLabelSaveAllEntries.TabIndex = 521;
             this.UiStorageLabelSaveAllEntries.Text = "(0 entries)";
             // 
-            // UiStorageTrackBarEntriesToSave
-            // 
-            this.UiStorageTrackBarEntriesToSave.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.UiStorageTrackBarEntriesToSave.Location = new System.Drawing.Point(18, 309);
-            this.UiStorageTrackBarEntriesToSave.Maximum = 10000;
-            this.UiStorageTrackBarEntriesToSave.Minimum = 1;
-            this.UiStorageTrackBarEntriesToSave.Name = "UiStorageTrackBarEntriesToSave";
-            this.UiStorageTrackBarEntriesToSave.Size = new System.Drawing.Size(253, 23);
-            this.UiStorageTrackBarEntriesToSave.TabIndex = 520;
-            this.UiStorageTrackBarEntriesToSave.ThumbColor = System.Drawing.Color.FromArgb(((int)(((byte)(56)))), ((int)(((byte)(97)))), ((int)(((byte)(55)))));
-            this.UiStorageTrackBarEntriesToSave.Value = 1;
-            this.UiStorageTrackBarEntriesToSave.ValueChanged += new System.EventHandler(this.GuiStorageEntries_ValueChanged);
-            // 
             // UiStorageLabelSaveAll
             // 
             this.UiStorageLabelSaveAll.AutoSize = true;
             this.UiStorageLabelSaveAll.Cursor = System.Windows.Forms.Cursors.Hand;
             this.UiStorageLabelSaveAll.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.UiStorageLabelSaveAll.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.UiStorageLabelSaveAll.ForeColor = System.Drawing.Color.Black;
             this.UiStorageLabelSaveAll.Location = new System.Drawing.Point(44, 228);
             this.UiStorageLabelSaveAll.Name = "UiStorageLabelSaveAll";
             this.UiStorageLabelSaveAll.Size = new System.Drawing.Size(150, 23);
@@ -1503,7 +1547,7 @@
             this.UiStorageLabelSaveOnlyFavorites.AutoSize = true;
             this.UiStorageLabelSaveOnlyFavorites.Cursor = System.Windows.Forms.Cursors.Hand;
             this.UiStorageLabelSaveOnlyFavorites.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.UiStorageLabelSaveOnlyFavorites.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.UiStorageLabelSaveOnlyFavorites.ForeColor = System.Drawing.Color.Black;
             this.UiStorageLabelSaveOnlyFavorites.Location = new System.Drawing.Point(44, 197);
             this.UiStorageLabelSaveOnlyFavorites.Name = "UiStorageLabelSaveOnlyFavorites";
             this.UiStorageLabelSaveOnlyFavorites.Size = new System.Drawing.Size(243, 23);
@@ -1534,7 +1578,7 @@
             this.UiStorageLabelSaveOnlyText.AutoSize = true;
             this.UiStorageLabelSaveOnlyText.Cursor = System.Windows.Forms.Cursors.Hand;
             this.UiStorageLabelSaveOnlyText.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.UiStorageLabelSaveOnlyText.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.UiStorageLabelSaveOnlyText.ForeColor = System.Drawing.Color.Black;
             this.UiStorageLabelSaveOnlyText.Location = new System.Drawing.Point(44, 166);
             this.UiStorageLabelSaveOnlyText.Name = "UiStorageLabelSaveOnlyText";
             this.UiStorageLabelSaveOnlyText.Size = new System.Drawing.Size(199, 23);
@@ -1565,7 +1609,7 @@
             this.UiStorageLabelLoadClipboards.AutoSize = true;
             this.UiStorageLabelLoadClipboards.Cursor = System.Windows.Forms.Cursors.Hand;
             this.UiStorageLabelLoadClipboards.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.UiStorageLabelLoadClipboards.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.UiStorageLabelLoadClipboards.ForeColor = System.Drawing.Color.Black;
             this.UiStorageLabelLoadClipboards.Location = new System.Drawing.Point(59, 83);
             this.UiStorageLabelLoadClipboards.Name = "UiStorageLabelLoadClipboards";
             this.UiStorageLabelLoadClipboards.Size = new System.Drawing.Size(371, 23);
@@ -1596,12 +1640,12 @@
             this.UiStorageLabelSaveClipboards.AutoSize = true;
             this.UiStorageLabelSaveClipboards.Cursor = System.Windows.Forms.Cursors.Hand;
             this.UiStorageLabelSaveClipboards.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.UiStorageLabelSaveClipboards.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.UiStorageLabelSaveClipboards.ForeColor = System.Drawing.Color.Black;
             this.UiStorageLabelSaveClipboards.Location = new System.Drawing.Point(59, 52);
             this.UiStorageLabelSaveClipboards.Name = "UiStorageLabelSaveClipboards";
-            this.UiStorageLabelSaveClipboards.Size = new System.Drawing.Size(325, 23);
+            this.UiStorageLabelSaveClipboards.Size = new System.Drawing.Size(268, 23);
             this.UiStorageLabelSaveClipboards.TabIndex = 511;
-            this.UiStorageLabelSaveClipboards.Text = "Save clipboards to local computer on exit";
+            this.UiStorageLabelSaveClipboards.Text = "Save clipboards to local computer";
             this.UiStorageLabelSaveClipboards.Click += new System.EventHandler(this.UiStorageLabelSaveClipboards_Click);
             // 
             // UiStorageToggleSaveClipboards
@@ -1621,31 +1665,6 @@
             this.UiStorageToggleSaveClipboards.UncheckedState.InnerBorderColor = System.Drawing.Color.White;
             this.UiStorageToggleSaveClipboards.UncheckedState.InnerColor = System.Drawing.Color.White;
             this.UiStorageToggleSaveClipboards.CheckedChanged += new System.EventHandler(this.GuiStorageSaveClipboard_CheckedChanged);
-            // 
-            // UiStorageGroupBoxInfo
-            // 
-            this.UiStorageGroupBoxInfo.BorderRadius = 5;
-            this.UiStorageGroupBoxInfo.Controls.Add(this.UiStorageLabelInfo);
-            this.UiStorageGroupBoxInfo.CustomBorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(227)))), ((int)(((byte)(220)))));
-            this.UiStorageGroupBoxInfo.Font = new System.Drawing.Font("Segoe UI", 11F);
-            this.UiStorageGroupBoxInfo.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.UiStorageGroupBoxInfo.Location = new System.Drawing.Point(13, 1);
-            this.UiStorageGroupBoxInfo.Name = "UiStorageGroupBoxInfo";
-            this.UiStorageGroupBoxInfo.Size = new System.Drawing.Size(525, 183);
-            this.UiStorageGroupBoxInfo.TabIndex = 509;
-            this.UiStorageGroupBoxInfo.Text = "Info";
-            // 
-            // UiStorageLabelInfo
-            // 
-            this.UiStorageLabelInfo.AutoSize = false;
-            this.UiStorageLabelInfo.BackColor = System.Drawing.Color.Transparent;
-            this.UiStorageLabelInfo.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.UiStorageLabelInfo.IsSelectionEnabled = false;
-            this.UiStorageLabelInfo.Location = new System.Drawing.Point(15, 55);
-            this.UiStorageLabelInfo.Name = "UiStorageLabelInfo";
-            this.UiStorageLabelInfo.Size = new System.Drawing.Size(485, 133);
-            this.UiStorageLabelInfo.TabIndex = 511;
-            this.UiStorageLabelInfo.Text = resources.GetString("UiStorageLabelInfo.Text");
             // 
             // UiTabHotkeys
             // 
@@ -1826,7 +1845,7 @@
             this.UiHotkeysLabelPasteOnHotkey.AutoSize = true;
             this.UiHotkeysLabelPasteOnHotkey.Cursor = System.Windows.Forms.Cursors.Hand;
             this.UiHotkeysLabelPasteOnHotkey.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.UiHotkeysLabelPasteOnHotkey.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.UiHotkeysLabelPasteOnHotkey.ForeColor = System.Drawing.Color.Black;
             this.UiHotkeysLabelPasteOnHotkey.Location = new System.Drawing.Point(44, 83);
             this.UiHotkeysLabelPasteOnHotkey.Name = "UiHotkeysLabelPasteOnHotkey";
             this.UiHotkeysLabelPasteOnHotkey.Size = new System.Drawing.Size(168, 23);
@@ -1857,7 +1876,7 @@
             this.UiHotkeysLabelUseStandardWindowsMethod.AutoSize = true;
             this.UiHotkeysLabelUseStandardWindowsMethod.Cursor = System.Windows.Forms.Cursors.Hand;
             this.UiHotkeysLabelUseStandardWindowsMethod.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.UiHotkeysLabelUseStandardWindowsMethod.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.UiHotkeysLabelUseStandardWindowsMethod.ForeColor = System.Drawing.Color.Black;
             this.UiHotkeysLabelUseStandardWindowsMethod.Location = new System.Drawing.Point(44, 52);
             this.UiHotkeysLabelUseStandardWindowsMethod.Name = "UiHotkeysLabelUseStandardWindowsMethod";
             this.UiHotkeysLabelUseStandardWindowsMethod.Size = new System.Drawing.Size(328, 23);
@@ -2009,7 +2028,7 @@
             this.UiLayoutLabelRightBottom.AutoSize = true;
             this.UiLayoutLabelRightBottom.Cursor = System.Windows.Forms.Cursors.Hand;
             this.UiLayoutLabelRightBottom.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.UiLayoutLabelRightBottom.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.UiLayoutLabelRightBottom.ForeColor = System.Drawing.Color.Black;
             this.UiLayoutLabelRightBottom.Location = new System.Drawing.Point(44, 189);
             this.UiLayoutLabelRightBottom.Name = "UiLayoutLabelRightBottom";
             this.UiLayoutLabelRightBottom.Size = new System.Drawing.Size(112, 23);
@@ -2040,7 +2059,7 @@
             this.UiLayoutLabelRightTop.AutoSize = true;
             this.UiLayoutLabelRightTop.Cursor = System.Windows.Forms.Cursors.Hand;
             this.UiLayoutLabelRightTop.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.UiLayoutLabelRightTop.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.UiLayoutLabelRightTop.ForeColor = System.Drawing.Color.Black;
             this.UiLayoutLabelRightTop.Location = new System.Drawing.Point(44, 155);
             this.UiLayoutLabelRightTop.Name = "UiLayoutLabelRightTop";
             this.UiLayoutLabelRightTop.Size = new System.Drawing.Size(82, 23);
@@ -2071,7 +2090,7 @@
             this.UiLayoutLabelCenter.AutoSize = true;
             this.UiLayoutLabelCenter.Cursor = System.Windows.Forms.Cursors.Hand;
             this.UiLayoutLabelCenter.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.UiLayoutLabelCenter.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.UiLayoutLabelCenter.ForeColor = System.Drawing.Color.Black;
             this.UiLayoutLabelCenter.Location = new System.Drawing.Point(44, 121);
             this.UiLayoutLabelCenter.Name = "UiLayoutLabelCenter";
             this.UiLayoutLabelCenter.Size = new System.Drawing.Size(61, 23);
@@ -2102,7 +2121,7 @@
             this.UiLayoutLabelLeftBottom.AutoSize = true;
             this.UiLayoutLabelLeftBottom.Cursor = System.Windows.Forms.Cursors.Hand;
             this.UiLayoutLabelLeftBottom.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.UiLayoutLabelLeftBottom.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.UiLayoutLabelLeftBottom.ForeColor = System.Drawing.Color.Black;
             this.UiLayoutLabelLeftBottom.Location = new System.Drawing.Point(44, 87);
             this.UiLayoutLabelLeftBottom.Name = "UiLayoutLabelLeftBottom";
             this.UiLayoutLabelLeftBottom.Size = new System.Drawing.Size(100, 23);
@@ -2133,7 +2152,7 @@
             this.UiLayoutLabelLeftTop.AutoSize = true;
             this.UiLayoutLabelLeftTop.Cursor = System.Windows.Forms.Cursors.Hand;
             this.UiLayoutLabelLeftTop.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.UiLayoutLabelLeftTop.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.UiLayoutLabelLeftTop.ForeColor = System.Drawing.Color.Black;
             this.UiLayoutLabelLeftTop.Location = new System.Drawing.Point(44, 53);
             this.UiLayoutLabelLeftTop.Name = "UiLayoutLabelLeftTop";
             this.UiLayoutLabelLeftTop.Size = new System.Drawing.Size(70, 23);
@@ -2277,7 +2296,7 @@
             this.UiStyleLabelIconSquareOriginal.AutoSize = true;
             this.UiStyleLabelIconSquareOriginal.Cursor = System.Windows.Forms.Cursors.Hand;
             this.UiStyleLabelIconSquareOriginal.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.UiStyleLabelIconSquareOriginal.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.UiStyleLabelIconSquareOriginal.ForeColor = System.Drawing.Color.Black;
             this.UiStyleLabelIconSquareOriginal.Location = new System.Drawing.Point(44, 121);
             this.UiStyleLabelIconSquareOriginal.Name = "UiStyleLabelIconSquareOriginal";
             this.UiStyleLabelIconSquareOriginal.Size = new System.Drawing.Size(132, 23);
@@ -2308,7 +2327,7 @@
             this.UiStyleLabelIconSquareModern.AutoSize = true;
             this.UiStyleLabelIconSquareModern.Cursor = System.Windows.Forms.Cursors.Hand;
             this.UiStyleLabelIconSquareModern.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.UiStyleLabelIconSquareModern.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.UiStyleLabelIconSquareModern.ForeColor = System.Drawing.Color.Black;
             this.UiStyleLabelIconSquareModern.Location = new System.Drawing.Point(44, 87);
             this.UiStyleLabelIconSquareModern.Name = "UiStyleLabelIconSquareModern";
             this.UiStyleLabelIconSquareModern.Size = new System.Drawing.Size(132, 23);
@@ -2339,7 +2358,7 @@
             this.UiStyleLabelIconRoundModern.AutoSize = true;
             this.UiStyleLabelIconRoundModern.Cursor = System.Windows.Forms.Cursors.Hand;
             this.UiStyleLabelIconRoundModern.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.UiStyleLabelIconRoundModern.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.UiStyleLabelIconRoundModern.ForeColor = System.Drawing.Color.Black;
             this.UiStyleLabelIconRoundModern.Location = new System.Drawing.Point(44, 53);
             this.UiStyleLabelIconRoundModern.Name = "UiStyleLabelIconRoundModern";
             this.UiStyleLabelIconRoundModern.Size = new System.Drawing.Size(129, 23);
@@ -2423,7 +2442,7 @@
             this.UiColorsLabelCustom.AutoSize = true;
             this.UiColorsLabelCustom.Cursor = System.Windows.Forms.Cursors.Hand;
             this.UiColorsLabelCustom.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.UiColorsLabelCustom.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.UiColorsLabelCustom.ForeColor = System.Drawing.Color.Black;
             this.UiColorsLabelCustom.Location = new System.Drawing.Point(152, 122);
             this.UiColorsLabelCustom.Name = "UiColorsLabelCustom";
             this.UiColorsLabelCustom.Size = new System.Drawing.Size(69, 23);
@@ -2454,7 +2473,7 @@
             this.UiColorsLabelContrast.AutoSize = true;
             this.UiColorsLabelContrast.Cursor = System.Windows.Forms.Cursors.Hand;
             this.UiColorsLabelContrast.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.UiColorsLabelContrast.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.UiColorsLabelContrast.ForeColor = System.Drawing.Color.Black;
             this.UiColorsLabelContrast.Location = new System.Drawing.Point(152, 88);
             this.UiColorsLabelContrast.Name = "UiColorsLabelContrast";
             this.UiColorsLabelContrast.Size = new System.Drawing.Size(75, 23);
@@ -2485,7 +2504,7 @@
             this.UiColorsLabelYellow.AutoSize = true;
             this.UiColorsLabelYellow.Cursor = System.Windows.Forms.Cursors.Hand;
             this.UiColorsLabelYellow.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.UiColorsLabelYellow.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.UiColorsLabelYellow.ForeColor = System.Drawing.Color.Black;
             this.UiColorsLabelYellow.Location = new System.Drawing.Point(153, 52);
             this.UiColorsLabelYellow.Name = "UiColorsLabelYellow";
             this.UiColorsLabelYellow.Size = new System.Drawing.Size(57, 23);
@@ -2516,7 +2535,7 @@
             this.UiColorsLabelGreen.AutoSize = true;
             this.UiColorsLabelGreen.Cursor = System.Windows.Forms.Cursors.Hand;
             this.UiColorsLabelGreen.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.UiColorsLabelGreen.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.UiColorsLabelGreen.ForeColor = System.Drawing.Color.Black;
             this.UiColorsLabelGreen.Location = new System.Drawing.Point(51, 122);
             this.UiColorsLabelGreen.Name = "UiColorsLabelGreen";
             this.UiColorsLabelGreen.Size = new System.Drawing.Size(56, 23);
@@ -2547,7 +2566,7 @@
             this.UiColorsLabelBrown.AutoSize = true;
             this.UiColorsLabelBrown.Cursor = System.Windows.Forms.Cursors.Hand;
             this.UiColorsLabelBrown.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.UiColorsLabelBrown.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.UiColorsLabelBrown.ForeColor = System.Drawing.Color.Black;
             this.UiColorsLabelBrown.Location = new System.Drawing.Point(51, 88);
             this.UiColorsLabelBrown.Name = "UiColorsLabelBrown";
             this.UiColorsLabelBrown.Size = new System.Drawing.Size(58, 23);
@@ -2578,7 +2597,7 @@
             this.UiColorsLabelBlue.AutoSize = true;
             this.UiColorsLabelBlue.Cursor = System.Windows.Forms.Cursors.Hand;
             this.UiColorsLabelBlue.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.UiColorsLabelBlue.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.UiColorsLabelBlue.ForeColor = System.Drawing.Color.Black;
             this.UiColorsLabelBlue.Location = new System.Drawing.Point(51, 52);
             this.UiColorsLabelBlue.Name = "UiColorsLabelBlue";
             this.UiColorsLabelBlue.Size = new System.Drawing.Size(43, 23);
@@ -2914,7 +2933,7 @@
             this.UiAdvancedLabelEnableLog.AutoSize = true;
             this.UiAdvancedLabelEnableLog.Cursor = System.Windows.Forms.Cursors.Hand;
             this.UiAdvancedLabelEnableLog.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.UiAdvancedLabelEnableLog.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.UiAdvancedLabelEnableLog.ForeColor = System.Drawing.Color.Black;
             this.UiAdvancedLabelEnableLog.Location = new System.Drawing.Point(59, 52);
             this.UiAdvancedLabelEnableLog.Name = "UiAdvancedLabelEnableLog";
             this.UiAdvancedLabelEnableLog.Size = new System.Drawing.Size(227, 23);
@@ -3311,7 +3330,7 @@
             this.UiFeedbackLabelAttachLog.AutoSize = true;
             this.UiFeedbackLabelAttachLog.Cursor = System.Windows.Forms.Cursors.Hand;
             this.UiFeedbackLabelAttachLog.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.UiFeedbackLabelAttachLog.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.UiFeedbackLabelAttachLog.ForeColor = System.Drawing.Color.Black;
             this.UiFeedbackLabelAttachLog.Location = new System.Drawing.Point(54, 442);
             this.UiFeedbackLabelAttachLog.Name = "UiFeedbackLabelAttachLog";
             this.UiFeedbackLabelAttachLog.Size = new System.Drawing.Size(214, 23);
@@ -3468,9 +3487,10 @@
             this.UiGeneralGroupBoxClipboardList.ResumeLayout(false);
             this.UiGeneralGroupBoxClipboardList.PerformLayout();
             this.UiTabStorage.ResumeLayout(false);
+            this.guna2GroupBox1.ResumeLayout(false);
+            this.guna2GroupBox1.PerformLayout();
             this.UiStorageGroupBoxStorage.ResumeLayout(false);
             this.UiStorageGroupBoxStorage.PerformLayout();
-            this.UiStorageGroupBoxInfo.ResumeLayout(false);
             this.UiTabHotkeys.ResumeLayout(false);
             this.UiHotkeysGroupBoxHotkeys.ResumeLayout(false);
             this.UiHotkeysGroupBoxHotkeys.PerformLayout();
@@ -3613,7 +3633,6 @@
         private Guna.UI2.WinForms.Guna2GroupBox UiColorsGroupBoxLooks;
         private Guna.UI2.WinForms.Guna2GroupBox UiColorsGroupBoxTheme;
         private Guna.UI2.WinForms.Guna2GroupBox UiStorageGroupBoxStorage;
-        private Guna.UI2.WinForms.Guna2GroupBox UiStorageGroupBoxInfo;
         private Guna.UI2.WinForms.Guna2GroupBox UiHotkeysGroupBoxHotkeys;
         private Guna.UI2.WinForms.Guna2GroupBox UiHotkeysGroupBoxPasteBehaviour;
         private Guna.UI2.WinForms.Guna2ToggleSwitch UiGeneralToggleStartWithWindows;
@@ -3736,9 +3755,10 @@
         private System.Windows.Forms.PictureBox UiAdvancedPicture1BoxDevRefresh;
         private System.Windows.Forms.Panel UiAdvancedPanelDevRefresh;
         private System.Windows.Forms.PictureBox UiAdvancedPicture2BoxDevRefresh;
-        private Guna.UI2.WinForms.Guna2HtmlLabel UiStorageLabelInfo;
         private System.Windows.Forms.Timer TimerGetMemoryConsumption;
         private System.Windows.Forms.Timer TimerDeleteOldFiles;
+        private Guna.UI2.WinForms.Guna2GroupBox guna2GroupBox1;
+        private Guna.UI2.WinForms.Guna2HtmlLabel guna2HtmlLabel1;
     }
 
 }

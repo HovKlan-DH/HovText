@@ -282,11 +282,13 @@ namespace HovText
 
             // Get the total amount of entries, depending which view this is
             entriesInList = Settings.entriesShow.Count(kv => kv.Value == true);
+            /*
             if (Settings.isEnabledFavorites && Settings.showFavoriteList)
             {
                 int countFavorites = 0;
                 for (int i = Settings.entriesText.ElementAt(0).Key; i <= Settings.entriesText.ElementAt(Settings.entriesText.Count - 1).Key; i++)
                 {
+                    
                     if (Settings.entriesIsFavorite.TryGetValue(i, out bool isFavorite))
                     {
                         countFavorites += isFavorite ? 1 : 0;
@@ -299,6 +301,7 @@ namespace HovText
             {
                 Logging.Log("Opened the history list view [All]");
             }
+            */
 
             /*
             // Show a "warning" if we are in the favorite view but has no favorites
@@ -617,7 +620,7 @@ namespace HovText
                                     }
                                     favoriteBackgroundColor = historyLabel.BackColor;
                                 }
-                                //historyLabel.Refresh();
+                                historyLabel.Refresh();
 
                             }
                             else
@@ -671,7 +674,7 @@ namespace HovText
                                     }
                                     favoriteBackgroundColor = historyPictureBox.BackColor;
                                 }
-                                //historyPictureBox.Refresh();
+                                historyPictureBox.Refresh();
                             }
                             else
                             {
@@ -733,13 +736,9 @@ namespace HovText
                     }
                 }
 
-                int orderOrg = Settings.entriesOrder[entryActive];
-//                int orderNow = Settings.entriesOrder[entryActiveLast];
-//                int y = entriesOrderLoad.IndexOf(entry.Key);
-
                 // Set the headline
                 string entryApplication = Settings.entriesApplication[entryActive];
-                this.Controls["uiHistoryHeadline"].Text = "["+ entryActive +"]["+ orderOrg + "] " + entryInList + " of " + entriesInList + " from \"" + entryApplication + "\"";
+                this.Controls["uiHistoryHeadline"].Text = entryInList + " of " + entriesInList + " from \"" + entryApplication + "\"";
                 if (Settings.entriesIsImage[entryActive])
                 {
                     isTransparent = Settings.entriesIsTransparent[entryActive];
@@ -1337,6 +1336,7 @@ namespace HovText
                     UpdateHistory("down");
                 }
             }
+            Settings.settings.SaveFavoritesToFile();
         }
 
 
@@ -1373,9 +1373,6 @@ namespace HovText
 
                 // Restore if we previously was in the favorite list
                 Settings.showFavoriteList = Settings.showFavoriteListLast;
-
-                // Save the new order of the entries
-                Settings.settings.SaveIndexesToFile();
 
                 // https://stackoverflow.com/a/3068797/2028935
                 e.SuppressKeyPress = true;
@@ -1430,6 +1427,7 @@ namespace HovText
                 Settings.entriesIsImage.Remove(entryActive);
                 Settings.entriesIsTransparent.Remove(entryActive);
                 Settings.entriesOrder.Remove(entryActive);
+//                Settings.entriesOrderOriginal.Remove(entryActive);
 
                 entryActive = entryNewActive;
 //                Settings.entryIndex--;
@@ -1484,6 +1482,9 @@ namespace HovText
                     ActionEscape();
                 }
                 NativeMethods.SetForegroundWindow(this.Handle);
+
+                // Save the new order of the entries
+                Settings.settings.SaveIndexAndFavorite();
 
                 // https://stackoverflow.com/a/3068797/2028935
                 e.SuppressKeyPress = true;
