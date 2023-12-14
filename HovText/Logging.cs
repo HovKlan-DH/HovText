@@ -114,7 +114,7 @@ namespace HovText
 
         public static void Log(string logMessage)
         {
-            if (Settings.isTroubleshootEnabled)
+            if (Settings.isTroubleshootEnabled && Settings.hasWriteAccess)
             {
                 lock (_logLock)
                 {

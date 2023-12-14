@@ -276,6 +276,7 @@ namespace HovText
         int borderWidth = 1;
         bool isStartingUp = false;
         bool isFavoriteLoad;
+        public static bool hasWriteAccess;
 
 
         // ###########################################################################################
@@ -374,6 +375,9 @@ namespace HovText
             exeFileNameWithPath = Process.GetCurrentProcess().MainModule.FileName;
             exeFileNameWithoutExtension = Path.GetFileNameWithoutExtension(exeFileNameWithPath);
 
+            // Get if we have write access
+            hasWriteAccess = HasWriteAccess();
+
             // Start logging, if relevant
             Logging.StartLogging();
             hasTroubleshootLogged = isTroubleshootEnabled;
@@ -440,7 +444,7 @@ namespace HovText
             UiGeneralLabelEnableClipboardShortcut.Text = "(" + UiHotkeysButtonSearch.Text + ")";
 
             // Should we load the clipboard data file?
-            if (UiGeneralToggleEnableClipboard.Checked && UiStorageToggleLoadClipboards.Checked)
+            if (UiGeneralToggleEnableClipboard.Checked && UiStorageToggleLoadClipboards.Checked && hasWriteAccess)
             {
 
                 
@@ -491,6 +495,33 @@ namespace HovText
             isStartingUp = false;
         }
 
+
+        public bool HasWriteAccess()
+        {
+            try
+            {
+                // Attempt to create a temporary file in the specified folder
+                string tempFilePath = Path.Combine(baseDirectory, Path.GetRandomFileName());
+                using (FileStream fs = System.IO.File.Create(tempFilePath)) { }
+
+                // If successful, delete the temporary file and return true
+                System.IO.File.Delete(tempFilePath);
+                return true;
+            }
+            catch (UnauthorizedAccessException)
+            {
+                // If an UnauthorizedAccessException occurs, it means no write access
+                return false;
+            }
+        }
+
+        private void InformOnMissingWriteAccess()
+        {
+            MessageBox.Show("HovText cannot write to the path [" + baseDirectory + "]!\r\n\r\nDisabling \"Troubleshooting\" and \"Save clipboards\".\r\n\r\nPlease make sure you have write permission to this folder, if you want to use these functionalities.",
+                        "HovText ERROR",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Error);
+        }
 
         private void AddListener()
         {
@@ -1464,7 +1495,7 @@ namespace HovText
                 Logging.Log("Exception #1 raised (Settings):");
                 Logging.Log("  " + ex.Message);
                 MessageBox.Show("EXCEPTION #1 - please enable troubleshooting log and report to developer",
-                    "ERROR",
+                    "HovText ERROR",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Error);
             }
@@ -1801,7 +1832,7 @@ namespace HovText
                         Logging.Log("Exception #2 raised (Settings):");
                         Logging.Log("  " + ex.Message);
                         MessageBox.Show("EXCEPTION #2 - please enable troubleshooting log and report to developer",
-                            "ERROR",
+                            "HovText ERROR",
                             MessageBoxButtons.OK,
                             MessageBoxIcon.Error);
                     }
@@ -1818,7 +1849,7 @@ namespace HovText
                         Logging.Log("Exception #3 raised (Settings):");
                         Logging.Log("  " + ex.Message);
                         MessageBox.Show("EXCEPTION #3 - please enable troubleshooting log and report to developer",
-                            "ERROR",
+                            "HovText ERROR",
                             MessageBoxButtons.OK,
                             MessageBoxIcon.Error);
                     }
@@ -1828,7 +1859,7 @@ namespace HovText
                     Logging.Log("Exception #4 raised (Settings):");
                     Logging.Log("  Clipboard triggered but is not [isEntryText] or [isEntryImage]");
                     MessageBox.Show("EXCEPTION #4 - please enable troubleshooting log and report to developer",
-                            "ERROR",
+                            "HovText ERROR",
                             MessageBoxButtons.OK,
                             MessageBoxIcon.Error);
                 }
@@ -2274,7 +2305,7 @@ namespace HovText
             {
                 e.Cancel = true;
                 MessageBox.Show("HovText is currently processing a file - please wait until this finishes, before you close the application",
-                    "INFO",
+                    "HovText INFO",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Information);
                 return;
@@ -3051,6 +3082,12 @@ namespace HovText
             // Save clipboards on exit
             int saveOnExit = int.Parse((string)GetRegistryKey(registryPath, "StorageSaveOnExit"));
             UiStorageToggleSaveClipboards.Checked = saveOnExit == 1;
+            bool shouldNotifyNoWriteAccess = false;
+            if(!hasWriteAccess && UiStorageToggleSaveClipboards.Checked)
+            {
+                UiStorageToggleSaveClipboards.Checked = false;
+                shouldNotifyNoWriteAccess = true;
+            }
 
             // Load clipboards on launch
             int loadOnLaunch = int.Parse((string)GetRegistryKey(registryPath, "StorageLoadOnLaunch"));
@@ -3230,6 +3267,21 @@ namespace HovText
             // Troubleshooting
             int troubleshootEnable = int.Parse((string)GetRegistryKey(registryPath, "TroubleshootEnable"));
             UiAdvancedToggleEnableLog.Checked = troubleshootEnable == 1;
+            if(!hasWriteAccess && UiAdvancedToggleEnableLog.Checked)
+            {
+                UiAdvancedToggleEnableLog.Checked = false;
+                shouldNotifyNoWriteAccess = true;
+            }
+
+
+            // ------------------------------------------
+            // Notify on "any saving is disabled as no write access"
+            // ------------------------------------------
+            if(shouldNotifyNoWriteAccess)
+            {
+                InformOnMissingWriteAccess();
+            }
+
         }
 
 
@@ -4691,6 +4743,15 @@ namespace HovText
 
         private void GuiTroubleshootEnabled_CheckedChanged(object sender, EventArgs e)
         {
+
+            // Check if we have write access - if not, then revert
+            if (!HasWriteAccess() && UiAdvancedToggleEnableLog.Checked)
+            {
+                UiAdvancedToggleEnableLog.Checked = false;
+                InformOnMissingWriteAccess();
+                return;
+            }
+
             if (UiAdvancedToggleEnableLog.Checked)
             {
                 // Get new status now, if logging is enabled or disabled
@@ -4749,7 +4810,7 @@ namespace HovText
             else
             {
                 MessageBox.Show(pathAndLog + " does not exists!",
-                    "WARNING",
+                    "HovText WARNING",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Warning);
                 UiAdvancedButtonDeleteLog.Enabled = false;
@@ -4906,7 +4967,7 @@ namespace HovText
                             Logging.Log(txt);
                             Logging.Log("  Email used = [" + email + "]");
                             MessageBox.Show(txt,
-                                "OK",
+                                "HovText OK",
                                 MessageBoxButtons.OK,
                                 MessageBoxIcon.Information);
                         }
@@ -4915,7 +4976,7 @@ namespace HovText
                             string txt = "Feedback sent - no response will be given as you did not specify an email address";
                             Logging.Log(txt);
                             MessageBox.Show(txt,
-                                "OK",
+                                "HovText OK",
                                 MessageBoxButtons.OK,
                                 MessageBoxIcon.Information);
                         }
@@ -4928,7 +4989,7 @@ namespace HovText
                     Logging.Log("  Cannot connect with server to submit feedback:");
                     Logging.Log("  " + ex.Message);
                     MessageBox.Show("HovText cannot connect to the server, where it should submit the feedback. Please connect directly with the developer at \"dennis@hovtext.com\" and state this is a problem, thanks.\r\n\r\nThe exact error is:\r\n\r\n" + ex.Message,
-                        "ERROR",
+                        "HovText ERROR",
                         MessageBoxButtons.OK,
                         MessageBoxIcon.Error);
                 }
@@ -4940,7 +5001,7 @@ namespace HovText
                 Logging.Log("EXCEPTION #12 raised:");
                 Logging.Log("  " + txt);
                 MessageBox.Show(txt,
-                    "ERROR",
+                    "HovText ERROR",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Error);
             }
@@ -5398,7 +5459,7 @@ del ""%~f0"" >> """ + pathAndTempLog + @"""
                 Logging.Log("  " + ex.Message);
 
                 MessageBox.Show("HovText cannot connect to the server, where it should get the new version. Please retry later ...\r\n\r\nThe exact error is:\r\n\r\n" + ex.Message,
-                        "ERROR",
+                        "HovText ERROR",
                         MessageBoxButtons.OK,
                         MessageBoxIcon.Error);
             }
@@ -5790,6 +5851,16 @@ del ""%~f0"" >> """ + pathAndTempLog + @"""
 
         private void GuiStorageSaveClipboard_CheckedChanged(object sender, EventArgs e)
         {
+
+            // Check if we have write access - if not, then revert
+            if (!HasWriteAccess() && UiStorageToggleSaveClipboards.Checked)
+            {
+                UiStorageToggleSaveClipboards.Checked = false;
+                InformOnMissingWriteAccess();
+                return;
+            }
+
+
             if (UiStorageToggleSaveClipboards.Checked)
             {
                 UiStorageRadioSaveOnlyText.Enabled = true;
@@ -5821,6 +5892,7 @@ del ""%~f0"" >> """ + pathAndTempLog + @"""
                 UiStorageLabelSaveOnlyFavorites.Enabled = false;
                 SetRegistryKey(registryPath, "StorageSaveOnExit", "0");
             }
+
         }
 
 
