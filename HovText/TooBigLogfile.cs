@@ -12,6 +12,7 @@ logging but truncate the logfile.
 
 using System;
 using System.IO;
+using System.Threading;
 using System.Windows.Forms;
 
 namespace HovText
@@ -59,16 +60,32 @@ namespace HovText
 
 
         // ###########################################################################################
-        // Keep troubleshoot logging but truncate logfile
+        // Keep troubleshoot logging but truncate logfile.
+        // Retry X times.
         // ###########################################################################################
 
         private void GuiTooBigKeep_Click(object sender, EventArgs e)
         {
+            int retries = 5;
+            int msDelay = 1000;
+
             if (File.Exists(Settings.pathAndLog))
             {
-                File.Delete(@Settings.pathAndLog);
+                for (int i = 1; i <= retries; i++)
+                {
+                    try
+                    {
+                        File.Delete(@Settings.pathAndLog);
+                        Logging.Log("Keep troubleshoot logging enabled but truncate file");
+                        break;
+                    }
+                    catch (Exception ex)
+                    {
+                        Logging.Log($"Could not delete troubleshooting logfile as it is being used by another process - try [{i}/{retries}]");
+                    }
+                    Thread.Sleep(msDelay);
+                }
             }
-            Logging.Log("Keep troubleshoot logging but truncate file");
             Close();
         }
 

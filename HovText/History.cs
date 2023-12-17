@@ -601,7 +601,7 @@ namespace HovText
                                         historyLabel.BackColor = ColorTranslator.FromHtml(Settings.historyColorsActive[Settings.historyColorTheme]);
                                         historyLabel.ForeColor = ColorTranslator.FromHtml(Settings.historyColorsActiveText[Settings.historyColorTheme]);
                                         changeBorderElement = historyLabel.Name;
-//                                        historyLabel.Refresh();
+////                                        historyLabel.Refresh();
 
                                         isEntryAtTop = shownElements == 1;
                                         isEntryAtBottom = shownElements == showElements;
@@ -620,7 +620,7 @@ namespace HovText
                                     }
                                     favoriteBackgroundColor = historyLabel.BackColor;
                                 }
-                                historyLabel.Refresh();
+//                                historyLabel.Refresh();
 
                             }
                             else
@@ -655,7 +655,7 @@ namespace HovText
                                         historyPictureBox.BackColor = ColorTranslator.FromHtml(Settings.historyColorsActive[Settings.historyColorTheme]);
                                         historyPictureBox.ForeColor = ColorTranslator.FromHtml(Settings.historyColorsActiveText[Settings.historyColorTheme]);
                                         changeBorderElement = historyPictureBox.Name;
-//                                        historyPictureBox.Refresh();
+////                                       historyPictureBox.Refresh();
 
                                         isEntryAtTop = shownElements == 1;
                                         isEntryAtBottom = shownElements == showElements;
@@ -674,7 +674,7 @@ namespace HovText
                                     }
                                     favoriteBackgroundColor = historyPictureBox.BackColor;
                                 }
-                                historyPictureBox.Refresh();
+//                                historyPictureBox.Refresh();
                             }
                             else
                             {
@@ -1336,7 +1336,7 @@ namespace HovText
                     UpdateHistory("down");
                 }
             }
-            Settings.settings.SaveFavoritesToFile();
+            Settings.settings.SaveIsFavoritesToFile();
         }
 
 
@@ -1417,6 +1417,7 @@ namespace HovText
                 Settings.entriesText.Remove(entryActive);
                 Settings.entriesImage.Remove(entryActive);
                 Settings.entriesImageTrans.Remove(entryActive);
+                Settings.entriesChecksum.Remove(entryActive);
                 Settings.entriesApplication.Remove(entryActive);
                 Settings.entriesApplicationIcon.Remove(entryActive);
                 Settings.entriesOriginal.Remove(entryActive);
