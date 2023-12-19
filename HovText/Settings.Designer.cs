@@ -95,7 +95,6 @@
             this.ColorDialogActive = new System.Windows.Forms.ColorDialog();
             this.ColorDialogHeaderText = new System.Windows.Forms.ColorDialog();
             this.ColorDialogActiveText = new System.Windows.Forms.ColorDialog();
-            this.TimerTerminate = new System.Windows.Forms.Timer(this.components);
             this.ColorDialogSearch = new System.Windows.Forms.ColorDialog();
             this.ColorDialogSearchText = new System.Windows.Forms.ColorDialog();
             this.UiFormControlBoxClose = new Guna.UI2.WinForms.Guna2ControlBox();
@@ -231,7 +230,6 @@
             this.UiAdvancedPanelDevRefresh = new System.Windows.Forms.Panel();
             this.UiAdvancedPicture2BoxDevRefresh = new System.Windows.Forms.PictureBox();
             this.UiAdvancedPicture1BoxDevRefresh = new System.Windows.Forms.PictureBox();
-            this.UiAdvancedButtonAutoInstall = new Guna.UI2.WinForms.Guna2Button();
             this.UiAdvancedButtonManualDownload = new Guna.UI2.WinForms.Guna2Button();
             this.UiTabDoc = new System.Windows.Forms.TabPage();
             this.UiDocLabelDonators = new Guna.UI2.WinForms.Guna2HtmlLabel();
@@ -246,7 +244,6 @@
             this.UiFeedbackLabelIntro = new Guna.UI2.WinForms.Guna2TextBox();
             this.UiFeedbackButtonSubmit = new Guna.UI2.WinForms.Guna2Button();
             this.UiFeedbackTextBoxEmail = new Guna.UI2.WinForms.Guna2TextBox();
-            this.UiFeedbackLabelAttachLog = new System.Windows.Forms.Label();
             this.UiFeedbackToggleAttachLog = new Guna.UI2.WinForms.Guna2ToggleSwitch();
             this.UiFeedbackTextBoxFeedback = new Guna.UI2.WinForms.Guna2TextBox();
             this.UiTabAbout = new System.Windows.Forms.TabPage();
@@ -256,6 +253,7 @@
             this.UiFormGradientPanel = new Guna.UI2.WinForms.Guna2GradientPanel();
             this.TimerGetMemoryConsumption = new System.Windows.Forms.Timer(this.components);
             this.TimerDeleteOldFiles = new System.Windows.Forms.Timer(this.components);
+            this.UiFeedbackLabelAttachLog = new System.Windows.Forms.Label();
             this.MenuStripIconNotify.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.UiAboutPictureBoxPaypal)).BeginInit();
             this.UiFormLabelLoadingPanel.SuspendLayout();
@@ -870,11 +868,6 @@
             this.UiFeedbackLabelEmail.Size = new System.Drawing.Size(235, 23);
             this.UiFeedbackLabelEmail.TabIndex = 514;
             this.UiFeedbackLabelEmail.Text = "Your email address (optional):";
-            // 
-            // TimerTerminate
-            // 
-            this.TimerTerminate.Interval = 5000;
-            this.TimerTerminate.Tick += new System.EventHandler(this.TerminateTimer_Tick);
             // 
             // UiFormControlBoxClose
             // 
@@ -2997,7 +2990,6 @@
             // 
             this.UiAdvancedGroupDevVersion.BorderRadius = 5;
             this.UiAdvancedGroupDevVersion.Controls.Add(this.UiAdvancedPanelDevRefresh);
-            this.UiAdvancedGroupDevVersion.Controls.Add(this.UiAdvancedButtonAutoInstall);
             this.UiAdvancedGroupDevVersion.Controls.Add(this.UiAdvancedButtonManualDownload);
             this.UiAdvancedGroupDevVersion.Controls.Add(this.UiAdvancedLabelDisclaimer);
             this.UiAdvancedGroupDevVersion.Controls.Add(this.UiAdvancedLabelDevVersion);
@@ -3045,26 +3037,6 @@
             this.UiAdvancedPicture1BoxDevRefresh.TabIndex = 1009;
             this.UiAdvancedPicture1BoxDevRefresh.TabStop = false;
             // 
-            // UiAdvancedButtonAutoInstall
-            // 
-            this.UiAdvancedButtonAutoInstall.AutoRoundedCorners = true;
-            this.UiAdvancedButtonAutoInstall.BorderRadius = 15;
-            this.UiAdvancedButtonAutoInstall.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.UiAdvancedButtonAutoInstall.DisabledState.BorderColor = System.Drawing.Color.Silver;
-            this.UiAdvancedButtonAutoInstall.DisabledState.CustomBorderColor = System.Drawing.Color.Silver;
-            this.UiAdvancedButtonAutoInstall.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(226)))), ((int)(((byte)(226)))), ((int)(((byte)(226)))));
-            this.UiAdvancedButtonAutoInstall.DisabledState.ForeColor = System.Drawing.Color.Gray;
-            this.UiAdvancedButtonAutoInstall.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(56)))), ((int)(((byte)(97)))), ((int)(((byte)(55)))));
-            this.UiAdvancedButtonAutoInstall.Font = new System.Drawing.Font("Segoe UI Semibold", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.UiAdvancedButtonAutoInstall.ForeColor = System.Drawing.Color.White;
-            this.UiAdvancedButtonAutoInstall.Location = new System.Drawing.Point(-47, 101);
-            this.UiAdvancedButtonAutoInstall.Name = "UiAdvancedButtonAutoInstall";
-            this.UiAdvancedButtonAutoInstall.Size = new System.Drawing.Size(198, 32);
-            this.UiAdvancedButtonAutoInstall.TabIndex = 1008;
-            this.UiAdvancedButtonAutoInstall.Text = "Auto-install";
-            this.UiAdvancedButtonAutoInstall.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.UiAdvancedButtonAutoInstall.Click += new System.EventHandler(this.Button1_Click_1);
-            // 
             // UiAdvancedButtonManualDownload
             // 
             this.UiAdvancedButtonManualDownload.AutoRoundedCorners = true;
@@ -3077,7 +3049,7 @@
             this.UiAdvancedButtonManualDownload.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(56)))), ((int)(((byte)(97)))), ((int)(((byte)(55)))));
             this.UiAdvancedButtonManualDownload.Font = new System.Drawing.Font("Segoe UI Semibold", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.UiAdvancedButtonManualDownload.ForeColor = System.Drawing.Color.White;
-            this.UiAdvancedButtonManualDownload.Location = new System.Drawing.Point(-57, 145);
+            this.UiAdvancedButtonManualDownload.Location = new System.Drawing.Point(-47, 101);
             this.UiAdvancedButtonManualDownload.Name = "UiAdvancedButtonManualDownload";
             this.UiAdvancedButtonManualDownload.Size = new System.Drawing.Size(208, 32);
             this.UiAdvancedButtonManualDownload.TabIndex = 1007;
@@ -3241,10 +3213,10 @@
             // 
             // UiTabFeedback
             // 
+            this.UiTabFeedback.Controls.Add(this.UiFeedbackLabelAttachLog);
             this.UiTabFeedback.Controls.Add(this.UiFeedbackLabelIntro);
             this.UiTabFeedback.Controls.Add(this.UiFeedbackButtonSubmit);
             this.UiTabFeedback.Controls.Add(this.UiFeedbackTextBoxEmail);
-            this.UiTabFeedback.Controls.Add(this.UiFeedbackLabelAttachLog);
             this.UiTabFeedback.Controls.Add(this.UiFeedbackToggleAttachLog);
             this.UiTabFeedback.Controls.Add(this.UiFeedbackTextBoxFeedback);
             this.UiTabFeedback.Controls.Add(this.UiFeedbackLabelEmail);
@@ -3324,19 +3296,6 @@
             this.UiFeedbackTextBoxEmail.SelectedText = "";
             this.UiFeedbackTextBoxEmail.Size = new System.Drawing.Size(496, 34);
             this.UiFeedbackTextBoxEmail.TabIndex = 609;
-            // 
-            // UiFeedbackLabelAttachLog
-            // 
-            this.UiFeedbackLabelAttachLog.AutoSize = true;
-            this.UiFeedbackLabelAttachLog.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.UiFeedbackLabelAttachLog.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.UiFeedbackLabelAttachLog.ForeColor = System.Drawing.Color.Black;
-            this.UiFeedbackLabelAttachLog.Location = new System.Drawing.Point(54, 442);
-            this.UiFeedbackLabelAttachLog.Name = "UiFeedbackLabelAttachLog";
-            this.UiFeedbackLabelAttachLog.Size = new System.Drawing.Size(214, 23);
-            this.UiFeedbackLabelAttachLog.TabIndex = 608;
-            this.UiFeedbackLabelAttachLog.Text = "Attach troubleshoot logfile";
-            this.UiFeedbackLabelAttachLog.Click += new System.EventHandler(this.UiFeedbackLabelAttachLog_Click);
             // 
             // UiFeedbackToggleAttachLog
             // 
@@ -3441,9 +3400,21 @@
             // 
             // TimerDeleteOldFiles
             // 
-            this.TimerDeleteOldFiles.Enabled = true;
             this.TimerDeleteOldFiles.Interval = 60000;
             this.TimerDeleteOldFiles.Tick += new System.EventHandler(this.TimerDeleteOldFiles_Tick);
+            // 
+            // UiFeedbackLabelAttachLog
+            // 
+            this.UiFeedbackLabelAttachLog.AutoSize = true;
+            this.UiFeedbackLabelAttachLog.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.UiFeedbackLabelAttachLog.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.UiFeedbackLabelAttachLog.ForeColor = System.Drawing.Color.Black;
+            this.UiFeedbackLabelAttachLog.Location = new System.Drawing.Point(54, 442);
+            this.UiFeedbackLabelAttachLog.Name = "UiFeedbackLabelAttachLog";
+            this.UiFeedbackLabelAttachLog.Size = new System.Drawing.Size(227, 23);
+            this.UiFeedbackLabelAttachLog.TabIndex = 1012;
+            this.UiFeedbackLabelAttachLog.Text = "Enable troubleshoot logging";
+            this.UiFeedbackLabelAttachLog.Click += new System.EventHandler(this.UiFeedbackLabelAttachLog_Click);
             // 
             // Settings
             // 
@@ -3576,7 +3547,6 @@
         private System.Windows.Forms.PictureBox UiStyleOictureBoxIcon5;
         private System.Windows.Forms.PictureBox UiStyleOictureBoxIcon6;
         private System.Windows.Forms.PictureBox UiAboutPictureBoxPaypal;
-        private System.Windows.Forms.Timer TimerTerminate;
         private System.Windows.Forms.Label UiColorsLabelEntry;
         private System.Windows.Forms.Label UiColorsLabelActive;
         private System.Windows.Forms.Label UiColorsLabelHeader;
@@ -3698,7 +3668,6 @@
         private Guna.UI2.WinForms.Guna2Button UiAdvancedButtonDeleteLog;
         private Guna.UI2.WinForms.Guna2Button UiAdvancedButtonOpenLocation;
         private Guna.UI2.WinForms.Guna2Button UiAdvancedButtonClearClipboards;
-        private Guna.UI2.WinForms.Guna2Button UiAdvancedButtonAutoInstall;
         private Guna.UI2.WinForms.Guna2Button UiAdvancedButtonManualDownload;
         private Guna.UI2.WinForms.Guna2Button UiAdvancedButtonCleanup;
         private Guna.UI2.WinForms.Guna2Button UiStyleButtonFont;
@@ -3733,7 +3702,6 @@
         private Guna.UI2.WinForms.Guna2Button UiColorsButtonHeaderText;
         private Guna.UI2.WinForms.Guna2Button UiFeedbackButtonSubmit;
         private Guna.UI2.WinForms.Guna2TextBox UiFeedbackTextBoxEmail;
-        private System.Windows.Forms.Label UiFeedbackLabelAttachLog;
         private Guna.UI2.WinForms.Guna2ToggleSwitch UiFeedbackToggleAttachLog;
         private Guna.UI2.WinForms.Guna2TextBox UiFeedbackTextBoxFeedback;
         private Guna.UI2.WinForms.Guna2HtmlLabel UiAboutLabelText;
@@ -3759,6 +3727,7 @@
         private System.Windows.Forms.Timer TimerDeleteOldFiles;
         private Guna.UI2.WinForms.Guna2GroupBox guna2GroupBox1;
         private Guna.UI2.WinForms.Guna2HtmlLabel guna2HtmlLabel1;
+        private System.Windows.Forms.Label UiFeedbackLabelAttachLog;
     }
 
 }

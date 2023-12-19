@@ -35,7 +35,6 @@
             this.GuiAppVerYours = new System.Windows.Forms.Label();
             this.GuiAppVerOnline = new System.Windows.Forms.Label();
             this.UpdateGoToHomepage = new System.Windows.Forms.RichTextBox();
-            this.guna2Button6 = new Guna.UI2.WinForms.Guna2Button();
             this.guna2Button1 = new Guna.UI2.WinForms.Guna2Button();
             this.guna2Button2 = new Guna.UI2.WinForms.Guna2Button();
             this.label4 = new System.Windows.Forms.Label();
@@ -112,25 +111,6 @@
             this.UpdateGoToHomepage.Text = "#";
             this.UpdateGoToHomepage.LinkClicked += new System.Windows.Forms.LinkClickedEventHandler(this.UpdateGoToHomepage_LinkClicked);
             // 
-            // guna2Button6
-            // 
-            this.guna2Button6.AutoRoundedCorners = true;
-            this.guna2Button6.BorderRadius = 15;
-            this.guna2Button6.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.guna2Button6.DisabledState.BorderColor = System.Drawing.Color.Silver;
-            this.guna2Button6.DisabledState.CustomBorderColor = System.Drawing.Color.Silver;
-            this.guna2Button6.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(226)))), ((int)(((byte)(226)))), ((int)(((byte)(226)))));
-            this.guna2Button6.DisabledState.ForeColor = System.Drawing.Color.Gray;
-            this.guna2Button6.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(56)))), ((int)(((byte)(97)))), ((int)(((byte)(55)))));
-            this.guna2Button6.Font = new System.Drawing.Font("Segoe UI Semibold", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.guna2Button6.ForeColor = System.Drawing.Color.White;
-            this.guna2Button6.Location = new System.Drawing.Point(25, 235);
-            this.guna2Button6.Name = "guna2Button6";
-            this.guna2Button6.Size = new System.Drawing.Size(183, 32);
-            this.guna2Button6.TabIndex = 1005;
-            this.guna2Button6.Text = "Auto-install";
-            this.guna2Button6.Click += new System.EventHandler(this.GuiUpdateButton3_Click);
-            // 
             // guna2Button1
             // 
             this.guna2Button1.AutoRoundedCorners = true;
@@ -143,7 +123,7 @@
             this.guna2Button1.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(56)))), ((int)(((byte)(97)))), ((int)(((byte)(55)))));
             this.guna2Button1.Font = new System.Drawing.Font("Segoe UI Semibold", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.guna2Button1.ForeColor = System.Drawing.Color.White;
-            this.guna2Button1.Location = new System.Drawing.Point(219, 235);
+            this.guna2Button1.Location = new System.Drawing.Point(112, 235);
             this.guna2Button1.Name = "guna2Button1";
             this.guna2Button1.Size = new System.Drawing.Size(183, 32);
             this.guna2Button1.TabIndex = 1006;
@@ -162,7 +142,7 @@
             this.guna2Button2.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(56)))), ((int)(((byte)(97)))), ((int)(((byte)(55)))));
             this.guna2Button2.Font = new System.Drawing.Font("Segoe UI Semibold", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.guna2Button2.ForeColor = System.Drawing.Color.White;
-            this.guna2Button2.Location = new System.Drawing.Point(413, 235);
+            this.guna2Button2.Location = new System.Drawing.Point(326, 235);
             this.guna2Button2.Name = "guna2Button2";
             this.guna2Button2.Size = new System.Drawing.Size(183, 32);
             this.guna2Button2.TabIndex = 1007;
@@ -187,7 +167,6 @@
             this.Controls.Add(this.label4);
             this.Controls.Add(this.guna2Button2);
             this.Controls.Add(this.guna2Button1);
-            this.Controls.Add(this.guna2Button6);
             this.Controls.Add(this.UpdateGoToHomepage);
             this.Controls.Add(this.GuiAppVerOnline);
             this.Controls.Add(this.GuiAppVerYours);
@@ -214,7 +193,6 @@
         public System.Windows.Forms.Label GuiAppVerYours;
         public System.Windows.Forms.Label GuiAppVerOnline;
         private System.Windows.Forms.RichTextBox UpdateGoToHomepage;
-        private Guna.UI2.WinForms.Guna2Button guna2Button6;
         private Guna.UI2.WinForms.Guna2Button guna2Button1;
         private Guna.UI2.WinForms.Guna2Button guna2Button2;
         private System.Windows.Forms.Label label4;

@@ -44,6 +44,7 @@ namespace HovText
         // Auto-install
         // ###########################################################################################
 
+        /*
         private void GuiUpdateButton3_Click(object sender, EventArgs e)
         {
             Logging.Log("Update popup: Clicked the \"Auto-install\"");
@@ -51,6 +52,7 @@ namespace HovText
             Hide();
             Settings.DownloadInstall(GuiAppVerOnline.Text);
         }
+        */
 
 
         // ###########################################################################################

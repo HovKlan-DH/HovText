@@ -130,7 +130,7 @@
     <value>146, 17</value>
   </metadata>
   <metadata name="TimerUpdateVersion.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>181, 96</value>
+    <value>17, 96</value>
   </metadata>
   <metadata name="TimerMouseClick.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>1266, 55</value>
@@ -601,9 +601,6 @@
   <metadata name="ColorDialogActiveText.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>418, 55</value>
   </metadata>
-  <metadata name="TimerTerminate.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>17, 96</value>
-  </metadata>
   <metadata name="ColorDialogSearch.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>1178, 17</value>
   </metadata>
@@ -825,6 +822,9 @@
         L5HMHxms9WDZgUlrMUGDwN4YexPCCUmEtBGwbBJB8CFsIWgRWHJg1zKPs3v9C8S/+uq/AGpu5T6k/+8o
         AAAAAElFTkSuQmCC
 </value>
+  </data>
+  <data name="UiFeedbackLabelIntro.DefaultText" xml:space="preserve">
+    <value>If you have any feedback for the developer, then please reach out, as I would appreciate some interaction with the users of HovText :-) Maybe you want to ask a question, suggest a feature or file a bug report? Your feedback will only be visible for the developer.</value>
   </data>
   <data name="UiAdvancedPicture2BoxDevRefresh.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
@@ -2196,9 +2196,6 @@
         AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
 </value>
   </data>
-  <data name="UiFeedbackLabelIntro.DefaultText" xml:space="preserve">
-    <value>If you have any feedback for the developer, then please reach out, as I would appreciate some interaction with the users of HovText :-) Maybe you want to ask a question, suggest a feature or file a bug report? Your feedback will only be visible for the developer.</value>
-  </data>
   <data name="UiAboutLabelText.Text" xml:space="preserve">
     <value>This application is open source, and you can use it on any computer free of charge. You are of course encouraged to donate some $$$, if you find it useful and want to motivate for continues support :-) All donations received will be used solely for enhancing HovText.&lt;br /&gt;
 &lt;br /&gt;
@@ -2221,7 +2218,7 @@ Jesper and Dennis</value>
     <value>1002, 55</value>
   </metadata>
   <metadata name="TimerDeleteOldFiles.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>376, 96</value>
+    <value>212, 96</value>
   </metadata>
   <metadata name="$this.TrayHeight" type="System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>141</value>
