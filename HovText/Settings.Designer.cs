@@ -229,6 +229,7 @@
             this.UiAdvancedGroupBoxStatus = new Guna.UI2.WinForms.Guna2GroupBox();
             this.UiAdvancedButtonClearClipboards = new Guna.UI2.WinForms.Guna2Button();
             this.UiAdvancedGroupDevVersion = new Guna.UI2.WinForms.Guna2GroupBox();
+            this.guna2Button2 = new Guna.UI2.WinForms.Guna2Button();
             this.UiAdvancedPanelDevRefresh = new System.Windows.Forms.Panel();
             this.UiAdvancedPicture2BoxDevRefresh = new System.Windows.Forms.PictureBox();
             this.UiAdvancedPicture1BoxDevRefresh = new System.Windows.Forms.PictureBox();
@@ -258,7 +259,6 @@
             this.TimerDeleteOldFiles = new System.Windows.Forms.Timer(this.components);
             this.TimerProcessQueue = new System.Windows.Forms.Timer(this.components);
             this.TimerToggleSaveIcon = new System.Windows.Forms.Timer(this.components);
-            this.guna2Button2 = new Guna.UI2.WinForms.Guna2Button();
             this.MenuStripIconNotify.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.UiAboutPictureBoxPaypal)).BeginInit();
             this.UiFormLabelLoadingPanel.SuspendLayout();
@@ -3034,6 +3034,27 @@
             this.UiAdvancedGroupDevVersion.TabIndex = 522;
             this.UiAdvancedGroupDevVersion.Text = "Development version available for testing";
             // 
+            // guna2Button2
+            // 
+            this.guna2Button2.AutoRoundedCorners = true;
+            this.guna2Button2.BorderRadius = 15;
+            this.guna2Button2.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.guna2Button2.DisabledState.BorderColor = System.Drawing.Color.Silver;
+            this.guna2Button2.DisabledState.CustomBorderColor = System.Drawing.Color.Silver;
+            this.guna2Button2.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(226)))), ((int)(((byte)(226)))), ((int)(((byte)(226)))));
+            this.guna2Button2.DisabledState.ForeColor = System.Drawing.Color.Gray;
+            this.guna2Button2.Enabled = false;
+            this.guna2Button2.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(56)))), ((int)(((byte)(97)))), ((int)(((byte)(55)))));
+            this.guna2Button2.Font = new System.Drawing.Font("Segoe UI Semibold", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.guna2Button2.ForeColor = System.Drawing.Color.White;
+            this.guna2Button2.Location = new System.Drawing.Point(-47, 101);
+            this.guna2Button2.Name = "guna2Button2";
+            this.guna2Button2.Size = new System.Drawing.Size(208, 32);
+            this.guna2Button2.TabIndex = 1011;
+            this.guna2Button2.Text = "Auto-install";
+            this.guna2Button2.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.guna2Button2.Click += new System.EventHandler(this.guna2Button1_Click);
+            // 
             // UiAdvancedPanelDevRefresh
             // 
             this.UiAdvancedPanelDevRefresh.Controls.Add(this.UiAdvancedPicture2BoxDevRefresh);
@@ -3457,26 +3478,6 @@
             // 
             this.TimerToggleSaveIcon.Interval = 500;
             this.TimerToggleSaveIcon.Tick += new System.EventHandler(this.TimerToggleSaveIcon_Tick);
-            // 
-            // guna2Button2
-            // 
-            this.guna2Button2.AutoRoundedCorners = true;
-            this.guna2Button2.BorderRadius = 15;
-            this.guna2Button2.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.guna2Button2.DisabledState.BorderColor = System.Drawing.Color.Silver;
-            this.guna2Button2.DisabledState.CustomBorderColor = System.Drawing.Color.Silver;
-            this.guna2Button2.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(226)))), ((int)(((byte)(226)))), ((int)(((byte)(226)))));
-            this.guna2Button2.DisabledState.ForeColor = System.Drawing.Color.Gray;
-            this.guna2Button2.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(56)))), ((int)(((byte)(97)))), ((int)(((byte)(55)))));
-            this.guna2Button2.Font = new System.Drawing.Font("Segoe UI Semibold", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.guna2Button2.ForeColor = System.Drawing.Color.White;
-            this.guna2Button2.Location = new System.Drawing.Point(-47, 101);
-            this.guna2Button2.Name = "guna2Button2";
-            this.guna2Button2.Size = new System.Drawing.Size(208, 32);
-            this.guna2Button2.TabIndex = 1011;
-            this.guna2Button2.Text = "Auto-install";
-            this.guna2Button2.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.guna2Button2.Click += new System.EventHandler(this.guna2Button1_Click);
             // 
             // Settings
             // 

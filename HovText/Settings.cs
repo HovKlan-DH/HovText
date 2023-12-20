@@ -264,6 +264,7 @@ namespace HovText
         static readonly string tempExe = "HovText-new.exe";
         static readonly string tempCmd = "HovText-batch-update.cmd";
         static readonly string tempLog = "HovText-batch-update-log.txt";
+        static string updaterExe = "HovText Updater.exe";
         static string exeFileNameWithPath;
         static string exeFileNameWithoutExtension;
         private bool isApplicationEnabled = true;
@@ -279,6 +280,7 @@ namespace HovText
         public static bool hasWriteAccess;
         private string checksum;
         private bool floppyToggle = false;
+        static string checkedVersion = "";
 
 
         // ###########################################################################################
@@ -543,21 +545,23 @@ namespace HovText
             {
                 isClipboardQueueBeingProcessed = true;
 
-                    List<int> clipboardQueueTmp = new List<int>(clipboardQueue); // take a copy of "clipboardQueue"
-                    foreach (var index in clipboardQueueTmp)
+                List<int> clipboardQueueTmp = new List<int>(clipboardQueue); // take a copy of "clipboardQueue"
+                foreach (var index in clipboardQueueTmp)
+                {
+                    if (clipboardQueue.Contains(index))
                     {
                         SaveClipboardEntryToFile(index);
                         clipboardQueueProcessed.Add(index);
                         clipboardQueue.Remove(index);
                     }
-//                    Logging.Log("Did run the parallized \"ProcessSaveQueue()\" function");
-
+                    else
+                    {
+                    Logging.Log($"Error: Could not find index [{index}] for saving!?");
+                    }
+                }
 
                 isClipboardQueueBeingProcessed = false;
             });
-
-//            TimerToggleSaveIcon.Enabled = false;
-
         }
 
         private void TimerProcessQueue_Tick(object sender, EventArgs e)
@@ -1375,8 +1379,8 @@ namespace HovText
                 case WM_CLIPBOARDUPDATE:
 
                     // Only react if we have either a text or an image in the clipboard
-                    if (Clipboard.ContainsText() || Clipboard.ContainsImage())
-                    {
+//                    if (Clipboard.ContainsText() || Clipboard.ContainsImage())
+//                    {
 
                         // Get the application name which updated the clipboard
                         IntPtr whoUpdatedClipboardHwnd = NativeMethods.GetClipboardOwner();
@@ -1423,7 +1427,7 @@ namespace HovText
                                 ProcessClipboard();
                             }
                         }
-                    }
+//                    }
                     break;
                 default:
                     base.WndProc(ref m);
@@ -2758,7 +2762,7 @@ private Size GetImageDimensions(Bitmap image)
                 byte[] responseBytes = webClient.UploadValues(hovtextPage + "/autoupdate/", postData);
 
                 // Convert the response bytes to a string
-                string checkedVersion = Encoding.UTF8.GetString(responseBytes);
+                checkedVersion = Encoding.UTF8.GetString(responseBytes);
 
                 // Download the new stable version
                 if (checkedVersion.Substring(0, 7) == "Version")
@@ -5811,6 +5815,7 @@ private Size GetImageDimensions(Bitmap image)
                         UiAdvancedLabelDevVersion.Text = checkedVersion;
                         UiAdvancedButtonManualDownload.Enabled = true;
                         Logging.Log("  Development version available = [" + checkedVersion + "]");
+                        guna2Button2.Enabled = true;
                     }
                     else
                     {
@@ -6543,33 +6548,33 @@ private Size GetImageDimensions(Bitmap image)
 
         public static void AutoInstall ()
         {
-
-
-            string updaterExe = "HovText Updater.exe"; // Keep the spaces as they are
-            string tempExe = Path.Combine(baseDirectory, updaterExe);
-
-            //            string folder = "";
-            //            folder = 
-            string arguments = "autoupdate/development";
-
-            // Extract the updater to the temp path as previously shown...
+            // Which path to use for the EXE file - the DEVELOPMENT or STABLE
+            string arguments;
+            if (buildType == "Debug")
+            {
+                arguments = "autoupdate/development";
+                arguments = $"download/{checkedVersion}";
+            } else
+            {
+                arguments = $"download/{checkedVersion}";
+            }
 
             // Set up the start info for the updater process, including the arguments
+            string tempExe = Path.Combine(baseDirectory, updaterExe);
             ProcessStartInfo startInfo = new ProcessStartInfo(tempExe)
             {
                 Arguments = arguments,
                 UseShellExecute = false
             };
 
-            // Use the full resource name, including the .Resources part and preserving spaces
+            // Get the embedded binary resource
             string resourcePath = "HovText.Resources." + updaterExe;
 
-            // Extract the embedded updater
+            // Extract the embedded updater to a local file
             using (Stream input = Assembly.GetExecutingAssembly().GetManifestResourceStream(resourcePath))
             {
                 if (input == null)
                 {
-                    // Handle the case where the resource is not found
                     Logging.Log("Error: Resource not found: " + resourcePath);
                     return;
                 }
@@ -6581,11 +6586,11 @@ private Size GetImageDimensions(Bitmap image)
             }
 
             // Start the updater process with the arguments
+            Logging.Log($"Auto-install called with: {tempExe} {arguments}");
             Process.Start(startInfo);
 
             // Terminate the main application
             Environment.Exit(0);
-
         }
 
 
