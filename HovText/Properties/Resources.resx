@@ -121,6 +121,9 @@
   <data name="Favorite" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Favorite.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="HovText_Updater" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\HovText Updater.exe;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="Round_Active_48x48" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Round_Active_48x48.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>

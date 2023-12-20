@@ -102,6 +102,8 @@
             this.UiFormPictureBoxIcon = new Guna.UI2.WinForms.Guna2PictureBox();
             this.UiFormLabelApplicationName = new Guna.UI2.WinForms.Guna2HtmlLabel();
             this.UiFormPanel = new Guna.UI2.WinForms.Guna2Panel();
+            this.pictureBox2 = new System.Windows.Forms.PictureBox();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.UiFormLabelApplicationVersion = new Guna.UI2.WinForms.Guna2HtmlLabel();
             this.UiFormTabControl = new Guna.UI2.WinForms.Guna2TabControl();
             this.UiTabGeneral = new System.Windows.Forms.TabPage();
@@ -241,6 +243,7 @@
             this.UiDocButtonOnlineDocumentation = new Guna.UI2.WinForms.Guna2Button();
             this.UiDocLabelOnlineDocumentation = new Guna.UI2.WinForms.Guna2HtmlLabel();
             this.UiTabFeedback = new System.Windows.Forms.TabPage();
+            this.UiFeedbackLabelAttachLog = new System.Windows.Forms.Label();
             this.UiFeedbackLabelIntro = new Guna.UI2.WinForms.Guna2TextBox();
             this.UiFeedbackButtonSubmit = new Guna.UI2.WinForms.Guna2Button();
             this.UiFeedbackTextBoxEmail = new Guna.UI2.WinForms.Guna2TextBox();
@@ -253,7 +256,9 @@
             this.UiFormGradientPanel = new Guna.UI2.WinForms.Guna2GradientPanel();
             this.TimerGetMemoryConsumption = new System.Windows.Forms.Timer(this.components);
             this.TimerDeleteOldFiles = new System.Windows.Forms.Timer(this.components);
-            this.UiFeedbackLabelAttachLog = new System.Windows.Forms.Label();
+            this.TimerProcessQueue = new System.Windows.Forms.Timer(this.components);
+            this.TimerToggleSaveIcon = new System.Windows.Forms.Timer(this.components);
+            this.guna2Button2 = new Guna.UI2.WinForms.Guna2Button();
             this.MenuStripIconNotify.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.UiAboutPictureBoxPaypal)).BeginInit();
             this.UiFormLabelLoadingPanel.SuspendLayout();
@@ -268,6 +273,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.UiStyleOictureBoxIcon1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.UiFormPictureBoxIcon)).BeginInit();
             this.UiFormPanel.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.UiFormTabControl.SuspendLayout();
             this.UiTabGeneral.SuspendLayout();
             this.UiGeneralGroupBoxBehaviour.SuspendLayout();
@@ -932,6 +939,8 @@
             // UiFormPanel
             // 
             this.UiFormPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(56)))), ((int)(((byte)(97)))), ((int)(((byte)(55)))));
+            this.UiFormPanel.Controls.Add(this.pictureBox2);
+            this.UiFormPanel.Controls.Add(this.pictureBox1);
             this.UiFormPanel.Controls.Add(this.UiFormLabelLoadingPanel);
             this.UiFormPanel.Controls.Add(this.UiFormLabelApplicationName);
             this.UiFormPanel.Controls.Add(this.UiFormPictureBoxIcon);
@@ -944,6 +953,28 @@
             this.UiFormPanel.Name = "UiFormPanel";
             this.UiFormPanel.Size = new System.Drawing.Size(740, 80);
             this.UiFormPanel.TabIndex = 0;
+            // 
+            // pictureBox2
+            // 
+            this.pictureBox2.BackColor = System.Drawing.Color.Transparent;
+            this.pictureBox2.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("pictureBox2.BackgroundImage")));
+            this.pictureBox2.Location = new System.Drawing.Point(712, 58);
+            this.pictureBox2.Name = "pictureBox2";
+            this.pictureBox2.Size = new System.Drawing.Size(16, 16);
+            this.pictureBox2.TabIndex = 5;
+            this.pictureBox2.TabStop = false;
+            this.pictureBox2.Visible = false;
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.BackColor = System.Drawing.Color.Transparent;
+            this.pictureBox1.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("pictureBox1.BackgroundImage")));
+            this.pictureBox1.Location = new System.Drawing.Point(709, 53);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(24, 24);
+            this.pictureBox1.TabIndex = 4;
+            this.pictureBox1.TabStop = false;
+            this.pictureBox1.Visible = false;
             // 
             // UiFormLabelApplicationVersion
             // 
@@ -2989,6 +3020,7 @@
             // UiAdvancedGroupDevVersion
             // 
             this.UiAdvancedGroupDevVersion.BorderRadius = 5;
+            this.UiAdvancedGroupDevVersion.Controls.Add(this.guna2Button2);
             this.UiAdvancedGroupDevVersion.Controls.Add(this.UiAdvancedPanelDevRefresh);
             this.UiAdvancedGroupDevVersion.Controls.Add(this.UiAdvancedButtonManualDownload);
             this.UiAdvancedGroupDevVersion.Controls.Add(this.UiAdvancedLabelDisclaimer);
@@ -3049,7 +3081,7 @@
             this.UiAdvancedButtonManualDownload.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(56)))), ((int)(((byte)(97)))), ((int)(((byte)(55)))));
             this.UiAdvancedButtonManualDownload.Font = new System.Drawing.Font("Segoe UI Semibold", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.UiAdvancedButtonManualDownload.ForeColor = System.Drawing.Color.White;
-            this.UiAdvancedButtonManualDownload.Location = new System.Drawing.Point(-47, 101);
+            this.UiAdvancedButtonManualDownload.Location = new System.Drawing.Point(-47, 145);
             this.UiAdvancedButtonManualDownload.Name = "UiAdvancedButtonManualDownload";
             this.UiAdvancedButtonManualDownload.Size = new System.Drawing.Size(208, 32);
             this.UiAdvancedButtonManualDownload.TabIndex = 1007;
@@ -3229,6 +3261,19 @@
             this.UiTabFeedback.Text = "Feedback";
             this.UiTabFeedback.UseVisualStyleBackColor = true;
             // 
+            // UiFeedbackLabelAttachLog
+            // 
+            this.UiFeedbackLabelAttachLog.AutoSize = true;
+            this.UiFeedbackLabelAttachLog.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.UiFeedbackLabelAttachLog.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.UiFeedbackLabelAttachLog.ForeColor = System.Drawing.Color.Black;
+            this.UiFeedbackLabelAttachLog.Location = new System.Drawing.Point(54, 442);
+            this.UiFeedbackLabelAttachLog.Name = "UiFeedbackLabelAttachLog";
+            this.UiFeedbackLabelAttachLog.Size = new System.Drawing.Size(227, 23);
+            this.UiFeedbackLabelAttachLog.TabIndex = 1012;
+            this.UiFeedbackLabelAttachLog.Text = "Enable troubleshoot logging";
+            this.UiFeedbackLabelAttachLog.Click += new System.EventHandler(this.UiFeedbackLabelAttachLog_Click);
+            // 
             // UiFeedbackLabelIntro
             // 
             this.UiFeedbackLabelIntro.BorderColor = System.Drawing.Color.Transparent;
@@ -3403,18 +3448,35 @@
             this.TimerDeleteOldFiles.Interval = 60000;
             this.TimerDeleteOldFiles.Tick += new System.EventHandler(this.TimerDeleteOldFiles_Tick);
             // 
-            // UiFeedbackLabelAttachLog
+            // TimerProcessQueue
             // 
-            this.UiFeedbackLabelAttachLog.AutoSize = true;
-            this.UiFeedbackLabelAttachLog.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.UiFeedbackLabelAttachLog.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.UiFeedbackLabelAttachLog.ForeColor = System.Drawing.Color.Black;
-            this.UiFeedbackLabelAttachLog.Location = new System.Drawing.Point(54, 442);
-            this.UiFeedbackLabelAttachLog.Name = "UiFeedbackLabelAttachLog";
-            this.UiFeedbackLabelAttachLog.Size = new System.Drawing.Size(227, 23);
-            this.UiFeedbackLabelAttachLog.TabIndex = 1012;
-            this.UiFeedbackLabelAttachLog.Text = "Enable troubleshoot logging";
-            this.UiFeedbackLabelAttachLog.Click += new System.EventHandler(this.UiFeedbackLabelAttachLog_Click);
+            this.TimerProcessQueue.Interval = 500;
+            this.TimerProcessQueue.Tick += new System.EventHandler(this.TimerProcessQueue_Tick);
+            // 
+            // TimerToggleSaveIcon
+            // 
+            this.TimerToggleSaveIcon.Interval = 500;
+            this.TimerToggleSaveIcon.Tick += new System.EventHandler(this.TimerToggleSaveIcon_Tick);
+            // 
+            // guna2Button2
+            // 
+            this.guna2Button2.AutoRoundedCorners = true;
+            this.guna2Button2.BorderRadius = 15;
+            this.guna2Button2.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.guna2Button2.DisabledState.BorderColor = System.Drawing.Color.Silver;
+            this.guna2Button2.DisabledState.CustomBorderColor = System.Drawing.Color.Silver;
+            this.guna2Button2.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(226)))), ((int)(((byte)(226)))), ((int)(((byte)(226)))));
+            this.guna2Button2.DisabledState.ForeColor = System.Drawing.Color.Gray;
+            this.guna2Button2.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(56)))), ((int)(((byte)(97)))), ((int)(((byte)(55)))));
+            this.guna2Button2.Font = new System.Drawing.Font("Segoe UI Semibold", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.guna2Button2.ForeColor = System.Drawing.Color.White;
+            this.guna2Button2.Location = new System.Drawing.Point(-47, 101);
+            this.guna2Button2.Name = "guna2Button2";
+            this.guna2Button2.Size = new System.Drawing.Size(208, 32);
+            this.guna2Button2.TabIndex = 1011;
+            this.guna2Button2.Text = "Auto-install";
+            this.guna2Button2.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.guna2Button2.Click += new System.EventHandler(this.guna2Button1_Click);
             // 
             // Settings
             // 
@@ -3451,6 +3513,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.UiFormPictureBoxIcon)).EndInit();
             this.UiFormPanel.ResumeLayout(false);
             this.UiFormPanel.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.UiFormTabControl.ResumeLayout(false);
             this.UiTabGeneral.ResumeLayout(false);
             this.UiGeneralGroupBoxBehaviour.ResumeLayout(false);
@@ -3728,6 +3792,11 @@
         private Guna.UI2.WinForms.Guna2GroupBox guna2GroupBox1;
         private Guna.UI2.WinForms.Guna2HtmlLabel guna2HtmlLabel1;
         private System.Windows.Forms.Label UiFeedbackLabelAttachLog;
+        private System.Windows.Forms.Timer TimerProcessQueue;
+        private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.PictureBox pictureBox2;
+        private System.Windows.Forms.Timer TimerToggleSaveIcon;
+        private Guna.UI2.WinForms.Guna2Button guna2Button2;
     }
 
 }

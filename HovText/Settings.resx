@@ -823,8 +823,59 @@
         AAAAAElFTkSuQmCC
 </value>
   </data>
-  <data name="UiFeedbackLabelIntro.DefaultText" xml:space="preserve">
-    <value>If you have any feedback for the developer, then please reach out, as I would appreciate some interaction with the users of HovText :-) Maybe you want to ask a question, suggest a feature or file a bug report? Your feedback will only be visible for the developer.</value>
+  <data name="pictureBox2.BackgroundImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAS
+        cQAAEnEB89x6jgAAAz5JREFUOE9d0klMU0EYwPG6h2hc2JFNK6CiVMWNIEYgtJW2KK20VEoVXPCgCSBU
+        QHvA6EniEqFhraCIWwoiCfaVg5wMhoByAAmLooAgFJWC0vYNnc95xbTq4ZeZybz3f9/hsQCAlZmVk5x5
+        Mb+6+aW+zGAwVFCUoZIy/EtPUZWGlpaKZ7qGsguZqmrVpYI05l17IPn4yeLU9PPz06ZZM0KItlqtyGql
+        EU0vYM4Wi4VcIXrw4yezWJY2r0zLeOgISOVKjfLUBZj6MYPMFiv+OWcGxi+zxY7Zz/6aAxrN477BISRM
+        VIA8Jf2xIyBJSimRKc7CyPgUTSK2yW8mzDB+n7Fj9hPGaTw9M2fr6u6j+UIZyOQnHjkCiZJkjViWDv1D
+        Y2h4bAp/+jIJjM9jRjtmPzQ6AWOT0/hNZzeK4YlBIlU4J0g4mqQRkbG63g+h3g+juGdgGBi9gyN2PQMj
+        0N0/DAOfv+JXrztRVLQAEiVyZ0AoEmv4wmTo6h0mgXHcPfAFGD2DCxbOoyRgJIF3aH8kF0RHpM6AQCjW
+        RETxQVv3HD2u1+M6XTPU6V7C00YDPGtsgScNlP1M9vhO6X3E2RUFApHkrwCZIGhLOISG7UObQ/dgzq4D
+        EHGAC+F7D8HO3QdhR3gUbONEkPv92P7Mtj3Ajz/qDPDiEzTsYA6wQ3agHFUBLrx6HY5JFXCj6BZUVd2D
+        0rIKqK55QL6ahAPYW1EAOxTieCJnII4rKPEL3AzevkGoqOgmzlHl4zXu/nD7zl1MUXpoqK8HZk08Jse+
+        ASHI2y8IomMPOwMxsbwSD58N2M0zkM4vUNsyzp3Ha939ySTXcG1tLS4vL7evXH6CzdNnI+21no0PxfCc
+        /0F0DLfM1d0P1rn5YtWlfEg/nQErV3vB5Stq0Gq1UFxcDDU11RAbJwBXDz+bp/cGIIGnjkBQcEgqa9Hy
+        nyzWkgmhKMGYlZU9k6JQmrKzL5ry8vJMubm5JrVabdrOCZ9dtmKVafESF7N/IFvrCMjl8qWFhYWbXjQ2
+        hun1+si2trb4t287ZR0dHWlEBnGmvb1d2draKqUoit/U1BSp0+k8HIH/LCZciDWEO+FFeBJuxCpiGfHn
+        WWD9BpMilc4AXXVRAAAAAElFTkSuQmCC
+</value>
+  </data>
+  <data name="pictureBox1.BackgroundImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        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
+</value>
   </data>
   <data name="UiAdvancedPicture2BoxDevRefresh.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
@@ -2196,6 +2247,9 @@
         AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
 </value>
   </data>
+  <data name="UiFeedbackLabelIntro.DefaultText" xml:space="preserve">
+    <value>If you have any feedback for the developer, then please reach out, as I would appreciate some interaction with the users of HovText :-) Maybe you want to ask a question, suggest a feature or file a bug report? Your feedback will only be visible for the developer.</value>
+  </data>
   <data name="UiAboutLabelText.Text" xml:space="preserve">
     <value>This application is open source, and you can use it on any computer free of charge. You are of course encouraged to donate some $$$, if you find it useful and want to motivate for continues support :-) All donations received will be used solely for enhancing HovText.&lt;br /&gt;
 &lt;br /&gt;
@@ -2219,6 +2273,12 @@ Jesper and Dennis</value>
   </metadata>
   <metadata name="TimerDeleteOldFiles.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>212, 96</value>
+  </metadata>
+  <metadata name="TimerProcessQueue.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>407, 96</value>
+  </metadata>
+  <metadata name="TimerToggleSaveIcon.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>597, 96</value>
   </metadata>
   <metadata name="$this.TrayHeight" type="System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>141</value>

@@ -44,15 +44,13 @@ namespace HovText
         // Auto-install
         // ###########################################################################################
 
-        /*
-        private void GuiUpdateButton3_Click(object sender, EventArgs e)
+        private void guna2Button3_Click(object sender, EventArgs e)
         {
             Logging.Log("Update popup: Clicked the \"Auto-install\"");
             Logging.Log("Auto-install new [STABLE] version");
-            Hide();
-            Settings.DownloadInstall(GuiAppVerOnline.Text);
+            Settings.AutoInstall();
+            this.Close();
         }
-        */
 
 
         // ###########################################################################################
@@ -62,7 +60,6 @@ namespace HovText
         private void Download_Click(object sender, EventArgs e)
         {
             Logging.Log("Update popup: Clicked the \"Download\"");
-            Hide();
 
             // Open file location for the executeable
             string appPath = System.Reflection.Assembly.GetExecutingAssembly().Location;
@@ -70,6 +67,8 @@ namespace HovText
 
             // Download executeable
             System.Diagnostics.Process.Start(Settings.hovtextPage + "/download/" + GuiAppVerOnline.Text + "/HovText.exe");
+            
+            this.Close();
         }
 
 
@@ -80,8 +79,8 @@ namespace HovText
         private void SkipVersion_Click(object sender, EventArgs e)
         {
             Logging.Log("Update popup: Clicked the \"Skip this version\"");
-            Hide();
             Settings.SetRegistryKey(Settings.registryPath, "CheckedVersion", GuiAppVerOnline.Text);
+            this.Close();
         }
 
 
