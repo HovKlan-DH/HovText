@@ -141,7 +141,7 @@ namespace HovText
                 }
             }
 
-            Debug.WriteLine(logMessage);
+            Debug.WriteLine($"{DateTime.Now:yyyy-MM-dd HH:mm:ss.fff} {logMessage}");
         }
 
 

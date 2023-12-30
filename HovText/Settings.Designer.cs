@@ -37,7 +37,6 @@
             this.gotoExit = new System.Windows.Forms.ToolStripMenuItem();
             this.FontDialog = new System.Windows.Forms.FontDialog();
             this.IconTray = new System.Windows.Forms.ToolTip(this.components);
-            this.TimerUpdateVersion = new System.Windows.Forms.Timer(this.components);
             this.TimerMouseClick = new System.Windows.Forms.Timer(this.components);
             this.UiAboutPictureBoxPaypal = new System.Windows.Forms.PictureBox();
             this.UiLayoutLabelMarginText = new System.Windows.Forms.Label();
@@ -52,8 +51,6 @@
             this.UiHotkeysLabelToggleFavorite = new System.Windows.Forms.Label();
             this.UiHotkeysLabelPasteHotkey = new System.Windows.Forms.Label();
             this.UiHotkeysLabelToggleApplication = new System.Windows.Forms.Label();
-            this.UiFormLabelLoadingPanel = new System.Windows.Forms.Panel();
-            this.UiFormLabelLoadingText = new System.Windows.Forms.Label();
             this.UiStorageLabelWhichClipboardToSave = new System.Windows.Forms.Label();
             this.UiStorageLabelAmountOfClipboardsToSave = new System.Windows.Forms.Label();
             this.UiStorageTrackBarEntriesToSaveText = new System.Windows.Forms.Label();
@@ -229,7 +226,7 @@
             this.UiAdvancedGroupBoxStatus = new Guna.UI2.WinForms.Guna2GroupBox();
             this.UiAdvancedButtonClearClipboards = new Guna.UI2.WinForms.Guna2Button();
             this.UiAdvancedGroupDevVersion = new Guna.UI2.WinForms.Guna2GroupBox();
-            this.guna2Button2 = new Guna.UI2.WinForms.Guna2Button();
+            this.UiAdvancedButtonAutoInstall = new Guna.UI2.WinForms.Guna2Button();
             this.UiAdvancedPanelDevRefresh = new System.Windows.Forms.Panel();
             this.UiAdvancedPicture2BoxDevRefresh = new System.Windows.Forms.PictureBox();
             this.UiAdvancedPicture1BoxDevRefresh = new System.Windows.Forms.PictureBox();
@@ -257,11 +254,13 @@
             this.UiFormGradientPanel = new Guna.UI2.WinForms.Guna2GradientPanel();
             this.TimerGetMemoryConsumption = new System.Windows.Forms.Timer(this.components);
             this.TimerDeleteOldFiles = new System.Windows.Forms.Timer(this.components);
-            this.TimerProcessQueue = new System.Windows.Forms.Timer(this.components);
+            this.TimerProcessSaveQueue = new System.Windows.Forms.Timer(this.components);
             this.TimerToggleSaveIcon = new System.Windows.Forms.Timer(this.components);
+            this.TimerProcessClipboardQueue = new System.Windows.Forms.Timer(this.components);
+            this.TimerSaveFiles = new System.Windows.Forms.Timer(this.components);
+            this.TimerCheckForUpdate = new System.Windows.Forms.Timer(this.components);
             this.MenuStripIconNotify.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.UiAboutPictureBoxPaypal)).BeginInit();
-            this.UiFormLabelLoadingPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.UiStyleOictureBoxIcon9)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.UiStyleOictureBoxIcon8)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.UiStyleOictureBoxIcon7)).BeginInit();
@@ -348,11 +347,6 @@
             this.gotoExit.Size = new System.Drawing.Size(177, 24);
             this.gotoExit.Text = "Exit";
             this.gotoExit.Click += new System.EventHandler(this.TrayIconExit_Click);
-            // 
-            // TimerUpdateVersion
-            // 
-            this.TimerUpdateVersion.Interval = 10000;
-            this.TimerUpdateVersion.Tick += new System.EventHandler(this.UpdateTimer_Tick);
             // 
             // TimerMouseClick
             // 
@@ -494,27 +488,6 @@
             this.UiHotkeysLabelToggleApplication.Size = new System.Drawing.Size(210, 23);
             this.UiHotkeysLabelToggleApplication.TabIndex = 1000;
             this.UiHotkeysLabelToggleApplication.Text = "Enable/disable application";
-            // 
-            // UiFormLabelLoadingPanel
-            // 
-            this.UiFormLabelLoadingPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(56)))), ((int)(((byte)(97)))), ((int)(((byte)(55)))));
-            this.UiFormLabelLoadingPanel.Controls.Add(this.UiFormLabelLoadingText);
-            this.UiFormLabelLoadingPanel.Location = new System.Drawing.Point(431, 11);
-            this.UiFormLabelLoadingPanel.Name = "UiFormLabelLoadingPanel";
-            this.UiFormLabelLoadingPanel.Size = new System.Drawing.Size(198, 61);
-            this.UiFormLabelLoadingPanel.TabIndex = 0;
-            this.UiFormLabelLoadingPanel.Visible = false;
-            // 
-            // UiFormLabelLoadingText
-            // 
-            this.UiFormLabelLoadingText.AutoSize = true;
-            this.UiFormLabelLoadingText.BackColor = System.Drawing.Color.Transparent;
-            this.UiFormLabelLoadingText.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            this.UiFormLabelLoadingText.Location = new System.Drawing.Point(12, 16);
-            this.UiFormLabelLoadingText.Name = "UiFormLabelLoadingText";
-            this.UiFormLabelLoadingText.Size = new System.Drawing.Size(342, 25);
-            this.UiFormLabelLoadingText.TabIndex = 0;
-            this.UiFormLabelLoadingText.Text = "Please wait while processing data file ...";
             // 
             // UiStorageLabelWhichClipboardToSave
             // 
@@ -941,7 +914,6 @@
             this.UiFormPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(56)))), ((int)(((byte)(97)))), ((int)(((byte)(55)))));
             this.UiFormPanel.Controls.Add(this.pictureBox2);
             this.UiFormPanel.Controls.Add(this.pictureBox1);
-            this.UiFormPanel.Controls.Add(this.UiFormLabelLoadingPanel);
             this.UiFormPanel.Controls.Add(this.UiFormLabelApplicationName);
             this.UiFormPanel.Controls.Add(this.UiFormPictureBoxIcon);
             this.UiFormPanel.Controls.Add(this.UiFormLabelApplicationVersion);
@@ -3020,7 +2992,7 @@
             // UiAdvancedGroupDevVersion
             // 
             this.UiAdvancedGroupDevVersion.BorderRadius = 5;
-            this.UiAdvancedGroupDevVersion.Controls.Add(this.guna2Button2);
+            this.UiAdvancedGroupDevVersion.Controls.Add(this.UiAdvancedButtonAutoInstall);
             this.UiAdvancedGroupDevVersion.Controls.Add(this.UiAdvancedPanelDevRefresh);
             this.UiAdvancedGroupDevVersion.Controls.Add(this.UiAdvancedButtonManualDownload);
             this.UiAdvancedGroupDevVersion.Controls.Add(this.UiAdvancedLabelDisclaimer);
@@ -3034,26 +3006,26 @@
             this.UiAdvancedGroupDevVersion.TabIndex = 522;
             this.UiAdvancedGroupDevVersion.Text = "Development version available for testing";
             // 
-            // guna2Button2
+            // UiAdvancedButtonAutoInstall
             // 
-            this.guna2Button2.AutoRoundedCorners = true;
-            this.guna2Button2.BorderRadius = 15;
-            this.guna2Button2.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.guna2Button2.DisabledState.BorderColor = System.Drawing.Color.Silver;
-            this.guna2Button2.DisabledState.CustomBorderColor = System.Drawing.Color.Silver;
-            this.guna2Button2.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(226)))), ((int)(((byte)(226)))), ((int)(((byte)(226)))));
-            this.guna2Button2.DisabledState.ForeColor = System.Drawing.Color.Gray;
-            this.guna2Button2.Enabled = false;
-            this.guna2Button2.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(56)))), ((int)(((byte)(97)))), ((int)(((byte)(55)))));
-            this.guna2Button2.Font = new System.Drawing.Font("Segoe UI Semibold", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.guna2Button2.ForeColor = System.Drawing.Color.White;
-            this.guna2Button2.Location = new System.Drawing.Point(-47, 101);
-            this.guna2Button2.Name = "guna2Button2";
-            this.guna2Button2.Size = new System.Drawing.Size(208, 32);
-            this.guna2Button2.TabIndex = 1011;
-            this.guna2Button2.Text = "Auto-install";
-            this.guna2Button2.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.guna2Button2.Click += new System.EventHandler(this.guna2Button1_Click);
+            this.UiAdvancedButtonAutoInstall.AutoRoundedCorners = true;
+            this.UiAdvancedButtonAutoInstall.BorderRadius = 15;
+            this.UiAdvancedButtonAutoInstall.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.UiAdvancedButtonAutoInstall.DisabledState.BorderColor = System.Drawing.Color.Silver;
+            this.UiAdvancedButtonAutoInstall.DisabledState.CustomBorderColor = System.Drawing.Color.Silver;
+            this.UiAdvancedButtonAutoInstall.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(226)))), ((int)(((byte)(226)))), ((int)(((byte)(226)))));
+            this.UiAdvancedButtonAutoInstall.DisabledState.ForeColor = System.Drawing.Color.Gray;
+            this.UiAdvancedButtonAutoInstall.Enabled = false;
+            this.UiAdvancedButtonAutoInstall.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(56)))), ((int)(((byte)(97)))), ((int)(((byte)(55)))));
+            this.UiAdvancedButtonAutoInstall.Font = new System.Drawing.Font("Segoe UI Semibold", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.UiAdvancedButtonAutoInstall.ForeColor = System.Drawing.Color.White;
+            this.UiAdvancedButtonAutoInstall.Location = new System.Drawing.Point(-47, 101);
+            this.UiAdvancedButtonAutoInstall.Name = "UiAdvancedButtonAutoInstall";
+            this.UiAdvancedButtonAutoInstall.Size = new System.Drawing.Size(208, 32);
+            this.UiAdvancedButtonAutoInstall.TabIndex = 1011;
+            this.UiAdvancedButtonAutoInstall.Text = "Auto-install";
+            this.UiAdvancedButtonAutoInstall.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.UiAdvancedButtonAutoInstall.Click += new System.EventHandler(this.UiAdvancedButtonAutoInstall_Click);
             // 
             // UiAdvancedPanelDevRefresh
             // 
@@ -3469,15 +3441,33 @@
             this.TimerDeleteOldFiles.Interval = 60000;
             this.TimerDeleteOldFiles.Tick += new System.EventHandler(this.TimerDeleteOldFiles_Tick);
             // 
-            // TimerProcessQueue
+            // TimerProcessSaveQueue
             // 
-            this.TimerProcessQueue.Interval = 500;
-            this.TimerProcessQueue.Tick += new System.EventHandler(this.TimerProcessQueue_Tick);
+            this.TimerProcessSaveQueue.Interval = 25;
+            this.TimerProcessSaveQueue.Tick += new System.EventHandler(this.TimerProcessSaveQueue_Tick);
             // 
             // TimerToggleSaveIcon
             // 
             this.TimerToggleSaveIcon.Interval = 500;
             this.TimerToggleSaveIcon.Tick += new System.EventHandler(this.TimerToggleSaveIcon_Tick);
+            // 
+            // TimerProcessClipboardQueue
+            // 
+            this.TimerProcessClipboardQueue.Enabled = true;
+            this.TimerProcessClipboardQueue.Interval = 25;
+            this.TimerProcessClipboardQueue.Tick += new System.EventHandler(this.TimerProcessClipboardQueue_Tick);
+            // 
+            // TimerSaveFiles
+            // 
+            this.TimerSaveFiles.Enabled = true;
+            this.TimerSaveFiles.Interval = 25;
+            this.TimerSaveFiles.Tick += new System.EventHandler(this.SaveIndexAndFavoriteFiles_Tick);
+            // 
+            // TimerCheckForUpdate
+            // 
+            this.TimerCheckForUpdate.Enabled = true;
+            this.TimerCheckForUpdate.Interval = 1000;
+            this.TimerCheckForUpdate.Tick += new System.EventHandler(this.TimerCheckForUpdate_Tick);
             // 
             // Settings
             // 
@@ -3500,8 +3490,6 @@
             this.Resize += new System.EventHandler(this.MainWindow_Resize);
             this.MenuStripIconNotify.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.UiAboutPictureBoxPaypal)).EndInit();
-            this.UiFormLabelLoadingPanel.ResumeLayout(false);
-            this.UiFormLabelLoadingPanel.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.UiStyleOictureBoxIcon9)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.UiStyleOictureBoxIcon8)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.UiStyleOictureBoxIcon7)).EndInit();
@@ -3576,7 +3564,6 @@
         private System.Windows.Forms.ToolStripMenuItem gotoExit;
         private System.Windows.Forms.ToolStripMenuItem gotoTabAbout;
         private System.Windows.Forms.ToolTip IconTray;
-        private System.Windows.Forms.Timer TimerUpdateVersion;
         private System.Windows.Forms.Timer TimerMouseClick;
         private System.Windows.Forms.Label UiLayoutLabelVisibleElements;
         private System.Windows.Forms.Label UiLayoutLabelHeightText;
@@ -3629,8 +3616,6 @@
         private System.Windows.Forms.ColorDialog ColorDialogSearch;
         private System.Windows.Forms.ColorDialog ColorDialogSearchText;
         private System.Windows.Forms.Label UiAdvancedLabelCleanup;
-        private System.Windows.Forms.Panel UiFormLabelLoadingPanel;
-        private System.Windows.Forms.Label UiFormLabelLoadingText;
         private System.Windows.Forms.Label UiStorageLabelAmountOfClipboardsToSave;
         private System.Windows.Forms.Label UiStorageTrackBarEntriesToSaveText;
         private System.Windows.Forms.Label UiStorageLabelWhichClipboardToSave;
@@ -3793,11 +3778,14 @@
         private Guna.UI2.WinForms.Guna2GroupBox guna2GroupBox1;
         private Guna.UI2.WinForms.Guna2HtmlLabel guna2HtmlLabel1;
         private System.Windows.Forms.Label UiFeedbackLabelAttachLog;
-        private System.Windows.Forms.Timer TimerProcessQueue;
+        private System.Windows.Forms.Timer TimerProcessSaveQueue;
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.PictureBox pictureBox2;
         private System.Windows.Forms.Timer TimerToggleSaveIcon;
-        private Guna.UI2.WinForms.Guna2Button guna2Button2;
+        private Guna.UI2.WinForms.Guna2Button UiAdvancedButtonAutoInstall;
+        private System.Windows.Forms.Timer TimerProcessClipboardQueue;
+        private System.Windows.Forms.Timer TimerSaveFiles;
+        private System.Windows.Forms.Timer TimerCheckForUpdate;
     }
 
 }

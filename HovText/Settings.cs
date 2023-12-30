@@ -19,18 +19,16 @@ using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.IO;
-using System.IO.Compression;
 using System.Linq;
 using System.Management;
 using System.Net;
 using System.Reflection;
 using System.Runtime.InteropServices;
-using System.Runtime.Serialization;
-using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
-using System.Text.RegularExpressions;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using IWshRuntimeLibrary;
 using static HovText.Program;
 
 
@@ -49,6 +47,10 @@ namespace HovText
 
     public sealed partial class Settings : Form
     {
+
+        private DateTime lastClipboardEvent = DateTime.MinValue;
+
+
         // ###########################################################################################
         // Define "Settings" class variables - real spaghetti - but it works :-)
         // ###########################################################################################
@@ -165,6 +167,8 @@ namespace HovText
         public static bool isEnabledHistory;
         public static bool isEnabledFavorites;
         public static bool isEnabledPasteOnSelection;
+        public static bool isEnabledAlwaysPasteOriginal;
+        public static bool isEnabledPasteOnHotkey;
         public static bool isEnabledTrimWhitespacing;
         public static bool isRestoreOriginal;
         public static bool isStartDisabled;
@@ -176,46 +180,27 @@ namespace HovText
         // Clipboard
         public static int entryIndex = -1;
         public static int entryCounter = -1;
-        bool isClipboardText;
-        bool isClipboardImage;
-        string clipboardText = "";
-        string clipboardTextLast = "";
-        bool isClipboardImageTransparent;
-        Image clipboardImage;
-        IDataObject clipboardObject;
         public static SortedDictionary<int, string> entriesApplication = new SortedDictionary<int, string>();
-        private static SortedDictionary<int, string> entriesApplicationLoad = new SortedDictionary<int, string>();
         public static SortedDictionary<int, Image> entriesApplicationIcon = new SortedDictionary<int, Image>();
-        private static SortedDictionary<int, Image> entriesApplicationIconLoad = new SortedDictionary<int, Image>();
         public static SortedDictionary<int, string> entriesText = new SortedDictionary<int, string>();
         public static SortedDictionary<int, bool> entriesShow = new SortedDictionary<int, bool>();
         public static SortedDictionary<int, bool> entriesIsFavorite = new SortedDictionary<int, bool>();
-        private static SortedDictionary<int, bool> entriesIsFavoriteLoad = new SortedDictionary<int, bool>();
         public static SortedDictionary<int, bool> entriesIsUrl = new SortedDictionary<int, bool>();
         public static SortedDictionary<int, bool> entriesIsEmail = new SortedDictionary<int, bool>();
         public static SortedDictionary<int, bool> entriesIsImage = new SortedDictionary<int, bool>();
         public static SortedDictionary<int, bool> entriesIsTransparent = new SortedDictionary<int, bool>();
-        private static SortedDictionary<int, bool> entriesIsTransparentLoad = new SortedDictionary<int, bool>();
         public static SortedDictionary<int, Image> entriesImage = new SortedDictionary<int, Image>();
         public static SortedDictionary<int, Image> entriesImageTrans = new SortedDictionary<int, Image>();
         public static SortedDictionary<int, string> entriesChecksum = new SortedDictionary<int, string>();
-        public static SortedDictionary<int, string> entriesChecksumLoad = new SortedDictionary<int, string>();
         public static SortedList<int, Dictionary<string, object>> entriesOriginal = new SortedList<int, Dictionary<string, object>>();
-        private static SortedList<int, Dictionary<string, object>> entriesOriginalLoad = new SortedList<int, Dictionary<string, object>>();
         public static SortedDictionary<int, int> entriesOrder = new SortedDictionary<int, int>();
-        private List<int> entriesOrderLoad = new List<int>();
-        private static Dictionary<string, object> clipboardData;
-        private static Image appIcon; // converted from extracted icon
         const int WM_CLIPBOARDUPDATE = 0x031D;
-        string whoUpdatedClipboardName = "";
         public static bool pasteOnHotkeySetCleartext;
-        private List<int> clipboardQueue = new List<int>();
-        private List<int> clipboardQueueProcessed = new List<int>();
-        private bool isClipboardQueueBeingProcessed = false;
+        public static List<int> clipboardSaveQueue = new List<int>(); // will contain index-number of entries to save
+        private bool isClipboardSaveQueueBeingProcessed = false; // "true" when we are actively working on the "save queue"
 
         // Misc
         public static string appVer = "";
-        private static IntPtr originatingHandle = IntPtr.Zero;
         public static bool isFirstCallAfterHotkey = true;
         public static bool isSettingsFormVisible;
         public static string hovtextPage = "https://hovtext.com";
@@ -226,10 +211,6 @@ namespace HovText
         public static bool isTroubleshootEnabled;
         public static bool hasTroubleshootLogged;
         private static bool cleanupApp = false;
-        public static bool showFavoriteList = false; // will be true if the favorite list should be used/shown
-        public static bool showFavoriteListLast = false; // used when doing search - to store if we previously was in the favorite list or not
-        private static bool isClipboardLoadingFromFile; // "true" when initial loading clipboard content from file
-        private int isClipboardLoadingFromFileKey;
         readonly History history = new History();
         readonly Update update = new Update();
         readonly TooBigLogfile tooBigLogfile;
@@ -241,8 +222,8 @@ namespace HovText
         public static string cpuArchitecture;
         public static string osVersion;
         private static bool firstTimeLaunch;
-        private static string buildType = ""; // Debug, Release
-        private static string baseDirectory;
+        public static string buildType = ""; // Debug, Release
+        public static string baseDirectory;
         private static string exeOnly;
         public static string pathAndExe;
         public static string pathAndData;
@@ -252,35 +233,38 @@ namespace HovText
         public static string pathAndDataIndex;
         public static string pathAndDataIndexLoad;
         public static string pathAndLog;
-        private static string pathAndSpecial;
-        private static string pathAndTempExe;
-        private static string pathAndTempCmd;
-        private static string pathAndTempLog;
-        readonly string dataName = "HovText-data-";
-        readonly string dataFavoriteName = "HovText-favorite-";
-        readonly string dataIndexName = "HovText-index-";
+        public static string pathAndSpecial;
+        public static readonly string dataName = "HovText-data-";
+        public static readonly string dataFavoriteName = "HovText-favorite-";
+        public static readonly string dataIndexName = "HovText-index-";
         readonly string troubleshootLog = "HovText-troubleshooting.txt";
         readonly string saveContentFileExist = "HovText-save-content-in-logfile.txt"; // should ONLY be used by Dennis/developer for debugging!!!
-        static readonly string tempExe = "HovText-new.exe";
-        static readonly string tempCmd = "HovText-batch-update.cmd";
-        static readonly string tempLog = "HovText-batch-update-log.txt";
         static string updaterExe = "HovText Updater.exe";
         static string exeFileNameWithPath;
-        static string exeFileNameWithoutExtension;
-        private bool isApplicationEnabled = true;
+        public static string exeFileNameWithoutExtension;
+        public static bool isApplicationEnabled = true;
         public static byte[] encryptionKey;
         public static byte[] encryptionInitializationVector;
-        private int maxClipboardEntriesToSave = 500;
+        public static int clipboardEntriesToSave = 50;
+        public static int maxClipboardEntriesToSave = 500;
         private bool isClosing = false;
-        private int memoryInMB = 0;
+        private static int memoryInMB = 0;
         private int old_memoryInMB = -1;
         int borderWidth = 1;
         bool isStartingUp = false;
-        bool isFavoriteLoad;
         public static bool hasWriteAccess;
-        private string checksum;
         private bool floppyToggle = false;
         static string checkedVersion = "";
+        bool hasCheckedForUpdate = false;
+        public static bool isProcessingClipboardQueue = false;
+        HandleClipboard clipboardHandler;
+        bool saveFilesActive = false;
+        bool activatedHotkeys = false; // the hotkeys should not be enabled until we have loaded everything into the clipboard list
+
+        // IMPLEMENT THIS!!!!
+        public static bool alwaysPasteOriginalText = false;
+        // IMPLEMENT THIS!!!!
+
 
 
         // ###########################################################################################
@@ -295,11 +279,14 @@ namespace HovText
             InitializeComponent();
             Padding = new Padding(borderWidth);
 
+            clipboardHandler = new HandleClipboard(this);
+
+
             // Get build type
 #if DEBUG
             buildType = "Debug";
 #else
-                buildType = "Release";
+            buildType = "Release";
 #endif
 
             // Get application file version from assembly
@@ -380,7 +367,7 @@ namespace HovText
             exeFileNameWithoutExtension = Path.GetFileNameWithoutExtension(exeFileNameWithPath);
 
             // Get if we have write access
-            hasWriteAccess = HasWriteAccess();
+            hasWriteAccess = HandleFiles.HasWriteAccess();
 
             // Start logging, if relevant
             Logging.StartLogging();
@@ -402,16 +389,14 @@ namespace HovText
                 UiFormLabelApplicationName.BackColor = Color.IndianRed;
                 UiFormLabelApplicationVersion.BackColor = Color.IndianRed;
                 UiFormPictureBoxIcon.BackColor = Color.IndianRed;
-                UiFormLabelLoadingPanel.BackColor = Color.IndianRed;
-                UiFormLabelLoadingText.ForeColor = Color.Black;
             }
 
             // Refering to the current form - used in the history form
             settings = this;
 
             // Catch repaint event for this specific element (to draw the border)
-            UiColorsLabelActive.Paint += new System.Windows.Forms.PaintEventHandler(this.GuiShowFontBottom_Paint);
-            UiStyleLabelFont.Paint += new System.Windows.Forms.PaintEventHandler(this.GuiShowFontBottom_Paint);
+            UiColorsLabelActive.Paint += new PaintEventHandler(GuiShowFontBottom_Paint);
+            UiStyleLabelFont.Paint += new PaintEventHandler(GuiShowFontBottom_Paint);
 
             // Catch display change events (e.g. add/remove displays or change of main display)
             SystemEvents.DisplaySettingsChanged += new EventHandler(DisplayChangesEvent);
@@ -422,10 +407,10 @@ namespace HovText
             GetStartupSettings();
 
             // Do not at all show the form, if it should start minimized
-            if (Program.StartMinimized)
+            if (StartMinimized)
             {
-                this.WindowState = FormWindowState.Minimized;
-                this.ShowInTaskbar = false;
+                WindowState = FormWindowState.Minimized;
+                ShowInTaskbar = false;
             }
 
             // Should we start in "disabled" mode?
@@ -450,8 +435,6 @@ namespace HovText
             UiFormPanel.MouseDown += new MouseEventHandler(TopBannerPanel_MouseDown);
             UiFormLabelApplicationName.MouseDown += new MouseEventHandler(TopBannerPanel_MouseDown);
             UiFormLabelApplicationVersion.MouseDown += new MouseEventHandler(TopBannerPanel_MouseDown);
-            UiFormLabelLoadingPanel.MouseDown += new MouseEventHandler(TopBannerPanel_MouseDown);
-            UiFormLabelLoadingText.MouseDown += new MouseEventHandler(TopBannerPanel_MouseDown);
             pictureBox1.MouseDown += new MouseEventHandler(TopBannerPanel_MouseDown);
             pictureBox2.MouseDown += new MouseEventHandler(TopBannerPanel_MouseDown);
 
@@ -466,119 +449,256 @@ namespace HovText
             isStartingUp = false;
 
             // Start the loading process of data files AFTER the UI form has been fully intialized and shown
-            this.Shown += new EventHandler(Settings_Shown);
+            Shown += new EventHandler(Settings_Shown);
+
+            CreateShortcut("HovText", @pathAndExe, "HovText Clipboard Manager");
         }
 
 
         // ###########################################################################################
-        // Do the data file loading after the form has been shown.
+        // Catch window/form messages from Windows
+        // ###########################################################################################
+
+        protected override void WndProc(ref Message m)
+        {
+            switch (m.Msg)
+            {
+                // Catch the clipboard chain [UPDATE] event
+                case WM_CLIPBOARDUPDATE:
+
+                    Logging.Log("Received clipboard [UPDATE] event");
+
+                    // Only capture the clipboard, if HovText is enabled
+                    if (isApplicationEnabled)
+                    {
+
+                        // Do not process clipboard, if the update is faster than 250ms
+                        DateTime now = DateTime.Now;
+                        if ((now - lastClipboardEvent).TotalMilliseconds > 250)
+                        {
+                            // Parallize the task to get the clipboard data - this does not block the UI then
+                            Task.Run(() =>
+                            {
+                                clipboardHandler.GetClipboardData();
+                            });
+                        } else
+                        {
+                            Logging.Log("Warning: Last clipboard UPDATE event was less than [250ms] ago - ignoring this event");
+                        }
+                    }
+                    else
+                    {
+                        Logging.Log("Discarding clipboard UPDATE event as HovText is not enabled");
+                    }
+
+                    break;
+                default:
+                    base.WndProc(ref m);
+                    break;
+            }
+        }        
+
+
+        // ###########################################################################################
+        // After the form has been shown then load the data (if any)
         // ###########################################################################################   
 
         private void Settings_Shown(object sender, EventArgs e)
         {
-
             // Should we load the clipboard data file?
             if (UiGeneralToggleEnableClipboard.Checked && UiStorageToggleLoadClipboards.Checked && hasWriteAccess)
             {
                 // Get the full path and filenames for the different files
-                //
+                
                 // HovText-data-20231216155102.bin
                 string fileMask = $"{dataName}*.bin";
-                pathAndDataLoad = GetNewestFile(baseDirectory, fileMask);
+                pathAndDataLoad = HandleFiles.GetNewestFile(baseDirectory, fileMask);
+
                 // HovText-favorite-20231216155102.bin
                 fileMask = $"{dataFavoriteName}*.bin";
-                pathAndDataFavoriteLoad = GetNewestFile(baseDirectory, fileMask);
+                pathAndDataFavoriteLoad = HandleFiles.GetNewestFile(baseDirectory, fileMask);
+
                 // HovText-index-20231216155102.bin
                 fileMask = $"{dataIndexName}*.bin";
-                pathAndDataIndexLoad = GetNewestFile(baseDirectory, fileMask);
+                pathAndDataIndexLoad = HandleFiles.GetNewestFile(baseDirectory, fileMask);
 
-                // Parallel processing loading of the 3 files; data, index, favorite
-                if (File.Exists(pathAndDataLoad) && File.Exists(pathAndDataIndexLoad))
+                // Continue, if we have the "data" and "index" file (they are the most important ones)
+                if (System.IO.File.Exists(pathAndDataLoad) && System.IO.File.Exists(pathAndDataIndexLoad))
                 {
-                    isClipboardLoadingFromFile = true; // calling many of the same functions, but somewhere we need to do special stuff when this is loaded from start
+                    TimerToggleSaveIcon.Enabled = true; // show the loader-icons
+                    DisableTabControl();
 
+                    // Parallize the loading, to not block the UI
                     Task.Run(() =>
                     {
-                        // Show the "Loading" panel
-                        UpdateDataFileProcessingUi("Please wait while loading clipboards", true);
+                        // Load the two minor files
+                        HandleFiles.LoadIndexesFromFile();
+                        HandleFiles.LoadFavoritesFromFile();
 
-                        LoadIndexesFromFile();
+                        // Time how long it takes to load the "data" file
                         Stopwatch stopwatch = new Stopwatch();
                         stopwatch.Start();
-                        LoadDataFile();
+                        HandleFiles.LoadDataFile();
                         stopwatch.Stop();
                         Logging.Log($"Execution time for \"LoadDataFile()\": {stopwatch.Elapsed.TotalSeconds} seconds");
+
+                        // We can come in the situation that we have not loaded any data
+                        if(HandleClipboard.clipboardQueue.Count == 0)
+                        {
+                            // (Re)set all booleans handling loading routines
+                            ResetLoad();
+                        }
                     });
                 }
                 else
                 {
-                    StuffToDoWhenApplicationHasFinishedStartup();
+                    // (Re)set all booleans handling loading routines
+                    ResetLoad();
                 }
-            }
-            else
+            } else
             {
+                // (Re)set all booleans handling loading routines
+                ResetLoad();
+            }
+        }
+
+
+        // ###########################################################################################
+        // Set all "loading booleans" to "true", which means we have finished everything with load.
+        // This is because there is either no files or somehow no queue is present.
+        // ###########################################################################################   
+
+        private void ResetLoad ()
+        {
+            HandleFiles.onLoadAllEntriesInClipboardQueue = true;
+            HandleFiles.onLoadAllEntriesProcessedInClipboardQueue = true;
+            HandleFiles.onLoadAllEntriesSavedFromQueue = true;
+        }
+
+
+        // ###########################################################################################
+        // Things that needs to be done AFTER all clipboards have been loaded and processed,
+        // but not yet (re)saved
+        // ###########################################################################################   
+
+        private void StuffToDoWhenApplicationHasFinishedStartup()
+        {
+            // Enable the tab-control
+            UiFormTabControl.Enabled = true;
+            UiFormTabControl.TabButtonSelectedState.FillColor = Color.FromArgb(56, 97, 55);
+            UiFormTabControl.TabButtonSelectedState.ForeColor = Color.FromArgb(227, 227, 227);
+
+            AddClipboardToChain();
+
+            // Check if the shortcut is created - if not, then create it
+            ChechAndCreateShortcut();
+
+            // Start deleting old/obsolete files
+            TimerDeleteOldFiles.Enabled = true;
+
+            // Check and show popup, if the troubleshoot logfile is larger than 10MB
+            CheckIfLogfileIsTooLarge();
+        }
+
+
+        // ###########################################################################################
+        // TIMERS
+        // ------
+        // Various timers as defined in "Settings Designer"
+        // ###########################################################################################   
+
+
+        // ###########################################################################################
+        // Process the clipboard queue
+        // ###########################################################################################
+
+        private void TimerProcessClipboardQueue_Tick(object sender, EventArgs e)
+        {
+            // Process the clipboard queue, if we are not currently working in it AND if it has entries to process
+            if (
+                !isProcessingClipboardQueue &&
+                HandleClipboard.clipboardQueue.Count > 0 &&
+                HandleFiles.onLoadAllEntriesInClipboardQueue)
+            {
+                isProcessingClipboardQueue = true;
+                TimerToggleSaveIcon.Enabled = true; // show the loader-icons
+
+                // Parallize the task, to not block the UI
+                Task.Run(() =>
+                {
+                    // Will process all entries in queue
+                    clipboardHandler.ReleaseClipboardQueue();
+
+                    // Save the "index" and "favorite" files afterwards
+                    HandleFiles.saveIndexAndFavoriteFiles = true;
+
+                    // Update the counter/entries in the tray icon
+                    UpdateNotifyIconText();
+                });
+            }
+
+            // Once all entries have been processed from queue then ...
+            if (!activatedHotkeys && HandleFiles.onLoadAllEntriesProcessedInClipboardQueue)
+            {
+                activatedHotkeys = true;
+                SetHotkeys("Startup of application");
+                TimerProcessSaveQueue.Enabled = true;
                 StuffToDoWhenApplicationHasFinishedStartup();
             }
         }
 
 
         // ###########################################################################################
-        // Things that needs to be done AFTER all clipboards have been loaded (if any)
+        // Process the save-queue - clipboards that needs to be saved to the "data" file.
+        // The save-queue will be populated with a list of index-numbers of clipboard entries to save.
         // ###########################################################################################   
 
-        private void StuffToDoWhenApplicationHasFinishedStartup ()
+        private void TimerProcessSaveQueue_Tick(object sender, EventArgs e)
         {
-            AddListener();
-            CheckIfLogfileIsTooLarge();
-            TimerUpdateVersion.Enabled = true;
-            TimerDeleteOldFiles.Enabled = true;
-            TimerProcessQueue.Enabled = true;
-
-
-
-
-        }
-
-        private void ProcessSaveQueue ()
-        {
-            Task.Run(() =>
+            // Only process the queue, if it is currently NOT being worked on AND if it has content
+            if (clipboardSaveQueue.Count > 0 && !isClipboardSaveQueueBeingProcessed)
             {
-                isClipboardQueueBeingProcessed = true;
-
-                List<int> clipboardQueueTmp = new List<int>(clipboardQueue); // take a copy of "clipboardQueue"
-                foreach (var index in clipboardQueueTmp)
+                // We can start saving data, once all entries have been processed (the boolean
+                // is set to "true" of no file is loaded)
+                if (HandleFiles.onLoadAllEntriesProcessedInClipboardQueue)
                 {
-                    if (clipboardQueue.Contains(index))
+                    isClipboardSaveQueueBeingProcessed = true;
+                    TimerToggleSaveIcon.Enabled = true; // show the "saving" icons
+
+                    // Parallize it so we do not block UI
+                    Task.Run(() =>
                     {
-                        SaveClipboardEntryToFile(index);
-                        clipboardQueueProcessed.Add(index);
-                        clipboardQueue.Remove(index);
-                    }
-                    else
-                    {
-                    Logging.Log($"Error: Could not find index [{index}] for saving!?");
-                    }
+                        // Take a copy of "clipboardSaveQueue"
+                        List<int> clipboardSaveQueueTmp = new List<int>(clipboardSaveQueue); 
+
+                        // Walk through all elements of the queue
+                        foreach (var index in clipboardSaveQueueTmp)
+                        {
+                            if (entriesOriginal.ContainsKey(index))
+                            {
+                                HandleFiles.SaveClipboardEntryToFile(index);
+                                clipboardSaveQueue.Remove(index);
+                            }
+                            else
+                            {
+                                Logging.Log($"Error: Could not find index [{index}] for saving!? Removing it from list");
+                                clipboardSaveQueue.Remove(index);
+                            }
+                        }
+
+                        HandleFiles.saveIndexAndFavoriteFiles = true;
+                        HandleFiles.onLoadAllEntriesSavedFromQueue = true; // if we have loaded content from files, then mark everything as saved now
+                        isClipboardSaveQueueBeingProcessed = false;
+                    });
                 }
-
-                isClipboardQueueBeingProcessed = false;
-            });
-        }
-
-        private void TimerProcessQueue_Tick(object sender, EventArgs e)
-        {
-            if(!isClipboardQueueBeingProcessed)
-            {
-                if (clipboardQueue.Count > 0)
-                {
-                    TimerToggleSaveIcon.Enabled = true;
-                    ProcessSaveQueue();
-                }
-
             }
-
-
-
         }
+
+
+        // ###########################################################################################
+        // When this timer gets enabled, then it will show one-of-two floppydisk images.
+        // This will show disk activity.
+        // ###########################################################################################   
 
         private void TimerToggleSaveIcon_Tick(object sender, EventArgs e)
         {
@@ -595,7 +715,8 @@ namespace HovText
 
             floppyToggle = !floppyToggle;
 
-            if(!isClipboardQueueBeingProcessed)
+            // Hide the loader-icons, if there is no queues left to process
+            if (HandleClipboard.clipboardQueue.Count == 0 && clipboardSaveQueue.Count == 0)
             {
                 TimerToggleSaveIcon.Enabled = false;
                 pictureBox1.Visible = false;
@@ -604,9 +725,145 @@ namespace HovText
         }
 
 
+        // ###########################################################################################
+        // When a boolean gets "true" then it will save both the "data" and the "favorite" file.
+        // ###########################################################################################   
+
+        private void SaveIndexAndFavoriteFiles_Tick(object sender, EventArgs e)
+        {
+            if (HandleFiles.saveIndexAndFavoriteFiles && !saveFilesActive)
+            {
+                saveFilesActive = true; 
+                TimerToggleSaveIcon.Enabled = true;
+                HandleFiles.SaveIndexAndFavoritesToFiles();
+                HandleFiles.saveIndexAndFavoriteFiles = false;
+                saveFilesActive = false;
+            }
+        }
+
 
         // ###########################################################################################
-        // For the 3 encrypted data files, we need a timestamp so they are identical
+        // Check for a new update
+        // ###########################################################################################
+
+        private void TimerCheckForUpdate_Tick(object sender, EventArgs e)
+        {
+            // Check for update, if it has not been done before
+            if (HandleFiles.onLoadAllEntriesSavedFromQueue)
+            {
+                // Disable the timer - no more need for it
+                TimerCheckForUpdate.Enabled = false;
+
+                if (!hasCheckedForUpdate)
+                {
+                    hasCheckedForUpdate = true;
+                    CheckForUpdate();
+                }
+            }
+        }
+
+
+        // ###########################################################################################
+        // Old file monitoring timer
+        // ###########################################################################################
+
+        private void TimerDeleteOldFiles_Tick(object sender, EventArgs e)
+        {
+            /*
+            bool fileDeleted = false;
+
+            // HovText-data-*.bin
+            string fileMask = $"{dataName}*.bin";
+            string fileName = HandleFiles.GetOldestFile(baseDirectory, fileMask);
+            if (fileName != pathAndData)
+            {
+                if (File.Exists(fileName))
+                {
+                    try
+                    {
+                        File.Delete(@fileName);
+                        fileDeleted = true;
+                        Logging.Log($"Deleted clipboard data file [{fileName}]");
+                    }
+                    catch (Exception ex)
+                    {
+                        Logging.Log($"Could not delete clipboard data file [{fileName}] as it was locked by another process");
+                        Logging.Log($"Exception: {ex.Message}");
+                    }
+                }
+            }
+
+            // HovText-index-*.bin
+            fileMask = $"{dataIndexName}*.bin";
+            fileName = HandleFiles.GetOldestFile(baseDirectory, fileMask);
+            if (fileName != pathAndDataIndex)
+            {
+                if (File.Exists(fileName))
+                {
+                    try
+                    {
+                        File.Delete(@fileName);
+                        fileDeleted = true;
+                        Logging.Log($"Deleted clipboard data index file [{fileName}]");
+                    }
+                    catch (Exception ex)
+                    {
+                        Logging.Log($"Could not delete clipboard data index file [{fileName}] as it was locked by another process");
+                        Logging.Log($"Exception: {ex.Message}");
+                    }
+                }
+            }
+
+            // HovText-favorite-*.bin
+            fileMask = $"{dataFavoriteName}*.bin";
+            fileName = HandleFiles.GetOldestFile(baseDirectory, fileMask);
+            if (fileName != pathAndDataFavorite)
+            {
+                if (File.Exists(fileName))
+                {
+                    try
+                    {
+                        File.Delete(@fileName);
+                        fileDeleted = true;
+                        Logging.Log($"Deleted clipboard data is-favorite file [{fileName}]");
+                    }
+                    catch (Exception ex)
+                    {
+                        Logging.Log($"Could not delete clipboard data is-favorite file [{fileName}] as it was locked by another process");
+                        Logging.Log($"Exception: {ex.Message}");
+                    }
+                }
+            }
+
+            // Delete the temporary updater file
+            fileName = baseDirectory + "HovText Updater.exe";
+            if (File.Exists(fileName))
+            {
+                try
+                {
+                    File.Delete(@fileName);
+                    fileDeleted = true;
+                    Logging.Log($"Deleted temporary updater file [{fileName}]");
+                }
+                catch (Exception ex)
+                {
+                    Logging.Log($"Could not delete temporary updater file [{fileName}] as it was locked by another process");
+                    Logging.Log($"Exception: {ex.Message}");
+                }
+            }
+
+            if (!fileDeleted)
+            {
+                TimerDeleteOldFiles.Enabled = false;
+                Logging.Log($"Disabled timer for monitoring old file deletions");
+            }
+            */
+        }
+
+
+
+        // ###########################################################################################
+        // For the 3 encrypted files, we need a timestamp for the filename, so they are identical
         // ###########################################################################################   
 
         private string GetCurrentDateTimeFormatted()
@@ -616,1162 +873,27 @@ namespace HovText
             return formattedDateTime;
         }
 
-
-        // ###########################################################################################
-        // Get the NEWEST file, based on file mask
-        // ###########################################################################################   
-
-        private string GetNewestFile(string directoryPath, string fileMask)
-        {
-            try
-            {
-                DirectoryInfo directoryInfo = new DirectoryInfo(directoryPath);
-
-                var files = directoryInfo.GetFiles(fileMask)
-                                         .OrderByDescending(f => f.LastWriteTime)
-                                         .ToList();
-
-                return files.FirstOrDefault()?.FullName;
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Error: {ex.Message}");
-                return null;
-            }
-        }
-
-
-        // ###########################################################################################
-        // Get the OLDEST file, based on file mask
-        // ###########################################################################################   
-
-        private string GetOldestFile(string directoryPath, string fileMask)
-        {
-            try
-            {
-                DirectoryInfo directoryInfo = new DirectoryInfo(directoryPath);
-
-                var files = directoryInfo.GetFiles(fileMask)
-                                         .OrderBy(f => f.LastWriteTime)
-                                         .ToList();
-
-                return files.FirstOrDefault()?.FullName;
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Error: {ex.Message}");
-                return null;
-            }
-        }
-
-
-        // ###########################################################################################
-        // Save the (one) newest clipboard entry to a data file
-        // (will just append to the existing file)
-        // ###########################################################################################   
-
-        private void SaveClipboardEntryToFile(int indexToSave)
-        {
-            if (UiGeneralToggleEnableClipboard.Checked && UiStorageToggleSaveClipboards.Checked)
-            {
-                Logging.Log($"Saving entry index [{indexToSave}] to encrypted \"data\" file [{pathAndData}]");
-
-                // Check if file exists, if not, create it and insert version name
-                if (!File.Exists(pathAndData))
-                {
-                    using (var fileStream = new FileStream(pathAndData, FileMode.Create))
-                    using (var writer = new StreamWriter(fileStream))
-                    {
-                        writer.WriteLine($"HovText {appVer}");
-                        writer.Flush();
-                    }
-                }
-
-                var entriesOriginalLoad = new SortedList<int, Dictionary<string, object>>();
-                var entriesApplicationLoad = new SortedDictionary<int, string>();
-                var entriesApplicationIconLoad = new SortedDictionary<int, Image>();
-                var entriesIsTransparentLoad = new SortedDictionary<int, bool>();
-                var entriesChecksumLoad = new SortedDictionary<int, string>();
-
-                entriesOriginalLoad.Add(indexToSave, entriesOriginal[indexToSave]);
-                entriesApplicationLoad.Add(indexToSave, entriesApplication[indexToSave]);
-                entriesApplicationIconLoad.Add(indexToSave, entriesApplicationIcon[indexToSave]);
-                entriesIsTransparentLoad.Add(indexToSave, entriesIsTransparent[indexToSave]);
-                entriesChecksumLoad.Add(indexToSave, entriesChecksum[indexToSave]);
-
-                // Update the Tuple type declaration to include the new dictionary
-                var dataToSerialize = new Tuple<
-                    SortedList<int, Dictionary<string, object>>,
-                    SortedDictionary<int, string>,
-                    SortedDictionary<int, Image>,
-                    SortedDictionary<int, bool>,
-                    SortedDictionary<int, string>
-                >(entriesOriginalLoad, entriesApplicationLoad, entriesApplicationIconLoad, entriesIsTransparentLoad, entriesChecksumLoad);
-
-                // Serialization process
-                var binaryFormatter = new BinaryFormatter();
-                using (var memoryStream = new MemoryStream())
-                {
-                    // Serialize the data to the MemoryStream
-                    binaryFormatter.Serialize(memoryStream, dataToSerialize);
-                    memoryStream.Position = 0; // Reset the position after serialization
-
-                    // Compress the serialized data
-                    using (var compressedStream = new MemoryStream())
-                    {
-                        using (var compressor = new GZipStream(compressedStream, CompressionMode.Compress))
-                        {
-                            memoryStream.CopyTo(compressor);
-                        } // Compressor needs to be closed/disposed to finish writing
-
-                        var compressedData = compressedStream.ToArray();
-
-                        // Encrypt the compressed data
-                        var encryptedData = Encryption.EncryptStringToBytes_Aes(compressedData, encryptionKey, encryptionInitializationVector);
-
-                        // Write the encrypted data to a file
-                        using (var fileStream = new FileStream(pathAndData, FileMode.Append))
-                        {
-                            // Write the length of the encrypted data
-                            byte[] encryptedDataLengthBytes = BitConverter.GetBytes(encryptedData.Length);
-                            if (BitConverter.IsLittleEndian)
-                            {
-                                Array.Reverse(encryptedDataLengthBytes);
-                            }
-                            fileStream.Write(encryptedDataLengthBytes, 0, encryptedDataLengthBytes.Length);
-
-                            // Write the encrypted data
-                            fileStream.Write(encryptedData, 0, encryptedData.Length);
-                        }
-                    }
-                }
-            }
-        }
-
-
-        // ###########################################################################################
-        // Load the full list of clipboard entries from a data file
-        // ###########################################################################################   
-
-//        /*
-        public void LoadDataFile()
-        {
-            isClipboardLoadingFromFile = true;
-
-            LoadIsFavoritesFromFile();
-
-            Logging.Log($"Reading encrypted \"data\" file [{pathAndDataLoad}]");
-
-            try
-            {
-                // Read the version name from the first line of the file
-                string version;
-                using (var tempStream = new FileStream(pathAndDataLoad, FileMode.Open))
-                using (var reader = new StreamReader(tempStream))
-                {
-                    version = reader.ReadLine();
-                    Logging.Log($"Version saved to \"data\" file is [{version}]");
-                }
-
-                int counter = 0;
-                using (var fileStream = new FileStream(pathAndDataLoad, FileMode.Open))
-                {
-                    // Skip the first line as this is the "version" line
-                    fileStream.Position = Encoding.UTF8.GetBytes(version + Environment.NewLine).Length;
-
-                    bool breakWhile = false; // "true" when we have reached the amount of clipboards we want
-
-                    while (fileStream.Position < fileStream.Length && !breakWhile)
-                    {
-                        // Read the length of the encrypted data
-                        byte[] encryptedDataLengthBytes = new byte[sizeof(int)];
-                        fileStream.Read(encryptedDataLengthBytes, 0, encryptedDataLengthBytes.Length);
-
-                        // Reverse the byte order if the system is little-endian
-                        if (BitConverter.IsLittleEndian)
-                        {
-                            Array.Reverse(encryptedDataLengthBytes);
-                        }
-
-                        int encryptedDataLength = BitConverter.ToInt32(encryptedDataLengthBytes, 0);
-
-                        // Read the encrypted data from the file
-                        byte[] encryptedData = new byte[encryptedDataLength];
-                        fileStream.Read(encryptedData, 0, encryptedData.Length);
-
-                        // Decrypt the data
-                        var decryptedData = Encryption.DecryptStringFromBytes_Aes(encryptedData, encryptionKey, encryptionInitializationVector);
-
-                        // Check if decryption was successful
-                        if (decryptedData == null)
-                        {
-                            Logging.Log("Encryption mismatches and \"data\" file cannot be read - will be overwritten");
-                            break; // Break out of the loop if decryption fails
-                        }
-
-                        // Decompress the decrypted data
-                        byte[] decompressedData;
-                        using (var decompressedStream = new MemoryStream())
-                        {
-                            using (var memoryStream = new MemoryStream(decryptedData))
-                            {
-                                using (var decompressor = new GZipStream(memoryStream, CompressionMode.Decompress))
-                                {
-                                    decompressor.CopyTo(decompressedStream);
-                                }
-                            }
-
-                            decompressedData = decompressedStream.ToArray();
-                        }
-
-                        try
-                        {
-                            // Deserialize the decompressed data
-                            using (var memoryStream = new MemoryStream(decompressedData))
-                            {
-                                var binaryFormatter = new BinaryFormatter();
-                                var loadedData = (Tuple<
-                                    SortedList<int, Dictionary<string, object>>,
-                                    SortedDictionary<int, string>,
-                                    SortedDictionary<int, Image>,
-                                    SortedDictionary<int, bool>,
-                                    SortedDictionary<int, string>
-                                >)binaryFormatter.Deserialize(memoryStream);
-
-                                // Extract the dictionaries from the tuple into temporary dictionaries
-                                entriesOriginalLoad = loadedData.Item1;
-                                entriesApplicationLoad = loadedData.Item2;
-                                entriesApplicationIconLoad = loadedData.Item3;
-                                entriesIsTransparentLoad = loadedData.Item4;
-                                entriesChecksumLoad = loadedData.Item5;
-                            }
-                        }
-                        catch (SerializationException ex)
-                        {
-                            Logging.Log($"Error during deserialization: {ex.Message}");
-                            entriesOriginalLoad = null;
-                            entriesIsTransparentLoad = null;
-                            entriesApplicationLoad = null;
-                            entriesApplicationIconLoad = null;
-                            entriesChecksumLoad = null;
-                            break;
-                        }
-
-                        // Process entries if decryption and deserialization were successful
-                        if (entriesOriginalLoad != null)
-                        {
-                            int numEntries = entriesOrderLoad.Count;
-                            Logging.Log("---");
-                            foreach (var entry in entriesOriginalLoad)
-                            {
-                                try
-                                {
-                                    counter++;
-
-                                    // Safely update GuiLoadingText on the UI thread
-                                    UiFormLabelLoadingText.Invoke((MethodInvoker)(() =>
-                                    {
-                                        UiFormLabelLoadingText.Text = $"Please wait while loading clipboards - processing entry [{counter}/{numEntries}]";
-                                    }));
-
-                                    clipboardData = entry.Value;
-                                    isClipboardLoadingFromFileKey = entry.Key;
-                                    int y = entriesOrderLoad.IndexOf(entry.Key);
-                                    entryIndex = y;
-
-                                    // Check if the key is marked as a favorite from the "favorite" file
-                                    if (entriesIsFavoriteLoad != null)
-                                    {
-                                        isFavoriteLoad = entriesIsFavoriteLoad.TryGetValue(entry.Key, out bool isFavorite);
-                                    }
-                                    else
-                                    {
-                                        isFavoriteLoad = false;
-                                    }
-
-                                    if (entryIndex != -1)
-                                    {
-                                        Logging.Log($"Processing clipboard entry [{counter}] with entry.Key [{entry.Key}] and entryIndex [{entryIndex}] with [{clipboardData.Count}] formats");
-                                        ProcessClipboard();
-                                    } else
-                                    {
-                                        Logging.Log($"Skipping clipboard entry [{counter}] with entry.Key [{entry.Key}] and entryIndex [{entryIndex}] with [{clipboardData.Count}] formats");
-                                    }
-                                    clipboardData = null;
-                                }
-                                catch (Exception ex)
-                                {
-                                    Logging.Log($"Error processing entry {entry.Key}: {ex.Message}");
-                                }
-
-                                // Break from loop, if we have reached the amount we want to process
-                                if(counter == numEntries)
-                                {
-                                    breakWhile = true;
-                                }
-                            }
-
-                            // Clear temporary dictionaries for the next iteration
-                            entriesOriginalLoad = null;
-                            entriesIsTransparentLoad = null;
-                            entriesApplicationLoad = null;
-                            entriesApplicationIconLoad = null;
-                            entriesChecksumLoad = null;
-                        }
-                    }
-                    Logging.Log("---");
-                }
-
-                SaveIndexAndFavorite();
-                UpdateAdvancedStatus();
-            }
-            catch (Exception ex)
-            {
-                // Handle other exceptions
-                Logging.Log("Error loading data file: " + ex.Message);
-            }
-            finally
-            {
-                // This code will run regardless of decryption or deserialization success or failure
-                UpdateLoadingPanelVisibility();
-            }
-        }
-
-
-        // ###########################################################################################
-        // Update "loading" panel visibility
-        // ###########################################################################################
-
-        private void UpdateLoadingPanelVisibility()
-        {
-            UiFormLabelLoadingPanel.Invoke(new Action(() =>
-            {
-                UiFormLabelLoadingPanel.Visible = false;
-                isClipboardLoadingFromFile = false;
-                //                    UiAdvancedButtonClearClipboards.Enabled = true; // enable the "Clear clipboards" button
-                UiFormTabControl.Enabled = true;
-                UiFormTabControl.TabButtonSelectedState.FillColor = Color.FromArgb(56, 97, 55);
-                UiFormTabControl.TabButtonSelectedState.ForeColor = Color.FromArgb(227, 227, 227);
-
-                isClipboardLoadingFromFile = false;
-                if (entriesText.Count > 0)
-                {
-                    entryIndex = entriesText.Last().Key;
-                }
-
-                // This also needs to be in the UI thread
-                StuffToDoWhenApplicationHasFinishedStartup();
-            }));
-        }
-
-
-        // ###########################################################################################
-        // Save the full list of "is favorite" booleans to a data file
-        // ###########################################################################################   
-
-        public void SaveIsFavoritesToFile()
-        {
-
-            Logging.Log($"Saving encrypted \"favorite\" file [{pathAndDataFavorite}]");
-
-            // Filter the entries to only include those with value true
-            var trueFavorites = entriesIsFavorite.Where(kv => kv.Value).ToDictionary(kv => kv.Key, kv => kv.Value);
-
-            Dictionary<int, int> mapping = new Dictionary<int, int>();
-            Dictionary<int, bool> trueFavorites2 = new Dictionary<int, bool>();
-
-            foreach (var entry in trueFavorites)
-            {
-
-
-                // Check if the key exists in entriesOrder
-                if (entriesOrder.TryGetValue(entry.Key, out int value))
-                {
-                    mapping.Add(entry.Key, value);
-                }
-
-                //                trueFavorites[entry.Key] = false;
-            }
-
-            foreach (var pair in mapping)
-            {
-                trueFavorites2.Add(pair.Value, true);
-            }
-
-            // Overwrite file
-            using (var fileStream = new FileStream(pathAndDataFavorite, FileMode.Create))
-            using (var writer = new StreamWriter(fileStream))
-            {
-                writer.WriteLine($"HovText {appVer}");
-                writer.Flush();
-            }
-
-            // Update the Tuple type declaration to use SortedDictionary
-            var dataToSerialize = new Tuple<
-                SortedDictionary<int, bool>
-            >(new SortedDictionary<int, bool>(trueFavorites2));
-
-            // Serialization process
-            var binaryFormatter = new BinaryFormatter();
-            using (var memoryStream = new MemoryStream())
-            {
-                binaryFormatter.Serialize(memoryStream, dataToSerialize);
-                var serializedData = memoryStream.ToArray();
-
-                // Encrypt the serialized data
-                var encryptedData = Encryption.EncryptStringToBytes_Aes(serializedData, encryptionKey, encryptionInitializationVector);
-
-                // Write the encrypted data to a file
-                using (var fileStream = new FileStream(pathAndDataFavorite, FileMode.Append))
-                {
-                    // Write the length of the encrypted data
-                    byte[] encryptedDataLengthBytes = BitConverter.GetBytes(encryptedData.Length);
-                    if (BitConverter.IsLittleEndian)
-                    {
-                        Array.Reverse(encryptedDataLengthBytes);
-                    }
-                    fileStream.Write(encryptedDataLengthBytes, 0, encryptedDataLengthBytes.Length);
-
-                    // Write the encrypted data
-                    fileStream.Write(encryptedData, 0, encryptedData.Length);
-                }
-            }
-        }
-
-
-        // ###########################################################################################
-        // Load the full list of "is favorite" booleans from a data file
-        // ###########################################################################################   
-
-        public void LoadIsFavoritesFromFile()
-        {
-
-            if (File.Exists(pathAndDataFavoriteLoad))
-            {
-                Logging.Log("Reading encrypted \"favorite\" file [pathAndDataFavoriteLoad]");
-
-                try
-                {
-                    // Read the version name from the first line of the file
-                    string version;
-                    using (var tempStream = new FileStream(pathAndDataFavoriteLoad, FileMode.Open))
-                    using (var reader = new StreamReader(tempStream))
-                    {
-                        version = reader.ReadLine();
-                        Logging.Log($"Version saved to \"favorite\" file is [{version}]");
-                    }
-
-                    int favoriteCount = 0;
-
-                    using (var fileStream = new FileStream(pathAndDataFavoriteLoad, FileMode.Open))
-                    {
-                        // Skip the first line as this is the "version" line
-                        fileStream.Position = Encoding.UTF8.GetBytes(version + Environment.NewLine).Length;
-
-                        while (fileStream.Position < fileStream.Length)
-                        {
-                            int encryptedDataLength;
-
-                            // Read the length of the encrypted data
-                            byte[] encryptedDataLengthBytes = new byte[sizeof(int)];
-                            fileStream.Read(encryptedDataLengthBytes, 0, encryptedDataLengthBytes.Length);
-
-                            // Reverse the byte order if the system is little-endian
-                            if (BitConverter.IsLittleEndian)
-                            {
-                                Array.Reverse(encryptedDataLengthBytes);
-                            }
-
-                            encryptedDataLength = BitConverter.ToInt32(encryptedDataLengthBytes, 0);
-
-                            // Read the encrypted data from the file
-                            byte[] encryptedData = new byte[encryptedDataLength];
-                            fileStream.Read(encryptedData, 0, encryptedData.Length);
-
-                            // Decrypt the data
-                            var decryptedData = Encryption.DecryptStringFromBytes_Aes(encryptedData, encryptionKey, encryptionInitializationVector);
-
-                            entriesIsFavoriteLoad = null;
-
-                            // Check if decryption was successful
-                            if (decryptedData == null)
-                            {
-                                Logging.Log("Encryption mismatches and \"favorite\" file cannot be read - will be overwritten");
-                                break; // Break out of the loop if decryption fails
-                            }
-                            else
-                            {
-
-                                try
-                                {
-                                    // Deserialize the decrypted data
-                                    using (var memoryStream = new MemoryStream(decryptedData))
-                                    {
-                                        var binaryFormatter = new BinaryFormatter();
-                                        var loadedData = (Tuple<
-                                            SortedDictionary<int, bool>
-                                        >)binaryFormatter.Deserialize(memoryStream);
-
-                                        // Extract the dictionaries from the tuple into temporary dictionaries
-                                        entriesIsFavoriteLoad = loadedData.Item1;
-                                        favoriteCount += entriesIsFavoriteLoad.Count; // Increment the counter
-                                    }
-                                }
-                                catch (SerializationException ex)
-                                {
-                                    Logging.Log($"Error during deserialization: {ex.Message}");
-                                    //                                entriesIsFavoriteLoad = null;
-                                    break; // Break out of the loop if deserialization fails
-                                }
-                            }
-                        }
-
-                        Logging.Log($"Number of \"favorites\" read: [{favoriteCount}]"); // Log the total count
-
-                    }
-
-
-                }
-                catch (Exception ex)
-                {
-                    // Handle other exceptions
-                    Logging.Log("Error loading favorite file: " + ex.Message);
-                }
-                finally
-                {
-                    // This code will run regardless of decryption or deserialization success or failure
-                    //                UpdatePanelVisibility();
-                }
-            }
-        }
-
-
-        // ###########################################################################################
-        // Save the full list of mapping between original saved clipboard entry
-        // index (from data file) and the new ordered list entry index
-        // ###########################################################################################   
-
-        public void SaveIndexesToFile()
-        {
-
-            Logging.Log($"Saving encrypted \"index\" file [{pathAndDataIndex}]");
-
-            try
-            {
-
-                SortedDictionary<int, int> entriesOrderTmp = new SortedDictionary<int, int>();
-
-                if (UiStorageRadioSaveOnlyText.Checked)
-                {
-                    foreach (var entry in entriesOrder)
-                    {
-                        bool isImage = entriesIsImage[entry.Key];
-                        if (!isImage)
-                        {
-                            entriesOrderTmp.Add(entry.Key, entry.Value);
-                        }
-                    }
-                }
-
-                if (UiStorageRadioSaveOnlyFavorites.Checked)
-                {
-
-                    foreach (var entry in entriesOrder)
-                    {
-                        bool isFavorite = entriesIsFavorite[entry.Key];
-                        if (isFavorite)
-                        {
-                            entriesOrderTmp.Add(entry.Key, entry.Value);
-                        }
-                    }
-                }
-
-
-                // Get the list of indexes
-                if (UiStorageRadioSaveOnlyText.Checked || UiStorageRadioSaveOnlyFavorites.Checked)
-                {
-                    entriesOrderLoad = entriesOrderTmp.Values.ToList();
-                }
-                else
-                {
-                    entriesOrderLoad = entriesOrder.Values.ToList();
-                }
-
-                // Overwrite file
-                using (var fileStream = new FileStream(pathAndDataIndex, FileMode.Create))
-                using (var writer = new StreamWriter(fileStream))
-                {
-                    writer.WriteLine($"HovText {appVer}");
-                    writer.Flush();
-                }
-
-                // Convert the list to a byte array
-                var serializedData = BitConverter.GetBytes(entriesOrderLoad.Count)
-                    .Concat(entriesOrderLoad.Select(index => BitConverter.GetBytes(index))
-                    .SelectMany(bytes => bytes))
-                    .ToArray();
-
-                // Encrypt the serialized data
-                var encryptedData = Encryption.EncryptStringToBytes_Aes(serializedData, encryptionKey, encryptionInitializationVector);
-
-                // Write the encrypted data to a file
-                using (var fileStream = new FileStream(pathAndDataIndex, FileMode.Append))
-                {
-                    // Write the length of the encrypted data
-                    byte[] encryptedDataLengthBytes = BitConverter.GetBytes(encryptedData.Length);
-                    if (BitConverter.IsLittleEndian)
-                    {
-                        Array.Reverse(encryptedDataLengthBytes);
-                    }
-                    fileStream.Write(encryptedDataLengthBytes, 0, encryptedDataLengthBytes.Length);
-
-                    // Write the encrypted data
-                    fileStream.Write(encryptedData, 0, encryptedData.Length);
-                }
-            }
-            catch (Exception ex)
-            {
-                // Handle exceptions
-                Logging.Log("Error saving index file: " + ex.Message);
-            }
-        }
-
-
-        // ###########################################################################################
-        // Load the full list of mapping between original saved clipboard entry
-        // index (from data file) and the new ordered list entry index
-        // ###########################################################################################   
-
-        private void LoadIndexesFromFile()
-        {
-            entriesOrderLoad = new List<int>();
-            Logging.Log($"Reading encrypted \"index\" file [{pathAndDataIndexLoad}]");
-
-            try
-            {
-                // Read the version name from the first line of the file
-                string version;
-                using (var tempStream = new FileStream(pathAndDataIndexLoad, FileMode.Open))
-                using (var reader = new StreamReader(tempStream))
-                {
-                    version = reader.ReadLine();
-                    Logging.Log($"Version info from \"index\" file is [{version}]");
-                }
-
-                using (var fileStream = new FileStream(pathAndDataIndexLoad, FileMode.Open, FileAccess.Read))
-                {
-                    // Skip the first line as this is the "version" line
-                    fileStream.Position = Encoding.UTF8.GetBytes(version + Environment.NewLine).Length;
-
-                    while (fileStream.Position < fileStream.Length)
-                    {
-                        byte[] encryptedDataLengthBytes = new byte[sizeof(int)];
-                        fileStream.Read(encryptedDataLengthBytes, 0, encryptedDataLengthBytes.Length);
-
-                        if (BitConverter.IsLittleEndian)
-                        {
-                            Array.Reverse(encryptedDataLengthBytes);
-                        }
-
-                        int encryptedDataLength = BitConverter.ToInt32(encryptedDataLengthBytes, 0);
-//                        Logging.Log($"Encrypted data length: {encryptedDataLength}");
-
-                        byte[] encryptedData = new byte[encryptedDataLength];
-                        fileStream.Read(encryptedData, 0, encryptedData.Length);
-
-                        var decryptedData = Encryption.DecryptStringFromBytes_Aes(encryptedData, encryptionKey, encryptionInitializationVector);
-
-                        if (decryptedData == null)
-                        {
-                            Logging.Log("Encryption mismatches and \"index\" file cannot be read - will be overwritten");
-                        }
-                        else
-                        {
-                            int indexCount = BitConverter.ToInt32(decryptedData, 0);
-                            Logging.Log($"Number of \"indexes\" read: [{indexCount}]");
-
-                            for (int i = sizeof(int); i < decryptedData.Length; i += sizeof(int))
-                            {
-                                int index = BitConverter.ToInt32(decryptedData, i);
-                                entriesOrderLoad.Add(index);
-//                                Logging.Log($"Read index [{index}]");
-                            }
-                        }
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                Logging.Log("Error loading index file: " + ex.Message);
-            }
-        }
-
-
-
-
-        // ###########################################################################################
-        // Save both the "index" and "favorite" files
-        // ###########################################################################################   
-
-        public void SaveIndexAndFavorite()
-        {
-            if (UiGeneralToggleEnableClipboard.Checked && UiStorageToggleSaveClipboards.Checked)
-            {
-                SaveIndexesToFile();
-                SaveIsFavoritesToFile();
-            }
-        }
-
-
-        // ###########################################################################################
-        // Check if we have write access to the folder where the executable file resides
-        // ###########################################################################################   
-
-        public bool HasWriteAccess()
-        {
-            try
-            {
-                // Attempt to create a temporary file in the specified folder
-                string tempFilePath = Path.Combine(baseDirectory, Path.GetRandomFileName());
-                using (FileStream fs = File.Create(tempFilePath)) { }
-
-                // If successful, delete the temporary file and return true
-                try
-                {
-                    File.Delete(tempFilePath);
-                }
-                catch (Exception ex)
-                {
-                    Logging.Log("Error: "+ ex.Message);
-                }
-                return true;
-            }
-            catch (UnauthorizedAccessException)
-            {
-                // If an UnauthorizedAccessException occurs, it means no write access
-                return false;
-            }
-        }
-
-
-        // ###########################################################################################
-        // MessageBox for showing "missing write access"
-        // ###########################################################################################   
-
-        private void InformOnMissingWriteAccess()
-        {
-            MessageBox.Show("HovText cannot write to the path [" + baseDirectory + "]!\r\n\r\nDisabling \"Troubleshooting\" and \"Save clipboards\".\r\n\r\nPlease make sure you have write permission to this folder, if you want to use these functionalities.",
-                 "HovText ERROR",
-                MessageBoxButtons.OK,
-                 MessageBoxIcon.Error);
-        }
-
-
-        // ###########################################################################################
-        // Called when clipboard is changed
-        // ###########################################################################################
-
-        protected override void WndProc(ref Message m)
-        {
-            // Clipboard chain
-            switch (m.Msg)
-            {
-                case WM_CLIPBOARDUPDATE:
-
-                    // Only react if we have either a text or an image in the clipboard
-//                    if (Clipboard.ContainsText() || Clipboard.ContainsImage())
-//                    {
-
-                        // Get the application name which updated the clipboard
-                        IntPtr whoUpdatedClipboardHwnd = NativeMethods.GetClipboardOwner();
-                        uint threadId = NativeMethods.GetWindowThreadProcessId(whoUpdatedClipboardHwnd, out uint thisProcessId);
-                        whoUpdatedClipboardName = Process.GetProcessById((int)thisProcessId).ProcessName;
-
-                        // Do not process clipboard, if this is coming from HovText itself
-                        if (whoUpdatedClipboardName != exeFileNameWithoutExtension)
-                        {
-                            Logging.Log("Clipboard [UPDATE] event from application [" + whoUpdatedClipboardName + "]");
-
-                            // Find the process icon - if possible - applications running with higher privs cannot be queried
-                            appIcon = null;
-                            try
-                            {
-                                Process process = null;
-                                process = Process.GetProcessById((int)thisProcessId);
-                                if (process != null && !process.HasExited)
-                                {
-                                    string processFilePath = process.MainModule.FileName;
-                                    using (Icon appIconTmp = Icon.ExtractAssociatedIcon(processFilePath))
-                                    {
-                                        appIcon = appIconTmp.ToBitmap();
-                                    }
-                                }
-                            }
-                            catch (Exception ex)
-                            {
-                                Logging.Log("Error getting application icon: " + ex.Message);
-                            }
-
-                            // I am not sure why some(?) applications are returned as "Idle" or "svchost" when coming from clipboard - in this case the get the active application and use that name instead
-                            // This could potentially be a problem, if a process is correctly called "Idle" but not sure if this is realistic?
-                            if (whoUpdatedClipboardName.ToLower() == "idle")
-                            {
-                                string activeProcessName = GetActiveApplication();
-                                whoUpdatedClipboardName = activeProcessName;
-                                Logging.Log("Finding process name the secondary way, [" + whoUpdatedClipboardName + "]");
-                            }
-
-                            // Check if application is enabled
-                            if (isApplicationEnabled)
-                            {
-                                ProcessClipboard();
-                            }
-                        }
-//                    }
-                    break;
-                default:
-                    base.WndProc(ref m);
-                    break;
-            }
-        }
-
-
+        
         // ###########################################################################################
         // Add HovText process to the clipboard chain
         // ###########################################################################################   
 
-        private void AddListener()
+        private void AddClipboardToChain()
         {
-            NativeMethods.AddClipboardFormatListener(this.Handle);
+            NativeMethods.AddClipboardFormatListener(Handle);
             Logging.Log("Added HovText to clipboard chain");
         }
 
 
         // ###########################################################################################
-        // Process the clipboard
+        // Clear the clipboard list - as-if we just launched the application
         // ###########################################################################################
 
-        private void ProcessClipboard()
-        {
-            // This can come from either the clipboard chain or from the "LoadEntriesFromFile" function
-
-            // The first one here, is when being loaded from the data file
-            if (clipboardData != null) // this then comes from the "LoadEntriesFromFile"
-            {
-                isClipboardText = clipboardData.ContainsKey(DataFormats.Text) ||
-                    clipboardData.ContainsKey(DataFormats.UnicodeText) ||
-                    clipboardData.ContainsKey(DataFormats.Rtf);
-                isClipboardImage = clipboardData.ContainsKey(DataFormats.Bitmap);
-
-                clipboardImage = isClipboardImage ? clipboardData[DataFormats.Bitmap] as Image : null;
-
-                // Get TEXT clipboard content
-                if (clipboardData.ContainsKey(DataFormats.Text))
-                {
-                    clipboardText = clipboardData[DataFormats.Text] as string;
-                }
-                else if (clipboardData.ContainsKey(DataFormats.UnicodeText))
-                {
-                    clipboardText = clipboardData[DataFormats.UnicodeText] as string;
-                }
-                else if (clipboardData.ContainsKey(DataFormats.Rtf))
-                {
-                    clipboardText = clipboardData[DataFormats.Rtf] as string;
-                }
-                else
-                {
-                    clipboardText = ""; // no supported text format found
-                }
-
-                DataObject dataObject = new DataObject();
-
-                // Add each item from clipboardData to the DataObject
-                foreach (var item in clipboardData)
-                {
-                    dataObject.SetData(item.Key, item.Value);
-                }
-
-                // Now dataObject is equivalent to what you would get from Clipboard.GetDataObject()
-                clipboardObject = dataObject; // of the type "IDataObject"
-            }
-
-            else // .. and this comes from the normal clipboard chain
-
-            {
-                // Check which text formats are available
-                isClipboardText = Clipboard.ContainsText();
-                isClipboardImage = Clipboard.ContainsImage();
-
-                // Get clipboard content
-                clipboardText = isClipboardText ? Clipboard.GetText() : "";
-                clipboardImage = isClipboardImage ? Clipboard.GetImage() : null;
-                clipboardObject = Clipboard.GetDataObject();
-            }
-
-            // Is clipboard text - also triggers when copying whitespaces only
-            if (isClipboardText)
-            {
-                // Check if there are any formatted text entries in the clipboard
-                bool isFormatted = false;
-                foreach (var format in clipboardObject.GetFormats(false))
-                {
-                    // If the format is anything but "Text" then we can break and deem this as formatted
-                    if (format.ToLower() != "text")
-                    {
-                        isFormatted = true;
-                        break;
-                    }
-                }
-
-                // Check if number of data formats equals 1 and this is unicode or if clipboard is different than last time
-                if (clipboardText != clipboardTextLast || isFormatted)
-                {
-                    // Trim the text
-                    if (isEnabledTrimWhitespacing)
-                    {
-                        clipboardText = clipboardText.Trim();
-                    }
-
-                    if (!string.IsNullOrEmpty(clipboardText))
-                    {
-                        // Set the last clipboard text to be identical to this one
-                        clipboardTextLast = clipboardText;
-
-                        // Add text to the entries array and update the clipboard
-                        AddEntry();
-                        GetEntryCounter();
-
-                        if (!UiGeneralToggleAlwaysPasteOriginal.Checked)
-                        {
-                            if (clipboardData == null) // this is when we are loading from file
-                            {
-                                SetClipboard();
-                            }
-                        }
-                    }
-                }
-            }
-            else if (isClipboardImage && isEnabledHistory) // Is clipboard an image
-            {
-                // Only proceed if we should copy the images also
-                if (isCopyImages)
-                {
-                    // Get hash value of picture in clipboard
-                    checksum = GetHash(clipboardImage);
-
-                    Logging.Log($"Image checksum is [{checksum}]");
-
-                    bool isAlreadyInDataArray = IsClipboardContentAlreadyInDataArrays();
-
-                    if (!isAlreadyInDataArray)
-                    {
-                        isClipboardImageTransparent = false;
-
-                        // Check if picture is transparent
-                        if (clipboardData == null)
-                        {
-                            Image imgCopy = GetImageFromClipboard();
-                            if (imgCopy != null)
-                            {
-                                isClipboardImageTransparent = IsImageTransparent(imgCopy);
-                            }
-                        }
-                        else
-                        {
-                            isClipboardImageTransparent = entriesIsTransparentLoad[isClipboardLoadingFromFileKey];
-                        }
-
-                        // Add the image to the entries array and update the clipboard
-                        AddEntry();
-                        GetEntryCounter();
-                    }
-                }
-            }
-        }
-
-
-        // ###########################################################################################
-        // Calculate the hash value of an ímage
-        // ###########################################################################################
-
-        /*
-        private string GetHash(Image img)
-        {
-            // Get hash value of picture in clipboard
-            ImageConverter converter = new ImageConverter();
-            byte[] byteArray = (byte[])converter.ConvertTo(img, typeof(byte[]));
-            return Convert.ToBase64String(byteArray);
-        }
-        */
-        private string GetHash(Image img)
-        {
-            using (MemoryStream stream = new MemoryStream())
-            {
-                // Save image to the stream
-                img.Save(stream, System.Drawing.Imaging.ImageFormat.Png);
-
-                // Compute hash from the stream
-                using (var sha256 = System.Security.Cryptography.SHA256.Create())
-                {
-                    stream.Position = 0; // Reset the stream position to the beginning
-                    byte[] hash = sha256.ComputeHash(stream);
-                    return BitConverter.ToString(hash).Replace("-", "").ToLowerInvariant();
-                }
-            }
-        }
-
-
-
-        // ###########################################################################################
-        // Check if clipboard content is already in the data arrays - if so then move the entry to top
-        // ###########################################################################################
-
-        private bool IsClipboardContentAlreadyInDataArrays()
-        {
-            if (entriesText.Count > 0)
-            {
-                for (int i = 0; i < entriesText.Count; i++)
-                {
-
-                    if (isClipboardText)
-                    {
-                        // If the two data are identical then move the entry to the top
-                        if (entriesText.ElementAt(i).Value == clipboardText)
-                        {
-                            Logging.Log("Text is already in data array - reusing it");
-                            entryIndex = entriesText.ElementAt(i).Key;
-                            MoveEntryToTop();
-                            return true;
-                        }
-                    }
-                    else if (isClipboardImage)
-                    {
-                        if (entriesChecksum.ElementAt(i).Value == checksum)
-                        {
-                            Logging.Log("Image is already in data array - reusing it"); 
-                            entryIndex = entriesText.ElementAt(i).Key;
-                            MoveEntryToTop();
-                            return true;
-                        }
-                    }
-                }
-            }
-            return false; // we did not find any identical data
-        }
-
-        // ###########################################################################################
-        // Get the image from clipboard
-        // https://github.com/skoshy/CopyTransparentImages/blob/304e383b8f3239496999087421545a9b4dc765e5/ConsoleApp2/Program.cs#L58
-        // It will also get the transparency alpha channel from the clipboard image
-        // ###########################################################################################
-
-        private static Image GetImageFromClipboard()
-        {
-            if (Clipboard.GetDataObject() == null) return null;
-            if (Clipboard.GetDataObject().GetDataPresent(DataFormats.Dib))
-            {
-                // Sometimes this fails - probably because clipboard handling also can be messy and complex
-                byte[] dib;
-                try
-                {
-                    dib = ((MemoryStream)Clipboard.GetData(DataFormats.Dib)).ToArray();
-                }
-                catch (Exception ex)
-                {
-                    Logging.Log("Exception #10 raised (Settings):");
-                    Logging.Log("  " + ex.Message);
-                    Logging.Log("  Failed converting image to byte array - fetching \"GetImage()\" instead");
-                    return Clipboard.ContainsImage() ? Clipboard.GetImage() : null;
-                }
-
-                var width = BitConverter.ToInt32(dib, 4);
-                var height = BitConverter.ToInt32(dib, 8);
-                var bpp = BitConverter.ToInt16(dib, 14);
-                if (bpp == 32)
-                {
-                    var gch = GCHandle.Alloc(dib, GCHandleType.Pinned);
-                    Bitmap bmp = null;
-                    try
-                    {
-                        var ptr = new IntPtr((long)gch.AddrOfPinnedObject() + 40);
-                        bmp = new Bitmap(width, height, width * 4, System.Drawing.Imaging.PixelFormat.Format32bppArgb, ptr);
-                        return new Bitmap(bmp);
-                    }
-                    finally
-                    {
-                        gch.Free();
-                        bmp?.Dispose(); // same as "if (bmp != null) bmp.Dispose();"
-                    }
-                }
-            }
-            return Clipboard.ContainsImage() ? Clipboard.GetImage() : null;
-        }
-
-
-        // ###########################################################################################
-        // Check if the image contains any transparency
-        // https://stackoverflow.com/a/2570002/2028935
-        // ###########################################################################################
-
-        private static bool IsImageTransparent(Image image)
-        {
-            Bitmap img = new Bitmap(image);
-            for (int y = 0; y < img.Height; ++y)
-            {
-                for (int x = 0; x < img.Width; ++x)
-                {
-                    if (img.GetPixel(x, y).A != 255)
-                    {
-                        return true;
-                    }
-                }
-            }
-            return false;
-        }
-
-
-        // ###########################################################################################
-        // Restore the original clipboard (as original as I can get it at least)
-        // ###########################################################################################
-
-        public static void RestoreOriginal(int entryIndex)
-        {
-            Logging.Log("Restoring original content to clipboard:");
-
-            try
-            {
-                // Snippet directly taken from legacy HovText - more or less the only thing? :-)
-                // ---
-                DataObject data = new DataObject();
-                foreach (KeyValuePair<string, object> kvp in entriesOriginal[entryIndex])
-                {
-                    if (kvp.Value != null)
-                    {
-                        data.SetData(kvp.Key, kvp.Value);
-                        Logging.Log("  Adding format to clipboard, [" + kvp.Key + "]");
-                    }
-                }
-                Clipboard.SetDataObject(data, true);
-                // ---
-            }
-            catch (Exception ex)
-            {
-                Logging.Log("Exception #1 raised (Settings):");
-                Logging.Log("  " + ex.Message);
-            }
-        }
-
-
-        // ###########################################################################################
-        // Clear all the history - as-if we just launched the application
-        // ###########################################################################################
-
-        private void ClearHistory()
+        public static void ClearHistory()
         {
             entryCounter = -1;
-            entryIndex = -1;
+//            entryIndex = -1;
             // ---
-            clipboardData = null;
             entriesApplication.Clear();
             entriesApplicationIcon.Clear();
             entriesImage.Clear();
@@ -1790,365 +912,44 @@ namespace HovText
 
 
         // ###########################################################################################
-        // Resize (if needed) the image
+        // Called when a clipboard entry has been selected in the clipboard list
         // ###########################################################################################
 
-        public Bitmap ResizeImage(Image originalImage, int maxWidth, int maxHeight)
+        public void SelectHistoryEntry()
         {
-            Size newSize = CalculateMaxSizeDimensions(originalImage.Size, maxWidth, maxHeight);
+            isHistoryHotkeyPressed = false;
 
-            Bitmap resizedImage = new Bitmap(newSize.Width, newSize.Height);
-            using (Graphics graphics = Graphics.FromImage(resizedImage))
+            // Check if application is enabled
+            if (isApplicationEnabled && entryCounter > 0)
             {
-                graphics.CompositingQuality = System.Drawing.Drawing2D.CompositingQuality.HighQuality;
-                graphics.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.HighQualityBicubic;
-                graphics.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
-                graphics.DrawImage(originalImage, 0, 0, newSize.Width, newSize.Height);
-            }
-
-            return resizedImage;
-        }
-
-        private Size CalculateMaxSizeDimensions(Size originalSize, int maxWidth, int maxHeight)
-        {
-            // Check if the original size is within the maximum dimensions
-            if (originalSize.Width <= maxWidth && originalSize.Height <= maxHeight)
-            {
-                // No resizing needed
-                return originalSize;
-            }
-
-            float widthRatio = (float)maxWidth / originalSize.Width;
-            float heightRatio = (float)maxHeight / originalSize.Height;
-            float scaleRatio = Math.Min(widthRatio, heightRatio);
-
-            int newWidth = (int)(originalSize.Width * scaleRatio);
-            int newHeight = (int)(originalSize.Height * scaleRatio);
-
-            return new Size(newWidth, newHeight);
-        }
-
-
-        // ###########################################################################################
-        // Add the content from clipboard to the data arrays
-        // ###########################################################################################
-
-        
-private Size GetImageDimensions(Bitmap image)
-    {
-        if (image == null)
-        {
-            throw new ArgumentNullException(nameof(image), "Image cannot be null.");
-        }
-
-        return new Size(image.Width, image.Height);
-    }
-
-
-    private void AddEntry()
-        {
-            // Clear the dictionaries if we do not catch the history
-            if (!isEnabledHistory)
-            {
-                ClearHistory();
-            }
-
-            // Check if we already have the clipboard in the clipboard list - if so, reuse this instead
-            bool isAlreadyInDataArray = false;
-            if (!isClipboardLoadingFromFile && !isClipboardImage) // we know when content is coming from file then it is already unique (and this function is slow!)
-            {
-                isAlreadyInDataArray = IsClipboardContentAlreadyInDataArrays();
-            }
-
-            // Proceed if the (cleartext) data is not already in the dictionary
-            if (!isAlreadyInDataArray || isClipboardImage)
-            {
-                // Log if this is a TEXT or IMAGE clipboard
-                if (isClipboardText)
+                // Only proceed if we should actually restore something (we could come here from an empty list)
+                int entriesInList = History.entriesInList;
+                if (entriesInList > 0)
                 {
-                    Logging.Log("Adding new [TEXT] clipboard to history from application [" + whoUpdatedClipboardName + "]:");
-                }
-                else
-                {
-                    Logging.Log("Adding new [IMAGE] clipboard to history from application [" + whoUpdatedClipboardName + "]:");
-                }
+                    MoveEntryToTop(entryIndex);
 
-                // entryIndex
-                if (!isClipboardLoadingFromFile)
-                {
-                    entryIndex = entryIndex >= 0 ? entriesText.Keys.Last() + 1 : 0;
-                }
+                    pasteOnHotkeySetCleartext = true;
 
-                // clipboardText
-                entriesText.Add(entryIndex, clipboardText);
+                    // Set the clipboard with the new data
+                    HandleClipboard.SetClipboard(entryIndex);
 
-                // entriesImage
-                if(clipboardImage != null)
-                {
-                    // Resize image, if needed
-                    Bitmap bmp = new Bitmap(clipboardImage);
-                    Bitmap resizedBmp = ResizeImage(bmp, 400, 800); // width, height
-                    entriesImage.Add(entryIndex, resizedBmp);
-//                    Size dimensions = GetImageDimensions(resizedBmp);
-//                    int width = dimensions.Width;
-//                    int height = dimensions.Height;
-                }
-                else
-                {
-                    entriesImage.Add(entryIndex, null);
-                }
-
-                // entriesImageTrans
-                // entriesIsTransparent
-                if (clipboardImage != null && isClipboardImageTransparent)
-                {
-                    Bitmap bmp = new Bitmap(clipboardImage);
-                    bmp.MakeTransparent(bmp.GetPixel(0, 0));
-                    Bitmap resizedBmp = ResizeImage(bmp, 200, 400); // width, height
-                    entriesImageTrans.Add(entryIndex, (Image)resizedBmp);
-                    entriesIsTransparent.Add(entryIndex, true);
-                }
-                else
-                {
-                    entriesImageTrans.Add(entryIndex, null);
-                    entriesIsTransparent.Add(entryIndex, false);
-                }
-
-                // entriesChecksum
-                if (isClipboardImage)
-                {
-                    entriesChecksum.Add(entryIndex, checksum);
-                } else
-                {
-                    entriesChecksum.Add(entryIndex, null);
-                }
-
-                // entriesShow
-                entriesShow.Add(entryIndex, true);
-
-                // entriesIsFavorite
-                if (isClipboardLoadingFromFile)
-                {
-                    entriesIsFavorite.Add(entryIndex, isFavoriteLoad);
-                }
-                else
-                {
-                    entriesIsFavorite.Add(entryIndex, false);
-                }
-
-                // entriesIsUrl
-                bool isUrl = Uri.TryCreate(clipboardText, UriKind.Absolute, out Uri myUri) && (myUri.Scheme == Uri.UriSchemeHttp || myUri.Scheme == Uri.UriSchemeHttps || myUri.Scheme == Uri.UriSchemeFtp || myUri.Scheme == "ws" || myUri.Scheme == "wss");
-                if (isUrl)
-                {
-                    entriesIsUrl.Add(entryIndex, true);
-                }
-                else
-                {
-                    entriesIsUrl.Add(entryIndex, false);
-                }
-
-                // entriesIsEmail
-                bool isEmail = Regex.IsMatch(clipboardText, @"^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$");
-                if (isEmail)
-                {
-                    entriesIsEmail.Add(entryIndex, true);
-                }
-                else
-                {
-                    entriesIsEmail.Add(entryIndex, false);
-                }
-
-                // entriesIsImage
-                if (!isClipboardText)
-                {
-                    entriesIsImage.Add(entryIndex, true);
-                }
-                else
-                {
-                    entriesIsImage.Add(entryIndex, false);
-                }
-
-                // entriesOriginal
-                //
-                // Walk through all (relevant) clipboard object formats and store them.
-                // This should be as original as possible!
-                // I am not sure how to do this differently, as it does not work if I
-                // just save everything!?
-                //
-                var formats = clipboardObject.GetFormats(false);
-                Dictionary<string, object> clipboardObjects = new Dictionary<string, object>();
-                foreach (var format in formats)
-                {
-                    if (
-                        format.Contains("Text")
-                        || format.Contains("HTML")
-                        || format.Contains("Csv")
-                        || format.Contains("Link")
-                        || format.Contains("Hyperlink")
-                        || format.Contains("Bitmap")
-                        || format.Contains("PNG") // including transparent layer of PNG
-                        || format.Contains("Recipient") // Outlook recipient
-                        || format.Contains("Format17") // picture format
-                        || format.Contains("GIF")
-                        || format.Contains("JFIF")
-                        || format.Contains("Office Drawing Shape Format")
-                        || format.Contains("Preferred DropEffect") // used in e.g. animated GIF
-                        || format.Contains("Shell IDList Array") // used in e.g. animated GIF
-                        || format.Contains("FileDrop") // used in e.g. animated GIF
-                        || format.Contains("FileContents") // used in e.g. animated GIF
-                        || format.Contains("FileGroupDescriptorW") // used in e.g. animated GIF
-                        || format.Contains("Image") // seen on "CorelPHOTOPAINT.Image.20" and "CorelPhotoPaint.Image.9"
-                        || format.Contains("Color") // seen on "Corel.Color.20"
-                        )
+                    // Restore the original clipboard, if we are within the "Paste on hotkey only" mode
+                    if (UiHotkeysRadioPasteOnHotkey.Checked)
                     {
-                        clipboardObjects.Add(format, clipboardObject.GetData(format));
-
-                        // Do special content logging in development version oply - should ONLY be used by Dennis!
-                        if (File.Exists(pathAndSpecial) && buildType == "Debug")
-                        {
-                            // WILL SAVE CONTENT COPIED TO CLIPBOARD!!! Used for debugging purpose
-                            Logging.Log("  Adding format [" + format + "] with value [" + clipboardObject.GetData(format) + "]");
-                        }
-                        else
-                        {
-                            // Standard logging for everyone else - do NOT save any content to the logfile! :-)
-                            Logging.Log("  Adding format [" + format + "]");
-                        }
-                    }
-                    else
-                    {
-                        Logging.Log("  Discarding format [" + format + "]");
+                        PasteOnHotkey.StartTimerToRestoreOriginal();
                     }
                 }
-                entriesOriginal.Add(entryIndex, clipboardObjects);
 
-                // Add the process (ideally the application name) name that has updated the clipboard
-                if (whoUpdatedClipboardName.Length == 0)
-                {
-                    whoUpdatedClipboardName = "(unknown)";
-                }
-                if (isClipboardLoadingFromFile)
-                {
-                    string appName = entriesApplicationLoad[isClipboardLoadingFromFileKey];
-                    Image icon = entriesApplicationIconLoad[isClipboardLoadingFromFileKey];
-                    entriesApplication.Add(entryIndex, appName);
-                    entriesApplicationIcon.Add(entryIndex, icon);
-                }
-                else
-                {
-                    entriesApplication.Add(entryIndex, whoUpdatedClipboardName);
-                    entriesApplicationIcon.Add(entryIndex, appIcon);
-                }
+                // Set focus back to the originating application
+                ChangeFocusToOriginatingApplication();
 
-                // Add the original index to the "order" array (we only save the clipboard once)
-                entriesOrder.Add(entryIndex, entryIndex);
+                // Reset some stuff
+                isFirstCallAfterHotkey = true;
+                entryIndex = entriesText.Keys.Last();
+                GetEntryCounter();
 
-                // Append the (one) newly processed clipboard data to the data file
-//                SaveClipboardEntryToFile(entryIndex);
-                clipboardQueue.Add(entryIndex);
-
-                // Save/update both the "index" and "favorite" files
-                if (!isClipboardLoadingFromFile)
-                {
-                    SaveIndexAndFavorite();
-                }
-
-                // Check if we have too many entries in the clipboard list - if so, remove the oldest one
-                if (entriesOrder.Count > UiStorageTrackBarEntriesToSave.Value)
-                {
-                    while (entriesOrder.Count > UiStorageTrackBarEntriesToSave.Value)
-                    {
-                        int firstKey = entriesOrder.Keys.First();
-                        Logging.Log("Max entries of [" + UiStorageTrackBarEntriesToSave.Value + "] has been reached in the clipboard list - removing entry index [" + firstKey + "] from clipboard list");
-
-                        // Remove the chosen entry, so it does not show duplicates
-                        entriesText.Remove(firstKey);
-                        entriesImage.Remove(firstKey);
-                        entriesImageTrans.Remove(firstKey);
-                        entriesChecksum.Remove(firstKey);
-                        entriesApplication.Remove(firstKey);
-                        entriesApplicationIcon.Remove(firstKey);
-                        entriesOriginal.Remove(firstKey);
-                        entriesShow.Remove(firstKey);
-                        entriesIsFavorite.Remove(firstKey);
-                        entriesIsUrl.Remove(firstKey);
-                        entriesIsEmail.Remove(firstKey);
-                        entriesIsImage.Remove(firstKey);
-                        entriesIsTransparent.Remove(firstKey);
-                        entriesOrder.Remove(firstKey);
-                    }
-                }
-                Logging.Log("Entries in history list is now [" + entriesText.Count + "]");
-            }
-
-            // Update the entries on the tray icon
-            UpdateNotifyIconText();
-        }
-
-
-        // ###########################################################################################
-        // Place data in the clipboard based on the entry index
-        // ###########################################################################################
-
-        public void SetClipboard()
-        {
-            string entryText = clipboardText;
-            Image entryImage;
-            bool isEntryText = isClipboardText;
-            bool isEntryImage = isClipboardImage;
-
-            if (entriesText.Count > 0)
-            {
-                if (isEnabledHistory)
-                {
-                    entryText = entriesText[entryIndex];
-                    entryImage = entriesImage[entryIndex];
-                    isEntryText = !string.IsNullOrEmpty(entryText);
-                    isEntryImage = entryImage != null;
-                }
-
-                // Put text to the clipboard
-                if (isEntryText)
-                {
-                    try
-                    {
-                        if ((UiHotkeysRadioPasteOnHotkey.Checked && !pasteOnHotkeySetCleartext) || (UiGeneralToggleAlwaysPasteOriginal.Enabled && UiGeneralToggleAlwaysPasteOriginal.Checked))
-                        {
-                            RestoreOriginal(entryIndex);
-                        }
-                        else
-                        {
-                            if (UiGeneralToggleTrimWhitespaces.Checked)
-                            {
-                                entryText = entryText.Trim();
-                            }
-                            Clipboard.SetText(entryText, TextDataFormat.UnicodeText); // https://stackoverflow.com/a/14255608/2028935
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        Logging.Log("Exception #2 raised (Settings):");
-                        Logging.Log("  " + ex.Message);
-                    }
-                }
-                else
-                if (isEntryImage) // Put an image to the clipboard
-                {
-                    try
-                    {
-                        RestoreOriginal(entryIndex);
-                    }
-                    catch (Exception ex)
-                    {
-                        Logging.Log("Exception #3 raised (Settings):");
-                        Logging.Log("  " + ex.Message);
-                    }
-                }
-                else
-                {
-                    Logging.Log("Exception #4 raised (Settings):");
-                    Logging.Log("  Clipboard triggered but is not [isEntryText] or [isEntryImage]");
-                }
+                // Save the new order of the entries
+                HandleFiles.saveIndexAndFavoriteFiles = true;
             }
         }
 
@@ -2164,20 +965,19 @@ private Size GetImageDimensions(Bitmap image)
             // Check if application is enabled
             if (isApplicationEnabled && entryCounter > 0)
             {
-
                 if (isFirstCallAfterHotkey)
                 {
                     // Hide the "Settings" form if it is visible (it will be restored after key-up)
-                    isSettingsFormVisible = this.Visible;
+                    isSettingsFormVisible = Visible;
                     if (isSettingsFormVisible)
                     {
                         Hide();
                     }
-                    originatingApplicationName = GetActiveApplication();
+                    originatingApplicationName = HandleClipboard.GetActiveApplicationName();
                     history.SetupForm();
                 }
                 // Always change focus to HovText to ensure we can catch the key-up event
-                //                ChangeFocusToHovText();
+                //ChangeFocusToHovText();
 
                 // Only proceed if the entry counter is equal to or more than 0
                 if (entryCounter > 0)
@@ -2205,17 +1005,17 @@ private Size GetImageDimensions(Bitmap image)
                 if (isFirstCallAfterHotkey)
                 {
                     // Hide the "Settings" form if it is visible (it will be restored after key-up)
-                    isSettingsFormVisible = this.Visible;
+                    isSettingsFormVisible = Visible;
                     if (isSettingsFormVisible)
                     {
                         Hide();
                     }
-                    originatingApplicationName = GetActiveApplication();
+                    originatingApplicationName = HandleClipboard.GetActiveApplicationName();
                     history.SetupForm();
                 }
 
                 // Always change focus to HovText to ensure we can catch the key-up event
-                //                ChangeFocusToHovText();
+                //ChangeFocusToHovText();
 
                 // Only proceed if the entry counter is less than the total amount of entries
                 if (entryCounter <= entriesText.Count)
@@ -2225,50 +1025,7 @@ private Size GetImageDimensions(Bitmap image)
                 }
             }
             ResumeLayout();
-        }
-
-
-        // ###########################################################################################
-        // Called when a history entry has been selected in the "History" form
-        // ###########################################################################################
-
-        public void SelectHistoryEntry()
-        {
-            isHistoryHotkeyPressed = false;
-
-            // Check if application is enabled
-            if (isApplicationEnabled && entryCounter > 0)
-            {
-                // Only proceed if we should actually restore something (we could come here from an empty favorite list view)
-                int entriesInList = History.entriesInList;
-                if (entriesInList > 0)
-                {
-                    MoveEntryToTop();
-
-                    pasteOnHotkeySetCleartext = true;
-
-                    // Set the clipboard with the new data
-                    SetClipboard();
-
-                    // Restore the original clipboard, if we are within the "Paste on hotkey only" mode
-                    if (UiHotkeysRadioPasteOnHotkey.Checked)
-                    {
-                        PasteOnHotkey.StartTimerToRestoreOriginal();
-                    }
-                }
-
-                // Set focus back to the originating application
-                ChangeFocusToOriginatingApplication();
-
-                // Reset some stuff
-                isFirstCallAfterHotkey = true;
-                entryIndex = entriesText.Keys.Last();
-                GetEntryCounter();
-
-                // Save the new order of the entries
-                SaveIndexAndFavorite();
-            }
-        }
+        }       
 
 
         // ###########################################################################################
@@ -2277,22 +1034,8 @@ private Size GetImageDimensions(Bitmap image)
 
         public static void GetEntryCounter()
         {
-            entryCounter = 0;
-
-            foreach (var key in entriesText.Keys)
-            {
-                entryCounter++;
-                if (key == entryIndex)
-                {
-                    break;
-                }
-            }
-
-            // Reset counter
-            if (entryCounter == 0)
-            {
-                entryIndex = -1;
-            }
+            entryCounter = entriesOrder.Count;
+            entryIndex = entriesOrder.Keys.LastOrDefault();
         }
 
 
@@ -2300,53 +1043,40 @@ private Size GetImageDimensions(Bitmap image)
         // Move the active entry to the top of the data arrays (newest entry)
         // ###########################################################################################
 
-        private void MoveEntryToTop()
+        public static void MoveEntryToTop(int index)
         {
-            clipboardTextLast = entriesText[entryIndex];
-
-            int lastKey = entriesText.Keys.Last();
-            int insertKey = lastKey + 1;
+            int insertIndex = Interlocked.Increment(ref HandleClipboard.threadSafeIndex) - 1; // thread-safe incremental of a sequence number
 
             // Copy the chosen entry to the top of the array lists (so it becomes the newest entry)
-            entriesText.Add(insertKey, entriesText[entryIndex]);
-            entriesImage.Add(insertKey, entriesImage[entryIndex]);
-            entriesImageTrans.Add(insertKey, entriesImageTrans[entryIndex]);
-            entriesChecksum.Add(insertKey, entriesChecksum[entryIndex]);
-            entriesApplication.Add(insertKey, entriesApplication[entryIndex]);
-            entriesApplicationIcon.Add(insertKey, entriesApplicationIcon[entryIndex]);
-            entriesOriginal.Add(insertKey, entriesOriginal[entryIndex]);
-            entriesShow.Add(insertKey, entriesShow[entryIndex]);
-            entriesIsFavorite.Add(insertKey, entriesIsFavorite[entryIndex]);
-            entriesIsUrl.Add(insertKey, entriesIsUrl[entryIndex]);
-            entriesIsEmail.Add(insertKey, entriesIsEmail[entryIndex]);
-            entriesIsTransparent.Add(insertKey, entriesIsTransparent[entryIndex]);
-            entriesIsImage.Add(insertKey, entriesIsImage[entryIndex]);
-            // --
-            int i = new List<int>(entriesOrder.Keys).IndexOf(entryIndex);
-            int x = entriesOrder[entryIndex];
-            entriesOrder.Add(insertKey, x);
-            // --
-            //            i = new List<int>(entriesOrderOriginal.Keys).IndexOf(entryIndex);
-            //            x = entriesOrderOriginal[entryIndex];
-            //            entriesOrderOriginal.Add(insertKey, x);
-
+            entriesText.Add(insertIndex, entriesText[index]);
+            entriesImage.Add(insertIndex, entriesImage[index]);
+            entriesImageTrans.Add(insertIndex, entriesImageTrans[index]);
+            entriesChecksum.Add(insertIndex, entriesChecksum[index]);
+            entriesApplication.Add(insertIndex, entriesApplication[index]);
+            entriesApplicationIcon.Add(insertIndex, entriesApplicationIcon[index]);
+            entriesOriginal.Add(insertIndex, entriesOriginal[index]);
+            entriesIsFavorite.Add(insertIndex, entriesIsFavorite[index]);
+            entriesIsUrl.Add(insertIndex, entriesIsUrl[index]);
+            entriesIsEmail.Add(insertIndex, entriesIsEmail[index]);
+            entriesIsTransparent.Add(insertIndex, entriesIsTransparent[index]);
+            entriesIsImage.Add(insertIndex, entriesIsImage[index]);
+            entriesOrder.Add(insertIndex, entriesOrder[index]);
 
             // Remove the chosen entry, so it does not show duplicates
-            entriesText.Remove(entryIndex);
-            entriesImage.Remove(entryIndex);
-            entriesImageTrans.Remove(entryIndex);
-            entriesChecksum.Remove(entryIndex);
-            entriesApplication.Remove(entryIndex);
-            entriesApplicationIcon.Remove(entryIndex);
-            entriesOriginal.Remove(entryIndex);
-            entriesShow.Remove(entryIndex);
-            entriesIsFavorite.Remove(entryIndex);
-            entriesIsUrl.Remove(entryIndex);
-            entriesIsEmail.Remove(entryIndex);
-            entriesIsTransparent.Remove(entryIndex);
-            entriesIsImage.Remove(entryIndex);
-            entriesOrder.Remove(entryIndex);
-            //            entriesOrderOriginal.Remove(entryIndex);
+            entriesText.Remove(index);
+            entriesImage.Remove(index);
+            entriesImageTrans.Remove(index);
+            entriesChecksum.Remove(index);
+            entriesApplication.Remove(index);
+            entriesApplicationIcon.Remove(index);
+            entriesOriginal.Remove(index);
+            entriesShow.Remove(index);
+            entriesIsFavorite.Remove(index);
+            entriesIsUrl.Remove(index);
+            entriesIsEmail.Remove(index);
+            entriesIsTransparent.Remove(index);
+            entriesIsImage.Remove(index);
+            entriesOrder.Remove(index);
 
             // Set the index to be the last one
             entryIndex = entriesText.Keys.Last();
@@ -2367,7 +1097,7 @@ private Size GetImageDimensions(Bitmap image)
                 Logging.Log("Enabled HovText");
 
                 // Add this application to the clipboard chain again
-                AddListener();
+                AddClipboardToChain();
 
                 string hotkeyBehaviour = GetRegistryKey(registryPath, "HotkeyBehaviour");
                 switch (hotkeyBehaviour)
@@ -2422,12 +1152,12 @@ private Size GetImageDimensions(Bitmap image)
                 Logging.Log("Disabled HovText");
 
                 // Remove this application from the clipboard chain
-                AddListener();
+                AddClipboardToChain();
 
                 // Restore the original clipboard format
                 if (isRestoreOriginal && entriesOriginal.Count > 0)
                 {
-                    RestoreOriginal(entryIndex);
+                    HandleClipboard.RestoreOriginal(HandleClipboard.threadSafeIndex - 1);
                 }
 
                 UiHotkeysLabelSearch.Enabled = false;
@@ -2472,7 +1202,7 @@ private Size GetImageDimensions(Bitmap image)
         {
             if (WindowState == FormWindowState.Minimized)
             {
-                ShowTrayNotifications("Running In Background");
+                ShowTrayNotifications();
                 Hide();
             }
         }
@@ -2486,93 +1216,19 @@ private Size GetImageDimensions(Bitmap image)
         {
             Logging.Log("Clicked the web page link in \"About\"");
             Process.Start(e.LinkText);
-        }
-
-
-        // ###########################################################################################
-        // Delete troubleshoot logfile and clipboard data file
-        // ###########################################################################################
-
-        private void DeleteFiles()
-        {
-            try
-            {
-                // HovText-data-*.bin
-                string fileMask = $"{dataName}*.bin";
-                foreach (var filePath in Directory.GetFiles(baseDirectory, fileMask))
-                {
-                    File.Delete(filePath);
-                }
-
-                // HovText-index-*.bin
-                fileMask = $"{dataIndexName}*.bin";
-                foreach (var filePath in Directory.GetFiles(baseDirectory, fileMask))
-                {
-                    File.Delete(filePath);
-                }
-
-                // HovText-favorite-*.bin
-                fileMask = $"{dataFavoriteName}*.bin";
-                foreach (var filePath in Directory.GetFiles(baseDirectory, fileMask))
-                {
-                    File.Delete(filePath);
-                }
-
-                // HovText-troubleshooting.txt
-                if (File.Exists(pathAndLog))
-                {
-                    File.Delete(@pathAndLog);
-                }
-
-            }
-            catch (Exception ex)
-            {
-                Logging.Log("Error: " + ex.Message);
-            }
-        }
+        }        
 
 
         // ###########################################################################################
         // Update the closing UI for the "save file"
         // ###########################################################################################
 
-        private void UpdateDataFileProcessingUi(string text, bool isParallized = true)
+        private void DisableTabControl()
         {
-            if (isParallized)
-            {
-                UiFormTabControl.Invoke((MethodInvoker)(() =>
-                {
-                    UpdateDataFileProcessingUiAction(text);
-                }));
-            }
-            else
-            {
-                UpdateDataFileProcessingUiAction(text);
-            }
-        }
-
-        private void UpdateDataFileProcessingUiAction(string text)
-        {
-
             // Update UI from the UI thread
             UiFormTabControl.Enabled = false;
             UiFormTabControl.TabButtonSelectedState.FillColor = Color.LightGray;
             UiFormTabControl.TabButtonSelectedState.ForeColor = Color.DarkGray;
-
-            // Show the "Loading" panel
-            UiFormLabelLoadingText.Text = text;
-            UiFormLabelLoadingPanel.Dock = DockStyle.Fill;
-            UiFormLabelLoadingPanel.Visible = true;
-            UiFormLabelLoadingPanel.BringToFront();
-
-            // Calculate and set the label's location to center it within panel1
-            UiFormLabelLoadingText.AutoSize = false;
-            UiFormLabelLoadingText.Width = UiFormLabelLoadingPanel.ClientSize.Width;
-            UiFormLabelLoadingText.Height = 30; // Set this to an appropriate value for your label
-            UiFormLabelLoadingText.TextAlign = ContentAlignment.MiddleCenter;
-            int x = (UiFormLabelLoadingPanel.ClientSize.Width - UiFormLabelLoadingText.Width) / 2;
-            int y = (UiFormLabelLoadingPanel.ClientSize.Height - UiFormLabelLoadingText.Height) / 2;
-            UiFormLabelLoadingText.Location = new Point(x, y);
         }
 
 
@@ -2587,51 +1243,32 @@ private Size GetImageDimensions(Bitmap image)
             {
 
                 Logging.Log("Exit HovText");
-                NativeMethods.RemoveClipboardFormatListener(this.Handle);
+                NativeMethods.RemoveClipboardFormatListener(Handle);
                 Logging.Log("Removed HovText from clipboard chain");
 
                 RemoveAllHotkeys();
-
-                // Should we save the clipboard to data file?
-                //                if (UiStorageToggleSaveClipboards.Checked)
-                //                {
-                //SaveEntriesToFile();
-
-                //                }
 
                 Logging.EndLogging();
 
                 // Delete the troubleshooting logfile as the very last thing
                 if (cleanupApp)
                 {
-                    DeleteFiles();
+                    HandleFiles.DeleteFiles();
                 }
 
                 return;
             }
 
-            // Prevent the application from closing, if we are currently loading the clipboard data file
-            if (isClipboardLoadingFromFile)
+            // Prevent the application from closing, if we are currently processing clipboards
+            if (HandleClipboard.clipboardQueue.Count > 0 || clipboardSaveQueue.Count > 0)
             {
                 e.Cancel = true;
-                MessageBox.Show("HovText is currently loading clipboards - please wait until this finishes, before you close the application",
+                MessageBox.Show("HovText is currently processing one or more clipboards - please wait until this finishes, before you close the application",
                     "HovText INFO",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Information);
                 return;
             }
-
-            // Prevent the application from closing, if we are currently loading the clipboard data file
-            if (isClipboardQueueBeingProcessed)
-            {
-                e.Cancel = true;
-                MessageBox.Show("HovText is currently saving one or more clipboards - please wait until this finishes, before you close the application",
-                    "HovText INFO",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Information);
-                return;
-            }
-
 
             // Normal exit
             if (!UiGeneralToggleCloseMinimizes.Checked || isClosedFromNotifyIcon)
@@ -2639,32 +1276,24 @@ private Size GetImageDimensions(Bitmap image)
                 if (isClosing) return;
                 e.Cancel = true; // Prevent form from closing immediately
 
-                UpdateDataFileProcessingUi("Please wait while processing data file - saving relevant clipboards ...");
+                DisableTabControl();
 
                 Logging.Log("Exit HovText");
-                NativeMethods.RemoveClipboardFormatListener(this.Handle);
+                NativeMethods.RemoveClipboardFormatListener(Handle);
                 Logging.Log("Removed HovText from clipboard chain");
 
                 RemoveAllHotkeys();
-
-                // Should we save the clipboard to data file?
-                //                if (UiStorageToggleSaveClipboards.Checked)
-                //                {
-                //SaveEntriesToFile();
-                //SaveIndexesToFile();
-
-                //                }
 
                 Logging.EndLogging();
 
                 // Delete the troubleshooting logfile as the very last thing
                 if (cleanupApp)
                 {
-                    DeleteFiles();
+                    HandleFiles.DeleteFiles();
                 }
 
                 isClosing = true; // indicate that closing is in progress
-                this.BeginInvoke(new Action(() => this.Close())); // close the form on the UI thread
+                BeginInvoke(new Action(() => Close())); // close the form on the UI thread
 
                 return;
             }
@@ -2672,10 +1301,10 @@ private Size GetImageDimensions(Bitmap image)
             // Called when closing from "Clean up"
             if (cleanupApp)
             {
-                NativeMethods.RemoveClipboardFormatListener(this.Handle);
+                NativeMethods.RemoveClipboardFormatListener(Handle);
                 RemoveAllHotkeys();
 
-                DeleteFiles();
+                HandleFiles.DeleteFiles();
 
                 return;
             }
@@ -2683,27 +1312,11 @@ private Size GetImageDimensions(Bitmap image)
             // Do not close as the X should minimize
             if (WindowState == FormWindowState.Normal)
             {
-                ShowTrayNotifications("Running In Background");
+                ShowTrayNotifications();
                 Hide();
             }
 
             e.Cancel = true;
-        }
-
-
-        // ###########################################################################################
-        // Get process info for active application (the one where the hotkey is pressed)
-        // ###########################################################################################
-
-        public static string GetActiveApplication()
-        {
-            // Get the active application
-            originatingHandle = NativeMethods.GetForegroundWindow();
-
-            // Get the process ID and find the name for that ID
-            uint threadId = NativeMethods.GetWindowThreadProcessId(originatingHandle, out uint processId);
-            string appProcessName = Process.GetProcessById((int)processId).ProcessName;
-            return appProcessName;
         }
 
 
@@ -2713,7 +1326,7 @@ private Size GetImageDimensions(Bitmap image)
 
         private void ChangeFocusToHovText()
         {
-            NativeMethods.SetForegroundWindow(this.Handle);
+            NativeMethods.SetForegroundWindow(Handle);
             Logging.Log("Set focus to HovText");
         }
 
@@ -2724,7 +1337,7 @@ private Size GetImageDimensions(Bitmap image)
 
         public static void ChangeFocusToOriginatingApplication()
         {
-            NativeMethods.SetForegroundWindow(originatingHandle);
+            NativeMethods.SetForegroundWindow(HandleClipboard.originatingHandle);
             Logging.Log("Set focus to originating application [" + originatingApplicationName + "]");
         }
 
@@ -2735,11 +1348,8 @@ private Size GetImageDimensions(Bitmap image)
         // Development versions will be shown in "Advanced" tab only.
         // ###########################################################################################
 
-        private void UpdateTimer_Tick(object sender, EventArgs e)
+        private void CheckForUpdate()
         {
-            TimerUpdateVersion.Enabled = false;
-
-            //            Logging.Log("Version check timer expired");
             Logging.Log("Versions in scope:");
             Logging.Log("  User is running version = [" + appVer + "]");
 
@@ -2866,7 +1476,6 @@ private Size GetImageDimensions(Bitmap image)
             {
                 DeleteRegistryKey(registryPath, "HistoryInstantSelect");
             }
-            
         }
 
 
@@ -2900,7 +1509,6 @@ private Size GetImageDimensions(Bitmap image)
             else
             {
                 Logging.Log("    \"StartWithWindows\" = [No]");
-
             }
 
             RegistryKeyCheckOrCreate(registryPath, "StartDisabled", registryStartDisabled);
@@ -2908,7 +1516,6 @@ private Size GetImageDimensions(Bitmap image)
             RegistryKeyCheckOrCreate(registryPath, "TrimWhitespaces", registryTrimWhitespaces);
             RegistryKeyCheckOrCreate(registryPath, "CloseMinimizes", registryCloseMinimizes);
             RegistryKeyCheckOrCreate(registryPath, "HistorySearch", registryHistorySearch);
-//            RegistryKeyCheckOrCreate(registryPath, "HistoryInstantSelect", registryHistoryInstantSelect);
             RegistryKeyCheckOrCreate(registryPath, "FavoritesEnable", registryEnableFavorites);
             RegistryKeyCheckOrCreate(registryPath, "CopyImages", registryCopyImages);
             RegistryKeyCheckOrCreate(registryPath, "PasteOnSelection", registryPasteOnSelection);
@@ -2924,8 +1531,6 @@ private Size GetImageDimensions(Bitmap image)
             Logging.Log("    \"CloseMinimizes\" = [" + regVal + "]");
             regVal = GetRegistryKey(registryPath, "HistorySearch");
             Logging.Log("    \"HistorySearch\" = [" + regVal + "]");
-//            regVal = GetRegistryKey(registryPath, "HistoryInstantSelect");
-//            Logging.Log("    \"HistoryInstantSelect\" = [" + regVal + "]");
             regVal = GetRegistryKey(registryPath, "FavoritesEnable");
             Logging.Log("    \"FavoritesEnable\" = [" + regVal + "]");
             regVal = GetRegistryKey(registryPath, "CopyImages");
@@ -3284,7 +1889,6 @@ private Size GetImageDimensions(Bitmap image)
             UiHotkeysButtonSearch.Text = hotkeySearch;
             UiHotkeysButtonPasteHotkey.Text = hotkeyPasteOnHotkey;
             UiHotkeysButtonToggleFavorite.Text = hotkeyToggleFavorite;
-            SetHotkeys("Startup of application");
 
             // Hotkey behaviour
             string hotkeyBehaviour = GetRegistryKey(registryPath, "HotkeyBehaviour");
@@ -3294,11 +1898,13 @@ private Size GetImageDimensions(Bitmap image)
                     UiHotkeysButtonPasteHotkey.Enabled = true;
                     UiHotkeysLabelPasteHotkey.Enabled = true;
                     UiHotkeysRadioPasteOnHotkey.Checked = true;
+                    isEnabledPasteOnHotkey = true;
                     break;
                 default:
                     UiHotkeysButtonPasteHotkey.Enabled = false;
                     UiHotkeysLabelPasteHotkey.Enabled = false;
                     UiHotkeysRadioUseStandardWindowsMethod.Checked = true;
+                    isEnabledPasteOnHotkey = false;
                     break;
             }
 
@@ -3315,10 +1921,10 @@ private Size GetImageDimensions(Bitmap image)
             }
             else
             {
-                if(!UiGeneralToggleStartWithWindows.Checked)
+                if (!UiGeneralToggleStartWithWindows.Checked)
                 {
                     UiGeneralToggleStartWithWindows.Checked = true;
-                }                
+                }
 
                 // Overwrite "Run" if it does not contain "HovText.exe" or "--start-minimized"
                 string runEntry = GetRegistryKey(registryPathRun, "HovText");
@@ -3358,10 +1964,11 @@ private Size GetImageDimensions(Bitmap image)
 
             // Enable history
             int historySearch = int.Parse((string)GetRegistryKey(registryPath, "HistorySearch"));
-//            int historyInstantSelect = int.Parse((string)GetRegistryKey(registryPath, "HistoryInstantSelect"));
-//            isEnabledHistory = historySearch == 1 || historyInstantSelect == 1;
             isEnabledHistory = historySearch == 1;
-            UiGeneralToggleEnableClipboard.Checked = historySearch == 1;
+            if(!isEnabledHistory)
+            {
+                UiGeneralToggleEnableClipboard.Checked = false; // it is enabled by default
+            }
 
             // Enable favorites
             int favoritesEnabled = int.Parse((string)GetRegistryKey(registryPath, "FavoritesEnable"));
@@ -3388,6 +1995,7 @@ private Size GetImageDimensions(Bitmap image)
             // Paste on history selection
             int alwaysPasteOriginal = int.Parse((string)GetRegistryKey(registryPath, "AlwaysPasteOriginal"));
             UiGeneralToggleAlwaysPasteOriginal.Checked = alwaysPasteOriginal == 1;
+            isEnabledAlwaysPasteOriginal = UiGeneralToggleAlwaysPasteOriginal.Checked;
 
             // Trim whitespaces
             int trimWhitespaces = int.Parse((string)GetRegistryKey(registryPath, "TrimWhitespaces"));
@@ -3440,6 +2048,7 @@ private Size GetImageDimensions(Bitmap image)
             int entries = Int32.Parse(GetRegistryKey(registryPath, "StorageSaveEntries"));
             UiStorageTrackBarEntriesToSave.Value = entries;
             UiStorageTrackBarEntriesToSaveText.Text = entries.ToString();
+            clipboardEntriesToSave = entries;
 
             UiStorageTrackBarEntriesToSave.Maximum = maxClipboardEntriesToSave;
 
@@ -3599,7 +2208,7 @@ private Size GetImageDimensions(Bitmap image)
             // ------------------------------------------
             if (shouldNotifyNoWriteAccess)
             {
-                InformOnMissingWriteAccess();
+                HandleFiles.InformOnMissingWriteAccess();
             }
 
         }
@@ -4003,7 +2612,7 @@ private Size GetImageDimensions(Bitmap image)
             }
 
             // Set the clipboard again, as there could be changes how "GuiAlwaysPasteOriginal" behaves
-            SetClipboard();
+            HandleClipboard.SetClipboard(HandleClipboard.threadSafeIndex - 1);
 
             // Enable/disable hotkeys
             SetHotkeys("Enable history change");
@@ -4021,8 +2630,9 @@ private Size GetImageDimensions(Bitmap image)
         {
             string status = UiGeneralToggleAlwaysPasteOriginal.Checked ? "1" : "0";
             SetRegistryKey(registryPath, "AlwaysPasteOriginal", status);
+            isEnabledAlwaysPasteOriginal = UiGeneralToggleAlwaysPasteOriginal.Checked ? true : false;
 
-            SetClipboard();
+            HandleClipboard.SetClipboard(HandleClipboard.threadSafeIndex - 1);
         }
 
 
@@ -4050,7 +2660,6 @@ private Size GetImageDimensions(Bitmap image)
                 UiHotkeysButtonToggleFavorite.Enabled = false;
                 UiHotkeysLabelToggleFavorite.Enabled = false;
                 UiStorageRadioSaveOnlyFavorites.Enabled = false;
-                showFavoriteList = false;
 
                 // If we previously did save "Favorites only" then we need to change that to "All"
                 if (UiStorageRadioSaveOnlyFavorites.Checked)
@@ -4240,6 +2849,7 @@ private Size GetImageDimensions(Bitmap image)
                 UiGeneralToggleRestoreOriginal.Enabled = true;
                 UiGeneralLabelRestoreOriginal.Enabled = true;
                 UiHotkeysLabelPasteHotkey.Enabled = false;
+                isEnabledPasteOnHotkey = false;
                 SetNotifyIcon();
             }
         }
@@ -4257,6 +2867,8 @@ private Size GetImageDimensions(Bitmap image)
             UiGeneralToggleRestoreOriginal.Enabled = false;
             UiGeneralLabelRestoreOriginal.Enabled = false;
             UiHotkeysLabelPasteHotkey.Enabled = true;
+            isEnabledPasteOnHotkey = true;
+//            HandleClipboard.SetClipboard(HandleClipboard.threadSafeIndex - 1);
             SetNotifyIcon();
         }
 
@@ -4326,10 +2938,11 @@ private Size GetImageDimensions(Bitmap image)
 
         private void HotkeySearch(object sender, NHotkey.HotkeyEventArgs e)
         {
-            // Check if application is enabled
-            if (isApplicationEnabled && entryCounter > 0 && !isClipboardLoadingFromFile)
-            {
+            GetEntryCounter();
 
+            // Check if application is enabled
+            if (isApplicationEnabled && entryCounter > 0)
+            {
                 // Hide the history list again, if it already is visible and I pressed the hotkey again
                 if (history.Visible)
                 {
@@ -4337,20 +2950,26 @@ private Size GetImageDimensions(Bitmap image)
                 }
                 else
                 {
-
                     Logging.Log("Pressed the \"Search\" interface hotkey");
+
+                    // Default show all clipboards - no filtering
+                    entriesShow.Clear();
+                    {
+                        foreach (var key in entriesOrder.Keys)
+                        {
+                            entriesShow[key] = true;
+                        }
+                    }
 
                     if (isFirstCallAfterHotkey)
                     {
                         // Hide the "Settings" form if it is visible (it will be restored after key-up)
-                        isSettingsFormVisible = this.Visible;
+                        isSettingsFormVisible = Visible;
                         if (isSettingsFormVisible)
                         {
                             Hide();
                         }
-                        originatingApplicationName = GetActiveApplication();
-                        showFavoriteListLast = showFavoriteList;
-                        showFavoriteList = false;
+                        originatingApplicationName = HandleClipboard.GetActiveApplicationName();
                         history.SetupForm();
                     }
                     // Always change focus to HovText to ensure we can catch the key-up event
@@ -4381,7 +3000,7 @@ private Size GetImageDimensions(Bitmap image)
             if (entriesText.Count > 0)
             {
                 // Get active application and change focus to HovText
-                originatingApplicationName = GetActiveApplication();
+                originatingApplicationName = HandleClipboard.GetActiveApplicationName();
                 ChangeFocusToHovText();
 
                 // Show the invisible form, so we can catch the key-up event
@@ -4398,6 +3017,7 @@ private Size GetImageDimensions(Bitmap image)
         // Hotkey handling - how do I get this in to its own file or class!? Hmmm... for later
         // I feel this code is clumsy and inefficient so probably need rewrite!?
         // ###########################################################################################
+
 
         // ###########################################################################################
         // On "key down" in one of the hotkey fields then convert that in to a string
@@ -4808,42 +3428,23 @@ private Size GetImageDimensions(Bitmap image)
         // Show a notification if the user closes the application to tray for the very first time
         // ###########################################################################################
 
-        private void ShowTrayNotifications(string action)
+        private void ShowTrayNotifications()
         {
-
             // Show a tray notification if this is the first time the user close the form (without exiting the application)
-            if (action == "Running In Background")
-            {
-                int notificationShown = int.Parse((string)GetRegistryKey(registryPath, "NotificationShown"));
-                if (notificationShown == 0)
-                {
-                    IconNotify.Visible = true;
-                    IconNotify.ShowBalloonTip(
-                        10000,
-                        "HovText is still running",
-                        "HovText continues running in the background to perform its duties. You can see the icon in the tray area.",
-                        ToolTipIcon.Info
-                        );
-
-                    // Mark that we now have shown this
-                    SetRegistryKey(registryPath, "NotificationShown", "1");
-                }
-            }
-
-            /*
-            // Show a tray notification if the application is consuming too much memory
-            if(action == "Memory Warning")
+            int notificationShown = int.Parse((string)GetRegistryKey(registryPath, "NotificationShown"));
+            if (notificationShown == 0)
             {
                 IconNotify.Visible = true;
                 IconNotify.ShowBalloonTip(
-                    25000,
-                    "HovText is consuming more than 500 MB memory",
-                    "Please reduce the amount of images. View \"HovText Settings\" for more details.",
-                    ToolTipIcon.Warning
+                    10000,
+                    "HovText is still running",
+                    "HovText continues running in the background to perform its duties. You can see the icon in the tray area.",
+                    ToolTipIcon.Info
                     );
-            }
-            */
 
+                // Mark that we now have shown this
+                SetRegistryKey(registryPath, "NotificationShown", "1");
+            }
         }
 
 
@@ -5048,15 +3649,19 @@ private Size GetImageDimensions(Bitmap image)
                 }
 
                 // Redraw border with a solid color
-                ControlPaint.DrawBorder(e.Graphics, e.ClipRectangle,
-                                ColorTranslator.FromHtml(Settings.historyColorsBorder[historyColorTheme]), historyBorderThickness, ButtonBorderStyle.Solid,
-                                ColorTranslator.FromHtml(Settings.historyColorsBorder[historyColorTheme]), historyBorderThickness, ButtonBorderStyle.Solid,
-                                ColorTranslator.FromHtml(Settings.historyColorsBorder[historyColorTheme]), historyBorderThickness, ButtonBorderStyle.Solid,
-                                ColorTranslator.FromHtml(Settings.historyColorsBorder[historyColorTheme]), historyBorderThickness, ButtonBorderStyle.Solid);
+                ControlPaint.DrawBorder(
+                    e.Graphics, e.ClipRectangle,
+                    ColorTranslator.FromHtml(Settings.historyColorsBorder[historyColorTheme]), historyBorderThickness, ButtonBorderStyle.Solid,
+                    ColorTranslator.FromHtml(Settings.historyColorsBorder[historyColorTheme]), historyBorderThickness, ButtonBorderStyle.Solid,
+                    ColorTranslator.FromHtml(Settings.historyColorsBorder[historyColorTheme]), historyBorderThickness, ButtonBorderStyle.Solid,
+                    ColorTranslator.FromHtml(Settings.historyColorsBorder[historyColorTheme]), historyBorderThickness, ButtonBorderStyle.Solid);
             }
             else
             {
-                ControlPaint.DrawBorder(e.Graphics, e.ClipRectangle, this.BackColor, ButtonBorderStyle.None);
+                ControlPaint.DrawBorder(
+                    e.Graphics, 
+                    e.ClipRectangle, 
+                    BackColor, ButtonBorderStyle.None);
             }
         }
 
@@ -5069,10 +3674,10 @@ private Size GetImageDimensions(Bitmap image)
         {
 
             // Check if we have write access - if not, then revert
-            if (!HasWriteAccess() && UiAdvancedToggleEnableLog.Checked)
+            if (!HandleFiles.HasWriteAccess() && UiAdvancedToggleEnableLog.Checked)
             {
                 UiAdvancedToggleEnableLog.Checked = false;
-                InformOnMissingWriteAccess();
+                HandleFiles.InformOnMissingWriteAccess();
                 return;
             }
 
@@ -5101,7 +3706,7 @@ private Size GetImageDimensions(Bitmap image)
             SetRegistryKey(registryPath, "TroubleshootEnable", status);
 
             // If there is a logfile present then enable the UI fields for it
-            if (File.Exists(pathAndLog))
+            if (System.IO.File.Exists(pathAndLog))
             {
                 UiAdvancedButtonDeleteLog.Enabled = true;
             }
@@ -5126,11 +3731,11 @@ private Size GetImageDimensions(Bitmap image)
 
         private void GuiTroubleshootDeleteFile_Click(object sender, EventArgs e)
         {
-            if (File.Exists(pathAndLog))
+            if (System.IO.File.Exists(pathAndLog))
             {
                 try
                 {
-                    File.Delete(@pathAndLog);
+                    System.IO.File.Delete(@pathAndLog);
                 }
                 catch (Exception ex)
                 {
@@ -5158,7 +3763,7 @@ private Size GetImageDimensions(Bitmap image)
             // "Advanced" tab
             if (UiFormTabControl.SelectedTab.AccessibilityObject.Name == "Advanced")
             {
-                if (File.Exists(pathAndLog))
+                if (System.IO.File.Exists(pathAndLog))
                 {
                     UiAdvancedButtonDeleteLog.Enabled = true;
                 }
@@ -5171,7 +3776,7 @@ private Size GetImageDimensions(Bitmap image)
             // "Feedback" tab
             if (UiFormTabControl.SelectedTab.AccessibilityObject.Name == "Feedback")
             {
-                if (File.Exists(pathAndLog))
+                if (System.IO.File.Exists(pathAndLog))
                 {
                     FileInfo fileInfo = new FileInfo(pathAndLog);
                     if (fileInfo.Length > 0)
@@ -5230,20 +3835,44 @@ private Size GetImageDimensions(Bitmap image)
 
         public void CleanupAndExit()
         {
-            isTroubleshootEnabled = false;
+            if (CheckIfQueuesAreEmpty())
+            {
 
-            // Remove HovText from starting up at Windows boot
-            DeleteRegistryKey(registryPathRun, "HovText");
+                isTroubleshootEnabled = false;
 
-            // Delete the "HovText" folder in registry
-            RegistryKey parentClass = Registry.CurrentUser;
-            RegistryKey parentSoftware = parentClass.OpenSubKey("Software", true);
-            parentSoftware.DeleteSubKeyTree("HovText");
+                // Remove HovText from starting up at Windows boot
+                DeleteRegistryKey(registryPathRun, "HovText");
 
-            // Exit HovText
-            cleanupApp = true;
+                // Delete the "HovText" folder in registry
+                RegistryKey parentClass = Registry.CurrentUser;
+                RegistryKey parentSoftware = parentClass.OpenSubKey("Software", true);
+                parentSoftware.DeleteSubKeyTree("HovText");
 
-            Close();
+                // Delete the "Start Menu" shortcut
+                string startMenuPath = Environment.GetFolderPath(Environment.SpecialFolder.StartMenu);
+                string appStartMenuPath = Path.Combine(startMenuPath, "Programs", "HovText");
+                try
+                {
+                    if (Directory.Exists(appStartMenuPath))
+                    {
+                        Directory.Delete(appStartMenuPath, true);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("Error deleting \"Start Menu\" shortcut: " + ex.Message);
+                }
+
+                // Exit HovText
+                cleanupApp = true;
+
+                Close();
+
+            }
+            else
+            {
+                Logging.Log($"Could not proceed as one or more clipboards are being processed");
+            }
         }
 
 
@@ -5275,7 +3904,7 @@ private Size GetImageDimensions(Bitmap image)
 
                     // Build the data to send
                     string textFilePath = pathAndLog;
-                    string textFileContent = File.ReadAllText(textFilePath);
+                    string textFileContent = System.IO.File.ReadAllText(textFilePath);
                     var data = new NameValueCollection
                         {
                             { "version", UiFormLabelApplicationVersion.Text },
@@ -5678,7 +4307,7 @@ private Size GetImageDimensions(Bitmap image)
 
             if (buildType == "Debug")
             {
-                this.Text = "HovText DEVELOPMENT version";
+                Text = "HovText DEVELOPMENT version";
             }
 
             switch (hotkeyBehaviour)
@@ -5815,7 +4444,7 @@ private Size GetImageDimensions(Bitmap image)
                         UiAdvancedLabelDevVersion.Text = checkedVersion;
                         UiAdvancedButtonManualDownload.Enabled = true;
                         Logging.Log("  Development version available = [" + checkedVersion + "]");
-                        guna2Button2.Enabled = true;
+                        UiAdvancedButtonAutoInstall.Enabled = true;
                     }
                     else
                     {
@@ -5858,7 +4487,7 @@ private Size GetImageDimensions(Bitmap image)
             if (UiAdvancedToggleEnableLog.Checked)
             {
                 // Get the filesize og the logfile
-                if (File.Exists(pathAndLog))
+                if (System.IO.File.Exists(pathAndLog))
                 {
                     FileInfo fileInfo = new FileInfo(pathAndLog);
                     long fileSize = fileInfo.Length;
@@ -5873,13 +4502,6 @@ private Size GetImageDimensions(Bitmap image)
                 }
             }
         }
-
-        /*
-        private void Settings_Load(object sender, EventArgs e)
-        {
-            CheckIfLogfileIsTooLarge();
-        }
-        */
 
 
         // ###########################################################################################
@@ -5899,6 +4521,7 @@ private Size GetImageDimensions(Bitmap image)
         private void GuiStorageEntries_ValueChanged(object sender, EventArgs e)
         {
             UiStorageTrackBarEntriesToSaveText.Text = UiStorageTrackBarEntriesToSave.Value.ToString();
+            clipboardEntriesToSave = UiStorageTrackBarEntriesToSave.Value;
             SetRegistryKey(registryPath, "StorageSaveEntries", UiStorageTrackBarEntriesToSaveText.Text);
         }
 
@@ -5930,56 +4553,17 @@ private Size GetImageDimensions(Bitmap image)
                 if (UiStorageRadioSaveAll.Checked)
                 {
                     set = "All";
-
-                    /*
-                    foreach (var entryOrder in entriesOrderOriginal)
-                    {
-                        int keyOrder = entryOrder.Key;
-                        int valueOrder = entryOrder.Value;
-                        entriesOrderTmp.Add(keyOrder, valueOrder);
-                    }
-                    */
                 }
                 else if (UiStorageRadioSaveOnlyFavorites.Checked)
                 {
                     set = "Favorites";
-                    /*
-                    foreach (var entryOrder in entriesOrderOriginal)
-                    {
-                        int keyOrder = entryOrder.Key;
-                        int valueOrder = entryOrder.Value;
-                        bool isFavorite = entriesIsFavorite[keyOrder];
-
-                        if (isFavorite)
-                        {
-                            entriesOrderTmp.Add(keyOrder, valueOrder);
-                        }
-                    }
-                    */
                 }
                 else
                 {
                     set = "Text";
-                    /*
-                    foreach (var entryOrder in entriesOrderOriginal)
-                    {
-                        int keyOrder = entryOrder.Key;
-                        int valueOrder = entryOrder.Value;
-                        bool isImage = entriesIsImage[keyOrder];
-
-                        if(!isImage)
-                        {
-                            entriesOrderTmp.Add(keyOrder, valueOrder);
-                        }
-                    }
-                    */
-
                 }
 
-                //entriesOrder = entriesOrderTmp;
-                SaveIndexAndFavorite();
-
-                //entriesOrderTmp = null;
+                HandleFiles.saveIndexAndFavoriteFiles = true;
 
 
                 SetRegistryKey(registryPath, "StorageSaveType", set);
@@ -5995,13 +4579,12 @@ private Size GetImageDimensions(Bitmap image)
         {
 
             // Check if we have write access - if not, then revert
-            if (!HasWriteAccess() && UiStorageToggleSaveClipboards.Checked)
+            if (!HandleFiles.HasWriteAccess() && UiStorageToggleSaveClipboards.Checked)
             {
                 UiStorageToggleSaveClipboards.Checked = false;
-                InformOnMissingWriteAccess();
+                HandleFiles.InformOnMissingWriteAccess();
                 return;
             }
-
 
             if (UiStorageToggleSaveClipboards.Checked)
             {
@@ -6034,13 +4617,13 @@ private Size GetImageDimensions(Bitmap image)
                 UiStorageLabelSaveOnlyFavorites.Enabled = false;
                 SetRegistryKey(registryPath, "StorageSaveOnExit", "0");
             }
-
         }
 
 
         // ###########################################################################################
         // Handle the "Advanced Status" - e.g. memory usage and total amount of entries
         // ###########################################################################################
+
 
         // ###########################################################################################
         // Log the amount of memory used
@@ -6056,10 +4639,10 @@ private Size GetImageDimensions(Bitmap image)
         {
             // Only show memory, if it has changed more than 5%
             if (
-                memoryInMB != old_memoryInMB && 
+                memoryInMB != old_memoryInMB &&
                 (
                 memoryInMB <= (int)(old_memoryInMB * 0.95) ||
-                memoryInMB >= (int)(old_memoryInMB * 1.05)                
+                memoryInMB >= (int)(old_memoryInMB * 1.05)
                 )
             )
             {
@@ -6067,16 +4650,13 @@ private Size GetImageDimensions(Bitmap image)
                 old_memoryInMB = memoryInMB;
             }
         }
-               
 
-        private void UpdateAdvancedStatus()
+
+        public void UpdateAdvancedStatus()
         {
-
             string formattedMemoryUsage = "Memory usage: " + memoryInMB + " MB";
             UiAdvancedLabelMemUsed.Text = formattedMemoryUsage;
 
-            //            if (!isClipboardLoadingFromFile)
-            //            {    
             UiAdvancedLabelClipboardEntries.Text = "Clipboard entries: " + entriesOriginal.Count.ToString();
             int countImages = entriesIsImage.Count(entry => entry.Value == true);
             int countTrue = entriesIsFavorite.Count(entry => entry.Value == true);
@@ -6107,7 +4687,6 @@ private Size GetImageDimensions(Bitmap image)
             {
                 UiStorageLabelSaveAllEntries.Text = "(" + countAll + " entries)";
             }
-            //            }
         }
 
 
@@ -6120,25 +4699,53 @@ private Size GetImageDimensions(Bitmap image)
             int count = entriesOriginal.Count;
             Logging.Log($"Cleaning all [" + count + "] clipboard entries from memory");
 
-            if (File.Exists(pathAndData))
+            if(CheckIfQueuesAreEmpty())
             {
-                try
+
+                if (System.IO.File.Exists(pathAndData))
                 {
-                    File.Delete(@pathAndData);
+                    try
+                    {
+                        System.IO.File.Delete(@pathAndData);
+                    }
+                    catch (Exception ex)
+                    {
+                        Logging.Log("Error: " + ex.Message);
+                    }
+                    Logging.Log($"Deleted the clipboard data file [" + pathAndData + "]");
                 }
-                catch (Exception ex)
-                {
-                    Logging.Log("Error: " + ex.Message);
-                }
-                Logging.Log($"Deleted the clipboard data file [" + pathAndData + "]");
+
+                ClearHistory();
+                UpdateNotifyIconText();
+
+                // Trigger the garbage collector to see the impact immediately
+                GC.Collect();
+                GC.WaitForPendingFinalizers();
+
+            } else
+            {
+                Logging.Log($"Could not proceed as one or more clipboards are being processed");
             }
+        }
 
-            ClearHistory();
-            UpdateNotifyIconText();
 
-            // Trigger the garbage collector to see the impact immediately
-            GC.Collect();
-            GC.WaitForPendingFinalizers();
+        // ###########################################################################################
+        // Check if we can do this action now - not possible if any clipboard is being processed
+        // ###########################################################################################
+
+        private bool CheckIfQueuesAreEmpty ()
+        {
+            if(HandleClipboard.clipboardQueue.Count > 0 || clipboardSaveQueue.Count > 0)
+            {
+                MessageBox.Show("You cannot do this now, as it is processing one or more clipboards - please wait until this finishes",
+                    "HovText ERROR",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+                return false;
+            } else
+            {
+                return true;
+            }
         }
 
 
@@ -6277,16 +4884,16 @@ private Size GetImageDimensions(Bitmap image)
             // Create a path for the rounded rectangle
             GraphicsPath path = new GraphicsPath();
             path.AddArc(0, 0, cornerRadius, cornerRadius, 180, 90);
-            path.AddArc(this.Width - cornerRadius - borderWidth, 0, cornerRadius, cornerRadius, 270, 90);
-            path.AddArc(this.Width - cornerRadius - borderWidth, this.Height - cornerRadius - borderWidth, cornerRadius, cornerRadius, 0, 90);
-            path.AddArc(0, this.Height - cornerRadius - borderWidth, cornerRadius, cornerRadius, 90, 90);
+            path.AddArc(Width - cornerRadius - borderWidth, 0, cornerRadius, cornerRadius, 270, 90);
+            path.AddArc(Width - cornerRadius - borderWidth, Height - cornerRadius - borderWidth, cornerRadius, cornerRadius, 0, 90);
+            path.AddArc(0, Height - cornerRadius - borderWidth, cornerRadius, cornerRadius, 90, 90);
             path.CloseAllFigures();
 
             // Set the form's region
-            this.Region = new Region(path);
+            Region = new Region(path);
 
             // Draw the border
-            using (Pen pen = new Pen(this.BackColor, borderWidth))
+            using (Pen pen = new Pen(BackColor, borderWidth))
             {
                 pen.Alignment = PenAlignment.Inset; // This is needed to draw inside the bounds of the form
                 g.DrawPath(pen, path);
@@ -6438,123 +5045,35 @@ private Size GetImageDimensions(Bitmap image)
 
 
         // ###########################################################################################
-        // Old file monitoring timer
+        // Check and create new shortcut in Windows "Start Menu"
         // ###########################################################################################
 
-        private void TimerDeleteOldFiles_Tick(object sender, EventArgs e)
+        private void ChechAndCreateShortcut ()
         {
-            bool fileDeleted = false;
 
-            // HovText-data-*.bin
-            string fileMask = $"{dataName}*.bin";
-            string fileName = GetOldestFile(baseDirectory, fileMask);
-            if (fileName != pathAndData)
-            {
-                if (File.Exists(fileName))
-                {
-                    try
-                    {
-                        File.Delete(@fileName);
-                        fileDeleted = true;
-                        Logging.Log($"Deleted clipboard data file [{fileName}]");
-                    }
-                    catch (Exception ex)
-                    {
-                        Logging.Log($"Could not delete clipboard data file [{fileName}] as it was locked by another process");
-                        Logging.Log($"Exception: {ex.Message}");
-                    }
-                }
-            }
-
-            // HovText-index-*.bin
-            fileMask = $"{dataIndexName}*.bin";
-            fileName = GetOldestFile(baseDirectory, fileMask);
-            if (fileName != pathAndDataIndex)
-            {
-                if (File.Exists(fileName))
-                {
-                    try
-                    {
-                        File.Delete(@fileName);
-                        fileDeleted = true;
-                        Logging.Log($"Deleted clipboard data index file [{fileName}]");
-                    }
-                    catch (Exception ex)
-                    {
-                        Logging.Log($"Could not delete clipboard data index file [{fileName}] as it was locked by another process");
-                        Logging.Log($"Exception: {ex.Message}");
-                    }
-                }
-            }
-
-            // HovText-favorite-*.bin
-            fileMask = $"{dataFavoriteName}*.bin";
-            fileName = GetOldestFile(baseDirectory, fileMask);
-            if (fileName != pathAndDataFavorite)
-            {
-                if (File.Exists(fileName))
-                {
-                    try
-                    {
-                        File.Delete(@fileName);
-                        fileDeleted = true;
-                        Logging.Log($"Deleted clipboard data is-favorite file [{fileName}]");
-                    }
-                    catch (Exception ex)
-                    {
-                        Logging.Log($"Could not delete clipboard data is-favorite file [{fileName}] as it was locked by another process");
-                        Logging.Log($"Exception: {ex.Message}");
-                    }
-                }
-            }
-
-            // Delete the temporary updater file
-            fileName = baseDirectory + "HovText Updater.exe";
-            if (File.Exists(fileName))
-            {
-                try
-                {
-                    File.Delete(@fileName);
-                    fileDeleted = true;
-                    Logging.Log($"Deleted temporary updater file [{fileName}]");
-                }
-                catch (Exception ex)
-                {
-                    Logging.Log($"Could not delete temporary updater file [{fileName}] as it was locked by another process");
-                    Logging.Log($"Exception: {ex.Message}");
-                }
-            }
-
-            if (!fileDeleted)
-            {
-                TimerDeleteOldFiles.Enabled = false;
-                Logging.Log($"Disabled timer for monitoring old file deletions");
-            }
         }
 
 
         // ###########################################################################################
+        // New auto-install method
+        // ###########################################################################################
 
-        [DllImport("user32.dll")]
-        public static extern int SendMessage(IntPtr hWnd, int Msg, int wParam, int lParam);
-        [DllImport("user32.dll")]
-        public static extern bool ReleaseCapture();
-
-        private void guna2Button1_Click(object sender, EventArgs e)
+        private void UiAdvancedButtonAutoInstall_Click(object sender, EventArgs e)
         {
             Logging.Log("Auto-install new [DEVELOPMENT] version");
             AutoInstall();
         }
 
-        public static void AutoInstall ()
+        public static void AutoInstall()
         {
             // Which path to use for the EXE file - the DEVELOPMENT or STABLE
             string arguments;
             if (buildType == "Debug")
             {
                 arguments = "autoupdate/development";
-                arguments = $"download/{checkedVersion}";
-            } else
+//                arguments = $"download/{checkedVersion}";
+            }
+            else
             {
                 arguments = $"download/{checkedVersion}";
             }
@@ -6579,7 +5098,7 @@ private Size GetImageDimensions(Bitmap image)
                     return;
                 }
 
-                using (Stream output = File.Create(tempExe))
+                using (Stream output = System.IO.File.Create(tempExe))
                 {
                     input.CopyTo(output);
                 }
@@ -6593,6 +5112,46 @@ private Size GetImageDimensions(Bitmap image)
             Environment.Exit(0);
         }
 
+
+        // ###########################################################################################
+        // Create link in "Start Menu"
+        // ###########################################################################################
+
+        public void CreateShortcut(string appName, string appPath, string appDescription)
+        {
+            string startMenuPath = Environment.GetFolderPath(Environment.SpecialFolder.StartMenu);
+            string appStartMenuPath = Path.Combine(startMenuPath, "Programs", appName);
+
+            if (!Directory.Exists(appStartMenuPath))
+            {
+                Directory.CreateDirectory(appStartMenuPath);
+            }
+
+            string shortcutLocation = Path.Combine(appStartMenuPath, appName + ".lnk");
+
+            // Check if the shortcut already exists
+            if (System.IO.File.Exists(shortcutLocation))
+            {
+                Logging.Log("HovText \"Start Menu\" shortcut already exists");
+                return;
+            }
+
+            WshShell shell = new WshShell();
+            IWshShortcut shortcut = (IWshShortcut)shell.CreateShortcut(shortcutLocation);
+
+            shortcut.Description = appDescription;
+            shortcut.TargetPath = appPath;
+            shortcut.Save();
+        }
+
+
+        // ###########################################################################################
+
+        [DllImport("user32.dll")]
+        public static extern int SendMessage(IntPtr hWnd, int Msg, int wParam, int lParam);
+        [DllImport("user32.dll")]
+        public static extern bool ReleaseCapture();
+               
 
         // ###########################################################################################
     }
