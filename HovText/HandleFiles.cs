@@ -690,10 +690,102 @@ namespace HovText
 
 
         // ###########################################################################################
-        // Delete troubleshoot logfile and clipboard data file
+        // Delete troubleshoot logfile and clipboard data file - called when doing a clean-up
         // ###########################################################################################
 
-        public static void DeleteFiles()
+        public static bool DeleteOldFiles()
+        {
+            bool wasAnyFilesDeleted = false;
+
+            // HovText-data-*.bin
+            string fileMask = $"{Settings.dataName}*.bin";
+            string fileName = HandleFiles.GetOldestFile(Settings.baseDirectory, fileMask);
+            if (fileName != Settings.pathAndData)
+            {
+                if (File.Exists(fileName))
+                {
+                    try
+                    {
+                        File.Delete(@fileName);
+                        wasAnyFilesDeleted = true;
+                        Logging.Log($"Deleted clipboard data file [{fileName}]");
+                    }
+                    catch (Exception ex)
+                    {
+                        Logging.Log($"Could not delete clipboard data file [{fileName}] as it was locked by another process");
+                        Logging.Log($"Exception: {ex.Message}");
+                    }
+                }
+            }
+
+            // HovText-index-*.bin
+            fileMask = $"{Settings.dataIndexName}*.bin";
+            fileName = HandleFiles.GetOldestFile(Settings.baseDirectory, fileMask);
+            if (fileName != Settings.pathAndDataIndex)
+            {
+                if (File.Exists(fileName))
+                {
+                    try
+                    {
+                        File.Delete(@fileName);
+                        wasAnyFilesDeleted = true;
+                        Logging.Log($"Deleted clipboard data index file [{fileName}]");
+                    }
+                    catch (Exception ex)
+                    {
+                        Logging.Log($"Could not delete clipboard data index file [{fileName}] as it was locked by another process");
+                        Logging.Log($"Exception: {ex.Message}");
+                    }
+                }
+            }
+
+            // HovText-favorite-*.bin
+            fileMask = $"{Settings.dataFavoriteName}*.bin";
+            fileName = HandleFiles.GetOldestFile(Settings.baseDirectory, fileMask);
+            if (fileName != Settings.pathAndDataFavorite)
+            {
+                if (File.Exists(fileName))
+                {
+                    try
+                    {
+                        File.Delete(@fileName);
+                        wasAnyFilesDeleted = true;
+                        Logging.Log($"Deleted clipboard data is-favorite file [{fileName}]");
+                    }
+                    catch (Exception ex)
+                    {
+                        Logging.Log($"Could not delete clipboard data is-favorite file [{fileName}] as it was locked by another process");
+                        Logging.Log($"Exception: {ex.Message}");
+                    }
+                }
+            }
+
+            // Delete the temporary updater file
+            string tempExe = Path.Combine(Settings.baseDirectory, Settings.updaterExe);
+            if (File.Exists(tempExe))
+            {
+                try
+                {
+                    File.Delete(@tempExe);
+                    wasAnyFilesDeleted = true;
+                    Logging.Log($"Deleted temporary updater file [{tempExe}]");
+                }
+                catch (Exception ex)
+                {
+                    Logging.Log($"Could not delete temporary updater file [{tempExe}] as it was locked by another process");
+                    Logging.Log($"Exception: {ex.Message}");
+                }
+            }
+
+            return wasAnyFilesDeleted;
+        }
+
+
+        // ###########################################################################################
+        // Delete troubleshoot logfile and clipboard data file - called when doing a clean-up
+        // ###########################################################################################
+
+        public static void DeleteFilesOnCleanup()
         {
             try
             {
@@ -718,12 +810,18 @@ namespace HovText
                     File.Delete(filePath);
                 }
 
+                // HovText Updater.exe
+                string tempExe = Path.Combine(Settings.baseDirectory, Settings.updaterExe);
+                if (File.Exists(tempExe))
+                {
+                    File.Delete(@tempExe);
+                }
+
                 // HovText-troubleshooting.txt
                 if (File.Exists(Settings.pathAndLog))
                 {
                     File.Delete(@Settings.pathAndLog);
                 }
-
             }
             catch (Exception ex)
             {

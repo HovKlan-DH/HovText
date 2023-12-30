@@ -219,7 +219,7 @@ namespace HovText
         private static string originatingApplicationName = "";
         public static int activeDisplay; // selected display to show the history (default will be the main display)
         private static string hotkey; // needed for validating the keys as it is not set in the event
-        public static string cpuArchitecture;
+//        public static string cpuArchitecture;
         public static string osVersion;
         private static bool firstTimeLaunch;
         public static string buildType = ""; // Debug, Release
@@ -239,7 +239,7 @@ namespace HovText
         public static readonly string dataIndexName = "HovText-index-";
         readonly string troubleshootLog = "HovText-troubleshooting.txt";
         readonly string saveContentFileExist = "HovText-save-content-in-logfile.txt"; // should ONLY be used by Dennis/developer for debugging!!!
-        static string updaterExe = "HovText Updater.exe";
+        public static string updaterExe = "HovText Updater.exe";
         static string exeFileNameWithPath;
         public static string exeFileNameWithoutExtension;
         public static bool isApplicationEnabled = true;
@@ -260,11 +260,6 @@ namespace HovText
         HandleClipboard clipboardHandler;
         bool saveFilesActive = false;
         bool activatedHotkeys = false; // the hotkeys should not be enabled until we have loaded everything into the clipboard list
-
-        // IMPLEMENT THIS!!!!
-        public static bool alwaysPasteOriginalText = false;
-        // IMPLEMENT THIS!!!!
-
 
 
         // ###########################################################################################
@@ -328,6 +323,7 @@ namespace HovText
             // https://stackoverflow.com/a/50330392/2028935
             osVersion = (string)(from x in new ManagementObjectSearcher("SELECT Caption FROM Win32_OperatingSystem").Get().Cast<ManagementObject>() select x.GetPropertyValue("Caption")).FirstOrDefault();
 
+            /*
             // Get the CPU architechture
             Architecture cpuArchitectureObj = RuntimeInformation.ProcessArchitecture;
             switch (cpuArchitectureObj)
@@ -348,6 +344,7 @@ namespace HovText
                     cpuArchitecture = "unknown";
                     break;
             }
+            */
 
             // Get todays date and time (for filename)
             string dt = GetCurrentDateTimeFormatted();
@@ -451,6 +448,7 @@ namespace HovText
             // Start the loading process of data files AFTER the UI form has been fully intialized and shown
             Shown += new EventHandler(Settings_Shown);
 
+            // Create shortcut in "Start Menu"
             CreateShortcut("HovText", @pathAndExe, "HovText Clipboard Manager");
         }
 
@@ -506,7 +504,10 @@ namespace HovText
         private void Settings_Shown(object sender, EventArgs e)
         {
             // Should we load the clipboard data file?
-            if (UiGeneralToggleEnableClipboard.Checked && UiStorageToggleLoadClipboards.Checked && hasWriteAccess)
+            if (
+                UiGeneralToggleEnableClipboard.Checked && 
+                UiStorageToggleLoadClipboards.Checked && 
+                hasWriteAccess)
             {
                 // Get the full path and filenames for the different files
                 
@@ -655,41 +656,44 @@ namespace HovText
 
         private void TimerProcessSaveQueue_Tick(object sender, EventArgs e)
         {
-            // Only process the queue, if it is currently NOT being worked on AND if it has content
-            if (clipboardSaveQueue.Count > 0 && !isClipboardSaveQueueBeingProcessed)
-            {
-                // We can start saving data, once all entries have been processed (the boolean
-                // is set to "true" of no file is loaded)
-                if (HandleFiles.onLoadAllEntriesProcessedInClipboardQueue)
+            if(UiStorageToggleSaveClipboards.Checked)
+            {            
+                // Only process the queue, if it is currently NOT being worked on AND if it has content
+                if (clipboardSaveQueue.Count > 0 && !isClipboardSaveQueueBeingProcessed)
                 {
-                    isClipboardSaveQueueBeingProcessed = true;
-                    TimerToggleSaveIcon.Enabled = true; // show the "saving" icons
-
-                    // Parallize it so we do not block UI
-                    Task.Run(() =>
+                    // We can start saving data, once all entries have been processed (the boolean
+                    // is set to "true" of no file is loaded)
+                    if (HandleFiles.onLoadAllEntriesProcessedInClipboardQueue)
                     {
-                        // Take a copy of "clipboardSaveQueue"
-                        List<int> clipboardSaveQueueTmp = new List<int>(clipboardSaveQueue); 
+                        isClipboardSaveQueueBeingProcessed = true;
+                        TimerToggleSaveIcon.Enabled = true; // show the "saving" icons
 
-                        // Walk through all elements of the queue
-                        foreach (var index in clipboardSaveQueueTmp)
+                        // Parallize it so we do not block UI
+                        Task.Run(() =>
                         {
-                            if (entriesOriginal.ContainsKey(index))
-                            {
-                                HandleFiles.SaveClipboardEntryToFile(index);
-                                clipboardSaveQueue.Remove(index);
-                            }
-                            else
-                            {
-                                Logging.Log($"Error: Could not find index [{index}] for saving!? Removing it from list");
-                                clipboardSaveQueue.Remove(index);
-                            }
-                        }
+                            // Take a copy of "clipboardSaveQueue"
+                            List<int> clipboardSaveQueueTmp = new List<int>(clipboardSaveQueue); 
 
-                        HandleFiles.saveIndexAndFavoriteFiles = true;
-                        HandleFiles.onLoadAllEntriesSavedFromQueue = true; // if we have loaded content from files, then mark everything as saved now
-                        isClipboardSaveQueueBeingProcessed = false;
-                    });
+                            // Walk through all elements of the queue
+                            foreach (var index in clipboardSaveQueueTmp)
+                            {
+                                if (entriesOriginal.ContainsKey(index))
+                                {
+                                    HandleFiles.SaveClipboardEntryToFile(index);
+                                    clipboardSaveQueue.Remove(index);
+                                }
+                                else
+                                {
+                                    Logging.Log($"Error: Could not find index [{index}] for saving!? Removing it from list");
+                                    clipboardSaveQueue.Remove(index);
+                                }
+                            }
+
+                            HandleFiles.saveIndexAndFavoriteFiles = true;
+                            HandleFiles.onLoadAllEntriesSavedFromQueue = true; // if we have loaded content from files, then mark everything as saved now
+                            isClipboardSaveQueueBeingProcessed = false;
+                        });
+                    }
                 }
             }
         }
@@ -716,7 +720,7 @@ namespace HovText
             floppyToggle = !floppyToggle;
 
             // Hide the loader-icons, if there is no queues left to process
-            if (HandleClipboard.clipboardQueue.Count == 0 && clipboardSaveQueue.Count == 0)
+            if (HandleClipboard.clipboardQueue.Count == 0 && (clipboardSaveQueue.Count == 0 || !UiStorageToggleSaveClipboards.Checked))
             {
                 TimerToggleSaveIcon.Enabled = false;
                 pictureBox1.Visible = false;
@@ -731,13 +735,16 @@ namespace HovText
 
         private void SaveIndexAndFavoriteFiles_Tick(object sender, EventArgs e)
         {
-            if (HandleFiles.saveIndexAndFavoriteFiles && !saveFilesActive)
+            if(UiStorageToggleSaveClipboards.Checked)
             {
-                saveFilesActive = true; 
-                TimerToggleSaveIcon.Enabled = true;
-                HandleFiles.SaveIndexAndFavoritesToFiles();
-                HandleFiles.saveIndexAndFavoriteFiles = false;
-                saveFilesActive = false;
+                if (HandleFiles.saveIndexAndFavoriteFiles && !saveFilesActive)
+                {
+                    saveFilesActive = true; 
+                    TimerToggleSaveIcon.Enabled = true;
+                    HandleFiles.SaveIndexAndFavoritesToFiles();
+                    HandleFiles.saveIndexAndFavoriteFiles = false;
+                    saveFilesActive = false;
+                }
             }
         }
 
@@ -769,95 +776,13 @@ namespace HovText
 
         private void TimerDeleteOldFiles_Tick(object sender, EventArgs e)
         {
-            /*
-            bool fileDeleted = false;
+            bool wasAnyFilesDeleted = HandleFiles.DeleteOldFiles();
 
-            // HovText-data-*.bin
-            string fileMask = $"{dataName}*.bin";
-            string fileName = HandleFiles.GetOldestFile(baseDirectory, fileMask);
-            if (fileName != pathAndData)
-            {
-                if (File.Exists(fileName))
-                {
-                    try
-                    {
-                        File.Delete(@fileName);
-                        fileDeleted = true;
-                        Logging.Log($"Deleted clipboard data file [{fileName}]");
-                    }
-                    catch (Exception ex)
-                    {
-                        Logging.Log($"Could not delete clipboard data file [{fileName}] as it was locked by another process");
-                        Logging.Log($"Exception: {ex.Message}");
-                    }
-                }
-            }
-
-            // HovText-index-*.bin
-            fileMask = $"{dataIndexName}*.bin";
-            fileName = HandleFiles.GetOldestFile(baseDirectory, fileMask);
-            if (fileName != pathAndDataIndex)
-            {
-                if (File.Exists(fileName))
-                {
-                    try
-                    {
-                        File.Delete(@fileName);
-                        fileDeleted = true;
-                        Logging.Log($"Deleted clipboard data index file [{fileName}]");
-                    }
-                    catch (Exception ex)
-                    {
-                        Logging.Log($"Could not delete clipboard data index file [{fileName}] as it was locked by another process");
-                        Logging.Log($"Exception: {ex.Message}");
-                    }
-                }
-            }
-
-            // HovText-favorite-*.bin
-            fileMask = $"{dataFavoriteName}*.bin";
-            fileName = HandleFiles.GetOldestFile(baseDirectory, fileMask);
-            if (fileName != pathAndDataFavorite)
-            {
-                if (File.Exists(fileName))
-                {
-                    try
-                    {
-                        File.Delete(@fileName);
-                        fileDeleted = true;
-                        Logging.Log($"Deleted clipboard data is-favorite file [{fileName}]");
-                    }
-                    catch (Exception ex)
-                    {
-                        Logging.Log($"Could not delete clipboard data is-favorite file [{fileName}] as it was locked by another process");
-                        Logging.Log($"Exception: {ex.Message}");
-                    }
-                }
-            }
-
-            // Delete the temporary updater file
-            fileName = baseDirectory + "HovText Updater.exe";
-            if (File.Exists(fileName))
-            {
-                try
-                {
-                    File.Delete(@fileName);
-                    fileDeleted = true;
-                    Logging.Log($"Deleted temporary updater file [{fileName}]");
-                }
-                catch (Exception ex)
-                {
-                    Logging.Log($"Could not delete temporary updater file [{fileName}] as it was locked by another process");
-                    Logging.Log($"Exception: {ex.Message}");
-                }
-            }
-
-            if (!fileDeleted)
+            if (!wasAnyFilesDeleted)
             {
                 TimerDeleteOldFiles.Enabled = false;
                 Logging.Log($"Disabled timer for monitoring old file deletions");
             }
-            */
         }
 
 
@@ -1152,7 +1077,9 @@ namespace HovText
                 Logging.Log("Disabled HovText");
 
                 // Remove this application from the clipboard chain
-                AddClipboardToChain();
+                //AddClipboardToChain();
+                bool keepApplicationToggleActive = true;
+                RemoveAllHotkeys(keepApplicationToggleActive);
 
                 // Restore the original clipboard format
                 if (isRestoreOriginal && entriesOriginal.Count > 0)
@@ -1253,14 +1180,14 @@ namespace HovText
                 // Delete the troubleshooting logfile as the very last thing
                 if (cleanupApp)
                 {
-                    HandleFiles.DeleteFiles();
+                    HandleFiles.DeleteFilesOnCleanup();
                 }
 
                 return;
             }
 
             // Prevent the application from closing, if we are currently processing clipboards
-            if (HandleClipboard.clipboardQueue.Count > 0 || clipboardSaveQueue.Count > 0)
+            if (HandleClipboard.clipboardQueue.Count > 0 || (clipboardSaveQueue.Count > 0 && UiStorageToggleSaveClipboards.Checked))
             {
                 e.Cancel = true;
                 MessageBox.Show("HovText is currently processing one or more clipboards - please wait until this finishes, before you close the application",
@@ -1289,7 +1216,7 @@ namespace HovText
                 // Delete the troubleshooting logfile as the very last thing
                 if (cleanupApp)
                 {
-                    HandleFiles.DeleteFiles();
+                    HandleFiles.DeleteFilesOnCleanup();
                 }
 
                 isClosing = true; // indicate that closing is in progress
@@ -1304,7 +1231,7 @@ namespace HovText
                 NativeMethods.RemoveClipboardFormatListener(Handle);
                 RemoveAllHotkeys();
 
-                HandleFiles.DeleteFiles();
+                HandleFiles.DeleteFilesOnCleanup();
 
                 return;
             }
@@ -1364,8 +1291,8 @@ namespace HovText
                 // Prepare the POST data
                 var postData = new System.Collections.Specialized.NameValueCollection
                 {
-                    { "osVersion", osVersion },
-                    { "cpuArchitecture", cpuArchitecture }
+                    { "osVersion", osVersion }
+//                    { "cpuArchitecture", cpuArchitecture }
                 };
 
                 // Send the POST data to the server
@@ -3183,12 +3110,16 @@ namespace HovText
         // Remove all the hotkeys
         // ###########################################################################################
 
-        public static void RemoveAllHotkeys()
+        public static void RemoveAllHotkeys(bool keepApplicationToggleActive = false)
         {
-            HotkeyManager.Current.Remove("ToggleApplication");
+            if(!keepApplicationToggleActive)
+            {
+                HotkeyManager.Current.Remove("ToggleApplication");
+                Logging.Log("[HotkeyToggleApplication] removed");
+            }
+            
             HotkeyManager.Current.Remove("Search");
             HotkeyManager.Current.Remove("PasteOnHotkey");
-            Logging.Log("[HotkeyToggleApplication] removed");
             Logging.Log("[HotkeySearch] removed");
             Logging.Log("[HotkeyPasteOnHotkey] removed");
         }
@@ -5061,28 +4992,16 @@ namespace HovText
         private void UiAdvancedButtonAutoInstall_Click(object sender, EventArgs e)
         {
             Logging.Log("Auto-install new [DEVELOPMENT] version");
-            AutoInstall();
+            AutoInstall("Development");
         }
 
-        public static void AutoInstall()
+        public static void AutoInstall(string argument)
         {
-            // Which path to use for the EXE file - the DEVELOPMENT or STABLE
-            string arguments;
-            if (buildType == "Debug")
-            {
-                arguments = "autoupdate/development";
-//                arguments = $"download/{checkedVersion}";
-            }
-            else
-            {
-                arguments = $"download/{checkedVersion}";
-            }
-
             // Set up the start info for the updater process, including the arguments
             string tempExe = Path.Combine(baseDirectory, updaterExe);
             ProcessStartInfo startInfo = new ProcessStartInfo(tempExe)
             {
-                Arguments = arguments,
+                Arguments = argument,
                 UseShellExecute = false
             };
 
@@ -5105,7 +5024,7 @@ namespace HovText
             }
 
             // Start the updater process with the arguments
-            Logging.Log($"Auto-install called with: {tempExe} {arguments}");
+            Logging.Log($"Auto-install called with: {tempExe} {argument}");
             Process.Start(startInfo);
 
             // Terminate the main application

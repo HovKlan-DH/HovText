@@ -127,14 +127,11 @@ namespace HovText
                                 || format.Contains("Color") // seen on "Corel.Color.20"
                             )
                             {
-                                clipboardObject.Add(format, clipboardIDataObject.GetData(format));
-
-                                // Standard logging - do NOT save any content to the logfile!
                                 Logging.Log($"index=[{threadSafeIndex}]   Adding format [{format}]");
+                                clipboardObject.Add(format, clipboardIDataObject.GetData(format));
                             }
                             else
                             {
-                                //Logging.Log($"index=[{clipboardQueueIndex}]   Discarding format [{format}]");
                                 Logging.Log($"index=[{threadSafeIndex}]   Discarding format [{format}]");
                             }
                         }
@@ -194,13 +191,13 @@ namespace HovText
                 string clipboardText = ""; // should not be NULL, as we are filtering on text-values later
                 if(isClipboardText)
                 {
-                    if (clipboardObject.ContainsKey(DataFormats.Text))
-                    {
-                        clipboardText = clipboardObject[DataFormats.Text] as string;
-                    }
-                    else if (clipboardObject.ContainsKey(DataFormats.UnicodeText))
+                    if (clipboardObject.ContainsKey(DataFormats.UnicodeText))
                     {
                         clipboardText = clipboardObject[DataFormats.UnicodeText] as string;
+                    }
+                    else if (clipboardObject.ContainsKey(DataFormats.Text))
+                    {
+                        clipboardText = clipboardObject[DataFormats.Text] as string;
                     }
                     else if (clipboardObject.ContainsKey(DataFormats.Rtf))
                     {
@@ -210,6 +207,7 @@ namespace HovText
                     {
                         clipboardText = null; // no supported text format found
                         Logging.Log("Error - no supported text formats found!?");
+                        isClipboardText = false;
                     }
                 }
 
@@ -228,10 +226,17 @@ namespace HovText
                 // TEXT - is clipboard text - also triggers when copying whitespaces only
                 if (isClipboardText)
                 {
-                    // Trim the text
+                    // Trim the text for whitespaces and empty new-lines
                     if (Settings.isEnabledTrimWhitespacing)
                     {
+                        // Remove all hard-coded new-lines
+//                        while (clipboardText.EndsWith("\r\n"))
+//                        {
+//                            clipboardText = clipboardText.Substring(0, clipboardText.Length - "\r\n".Length);
+//                        }
+
                         clipboardText = clipboardText.Trim();
+
                         if (clipboardText.Length == 0) {
                             skipRest = true;
                         }
@@ -275,7 +280,7 @@ namespace HovText
                 }
 
                 // Only add the entry, if it is not already present in list
-                if (!isAlreadyInDataArray && !skipRest)
+                if (!isAlreadyInDataArray && !skipRest && (isClipboardText || isClipboardImage))
                 {
 
                     AddClipboardToList(
@@ -503,16 +508,12 @@ namespace HovText
             {
                 if(HandleFiles.onLoadAllEntriesProcessedInClipboardQueue)
                 {                
-                    if (!string.IsNullOrEmpty(clipboardText) && !Settings.alwaysPasteOriginalText && !Settings.isEnabledPasteOnHotkey)
+                    if (!string.IsNullOrEmpty(clipboardText) && !Settings.isEnabledAlwaysPasteOriginal && !Settings.isEnabledPasteOnHotkey)
                     {
                         _formSettings.Invoke(new MethodInvoker(() =>
                         {
                             SetClipboard(index);
                         }));
-                    }
-                    else
-                    {
-                        Logging.Log("Error: CLIPBOARD - WHEN DO I SEE THIS?");
                     }
                 }
             }

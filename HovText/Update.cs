@@ -48,7 +48,7 @@ namespace HovText
         {
             Logging.Log("Update popup: Clicked the \"Auto-install\"");
             Logging.Log("Auto-install new [STABLE] version");
-            Settings.AutoInstall();
+            Settings.AutoInstall("Stable");
             this.Close();
         }
 

@@ -86,7 +86,7 @@ namespace HovText
 
             // As this application is Single Thread then launch a new thread to mess with the clipboard again
             // https://stackoverflow.com/a/23803659/2028935
-            Thread thread = new Thread(() => HandleClipboard.RestoreOriginal(Settings.entryIndex));
+            Thread thread = new Thread(() => HandleClipboard.RestoreOriginal(HandleClipboard.threadSafeIndex - 1));
             thread.SetApartmentState(ApartmentState.STA); //Set the thread to STA
             thread.Start();
             thread.Join();
