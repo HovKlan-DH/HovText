@@ -195,13 +195,13 @@ namespace HovText
                     {
                         clipboardText = clipboardObject[DataFormats.UnicodeText] as string;
                     }
-                    else if (clipboardObject.ContainsKey(DataFormats.Text))
-                    {
-                        clipboardText = clipboardObject[DataFormats.Text] as string;
-                    }
                     else if (clipboardObject.ContainsKey(DataFormats.Rtf))
                     {
                         clipboardText = clipboardObject[DataFormats.Rtf] as string;
+                    }
+                    else if (clipboardObject.ContainsKey(DataFormats.Text))
+                    {
+                        clipboardText = clipboardObject[DataFormats.Text] as string;
                     }
                     else
                     {
