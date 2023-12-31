@@ -883,7 +883,7 @@ namespace HovText
         // Get the next older entry from history
         // ###########################################################################################
 
-        public void GoEntryLowerNumber()
+        public void GoEntryLowerNumber(int entryActive)
         {
             SuspendLayout();
 
@@ -904,7 +904,12 @@ namespace HovText
                 // Always change focus to HovText to ensure we can catch the key-up event
                 //ChangeFocusToHovText();
 
+//                var oldestTrueIndex = entriesShow
+//                    .FirstOrDefault(entry => entry.Value).Key;
+
+
                 // Only proceed if the entry counter is equal to or more than 0
+                //if (entryCounter > 0 && entryActive != oldestTrueIndex)
                 if (entryCounter > 0)
                 {
                     isFirstCallAfterHotkey = false;
@@ -5043,7 +5048,16 @@ namespace HovText
 
             if (!Directory.Exists(appStartMenuPath))
             {
-                Directory.CreateDirectory(appStartMenuPath);
+                try
+                {
+                    Directory.CreateDirectory(appStartMenuPath);
+                    Logging.Log("Created \"Start Menu\" shortcut");
+                }
+                catch (Exception ex)
+                {
+                    Logging.Log("Error - could not create \"Start Menu\" shortcut:");
+                    Logging.Log(ex.Message);
+                }   
             }
 
             string shortcutLocation = Path.Combine(appStartMenuPath, appName + ".lnk");

@@ -130,7 +130,7 @@
     <value>146, 17</value>
   </metadata>
   <metadata name="TimerMouseClick.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>1266, 55</value>
+    <value>476, 97</value>
   </metadata>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="UiAboutPictureBoxPaypal.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
@@ -2266,28 +2266,28 @@ Kind regards,&lt;br /&gt;
 Jesper and Dennis</value>
   </data>
   <metadata name="TimerGetMemoryConsumption.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>1002, 55</value>
+    <value>17, 97</value>
   </metadata>
   <metadata name="TimerDeleteOldFiles.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>17, 96</value>
+    <value>281, 97</value>
   </metadata>
   <metadata name="TimerProcessSaveQueue.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>467, 96</value>
+    <value>905, 97</value>
   </metadata>
   <metadata name="TimerToggleSaveIcon.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>841, 95</value>
+    <value>17, 138</value>
   </metadata>
   <metadata name="TimerProcessClipboardQueue.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>212, 96</value>
+    <value>649, 97</value>
   </metadata>
   <metadata name="TimerSaveFiles.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>683, 95</value>
+    <value>1126, 97</value>
   </metadata>
   <metadata name="TimerCheckForUpdate.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>1044, 95</value>
+    <value>1001, 56</value>
   </metadata>
   <metadata name="$this.TrayHeight" type="System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>141</value>
+    <value>194</value>
   </metadata>
   <data name="$this.Icon" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>

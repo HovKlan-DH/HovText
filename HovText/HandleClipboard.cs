@@ -229,14 +229,7 @@ namespace HovText
                     // Trim the text for whitespaces and empty new-lines
                     if (Settings.isEnabledTrimWhitespacing)
                     {
-                        // Remove all hard-coded new-lines
-//                        while (clipboardText.EndsWith("\r\n"))
-//                        {
-//                            clipboardText = clipboardText.Substring(0, clipboardText.Length - "\r\n".Length);
-//                        }
-
                         clipboardText = clipboardText.Trim();
-
                         if (clipboardText.Length == 0) {
                             skipRest = true;
                         }
@@ -265,6 +258,7 @@ namespace HovText
                     {
                         Stopwatch stopwatch = new Stopwatch();
                         stopwatch.Start();
+
                         transparentImage = GetTransparentImageFromClipboard(clipboardObject);
                         if(transparentImage != null)
                         {

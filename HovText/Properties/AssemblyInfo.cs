@@ -10,7 +10,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("Release")]
 [assembly: AssemblyCompany("The Hovgaard Klan")]
 [assembly: AssemblyProduct("HovText")]
-[assembly: AssemblyCopyright("Copyright © 2004-2023")]
+[assembly: AssemblyCopyright("Copyright © 2004-2024")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

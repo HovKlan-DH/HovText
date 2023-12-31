@@ -39,6 +39,7 @@ namespace HovText
         private Timer _flashTimer;
         private Color _flashColor;
         private Dictionary<string, Control> controlCache = new Dictionary<string, Control>();
+        
 
 
         // ###########################################################################################
@@ -52,6 +53,21 @@ namespace HovText
             // Catch the mousewheel event
             MouseWheel += new MouseEventHandler(Form_MouseWheel);
         }
+
+        /*        
+        private const int WM_NCACTIVATE = 0x0086;
+        protected override void WndProc(ref Message m)
+        {
+            if (m.Msg == WM_NCACTIVATE && m.WParam == IntPtr.Zero)
+            {
+                // The form is being deactivated (user clicked outside of it)
+                this.Close(); // Close the form
+            }
+
+            base.WndProc(ref m);
+        }
+        */
+
 
 
         // ###########################################################################################
@@ -683,7 +699,8 @@ namespace HovText
 
         private static int GetNewestIndex()
         {
-            int returnValue = Settings.entriesOrder.Keys.LastOrDefault();
+            //int returnValue = Settings.entriesOrder.Keys.LastOrDefault();
+            int returnValue = Settings.entriesShow.LastOrDefault(entry => entry.Value).Key;
             return returnValue;
         }
 
@@ -694,7 +711,8 @@ namespace HovText
 
         private static int GetOldestIndex()
         {
-            int returnValue = Settings.entriesOrder.Keys.FirstOrDefault();
+//            int returnValue = Settings.entriesOrder.Keys.FirstOrDefault();
+            int returnValue = Settings.entriesShow.FirstOrDefault(entry => entry.Value).Key;
             return returnValue;
         }
 
@@ -1108,6 +1126,7 @@ namespace HovText
 
                 // https://stackoverflow.com/a/3068797/2028935
                 e.SuppressKeyPress = true;
+                return;
             }
 
             // ENTER
@@ -1123,11 +1142,9 @@ namespace HovText
 
                 SelectEntry();
 
-//                // Restore if we previously was in the favorite list
-//                Settings.showFavoriteList = Settings.showFavoriteListLast;
-
                 // https://stackoverflow.com/a/3068797/2028935
                 e.SuppressKeyPress = true;
+                return;
             }
 
             // DELETE
@@ -1220,6 +1237,7 @@ namespace HovText
 
                 // https://stackoverflow.com/a/3068797/2028935
                 e.SuppressKeyPress = true;
+                return;
             }
 
             // UP
@@ -1228,14 +1246,16 @@ namespace HovText
                 Logging.Log("Pressed \"Up\" arrow key");
                 Settings.settings.GoEntryHigherNumber();
                 e.SuppressKeyPress = true;
+                return;
             }
 
             // DOWN
             if (e.KeyCode == Keys.Down)
             {
                 Logging.Log("Pressed \"Down\" arrow key");
-                Settings.settings.GoEntryLowerNumber();
+                Settings.settings.GoEntryLowerNumber(entryActive);
                 e.SuppressKeyPress = true;
+                return;
             }
 
             // LEFT or PAGEUP (new page, get newer entries)
@@ -1259,6 +1279,7 @@ namespace HovText
                 UpdateHistory("");
 
                 e.SuppressKeyPress = true;
+                return;
             }
 
             // RIGHT or PAGEDOWN (new page, get older entries)
@@ -1282,33 +1303,7 @@ namespace HovText
                 UpdateHistory("");
 
                 e.SuppressKeyPress = true;
-            }
-
-            // END
-            if (e.KeyCode == Keys.End)
-            {
-                entryActive = entryOldest;
-
-                Logging.Log("Pressed \"End\" key");
-
-                int counter = 0;
-                foreach (var entry in Settings.entriesShow)
-                {
-                    if (entry.Value)
-                    {
-                        entryNewestBox = entry.Key;
-                        counter++;
-                    }
-                    if (counter == Settings.historyListElements)
-                    {
-                        break;
-                    }
-                }
-
-                // Update the list elements
-                UpdateHistory("");
-
-                e.SuppressKeyPress = true;
+                return;
             }
 
             // HOME
@@ -1323,6 +1318,37 @@ namespace HovText
                 UpdateHistory("");
 
                 e.SuppressKeyPress = true;
+                return;
+            }
+            
+            // END
+            if (e.KeyCode == Keys.End)
+            {
+                entryActive = entryOldest;
+
+                Logging.Log("Pressed \"End\" key");
+
+                int counter = 0;
+                foreach (var entry in Settings.entriesShow)
+                {
+                    if (entry.Value)
+                    {
+                        int b = GetOldestIndex();
+                        entryNewestBox = entry.Key;
+                        counter++;
+                    }
+                    int a = Settings.historyListElements;
+                    if (counter == Settings.historyListElements)
+                    {
+                        break;
+                    }
+                }
+
+                // Update the list elements
+                UpdateHistory("");
+
+                e.SuppressKeyPress = true;
+                return;
             }
 
             // Favorite hotkey
@@ -1331,6 +1357,7 @@ namespace HovText
             {
                 MarkFavorite();
                 e.SuppressKeyPress = true;
+                return;
             }
         }
 
