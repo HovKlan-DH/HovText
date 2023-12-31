@@ -883,7 +883,7 @@ namespace HovText
         // Get the next older entry from history
         // ###########################################################################################
 
-        public void GoEntryLowerNumber(int entryActive)
+        public void GoEntryLowerNumber()
         {
             SuspendLayout();
 
@@ -901,15 +901,11 @@ namespace HovText
                     originatingApplicationName = HandleClipboard.GetActiveApplicationName();
                     history.SetupForm();
                 }
+
                 // Always change focus to HovText to ensure we can catch the key-up event
                 //ChangeFocusToHovText();
 
-//                var oldestTrueIndex = entriesShow
-//                    .FirstOrDefault(entry => entry.Value).Key;
-
-
                 // Only proceed if the entry counter is equal to or more than 0
-                //if (entryCounter > 0 && entryActive != oldestTrueIndex)
                 if (entryCounter > 0)
                 {
                     isFirstCallAfterHotkey = false;

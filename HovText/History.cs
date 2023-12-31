@@ -54,21 +54,6 @@ namespace HovText
             MouseWheel += new MouseEventHandler(Form_MouseWheel);
         }
 
-        /*        
-        private const int WM_NCACTIVATE = 0x0086;
-        protected override void WndProc(ref Message m)
-        {
-            if (m.Msg == WM_NCACTIVATE && m.WParam == IntPtr.Zero)
-            {
-                // The form is being deactivated (user clicked outside of it)
-                this.Close(); // Close the form
-            }
-
-            base.WndProc(ref m);
-        }
-        */
-
-
 
         // ###########################################################################################
         // Handle mouse scroll events
@@ -1199,18 +1184,18 @@ namespace HovText
 
                 if(entriesInList > 0)
                 {
-                    int hest = entryNewestBox;
-                    int hestCompare = 0;
+                    int entryNewestBoxCopy = entryNewestBox;
+                    int entryNewestBoxCompare = 0;
                     bool goUp = false;
                     int showElements = historyListElements > entriesInList ? entriesInList : historyListElements;
                     for (int i=0; i < showElements; i++)
                     {
-                        hest = GetNextIndex("down", hest);
-                        if(hest == hestCompare)
+                        entryNewestBoxCopy = GetNextIndex("down", entryNewestBoxCopy);
+                        if(entryNewestBoxCopy == entryNewestBoxCompare)
                         {
                             goUp = true;
                         }
-                        hestCompare = hest;
+                        entryNewestBoxCompare = entryNewestBoxCopy;
                     }
 
                     if ((entryActive == entryOldest && entryNewestBox < entryNewest) || goUp)
@@ -1253,7 +1238,7 @@ namespace HovText
             if (e.KeyCode == Keys.Down)
             {
                 Logging.Log("Pressed \"Down\" arrow key");
-                Settings.settings.GoEntryLowerNumber(entryActive);
+                Settings.settings.GoEntryLowerNumber();
                 e.SuppressKeyPress = true;
                 return;
             }
@@ -1311,7 +1296,8 @@ namespace HovText
             {
                 Logging.Log("Pressed \"Home\" key");
 
-                entryActive = entryNewest;
+                //entryActive = entryNewest;
+                entryActive = GetOldestIndex();
                 entryNewestBox = entryNewest;
 
                 // Update the list elements
@@ -1324,9 +1310,10 @@ namespace HovText
             // END
             if (e.KeyCode == Keys.End)
             {
-                entryActive = entryOldest;
-
                 Logging.Log("Pressed \"End\" key");
+
+                //entryActive = entryOldest;
+                entryActive = GetOldestIndex();
 
                 int counter = 0;
                 foreach (var entry in Settings.entriesShow)
