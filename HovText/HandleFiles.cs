@@ -1,30 +1,31 @@
 ﻿/*
 ##################################################################################################
-HANDLEFILES
------------
+HANDLEFILES (CLASS)
+-------------------
 
-This will handle most of the file activity. At least everything related to
-the "data", "index" and "favorite" files.
+This will handle most of the file activity. At least 
+everything related to the "data", "index" and "favorite" 
+files.
 
 ##################################################################################################
 */
 
 using System;
 using System.Collections.Generic;
-using System.IO.Compression;
-using System.IO;
-using System.Linq;
 using System.Drawing;
+using System.IO;
+using System.IO.Compression;
+using System.Linq;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Runtime.Serialization;
 using System.Text;
 using System.Windows.Forms;
 
-
 namespace HovText
 {
     public class HandleFiles
     {
+
         // ###########################################################################################
         // Class variables
         // ########################################################################################### 
@@ -226,7 +227,8 @@ namespace HovText
                         }
                         catch (SerializationException ex)
                         {
-                            Logging.Log($"Error during deserialization: {ex.Message}");
+                            Logging.Log($"Error during deserialization");
+                            Logging.LogException(ex);
                             entriesOriginalLoad = null;
                             entriesIsTransparentLoad = null;
                             entriesApplicationLoad = null;
@@ -274,7 +276,8 @@ namespace HovText
                                 }
                                 catch (Exception ex)
                                 {
-                                    Logging.Log($"Error processing entry {entry.Key}: {ex.Message}");
+                                    Logging.Log($"Error processing entry {entry.Key}");
+                                    Logging.LogException(ex);
                                 }
                                 
                                 // Break from loop, if we have reached the amount we want to process
@@ -300,7 +303,8 @@ namespace HovText
             catch (Exception ex)
             {
                 // Handle other exceptions
-                Logging.Log("Error loading data file: " + ex.Message);
+                Logging.Log("Error loading data file");
+                Logging.LogException(ex);
             }
         }
 
@@ -394,7 +398,8 @@ namespace HovText
             catch (Exception ex)
             {
                 // Handle exceptions
-                Logging.Log("Error saving index file: " + ex.Message);
+                Logging.Log("Error saving index file");
+                Logging.LogException(ex);
             }
         }
 
@@ -462,7 +467,8 @@ namespace HovText
             }
             catch (Exception ex)
             {
-                Logging.Log("Error loading index file: " + ex.Message);
+                Logging.Log("Error loading index file");
+                Logging.LogException(ex);
             }
         }
 
@@ -615,8 +621,8 @@ namespace HovText
                                 }
                                 catch (SerializationException ex)
                                 {
-                                    Logging.Log($"Error during deserialization: {ex.Message}");
-                                    //                                entriesIsFavoriteLoad = null;
+                                    Logging.Log($"Error during deserialization");
+                                    Logging.LogException(ex);
                                     break; // Break out of the loop if deserialization fails
                                 }
                             }
@@ -628,7 +634,8 @@ namespace HovText
                 catch (Exception ex)
                 {
                     // Handle other exceptions
-                    Logging.Log("Error loading favorite file: " + ex.Message);
+                    Logging.Log("Error loading favorite file");
+                    Logging.LogException(ex);
                 }
             }
         }      
@@ -664,7 +671,7 @@ namespace HovText
                 }
                 catch (Exception ex)
                 {
-                    Logging.Log("Error: " + ex.Message);
+                    Logging.LogException(ex);
                 }
                 return true;
             }
@@ -713,7 +720,7 @@ namespace HovText
                     catch (Exception ex)
                     {
                         Logging.Log($"Could not delete clipboard data file [{fileName}] as it was locked by another process");
-                        Logging.Log($"Exception: {ex.Message}");
+                        Logging.LogException(ex);
                     }
                 }
             }
@@ -734,7 +741,7 @@ namespace HovText
                     catch (Exception ex)
                     {
                         Logging.Log($"Could not delete clipboard data index file [{fileName}] as it was locked by another process");
-                        Logging.Log($"Exception: {ex.Message}");
+                        Logging.LogException(ex);
                     }
                 }
             }
@@ -755,7 +762,7 @@ namespace HovText
                     catch (Exception ex)
                     {
                         Logging.Log($"Could not delete clipboard data is-favorite file [{fileName}] as it was locked by another process");
-                        Logging.Log($"Exception: {ex.Message}");
+                        Logging.LogException(ex);
                     }
                 }
             }
@@ -773,7 +780,7 @@ namespace HovText
                 catch (Exception ex)
                 {
                     Logging.Log($"Could not delete temporary updater file [{tempExe}] as it was locked by another process");
-                    Logging.Log($"Exception: {ex.Message}");
+                    Logging.LogException(ex);
                 }
             }
 
@@ -825,7 +832,8 @@ namespace HovText
             }
             catch (Exception ex)
             {
-                Logging.Log("Error: " + ex.Message);
+                Logging.Log("Error");
+                Logging.LogException(ex);
             }
         }
 
@@ -847,7 +855,7 @@ namespace HovText
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error: {ex.Message}");
+                Logging.LogException(ex);
                 return null;
             }
         }
@@ -870,7 +878,7 @@ namespace HovText
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error: {ex.Message}");
+                Logging.LogException(ex);
                 return null;
             }
         }

@@ -1,10 +1,12 @@
 ﻿/*
 ##################################################################################################
-WELCOME GUIDE
--------------
+WELCOME GUIDE (FORM)
+--------------------
 
-This is a welcome guide that will be shown to the user the first time the application is launched.
-It will not be shown if the "NotificationShown" has been set to "1" in registry.
+This is a welcome guide that will be shown to the user the 
+very first time the application is launched. It will not be 
+shown if the "NotificationShown" has been set to "1" in 
+registry.
 
 ##################################################################################################
 */
@@ -16,25 +18,28 @@ namespace HovText
 {
     public partial class Welcome : Form
     {
+
+        // ###########################################################################################
+        // Form initialization
+        // ###########################################################################################
+
         public Welcome()
         {
             InitializeComponent();
-
             guna2Button6.Focus();
-
-            this.FormClosing += new FormClosingEventHandler(Welcome_FormClosing);
+            FormClosing += new FormClosingEventHandler(Welcome_FormClosing);
         }
 
 
         // ###########################################################################################
-        // Make the "ESCAPE" key close the window.
+        // Make the "ESCAPE" key close the window
         // ###########################################################################################
 
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
         {
             if (keyData == Keys.Escape)
             {
-                this.Close();
+                Close();
                 return true; // Indicate that you've handled the key press
             }
 
@@ -48,7 +53,7 @@ namespace HovText
 
         private void button1_Click(object sender, EventArgs e)
         {
-            this.Close();
+            Close();
         }
 
 

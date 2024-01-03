@@ -1,27 +1,28 @@
 ﻿/*
 ##################################################################################################
-HISTORY
--------
+HISTORY (FORM)
+--------------
 
-This is the history area shown for the clipboard entries. It is shown when the user presses the
-different hotkeys for the history area.
+This is the history area shown for the clipboard entries. 
+It is shown when the user presses the different hotkeys 
+for the history area.
 
 ##################################################################################################
 */
 
 using HovText.Properties;
+using static HovText.Program;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
-using static HovText.Program;
-
 
 namespace HovText
 {
     public partial class History : Form
     {
+
         // ###########################################################################################
         // Define "History" class variables - real spaghetti :-)
         // ###########################################################################################
@@ -39,11 +40,10 @@ namespace HovText
         private Timer _flashTimer;
         private Color _flashColor;
         private Dictionary<string, Control> controlCache = new Dictionary<string, Control>();
-        
 
 
         // ###########################################################################################
-        // Main
+        // Form initialization
         // ###########################################################################################
 
         public History()
@@ -242,28 +242,25 @@ namespace HovText
                 }
 
                 // Add the Search input field
-                if (!Settings.isHistoryHotkeyPressed)
+                TextBox textBox = new TextBox
                 {
-                    TextBox textBox = new TextBox
-                    {
-                        Name = "search",
-                        Width = width - 11,
-                        Height = searchlineHeight,
-                        Location = new Point(1, headlineHeight), // X, Y
-                        BorderStyle = BorderStyle.FixedSingle,
-                        Font = new Font(Settings.historyFontFamily, Settings.historyFontSize),
-                        BackColor = ColorTranslator.FromHtml(Settings.historyColorsSearch[Settings.historyColorTheme]),
-                        ForeColor = ColorTranslator.FromHtml(Settings.historyColorsSearchText[Settings.historyColorTheme]),
-                        AutoSize = false,
-                        Visible = true,
-                    };
-                    Controls.Add(textBox);
-                    textBox.BringToFront();
+                    Name = "search",
+                    Width = width - 11,
+                    Height = searchlineHeight,
+                    Location = new Point(1, headlineHeight), // X, Y
+                    BorderStyle = BorderStyle.FixedSingle,
+                    Font = new Font(Settings.historyFontFamily, Settings.historyFontSize),
+                    BackColor = ColorTranslator.FromHtml(Settings.historyColorsSearch[Settings.historyColorTheme]),
+                    ForeColor = ColorTranslator.FromHtml(Settings.historyColorsSearchText[Settings.historyColorTheme]),
+                    AutoSize = false,
+                    Visible = true,
+                };
+                Controls.Add(textBox);
+                textBox.BringToFront();
 
-                    // Define events for the input field
-                    textBox.TextChanged += Search_TextChanged;
-                    textBox.KeyDown += Search_KeyDown;
-                }
+                // Define events for the input field
+                textBox.TextChanged += Search_TextChanged;
+                textBox.KeyDown += Search_KeyDown;
             }
 
             // Get and set the height for "search" - this is a dynamic height, based on font size

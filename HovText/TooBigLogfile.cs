@@ -1,11 +1,12 @@
 ﻿/*
 ##################################################################################################
-TOO BIG LOGFILE
----------------
+TOO BIG LOGFILE (FORM)
+----------------------
 
-This is an information popup that will be shown, if the troubleshoot logfile has become
-larger than 10Mb. The it offers the user to either disable troubleshoot logging or to keep
-logging but truncate the logfile.
+This is an information popup that will be shown, if the 
+troubleshoot logfile has become larger than 10Mb. The it 
+offers the user to either disable troubleshoot logging or 
+to keep logging but then truncate the logfile.
 
 ##################################################################################################
 */
@@ -19,11 +20,15 @@ namespace HovText
 {
     public partial class TooBigLogfile : Form
     {
+
+        // ###########################################################################################
+        // Class variables
+        // ###########################################################################################   
         private readonly Settings _settings;
 
 
         // ###########################################################################################
-        // Main - TooBigLogfile
+        // Form initialization
         // ###########################################################################################
 
         public TooBigLogfile(Settings mainForm)
@@ -32,7 +37,7 @@ namespace HovText
             _settings = mainForm;
 
             // Make sure this form gets active
-            this.Shown += TooBigLogfile_Shown;
+            Shown += TooBigLogfile_Shown;
         }
 
 
@@ -42,7 +47,7 @@ namespace HovText
 
         private void TooBigLogfile_Shown(object sender, EventArgs e)
         {
-            this.Activate();
+            Activate();
         }
 
 
@@ -81,7 +86,8 @@ namespace HovText
                     }
                     catch (Exception ex)
                     {
-                        Logging.Log($"Could not delete troubleshooting logfile as it is being used by another process - try [{i}/{retries}]");
+                        Logging.Log($"Error: Could not delete troubleshooting logfile as it is being used by another process - try [{i}/{retries}]");
+                        Logging.LogException(ex);
                     }
                     Thread.Sleep(msDelay);
                 }

@@ -1,15 +1,26 @@
 ﻿/*
 ##################################################################################################
-SETTINGS
---------
+SETTINGS (FORM)
+---------------
 
 This is the main form for the HovText application.
+
+Upload the application (binary) to these places:
+  https://www.microsoft.com/en-us/wdsi/filesubmission
+  https://virustotal.com
+
+NuGet: "Costura.Fody" to merge the DLLs in to the EXE - to get 
+only one EXE file for this application. Incredible cool and 
+simple compared to the other complex stuff I have seen! :-)
+https://stackoverflow.com/a/40786196/2028935
 
 ##################################################################################################
 */
 
-using Guna.UI2.WinForms;
+using Guna.UI2.WinForms; // https://gunaui.com/products/ui-winforms
 using HovText.Properties;
+using static HovText.Program;
+using IWshRuntimeLibrary;
 using Microsoft.Win32;
 using NHotkey.WindowsForms; // https://github.com/thomaslevesque/NHotkey
 using System;
@@ -28,31 +39,14 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using IWshRuntimeLibrary;
-using static HovText.Program;
-
-
-// ----------------------------------------------------------------------------
-// Upload application to these places:
-// https://www.microsoft.com/en-us/wdsi/filesubmission
-// https://virustotal.com
-// ----------------------------------------------------------------------------
-
-// NuGet: "Costura.Fody" to merge the DLLs in to the EXE - to get only one EXE file for this application
-// Incredible cool and simple compared to the other complex stuff I have seen! :-)
-// https://stackoverflow.com/a/40786196/2028935
 
 namespace HovText
 {
-
     public sealed partial class Settings : Form
     {
 
-        private DateTime lastClipboardEvent = DateTime.MinValue;
-
-
         // ###########################################################################################
-        // Define "Settings" class variables - real spaghetti - but it works :-)
+        // Class variables
         // ###########################################################################################
 
         // History, default values
@@ -174,8 +168,9 @@ namespace HovText
         public static bool isStartDisabled;
         public static bool isCopyImages;
         public static bool isClosedFromNotifyIcon;
-        public static bool isHistoryHotkeyPressed;
         public static bool isHistoryMarginEnabled;
+        public static bool isTroubleshootEnabled;
+        public static bool isApplicationEnabled = true;
 
         // Clipboard
         public static int entryIndex = -1;
@@ -198,33 +193,25 @@ namespace HovText
         public static bool pasteOnHotkeySetCleartext;
         public static List<int> clipboardSaveQueue = new List<int>(); // will contain index-number of entries to save
         private bool isClipboardSaveQueueBeingProcessed = false; // "true" when we are actively working on the "save queue"
+        public static int clipboardEntriesToSave = 50;
+        public static int maxClipboardEntriesToSave = 500;
 
-        // Misc
-        public static string appVer = "";
-        public static bool isFirstCallAfterHotkey = true;
-        public static bool isSettingsFormVisible;
-        public static string hovtextPage = "https://hovtext.com";
-        public static string hovtextPageDownload = "https://hovtext.com/download";
-        private static string hovTextGithub = "https://github.com/HovKlan-DH/HovText";
-        private static string hovTextDonators = "https://hovtext.com/donators";
-        internal static Settings settings;
-        public static bool isTroubleshootEnabled;
-        public static bool hasTroubleshootLogged;
-        private static bool cleanupApp = false;
+        // Create instances of other classes
         readonly History history = new History();
         readonly Update update = new Update();
         readonly TooBigLogfile tooBigLogfile;
         readonly PasteOnHotkey pasteOnHotkey = new PasteOnHotkey();
         readonly HotkeyConflict hotkeyConflict = new HotkeyConflict();
-        private static string originatingApplicationName = "";
-        public static int activeDisplay; // selected display to show the history (default will be the main display)
-        private static string hotkey; // needed for validating the keys as it is not set in the event
-//        public static string cpuArchitecture;
-        public static string osVersion;
-        private static bool firstTimeLaunch;
-        public static string buildType = ""; // Debug, Release
+        HandleClipboard clipboardHandler;
+
+        // URLs
+        public static string hovtextPage = "https://hovtext.com";
+        public static string hovtextPageDownload = "https://hovtext.com/download";
+        private static string hovTextGithub = "https://github.com/HovKlan-DH/HovText";
+        private static string hovTextDonators = "https://hovtext.com/donators";
+
+        // Paths and filenames
         public static string baseDirectory;
-        private static string exeOnly;
         public static string pathAndExe;
         public static string pathAndData;
         public static string pathAndDataLoad;
@@ -240,30 +227,42 @@ namespace HovText
         readonly string troubleshootLog = "HovText-troubleshooting.txt";
         readonly string saveContentFileExist = "HovText-save-content-in-logfile.txt"; // should ONLY be used by Dennis/developer for debugging!!!
         public static string updateExe = "HovText Update.exe";
+        private static string exeOnly;
         static string exeFileNameWithPath;
         public static string exeFileNameWithoutExtension;
-        public static bool isApplicationEnabled = true;
+
+        // Misc
+        public static string appVer = "";
+        public static bool isFirstCallAfterHotkey = true;
+        public static bool isSettingsFormVisible;
+        internal static Settings settings;
+        public static bool hasTroubleshootLogged;
+        private static bool cleanupApp = false;
+        private static string originatingApplicationName = "";
+        public static int activeDisplay; // selected display to show the history (default will be the main display)
+        private static string hotkey; // needed for validating the keys as it is not set in the event
+        public static string osVersion;
+        private static bool firstTimeLaunch;
+        public static string buildType = ""; // Debug, Release
         public static byte[] encryptionKey;
         public static byte[] encryptionInitializationVector;
-        public static int clipboardEntriesToSave = 50;
-        public static int maxClipboardEntriesToSave = 500;
+        bool isStartingUp = false;
         private bool isClosing = false;
         private static int memoryInMB = 0;
         private int old_memoryInMB = -1;
         int borderWidth = 1;
-        bool isStartingUp = false;
         public static bool hasWriteAccess;
         private bool floppyToggle = false;
         static string checkedVersion = "";
         bool hasCheckedForUpdate = false;
         public static bool isProcessingClipboardQueue = false;
-        HandleClipboard clipboardHandler;
         bool saveFilesActive = false;
         bool activatedHotkeys = false; // the hotkeys should not be enabled until we have loaded everything into the clipboard list
+        private DateTime lastClipboardEvent = DateTime.MinValue;
 
 
         // ###########################################################################################
-        // Main - Settings
+        // Form initialization
         // ###########################################################################################
 
         public Settings()
@@ -322,29 +321,6 @@ namespace HovText
             // Get OS name
             // https://stackoverflow.com/a/50330392/2028935
             osVersion = (string)(from x in new ManagementObjectSearcher("SELECT Caption FROM Win32_OperatingSystem").Get().Cast<ManagementObject>() select x.GetPropertyValue("Caption")).FirstOrDefault();
-
-            /*
-            // Get the CPU architechture
-            Architecture cpuArchitectureObj = RuntimeInformation.ProcessArchitecture;
-            switch (cpuArchitectureObj)
-            {
-                case Architecture.X86:
-                    cpuArchitecture = "x86/32bit";
-                    break;
-                case Architecture.X64:
-                    cpuArchitecture = "x64/64bit";
-                    break;
-                case Architecture.Arm:
-                    cpuArchitecture = "ARM/32bit";
-                    break;
-                case Architecture.Arm64:
-                    cpuArchitecture = "ARM64/64bit";
-                    break;
-                default:
-                    cpuArchitecture = "unknown";
-                    break;
-            }
-            */
 
             // Get todays date and time (for filename)
             string dt = GetCurrentDateTimeFormatted();
@@ -842,8 +818,6 @@ namespace HovText
 
         public void SelectHistoryEntry()
         {
-            isHistoryHotkeyPressed = false;
-
             // Check if application is enabled
             if (isApplicationEnabled && entryCounter > 0)
             {
@@ -1328,9 +1302,8 @@ namespace HovText
             catch (Exception ex)
             {
                 // Catch the exception though this is not so critical that we need to disturb the developer
-                Logging.Log("Exception raised (Settings):");
-                Logging.Log("  Cannot connect with server to get information about newest available [STABLE] version:");
-                Logging.Log("  " + ex.Message);
+                Logging.Log("Error: Cannot connect with server to get information about newest available [STABLE] version");
+                Logging.LogException(ex);
             }
 
             // Show the development version (if any)
@@ -1740,7 +1713,8 @@ namespace HovText
             {
                 // Handle other types of exceptions if necessary
                 // Example: Log the exception
-                Logging.Log("An error occurred - needs more investigation: " + ex.Message);
+                Logging.Log("An error occurred - needs more investigation");
+                Logging.LogException(ex);
             }
             return null;
         }
@@ -3178,7 +3152,7 @@ namespace HovText
                     {
                         Logging.Log("Exception #6 raised (Settings):");
                         Logging.Log("  Hotkey [HotkeySearch] conflicts");
-                        Logging.Log("  " + ex.Message);
+                        Logging.LogException(ex);
                         if (ex.Message.Contains("Hot key is already registered"))
                         {
                             hotkeyToggleApplication = "Hotkey conflicts";
@@ -3206,7 +3180,7 @@ namespace HovText
                 {
                     Logging.Log("Exception #6 raised (Settings):");
                     Logging.Log("  Hotkey [HotkeyToggleApplication] conflicts");
-                    Logging.Log("  " + ex.Message);
+                    Logging.LogException(ex);
                     if (ex.Message.Contains("Hot key is already registered"))
                     {
                         hotkeyToggleApplication = "Hotkey conflicts";
@@ -3239,7 +3213,7 @@ namespace HovText
                 {
                     Logging.Log("Exception #9 raised (Settings):");
                     Logging.Log("  Hotkey [HotkeyPasteOnHotkey] conflicts");
-                    Logging.Log("  " + ex.Message);
+                    Logging.LogException(ex);
                     if (ex.Message.Contains("Hot key is already registered"))
                     {
                         hotkeyPasteOnHotkey = "Hotkey conflicts";
@@ -3671,7 +3645,7 @@ namespace HovText
                 }
                 catch (Exception ex)
                 {
-                    Logging.Log("Error: " + ex.Message);
+                    Logging.LogException(ex);
                 }
                 UiAdvancedButtonDeleteLog.Enabled = false;
             }
@@ -3792,7 +3766,8 @@ namespace HovText
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine("Error deleting \"Start Menu\" shortcut: " + ex.Message);
+                    Console.WriteLine("Error deleting \"Start Menu\" shortcut");
+                    Logging.LogException(ex);
                 }
 
                 // Exit HovText
@@ -3881,9 +3856,8 @@ namespace HovText
                 catch (WebException ex)
                 {
                     // Catch the exception though this is not so critical that we need to disturb the developer
-                    Logging.Log("Exception raised (Settings):");
-                    Logging.Log("  Cannot connect with server to submit feedback:");
-                    Logging.Log("  " + ex.Message);
+                    Logging.Log("Error: Cannot connect with server to submit feedback");
+                    Logging.LogException(ex);
                     MessageBox.Show("HovText cannot connect to the server, where it should submit the feedback. Please connect directly with the developer at \"dennis@hovtext.com\" and state this is a problem, thanks.\r\n\r\nThe exact error is:\r\n\r\n" + ex.Message,
                         "HovText ERROR",
                         MessageBoxButtons.OK,
@@ -4401,9 +4375,8 @@ namespace HovText
             catch (WebException ex)
             {
                 // Catch the exception though this is not so critical that we need to disturb the developer
-                Logging.Log("Exception raised (Settings):");
-                Logging.Log("  Cannot connect with server to get information about newest available [DEVELOPMENT] version:");
-                Logging.Log("  " + ex.Message);
+                Logging.Log("Error: Cannot connect with server to get information about newest available [DEVELOPMENT] version:");
+                Logging.LogException(ex);
                 UiAdvancedLabelDevVersion.Text = "Cannot connect with server - retry later";
             }
         }
@@ -4642,7 +4615,7 @@ namespace HovText
                     }
                     catch (Exception ex)
                     {
-                        Logging.Log("Error: " + ex.Message);
+                        Logging.LogException(ex);
                     }
                     Logging.Log($"Deleted the clipboard data file [" + pathAndData + "]");
                 }
@@ -5034,7 +5007,9 @@ namespace HovText
 
 
         // ###########################################################################################
-        // Create link in "Start Menu"
+        // Create link in "Start Menu".
+        // It will create the shortcut at every launch, to make sure it is
+        // launching the latest version launched by the user.
         // ###########################################################################################
 
         public void CreateShortcut(string appName, string appPath, string appDescription)
@@ -5047,13 +5022,14 @@ namespace HovText
                 try
                 {
                     Directory.CreateDirectory(appStartMenuPath);
-                    Logging.Log("Created \"Start Menu\" shortcut");
+                    Logging.Log($"Created \"Start Menu\" shortcut directory [{appStartMenuPath}]");
                 }
                 catch (Exception ex)
                 {
-                    Logging.Log("Error - could not create \"Start Menu\" shortcut:");
-                    Logging.Log(ex.Message);
-                }   
+                    Logging.Log($"Error - could not create \"Start Menu\" shortcut directory [{appStartMenuPath}]");
+                    Logging.LogException(ex);
+                    return;
+                }
             }
 
             string shortcutLocation = Path.Combine(appStartMenuPath, appName + ".lnk");
@@ -5061,16 +5037,47 @@ namespace HovText
             // Check if the shortcut already exists
             if (System.IO.File.Exists(shortcutLocation))
             {
-                Logging.Log("HovText \"Start Menu\" shortcut already exists");
-                return;
+                Logging.Log($"HovText \"Start Menu\" shortcut link [{shortcutLocation}] already exists - overwriting it");
+            } else {
+                Logging.Log($"HovText \"Start Menu\" shortcut link [{shortcutLocation}] created");
             }
 
+            /*
             WshShell shell = new WshShell();
             IWshShortcut shortcut = (IWshShortcut)shell.CreateShortcut(shortcutLocation);
 
             shortcut.Description = appDescription;
             shortcut.TargetPath = appPath;
             shortcut.Save();
+            */
+
+            WshShell shell = null;
+            IWshShortcut shortcut = null;
+            try
+            {
+                shell = new WshShell();
+                shortcut = (IWshShortcut)shell.CreateShortcut(shortcutLocation);
+
+                shortcut.Description = appDescription;
+                shortcut.TargetPath = appPath;
+                shortcut.Save();
+            }
+            catch (Exception ex)
+            {
+                Logging.LogException(ex);
+            }
+            finally
+            {
+                // Release the COM objects
+                if (shortcut != null)
+                {
+                    Marshal.ReleaseComObject(shortcut);
+                }
+                if (shell != null)
+                {
+                    Marshal.ReleaseComObject(shell);
+                }
+            }
         }
 
 

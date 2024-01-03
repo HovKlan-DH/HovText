@@ -1,10 +1,13 @@
 ﻿/*
 ##################################################################################################
-LOGGING
--------
+LOGGING (CLASS)
+---------------
 
-This is where all logging is done. It is done both to a file and to the "Debug" console.
-It has a lock so that multiple threads can write to the logfile without corrupting it.
+This is where all logging is done. It is done both to a 
+file and to the "Debug" console. It has a lock so that 
+multiple threads can write to the logfile without 
+corrupting it - this is not ideal, as log will be 
+confusing, but it will work and not break.
 
 ##################################################################################################
 */
@@ -21,11 +24,13 @@ using System.Windows.Forms;
 
 namespace HovText
 {
-
     class Logging
     {
-        // Lock that will hold and release logging of the logfile
-        private static readonly object _logLock = new object();
+
+        // ###########################################################################################
+        // Class variables
+        // ###########################################################################################   
+        private static readonly object _logLock = new object(); // lock that will hold and release logging of the logfile
 
         // ###########################################################################################
         // Main - Logging
@@ -142,6 +147,21 @@ namespace HovText
             }
 
             Debug.WriteLine($"{DateTime.Now:yyyy-MM-dd HH:mm:ss.fff} {logMessage}");
+        }
+
+
+        // ###########################################################################################
+        // Log the exception
+        // ###########################################################################################
+
+        public static void LogException(Exception ex)
+        {
+            // Log the exception to a file or any logging system
+            Log("EXCEPTION handler:");
+            Log("  Message:");
+            Log("    [" + ex.Message + "]");
+            Log("  StackTrace:");
+            Log("    [" + ex.StackTrace + "]");
         }
 
 

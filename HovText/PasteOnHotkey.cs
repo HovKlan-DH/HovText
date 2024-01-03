@@ -1,11 +1,12 @@
 ﻿/*
 ##################################################################################################
-PASTE ON HOTKEY
----------------
+PASTE ON HOTKEY (FORM)
+----------------------
 
-This is a form that will be shown when the user presses the hotkey for pasting cleartext. It 
-will paste the cleartext clipboard to the active application and then restore the original 
-clipboard after 250ms.
+This is a form that will be shown when the user presses 
+the hotkey for pasting cleartext. It will paste the 
+cleartext clipboard to the active application and then 
+restore the original clipboard after 250ms.
 
 ##################################################################################################
 */
@@ -20,13 +21,13 @@ namespace HovText
     {
 
         // ###########################################################################################
-        // Define "PasteOnHotkey" class variables - real spaghetti :-)
-        // ###########################################################################################
+        // Class variables
+        // ###########################################################################################   
         private readonly static System.Timers.Timer timerPasteOnHotkey = new System.Timers.Timer();
 
 
         // ###########################################################################################
-        // Main
+        // Form initialization
         // ###########################################################################################
 
         public PasteOnHotkey()
@@ -39,8 +40,8 @@ namespace HovText
             timerPasteOnHotkey.Enabled = false;
 
             // Make this form invisible
-            this.Size = new System.Drawing.Size(0, 0);
-            this.Opacity = 0.0;
+            Size = new System.Drawing.Size(0, 0);
+            Opacity = 0.0;
         }
 
 

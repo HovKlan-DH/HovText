@@ -1,11 +1,13 @@
 ﻿/*
 ##################################################################################################
-UPDATE
-------
+UPDATE (FORM)
+-------------
 
-This is an information popup that will be shown, if a new version of HovText is available. It
-will show the user the version number of the new version and offer the user to either download
-the new version or to skip this version.
+This is an information popup that will be shown, if a 
+new version of HovText is available. It will show the 
+user the version number of the new version and offer 
+the user to either download the new version or to skip 
+this version.
 
 ##################################################################################################
 */
@@ -20,7 +22,7 @@ namespace HovText
     {
 
         // ###########################################################################################
-        // Main - Update
+        // Form initialization
         // ###########################################################################################
 
         public Update()
@@ -35,8 +37,8 @@ namespace HovText
             UpdateGoToHomepage.Rtf = sb.ToString();
 
             // Close form on ESCAPE
-            this.KeyPreview = true;
-            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.TooBigLogfile_KeyDown);
+            KeyPreview = true;
+            KeyDown += new System.Windows.Forms.KeyEventHandler(TooBigLogfile_KeyDown);
         }
 
 
@@ -49,7 +51,7 @@ namespace HovText
             Logging.Log("Update popup: Clicked the \"Auto-install\"");
             Logging.Log("Auto-install new [STABLE] version");
             Settings.AutoInstall("Stable");
-            this.Close();
+            Close();
         }
 
 
@@ -68,7 +70,7 @@ namespace HovText
             // Download executeable
             System.Diagnostics.Process.Start(Settings.hovtextPage + "/download/" + GuiAppVerOnline.Text + "/HovText.exe");
             
-            this.Close();
+            Close();
         }
 
 
@@ -80,7 +82,7 @@ namespace HovText
         {
             Logging.Log("Update popup: Clicked the \"Skip this version\"");
             Settings.SetRegistryKey(Settings.registryPath, "CheckedVersion", GuiAppVerOnline.Text);
-            this.Close();
+            Close();
         }
 
 
@@ -92,7 +94,7 @@ namespace HovText
         {
             if (e.KeyCode == Keys.Escape)
             {
-                this.Close();
+                Close();
             }
         }
 

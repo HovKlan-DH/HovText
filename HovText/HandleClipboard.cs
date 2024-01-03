@@ -1,13 +1,14 @@
 ﻿/*
 ##################################################################################################
-HANDLECLIPBOARD
----------------
+HANDLECLIPBOARD (CLASS)
+-----------------------
 
 This will handle all clipboard activities.
 
 ##################################################################################################
 */
 
+using static HovText.Program;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -19,12 +20,12 @@ using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Windows.Forms;
-using static HovText.Program;
 
 namespace HovText
 {
     public class HandleClipboard
     {
+
         // ###########################################################################################
         // Class variables
         // ###########################################################################################   
@@ -80,7 +81,8 @@ namespace HovText
                 }
                 catch (Exception ex)
                 {
-                    Logging.Log("Error getting application icon: " + ex.Message);
+                    Logging.Log("Error getting application icon");
+                    Logging.LogException(ex);
                 }
 
                 // Clipboard runs in context of UI, so we need to "invoke" it
@@ -666,7 +668,7 @@ namespace HovText
                     }
                     catch (Exception ex)
                     {
-                        Logging.Log("Exception raised: "+ ex.Message);
+                        Logging.LogException(ex);
                     }
                 }
                 else if (isEntryImage) // Put an image to the clipboard
@@ -677,7 +679,7 @@ namespace HovText
                     }
                     catch (Exception ex)
                     {
-                        Logging.Log("Exception raised: " + ex.Message);
+                        Logging.LogException(ex);
                     }
                 }
                 else
@@ -715,8 +717,7 @@ namespace HovText
             }
             catch (Exception ex)
             {
-                Logging.Log("Exception #1 raised (Settings):");
-                Logging.Log("  " + ex.Message);
+                Logging.LogException(ex);
             }
         }
 

@@ -1,11 +1,13 @@
 ﻿/*
 ##################################################################################################
-PROGRAM
--------
+PROGRAM (CLASS)
+---------------
 
-This is the main entry point for the HovText application. It will check if the application is
-already running and if so, it will send a message to the running instance to show the settings
-page. If the application is not running, it will start the application and show the settings page.
+This is the main entry point for the HovText application. 
+It will check if the application is already running and 
+if so, it will send a message to the running instance to 
+show the settings page. If the application is not running, 
+it will start the application and show the settings page.
 
 ##################################################################################################
 */
@@ -24,6 +26,7 @@ namespace HovText
 {
     static class Program
     {
+        
         private static Settings Settings;
         public static string arg0 = "";
         private static Mutex _mutex;
@@ -229,9 +232,7 @@ namespace HovText
                 }
                 catch (IOException ex)
                 {
-                    // Handle any exceptions that might occur while reading from the pipe
-                    Logging.Log("Exception #1 (Program):");
-                    Logging.Log("  " + ex.Message);
+                    Logging.LogException(ex);
                 }
                 finally
                 {
@@ -288,27 +289,17 @@ namespace HovText
         private static void UnhandledExceptionHandler(object sender, UnhandledExceptionEventArgs e)
         {
             Exception ex = (Exception)e.ExceptionObject;
-            LogException(ex);
+            Logging.LogException(ex);
         }
 
         private static void ThreadExceptionHandler(object sender, ThreadExceptionEventArgs e)
         {
-            LogException(e.Exception);
+            Logging.LogException(e.Exception);
         }
 
         private static void TaskExceptionHandler(object sender, UnobservedTaskExceptionEventArgs e)
         {
-            LogException(e.Exception);
-        }
-
-        private static void LogException(Exception ex)
-        {
-            // Log the exception to a file or any logging system
-            Logging.Log("GLOBAL EXCEPTION HANDLER:");
-            Logging.Log("  Message:");
-            Logging.Log("    [" + ex.Message + "]");
-            Logging.Log("  StackTrace:");
-            Logging.Log("    [" + ex.StackTrace + "]");
+            Logging.LogException(e.Exception);
         }
 
 

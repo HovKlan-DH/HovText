@@ -1,22 +1,22 @@
 ﻿/*
 ##################################################################################################
-ENCRYPTION
-----------
+ENCRYPTION (CLASS)
+------------------
 
-This class provides encryption and decryption methods for the HovText application.
+This class provides encryption and decryption methods 
+for the HovText application.
 
 ##################################################################################################
 */
 
+using System;
+using System.IO;
+using System.Security.Cryptography;
+
 namespace HovText
 {
-    using System;
-    using System.IO;
-    using System.Security.Cryptography;
-
     public class Encryption
     {
-
 
         // ###########################################################################################
 
