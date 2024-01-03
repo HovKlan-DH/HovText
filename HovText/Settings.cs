@@ -59,7 +59,7 @@ namespace HovText
         public static string historyFontFamily = "Segoe UI";
         public static float historyFontSize = 11;
         public static int historyListElements = 6; // 1-30
-        public static int historySizeWidth = 35; // percentage (10-100%)
+        public static int historySizeWidth = 30; // percentage (10-100%)
         public static int historySizeHeight = 70; // percentage (10-100%)
         public static string historyColorTheme = "Yellow";
         public static Dictionary<string, string> historyColorsHeader = new Dictionary<string, string>() {
@@ -239,7 +239,7 @@ namespace HovText
         public static readonly string dataIndexName = "HovText-index-";
         readonly string troubleshootLog = "HovText-troubleshooting.txt";
         readonly string saveContentFileExist = "HovText-save-content-in-logfile.txt"; // should ONLY be used by Dennis/developer for debugging!!!
-        public static string updaterExe = "HovText Updater.exe";
+        public static string updateExe = "HovText Update.exe";
         static string exeFileNameWithPath;
         public static string exeFileNameWithoutExtension;
         public static bool isApplicationEnabled = true;
@@ -4998,8 +4998,8 @@ namespace HovText
 
         public static void AutoInstall(string argument)
         {
-            // Set up the start info for the updater process, including the arguments
-            string tempExe = Path.Combine(baseDirectory, updaterExe);
+            // Set up the start info for the update process, including the arguments
+            string tempExe = Path.Combine(baseDirectory, updateExe);
             ProcessStartInfo startInfo = new ProcessStartInfo(tempExe)
             {
                 Arguments = argument,
@@ -5007,9 +5007,9 @@ namespace HovText
             };
 
             // Get the embedded binary resource
-            string resourcePath = "HovText.Resources." + updaterExe;
+            string resourcePath = "HovText.Resources." + updateExe;
 
-            // Extract the embedded updater to a local file
+            // Extract the embedded update to a local file
             using (Stream input = Assembly.GetExecutingAssembly().GetManifestResourceStream(resourcePath))
             {
                 if (input == null)
@@ -5024,7 +5024,7 @@ namespace HovText
                 }
             }
 
-            // Start the updater process with the arguments
+            // Start the update process with the arguments
             Logging.Log($"Auto-install called with: {tempExe} {argument}");
             Process.Start(startInfo);
 

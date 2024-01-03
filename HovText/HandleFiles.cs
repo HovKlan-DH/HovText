@@ -761,7 +761,7 @@ namespace HovText
             }
 
             // Delete the temporary updater file
-            string tempExe = Path.Combine(Settings.baseDirectory, Settings.updaterExe);
+            string tempExe = Path.Combine(Settings.baseDirectory, Settings.updateExe);
             if (File.Exists(tempExe))
             {
                 try
@@ -811,7 +811,7 @@ namespace HovText
                 }
 
                 // HovText Updater.exe
-                string tempExe = Path.Combine(Settings.baseDirectory, Settings.updaterExe);
+                string tempExe = Path.Combine(Settings.baseDirectory, Settings.updateExe);
                 if (File.Exists(tempExe))
                 {
                     File.Delete(@tempExe);

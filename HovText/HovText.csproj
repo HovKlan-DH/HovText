@@ -236,7 +236,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Resources\HovText Updater.exe" />
+    <EmbeddedResource Include="Resources\HovText Update.exe" />
     <None Include="Resources\Square_Old_Inactive_48x48.ico" />
     <None Include="Resources\Square_Old_Hotkey_48x48.ico" />
     <None Include="Resources\Square_Old_Active_48x48.ico" />
