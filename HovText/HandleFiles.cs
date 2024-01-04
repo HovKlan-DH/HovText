@@ -767,7 +767,7 @@ namespace HovText
                 }
             }
 
-            // Delete the temporary updater file
+            // Delete the temporary update file
             string tempExe = Path.Combine(Settings.baseDirectory, Settings.updateExe);
             if (File.Exists(tempExe))
             {
@@ -775,11 +775,11 @@ namespace HovText
                 {
                     File.Delete(@tempExe);
                     wasAnyFilesDeleted = true;
-                    Logging.Log($"Deleted temporary updater file [{tempExe}]");
+                    Logging.Log($"Deleted temporary update file [{tempExe}]");
                 }
                 catch (Exception ex)
                 {
-                    Logging.Log($"Could not delete temporary updater file [{tempExe}] as it was locked by another process");
+                    Logging.Log($"Could not delete temporary update file [{tempExe}] as it was locked by another process");
                     Logging.LogException(ex);
                 }
             }
@@ -817,7 +817,7 @@ namespace HovText
                     File.Delete(filePath);
                 }
 
-                // HovText Updater.exe
+                // HovText Update.exe
                 string tempExe = Path.Combine(Settings.baseDirectory, Settings.updateExe);
                 if (File.Exists(tempExe))
                 {
