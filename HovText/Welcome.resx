@@ -128,13 +128,13 @@ Quick steps to get you started:&lt;br /&gt;
 
 * Copy some texts and images to populate the clipboard manager&lt;br /&gt;
 * Find a previous copied text or image by pressing &lt;span style='background-color:black; color:white;'&gt;&amp;nbsp; &lt;b&gt;ALT&lt;/b&gt; &amp;nbsp;&lt;/span&gt;  + &lt;span style='background-color:black; color:white;'&gt;&amp;nbsp; &lt;b&gt;S&lt;/b&gt; &amp;nbsp;&lt;/span&gt;&lt;br /&gt;
-* Search for any text (wildcard search) and divide multiple search criterias with space&lt;br /&gt;
+* Search for any text (wildcard search) and divide multiple search criterias with a space&lt;br /&gt;
 * Navigate with arrow keys or mouse scroll and select with &lt;span style='background-color:black; color:white;'&gt;&amp;nbsp; &lt;b&gt;ENTER&lt;/b&gt; &amp;nbsp;&lt;/span&gt; or mouse click&lt;br /&gt;
 * When pasting text then it will paste only the cleartext and not the formatted styling&lt;br /&gt;
 * Disable application to restore original text formatting (paste again)&lt;br /&gt;
 &lt;br /&gt;
 
-HovText is active from now on your system and it will launch automatically at Windows start-up.&lt;br /&gt;
+HovText is active from now on your system and it will launch automatically at Windows startup.&lt;br /&gt;
 You can find its green icon visible in the tray area.&lt;br /&gt;
 &lt;br /&gt;
 

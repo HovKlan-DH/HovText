@@ -133,6 +133,9 @@
             this.guna2HtmlLabel1 = new Guna.UI2.WinForms.Guna2HtmlLabel();
             this.UiStorageTrackBarEntriesToSave = new Guna.UI2.WinForms.Guna2TrackBar();
             this.UiStorageGroupBoxStorage = new Guna.UI2.WinForms.Guna2GroupBox();
+            this.UiStorageLabelSaveTextAndFavoritesEntries = new Guna.UI2.WinForms.Guna2HtmlLabel();
+            this.UiStorageLabelSaveTextAndFavorites = new System.Windows.Forms.Label();
+            this.UiStorageRadioSaveBothTextAndFavorites = new Guna.UI2.WinForms.Guna2CustomRadioButton();
             this.UiStorageLabelSaveOnlyTextEntries = new Guna.UI2.WinForms.Guna2HtmlLabel();
             this.UiStorageLabelSaveOnlyFavoritesEntries = new Guna.UI2.WinForms.Guna2HtmlLabel();
             this.UiStorageLabelSaveAllEntries = new Guna.UI2.WinForms.Guna2HtmlLabel();
@@ -259,6 +262,7 @@
             this.TimerProcessClipboardQueue = new System.Windows.Forms.Timer(this.components);
             this.TimerSaveFiles = new System.Windows.Forms.Timer(this.components);
             this.TimerCheckForUpdate = new System.Windows.Forms.Timer(this.components);
+            this.TimerUpdateCounters = new System.Windows.Forms.Timer(this.components);
             this.MenuStripIconNotify.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.UiAboutPictureBoxPaypal)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.UiStyleOictureBoxIcon9)).BeginInit();
@@ -1417,9 +1421,9 @@
             this.guna2GroupBox1.CustomBorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(227)))), ((int)(((byte)(220)))));
             this.guna2GroupBox1.Font = new System.Drawing.Font("Segoe UI", 11F);
             this.guna2GroupBox1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.guna2GroupBox1.Location = new System.Drawing.Point(13, 315);
+            this.guna2GroupBox1.Location = new System.Drawing.Point(13, 335);
             this.guna2GroupBox1.Name = "guna2GroupBox1";
-            this.guna2GroupBox1.Size = new System.Drawing.Size(525, 241);
+            this.guna2GroupBox1.Size = new System.Drawing.Size(525, 221);
             this.guna2GroupBox1.TabIndex = 524;
             this.guna2GroupBox1.Text = "Clipboards";
             // 
@@ -1451,6 +1455,9 @@
             // UiStorageGroupBoxStorage
             // 
             this.UiStorageGroupBoxStorage.BorderRadius = 5;
+            this.UiStorageGroupBoxStorage.Controls.Add(this.UiStorageLabelSaveTextAndFavoritesEntries);
+            this.UiStorageGroupBoxStorage.Controls.Add(this.UiStorageLabelSaveTextAndFavorites);
+            this.UiStorageGroupBoxStorage.Controls.Add(this.UiStorageRadioSaveBothTextAndFavorites);
             this.UiStorageGroupBoxStorage.Controls.Add(this.UiStorageLabelSaveOnlyTextEntries);
             this.UiStorageGroupBoxStorage.Controls.Add(this.UiStorageLabelSaveOnlyFavoritesEntries);
             this.UiStorageGroupBoxStorage.Controls.Add(this.UiStorageLabelSaveAllEntries);
@@ -1470,9 +1477,51 @@
             this.UiStorageGroupBoxStorage.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.UiStorageGroupBoxStorage.Location = new System.Drawing.Point(13, 1);
             this.UiStorageGroupBoxStorage.Name = "UiStorageGroupBoxStorage";
-            this.UiStorageGroupBoxStorage.Size = new System.Drawing.Size(525, 297);
+            this.UiStorageGroupBoxStorage.Size = new System.Drawing.Size(525, 317);
             this.UiStorageGroupBoxStorage.TabIndex = 510;
             this.UiStorageGroupBoxStorage.Text = "Local storage";
+            // 
+            // UiStorageLabelSaveTextAndFavoritesEntries
+            // 
+            this.UiStorageLabelSaveTextAndFavoritesEntries.BackColor = System.Drawing.Color.Transparent;
+            this.UiStorageLabelSaveTextAndFavoritesEntries.Font = new System.Drawing.Font("Segoe UI Semibold", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.UiStorageLabelSaveTextAndFavoritesEntries.IsSelectionEnabled = false;
+            this.UiStorageLabelSaveTextAndFavoritesEntries.Location = new System.Drawing.Point(304, 230);
+            this.UiStorageLabelSaveTextAndFavoritesEntries.Name = "UiStorageLabelSaveTextAndFavoritesEntries";
+            this.UiStorageLabelSaveTextAndFavoritesEntries.Size = new System.Drawing.Size(63, 19);
+            this.UiStorageLabelSaveTextAndFavoritesEntries.TabIndex = 526;
+            this.UiStorageLabelSaveTextAndFavoritesEntries.Text = "(0 entries)";
+            // 
+            // UiStorageLabelSaveTextAndFavorites
+            // 
+            this.UiStorageLabelSaveTextAndFavorites.AutoSize = true;
+            this.UiStorageLabelSaveTextAndFavorites.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.UiStorageLabelSaveTextAndFavorites.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.UiStorageLabelSaveTextAndFavorites.ForeColor = System.Drawing.Color.Black;
+            this.UiStorageLabelSaveTextAndFavorites.Location = new System.Drawing.Point(44, 228);
+            this.UiStorageLabelSaveTextAndFavorites.Name = "UiStorageLabelSaveTextAndFavorites";
+            this.UiStorageLabelSaveTextAndFavorites.Size = new System.Drawing.Size(315, 23);
+            this.UiStorageLabelSaveTextAndFavorites.TabIndex = 525;
+            this.UiStorageLabelSaveTextAndFavorites.Text = "Save both text and \"Favorite\" clipboards";
+            this.UiStorageLabelSaveTextAndFavorites.Click += new System.EventHandler(this.UiStorageLabelSaveTextAndFavorites_Click);
+            // 
+            // UiStorageRadioSaveBothTextAndFavorites
+            // 
+            this.UiStorageRadioSaveBothTextAndFavorites.CheckedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
+            this.UiStorageRadioSaveBothTextAndFavorites.CheckedState.BorderThickness = 0;
+            this.UiStorageRadioSaveBothTextAndFavorites.CheckedState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(56)))), ((int)(((byte)(97)))), ((int)(((byte)(55)))));
+            this.UiStorageRadioSaveBothTextAndFavorites.CheckedState.InnerColor = System.Drawing.Color.White;
+            this.UiStorageRadioSaveBothTextAndFavorites.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.UiStorageRadioSaveBothTextAndFavorites.Location = new System.Drawing.Point(18, 230);
+            this.UiStorageRadioSaveBothTextAndFavorites.Name = "UiStorageRadioSaveBothTextAndFavorites";
+            this.UiStorageRadioSaveBothTextAndFavorites.Size = new System.Drawing.Size(20, 20);
+            this.UiStorageRadioSaveBothTextAndFavorites.TabIndex = 524;
+            this.UiStorageRadioSaveBothTextAndFavorites.Text = "guna2CustomRadioButton2";
+            this.UiStorageRadioSaveBothTextAndFavorites.UncheckedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(125)))), ((int)(((byte)(137)))), ((int)(((byte)(149)))));
+            this.UiStorageRadioSaveBothTextAndFavorites.UncheckedState.BorderThickness = 2;
+            this.UiStorageRadioSaveBothTextAndFavorites.UncheckedState.FillColor = System.Drawing.Color.Transparent;
+            this.UiStorageRadioSaveBothTextAndFavorites.UncheckedState.InnerColor = System.Drawing.Color.Transparent;
+            this.UiStorageRadioSaveBothTextAndFavorites.CheckedChanged += new System.EventHandler(this.GuiStorageChoose_CheckedChanged);
             // 
             // UiStorageLabelSaveOnlyTextEntries
             // 
@@ -1501,7 +1550,7 @@
             this.UiStorageLabelSaveAllEntries.BackColor = System.Drawing.Color.Transparent;
             this.UiStorageLabelSaveAllEntries.Font = new System.Drawing.Font("Segoe UI Semibold", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.UiStorageLabelSaveAllEntries.IsSelectionEnabled = false;
-            this.UiStorageLabelSaveAllEntries.Location = new System.Drawing.Point(172, 231);
+            this.UiStorageLabelSaveAllEntries.Location = new System.Drawing.Point(172, 262);
             this.UiStorageLabelSaveAllEntries.Name = "UiStorageLabelSaveAllEntries";
             this.UiStorageLabelSaveAllEntries.Size = new System.Drawing.Size(63, 19);
             this.UiStorageLabelSaveAllEntries.TabIndex = 521;
@@ -1513,7 +1562,7 @@
             this.UiStorageLabelSaveAll.Cursor = System.Windows.Forms.Cursors.Hand;
             this.UiStorageLabelSaveAll.Font = new System.Drawing.Font("Segoe UI", 10F);
             this.UiStorageLabelSaveAll.ForeColor = System.Drawing.Color.Black;
-            this.UiStorageLabelSaveAll.Location = new System.Drawing.Point(44, 228);
+            this.UiStorageLabelSaveAll.Location = new System.Drawing.Point(44, 259);
             this.UiStorageLabelSaveAll.Name = "UiStorageLabelSaveAll";
             this.UiStorageLabelSaveAll.Size = new System.Drawing.Size(150, 23);
             this.UiStorageLabelSaveAll.TabIndex = 519;
@@ -1527,7 +1576,7 @@
             this.UiStorageRadioSaveAll.CheckedState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(56)))), ((int)(((byte)(97)))), ((int)(((byte)(55)))));
             this.UiStorageRadioSaveAll.CheckedState.InnerColor = System.Drawing.Color.White;
             this.UiStorageRadioSaveAll.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.UiStorageRadioSaveAll.Location = new System.Drawing.Point(18, 230);
+            this.UiStorageRadioSaveAll.Location = new System.Drawing.Point(18, 261);
             this.UiStorageRadioSaveAll.Name = "UiStorageRadioSaveAll";
             this.UiStorageRadioSaveAll.Size = new System.Drawing.Size(20, 20);
             this.UiStorageRadioSaveAll.TabIndex = 518;
@@ -2857,6 +2906,7 @@
             this.UiAdvancedButtonCleanup.DisabledState.CustomBorderColor = System.Drawing.Color.Silver;
             this.UiAdvancedButtonCleanup.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(226)))), ((int)(((byte)(226)))), ((int)(((byte)(226)))));
             this.UiAdvancedButtonCleanup.DisabledState.ForeColor = System.Drawing.Color.Gray;
+            this.UiAdvancedButtonCleanup.Enabled = false;
             this.UiAdvancedButtonCleanup.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(56)))), ((int)(((byte)(97)))), ((int)(((byte)(55)))));
             this.UiAdvancedButtonCleanup.Font = new System.Drawing.Font("Segoe UI Semibold", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.UiAdvancedButtonCleanup.ForeColor = System.Drawing.Color.White;
@@ -2978,6 +3028,7 @@
             this.UiAdvancedButtonClearClipboards.DisabledState.CustomBorderColor = System.Drawing.Color.Silver;
             this.UiAdvancedButtonClearClipboards.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(226)))), ((int)(((byte)(226)))), ((int)(((byte)(226)))));
             this.UiAdvancedButtonClearClipboards.DisabledState.ForeColor = System.Drawing.Color.Gray;
+            this.UiAdvancedButtonClearClipboards.Enabled = false;
             this.UiAdvancedButtonClearClipboards.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(56)))), ((int)(((byte)(97)))), ((int)(((byte)(55)))));
             this.UiAdvancedButtonClearClipboards.Font = new System.Drawing.Font("Segoe UI Semibold", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.UiAdvancedButtonClearClipboards.ForeColor = System.Drawing.Color.White;
@@ -3469,6 +3520,11 @@
             this.TimerCheckForUpdate.Interval = 1000;
             this.TimerCheckForUpdate.Tick += new System.EventHandler(this.TimerCheckForUpdate_Tick);
             // 
+            // TimerUpdateCounters
+            // 
+            this.TimerUpdateCounters.Interval = 250;
+            this.TimerUpdateCounters.Tick += new System.EventHandler(this.TimerUpdateCounters_Tick);
+            // 
             // Settings
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(11F, 25F);
@@ -3786,6 +3842,10 @@
         private System.Windows.Forms.Timer TimerProcessClipboardQueue;
         private System.Windows.Forms.Timer TimerSaveFiles;
         private System.Windows.Forms.Timer TimerCheckForUpdate;
+        private Guna.UI2.WinForms.Guna2HtmlLabel UiStorageLabelSaveTextAndFavoritesEntries;
+        private System.Windows.Forms.Label UiStorageLabelSaveTextAndFavorites;
+        private Guna.UI2.WinForms.Guna2CustomRadioButton UiStorageRadioSaveBothTextAndFavorites;
+        private System.Windows.Forms.Timer TimerUpdateCounters;
     }
 
 }

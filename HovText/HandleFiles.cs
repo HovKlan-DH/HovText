@@ -258,7 +258,7 @@ namespace HovText
                                     {
                                         counter++;
 
-                                        Logging.Log($"Processing clipboard entry [{counter}] with entry.Key [{entry.Key}] and entryIndex [{Settings.entryIndex}] with [{clipboardObject.Count}] formats");
+                                        Logging.Log($"Processing clipboard entry [{counter}] with entry.Key [{entry.Key}] with [{clipboardObject.Count}] formats");
                                                                                 
                                         // Thread-safe adding to the tuple queue
                                         HandleClipboard.clipboardQueue.Enqueue((
@@ -271,7 +271,7 @@ namespace HovText
                                     }
                                     else
                                     {
-                                        Logging.Log($"Skipping clipboard entry [{counter}] with entry.Key [{entry.Key}] and entryIndex [{Settings.entryIndex}] with [{clipboardObject.Count}] formats");
+                                        Logging.Log($"Skipping clipboard entry [{counter}] with entry.Key [{entry.Key}] with [{clipboardObject.Count}] formats");
                                     }
                                 }
                                 catch (Exception ex)
@@ -338,7 +338,7 @@ namespace HovText
                     }
                 }
 
-                if (save == "Favorites")
+                if (save == "Favorite")
                 {
 
                     foreach (var entry in Settings.entriesOrder)
@@ -351,8 +351,22 @@ namespace HovText
                     }
                 }
 
+                if (save == "Text+Favorite")
+                {
+
+                    foreach (var entry in Settings.entriesOrder)
+                    {
+                        bool isImage = Settings.entriesIsImage[entry.Key];
+                        bool isFavorite = Settings.entriesIsFavorite[entry.Key];
+                        if (!isImage || isFavorite)
+                        {
+                            entriesOrderTmp.Add(entry.Key, entry.Value);
+                        }
+                    }
+                }
+
                 // Get the list of indexes
-                if (save == "Text" || save == "Favorites")
+                if (save == "Text" || save == "Favorite" || save == "Text+Favorite")
                 {
                     entriesOrderLoad = entriesOrderTmp.Values.ToList();
                 }
@@ -360,8 +374,6 @@ namespace HovText
                 {
                     entriesOrderLoad = Settings.entriesOrder.Values.ToList();
                 }
-
-//                Settings.entriesOrder = entriesOrderLoad;
 
                 // Overwrite file
                 using (var fileStream = new FileStream(Settings.pathAndDataIndex, FileMode.Create))
@@ -715,11 +727,11 @@ namespace HovText
                     {
                         File.Delete(@fileName);
                         wasAnyFilesDeleted = true;
-                        Logging.Log($"Deleted clipboard data file [{fileName}]");
+                        Logging.Log($"Deleted clipboard \"data\" file [{fileName}]");
                     }
                     catch (Exception ex)
                     {
-                        Logging.Log($"Could not delete clipboard data file [{fileName}] as it was locked by another process");
+                        Logging.Log($"Could not delete clipboard \"data\" file [{fileName}] as it was locked by another process");
                         Logging.LogException(ex);
                     }
                 }
@@ -736,11 +748,11 @@ namespace HovText
                     {
                         File.Delete(@fileName);
                         wasAnyFilesDeleted = true;
-                        Logging.Log($"Deleted clipboard data index file [{fileName}]");
+                        Logging.Log($"Deleted clipboard \"index\" file [{fileName}]");
                     }
                     catch (Exception ex)
                     {
-                        Logging.Log($"Could not delete clipboard data index file [{fileName}] as it was locked by another process");
+                        Logging.Log($"Could not delete clipboard \"index\" file [{fileName}] as it was locked by another process");
                         Logging.LogException(ex);
                     }
                 }
@@ -757,11 +769,11 @@ namespace HovText
                     {
                         File.Delete(@fileName);
                         wasAnyFilesDeleted = true;
-                        Logging.Log($"Deleted clipboard data is-favorite file [{fileName}]");
+                        Logging.Log($"Deleted clipboard \"favorite\" file [{fileName}]");
                     }
                     catch (Exception ex)
                     {
-                        Logging.Log($"Could not delete clipboard data is-favorite file [{fileName}] as it was locked by another process");
+                        Logging.Log($"Could not delete clipboard \"favorite\" file [{fileName}] as it was locked by another process");
                         Logging.LogException(ex);
                     }
                 }

@@ -469,7 +469,7 @@ namespace HovText
                     Color favoriteBackgroundColor = Color.Red;
 
                     // Check if the array index exists
-                    bool doesKeyExist = Settings.entriesText.ContainsKey(i);
+                    bool doesKeyExist = Settings.entriesTextTrimmed.ContainsKey(i);
 
                     // Check if the array index should be shown
                     bool shouldEntryBeShown = false;
@@ -481,7 +481,7 @@ namespace HovText
                     if (doesKeyExist && shouldEntryBeShown)
                     {
                         // Get the array data
-                        string entryText = Settings.entriesText[i];
+                        string entryText = Settings.entriesTextTrimmed[i];
                         entryImage = Settings.entriesImage[i];
                         entryImageTransparent = Settings.entriesImageTrans[i];
                         bool isFavorite = Settings.entriesIsFavorite[i];
@@ -504,6 +504,7 @@ namespace HovText
                                     entryText = entryText.Substring(0, 65535);
                                 }
 
+                                entryText = entryText.Trim();
                                 historyLabel.Text = entryText;
                                 if (!historyLabel.Visible)
                                 {
@@ -707,9 +708,9 @@ namespace HovText
         {
             if (direction == "up")
             {
-                for (int i = entryKey + 1; i <= Settings.entriesText.ElementAt(Settings.entriesText.Count - 1).Key; i++)
+                for (int i = entryKey + 1; i <= Settings.entriesTextTrimmed.ElementAt(Settings.entriesTextTrimmed.Count - 1).Key; i++)
                 {
-                    if (Settings.entriesText.ContainsKey(i) && Settings.entriesShow[i])
+                    if (Settings.entriesTextTrimmed.ContainsKey(i) && Settings.entriesShow[i])
                     {
                         return i;
                     }
@@ -721,9 +722,9 @@ namespace HovText
                 // Proceed if the active element is not the last element
                 if (entryActive != entryOldest)
                 {
-                    for (int i = entryKey - 1; i >= Settings.entriesText.ElementAt(0).Key; i--)
+                    for (int i = entryKey - 1; i >= Settings.entriesTextTrimmed.ElementAt(0).Key; i--)
                     {
-                        if (Settings.entriesText.ContainsKey(i) && Settings.entriesShow[i])
+                        if (Settings.entriesTextTrimmed.ContainsKey(i) && Settings.entriesShow[i])
                         {
                             return i;
                         }
@@ -741,6 +742,7 @@ namespace HovText
 
         private void History_KeyUp(object sender, KeyEventArgs e)
         {
+            /*
             // Check if modifier keys are pressed
             bool isShift = e.Shift;
             bool isAlt = e.Alt;
@@ -770,6 +772,7 @@ namespace HovText
                     }
                 }
             }
+            */
         }
 
 
@@ -979,7 +982,7 @@ namespace HovText
             searchTexts = searchTexts.Where(text => !text.StartsWith(":") || text == favoriteKeyword || text == urlKeyword1 || text == urlKeyword2 || text == emailKeyword1 || text == emailKeyword2 || text == imageKeyword1 || text == imageKeyword2 || text == transparentKeyword).ToArray();
 
             // Perform a case-insensitive wildcard search using LINQ
-            var searchResults = Settings.entriesText
+            var searchResults = Settings.entriesTextTrimmed
                 .Where(entry =>
                     searchTexts.All(searchText =>
                         entry.Value.Split(' ')
@@ -1028,7 +1031,7 @@ namespace HovText
             }
 
             // Set the remaining entries in entriesShow to false
-            foreach (var key in Settings.entriesText.Keys)
+            foreach (var key in Settings.entriesTextTrimmed.Keys)
             {
                 if (!Settings.entriesShow.ContainsKey(key))
                 {
@@ -1099,129 +1102,6 @@ namespace HovText
         private void Search_KeyDown(object sender, KeyEventArgs e)
         {
 
-            // ESCAPE
-            if (e.KeyCode == Keys.Escape)
-            {
-                Logging.Log("Pressed \"Escape\" key");
-
-                ActionEscape();
-
-                // https://stackoverflow.com/a/3068797/2028935
-                e.SuppressKeyPress = true;
-                return;
-            }
-
-            // ENTER
-            if (e.KeyCode == Keys.Return)
-            {
-                Logging.Log("Pressed \"Enter\" key");
-
-                // Reset so all entries will be visible again
-                foreach (var entry in Settings.entriesText)
-                {
-                    Settings.entriesShow[entry.Key] = true;
-                }
-
-                SelectEntry();
-
-                // https://stackoverflow.com/a/3068797/2028935
-                e.SuppressKeyPress = true;
-                return;
-            }
-
-            // DELETE
-            if (e.KeyCode == Keys.Delete)
-            {
-                Logging.Log("Pressed \"Delete\" key");
-                Logging.Log("Deleted key index [" + entryActive + "]");
-
-                int historyListElements = Settings.historyListElements;
-                int entryNewActive = 0;
-
-                if (entriesInList > 1)
-                {
-                    if (!isEntryAtBottom)
-                    {
-                        entryNewActive = GetNextIndex("down", entryActive);
-                    }
-                    else
-                    {
-                        entryNewActive = GetNextIndex("up", entryActive);
-                        entryInList--;
-                    }
-                }
-
-                // Remove the chosen entry, so it does not show duplicates
-                Settings.entriesText.Remove(entryActive);
-                Settings.entriesImage.Remove(entryActive);
-                Settings.entriesImageTrans.Remove(entryActive);
-                Settings.entriesChecksum.Remove(entryActive);
-                Settings.entriesApplication.Remove(entryActive);
-                Settings.entriesApplicationIcon.Remove(entryActive);
-                Settings.entriesOriginal.Remove(entryActive);
-                Settings.entriesShow.Remove(entryActive);
-                Settings.entriesIsFavorite.Remove(entryActive);
-                Settings.entriesIsUrl.Remove(entryActive);
-                Settings.entriesIsEmail.Remove(entryActive);
-                Settings.entriesIsImage.Remove(entryActive);
-                Settings.entriesIsTransparent.Remove(entryActive);
-                Settings.entriesOrder.Remove(entryActive);
-
-                entryActive = entryNewActive;
-
-                entriesInList--;
-                
-                Settings.GetEntryCounter();
-
-                if (entriesInList > 1)
-                {
-                    entryNewest = Settings.entriesText.Keys.Last();
-                    entryOldest = Settings.entriesText.Keys.First();
-                }
-
-                if(entriesInList > 0)
-                {
-                    int entryNewestBoxCopy = entryNewestBox;
-                    int entryNewestBoxCompare = 0;
-                    bool goUp = false;
-                    int showElements = historyListElements > entriesInList ? entriesInList : historyListElements;
-                    for (int i=0; i < showElements; i++)
-                    {
-                        entryNewestBoxCopy = GetNextIndex("down", entryNewestBoxCopy);
-                        if(entryNewestBoxCopy == entryNewestBoxCompare)
-                        {
-                            goUp = true;
-                        }
-                        entryNewestBoxCompare = entryNewestBoxCopy;
-                    }
-
-                    if ((entryActive == entryOldest && entryNewestBox < entryNewest) || goUp)
-                    {
-                        entryNewestBox = GetNextIndex("up", entryNewestBox);
-                    }
-
-                    if (entriesInList <= historyListElements)
-                    {
-                        SetupForm(true);
-                    }
-                
-                    UpdateHistory("");
-                } else
-                {
-                    ResetVariables();
-                    ResetForm();
-                    ActionEscape();
-                }
-                NativeMethods.SetForegroundWindow(Handle);
-
-                // Save the new order of the entries
-                HandleFiles.saveIndexAndFavoriteFiles = true;
-
-                // https://stackoverflow.com/a/3068797/2028935
-                e.SuppressKeyPress = true;
-                return;
-            }
-
             // UP
             if (e.KeyCode == Keys.Up)
             {
@@ -1288,13 +1168,123 @@ namespace HovText
                 return;
             }
 
+            // DELETE
+            if (e.KeyCode == Keys.Delete)
+            {
+                Logging.Log("Pressed \"Delete\" key");
+                Logging.Log("Deleted key index [" + entryActive + "]");
+
+                int historyListElements = Settings.historyListElements;
+                int entryNewActive = 0;
+
+                if (entriesInList > 1)
+                {
+                    if (!isEntryAtBottom)
+                    {
+                        entryNewActive = GetNextIndex("down", entryActive);
+                    }
+                    else
+                    {
+                        entryNewActive = GetNextIndex("up", entryActive);
+                        entryInList--;
+                    }
+                }
+
+                // Remove the chosen entry, so it does not show duplicates
+                Settings.RemoveEntryFromLists(entryActive);
+
+                entryActive = entryNewActive;
+
+                entriesInList--;
+
+                Settings.GetEntryCounter();
+
+                if (entriesInList > 1)
+                {
+                    entryNewest = Settings.entriesTextTrimmed.Keys.Last();
+                    entryOldest = Settings.entriesTextTrimmed.Keys.First();
+                }
+
+                if (entriesInList > 0)
+                {
+                    int entryNewestBoxCopy = entryNewestBox;
+                    int entryNewestBoxCompare = 0;
+                    bool goUp = false;
+                    int showElements = historyListElements > entriesInList ? entriesInList : historyListElements;
+                    for (int i = 0; i < showElements; i++)
+                    {
+                        entryNewestBoxCopy = GetNextIndex("down", entryNewestBoxCopy);
+                        if (entryNewestBoxCopy == entryNewestBoxCompare)
+                        {
+                            goUp = true;
+                        }
+                        entryNewestBoxCompare = entryNewestBoxCopy;
+                    }
+
+                    if ((entryActive == entryOldest && entryNewestBox < entryNewest) || goUp)
+                    {
+                        entryNewestBox = GetNextIndex("up", entryNewestBox);
+                    }
+
+                    if (entriesInList <= historyListElements)
+                    {
+                        SetupForm(true);
+                    }
+
+                    UpdateHistory("");
+                }
+                else
+                {
+                    ResetVariables();
+                    ResetForm();
+                    ActionEscape();
+                }
+                NativeMethods.SetForegroundWindow(Handle);
+
+                // Save the new order of the entries
+                HandleFiles.saveIndexAndFavoriteFiles = true;
+
+                // https://stackoverflow.com/a/3068797/2028935
+                e.SuppressKeyPress = true;
+                return;
+            }
+
+            // ESCAPE
+            if (e.KeyCode == Keys.Escape)
+            {
+                Logging.Log("Pressed \"Escape\" key");
+
+                ActionEscape();
+
+                // https://stackoverflow.com/a/3068797/2028935
+                e.SuppressKeyPress = true;
+                return;
+            }
+
+            // ENTER
+            if (e.KeyCode == Keys.Return)
+            {
+                Logging.Log("Pressed \"Enter\" key");
+
+                // Reset so all entries will be visible again
+                foreach (var entry in Settings.entriesTextTrimmed)
+                {
+                    Settings.entriesShow[entry.Key] = true;
+                }
+
+                SelectEntry();
+
+                // https://stackoverflow.com/a/3068797/2028935
+                e.SuppressKeyPress = true;
+                return;
+            }
+            
             // HOME
             if (e.KeyCode == Keys.Home)
             {
                 Logging.Log("Pressed \"Home\" key");
 
-                //entryActive = entryNewest;
-                entryActive = GetOldestIndex();
+                entryActive = GetNewestIndex();
                 entryNewestBox = entryNewest;
 
                 // Update the list elements
@@ -1309,7 +1299,6 @@ namespace HovText
             {
                 Logging.Log("Pressed \"End\" key");
 
-                //entryActive = entryOldest;
                 entryActive = GetOldestIndex();
 
                 int counter = 0;
@@ -1339,7 +1328,10 @@ namespace HovText
             string hotkeyFavorite = Settings.GetRegistryKey(Settings.registryPath, "HotkeyToggleFavorite");
             if (Enum.TryParse(hotkeyFavorite, out Keys parsedKey) && e.KeyCode == parsedKey)
             {
-                MarkFavorite();
+                if (Settings.isEnabledFavorites)
+                {
+                    MarkFavorite();
+                }
                 e.SuppressKeyPress = true;
                 return;
             }
@@ -1353,14 +1345,14 @@ namespace HovText
         public void ActionEscape()
         {
             // Reset so all entries will be visible again
-            foreach (var entry in Settings.entriesText)
+            foreach (var entry in Settings.entriesTextTrimmed)
             {
                 Settings.entriesShow[entry.Key] = true;
             }
 
             ResetVariables();
             ResetForm();
-            Settings.isFirstCallAfterHotkey = true;
+            //            Settings.isFirstCallAfterHotkey = true;
 
             // Check if the "Settings" UI was visible before - if so, then show it again
             if (Settings.isSettingsFormVisible)

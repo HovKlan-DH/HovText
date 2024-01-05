@@ -11,9 +11,9 @@ restore the original clipboard after 250ms.
 ##################################################################################################
 */
 
-using System.Threading;
 using System.Timers;
 using System.Windows.Forms;
+using System.Threading;
 
 namespace HovText
 {
@@ -66,7 +66,7 @@ namespace HovText
                 SendKeys.SendWait("^v"); // send "CTRL + v" (paste from clipboard)
                 StartTimerToRestoreOriginal();
 
-                Logging.Log("Pasted cleartext clipboard");
+                Logging.Log($"Pasted cleartext clipboard [{HandleClipboard.threadSafeIndex - 1}]");
             }
         }
 
@@ -85,17 +85,27 @@ namespace HovText
             // Stop the timer
             timerPasteOnHotkey.Enabled = false;
 
+            bool hest = Settings.pasteOnHotkeySetCleartext;
+
             // As this application is Single Thread then launch a new thread to mess with the clipboard again
             // https://stackoverflow.com/a/23803659/2028935
-            Thread thread = new Thread(() => HandleClipboard.RestoreOriginal(HandleClipboard.threadSafeIndex - 1));
-            thread.SetApartmentState(ApartmentState.STA); //Set the thread to STA
+            Thread thread = new Thread(() => HandleClipboard.SetClipboard(HandleClipboard.threadSafeIndex - 1));
+            //Thread thread = new Thread(() => HandleClipboard.RestoreOriginal(HandleClipboard.threadSafeIndex - 1));
+            thread.SetApartmentState(ApartmentState.STA); // set the thread to STA
             thread.Start();
             thread.Join();
 
+            if (Settings.pasteOnHotkeySetCleartext)
+            {
+                Logging.Log($"Populated cleartext to clipboard [{HandleClipboard.threadSafeIndex - 1}]");
+            } else
+            {
+                Logging.Log($"Populated original to clipboard [{HandleClipboard.threadSafeIndex - 1}]");
+            }
+            
+
             // We do no longer need to paste cleartext
             Settings.pasteOnHotkeySetCleartext = false;
-
-            Logging.Log("Pasted original clipboard");
         }
 
 

@@ -178,6 +178,7 @@ namespace HovText
         public static SortedDictionary<int, string> entriesApplication = new SortedDictionary<int, string>();
         public static SortedDictionary<int, Image> entriesApplicationIcon = new SortedDictionary<int, Image>();
         public static SortedDictionary<int, string> entriesText = new SortedDictionary<int, string>();
+        public static SortedDictionary<int, string> entriesTextTrimmed = new SortedDictionary<int, string>();
         public static SortedDictionary<int, bool> entriesShow = new SortedDictionary<int, bool>();
         public static SortedDictionary<int, bool> entriesIsFavorite = new SortedDictionary<int, bool>();
         public static SortedDictionary<int, bool> entriesIsUrl = new SortedDictionary<int, bool>();
@@ -190,7 +191,7 @@ namespace HovText
         public static SortedList<int, Dictionary<string, object>> entriesOriginal = new SortedList<int, Dictionary<string, object>>();
         public static SortedDictionary<int, int> entriesOrder = new SortedDictionary<int, int>();
         const int WM_CLIPBOARDUPDATE = 0x031D;
-        public static bool pasteOnHotkeySetCleartext;
+        public static bool pasteOnHotkeySetCleartext; // used when "Paste behaviour" is set to "Paste only on hotkey" - when this one here is "true" then it should populate the clipboard with the cleartext-only (no formatting)
         public static List<int> clipboardSaveQueue = new List<int>(); // will contain index-number of entries to save
         private bool isClipboardSaveQueueBeingProcessed = false; // "true" when we are actively working on the "save queue"
         public static int clipboardEntriesToSave = 50;
@@ -226,14 +227,14 @@ namespace HovText
         public static readonly string dataIndexName = "HovText-index-";
         readonly string troubleshootLog = "HovText-troubleshooting.txt";
         readonly string saveContentFileExist = "HovText-save-content-in-logfile.txt"; // should ONLY be used by Dennis/developer for debugging!!!
-        public static string updateExe = "HovText Update.exe";
+        public static string updateExe = "HovText Auto-Install.exe";
         private static string exeOnly;
         static string exeFileNameWithPath;
         public static string exeFileNameWithoutExtension;
 
         // Misc
         public static string appVer = "";
-        public static bool isFirstCallAfterHotkey = true;
+//        public static bool isFirstCallAfterHotkey = true;
         public static bool isSettingsFormVisible;
         internal static Settings settings;
         public static bool hasTroubleshootLogged;
@@ -414,7 +415,8 @@ namespace HovText
             // Update meory status and clipboard entries in "Advanced" tab
             GetMemoryConsumption();
             LogMemoryConsumed();
-            UpdateAdvancedStatus();
+            UpdateMemoryConsumed();
+            UpdateClipboardEntriesCounters();
 
             // Start "GetMemoryConsumption" timer
             TimerGetMemoryConsumption.Start();
@@ -424,7 +426,7 @@ namespace HovText
             // Start the loading process of data files AFTER the UI form has been fully intialized and shown
             Shown += new EventHandler(Settings_Shown);
 
-            // Create shortcut in "Start Menu"
+            // Create/overwrite shortcut in "Start Menu"
             CreateShortcut("HovText", @pathAndExe, "HovText Clipboard Manager");
         }
 
@@ -446,18 +448,20 @@ namespace HovText
                     if (isApplicationEnabled)
                     {
 
-                        // Do not process clipboard, if the update is faster than 250ms
+                        // Do not process clipboard, if the update is faster than ???ms
+                        int minMsBetween = 100;
                         DateTime now = DateTime.Now;
-                        if ((now - lastClipboardEvent).TotalMilliseconds > 250)
+                        if ((now - lastClipboardEvent).TotalMilliseconds >= minMsBetween)
                         {
                             // Parallize the task to get the clipboard data - this does not block the UI then
                             Task.Run(() =>
                             {
                                 clipboardHandler.GetClipboardData();
                             });
+                            lastClipboardEvent = now;
                         } else
                         {
-                            Logging.Log("Warning: Last clipboard UPDATE event was less than [250ms] ago - ignoring this event");
+                            Logging.Log($"Warning: Last clipboard UPDATE event was less than [{minMsBetween}ms] ago - ignoring this event");
                         }
                     }
                     else
@@ -558,7 +562,7 @@ namespace HovText
         // but not yet (re)saved
         // ###########################################################################################   
 
-        private void StuffToDoWhenApplicationHasFinishedStartup()
+        private void ToDoWhenAppHasFinishedStartupButBeforeSaved()
         {
             // Enable the tab-control
             UiFormTabControl.Enabled = true;
@@ -567,14 +571,28 @@ namespace HovText
 
             AddClipboardToChain();
 
-            // Check if the shortcut is created - if not, then create it
-            ChechAndCreateShortcut();
-
-            // Start deleting old/obsolete files
-            TimerDeleteOldFiles.Enabled = true;
+            // Start timer that will update counters
+            TimerUpdateCounters.Enabled = true;
 
             // Check and show popup, if the troubleshoot logfile is larger than 10MB
             CheckIfLogfileIsTooLarge();
+        }
+
+
+        // ###########################################################################################
+        // Things that needs to be done AFTER all clipboards have been loaded and processed,
+        // AND it all have been (re)saved again
+        // ###########################################################################################   
+
+        private void ToDoWhenAppHasFinishedStartupAndSaved()
+        {
+            // Other stuff to do once everything has been finished
+            UiAdvancedLabelDevVersion.Enabled = true;
+            UiAdvancedButtonClearClipboards.Enabled = true;
+            UiAdvancedButtonCleanup.Enabled = true;
+
+            // Start deleting old/obsolete files
+            TimerDeleteOldFiles.Enabled = true;
         }
 
 
@@ -620,7 +638,7 @@ namespace HovText
                 activatedHotkeys = true;
                 SetHotkeys("Startup of application");
                 TimerProcessSaveQueue.Enabled = true;
-                StuffToDoWhenApplicationHasFinishedStartup();
+                ToDoWhenAppHasFinishedStartupButBeforeSaved();
             }
         }
 
@@ -742,6 +760,8 @@ namespace HovText
                     hasCheckedForUpdate = true;
                     CheckForUpdate();
                 }
+
+                ToDoWhenAppHasFinishedStartupAndSaved();
             }
         }
 
@@ -761,6 +781,19 @@ namespace HovText
             }
         }
 
+
+        // ###########################################################################################
+        // Update various counters
+        // ###########################################################################################
+
+        private void TimerUpdateCounters_Tick(object sender, EventArgs e)
+        {
+            if(Visible)
+            {
+                UpdateClipboardEntriesCounters();
+            }
+            
+        }
 
 
         // ###########################################################################################
@@ -808,6 +841,7 @@ namespace HovText
             entriesOriginal.Clear();
             entriesShow.Clear();
             entriesText.Clear();
+            entriesTextTrimmed.Clear();
             entriesOrder.Clear();
         }
 
@@ -825,12 +859,12 @@ namespace HovText
                 int entriesInList = History.entriesInList;
                 if (entriesInList > 0)
                 {
+//                    pasteOnHotkeySetCleartext = true;
+
                     MoveEntryToTop(entryIndex);
 
-                    pasteOnHotkeySetCleartext = true;
-
                     // Set the clipboard with the new data
-                    HandleClipboard.SetClipboard(entryIndex);
+                    //HandleClipboard.SetClipboard(entryIndex);
 
                     // Restore the original clipboard, if we are within the "Paste on hotkey only" mode
                     if (UiHotkeysRadioPasteOnHotkey.Checked)
@@ -843,8 +877,8 @@ namespace HovText
                 ChangeFocusToOriginatingApplication();
 
                 // Reset some stuff
-                isFirstCallAfterHotkey = true;
-                entryIndex = entriesText.Keys.Last();
+//                isFirstCallAfterHotkey = true;
+                entryIndex = entriesTextTrimmed.Keys.Last();
                 GetEntryCounter();
 
                 // Save the new order of the entries
@@ -864,6 +898,7 @@ namespace HovText
             // Check if application is enabled
             if (isApplicationEnabled && entryCounter > 0)
             {
+                /*
                 if (isFirstCallAfterHotkey)
                 {
                     // Hide the "Settings" form if it is visible (it will be restored after key-up)
@@ -875,6 +910,7 @@ namespace HovText
                     originatingApplicationName = HandleClipboard.GetActiveApplicationName();
                     history.SetupForm();
                 }
+                */
 
                 // Always change focus to HovText to ensure we can catch the key-up event
                 //ChangeFocusToHovText();
@@ -882,7 +918,7 @@ namespace HovText
                 // Only proceed if the entry counter is equal to or more than 0
                 if (entryCounter > 0)
                 {
-                    isFirstCallAfterHotkey = false;
+//                    isFirstCallAfterHotkey = false;
                     history.UpdateHistory("down");
                 }
             }
@@ -902,6 +938,7 @@ namespace HovText
             if (isApplicationEnabled && entryCounter > 0)
             {
 
+                /*
                 if (isFirstCallAfterHotkey)
                 {
                     // Hide the "Settings" form if it is visible (it will be restored after key-up)
@@ -913,14 +950,15 @@ namespace HovText
                     originatingApplicationName = HandleClipboard.GetActiveApplicationName();
                     history.SetupForm();
                 }
+                */
 
                 // Always change focus to HovText to ensure we can catch the key-up event
                 //ChangeFocusToHovText();
 
                 // Only proceed if the entry counter is less than the total amount of entries
-                if (entryCounter <= entriesText.Count)
+                if (entryCounter <= entriesTextTrimmed.Count)
                 {
-                    isFirstCallAfterHotkey = false;
+//                    isFirstCallAfterHotkey = false;
                     history.UpdateHistory("up");
                 }
             }
@@ -949,6 +987,7 @@ namespace HovText
 
             // Copy the chosen entry to the top of the array lists (so it becomes the newest entry)
             entriesText.Add(insertIndex, entriesText[index]);
+            entriesTextTrimmed.Add(insertIndex, entriesTextTrimmed[index]);
             entriesImage.Add(insertIndex, entriesImage[index]);
             entriesImageTrans.Add(insertIndex, entriesImageTrans[index]);
             entriesChecksum.Add(insertIndex, entriesChecksum[index]);
@@ -962,24 +1001,20 @@ namespace HovText
             entriesIsImage.Add(insertIndex, entriesIsImage[index]);
             entriesOrder.Add(insertIndex, entriesOrder[index]);
 
+            // Set the clipboard (depending if we come from a threaded or non-threaded call)
+            if (settings.InvokeRequired)
+            {
+                settings.Invoke(new Action(() => HandleClipboard.SetClipboard(index)));
+            } else
+            {
+                HandleClipboard.SetClipboard(index);
+            }
+
             // Remove the chosen entry, so it does not show duplicates
-            entriesText.Remove(index);
-            entriesImage.Remove(index);
-            entriesImageTrans.Remove(index);
-            entriesChecksum.Remove(index);
-            entriesApplication.Remove(index);
-            entriesApplicationIcon.Remove(index);
-            entriesOriginal.Remove(index);
-            entriesShow.Remove(index);
-            entriesIsFavorite.Remove(index);
-            entriesIsUrl.Remove(index);
-            entriesIsEmail.Remove(index);
-            entriesIsTransparent.Remove(index);
-            entriesIsImage.Remove(index);
-            entriesOrder.Remove(index);
+            RemoveEntryFromLists(index);
 
             // Set the index to be the last one
-            entryIndex = entriesText.Keys.Last();
+            entryIndex = entriesTextTrimmed.Keys.Last();
         }
 
 
@@ -1090,6 +1125,8 @@ namespace HovText
                 UiHotkeysRadioPasteOnHotkey.Enabled = false;
                 UiHotkeysLabelPasteOnHotkey.Enabled = false;
                 UiHotkeysButtonToggleFavorite.Enabled = false;
+
+                history.ActionEscape();
             }
 
             SetNotifyIcon();
@@ -1840,7 +1877,7 @@ namespace HovText
             // Update info
             UiAdvancedPicture1BoxDevRefresh.Visible = true;
             UiAdvancedPicture2BoxDevRefresh.Visible = false;
-            UiAdvancedLabelDevVersion.Enabled = true;
+            //UiAdvancedLabelDevVersion.Enabled = true;
             UiAdvancedLabelDisclaimer.Enabled = true;
             UiAdvancedLabelDevVersion.Text = "Please wait ...";
 
@@ -1930,7 +1967,10 @@ namespace HovText
                 case "All":
                     UiStorageRadioSaveAll.Checked = true;
                     break;
-                case "Favorites":
+                case "Text+Favorite":
+                    UiStorageRadioSaveBothTextAndFavorites.Checked = true;
+                    break;
+                case "Favorite":
                     if (isEnabledFavorites)
                     {
                         UiStorageRadioSaveOnlyFavorites.Checked = true;
@@ -2439,6 +2479,47 @@ namespace HovText
             string status = UiGeneralToggleIncludeImages.Checked ? "1" : "0";
             isCopyImages = UiGeneralToggleIncludeImages.Checked;
             SetRegistryKey(registryPath, "CopyImages", status);
+
+            if(!isCopyImages && HandleFiles.onLoadAllEntriesProcessedInClipboardQueue)
+            {
+                // Make a temporary copy of the "entriesOrder" and work  with this instance
+                SortedDictionary<int, int> entriesOrderTmp = new SortedDictionary<int, int>(entriesOrder);
+
+                foreach (var entry in entriesOrderTmp)
+                {
+                    bool isImage = entriesIsImage[entry.Key];
+                    if (isImage)
+                    {
+                        // Delete the image from the lists
+                        RemoveEntryFromLists(entry.Value);
+                    }
+                }
+                HandleFiles.saveIndexAndFavoriteFiles = true;
+            }
+        }
+
+
+        // ###########################################################################################
+        // Remove an entry from the clipboard list
+        // ###########################################################################################
+
+        public static void RemoveEntryFromLists (int index)
+        {
+            entriesText.Remove(index);
+            entriesTextTrimmed.Remove(index);
+            entriesImage.Remove(index);
+            entriesImageTrans.Remove(index);
+            entriesChecksum.Remove(index);
+            entriesApplication.Remove(index);
+            entriesApplicationIcon.Remove(index);
+            entriesOriginal.Remove(index);
+            entriesShow.Remove(index);
+            entriesIsFavorite.Remove(index);
+            entriesIsUrl.Remove(index);
+            entriesIsEmail.Remove(index);
+            entriesIsTransparent.Remove(index);
+            entriesIsImage.Remove(index);
+            entriesOrder.Remove(index);
         }
 
 
@@ -2551,7 +2632,6 @@ namespace HovText
             {
                 if (isEnabledHistory)
                 {
-
                     UiHotkeysButtonToggleFavorite.Enabled = true;
                     UiHotkeysLabelToggleFavorite.Enabled = true;
                     UiStorageRadioSaveOnlyFavorites.Enabled = true;
@@ -2576,7 +2656,7 @@ namespace HovText
             {
                 for (int i = 0; i <= entriesIsFavorite.ElementAt(Settings.entriesIsFavorite.Count - 1).Key; i++)
                 {
-                    bool doesKeyExist = Settings.entriesText.ContainsKey(i);
+                    bool doesKeyExist = entriesTextTrimmed.ContainsKey(i);
                     if (doesKeyExist)
                     {
                         entriesIsFavorite[i] = false;
@@ -2607,6 +2687,9 @@ namespace HovText
             string status = UiGeneralToggleTrimWhitespaces.Checked ? "1" : "0";
             isEnabledTrimWhitespacing = UiGeneralToggleTrimWhitespaces.Checked;
             SetRegistryKey(registryPath, "TrimWhitespaces", status);
+
+            // Set the clipboard again, as there could be changes how "GuiAlwaysPasteOriginal" behaves
+            HandleClipboard.SetClipboard(HandleClipboard.threadSafeIndex - 1);
         }
 
 
@@ -2863,8 +2946,8 @@ namespace HovText
                         }
                     }
 
-                    if (isFirstCallAfterHotkey)
-                    {
+//                    if (isFirstCallAfterHotkey)
+//                    {
                         // Hide the "Settings" form if it is visible (it will be restored after key-up)
                         isSettingsFormVisible = Visible;
                         if (isSettingsFormVisible)
@@ -2873,14 +2956,15 @@ namespace HovText
                         }
                         originatingApplicationName = HandleClipboard.GetActiveApplicationName();
                         history.SetupForm();
-                    }
+//                    }
+
                     // Always change focus to HovText to ensure we can catch the key-up event
                     ChangeFocusToHovText();
 
                     // Only proceed if the entry counter is equal to or more than 0
                     if (entryCounter > 0)
                     {
-                        isFirstCallAfterHotkey = false;
+//                        isFirstCallAfterHotkey = false;
                         history.UpdateHistory("");
                     }
                 }
@@ -2899,7 +2983,7 @@ namespace HovText
             Logging.Log("Pressed the \"Paste only on hotkey\" hotkey");
 
             // Only proceed if there are clipboard entries
-            if (entriesText.Count > 0)
+            if (entriesTextTrimmed.Count > 0)
             {
                 // Get active application and change focus to HovText
                 originatingApplicationName = HandleClipboard.GetActiveApplicationName();
@@ -3363,7 +3447,7 @@ namespace HovText
             // Update the counter if the history is enabled
             if (isEnabledHistory)
             {
-                int entries = entriesText.Count;
+                int entries = entriesTextTrimmed.Count;
                 if (entries == 1)
                 {
                     IconNotify.Text = "HovText (" + entries + " entry)";
@@ -4459,9 +4543,13 @@ namespace HovText
                 {
                     set = "All";
                 }
+                else if (UiStorageRadioSaveBothTextAndFavorites.Checked)
+                {
+                    set = "Text+Favorite";
+                }
                 else if (UiStorageRadioSaveOnlyFavorites.Checked)
                 {
-                    set = "Favorites";
+                    set = "Favorite";
                 }
                 else
                 {
@@ -4557,16 +4645,31 @@ namespace HovText
         }
 
 
-        public void UpdateAdvancedStatus()
+        public void UpdateMemoryConsumed()
         {
             string formattedMemoryUsage = "Memory usage: " + memoryInMB + " MB";
             UiAdvancedLabelMemUsed.Text = formattedMemoryUsage;
+        }
 
+
+        // ###########################################################################################
+        // Update the amount of clipboard entries in the "Storage" tab
+        // ###########################################################################################
+
+        public void UpdateClipboardEntriesCounters()
+        {
             UiAdvancedLabelClipboardEntries.Text = "Clipboard entries: " + entriesOriginal.Count.ToString();
             int countImages = entriesIsImage.Count(entry => entry.Value == true);
-            int countTrue = entriesIsFavorite.Count(entry => entry.Value == true);
-            int countAll = entriesIsFavorite.Count();
+            int countFavorites = entriesIsFavorite.Count(entry => entry.Value == true);
+            int countAll = entriesOrder.Count();
             int countText = countAll - countImages;
+
+            // Find unique keys to find counter for "countTextAndFavorites"
+            var nonImageKeys = entriesOrder.Keys.Except(entriesIsImage.Where(entry => entry.Value == true).Select(entry => entry.Key));
+            var favoriteKeys = entriesIsFavorite.Where(entry => entry.Value == true).Select(entry => entry.Key);
+            var textAndFavoritesKeys = nonImageKeys.Union(favoriteKeys);
+            int countTextAndFavorites = textAndFavoritesKeys.Count();
+
             if (countText == 1)
             {
                 UiStorageLabelSaveOnlyTextEntries.Text = "(" + countText + " entry)";
@@ -4576,14 +4679,15 @@ namespace HovText
                 UiStorageLabelSaveOnlyTextEntries.Text = "(" + countText + " entries)";
             }
 
-            if (countTrue == 1)
+            if (countFavorites == 1)
             {
-                UiStorageLabelSaveOnlyFavoritesEntries.Text = "(" + countTrue + " entry)";
+                UiStorageLabelSaveOnlyFavoritesEntries.Text = "(" + countFavorites + " entry)";
             }
             else
             {
-                UiStorageLabelSaveOnlyFavoritesEntries.Text = "(" + countTrue + " entries)";
+                UiStorageLabelSaveOnlyFavoritesEntries.Text = "(" + countFavorites + " entries)";
             }
+
             if (countAll == 1)
             {
                 UiStorageLabelSaveAllEntries.Text = "(" + countAll + " entry)";
@@ -4591,6 +4695,15 @@ namespace HovText
             else
             {
                 UiStorageLabelSaveAllEntries.Text = "(" + countAll + " entries)";
+            }
+
+            if (countTextAndFavorites == 1)
+            {
+                UiStorageLabelSaveTextAndFavoritesEntries.Text = "(" + countTextAndFavorites + " entry)";
+            }
+            else
+            {
+                UiStorageLabelSaveTextAndFavoritesEntries.Text = "(" + countTextAndFavorites + " entries)";
             }
         }
 
@@ -4750,6 +4863,11 @@ namespace HovText
         private void UiStorageLabelSaveOnlyFavorites_Click(object sender, EventArgs e)
         {
             UiStorageRadioSaveOnlyFavorites.Checked = true;
+        }
+
+        private void UiStorageLabelSaveTextAndFavorites_Click(object sender, EventArgs e)
+        {
+            UiStorageRadioSaveBothTextAndFavorites.Checked = true;
         }
 
         private void UiStorageLabelSaveAll_Click(object sender, EventArgs e)
@@ -4937,7 +5055,7 @@ namespace HovText
         {
             GetMemoryConsumption();
             LogMemoryConsumed();
-            UpdateAdvancedStatus();
+            UpdateMemoryConsumed();
         }
 
         private void GetMemoryConsumption()
@@ -4946,16 +5064,6 @@ namespace HovText
             Process currentProcess = Process.GetCurrentProcess();
             double tmp_memoryInMB = currentProcess.WorkingSet64 / 1024d / 1024d;
             memoryInMB = (int)Math.Round(tmp_memoryInMB);
-        }
-
-
-        // ###########################################################################################
-        // Check and create new shortcut in Windows "Start Menu"
-        // ###########################################################################################
-
-        private void ChechAndCreateShortcut ()
-        {
-
         }
 
 
@@ -5087,7 +5195,7 @@ namespace HovText
         public static extern int SendMessage(IntPtr hWnd, int Msg, int wParam, int lParam);
         [DllImport("user32.dll")]
         public static extern bool ReleaseCapture();
-               
+
 
         // ###########################################################################################
     }

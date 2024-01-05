@@ -73,9 +73,9 @@ namespace HovText.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
-        internal static byte[] HovText_Update {
+        internal static byte[] HovText_Auto_Install {
             get {
-                object obj = ResourceManager.GetObject("HovText_Update", resourceCulture);
+                object obj = ResourceManager.GetObject("HovText_Auto_Install", resourceCulture);
                 return ((byte[])(obj));
             }
         }

@@ -81,8 +81,8 @@ namespace HovText
                 }
                 catch (Exception ex)
                 {
-                    Logging.Log("Error getting application icon");
-                    Logging.LogException(ex);
+                    Logging.Log($"Error getting application icon: {ex.Message}");
+                    //Logging.LogException(ex);
                 }
 
                 // Clipboard runs in context of UI, so we need to "invoke" it
@@ -96,8 +96,11 @@ namespace HovText
                     bool containsText = Clipboard.ContainsText();
                     bool containsImage = Clipboard.ContainsImage();
 
-                    // Only add to the queue, if it contains either a text or an image
-                    if (containsText || containsImage)
+                    if (containsImage && !Settings.isCopyImages)
+                    {
+                        Logging.Log($"index=[{threadSafeIndex}] is an image and we should not capture images - ignoring it");
+                    }
+                    else if (containsText || containsImage) // only add to the queue, if it contains either a text or an image
                     {
                         // Create an object that contains all the formats we want to handle
                         IDataObject clipboardIDataObject = Clipboard.GetDataObject();
@@ -151,6 +154,9 @@ namespace HovText
                         ));
                     }
                 }));
+            } else
+            {
+                Logging.Log("Ignoring clipboard [UPDATE] event from application [" + whoUpdatedClipboardName + "]");
             }
         }
 
@@ -229,20 +235,25 @@ namespace HovText
                 if (isClipboardText)
                 {
                     // Trim the text for whitespaces and empty new-lines
-                    if (Settings.isEnabledTrimWhitespacing)
-                    {
-                        clipboardText = clipboardText.Trim();
-                        if (clipboardText.Length == 0) {
+                    //if (Settings.isEnabledTrimWhitespacing)
+                    //{
+                        //clipboardText = clipboardText.Trim();
+                        if (clipboardText.Trim().Length == 0) {
                             skipRest = true;
                         }
+                    //}
+
+                    if (skipRest)
+                    {
+                        Logging.Log($"index=[{index}] is empty - ignoring it");
+                    } else { 
+                        checksum = GetStringHash(clipboardText.Trim());
+
+                        Logging.Log($"index=[{index}] Text checksum: [{checksum}]");
+
+                        // Check if we already have the clipboard in the clipboard list - if so, reuse this
+                        isAlreadyInDataArray = IsClipboardContentAlreadyInArrays(index, isClipboardText, isClipboardImage, checksum);
                     }
-
-                    checksum = GetStringHash(clipboardText);
-
-                    Logging.Log($"index=[{index}] Text checksum: [{checksum}]");
-
-                    // Check if we already have the clipboard in the clipboard list - if so, reuse this
-                    isAlreadyInDataArray = IsClipboardContentAlreadyInArrays(index, isClipboardText, isClipboardImage, checksum);
                 }
 
                 // IMAGE - is clipboard an image AND only if we include images in the clipboard list also
@@ -316,9 +327,9 @@ namespace HovText
             bool isClipboardImage,
             string checksum)
         {
-            if (Settings.entriesText.Count > 0)
+            if (Settings.entriesTextTrimmed.Count > 0)
             {
-                for (int i = 0; i < Settings.entriesText.Count; i++)
+                for (int i = 0; i < Settings.entriesTextTrimmed.Count; i++)
                 {
 
                     if (isClipboardText)
@@ -327,7 +338,7 @@ namespace HovText
                         if (Settings.entriesChecksum.ElementAt(i).Value == checksum)
                         {
                             Logging.Log($"index=[{index}] Text is already in data array - reusing it");
-                            int moveIndex = Settings.entriesText.ElementAt(i).Key;
+                            int moveIndex = Settings.entriesTextTrimmed.ElementAt(i).Key;
                             Settings.MoveEntryToTop(moveIndex);
                             return true;
                         }
@@ -337,7 +348,7 @@ namespace HovText
                         if (Settings.entriesChecksum.ElementAt(i).Value == checksum)
                         {
                             Logging.Log($"index=[{index}] Image is already in data array - reusing it");
-                            int moveIndex = Settings.entriesText.ElementAt(i).Key;
+                            int moveIndex = Settings.entriesTextTrimmed.ElementAt(i).Key;
                             Settings.MoveEntryToTop(moveIndex);
                             return true;
                         }
@@ -407,15 +418,18 @@ namespace HovText
             // Log if this is a TEXT or IMAGE clipboard
             if (isClipboardText)
             {
-                Logging.Log($"index=[{index}] Adding new [TEXT] entry from application [" + whoUpdatedClipboardName + "]:");
+                Logging.Log($"index=[{index}] Adding new [TEXT] entry from application [" + whoUpdatedClipboardName + "] to clipboard list");
             }
             else
             {
-                Logging.Log($"index=[{index}] Adding new [IMAGE] entry from application [" + whoUpdatedClipboardName + "]:");
+                Logging.Log($"index=[{index}] Adding new [IMAGE] entry from application [" + whoUpdatedClipboardName + "] to clipboard list");
             }
 
             // clipboardText
             Settings.entriesText.Add(index, clipboardText);
+
+            // clipboardTextTrimmed
+            Settings.entriesTextTrimmed.Add(index, clipboardText.Trim());
 
             // entriesImage
             if (clipboardImage != null)
@@ -434,14 +448,9 @@ namespace HovText
             // entriesIsTransparent
             if (clipboardImage != null && isClipboardImageTransparent)
             {
-                
-                //Bitmap bmp = new Bitmap(clipboardImage);
-                //bmp.MakeTransparent(bmp.GetPixel(0, 0));
                 Bitmap bmp = new Bitmap(transparentImage);
                 Bitmap resizedBmp = ResizeImage(bmp, 200, 400); // width, height
                 Settings.entriesImageTrans.Add(index, (Image)resizedBmp);
-                
-                //Settings.entriesImageTrans.Add(insertIndex, transparentImage);
                 Settings.entriesIsTransparent.Add(index, true);
             }
             else
@@ -454,10 +463,16 @@ namespace HovText
             Settings.entriesChecksum.Add(index, checksum);
 
             // entriesIsFavorite
-            Settings.entriesIsFavorite.Add(index, isFavorite);
+            if(Settings.isEnabledFavorites)
+            {
+                Settings.entriesIsFavorite.Add(index, isFavorite);
+            } else
+            {
+                Settings.entriesIsFavorite.Add(index, false);
+            }            
 
             // entriesIsUrl
-            bool isUrl = Uri.TryCreate(clipboardText, UriKind.Absolute, out Uri myUri) && (myUri.Scheme == Uri.UriSchemeHttp || myUri.Scheme == Uri.UriSchemeHttps || myUri.Scheme == Uri.UriSchemeFtp || myUri.Scheme == "ws" || myUri.Scheme == "wss");
+            bool isUrl = Uri.TryCreate(clipboardText.Trim(), UriKind.Absolute, out Uri myUri) && (myUri.Scheme == Uri.UriSchemeHttp || myUri.Scheme == Uri.UriSchemeHttps || myUri.Scheme == Uri.UriSchemeFtp || myUri.Scheme == "ws" || myUri.Scheme == "wss");
             if (isUrl)
             {
                 Settings.entriesIsUrl.Add(index, true);
@@ -471,7 +486,7 @@ namespace HovText
             bool isEmail = false;
             if (isClipboardText)
             {
-                isEmail = Regex.IsMatch(clipboardText, @"^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$");
+                isEmail = Regex.IsMatch(clipboardText.Trim(), @"^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$");
             }
             Settings.entriesIsEmail.Add(index, isEmail);
 
@@ -494,7 +509,6 @@ namespace HovText
             Settings.entriesApplicationIcon.Add(index, whoUpdatedClipboardIcon);
 
             // Append the (one) newly processed clipboard data to the data file
-            //                SaveClipboardEntryToFile(entryIndex);
             Settings.clipboardSaveQueue.Add(index);
 
             // Set the clipboard, if we have some text
@@ -526,23 +540,10 @@ namespace HovText
                     Logging.Log("Max entries of [" + Settings.clipboardEntriesToSave + "] has been reached in the clipboard list - removing entry index [" + firstKey + "] from clipboard list");
 
                     // Remove the chosen entry, so it does not show duplicates
-                    Settings.entriesText.Remove(firstKey);
-                    Settings.entriesImage.Remove(firstKey);
-                    Settings.entriesImageTrans.Remove(firstKey);
-                    Settings.entriesChecksum.Remove(firstKey);
-                    Settings.entriesApplication.Remove(firstKey);
-                    Settings.entriesApplicationIcon.Remove(firstKey);
-                    Settings.entriesOriginal.Remove(firstKey);
-                    Settings.entriesShow.Remove(firstKey);
-                    Settings.entriesIsFavorite.Remove(firstKey);
-                    Settings.entriesIsUrl.Remove(firstKey);
-                    Settings.entriesIsEmail.Remove(firstKey);
-                    Settings.entriesIsImage.Remove(firstKey);
-                    Settings.entriesIsTransparent.Remove(firstKey);
-                    Settings.entriesOrder.Remove(firstKey);
+                    Settings.RemoveEntryFromLists(firstKey);
                 }
             }
-            Logging.Log("Entries in history list is now [" + Settings.entriesText.Count + "]");
+            Logging.Log("Entries in history list is now [" + Settings.entriesTextTrimmed.Count + "]");
         }
 
 
@@ -646,11 +647,16 @@ namespace HovText
 
             if (threadSafeIndex > 0)
             {
-                entryText = Settings.entriesText[index];
+                if(Settings.isEnabledTrimWhitespacing)
+                {
+                    entryText = Settings.entriesTextTrimmed[index];
+                } else
+                {
+                    entryText = Settings.entriesText[index];
+                }
                 entryImage = Settings.entriesImage[index];
                 isEntryText = !string.IsNullOrEmpty(entryText);
                 isEntryImage = entryImage != null;
-                //                }
 
                 // Put text to the clipboard
                 if (isEntryText)
@@ -663,6 +669,11 @@ namespace HovText
                         }
                         else
                         {
+                            //string removeWhitespaces = Settings.GetRegistryKey(Settings.registryPath, "TrimWhitespaces");
+                            //if (removeWhitespaces == "1")
+                            //{
+                            //    entryText = entryText.Trim();
+                            //}
                             Clipboard.SetText(entryText, TextDataFormat.UnicodeText); // https://stackoverflow.com/a/14255608/2028935
                         }
                     }
