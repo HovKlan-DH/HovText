@@ -239,7 +239,7 @@ namespace HovText
         internal static Settings settings;
         public static bool hasTroubleshootLogged;
         private static bool cleanupApp = false;
-        private static string originatingApplicationName = "";
+        public static string originatingApplicationName = "";
         public static int activeDisplay; // selected display to show the history (default will be the main display)
         private static string hotkey; // needed for validating the keys as it is not set in the event
         public static string osVersion;
