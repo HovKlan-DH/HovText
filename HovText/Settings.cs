@@ -437,6 +437,19 @@ namespace HovText
 
         protected override void WndProc(ref Message m)
         {
+            /*
+            const int WM_NCACTIVATE = 0x0086;
+
+            if (m.Msg == WM_NCACTIVATE && m.WParam == IntPtr.Zero)
+            {
+                if (m.WParam == IntPtr.Zero)
+                {
+                    this.Close();
+                }
+                
+            }
+            */
+
             switch (m.Msg)
             {
                 // Catch the clipboard chain [UPDATE] event
@@ -1265,8 +1278,10 @@ namespace HovText
 
         private void ChangeFocusToHovText()
         {
+            /*
             NativeMethods.SetForegroundWindow(Handle);
             Logging.Log("Set focus to HovText");
+            */
         }
 
 

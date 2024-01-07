@@ -10,6 +10,8 @@ for the history area.
 ##################################################################################################
 */
 
+using System.Runtime.InteropServices;
+
 using HovText.Properties;
 using static HovText.Program;
 using System;
@@ -17,6 +19,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
+
 
 namespace HovText
 {
@@ -40,6 +43,8 @@ namespace HovText
         private Timer _flashTimer;
         private Color _flashColor;
         private Dictionary<string, Control> controlCache = new Dictionary<string, Control>();
+        private DateTime lastActionTime = DateTime.MinValue;
+        private Timer focusCheckTimer;
 
 
         // ###########################################################################################
@@ -52,6 +57,46 @@ namespace HovText
 
             // Catch the mousewheel event
             MouseWheel += new MouseEventHandler(Form_MouseWheel);
+
+            // Define a timer for "did we loose form focus"
+            focusCheckTimer = new Timer();
+            focusCheckTimer.Interval = 100;
+            focusCheckTimer.Tick += FocusCheckTimer_Tick;
+        }
+
+
+        // ###########################################################################################
+        // "Lost focus" functions
+        // ###########################################################################################
+
+        [DllImport("user32.dll")]
+
+        private static extern IntPtr GetForegroundWindow();
+
+        private void FocusCheckTimer_Tick(object sender, EventArgs e)
+        {
+            IntPtr activeWindowHandle = GetForegroundWindow();
+            bool isFormActive = (activeWindowHandle == this.Handle || this.ContainsFocus);
+
+            if (!isFormActive && (DateTime.Now - lastActionTime).TotalSeconds > 1) // 1-second debounce
+            {
+                Logging.Log("Closed clipboard list as mouse clicked outside of clipboard list");
+                lastActionTime = DateTime.Now;
+                ActionEscape(false);
+            }
+        }
+
+        protected override void OnVisibleChanged(EventArgs e)
+        {
+            base.OnVisibleChanged(e);
+            if (this.Visible)
+            {
+                focusCheckTimer.Start();
+            }
+            else
+            {
+                focusCheckTimer.Stop();
+            }
         }
 
 
@@ -118,7 +163,6 @@ namespace HovText
 
         public void SetupForm(bool keepHeaders = false)
         {
-
             // "keepHeaders = true" equals that headline + search will be kept - but all other elements are deleted
             if (keepHeaders)
             {
@@ -1342,7 +1386,7 @@ namespace HovText
         // Action to take when ESCAPE is pressed
         // ###########################################################################################
 
-        public void ActionEscape()
+        public void ActionEscape(bool ChangeFocusToOriginatingApplication = true)
         {
             // Reset so all entries will be visible again
             foreach (var entry in Settings.entriesTextTrimmed)
@@ -1360,8 +1404,13 @@ namespace HovText
                 Settings.settings.Show();
             }
 
-            // Set focus back to the originating application
-            Settings.ChangeFocusToOriginatingApplication();
+            // Set focus back to the originating application.
+            // It should not enforce this, when we are clicking the mouse outside form, as
+            // the focus then should go to this application instead.
+            if (ChangeFocusToOriginatingApplication)
+            {
+                Settings.ChangeFocusToOriginatingApplication();
+            }
         }
 
 
