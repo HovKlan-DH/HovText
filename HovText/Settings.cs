@@ -134,6 +134,7 @@ namespace HovText
         // Registry, default values
         public const string registryPath = "SOFTWARE\\HovText";
         public const string registryPathDisplays = "SOFTWARE\\HovText\\DisplayLayout";
+        public const string registryPathApplications = "SOFTWARE\\HovText\\Applications";
         public const string registryPathRun = "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run";
         private const string registryHotkeyToggleApplication = "Control + Oem5"; // hotkey "Toggle application on/off"
         private const string registryHotkeySearch = "Alt + S"; // hotkey "Search"
@@ -196,6 +197,10 @@ namespace HovText
         private bool isClipboardSaveQueueBeingProcessed = false; // "true" when we are actively working on the "save queue"
         public static int clipboardEntriesToSave = 50;
         public static int maxClipboardEntriesToSave = 500;
+
+        // Applications
+        public static List<string> processName = new List<string>();
+        public static List<string> appName = new List<string>();
 
         // Create instances of other classes
         readonly History history = new History();
@@ -375,6 +380,14 @@ namespace HovText
             // Catch display change events (e.g. add/remove displays or change of main display)
             SystemEvents.DisplaySettingsChanged += new EventHandler(DisplayChangesEvent);
 
+            // Initialize the application lists
+            for (int i=0; i <= 8; i++)
+            {
+                processName.Add(null);
+                appName.Add(null);
+            }
+            processName[0] = exeFileNameWithoutExtension; // force HovText as the first entry in the "exclude list"
+
             // Initialize registry and get its values for the various checkboxes
             ConvertLegacyRegistry();
             InitializeRegistry();
@@ -384,7 +397,6 @@ namespace HovText
             if (StartMinimized)
             {
                 WindowState = FormWindowState.Minimized;
-                ShowInTaskbar = false;
             }
 
             // Should we start in "disabled" mode?
@@ -395,9 +407,6 @@ namespace HovText
 
             // Set the notify icon
             SetNotifyIcon();
-
-            UiColorsLabelActive.Text = "Active entry\r\nLine 2\r\nLine 3\r\nLine 4\r\nLine 5\r\nLine 6\r\nLine 7";
-            UiColorsLabelEntry.Text = "Entry\r\nLine 2\r\nLine 3\r\nLine 4\r\nLine 5\r\nLine 6\r\nLine 7";
 
             // Set the initial text on the tray icon
             UpdateNotifyIconText();
@@ -437,19 +446,6 @@ namespace HovText
 
         protected override void WndProc(ref Message m)
         {
-            /*
-            const int WM_NCACTIVATE = 0x0086;
-
-            if (m.Msg == WM_NCACTIVATE && m.WParam == IntPtr.Zero)
-            {
-                if (m.WParam == IntPtr.Zero)
-                {
-                    this.Close();
-                }
-                
-            }
-            */
-
             switch (m.Msg)
             {
                 // Catch the clipboard chain [UPDATE] event
@@ -1139,7 +1135,11 @@ namespace HovText
                 UiHotkeysLabelPasteOnHotkey.Enabled = false;
                 UiHotkeysButtonToggleFavorite.Enabled = false;
 
-                history.ActionEscape();
+                // Close clipboard list, if it is visible
+                if (history.Visible)
+                {
+                    history.ActionEscape();
+                }
             }
 
             SetNotifyIcon();
@@ -1386,7 +1386,6 @@ namespace HovText
 
             // Check or create the main "HovText" and "HovText\DisplayLayout" paths in HKEY_CURRENT_USER\SOFTWARE registry
             RegistryPathCheckOrCreate(registryPath);
-            RegistryPathCheckOrCreate(registryPathDisplays);
 
             string regVal;
 
@@ -1438,7 +1437,6 @@ namespace HovText
 
         private static void InitializeRegistry()
         {
-
             string regVal;
 
             // Check if the following registry entries exists - if not, then create them with their default values
@@ -1579,6 +1577,9 @@ namespace HovText
             activeDisplay = GetPrimaryDisplay();
             string displaysId = GetUniqueDisplayLayout();
 
+            // Make sure this one exists
+            RegistryPathCheckOrCreate(registryPathDisplays);
+
             RegistryKeyCheckOrCreate(registryPath, "HistoryEntries", historyListElements.ToString());
             RegistryKeyCheckOrCreate(registryPath, "HistorySizeWidth", historySizeWidth.ToString());
             RegistryKeyCheckOrCreate(registryPath, "HistorySizeHeight", historySizeHeight.ToString());
@@ -1652,6 +1653,36 @@ namespace HovText
             Logging.Log("    \"HistoryColorCustomEntryText\" = [" + regVal + "]");
             regVal = GetRegistryKey(registryPath, "HistoryColorCustomBorder");
             Logging.Log("    \"HistoryColorCustomBorder\" = [" + regVal + "]");
+
+
+            // Applications ("do not process" list)
+            // ------------------------------------
+            Logging.Log("  Applications:");
+
+            // Create default "do not process" application list, if not already created
+            using (RegistryKey registryPathExists = Registry.CurrentUser.OpenSubKey(registryPathApplications))
+            {
+                if (registryPathExists == null)
+                {
+                    RegistryPathCheckOrCreate(registryPathApplications);
+                    SetRegistryKey(registryPathApplications, "1_process", "EXCEL");
+                    SetRegistryKey(registryPathApplications, "1_app", "Microsoft Excel");
+                    //SetRegistryKey(registryPathApplications, "2_process", "devenv");
+                    //SetRegistryKey(registryPathApplications, "2_app", "Microsoft Visual Studio");
+                } else
+                {
+                    for (int i = 1; i <= 8; i++)
+                    {
+                        string process = GetRegistryKey(registryPathApplications, i+"_process") ?? "";
+                        string app = GetRegistryKey(registryPathApplications, i + "_app") ?? "";
+                        if (process.Length > 0 || app.Length > 0)
+                        {
+                            Logging.Log("    ["+i+"] = ["+ process +"]["+ app + "]");
+                        }
+                    }
+                }
+            }
+
 
             // Advanced
             // --------
@@ -2143,6 +2174,34 @@ namespace HovText
             if (control != null)
             {
                 control.Checked = true;
+            }
+
+
+            // ------------------------------------------
+            // "Applications" tab
+            // ------------------------------------------
+
+            // Applications
+            for (int i = 1; i <= 8; i++)
+            {
+
+                string process = GetRegistryKey(registryPathApplications, i + "_process"); 
+                Control findTag = FindControlByTag(this.Controls, i+"_process");
+                if (findTag != null)
+                {
+                    findTag.Text = process;
+                    processName[i] = process;
+                }
+
+                string name = GetRegistryKey(registryPathApplications, i + "_app");
+                findTag = FindControlByTag(this.Controls, i + "_app");
+                if (findTag != null)
+                {
+                    findTag.Text = name;
+                    appName[i] = name;
+                }
+
+
             }
 
 
@@ -5211,6 +5270,86 @@ namespace HovText
         [DllImport("user32.dll")]
         public static extern bool ReleaseCapture();
 
+        private void guna2TextBox1_Leave(object sender, EventArgs e)
+        {
+            // Cast the sender to a Guna2TextBox
+            var textBox = sender as Guna.UI2.WinForms.Guna2TextBox;
+
+            if (textBox != null)
+            {
+                string tag = textBox.Tag.ToString();
+                string value = textBox.Text;
+
+                // Parse the TAG to an INT and a STRING
+                string[] parts = tag.Split('_');
+                int.TryParse(parts[0], out int number);
+                string type = parts[1];
+
+                if (type == "process")
+                {
+                    processName[number] = value;
+                }
+                if (type == "app")
+                {
+                    appName[number] = value;
+                }
+
+                if (value.Trim().Length > 0)
+                {
+                    SetRegistryKey(registryPathApplications, tag, value);
+                } else
+                {
+                    DeleteRegistryKey(registryPathApplications, tag);
+                }
+            }
+        }
+
+        private void guna2PictureBox1_Click(object sender, EventArgs e)
+        {
+            // Cast the sender to a Guna2PictureBox
+            var pictureBox = sender as Guna.UI2.WinForms.Guna2PictureBox;
+
+            if (pictureBox != null && pictureBox.Tag is string tagString)
+            {
+                if (int.TryParse(tagString, out int tag) && tag >= 1 && tag <= 8)
+                {
+                    DeleteRegistryKey(registryPathApplications, tag + "_process");
+                    DeleteRegistryKey(registryPathApplications, tag + "_app");
+                    Control findTag = FindControlByTag(this.Controls, tag + "_process");
+                    findTag.Text = "";
+                    findTag = FindControlByTag(this.Controls, tag + "_app");
+                    findTag.Text = "";
+                }
+                else
+                {
+                    Logging.Log("Error: Invalid TAG");
+                }
+            }
+        }
+
+
+        private Control FindControlByTag(Control.ControlCollection controls, object tagToFind)
+        {
+            foreach (Control control in controls)
+            {
+                if (control.Tag != null && control.Tag.Equals(tagToFind))
+                {
+                    return control;
+                }
+
+                // Recursively search in child controls
+                if (control.HasChildren)
+                {
+                    Control foundControl = FindControlByTag(control.Controls, tagToFind);
+                    if (foundControl != null)
+                    {
+                        return foundControl;
+                    }
+                }
+            }
+
+            return null; // No control found with the given tag
+        }
 
         // ###########################################################################################
     }
