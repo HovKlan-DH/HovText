@@ -53,17 +53,6 @@ namespace HovText
         {
             Logging.Log($"Saving entry index [{indexToSave}] to encrypted \"data\" file [{Settings.pathAndData}]");
 
-            // Check if file exists, if not, create it and insert version name
-            if (!File.Exists(Settings.pathAndData))
-            {
-                using (var fileStream = new FileStream(Settings.pathAndData, FileMode.Create))
-                using (var writer = new StreamWriter(fileStream))
-                {
-                    writer.WriteLine($"HovText {Settings.appVer}");
-                    writer.Flush();
-                }
-            }
-
             var entriesOriginalLoad = new SortedList<int, Dictionary<string, object>>();
             var entriesApplicationLoad = new SortedDictionary<int, string>();
             var entriesApplicationIconLoad = new SortedDictionary<int, Image>();
@@ -76,6 +65,17 @@ namespace HovText
             entriesIsTransparentLoad.Add(indexToSave, Settings.entriesIsTransparent[indexToSave]);
             entriesChecksumLoad.Add(indexToSave, Settings.entriesChecksum[indexToSave]);
 
+            // Check if file exists, if not, create it and insert version name
+            if (!File.Exists(Settings.pathAndData))
+            {
+                using (var fileStream = new FileStream(Settings.pathAndData, FileMode.Create))
+                using (var writer = new StreamWriter(fileStream))
+                {
+                    writer.WriteLine($"HovText {Settings.appVer}");
+                    writer.Flush();
+                }
+            }
+                        
             foreach (var format in entriesOriginalLoad)
             {
                 if (format.Value == null)
@@ -150,7 +150,7 @@ namespace HovText
                 using (var reader = new StreamReader(tempStream))
                 {
                     version = reader.ReadLine();
-                    Logging.Log($"Version saved to \"data\" file is [{version}]");
+                    Logging.Log($"Version info from \"data\" file is [{version}]");
                 }
 
                 int counter = 0;
@@ -562,7 +562,7 @@ namespace HovText
         {
             if (File.Exists(Settings.pathAndDataFavoriteLoad))
             {
-                Logging.Log("Reading encrypted \"favorite\" file [pathAndDataFavoriteLoad]");
+                Logging.Log($"Reading encrypted \"favorite\" file [{Settings.pathAndDataFavoriteLoad}]");
 
                 try
                 {
@@ -572,7 +572,7 @@ namespace HovText
                     using (var reader = new StreamReader(tempStream))
                     {
                         version = reader.ReadLine();
-                        Logging.Log($"Version saved to \"favorite\" file is [{version}]");
+                        Logging.Log($"Version info from \"favorite\" file is [{version}]");
                     }
 
                     int favoriteCount = 0;
@@ -709,7 +709,7 @@ namespace HovText
 
 
         // ###########################################################################################
-        // Delete troubleshoot logfile and clipboard data file - called when doing a clean-up
+        // Delete clipboard data files and others
         // ###########################################################################################
 
         public static bool DeleteOldFiles()

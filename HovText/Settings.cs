@@ -263,8 +263,10 @@ namespace HovText
         bool hasCheckedForUpdate = false;
         public static bool isProcessingClipboardQueue = false;
         bool saveFilesActive = false;
+        public static bool isProcessingClipboard = false;
         bool activatedHotkeys = false; // the hotkeys should not be enabled until we have loaded everything into the clipboard list
         private DateTime lastClipboardEvent = DateTime.MinValue;
+        //private int minMsBetween = 100;
 
 
         // ###########################################################################################
@@ -444,6 +446,7 @@ namespace HovText
         // Catch window/form messages from Windows
         // ###########################################################################################
 
+        private int minMsBetween = 75;
         protected override void WndProc(ref Message m)
         {
             switch (m.Msg)
@@ -451,31 +454,67 @@ namespace HovText
                 // Catch the clipboard chain [UPDATE] event
                 case WM_CLIPBOARDUPDATE:
 
-                    Logging.Log("Received clipboard [UPDATE] event");
+                    // Get the application name which updated the clipboard
+                    IntPtr whoUpdatedClipboardHwnd = NativeMethods.GetClipboardOwner();
+                    uint threadId = NativeMethods.GetWindowThreadProcessId(whoUpdatedClipboardHwnd, out uint thisProcessId);
+                    string whoUpdatedClipboardName = Process.GetProcessById((int)thisProcessId).ProcessName;
 
-                    // Only capture the clipboard, if HovText is enabled
-                    if (isApplicationEnabled)
+                    // I am not sure why some(?) applications are returned as "Idle" or "svchost" when
+                    // coming from clipboard (higher priveledges?) - in this case then get the active
+                    // application and use that name instead. This could potentially be a problem, if
+                    // a process is correctly called "Idle" but not sure if this is realistic?
+                    if (whoUpdatedClipboardName.ToLower() == "idle")
                     {
+                        whoUpdatedClipboardName = HandleClipboard.GetActiveApplicationName();
+                    }
 
-                        // Do not process clipboard, if the update is faster than ???ms
-                        int minMsBetween = 100;
-                        DateTime now = DateTime.Now;
-                        if ((now - lastClipboardEvent).TotalMilliseconds >= minMsBetween)
+                    //Logging.Log("Received clipboard [UPDATE] event");
+                    Logging.Log("Received clipboard [UPDATE] event from application ["+ whoUpdatedClipboardName +"]");
+
+                    // Skip clipboard processing, if the application is on the "do not process" list
+                    bool proceed = true;
+                    foreach (string process in processName)
+                    {
+                        if (whoUpdatedClipboardName == process)
                         {
-                            // Parallize the task to get the clipboard data - this does not block the UI then
-                            Task.Run(() =>
-                            {
-                                clipboardHandler.GetClipboardData();
-                            });
-                            lastClipboardEvent = now;
-                        } else
-                        {
-                            Logging.Log($"Warning: Last clipboard UPDATE event was less than [{minMsBetween}ms] ago - ignoring this event");
+                            Logging.Log($"Discarding clipboard [UPDATE] event from application [" + whoUpdatedClipboardName + "] as it is on the \"do not process\" list");
+                            proceed = false;
+                            break;
                         }
                     }
-                    else
+
+                    if (proceed)
                     {
-                        Logging.Log("Discarding clipboard UPDATE event as HovText is not enabled");
+                        isProcessingClipboard = true;
+
+                        // Only capture the clipboard, if HovText is enabled
+                        if (isApplicationEnabled)
+                        {
+
+                            // Do not process clipboard, if the update is faster than ??? ms
+                            DateTime now = DateTime.Now;
+                            TimeSpan timeSinceLastEvent = now - lastClipboardEvent;
+                            double elapsedMilliseconds = timeSinceLastEvent.TotalMilliseconds;
+                            if (elapsedMilliseconds >= minMsBetween)
+                            {
+//                                Logging.Log($"Debug: Last clipboard UPDATE event was [{elapsedMilliseconds}ms] ago - processing it");
+
+                                // Parallize the task to get the clipboard data - this does not block the UI then
+                                //Task.Run(() =>
+                                //{
+                                    clipboardHandler.GetClipboardData(whoUpdatedClipboardName, thisProcessId);
+                                //});
+                                lastClipboardEvent = now;
+                            } else
+                            {
+                                Logging.Log($"Warning: Last clipboard UPDATE event was only [{elapsedMilliseconds:N0}ms] ago - less than the required [{minMsBetween}ms] - ignoring this event");
+                            }
+                        }  else
+                        {
+                            Logging.Log("Discarding clipboard UPDATE event as HovText is not enabled");
+                        }
+
+                        isProcessingClipboard = false;
                     }
 
                     break;
@@ -621,6 +660,7 @@ namespace HovText
             // Process the clipboard queue, if we are not currently working in it AND if it has entries to process
             if (
                 !isProcessingClipboardQueue &&
+                clipboardSaveQueue.Count == 0 &&
                 HandleClipboard.clipboardQueue.Count > 0 &&
                 HandleFiles.onLoadAllEntriesInClipboardQueue)
             {
@@ -660,43 +700,45 @@ namespace HovText
         private void TimerProcessSaveQueue_Tick(object sender, EventArgs e)
         {
             if(UiStorageToggleSaveClipboards.Checked)
-            {            
-                // Only process the queue, if it is currently NOT being worked on AND if it has content
-                if (clipboardSaveQueue.Count > 0 && !isClipboardSaveQueueBeingProcessed)
+            {
+                // Only process the queue, if it is currently NOT being worked on AND if it has content.
+                // We can start saving data, once all entries have been processed (the boolean
+                // is set to "true" of no file is loaded).
+                if (
+                    clipboardSaveQueue.Count > 0 && 
+                    !isClipboardSaveQueueBeingProcessed &&
+                    !isProcessingClipboardQueue &&
+                    HandleFiles.onLoadAllEntriesProcessedInClipboardQueue
+                    )
                 {
-                    // We can start saving data, once all entries have been processed (the boolean
-                    // is set to "true" of no file is loaded)
-                    if (HandleFiles.onLoadAllEntriesProcessedInClipboardQueue)
+                    isClipboardSaveQueueBeingProcessed = true;
+                    TimerToggleSaveIcon.Enabled = true; // show the "saving" icons
+
+                    // Parallize it so we do not block UI
+                    Task.Run(() =>
                     {
-                        isClipboardSaveQueueBeingProcessed = true;
-                        TimerToggleSaveIcon.Enabled = true; // show the "saving" icons
+                        // Take a copy of "clipboardSaveQueue"
+                        List<int> clipboardSaveQueueTmp = new List<int>(clipboardSaveQueue); 
 
-                        // Parallize it so we do not block UI
-                        Task.Run(() =>
+                        // Walk through all elements of the queue
+                        foreach (var index in clipboardSaveQueueTmp)
                         {
-                            // Take a copy of "clipboardSaveQueue"
-                            List<int> clipboardSaveQueueTmp = new List<int>(clipboardSaveQueue); 
-
-                            // Walk through all elements of the queue
-                            foreach (var index in clipboardSaveQueueTmp)
+                            if (entriesOriginal.ContainsKey(index))
                             {
-                                if (entriesOriginal.ContainsKey(index))
-                                {
-                                    HandleFiles.SaveClipboardEntryToFile(index);
-                                    clipboardSaveQueue.Remove(index);
-                                }
-                                else
-                                {
-                                    Logging.Log($"Error: Could not find index [{index}] for saving!? Removing it from list");
-                                    clipboardSaveQueue.Remove(index);
-                                }
+                                HandleFiles.SaveClipboardEntryToFile(index);
+                                clipboardSaveQueue.Remove(index);
                             }
+                            else
+                            {
+                                Logging.Log($"Error: Could not find index [{index}] for saving!? Removing it from list");
+                                clipboardSaveQueue.Remove(index);
+                            }
+                        }
 
-                            HandleFiles.saveIndexAndFavoriteFiles = true;
-                            HandleFiles.onLoadAllEntriesSavedFromQueue = true; // if we have loaded content from files, then mark everything as saved now
-                            isClipboardSaveQueueBeingProcessed = false;
-                        });
-                    }
+                        HandleFiles.saveIndexAndFavoriteFiles = true;
+                        HandleFiles.onLoadAllEntriesSavedFromQueue = true; // if we have loaded content from files, then mark everything as saved now
+                        isClipboardSaveQueueBeingProcessed = false;
+                    });
                 }
             }
         }
@@ -721,6 +763,12 @@ namespace HovText
             }
 
             floppyToggle = !floppyToggle;
+
+            //Logging.Log($"Debug:");
+            //Logging.Log($"  HandleClipboard.clipboardQueue.Count=[{HandleClipboard.clipboardQueue.Count}]");
+            //Logging.Log($"  clipboardSaveQueue.Count=[{clipboardSaveQueue.Count}]");
+            //Logging.Log($"  UiStorageToggleSaveClipboards.Checked=[{UiStorageToggleSaveClipboards.Checked}]");
+            //Logging.Log($"    if ({HandleClipboard.clipboardQueue.Count} == 0 && ({clipboardSaveQueue.Count} == 0 || !{UiStorageToggleSaveClipboards.Checked}))");
 
             // Hide the loader-icons, if there is no queues left to process
             if (HandleClipboard.clipboardQueue.Count == 0 && (clipboardSaveQueue.Count == 0 || !UiStorageToggleSaveClipboards.Checked))
@@ -2809,7 +2857,13 @@ namespace HovText
         {
             Logging.Log("Clicked tray icon \"About\"");
             ShowSettingsForm();
-            UiFormTabControl.SelectedIndex = 9; // About
+            string tabName = "UiTabAbout";
+            var tabToSelect = UiFormTabControl.TabPages.Cast<TabPage>().FirstOrDefault(tab => tab.Name == tabName);
+            if (tabToSelect != null)
+            {
+                //UiFormTabControl.SelectedIndex = 9; // About
+                UiFormTabControl.SelectedTab = tabToSelect;
+            }
         }
 
 
@@ -2819,9 +2873,15 @@ namespace HovText
 
         private void TrayIconSettings_Click(object sender, EventArgs e)
         {
-            ShowSettingsForm();
-            UiFormTabControl.SelectedIndex = 0; // General
             Logging.Log("Clicked tray icon \"Settings\"");
+            ShowSettingsForm();
+            string tabName = "UiTabGeneral";
+            var tabToSelect = UiFormTabControl.TabPages.Cast<TabPage>().FirstOrDefault(tab => tab.Name == tabName);
+            if (tabToSelect != null)
+            {
+                //UiFormTabControl.SelectedIndex = 0; // General
+                UiFormTabControl.SelectedTab = tabToSelect;
+            }
         }
 
 
@@ -2876,7 +2936,14 @@ namespace HovText
                 TimerMouseClick.Stop();
 
                 ShowSettingsForm();
-                UiFormTabControl.SelectedIndex = 0;
+
+                string tabName = "UiTabGeneral";
+                var tabToSelect = UiFormTabControl.TabPages.Cast<TabPage>().FirstOrDefault(tab => tab.Name == tabName);
+                if (tabToSelect != null)
+                {
+                    //UiFormTabControl.SelectedIndex = 0; // General
+                    UiFormTabControl.SelectedTab = tabToSelect;
+                }
             }
         }
 
@@ -3391,7 +3458,13 @@ namespace HovText
                 hotkeyConflict.label2.Text = conflictText;
                 hotkeyConflict.Show();
                 hotkeyConflict.Activate();
-                UiFormTabControl.SelectedIndex = 1;
+                string tabName = "UiTabHotkeys";
+                var tabToSelect = UiFormTabControl.TabPages.Cast<TabPage>().FirstOrDefault(tab => tab.Name == tabName);
+                if (tabToSelect != null)
+                {
+                    //UiFormTabControl.SelectedIndex = 1;
+                    UiFormTabControl.SelectedTab = tabToSelect;
+                }
             }
 
             // Save the hotkeys to registry, if no erros
@@ -4732,52 +4805,62 @@ namespace HovText
 
         public void UpdateClipboardEntriesCounters()
         {
-            UiAdvancedLabelClipboardEntries.Text = "Clipboard entries: " + entriesOriginal.Count.ToString();
-            int countImages = entriesIsImage.Count(entry => entry.Value == true);
-            int countFavorites = entriesIsFavorite.Count(entry => entry.Value == true);
-            int countAll = entriesOrder.Count();
-            int countText = countAll - countImages;
+            if(HandleClipboard.clipboardQueue.Count == 0 && clipboardSaveQueue.Count == 0)
+            {
+                try
+                {
+                    UiAdvancedLabelClipboardEntries.Text = "Clipboard entries: " + entriesOriginal.Count.ToString();
+                    int countImages = entriesIsImage.Count(entry => entry.Value == true);
+                    int countFavorites = entriesIsFavorite.Count(entry => entry.Value == true);
+                    int countAll = entriesOrder.Count();
+                    int countText = countAll - countImages;
 
-            // Find unique keys to find counter for "countTextAndFavorites"
-            var nonImageKeys = entriesOrder.Keys.Except(entriesIsImage.Where(entry => entry.Value == true).Select(entry => entry.Key));
-            var favoriteKeys = entriesIsFavorite.Where(entry => entry.Value == true).Select(entry => entry.Key);
-            var textAndFavoritesKeys = nonImageKeys.Union(favoriteKeys);
-            int countTextAndFavorites = textAndFavoritesKeys.Count();
+                    // Find unique keys to find counter for "countTextAndFavorites"
+                    var nonImageKeys = entriesOrder.Keys.Except(entriesIsImage.Where(entry => entry.Value == true).Select(entry => entry.Key));
+                    var favoriteKeys = entriesIsFavorite.Where(entry => entry.Value == true).Select(entry => entry.Key);
+                    var textAndFavoritesKeys = nonImageKeys.Union(favoriteKeys);
+                    int countTextAndFavorites = textAndFavoritesKeys.Count();
 
-            if (countText == 1)
-            {
-                UiStorageLabelSaveOnlyTextEntries.Text = "(" + countText + " entry)";
-            }
-            else
-            {
-                UiStorageLabelSaveOnlyTextEntries.Text = "(" + countText + " entries)";
-            }
+                    if (countText == 1)
+                    {
+                        UiStorageLabelSaveOnlyTextEntries.Text = "(" + countText + " entry)";
+                    }
+                    else
+                    {
+                        UiStorageLabelSaveOnlyTextEntries.Text = "(" + countText + " entries)";
+                    }
 
-            if (countFavorites == 1)
-            {
-                UiStorageLabelSaveOnlyFavoritesEntries.Text = "(" + countFavorites + " entry)";
-            }
-            else
-            {
-                UiStorageLabelSaveOnlyFavoritesEntries.Text = "(" + countFavorites + " entries)";
-            }
+                    if (countFavorites == 1)
+                    {
+                        UiStorageLabelSaveOnlyFavoritesEntries.Text = "(" + countFavorites + " entry)";
+                    }
+                    else
+                    {
+                        UiStorageLabelSaveOnlyFavoritesEntries.Text = "(" + countFavorites + " entries)";
+                    }
 
-            if (countAll == 1)
-            {
-                UiStorageLabelSaveAllEntries.Text = "(" + countAll + " entry)";
-            }
-            else
-            {
-                UiStorageLabelSaveAllEntries.Text = "(" + countAll + " entries)";
-            }
+                    if (countAll == 1)
+                    {
+                        UiStorageLabelSaveAllEntries.Text = "(" + countAll + " entry)";
+                    }
+                    else
+                    {
+                        UiStorageLabelSaveAllEntries.Text = "(" + countAll + " entries)";
+                    }
 
-            if (countTextAndFavorites == 1)
-            {
-                UiStorageLabelSaveTextAndFavoritesEntries.Text = "(" + countTextAndFavorites + " entry)";
-            }
-            else
-            {
-                UiStorageLabelSaveTextAndFavoritesEntries.Text = "(" + countTextAndFavorites + " entries)";
+                    if (countTextAndFavorites == 1)
+                    {
+                        UiStorageLabelSaveTextAndFavoritesEntries.Text = "(" + countTextAndFavorites + " entry)";
+                    }
+                    else
+                    {
+                        UiStorageLabelSaveTextAndFavoritesEntries.Text = "(" + countTextAndFavorites + " entries)";
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Logging.Log("Error: " + ex.Message);
+                }
             }
         }
 
@@ -4814,6 +4897,8 @@ namespace HovText
                 GC.Collect();
                 GC.WaitForPendingFinalizers();
 
+                // Save the "index" and "favorite" files afterwards
+                HandleFiles.saveIndexAndFavoriteFiles = true;
             } else
             {
                 Logging.Log($"Could not proceed as one or more clipboards are being processed");
@@ -5184,7 +5269,8 @@ namespace HovText
             Process.Start(startInfo);
 
             // Terminate the main application
-            Environment.Exit(0);
+            settings.Close();
+            //Environment.Exit(0);
         }
 
 

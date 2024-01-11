@@ -33,6 +33,7 @@ namespace HovText
         public static IntPtr originatingHandle = IntPtr.Zero;
         private Form _formSettings;
         public static int threadSafeIndex = 0; // this number will be sequential increased via a thread-safe method - it will show the number that can be used for inserting to array, so a number of "1" means that one entry is inserted already
+        private readonly object clipboardIDataObject_lock = new object();
 
 
         // ###########################################################################################
@@ -41,16 +42,13 @@ namespace HovText
         // Will store relevant clipboard data in a tuple queue (thread-safe, nice).
         // ###########################################################################################   
 
-        public void GetClipboardData()
+        public void GetClipboardData(string whoUpdatedClipboardName, uint thisProcessId)
         {
+            /*
             // Get the application name which updated the clipboard
             IntPtr whoUpdatedClipboardHwnd = NativeMethods.GetClipboardOwner();
             uint threadId = NativeMethods.GetWindowThreadProcessId(whoUpdatedClipboardHwnd, out uint thisProcessId);
             string whoUpdatedClipboardName = Process.GetProcessById((int)thisProcessId).ProcessName;
-
-            // Do not process clipboard, if this is coming from HovText itself
-            //if (whoUpdatedClipboardName != Settings.exeFileNameWithoutExtension)
-            //{
 
             // I am not sure why some(?) applications are returned as "Idle" or "svchost" when
             // coming from clipboard (higher priveledges?) - in this case then get the active
@@ -59,113 +57,155 @@ namespace HovText
             if (whoUpdatedClipboardName.ToLower() == "idle")
             {
                 whoUpdatedClipboardName = GetActiveApplicationName();
-//                    Logging.Log("Finding process name the secondary way: [" + whoUpdatedClipboardName + "]");
             }
 
-            // Walk through all applications on the "do not process" list
+            // Skip clipboard processing, if the application is on the "do not process" list
             foreach (string process in Settings.processName)
             {
                 if (whoUpdatedClipboardName == process)
                 {
-                    Logging.Log("Discarding clipboard [UPDATE] event from application [" + whoUpdatedClipboardName + "] as it is on the \"do not process\" list");
+                    Logging.Log($"Discarding clipboard [UPDATE] event from application [" + whoUpdatedClipboardName + "] as it is on the \"do not process\" list");
                     return;
                 }
             }
 
-            Logging.Log("Processing clipboard [UPDATE] event from application [" + whoUpdatedClipboardName + "]");
+            Logging.Log($"Processing clipboard [UPDATE] event from application [" + whoUpdatedClipboardName + "]");
+            */           
 
-            // Find the process icon - if possible. Do note that applications running with
-            // higher priveledges cannot be queried for the icon
-            Image whoUpdatedClipboardIcon = null;
+            //Logging.Log($"index=[{clipboardQueueIndex}] Capturing clipboard data");
+            Logging.Log($"Capturing clipboard data");
+
+            // Get if the clipboard contains either text or an image
+            bool containsText = false;
+            bool containsImage = false;
             try
             {
-                Process process = null;
-                process = Process.GetProcessById((int)thisProcessId);
-                if (process != null && !process.HasExited)
-                {
-                    string processFilePath = process.MainModule.FileName;
-                    using (Icon appIconTmp = Icon.ExtractAssociatedIcon(processFilePath))
-                    {
-                        whoUpdatedClipboardIcon = appIconTmp.ToBitmap();
-                    }
-                }
+                containsText = Clipboard.ContainsText();
+                containsImage = Clipboard.ContainsImage();
             }
             catch (Exception ex)
             {
-                Logging.Log($"Error getting application icon: {ex.Message}");
-                //Logging.LogException(ex);
+                Logging.Log($"Error: " + ex.Message);
             }
-
-            // Clipboard runs in context of UI, so we need to "invoke" it
-            _formSettings.Invoke(new MethodInvoker(() =>
+                
+            if (containsImage && !Settings.isCopyImages)
+            {
+                Logging.Log($"Clipboard is an image and we should not capture images - ignoring it");
+            }
+            else if (containsText || containsImage) // only add to the queue, if it contains either a text or an image
             {
 
-                //Logging.Log($"index=[{clipboardQueueIndex}] Capturing clipboard data");
-                Logging.Log($"index=[{threadSafeIndex}] Capturing clipboard data");
-
-                // Get if the clipboard contains either text or an image
-                bool containsText = Clipboard.ContainsText();
-                bool containsImage = Clipboard.ContainsImage();
-
-                if (containsImage && !Settings.isCopyImages)
+                lock (clipboardIDataObject_lock)
                 {
-                    Logging.Log($"index=[{threadSafeIndex}] is an image and we should not capture images - ignoring it");
-                }
-                else if (containsText || containsImage) // only add to the queue, if it contains either a text or an image
-                {
-                    // Create an object that contains all the formats we want to handle
-                    IDataObject clipboardIDataObject = Clipboard.GetDataObject();
-                    Dictionary<string, object> clipboardObject = new Dictionary<string, object>();
-                    var formats = clipboardIDataObject.GetFormats(false);
-                    //Logging.Log($"index=[{clipboardQueueIndex}] Formats available on clipboard:");
-                    Logging.Log($"index=[{threadSafeIndex}] Formats available on clipboard:");
-                    foreach (var format in formats)
-                    {
-                        if (
-                            format.Contains("Text")
-                            || format.Contains("HTML")
-                            || format.Contains("Csv")
-                            || format.Contains("Link")
-                            || format.Contains("Hyperlink")
-                            || format.Contains("Bitmap")
-                            || format.Contains("PNG") // including transparent layer of PNG
-                            || format.Contains("Recipient") // Outlook recipient
-                            || format.Contains("Format17") // picture format
-                            || format.Contains("GIF")
-                            || format.Contains("JFIF")
-                            || format.Contains("Office Drawing Shape Format")
-                            || format.Contains("Preferred DropEffect") // used in e.g. animated GIF
-                            || format.Contains("Shell IDList Array") // used in e.g. animated GIF
-                            || format.Contains("FileDrop") // used in e.g. animated GIF
-                            || format.Contains("FileContents") // used in e.g. animated GIF
-                            || format.Contains("FileGroupDescriptorW") // used in e.g. animated GIF
-                            || format.Contains("Image") // seen on "CorelPHOTOPAINT.Image.20" and "CorelPhotoPaint.Image.9"
-                            || format.Contains("Color") // seen on "Corel.Color.20"
-                            /*
-                            || format.Contains("XML Spreadsheet") // seen in Excel
-                            || format.Contains("DataInterchangeFormat") // seen in Excel
-                            || format.Contains("Biff5") // seen in Excel
-                            || format.Contains("Biff8") // seen in Excel
-                            || format.Contains("Biff12") // seen in Excel
-                            || format.Contains("Format129") // seen in Excel
-                            || format.Contains("EnhancedMetafile") // seen in Excel
-                            || format.Contains("MetaFilePict") // seen in Excel
-                            || format.Contains("Embed Source") // seen in Excel
-                            || format.Contains("Object Descriptor") // seen in Excel
-                            */
-                        )
-                        {
-                            Logging.Log($"index=[{threadSafeIndex}]   Adding format [{format}]");
-                            clipboardObject.Add(format, clipboardIDataObject.GetData(format));
-                        }
-                        else
-                        {
-                            Logging.Log($"index=[{threadSafeIndex}]   Discarding format [{format}]");
-                        }
-                    }
 
                     // Find the last key from the data arrays and then add one (if this is not the first entry)
                     int insertIndex = Interlocked.Increment(ref threadSafeIndex) - 1; // thread-safe incremental of a sequence number
+
+                    // Define an object that will contain all the formats we want to handle
+                    Dictionary<string, object> clipboardObject = new Dictionary<string, object>();
+
+                    // Get clipboard data formats and add this to the clipboard object
+                    try
+                    {
+
+                        // Make a snapshot of the clipboard
+                        IDataObject clipboardIDataObject = Clipboard.GetDataObject();
+
+                        var formats = clipboardIDataObject.GetFormats(false);
+                        //Logging.Log($"index=[{clipboardQueueIndex}] Formats available on clipboard:");
+                        Logging.Log($"index=[{insertIndex}] Formats available on clipboard:");
+                        foreach (var format in formats)
+                        {
+                            if (
+                                format.Contains("Text")
+                                || format.Contains("HTML")
+                                || format.Contains("Csv")
+                                || format.Contains("Link")
+                                || format.Contains("Hyperlink")
+                                || format.Contains("Bitmap")
+                                || format.Contains("PNG") // including transparent layer of PNG
+                                || format.Contains("Recipient") // Outlook recipient
+                                || format.Contains("Format17") // picture format
+                                || format.Contains("GIF")
+                                || format.Contains("JFIF")
+                                || format.Contains("Office Drawing Shape Format")
+                                || format.Contains("Preferred DropEffect") // used in e.g. animated GIF
+                                || format.Contains("Shell IDList Array") // used in e.g. animated GIF
+                                || format.Contains("FileDrop") // used in e.g. animated GIF
+                                || format.Contains("FileContents") // used in e.g. animated GIF
+                                || format.Contains("FileGroupDescriptorW") // used in e.g. animated GIF
+                                || format.Contains("Image") // seen on "CorelPHOTOPAINT.Image.20" and "CorelPhotoPaint.Image.9"
+                                || format.Contains("Color") // seen on "Corel.Color.20"
+                            )
+                            {
+                                var data = clipboardIDataObject.GetData(format);
+                                clipboardObject.Add(format, data);
+                                Logging.Log($"index=[{insertIndex}]    Org. Adding format [{format}]");
+                                
+                                for (int i=0; i < 5; i++)
+                                {
+                                    if (clipboardObject.TryGetValue(format, out object value))
+                                    {
+                                        if (string.IsNullOrEmpty(value.ToString()))
+                                        {
+                                            data = clipboardIDataObject.GetData(format);
+                                            clipboardObject.Remove(format);
+                                            clipboardObject.Add(format, data);
+                                            Logging.Log($"index=[{insertIndex}][{i}]    Org. RETRY WARNING format [{format}]");
+                                        } else
+                                        {
+                                            break;
+                                        }
+                                    }
+                                }
+                                
+                            }
+                            else
+                            {
+                                Logging.Log($"index=[{insertIndex}]    Discarding format [{format}]");
+                            }
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        Logging.Log($"index=[{insertIndex}] Error: " + ex.Message);
+                    }
+
+
+                    /*
+                    // TEMP SOLUTION
+                    foreach (KeyValuePair<string, object> kvp in clipboardObject)
+                    {
+                        string key = kvp.Key;
+                        string value = kvp.Value.ToString();
+                        if (value is string stringValue)
+                        {
+                            Logging.Log($"index=[{insertIndex}]    Org. check 2 format [{key}] with value=[Value=[{stringValue}]");
+                        }
+                    }
+                    */
+
+                    // Find the process icon - if possible. Do note that applications running with
+                    // higher priveledges cannot be queried for the icon
+                    Image whoUpdatedClipboardIcon = null;
+                    try
+                    {
+                        Process process = null;
+                        process = Process.GetProcessById((int)thisProcessId);
+                        if (process != null && !process.HasExited)
+                        {
+                            string processFilePath = process.MainModule.FileName;
+                            using (Icon appIconTmp = Icon.ExtractAssociatedIcon(processFilePath))
+                            {
+                                whoUpdatedClipboardIcon = appIconTmp.ToBitmap();
+                            }
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        Logging.Log($"Warning: Cannot get application icon: {ex.Message}");
+                        //Logging.LogException(ex);
+                    }
 
                     // Thread-safe adding to the tuple queue
                     clipboardQueue.Enqueue((
@@ -175,13 +215,9 @@ namespace HovText
                         whoUpdatedClipboardIcon,
                         false
                     ));
+                    //Logging.Log($"index=[{insertIndex}] Enqueued");
                 }
-            }));
-
-            //} else
-            //{
-            //    Logging.Log("Ignoring clipboard [UPDATE] event from application [" + whoUpdatedClipboardName + "]");
-            //}
+            }
         }
 
 
@@ -207,8 +243,20 @@ namespace HovText
 
                 Logging.Log($"index=[{index}] Releasing clipboard data");
 
+                
+                foreach (KeyValuePair<string, object> kvp in clipboardObject)
+                {
+                    string key = kvp.Key;
+                    string value = kvp.Value.ToString();
+                    if (value is string stringValue)
+                    {
+                        Logging.Log($"index=[{index}]    Dequeue formats available: format=[{key}], value=[{stringValue}]");
+                    }
+                }
+                
+
                 // Make sure that we set the "threadSafeIndex" to the highest possible number, in case this is coming from "loading file"
-                if(index >= threadSafeIndex)
+                if (index >= threadSafeIndex)
                 {
                     threadSafeIndex = index + 1;
                 }
@@ -226,19 +274,22 @@ namespace HovText
                     if (clipboardObject.ContainsKey(DataFormats.UnicodeText))
                     {
                         clipboardText = clipboardObject[DataFormats.UnicodeText] as string;
+                        Logging.Log($"index=[{index}] Found text format [UnicodeText] with value [{clipboardText}]");
                     }
                     else if (clipboardObject.ContainsKey(DataFormats.Rtf))
                     {
                         clipboardText = clipboardObject[DataFormats.Rtf] as string;
+                        Logging.Log($"index=[{index}] Found text format [Rtf] with value [{clipboardText}]");
                     }
                     else if (clipboardObject.ContainsKey(DataFormats.Text))
                     {
                         clipboardText = clipboardObject[DataFormats.Text] as string;
+                        Logging.Log($"index=[{index}] Found text format [Text] with value [{clipboardText}]");
                     }
                     else
                     {
-                        clipboardText = null; // no supported text format found
-                        Logging.Log("Error - no supported text formats found!?");
+                        clipboardText = ""; // no supported text format found
+                        Logging.Log($"index=[{index}] Error: no supported text formats found!?");
                         isClipboardText = false;
                     }
                 }
@@ -262,14 +313,14 @@ namespace HovText
                     //if (Settings.isEnabledTrimWhitespacing)
                     //{
                         //clipboardText = clipboardText.Trim();
-                        if (clipboardText.Trim().Length == 0) {
+                        if (clipboardText == null || clipboardText.Trim().Length == 0) {
                             skipRest = true;
                         }
                     //}
 
                     if (skipRest)
                     {
-                        Logging.Log($"index=[{index}] is empty - ignoring it");
+                        Logging.Log($"index=[{index}] Error: Text is empty - ignoring it - is copying/processing going too fast?");
                     } else { 
                         checksum = GetStringHash(clipboardText.Trim());
 
@@ -546,7 +597,13 @@ namespace HovText
                     {
                         _formSettings.Invoke(new MethodInvoker(() =>
                         {
-                            SetClipboard(index);
+                            if(!Settings.isProcessingClipboard)
+                            {
+                                SetClipboard(index);
+                            } else
+                            {
+                                Logging.Log("Warning: Skipping setting clipboard as there is an new clipboard UPDATE event");
+                            }
                         }));
                     }
                 }
