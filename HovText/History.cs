@@ -398,6 +398,7 @@ namespace HovText
                 Controls["uiHistoryHeadline"].Text = "0 entries found with this text";
             }
 
+            /*
             // If we are in the "favorite" view then show the icon for it in the "headline"
             if (Settings.isEnabledFavorites)
             {
@@ -406,9 +407,10 @@ namespace HovText
                     c.Visible = false;
                 }
             }
+            */
 
             // After all controls have been added to the form
-            controlCache.Clear(); // Clear previous entries if any
+            controlCache.Clear(); // clear previous entries if any
             foreach (Control control in Controls)
             {
                 controlCache.Add(control.Name, control);
@@ -726,7 +728,6 @@ namespace HovText
 
         private static int GetNewestIndex()
         {
-            //int returnValue = Settings.entriesOrder.Keys.LastOrDefault();
             int returnValue = Settings.entriesShow.LastOrDefault(entry => entry.Value).Key;
             return returnValue;
         }
@@ -738,7 +739,6 @@ namespace HovText
 
         private static int GetOldestIndex()
         {
-//            int returnValue = Settings.entriesOrder.Keys.FirstOrDefault();
             int returnValue = Settings.entriesShow.FirstOrDefault(entry => entry.Value).Key;
             return returnValue;
         }
@@ -777,46 +777,6 @@ namespace HovText
             }
 
             return entryKey;
-        }
-
-
-        // ###########################################################################################
-        // Catch keyboard input to react on modifier KEY UP
-        // ###########################################################################################
-
-        private void History_KeyUp(object sender, KeyEventArgs e)
-        {
-            /*
-            // Check if modifier keys are pressed
-            bool isShift = e.Shift;
-            bool isAlt = e.Alt;
-            bool isControl = e.Control;
-
-            // Proceed if no modifier keys are pressed down - this equals that we have selected the entry
-            if (!isShift && !isAlt && !isControl)
-            {
-                SelectEntry();
-            }
-            else
-            {
-                // Check for other key combinations
-
-                // For conversion from text to keys
-                KeysConverter cvt = new KeysConverter();
-                Keys key;
-
-                // Proceed if we should toggle a favorite entry
-                string hotkeyToggleFavorite = Settings.GetRegistryKey(Settings.registryPath, "HotkeyToggleFavorite");
-                if (Settings.isEnabledFavorites && hotkeyToggleFavorite != "Not set")
-                {
-                    key = (Keys)cvt.ConvertFrom(hotkeyToggleFavorite);
-                    if (e.KeyCode == key)
-                    {
-                        MarkFavorite();
-                    }
-                }
-            }
-            */
         }
 
 

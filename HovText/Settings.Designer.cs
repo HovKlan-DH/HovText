@@ -193,6 +193,8 @@
             this.UiStyleRadioIconRoundModern = new Guna.UI2.WinForms.Guna2CustomRadioButton();
             this.UiTabColors = new System.Windows.Forms.TabPage();
             this.UiColorsGroupBoxLooks = new Guna.UI2.WinForms.Guna2GroupBox();
+            this.UiColorsLabelEntry = new Guna.UI2.WinForms.Guna2HtmlLabel();
+            this.UiColorsLabelActive = new Guna.UI2.WinForms.Guna2HtmlLabel();
             this.UiColorsGroupBoxTheme = new Guna.UI2.WinForms.Guna2GroupBox();
             this.UiColorsLabelCustom = new System.Windows.Forms.Label();
             this.UiColorsRadioCustom = new Guna.UI2.WinForms.Guna2CustomRadioButton();
@@ -218,31 +220,31 @@
             this.UiColorsButtonHeaderBackground = new Guna.UI2.WinForms.Guna2Button();
             this.UiTabExclusion = new System.Windows.Forms.TabPage();
             this.guna2GroupBox2 = new Guna.UI2.WinForms.Guna2GroupBox();
-            this.guna2PictureBox7 = new Guna.UI2.WinForms.Guna2PictureBox();
-            this.guna2PictureBox8 = new Guna.UI2.WinForms.Guna2PictureBox();
-            this.guna2PictureBox4 = new Guna.UI2.WinForms.Guna2PictureBox();
-            this.guna2PictureBox5 = new Guna.UI2.WinForms.Guna2PictureBox();
-            this.guna2PictureBox6 = new Guna.UI2.WinForms.Guna2PictureBox();
-            this.guna2PictureBox3 = new Guna.UI2.WinForms.Guna2PictureBox();
-            this.guna2PictureBox2 = new Guna.UI2.WinForms.Guna2PictureBox();
-            this.guna2PictureBox1 = new Guna.UI2.WinForms.Guna2PictureBox();
-            this.guna2TextBox16 = new Guna.UI2.WinForms.Guna2TextBox();
-            this.guna2TextBox15 = new Guna.UI2.WinForms.Guna2TextBox();
-            this.guna2TextBox14 = new Guna.UI2.WinForms.Guna2TextBox();
-            this.guna2TextBox13 = new Guna.UI2.WinForms.Guna2TextBox();
-            this.guna2TextBox11 = new Guna.UI2.WinForms.Guna2TextBox();
-            this.guna2TextBox12 = new Guna.UI2.WinForms.Guna2TextBox();
-            this.guna2TextBox9 = new Guna.UI2.WinForms.Guna2TextBox();
-            this.guna2TextBox10 = new Guna.UI2.WinForms.Guna2TextBox();
-            this.guna2TextBox7 = new Guna.UI2.WinForms.Guna2TextBox();
-            this.guna2TextBox8 = new Guna.UI2.WinForms.Guna2TextBox();
-            this.guna2TextBox5 = new Guna.UI2.WinForms.Guna2TextBox();
-            this.guna2TextBox6 = new Guna.UI2.WinForms.Guna2TextBox();
-            this.guna2TextBox3 = new Guna.UI2.WinForms.Guna2TextBox();
-            this.guna2TextBox4 = new Guna.UI2.WinForms.Guna2TextBox();
+            this.UiExclusionPictureBoxDelete8 = new Guna.UI2.WinForms.Guna2PictureBox();
+            this.UiExclusionPictureBoxDelete7 = new Guna.UI2.WinForms.Guna2PictureBox();
+            this.UiExclusionPictureBoxDelete6 = new Guna.UI2.WinForms.Guna2PictureBox();
+            this.UiExclusionPictureBoxDelete5 = new Guna.UI2.WinForms.Guna2PictureBox();
+            this.UiExclusionPictureBoxDelete4 = new Guna.UI2.WinForms.Guna2PictureBox();
+            this.UiExclusionPictureBoxDelete3 = new Guna.UI2.WinForms.Guna2PictureBox();
+            this.UiExclusionPictureBoxDelete2 = new Guna.UI2.WinForms.Guna2PictureBox();
+            this.UiExclusionPictureBoxDelete1 = new Guna.UI2.WinForms.Guna2PictureBox();
+            this.UiExclusionTextBoxApp8 = new Guna.UI2.WinForms.Guna2TextBox();
+            this.UiExclusionTextBoxApp7 = new Guna.UI2.WinForms.Guna2TextBox();
+            this.UiExclusionTextBoxProcess8 = new Guna.UI2.WinForms.Guna2TextBox();
+            this.UiExclusionTextBoxProcess7 = new Guna.UI2.WinForms.Guna2TextBox();
+            this.UiExclusionTextBoxApp6 = new Guna.UI2.WinForms.Guna2TextBox();
+            this.UiExclusionTextBoxProcess6 = new Guna.UI2.WinForms.Guna2TextBox();
+            this.UiExclusionTextBoxApp5 = new Guna.UI2.WinForms.Guna2TextBox();
+            this.UiExclusionTextBoxProcess5 = new Guna.UI2.WinForms.Guna2TextBox();
+            this.UiExclusionTextBoxApp4 = new Guna.UI2.WinForms.Guna2TextBox();
+            this.UiExclusionTextBoxProcess4 = new Guna.UI2.WinForms.Guna2TextBox();
+            this.UiExclusionTextBoxApp3 = new Guna.UI2.WinForms.Guna2TextBox();
+            this.UiExclusionTextBoxProcess3 = new Guna.UI2.WinForms.Guna2TextBox();
+            this.UiExclusionTextBoxApp2 = new Guna.UI2.WinForms.Guna2TextBox();
+            this.UiExclusionTextBoxProcess2 = new Guna.UI2.WinForms.Guna2TextBox();
             this.guna2HtmlLabel2 = new Guna.UI2.WinForms.Guna2HtmlLabel();
-            this.guna2TextBox2 = new Guna.UI2.WinForms.Guna2TextBox();
-            this.guna2TextBox1 = new Guna.UI2.WinForms.Guna2TextBox();
+            this.UiExclusionTextBoxApp1 = new Guna.UI2.WinForms.Guna2TextBox();
+            this.UiExclusionTextBoxProcess1 = new Guna.UI2.WinForms.Guna2TextBox();
             this.UiTabAdvanced = new System.Windows.Forms.TabPage();
             this.UiAdvancedGroupBoxCleanup = new Guna.UI2.WinForms.Guna2GroupBox();
             this.UiAdvancedButtonCleanup = new Guna.UI2.WinForms.Guna2Button();
@@ -283,13 +285,11 @@
             this.TimerGetMemoryConsumption = new System.Windows.Forms.Timer(this.components);
             this.TimerDeleteOldFiles = new System.Windows.Forms.Timer(this.components);
             this.TimerProcessSaveQueue = new System.Windows.Forms.Timer(this.components);
-            this.TimerToggleSaveIcon = new System.Windows.Forms.Timer(this.components);
+            this.TimerShowFloppies = new System.Windows.Forms.Timer(this.components);
             this.TimerProcessClipboardQueue = new System.Windows.Forms.Timer(this.components);
             this.TimerSaveFiles = new System.Windows.Forms.Timer(this.components);
             this.TimerCheckForUpdate = new System.Windows.Forms.Timer(this.components);
             this.TimerUpdateCounters = new System.Windows.Forms.Timer(this.components);
-            this.UiColorsLabelActive = new Guna.UI2.WinForms.Guna2HtmlLabel();
-            this.UiColorsLabelEntry = new Guna.UI2.WinForms.Guna2HtmlLabel();
             this.MenuStripIconNotify.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.UiAboutPictureBoxPaypal)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.UiStyleOictureBoxIcon9)).BeginInit();
@@ -328,14 +328,14 @@
             this.UiColorsGroupBoxCustom.SuspendLayout();
             this.UiTabExclusion.SuspendLayout();
             this.guna2GroupBox2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.guna2PictureBox7)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.guna2PictureBox8)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.guna2PictureBox4)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.guna2PictureBox5)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.guna2PictureBox6)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.guna2PictureBox3)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.guna2PictureBox2)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.guna2PictureBox1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.UiExclusionPictureBoxDelete8)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.UiExclusionPictureBoxDelete7)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.UiExclusionPictureBoxDelete6)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.UiExclusionPictureBoxDelete5)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.UiExclusionPictureBoxDelete4)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.UiExclusionPictureBoxDelete3)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.UiExclusionPictureBoxDelete2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.UiExclusionPictureBoxDelete1)).BeginInit();
             this.UiTabAdvanced.SuspendLayout();
             this.UiAdvancedGroupBoxCleanup.SuspendLayout();
             this.UiAdvancedGroupBoxTroubleshooting.SuspendLayout();
@@ -621,7 +621,7 @@
             // 
             this.UiStyleOictureBoxIcon3.Image = ((System.Drawing.Image)(resources.GetObject("UiStyleOictureBoxIcon3.Image")));
             this.UiStyleOictureBoxIcon3.InitialImage = null;
-            this.UiStyleOictureBoxIcon3.Location = new System.Drawing.Point(215, 53);
+            this.UiStyleOictureBoxIcon3.Location = new System.Drawing.Point(215, 54);
             this.UiStyleOictureBoxIcon3.Name = "UiStyleOictureBoxIcon3";
             this.UiStyleOictureBoxIcon3.Size = new System.Drawing.Size(28, 28);
             this.UiStyleOictureBoxIcon3.TabIndex = 415;
@@ -631,7 +631,7 @@
             // 
             this.UiStyleOictureBoxIcon2.Image = ((System.Drawing.Image)(resources.GetObject("UiStyleOictureBoxIcon2.Image")));
             this.UiStyleOictureBoxIcon2.InitialImage = null;
-            this.UiStyleOictureBoxIcon2.Location = new System.Drawing.Point(187, 53);
+            this.UiStyleOictureBoxIcon2.Location = new System.Drawing.Point(187, 54);
             this.UiStyleOictureBoxIcon2.Name = "UiStyleOictureBoxIcon2";
             this.UiStyleOictureBoxIcon2.Size = new System.Drawing.Size(28, 28);
             this.UiStyleOictureBoxIcon2.TabIndex = 414;
@@ -641,7 +641,7 @@
             // 
             this.UiStyleOictureBoxIcon1.Image = ((System.Drawing.Image)(resources.GetObject("UiStyleOictureBoxIcon1.Image")));
             this.UiStyleOictureBoxIcon1.InitialImage = null;
-            this.UiStyleOictureBoxIcon1.Location = new System.Drawing.Point(159, 53);
+            this.UiStyleOictureBoxIcon1.Location = new System.Drawing.Point(159, 54);
             this.UiStyleOictureBoxIcon1.Name = "UiStyleOictureBoxIcon1";
             this.UiStyleOictureBoxIcon1.Size = new System.Drawing.Size(28, 28);
             this.UiStyleOictureBoxIcon1.TabIndex = 413;
@@ -1082,7 +1082,7 @@
             this.UiGeneralLabelStartWithWindows.Cursor = System.Windows.Forms.Cursors.Hand;
             this.UiGeneralLabelStartWithWindows.Font = new System.Drawing.Font("Segoe UI", 10F);
             this.UiGeneralLabelStartWithWindows.ForeColor = System.Drawing.Color.Black;
-            this.UiGeneralLabelStartWithWindows.Location = new System.Drawing.Point(59, 52);
+            this.UiGeneralLabelStartWithWindows.Location = new System.Drawing.Point(59, 54);
             this.UiGeneralLabelStartWithWindows.Name = "UiGeneralLabelStartWithWindows";
             this.UiGeneralLabelStartWithWindows.Size = new System.Drawing.Size(156, 23);
             this.UiGeneralLabelStartWithWindows.TabIndex = 0;
@@ -1095,7 +1095,7 @@
             this.UiGeneralLabelStartDisabled.Cursor = System.Windows.Forms.Cursors.Hand;
             this.UiGeneralLabelStartDisabled.Font = new System.Drawing.Font("Segoe UI", 10F);
             this.UiGeneralLabelStartDisabled.ForeColor = System.Drawing.Color.Black;
-            this.UiGeneralLabelStartDisabled.Location = new System.Drawing.Point(59, 83);
+            this.UiGeneralLabelStartDisabled.Location = new System.Drawing.Point(59, 85);
             this.UiGeneralLabelStartDisabled.Name = "UiGeneralLabelStartDisabled";
             this.UiGeneralLabelStartDisabled.Size = new System.Drawing.Size(134, 23);
             this.UiGeneralLabelStartDisabled.TabIndex = 0;
@@ -1108,7 +1108,7 @@
             this.UiGeneralLabelRestoreOriginal.Cursor = System.Windows.Forms.Cursors.Hand;
             this.UiGeneralLabelRestoreOriginal.Font = new System.Drawing.Font("Segoe UI", 10F);
             this.UiGeneralLabelRestoreOriginal.ForeColor = System.Drawing.Color.Black;
-            this.UiGeneralLabelRestoreOriginal.Location = new System.Drawing.Point(59, 114);
+            this.UiGeneralLabelRestoreOriginal.Location = new System.Drawing.Point(59, 116);
             this.UiGeneralLabelRestoreOriginal.Name = "UiGeneralLabelRestoreOriginal";
             this.UiGeneralLabelRestoreOriginal.Size = new System.Drawing.Size(413, 23);
             this.UiGeneralLabelRestoreOriginal.TabIndex = 0;
@@ -1121,7 +1121,7 @@
             this.UiGeneralLabelTrimWhitespaces.Cursor = System.Windows.Forms.Cursors.Hand;
             this.UiGeneralLabelTrimWhitespaces.Font = new System.Drawing.Font("Segoe UI", 10F);
             this.UiGeneralLabelTrimWhitespaces.ForeColor = System.Drawing.Color.Black;
-            this.UiGeneralLabelTrimWhitespaces.Location = new System.Drawing.Point(59, 145);
+            this.UiGeneralLabelTrimWhitespaces.Location = new System.Drawing.Point(59, 147);
             this.UiGeneralLabelTrimWhitespaces.Name = "UiGeneralLabelTrimWhitespaces";
             this.UiGeneralLabelTrimWhitespaces.Size = new System.Drawing.Size(303, 23);
             this.UiGeneralLabelTrimWhitespaces.TabIndex = 0;
@@ -1134,7 +1134,7 @@
             this.UiGeneralLabelCloseMinimizes.Cursor = System.Windows.Forms.Cursors.Hand;
             this.UiGeneralLabelCloseMinimizes.Font = new System.Drawing.Font("Segoe UI", 10F);
             this.UiGeneralLabelCloseMinimizes.ForeColor = System.Drawing.Color.Black;
-            this.UiGeneralLabelCloseMinimizes.Location = new System.Drawing.Point(59, 176);
+            this.UiGeneralLabelCloseMinimizes.Location = new System.Drawing.Point(59, 178);
             this.UiGeneralLabelCloseMinimizes.Name = "UiGeneralLabelCloseMinimizes";
             this.UiGeneralLabelCloseMinimizes.Size = new System.Drawing.Size(309, 23);
             this.UiGeneralLabelCloseMinimizes.TabIndex = 0;
@@ -1258,7 +1258,7 @@
             this.UiGeneralLabelEnableClipboardShortcut.AutoSize = true;
             this.UiGeneralLabelEnableClipboardShortcut.Cursor = System.Windows.Forms.Cursors.Default;
             this.UiGeneralLabelEnableClipboardShortcut.Font = new System.Drawing.Font("Segoe UI", 8F, System.Drawing.FontStyle.Bold);
-            this.UiGeneralLabelEnableClipboardShortcut.Location = new System.Drawing.Point(197, 55);
+            this.UiGeneralLabelEnableClipboardShortcut.Location = new System.Drawing.Point(197, 57);
             this.UiGeneralLabelEnableClipboardShortcut.Name = "UiGeneralLabelEnableClipboardShortcut";
             this.UiGeneralLabelEnableClipboardShortcut.Size = new System.Drawing.Size(64, 19);
             this.UiGeneralLabelEnableClipboardShortcut.TabIndex = 0;
@@ -1270,7 +1270,7 @@
             this.UiGeneralLabelAlwaysPasteOriginal.Cursor = System.Windows.Forms.Cursors.Hand;
             this.UiGeneralLabelAlwaysPasteOriginal.Font = new System.Drawing.Font("Segoe UI", 10F);
             this.UiGeneralLabelAlwaysPasteOriginal.ForeColor = System.Drawing.Color.Black;
-            this.UiGeneralLabelAlwaysPasteOriginal.Location = new System.Drawing.Point(59, 176);
+            this.UiGeneralLabelAlwaysPasteOriginal.Location = new System.Drawing.Point(59, 178);
             this.UiGeneralLabelAlwaysPasteOriginal.Name = "UiGeneralLabelAlwaysPasteOriginal";
             this.UiGeneralLabelAlwaysPasteOriginal.Size = new System.Drawing.Size(286, 23);
             this.UiGeneralLabelAlwaysPasteOriginal.TabIndex = 0;
@@ -1283,7 +1283,7 @@
             this.UiGeneralLabelPasteToApplication.Cursor = System.Windows.Forms.Cursors.Hand;
             this.UiGeneralLabelPasteToApplication.Font = new System.Drawing.Font("Segoe UI", 10F);
             this.UiGeneralLabelPasteToApplication.ForeColor = System.Drawing.Color.Black;
-            this.UiGeneralLabelPasteToApplication.Location = new System.Drawing.Point(59, 145);
+            this.UiGeneralLabelPasteToApplication.Location = new System.Drawing.Point(59, 147);
             this.UiGeneralLabelPasteToApplication.Name = "UiGeneralLabelPasteToApplication";
             this.UiGeneralLabelPasteToApplication.Size = new System.Drawing.Size(382, 23);
             this.UiGeneralLabelPasteToApplication.TabIndex = 0;
@@ -1296,7 +1296,7 @@
             this.UiGeneralLabelIncludeImages.Cursor = System.Windows.Forms.Cursors.Hand;
             this.UiGeneralLabelIncludeImages.Font = new System.Drawing.Font("Segoe UI", 10F);
             this.UiGeneralLabelIncludeImages.ForeColor = System.Drawing.Color.Black;
-            this.UiGeneralLabelIncludeImages.Location = new System.Drawing.Point(59, 114);
+            this.UiGeneralLabelIncludeImages.Location = new System.Drawing.Point(59, 116);
             this.UiGeneralLabelIncludeImages.Name = "UiGeneralLabelIncludeImages";
             this.UiGeneralLabelIncludeImages.Size = new System.Drawing.Size(246, 23);
             this.UiGeneralLabelIncludeImages.TabIndex = 0;
@@ -1309,7 +1309,7 @@
             this.UiGeneralLabelEnableFavorites.Cursor = System.Windows.Forms.Cursors.Hand;
             this.UiGeneralLabelEnableFavorites.Font = new System.Drawing.Font("Segoe UI", 10F);
             this.UiGeneralLabelEnableFavorites.ForeColor = System.Drawing.Color.Black;
-            this.UiGeneralLabelEnableFavorites.Location = new System.Drawing.Point(59, 83);
+            this.UiGeneralLabelEnableFavorites.Location = new System.Drawing.Point(59, 85);
             this.UiGeneralLabelEnableFavorites.Name = "UiGeneralLabelEnableFavorites";
             this.UiGeneralLabelEnableFavorites.Size = new System.Drawing.Size(130, 23);
             this.UiGeneralLabelEnableFavorites.TabIndex = 0;
@@ -1322,7 +1322,7 @@
             this.UiGeneralLabelEnableClipboard.Cursor = System.Windows.Forms.Cursors.Hand;
             this.UiGeneralLabelEnableClipboard.Font = new System.Drawing.Font("Segoe UI", 10F);
             this.UiGeneralLabelEnableClipboard.ForeColor = System.Drawing.Color.Black;
-            this.UiGeneralLabelEnableClipboard.Location = new System.Drawing.Point(59, 52);
+            this.UiGeneralLabelEnableClipboard.Location = new System.Drawing.Point(59, 54);
             this.UiGeneralLabelEnableClipboard.Name = "UiGeneralLabelEnableClipboard";
             this.UiGeneralLabelEnableClipboard.Size = new System.Drawing.Size(163, 23);
             this.UiGeneralLabelEnableClipboard.TabIndex = 0;
@@ -1504,7 +1504,7 @@
             this.UiStorageLabelSaveTextAndFavoritesEntries.BackColor = System.Drawing.Color.Transparent;
             this.UiStorageLabelSaveTextAndFavoritesEntries.Font = new System.Drawing.Font("Segoe UI Semibold", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.UiStorageLabelSaveTextAndFavoritesEntries.IsSelectionEnabled = false;
-            this.UiStorageLabelSaveTextAndFavoritesEntries.Location = new System.Drawing.Point(304, 230);
+            this.UiStorageLabelSaveTextAndFavoritesEntries.Location = new System.Drawing.Point(304, 232);
             this.UiStorageLabelSaveTextAndFavoritesEntries.Name = "UiStorageLabelSaveTextAndFavoritesEntries";
             this.UiStorageLabelSaveTextAndFavoritesEntries.Size = new System.Drawing.Size(63, 19);
             this.UiStorageLabelSaveTextAndFavoritesEntries.TabIndex = 526;
@@ -1516,7 +1516,7 @@
             this.UiStorageLabelSaveTextAndFavorites.Cursor = System.Windows.Forms.Cursors.Hand;
             this.UiStorageLabelSaveTextAndFavorites.Font = new System.Drawing.Font("Segoe UI", 10F);
             this.UiStorageLabelSaveTextAndFavorites.ForeColor = System.Drawing.Color.Black;
-            this.UiStorageLabelSaveTextAndFavorites.Location = new System.Drawing.Point(44, 228);
+            this.UiStorageLabelSaveTextAndFavorites.Location = new System.Drawing.Point(44, 230);
             this.UiStorageLabelSaveTextAndFavorites.Name = "UiStorageLabelSaveTextAndFavorites";
             this.UiStorageLabelSaveTextAndFavorites.Size = new System.Drawing.Size(315, 23);
             this.UiStorageLabelSaveTextAndFavorites.TabIndex = 525;
@@ -1546,7 +1546,7 @@
             this.UiStorageLabelSaveOnlyTextEntries.BackColor = System.Drawing.Color.Transparent;
             this.UiStorageLabelSaveOnlyTextEntries.Font = new System.Drawing.Font("Segoe UI Semibold", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.UiStorageLabelSaveOnlyTextEntries.IsSelectionEnabled = false;
-            this.UiStorageLabelSaveOnlyTextEntries.Location = new System.Drawing.Point(212, 169);
+            this.UiStorageLabelSaveOnlyTextEntries.Location = new System.Drawing.Point(212, 171);
             this.UiStorageLabelSaveOnlyTextEntries.Name = "UiStorageLabelSaveOnlyTextEntries";
             this.UiStorageLabelSaveOnlyTextEntries.Size = new System.Drawing.Size(63, 19);
             this.UiStorageLabelSaveOnlyTextEntries.TabIndex = 523;
@@ -1557,7 +1557,7 @@
             this.UiStorageLabelSaveOnlyFavoritesEntries.BackColor = System.Drawing.Color.Transparent;
             this.UiStorageLabelSaveOnlyFavoritesEntries.Font = new System.Drawing.Font("Segoe UI Semibold", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.UiStorageLabelSaveOnlyFavoritesEntries.IsSelectionEnabled = false;
-            this.UiStorageLabelSaveOnlyFavoritesEntries.Location = new System.Drawing.Point(248, 199);
+            this.UiStorageLabelSaveOnlyFavoritesEntries.Location = new System.Drawing.Point(248, 201);
             this.UiStorageLabelSaveOnlyFavoritesEntries.Name = "UiStorageLabelSaveOnlyFavoritesEntries";
             this.UiStorageLabelSaveOnlyFavoritesEntries.Size = new System.Drawing.Size(63, 19);
             this.UiStorageLabelSaveOnlyFavoritesEntries.TabIndex = 522;
@@ -1568,7 +1568,7 @@
             this.UiStorageLabelSaveAllEntries.BackColor = System.Drawing.Color.Transparent;
             this.UiStorageLabelSaveAllEntries.Font = new System.Drawing.Font("Segoe UI Semibold", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.UiStorageLabelSaveAllEntries.IsSelectionEnabled = false;
-            this.UiStorageLabelSaveAllEntries.Location = new System.Drawing.Point(172, 262);
+            this.UiStorageLabelSaveAllEntries.Location = new System.Drawing.Point(172, 264);
             this.UiStorageLabelSaveAllEntries.Name = "UiStorageLabelSaveAllEntries";
             this.UiStorageLabelSaveAllEntries.Size = new System.Drawing.Size(63, 19);
             this.UiStorageLabelSaveAllEntries.TabIndex = 521;
@@ -1580,7 +1580,7 @@
             this.UiStorageLabelSaveAll.Cursor = System.Windows.Forms.Cursors.Hand;
             this.UiStorageLabelSaveAll.Font = new System.Drawing.Font("Segoe UI", 10F);
             this.UiStorageLabelSaveAll.ForeColor = System.Drawing.Color.Black;
-            this.UiStorageLabelSaveAll.Location = new System.Drawing.Point(44, 259);
+            this.UiStorageLabelSaveAll.Location = new System.Drawing.Point(44, 261);
             this.UiStorageLabelSaveAll.Name = "UiStorageLabelSaveAll";
             this.UiStorageLabelSaveAll.Size = new System.Drawing.Size(150, 23);
             this.UiStorageLabelSaveAll.TabIndex = 519;
@@ -1611,7 +1611,7 @@
             this.UiStorageLabelSaveOnlyFavorites.Cursor = System.Windows.Forms.Cursors.Hand;
             this.UiStorageLabelSaveOnlyFavorites.Font = new System.Drawing.Font("Segoe UI", 10F);
             this.UiStorageLabelSaveOnlyFavorites.ForeColor = System.Drawing.Color.Black;
-            this.UiStorageLabelSaveOnlyFavorites.Location = new System.Drawing.Point(44, 197);
+            this.UiStorageLabelSaveOnlyFavorites.Location = new System.Drawing.Point(44, 199);
             this.UiStorageLabelSaveOnlyFavorites.Name = "UiStorageLabelSaveOnlyFavorites";
             this.UiStorageLabelSaveOnlyFavorites.Size = new System.Drawing.Size(243, 23);
             this.UiStorageLabelSaveOnlyFavorites.TabIndex = 517;
@@ -1642,7 +1642,7 @@
             this.UiStorageLabelSaveOnlyText.Cursor = System.Windows.Forms.Cursors.Hand;
             this.UiStorageLabelSaveOnlyText.Font = new System.Drawing.Font("Segoe UI", 10F);
             this.UiStorageLabelSaveOnlyText.ForeColor = System.Drawing.Color.Black;
-            this.UiStorageLabelSaveOnlyText.Location = new System.Drawing.Point(44, 166);
+            this.UiStorageLabelSaveOnlyText.Location = new System.Drawing.Point(44, 168);
             this.UiStorageLabelSaveOnlyText.Name = "UiStorageLabelSaveOnlyText";
             this.UiStorageLabelSaveOnlyText.Size = new System.Drawing.Size(199, 23);
             this.UiStorageLabelSaveOnlyText.TabIndex = 515;
@@ -1673,7 +1673,7 @@
             this.UiStorageLabelLoadClipboards.Cursor = System.Windows.Forms.Cursors.Hand;
             this.UiStorageLabelLoadClipboards.Font = new System.Drawing.Font("Segoe UI", 10F);
             this.UiStorageLabelLoadClipboards.ForeColor = System.Drawing.Color.Black;
-            this.UiStorageLabelLoadClipboards.Location = new System.Drawing.Point(59, 83);
+            this.UiStorageLabelLoadClipboards.Location = new System.Drawing.Point(59, 85);
             this.UiStorageLabelLoadClipboards.Name = "UiStorageLabelLoadClipboards";
             this.UiStorageLabelLoadClipboards.Size = new System.Drawing.Size(371, 23);
             this.UiStorageLabelLoadClipboards.TabIndex = 513;
@@ -1704,7 +1704,7 @@
             this.UiStorageLabelSaveClipboards.Cursor = System.Windows.Forms.Cursors.Hand;
             this.UiStorageLabelSaveClipboards.Font = new System.Drawing.Font("Segoe UI", 10F);
             this.UiStorageLabelSaveClipboards.ForeColor = System.Drawing.Color.Black;
-            this.UiStorageLabelSaveClipboards.Location = new System.Drawing.Point(59, 52);
+            this.UiStorageLabelSaveClipboards.Location = new System.Drawing.Point(59, 54);
             this.UiStorageLabelSaveClipboards.Name = "UiStorageLabelSaveClipboards";
             this.UiStorageLabelSaveClipboards.Size = new System.Drawing.Size(268, 23);
             this.UiStorageLabelSaveClipboards.TabIndex = 511;
@@ -1909,7 +1909,7 @@
             this.UiHotkeysLabelPasteOnHotkey.Cursor = System.Windows.Forms.Cursors.Hand;
             this.UiHotkeysLabelPasteOnHotkey.Font = new System.Drawing.Font("Segoe UI", 10F);
             this.UiHotkeysLabelPasteOnHotkey.ForeColor = System.Drawing.Color.Black;
-            this.UiHotkeysLabelPasteOnHotkey.Location = new System.Drawing.Point(44, 83);
+            this.UiHotkeysLabelPasteOnHotkey.Location = new System.Drawing.Point(44, 85);
             this.UiHotkeysLabelPasteOnHotkey.Name = "UiHotkeysLabelPasteOnHotkey";
             this.UiHotkeysLabelPasteOnHotkey.Size = new System.Drawing.Size(168, 23);
             this.UiHotkeysLabelPasteOnHotkey.TabIndex = 951;
@@ -1940,7 +1940,7 @@
             this.UiHotkeysLabelUseStandardWindowsMethod.Cursor = System.Windows.Forms.Cursors.Hand;
             this.UiHotkeysLabelUseStandardWindowsMethod.Font = new System.Drawing.Font("Segoe UI", 10F);
             this.UiHotkeysLabelUseStandardWindowsMethod.ForeColor = System.Drawing.Color.Black;
-            this.UiHotkeysLabelUseStandardWindowsMethod.Location = new System.Drawing.Point(44, 52);
+            this.UiHotkeysLabelUseStandardWindowsMethod.Location = new System.Drawing.Point(44, 54);
             this.UiHotkeysLabelUseStandardWindowsMethod.Name = "UiHotkeysLabelUseStandardWindowsMethod";
             this.UiHotkeysLabelUseStandardWindowsMethod.Size = new System.Drawing.Size(328, 23);
             this.UiHotkeysLabelUseStandardWindowsMethod.TabIndex = 950;
@@ -2092,7 +2092,7 @@
             this.UiLayoutLabelRightBottom.Cursor = System.Windows.Forms.Cursors.Hand;
             this.UiLayoutLabelRightBottom.Font = new System.Drawing.Font("Segoe UI", 10F);
             this.UiLayoutLabelRightBottom.ForeColor = System.Drawing.Color.Black;
-            this.UiLayoutLabelRightBottom.Location = new System.Drawing.Point(44, 189);
+            this.UiLayoutLabelRightBottom.Location = new System.Drawing.Point(44, 190);
             this.UiLayoutLabelRightBottom.Name = "UiLayoutLabelRightBottom";
             this.UiLayoutLabelRightBottom.Size = new System.Drawing.Size(112, 23);
             this.UiLayoutLabelRightBottom.TabIndex = 960;
@@ -2123,7 +2123,7 @@
             this.UiLayoutLabelRightTop.Cursor = System.Windows.Forms.Cursors.Hand;
             this.UiLayoutLabelRightTop.Font = new System.Drawing.Font("Segoe UI", 10F);
             this.UiLayoutLabelRightTop.ForeColor = System.Drawing.Color.Black;
-            this.UiLayoutLabelRightTop.Location = new System.Drawing.Point(44, 155);
+            this.UiLayoutLabelRightTop.Location = new System.Drawing.Point(44, 156);
             this.UiLayoutLabelRightTop.Name = "UiLayoutLabelRightTop";
             this.UiLayoutLabelRightTop.Size = new System.Drawing.Size(82, 23);
             this.UiLayoutLabelRightTop.TabIndex = 958;
@@ -2154,7 +2154,7 @@
             this.UiLayoutLabelCenter.Cursor = System.Windows.Forms.Cursors.Hand;
             this.UiLayoutLabelCenter.Font = new System.Drawing.Font("Segoe UI", 10F);
             this.UiLayoutLabelCenter.ForeColor = System.Drawing.Color.Black;
-            this.UiLayoutLabelCenter.Location = new System.Drawing.Point(44, 121);
+            this.UiLayoutLabelCenter.Location = new System.Drawing.Point(44, 122);
             this.UiLayoutLabelCenter.Name = "UiLayoutLabelCenter";
             this.UiLayoutLabelCenter.Size = new System.Drawing.Size(61, 23);
             this.UiLayoutLabelCenter.TabIndex = 956;
@@ -2185,7 +2185,7 @@
             this.UiLayoutLabelLeftBottom.Cursor = System.Windows.Forms.Cursors.Hand;
             this.UiLayoutLabelLeftBottom.Font = new System.Drawing.Font("Segoe UI", 10F);
             this.UiLayoutLabelLeftBottom.ForeColor = System.Drawing.Color.Black;
-            this.UiLayoutLabelLeftBottom.Location = new System.Drawing.Point(44, 87);
+            this.UiLayoutLabelLeftBottom.Location = new System.Drawing.Point(44, 88);
             this.UiLayoutLabelLeftBottom.Name = "UiLayoutLabelLeftBottom";
             this.UiLayoutLabelLeftBottom.Size = new System.Drawing.Size(100, 23);
             this.UiLayoutLabelLeftBottom.TabIndex = 954;
@@ -2216,7 +2216,7 @@
             this.UiLayoutLabelLeftTop.Cursor = System.Windows.Forms.Cursors.Hand;
             this.UiLayoutLabelLeftTop.Font = new System.Drawing.Font("Segoe UI", 10F);
             this.UiLayoutLabelLeftTop.ForeColor = System.Drawing.Color.Black;
-            this.UiLayoutLabelLeftTop.Location = new System.Drawing.Point(44, 53);
+            this.UiLayoutLabelLeftTop.Location = new System.Drawing.Point(44, 54);
             this.UiLayoutLabelLeftTop.Name = "UiLayoutLabelLeftTop";
             this.UiLayoutLabelLeftTop.Size = new System.Drawing.Size(70, 23);
             this.UiLayoutLabelLeftTop.TabIndex = 952;
@@ -2360,7 +2360,7 @@
             this.UiStyleLabelIconSquareOriginal.Cursor = System.Windows.Forms.Cursors.Hand;
             this.UiStyleLabelIconSquareOriginal.Font = new System.Drawing.Font("Segoe UI", 10F);
             this.UiStyleLabelIconSquareOriginal.ForeColor = System.Drawing.Color.Black;
-            this.UiStyleLabelIconSquareOriginal.Location = new System.Drawing.Point(44, 121);
+            this.UiStyleLabelIconSquareOriginal.Location = new System.Drawing.Point(44, 122);
             this.UiStyleLabelIconSquareOriginal.Name = "UiStyleLabelIconSquareOriginal";
             this.UiStyleLabelIconSquareOriginal.Size = new System.Drawing.Size(132, 23);
             this.UiStyleLabelIconSquareOriginal.TabIndex = 958;
@@ -2391,7 +2391,7 @@
             this.UiStyleLabelIconSquareModern.Cursor = System.Windows.Forms.Cursors.Hand;
             this.UiStyleLabelIconSquareModern.Font = new System.Drawing.Font("Segoe UI", 10F);
             this.UiStyleLabelIconSquareModern.ForeColor = System.Drawing.Color.Black;
-            this.UiStyleLabelIconSquareModern.Location = new System.Drawing.Point(44, 87);
+            this.UiStyleLabelIconSquareModern.Location = new System.Drawing.Point(44, 88);
             this.UiStyleLabelIconSquareModern.Name = "UiStyleLabelIconSquareModern";
             this.UiStyleLabelIconSquareModern.Size = new System.Drawing.Size(132, 23);
             this.UiStyleLabelIconSquareModern.TabIndex = 956;
@@ -2422,7 +2422,7 @@
             this.UiStyleLabelIconRoundModern.Cursor = System.Windows.Forms.Cursors.Hand;
             this.UiStyleLabelIconRoundModern.Font = new System.Drawing.Font("Segoe UI", 10F);
             this.UiStyleLabelIconRoundModern.ForeColor = System.Drawing.Color.Black;
-            this.UiStyleLabelIconRoundModern.Location = new System.Drawing.Point(44, 53);
+            this.UiStyleLabelIconRoundModern.Location = new System.Drawing.Point(44, 54);
             this.UiStyleLabelIconRoundModern.Name = "UiStyleLabelIconRoundModern";
             this.UiStyleLabelIconRoundModern.Size = new System.Drawing.Size(129, 23);
             this.UiStyleLabelIconRoundModern.TabIndex = 954;
@@ -2475,6 +2475,32 @@
             this.UiColorsGroupBoxLooks.Size = new System.Drawing.Size(250, 370);
             this.UiColorsGroupBoxLooks.TabIndex = 463;
             this.UiColorsGroupBoxLooks.Text = "How it looks";
+            // 
+            // UiColorsLabelEntry
+            // 
+            this.UiColorsLabelEntry.AutoSize = false;
+            this.UiColorsLabelEntry.BackColor = System.Drawing.SystemColors.Control;
+            this.UiColorsLabelEntry.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.UiColorsLabelEntry.Location = new System.Drawing.Point(15, 225);
+            this.UiColorsLabelEntry.Name = "UiColorsLabelEntry";
+            this.UiColorsLabelEntry.Padding = new System.Windows.Forms.Padding(5);
+            this.UiColorsLabelEntry.Size = new System.Drawing.Size(220, 90);
+            this.UiColorsLabelEntry.TabIndex = 465;
+            this.UiColorsLabelEntry.Text = "Entry in list<br />\r\nLine 2<br />\r\nLine 3<br />\r\nLine 4<br />\r\nLine 5<br />\r\nLine" +
+    " 6<br />\r\nLine 7";
+            // 
+            // UiColorsLabelActive
+            // 
+            this.UiColorsLabelActive.AutoSize = false;
+            this.UiColorsLabelActive.BackColor = System.Drawing.SystemColors.Control;
+            this.UiColorsLabelActive.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.UiColorsLabelActive.Location = new System.Drawing.Point(15, 136);
+            this.UiColorsLabelActive.Name = "UiColorsLabelActive";
+            this.UiColorsLabelActive.Padding = new System.Windows.Forms.Padding(5);
+            this.UiColorsLabelActive.Size = new System.Drawing.Size(220, 90);
+            this.UiColorsLabelActive.TabIndex = 464;
+            this.UiColorsLabelActive.Text = "Active entry<br />\r\nLine 2<br />\r\nLine 3<br />\r\nLine 4<br />\r\nLine 5<br />\r\nLine " +
+    "6<br />\r\nLine 7";
             // 
             // UiColorsGroupBoxTheme
             // 
@@ -2568,7 +2594,7 @@
             this.UiColorsLabelYellow.Cursor = System.Windows.Forms.Cursors.Hand;
             this.UiColorsLabelYellow.Font = new System.Drawing.Font("Segoe UI", 10F);
             this.UiColorsLabelYellow.ForeColor = System.Drawing.Color.Black;
-            this.UiColorsLabelYellow.Location = new System.Drawing.Point(153, 52);
+            this.UiColorsLabelYellow.Location = new System.Drawing.Point(153, 54);
             this.UiColorsLabelYellow.Name = "UiColorsLabelYellow";
             this.UiColorsLabelYellow.Size = new System.Drawing.Size(57, 23);
             this.UiColorsLabelYellow.TabIndex = 962;
@@ -2661,7 +2687,7 @@
             this.UiColorsLabelBlue.Cursor = System.Windows.Forms.Cursors.Hand;
             this.UiColorsLabelBlue.Font = new System.Drawing.Font("Segoe UI", 10F);
             this.UiColorsLabelBlue.ForeColor = System.Drawing.Color.Black;
-            this.UiColorsLabelBlue.Location = new System.Drawing.Point(51, 52);
+            this.UiColorsLabelBlue.Location = new System.Drawing.Point(51, 54);
             this.UiColorsLabelBlue.Name = "UiColorsLabelBlue";
             this.UiColorsLabelBlue.Size = new System.Drawing.Size(43, 23);
             this.UiColorsLabelBlue.TabIndex = 956;
@@ -2900,31 +2926,31 @@
             // guna2GroupBox2
             // 
             this.guna2GroupBox2.BorderRadius = 5;
-            this.guna2GroupBox2.Controls.Add(this.guna2PictureBox7);
-            this.guna2GroupBox2.Controls.Add(this.guna2PictureBox8);
-            this.guna2GroupBox2.Controls.Add(this.guna2PictureBox4);
-            this.guna2GroupBox2.Controls.Add(this.guna2PictureBox5);
-            this.guna2GroupBox2.Controls.Add(this.guna2PictureBox6);
-            this.guna2GroupBox2.Controls.Add(this.guna2PictureBox3);
-            this.guna2GroupBox2.Controls.Add(this.guna2PictureBox2);
-            this.guna2GroupBox2.Controls.Add(this.guna2PictureBox1);
-            this.guna2GroupBox2.Controls.Add(this.guna2TextBox16);
-            this.guna2GroupBox2.Controls.Add(this.guna2TextBox15);
-            this.guna2GroupBox2.Controls.Add(this.guna2TextBox14);
-            this.guna2GroupBox2.Controls.Add(this.guna2TextBox13);
-            this.guna2GroupBox2.Controls.Add(this.guna2TextBox11);
-            this.guna2GroupBox2.Controls.Add(this.guna2TextBox12);
-            this.guna2GroupBox2.Controls.Add(this.guna2TextBox9);
-            this.guna2GroupBox2.Controls.Add(this.guna2TextBox10);
-            this.guna2GroupBox2.Controls.Add(this.guna2TextBox7);
-            this.guna2GroupBox2.Controls.Add(this.guna2TextBox8);
-            this.guna2GroupBox2.Controls.Add(this.guna2TextBox5);
-            this.guna2GroupBox2.Controls.Add(this.guna2TextBox6);
-            this.guna2GroupBox2.Controls.Add(this.guna2TextBox3);
-            this.guna2GroupBox2.Controls.Add(this.guna2TextBox4);
+            this.guna2GroupBox2.Controls.Add(this.UiExclusionPictureBoxDelete8);
+            this.guna2GroupBox2.Controls.Add(this.UiExclusionPictureBoxDelete7);
+            this.guna2GroupBox2.Controls.Add(this.UiExclusionPictureBoxDelete6);
+            this.guna2GroupBox2.Controls.Add(this.UiExclusionPictureBoxDelete5);
+            this.guna2GroupBox2.Controls.Add(this.UiExclusionPictureBoxDelete4);
+            this.guna2GroupBox2.Controls.Add(this.UiExclusionPictureBoxDelete3);
+            this.guna2GroupBox2.Controls.Add(this.UiExclusionPictureBoxDelete2);
+            this.guna2GroupBox2.Controls.Add(this.UiExclusionPictureBoxDelete1);
+            this.guna2GroupBox2.Controls.Add(this.UiExclusionTextBoxApp8);
+            this.guna2GroupBox2.Controls.Add(this.UiExclusionTextBoxApp7);
+            this.guna2GroupBox2.Controls.Add(this.UiExclusionTextBoxProcess8);
+            this.guna2GroupBox2.Controls.Add(this.UiExclusionTextBoxProcess7);
+            this.guna2GroupBox2.Controls.Add(this.UiExclusionTextBoxApp6);
+            this.guna2GroupBox2.Controls.Add(this.UiExclusionTextBoxProcess6);
+            this.guna2GroupBox2.Controls.Add(this.UiExclusionTextBoxApp5);
+            this.guna2GroupBox2.Controls.Add(this.UiExclusionTextBoxProcess5);
+            this.guna2GroupBox2.Controls.Add(this.UiExclusionTextBoxApp4);
+            this.guna2GroupBox2.Controls.Add(this.UiExclusionTextBoxProcess4);
+            this.guna2GroupBox2.Controls.Add(this.UiExclusionTextBoxApp3);
+            this.guna2GroupBox2.Controls.Add(this.UiExclusionTextBoxProcess3);
+            this.guna2GroupBox2.Controls.Add(this.UiExclusionTextBoxApp2);
+            this.guna2GroupBox2.Controls.Add(this.UiExclusionTextBoxProcess2);
             this.guna2GroupBox2.Controls.Add(this.guna2HtmlLabel2);
-            this.guna2GroupBox2.Controls.Add(this.guna2TextBox2);
-            this.guna2GroupBox2.Controls.Add(this.guna2TextBox1);
+            this.guna2GroupBox2.Controls.Add(this.UiExclusionTextBoxApp1);
+            this.guna2GroupBox2.Controls.Add(this.UiExclusionTextBoxProcess1);
             this.guna2GroupBox2.CustomBorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(227)))), ((int)(((byte)(220)))));
             this.guna2GroupBox2.Font = new System.Drawing.Font("Segoe UI", 11F);
             this.guna2GroupBox2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
@@ -2934,453 +2960,453 @@
             this.guna2GroupBox2.TabIndex = 212;
             this.guna2GroupBox2.Text = "Disable HovText in application";
             // 
-            // guna2PictureBox7
+            // UiExclusionPictureBoxDelete8
             // 
-            this.guna2PictureBox7.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.guna2PictureBox7.Image = ((System.Drawing.Image)(resources.GetObject("guna2PictureBox7.Image")));
-            this.guna2PictureBox7.ImageRotate = 0F;
-            this.guna2PictureBox7.Location = new System.Drawing.Point(21, 495);
-            this.guna2PictureBox7.Name = "guna2PictureBox7";
-            this.guna2PictureBox7.Size = new System.Drawing.Size(20, 20);
-            this.guna2PictureBox7.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.guna2PictureBox7.TabIndex = 24;
-            this.guna2PictureBox7.TabStop = false;
-            this.guna2PictureBox7.Tag = "8";
-            this.guna2PictureBox7.Click += new System.EventHandler(this.guna2PictureBox1_Click);
+            this.UiExclusionPictureBoxDelete8.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.UiExclusionPictureBoxDelete8.Image = ((System.Drawing.Image)(resources.GetObject("UiExclusionPictureBoxDelete8.Image")));
+            this.UiExclusionPictureBoxDelete8.ImageRotate = 0F;
+            this.UiExclusionPictureBoxDelete8.Location = new System.Drawing.Point(21, 495);
+            this.UiExclusionPictureBoxDelete8.Name = "UiExclusionPictureBoxDelete8";
+            this.UiExclusionPictureBoxDelete8.Size = new System.Drawing.Size(20, 20);
+            this.UiExclusionPictureBoxDelete8.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.UiExclusionPictureBoxDelete8.TabIndex = 24;
+            this.UiExclusionPictureBoxDelete8.TabStop = false;
+            this.UiExclusionPictureBoxDelete8.Tag = "8";
+            this.UiExclusionPictureBoxDelete8.Click += new System.EventHandler(this.guna2PictureBox1_Click);
             // 
-            // guna2PictureBox8
+            // UiExclusionPictureBoxDelete7
             // 
-            this.guna2PictureBox8.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.guna2PictureBox8.Image = ((System.Drawing.Image)(resources.GetObject("guna2PictureBox8.Image")));
-            this.guna2PictureBox8.ImageRotate = 0F;
-            this.guna2PictureBox8.Location = new System.Drawing.Point(21, 454);
-            this.guna2PictureBox8.Name = "guna2PictureBox8";
-            this.guna2PictureBox8.Size = new System.Drawing.Size(20, 20);
-            this.guna2PictureBox8.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.guna2PictureBox8.TabIndex = 23;
-            this.guna2PictureBox8.TabStop = false;
-            this.guna2PictureBox8.Tag = "7";
-            this.guna2PictureBox8.Click += new System.EventHandler(this.guna2PictureBox1_Click);
+            this.UiExclusionPictureBoxDelete7.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.UiExclusionPictureBoxDelete7.Image = ((System.Drawing.Image)(resources.GetObject("UiExclusionPictureBoxDelete7.Image")));
+            this.UiExclusionPictureBoxDelete7.ImageRotate = 0F;
+            this.UiExclusionPictureBoxDelete7.Location = new System.Drawing.Point(21, 454);
+            this.UiExclusionPictureBoxDelete7.Name = "UiExclusionPictureBoxDelete7";
+            this.UiExclusionPictureBoxDelete7.Size = new System.Drawing.Size(20, 20);
+            this.UiExclusionPictureBoxDelete7.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.UiExclusionPictureBoxDelete7.TabIndex = 23;
+            this.UiExclusionPictureBoxDelete7.TabStop = false;
+            this.UiExclusionPictureBoxDelete7.Tag = "7";
+            this.UiExclusionPictureBoxDelete7.Click += new System.EventHandler(this.guna2PictureBox1_Click);
             // 
-            // guna2PictureBox4
+            // UiExclusionPictureBoxDelete6
             // 
-            this.guna2PictureBox4.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.guna2PictureBox4.Image = ((System.Drawing.Image)(resources.GetObject("guna2PictureBox4.Image")));
-            this.guna2PictureBox4.ImageRotate = 0F;
-            this.guna2PictureBox4.Location = new System.Drawing.Point(21, 412);
-            this.guna2PictureBox4.Name = "guna2PictureBox4";
-            this.guna2PictureBox4.Size = new System.Drawing.Size(20, 20);
-            this.guna2PictureBox4.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.guna2PictureBox4.TabIndex = 22;
-            this.guna2PictureBox4.TabStop = false;
-            this.guna2PictureBox4.Tag = "6";
-            this.guna2PictureBox4.Click += new System.EventHandler(this.guna2PictureBox1_Click);
+            this.UiExclusionPictureBoxDelete6.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.UiExclusionPictureBoxDelete6.Image = ((System.Drawing.Image)(resources.GetObject("UiExclusionPictureBoxDelete6.Image")));
+            this.UiExclusionPictureBoxDelete6.ImageRotate = 0F;
+            this.UiExclusionPictureBoxDelete6.Location = new System.Drawing.Point(21, 412);
+            this.UiExclusionPictureBoxDelete6.Name = "UiExclusionPictureBoxDelete6";
+            this.UiExclusionPictureBoxDelete6.Size = new System.Drawing.Size(20, 20);
+            this.UiExclusionPictureBoxDelete6.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.UiExclusionPictureBoxDelete6.TabIndex = 22;
+            this.UiExclusionPictureBoxDelete6.TabStop = false;
+            this.UiExclusionPictureBoxDelete6.Tag = "6";
+            this.UiExclusionPictureBoxDelete6.Click += new System.EventHandler(this.guna2PictureBox1_Click);
             // 
-            // guna2PictureBox5
+            // UiExclusionPictureBoxDelete5
             // 
-            this.guna2PictureBox5.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.guna2PictureBox5.Image = ((System.Drawing.Image)(resources.GetObject("guna2PictureBox5.Image")));
-            this.guna2PictureBox5.ImageRotate = 0F;
-            this.guna2PictureBox5.Location = new System.Drawing.Point(21, 372);
-            this.guna2PictureBox5.Name = "guna2PictureBox5";
-            this.guna2PictureBox5.Size = new System.Drawing.Size(20, 20);
-            this.guna2PictureBox5.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.guna2PictureBox5.TabIndex = 21;
-            this.guna2PictureBox5.TabStop = false;
-            this.guna2PictureBox5.Tag = "5";
-            this.guna2PictureBox5.Click += new System.EventHandler(this.guna2PictureBox1_Click);
+            this.UiExclusionPictureBoxDelete5.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.UiExclusionPictureBoxDelete5.Image = ((System.Drawing.Image)(resources.GetObject("UiExclusionPictureBoxDelete5.Image")));
+            this.UiExclusionPictureBoxDelete5.ImageRotate = 0F;
+            this.UiExclusionPictureBoxDelete5.Location = new System.Drawing.Point(21, 372);
+            this.UiExclusionPictureBoxDelete5.Name = "UiExclusionPictureBoxDelete5";
+            this.UiExclusionPictureBoxDelete5.Size = new System.Drawing.Size(20, 20);
+            this.UiExclusionPictureBoxDelete5.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.UiExclusionPictureBoxDelete5.TabIndex = 21;
+            this.UiExclusionPictureBoxDelete5.TabStop = false;
+            this.UiExclusionPictureBoxDelete5.Tag = "5";
+            this.UiExclusionPictureBoxDelete5.Click += new System.EventHandler(this.guna2PictureBox1_Click);
             // 
-            // guna2PictureBox6
+            // UiExclusionPictureBoxDelete4
             // 
-            this.guna2PictureBox6.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.guna2PictureBox6.Image = ((System.Drawing.Image)(resources.GetObject("guna2PictureBox6.Image")));
-            this.guna2PictureBox6.ImageRotate = 0F;
-            this.guna2PictureBox6.Location = new System.Drawing.Point(21, 329);
-            this.guna2PictureBox6.Name = "guna2PictureBox6";
-            this.guna2PictureBox6.Size = new System.Drawing.Size(20, 20);
-            this.guna2PictureBox6.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.guna2PictureBox6.TabIndex = 20;
-            this.guna2PictureBox6.TabStop = false;
-            this.guna2PictureBox6.Tag = "4";
-            this.guna2PictureBox6.Click += new System.EventHandler(this.guna2PictureBox1_Click);
+            this.UiExclusionPictureBoxDelete4.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.UiExclusionPictureBoxDelete4.Image = ((System.Drawing.Image)(resources.GetObject("UiExclusionPictureBoxDelete4.Image")));
+            this.UiExclusionPictureBoxDelete4.ImageRotate = 0F;
+            this.UiExclusionPictureBoxDelete4.Location = new System.Drawing.Point(21, 329);
+            this.UiExclusionPictureBoxDelete4.Name = "UiExclusionPictureBoxDelete4";
+            this.UiExclusionPictureBoxDelete4.Size = new System.Drawing.Size(20, 20);
+            this.UiExclusionPictureBoxDelete4.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.UiExclusionPictureBoxDelete4.TabIndex = 20;
+            this.UiExclusionPictureBoxDelete4.TabStop = false;
+            this.UiExclusionPictureBoxDelete4.Tag = "4";
+            this.UiExclusionPictureBoxDelete4.Click += new System.EventHandler(this.guna2PictureBox1_Click);
             // 
-            // guna2PictureBox3
+            // UiExclusionPictureBoxDelete3
             // 
-            this.guna2PictureBox3.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.guna2PictureBox3.Image = ((System.Drawing.Image)(resources.GetObject("guna2PictureBox3.Image")));
-            this.guna2PictureBox3.ImageRotate = 0F;
-            this.guna2PictureBox3.Location = new System.Drawing.Point(21, 285);
-            this.guna2PictureBox3.Name = "guna2PictureBox3";
-            this.guna2PictureBox3.Size = new System.Drawing.Size(20, 20);
-            this.guna2PictureBox3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.guna2PictureBox3.TabIndex = 19;
-            this.guna2PictureBox3.TabStop = false;
-            this.guna2PictureBox3.Tag = "3";
-            this.guna2PictureBox3.Click += new System.EventHandler(this.guna2PictureBox1_Click);
+            this.UiExclusionPictureBoxDelete3.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.UiExclusionPictureBoxDelete3.Image = ((System.Drawing.Image)(resources.GetObject("UiExclusionPictureBoxDelete3.Image")));
+            this.UiExclusionPictureBoxDelete3.ImageRotate = 0F;
+            this.UiExclusionPictureBoxDelete3.Location = new System.Drawing.Point(21, 285);
+            this.UiExclusionPictureBoxDelete3.Name = "UiExclusionPictureBoxDelete3";
+            this.UiExclusionPictureBoxDelete3.Size = new System.Drawing.Size(20, 20);
+            this.UiExclusionPictureBoxDelete3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.UiExclusionPictureBoxDelete3.TabIndex = 19;
+            this.UiExclusionPictureBoxDelete3.TabStop = false;
+            this.UiExclusionPictureBoxDelete3.Tag = "3";
+            this.UiExclusionPictureBoxDelete3.Click += new System.EventHandler(this.guna2PictureBox1_Click);
             // 
-            // guna2PictureBox2
+            // UiExclusionPictureBoxDelete2
             // 
-            this.guna2PictureBox2.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.guna2PictureBox2.Image = ((System.Drawing.Image)(resources.GetObject("guna2PictureBox2.Image")));
-            this.guna2PictureBox2.ImageRotate = 0F;
-            this.guna2PictureBox2.Location = new System.Drawing.Point(21, 244);
-            this.guna2PictureBox2.Name = "guna2PictureBox2";
-            this.guna2PictureBox2.Size = new System.Drawing.Size(20, 20);
-            this.guna2PictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.guna2PictureBox2.TabIndex = 18;
-            this.guna2PictureBox2.TabStop = false;
-            this.guna2PictureBox2.Tag = "2";
-            this.guna2PictureBox2.Click += new System.EventHandler(this.guna2PictureBox1_Click);
+            this.UiExclusionPictureBoxDelete2.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.UiExclusionPictureBoxDelete2.Image = ((System.Drawing.Image)(resources.GetObject("UiExclusionPictureBoxDelete2.Image")));
+            this.UiExclusionPictureBoxDelete2.ImageRotate = 0F;
+            this.UiExclusionPictureBoxDelete2.Location = new System.Drawing.Point(21, 244);
+            this.UiExclusionPictureBoxDelete2.Name = "UiExclusionPictureBoxDelete2";
+            this.UiExclusionPictureBoxDelete2.Size = new System.Drawing.Size(20, 20);
+            this.UiExclusionPictureBoxDelete2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.UiExclusionPictureBoxDelete2.TabIndex = 18;
+            this.UiExclusionPictureBoxDelete2.TabStop = false;
+            this.UiExclusionPictureBoxDelete2.Tag = "2";
+            this.UiExclusionPictureBoxDelete2.Click += new System.EventHandler(this.guna2PictureBox1_Click);
             // 
-            // guna2PictureBox1
+            // UiExclusionPictureBoxDelete1
             // 
-            this.guna2PictureBox1.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.guna2PictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("guna2PictureBox1.Image")));
-            this.guna2PictureBox1.ImageRotate = 0F;
-            this.guna2PictureBox1.Location = new System.Drawing.Point(21, 202);
-            this.guna2PictureBox1.Name = "guna2PictureBox1";
-            this.guna2PictureBox1.Size = new System.Drawing.Size(20, 20);
-            this.guna2PictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.guna2PictureBox1.TabIndex = 17;
-            this.guna2PictureBox1.TabStop = false;
-            this.guna2PictureBox1.Tag = "1";
-            this.guna2PictureBox1.Click += new System.EventHandler(this.guna2PictureBox1_Click);
+            this.UiExclusionPictureBoxDelete1.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.UiExclusionPictureBoxDelete1.Image = ((System.Drawing.Image)(resources.GetObject("UiExclusionPictureBoxDelete1.Image")));
+            this.UiExclusionPictureBoxDelete1.ImageRotate = 0F;
+            this.UiExclusionPictureBoxDelete1.Location = new System.Drawing.Point(21, 202);
+            this.UiExclusionPictureBoxDelete1.Name = "UiExclusionPictureBoxDelete1";
+            this.UiExclusionPictureBoxDelete1.Size = new System.Drawing.Size(20, 20);
+            this.UiExclusionPictureBoxDelete1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.UiExclusionPictureBoxDelete1.TabIndex = 17;
+            this.UiExclusionPictureBoxDelete1.TabStop = false;
+            this.UiExclusionPictureBoxDelete1.Tag = "1";
+            this.UiExclusionPictureBoxDelete1.Click += new System.EventHandler(this.guna2PictureBox1_Click);
             // 
-            // guna2TextBox16
+            // UiExclusionTextBoxApp8
             // 
-            this.guna2TextBox16.BorderRadius = 5;
-            this.guna2TextBox16.Cursor = System.Windows.Forms.Cursors.IBeam;
-            this.guna2TextBox16.DefaultText = "";
-            this.guna2TextBox16.DisabledState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(208)))), ((int)(((byte)(208)))), ((int)(((byte)(208)))));
-            this.guna2TextBox16.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(226)))), ((int)(((byte)(226)))), ((int)(((byte)(226)))));
-            this.guna2TextBox16.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(138)))), ((int)(((byte)(138)))), ((int)(((byte)(138)))));
-            this.guna2TextBox16.DisabledState.PlaceholderForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(138)))), ((int)(((byte)(138)))), ((int)(((byte)(138)))));
-            this.guna2TextBox16.FocusedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
-            this.guna2TextBox16.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.guna2TextBox16.ForeColor = System.Drawing.Color.Black;
-            this.guna2TextBox16.HoverState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
-            this.guna2TextBox16.Location = new System.Drawing.Point(249, 491);
-            this.guna2TextBox16.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
-            this.guna2TextBox16.Name = "guna2TextBox16";
-            this.guna2TextBox16.PasswordChar = '\0';
-            this.guna2TextBox16.PlaceholderText = "Your name for the application";
-            this.guna2TextBox16.SelectedText = "";
-            this.guna2TextBox16.Size = new System.Drawing.Size(250, 32);
-            this.guna2TextBox16.TabIndex = 16;
-            this.guna2TextBox16.Tag = "8_app";
-            this.guna2TextBox16.Leave += new System.EventHandler(this.guna2TextBox1_Leave);
+            this.UiExclusionTextBoxApp8.BorderRadius = 5;
+            this.UiExclusionTextBoxApp8.Cursor = System.Windows.Forms.Cursors.IBeam;
+            this.UiExclusionTextBoxApp8.DefaultText = "";
+            this.UiExclusionTextBoxApp8.DisabledState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(208)))), ((int)(((byte)(208)))), ((int)(((byte)(208)))));
+            this.UiExclusionTextBoxApp8.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(226)))), ((int)(((byte)(226)))), ((int)(((byte)(226)))));
+            this.UiExclusionTextBoxApp8.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(138)))), ((int)(((byte)(138)))), ((int)(((byte)(138)))));
+            this.UiExclusionTextBoxApp8.DisabledState.PlaceholderForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(138)))), ((int)(((byte)(138)))), ((int)(((byte)(138)))));
+            this.UiExclusionTextBoxApp8.FocusedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
+            this.UiExclusionTextBoxApp8.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.UiExclusionTextBoxApp8.ForeColor = System.Drawing.Color.Black;
+            this.UiExclusionTextBoxApp8.HoverState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
+            this.UiExclusionTextBoxApp8.Location = new System.Drawing.Point(249, 491);
+            this.UiExclusionTextBoxApp8.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
+            this.UiExclusionTextBoxApp8.Name = "UiExclusionTextBoxApp8";
+            this.UiExclusionTextBoxApp8.PasswordChar = '\0';
+            this.UiExclusionTextBoxApp8.PlaceholderText = "Your name for the application";
+            this.UiExclusionTextBoxApp8.SelectedText = "";
+            this.UiExclusionTextBoxApp8.Size = new System.Drawing.Size(250, 32);
+            this.UiExclusionTextBoxApp8.TabIndex = 16;
+            this.UiExclusionTextBoxApp8.Tag = "8_app";
+            this.UiExclusionTextBoxApp8.Leave += new System.EventHandler(this.guna2TextBox1_Leave);
             // 
-            // guna2TextBox15
+            // UiExclusionTextBoxApp7
             // 
-            this.guna2TextBox15.BorderRadius = 5;
-            this.guna2TextBox15.Cursor = System.Windows.Forms.Cursors.IBeam;
-            this.guna2TextBox15.DefaultText = "";
-            this.guna2TextBox15.DisabledState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(208)))), ((int)(((byte)(208)))), ((int)(((byte)(208)))));
-            this.guna2TextBox15.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(226)))), ((int)(((byte)(226)))), ((int)(((byte)(226)))));
-            this.guna2TextBox15.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(138)))), ((int)(((byte)(138)))), ((int)(((byte)(138)))));
-            this.guna2TextBox15.DisabledState.PlaceholderForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(138)))), ((int)(((byte)(138)))), ((int)(((byte)(138)))));
-            this.guna2TextBox15.FocusedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
-            this.guna2TextBox15.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.guna2TextBox15.ForeColor = System.Drawing.Color.Black;
-            this.guna2TextBox15.HoverState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
-            this.guna2TextBox15.Location = new System.Drawing.Point(249, 449);
-            this.guna2TextBox15.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
-            this.guna2TextBox15.Name = "guna2TextBox15";
-            this.guna2TextBox15.PasswordChar = '\0';
-            this.guna2TextBox15.PlaceholderText = "Your name for the application";
-            this.guna2TextBox15.SelectedText = "";
-            this.guna2TextBox15.Size = new System.Drawing.Size(250, 32);
-            this.guna2TextBox15.TabIndex = 15;
-            this.guna2TextBox15.Tag = "7_app";
-            this.guna2TextBox15.Leave += new System.EventHandler(this.guna2TextBox1_Leave);
+            this.UiExclusionTextBoxApp7.BorderRadius = 5;
+            this.UiExclusionTextBoxApp7.Cursor = System.Windows.Forms.Cursors.IBeam;
+            this.UiExclusionTextBoxApp7.DefaultText = "";
+            this.UiExclusionTextBoxApp7.DisabledState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(208)))), ((int)(((byte)(208)))), ((int)(((byte)(208)))));
+            this.UiExclusionTextBoxApp7.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(226)))), ((int)(((byte)(226)))), ((int)(((byte)(226)))));
+            this.UiExclusionTextBoxApp7.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(138)))), ((int)(((byte)(138)))), ((int)(((byte)(138)))));
+            this.UiExclusionTextBoxApp7.DisabledState.PlaceholderForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(138)))), ((int)(((byte)(138)))), ((int)(((byte)(138)))));
+            this.UiExclusionTextBoxApp7.FocusedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
+            this.UiExclusionTextBoxApp7.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.UiExclusionTextBoxApp7.ForeColor = System.Drawing.Color.Black;
+            this.UiExclusionTextBoxApp7.HoverState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
+            this.UiExclusionTextBoxApp7.Location = new System.Drawing.Point(249, 449);
+            this.UiExclusionTextBoxApp7.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
+            this.UiExclusionTextBoxApp7.Name = "UiExclusionTextBoxApp7";
+            this.UiExclusionTextBoxApp7.PasswordChar = '\0';
+            this.UiExclusionTextBoxApp7.PlaceholderText = "Your name for the application";
+            this.UiExclusionTextBoxApp7.SelectedText = "";
+            this.UiExclusionTextBoxApp7.Size = new System.Drawing.Size(250, 32);
+            this.UiExclusionTextBoxApp7.TabIndex = 15;
+            this.UiExclusionTextBoxApp7.Tag = "7_app";
+            this.UiExclusionTextBoxApp7.Leave += new System.EventHandler(this.guna2TextBox1_Leave);
             // 
-            // guna2TextBox14
+            // UiExclusionTextBoxProcess8
             // 
-            this.guna2TextBox14.BorderRadius = 5;
-            this.guna2TextBox14.Cursor = System.Windows.Forms.Cursors.IBeam;
-            this.guna2TextBox14.DefaultText = "";
-            this.guna2TextBox14.DisabledState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(208)))), ((int)(((byte)(208)))), ((int)(((byte)(208)))));
-            this.guna2TextBox14.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(226)))), ((int)(((byte)(226)))), ((int)(((byte)(226)))));
-            this.guna2TextBox14.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(138)))), ((int)(((byte)(138)))), ((int)(((byte)(138)))));
-            this.guna2TextBox14.DisabledState.PlaceholderForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(138)))), ((int)(((byte)(138)))), ((int)(((byte)(138)))));
-            this.guna2TextBox14.FocusedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
-            this.guna2TextBox14.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.guna2TextBox14.ForeColor = System.Drawing.Color.Black;
-            this.guna2TextBox14.HoverState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
-            this.guna2TextBox14.Location = new System.Drawing.Point(53, 491);
-            this.guna2TextBox14.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
-            this.guna2TextBox14.Name = "guna2TextBox14";
-            this.guna2TextBox14.PasswordChar = '\0';
-            this.guna2TextBox14.PlaceholderText = "Exact process name";
-            this.guna2TextBox14.SelectedText = "";
-            this.guna2TextBox14.Size = new System.Drawing.Size(187, 32);
-            this.guna2TextBox14.TabIndex = 14;
-            this.guna2TextBox14.Tag = "8_process";
-            this.guna2TextBox14.Leave += new System.EventHandler(this.guna2TextBox1_Leave);
+            this.UiExclusionTextBoxProcess8.BorderRadius = 5;
+            this.UiExclusionTextBoxProcess8.Cursor = System.Windows.Forms.Cursors.IBeam;
+            this.UiExclusionTextBoxProcess8.DefaultText = "";
+            this.UiExclusionTextBoxProcess8.DisabledState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(208)))), ((int)(((byte)(208)))), ((int)(((byte)(208)))));
+            this.UiExclusionTextBoxProcess8.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(226)))), ((int)(((byte)(226)))), ((int)(((byte)(226)))));
+            this.UiExclusionTextBoxProcess8.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(138)))), ((int)(((byte)(138)))), ((int)(((byte)(138)))));
+            this.UiExclusionTextBoxProcess8.DisabledState.PlaceholderForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(138)))), ((int)(((byte)(138)))), ((int)(((byte)(138)))));
+            this.UiExclusionTextBoxProcess8.FocusedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
+            this.UiExclusionTextBoxProcess8.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.UiExclusionTextBoxProcess8.ForeColor = System.Drawing.Color.Black;
+            this.UiExclusionTextBoxProcess8.HoverState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
+            this.UiExclusionTextBoxProcess8.Location = new System.Drawing.Point(53, 491);
+            this.UiExclusionTextBoxProcess8.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
+            this.UiExclusionTextBoxProcess8.Name = "UiExclusionTextBoxProcess8";
+            this.UiExclusionTextBoxProcess8.PasswordChar = '\0';
+            this.UiExclusionTextBoxProcess8.PlaceholderText = "Exact process name";
+            this.UiExclusionTextBoxProcess8.SelectedText = "";
+            this.UiExclusionTextBoxProcess8.Size = new System.Drawing.Size(187, 32);
+            this.UiExclusionTextBoxProcess8.TabIndex = 14;
+            this.UiExclusionTextBoxProcess8.Tag = "8_process";
+            this.UiExclusionTextBoxProcess8.Leave += new System.EventHandler(this.guna2TextBox1_Leave);
             // 
-            // guna2TextBox13
+            // UiExclusionTextBoxProcess7
             // 
-            this.guna2TextBox13.BorderRadius = 5;
-            this.guna2TextBox13.Cursor = System.Windows.Forms.Cursors.IBeam;
-            this.guna2TextBox13.DefaultText = "";
-            this.guna2TextBox13.DisabledState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(208)))), ((int)(((byte)(208)))), ((int)(((byte)(208)))));
-            this.guna2TextBox13.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(226)))), ((int)(((byte)(226)))), ((int)(((byte)(226)))));
-            this.guna2TextBox13.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(138)))), ((int)(((byte)(138)))), ((int)(((byte)(138)))));
-            this.guna2TextBox13.DisabledState.PlaceholderForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(138)))), ((int)(((byte)(138)))), ((int)(((byte)(138)))));
-            this.guna2TextBox13.FocusedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
-            this.guna2TextBox13.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.guna2TextBox13.ForeColor = System.Drawing.Color.Black;
-            this.guna2TextBox13.HoverState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
-            this.guna2TextBox13.Location = new System.Drawing.Point(56, 449);
-            this.guna2TextBox13.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
-            this.guna2TextBox13.Name = "guna2TextBox13";
-            this.guna2TextBox13.PasswordChar = '\0';
-            this.guna2TextBox13.PlaceholderText = "Exact process name";
-            this.guna2TextBox13.SelectedText = "";
-            this.guna2TextBox13.Size = new System.Drawing.Size(187, 32);
-            this.guna2TextBox13.TabIndex = 13;
-            this.guna2TextBox13.Tag = "7_process";
-            this.guna2TextBox13.Leave += new System.EventHandler(this.guna2TextBox1_Leave);
+            this.UiExclusionTextBoxProcess7.BorderRadius = 5;
+            this.UiExclusionTextBoxProcess7.Cursor = System.Windows.Forms.Cursors.IBeam;
+            this.UiExclusionTextBoxProcess7.DefaultText = "";
+            this.UiExclusionTextBoxProcess7.DisabledState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(208)))), ((int)(((byte)(208)))), ((int)(((byte)(208)))));
+            this.UiExclusionTextBoxProcess7.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(226)))), ((int)(((byte)(226)))), ((int)(((byte)(226)))));
+            this.UiExclusionTextBoxProcess7.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(138)))), ((int)(((byte)(138)))), ((int)(((byte)(138)))));
+            this.UiExclusionTextBoxProcess7.DisabledState.PlaceholderForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(138)))), ((int)(((byte)(138)))), ((int)(((byte)(138)))));
+            this.UiExclusionTextBoxProcess7.FocusedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
+            this.UiExclusionTextBoxProcess7.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.UiExclusionTextBoxProcess7.ForeColor = System.Drawing.Color.Black;
+            this.UiExclusionTextBoxProcess7.HoverState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
+            this.UiExclusionTextBoxProcess7.Location = new System.Drawing.Point(56, 449);
+            this.UiExclusionTextBoxProcess7.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
+            this.UiExclusionTextBoxProcess7.Name = "UiExclusionTextBoxProcess7";
+            this.UiExclusionTextBoxProcess7.PasswordChar = '\0';
+            this.UiExclusionTextBoxProcess7.PlaceholderText = "Exact process name";
+            this.UiExclusionTextBoxProcess7.SelectedText = "";
+            this.UiExclusionTextBoxProcess7.Size = new System.Drawing.Size(187, 32);
+            this.UiExclusionTextBoxProcess7.TabIndex = 13;
+            this.UiExclusionTextBoxProcess7.Tag = "7_process";
+            this.UiExclusionTextBoxProcess7.Leave += new System.EventHandler(this.guna2TextBox1_Leave);
             // 
-            // guna2TextBox11
+            // UiExclusionTextBoxApp6
             // 
-            this.guna2TextBox11.BorderRadius = 5;
-            this.guna2TextBox11.Cursor = System.Windows.Forms.Cursors.IBeam;
-            this.guna2TextBox11.DefaultText = "";
-            this.guna2TextBox11.DisabledState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(208)))), ((int)(((byte)(208)))), ((int)(((byte)(208)))));
-            this.guna2TextBox11.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(226)))), ((int)(((byte)(226)))), ((int)(((byte)(226)))));
-            this.guna2TextBox11.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(138)))), ((int)(((byte)(138)))), ((int)(((byte)(138)))));
-            this.guna2TextBox11.DisabledState.PlaceholderForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(138)))), ((int)(((byte)(138)))), ((int)(((byte)(138)))));
-            this.guna2TextBox11.FocusedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
-            this.guna2TextBox11.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.guna2TextBox11.ForeColor = System.Drawing.Color.Black;
-            this.guna2TextBox11.HoverState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
-            this.guna2TextBox11.Location = new System.Drawing.Point(249, 407);
-            this.guna2TextBox11.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
-            this.guna2TextBox11.Name = "guna2TextBox11";
-            this.guna2TextBox11.PasswordChar = '\0';
-            this.guna2TextBox11.PlaceholderText = "Your name for the application";
-            this.guna2TextBox11.SelectedText = "";
-            this.guna2TextBox11.Size = new System.Drawing.Size(250, 32);
-            this.guna2TextBox11.TabIndex = 12;
-            this.guna2TextBox11.Tag = "6_app";
-            this.guna2TextBox11.Leave += new System.EventHandler(this.guna2TextBox1_Leave);
+            this.UiExclusionTextBoxApp6.BorderRadius = 5;
+            this.UiExclusionTextBoxApp6.Cursor = System.Windows.Forms.Cursors.IBeam;
+            this.UiExclusionTextBoxApp6.DefaultText = "";
+            this.UiExclusionTextBoxApp6.DisabledState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(208)))), ((int)(((byte)(208)))), ((int)(((byte)(208)))));
+            this.UiExclusionTextBoxApp6.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(226)))), ((int)(((byte)(226)))), ((int)(((byte)(226)))));
+            this.UiExclusionTextBoxApp6.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(138)))), ((int)(((byte)(138)))), ((int)(((byte)(138)))));
+            this.UiExclusionTextBoxApp6.DisabledState.PlaceholderForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(138)))), ((int)(((byte)(138)))), ((int)(((byte)(138)))));
+            this.UiExclusionTextBoxApp6.FocusedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
+            this.UiExclusionTextBoxApp6.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.UiExclusionTextBoxApp6.ForeColor = System.Drawing.Color.Black;
+            this.UiExclusionTextBoxApp6.HoverState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
+            this.UiExclusionTextBoxApp6.Location = new System.Drawing.Point(249, 407);
+            this.UiExclusionTextBoxApp6.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
+            this.UiExclusionTextBoxApp6.Name = "UiExclusionTextBoxApp6";
+            this.UiExclusionTextBoxApp6.PasswordChar = '\0';
+            this.UiExclusionTextBoxApp6.PlaceholderText = "Your name for the application";
+            this.UiExclusionTextBoxApp6.SelectedText = "";
+            this.UiExclusionTextBoxApp6.Size = new System.Drawing.Size(250, 32);
+            this.UiExclusionTextBoxApp6.TabIndex = 12;
+            this.UiExclusionTextBoxApp6.Tag = "6_app";
+            this.UiExclusionTextBoxApp6.Leave += new System.EventHandler(this.guna2TextBox1_Leave);
             // 
-            // guna2TextBox12
+            // UiExclusionTextBoxProcess6
             // 
-            this.guna2TextBox12.BorderRadius = 5;
-            this.guna2TextBox12.Cursor = System.Windows.Forms.Cursors.IBeam;
-            this.guna2TextBox12.DefaultText = "";
-            this.guna2TextBox12.DisabledState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(208)))), ((int)(((byte)(208)))), ((int)(((byte)(208)))));
-            this.guna2TextBox12.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(226)))), ((int)(((byte)(226)))), ((int)(((byte)(226)))));
-            this.guna2TextBox12.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(138)))), ((int)(((byte)(138)))), ((int)(((byte)(138)))));
-            this.guna2TextBox12.DisabledState.PlaceholderForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(138)))), ((int)(((byte)(138)))), ((int)(((byte)(138)))));
-            this.guna2TextBox12.FocusedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
-            this.guna2TextBox12.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.guna2TextBox12.ForeColor = System.Drawing.Color.Black;
-            this.guna2TextBox12.HoverState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
-            this.guna2TextBox12.Location = new System.Drawing.Point(53, 407);
-            this.guna2TextBox12.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
-            this.guna2TextBox12.Name = "guna2TextBox12";
-            this.guna2TextBox12.PasswordChar = '\0';
-            this.guna2TextBox12.PlaceholderText = "Exact process name";
-            this.guna2TextBox12.SelectedText = "";
-            this.guna2TextBox12.Size = new System.Drawing.Size(187, 32);
-            this.guna2TextBox12.TabIndex = 11;
-            this.guna2TextBox12.Tag = "6_process";
-            this.guna2TextBox12.Leave += new System.EventHandler(this.guna2TextBox1_Leave);
+            this.UiExclusionTextBoxProcess6.BorderRadius = 5;
+            this.UiExclusionTextBoxProcess6.Cursor = System.Windows.Forms.Cursors.IBeam;
+            this.UiExclusionTextBoxProcess6.DefaultText = "";
+            this.UiExclusionTextBoxProcess6.DisabledState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(208)))), ((int)(((byte)(208)))), ((int)(((byte)(208)))));
+            this.UiExclusionTextBoxProcess6.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(226)))), ((int)(((byte)(226)))), ((int)(((byte)(226)))));
+            this.UiExclusionTextBoxProcess6.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(138)))), ((int)(((byte)(138)))), ((int)(((byte)(138)))));
+            this.UiExclusionTextBoxProcess6.DisabledState.PlaceholderForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(138)))), ((int)(((byte)(138)))), ((int)(((byte)(138)))));
+            this.UiExclusionTextBoxProcess6.FocusedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
+            this.UiExclusionTextBoxProcess6.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.UiExclusionTextBoxProcess6.ForeColor = System.Drawing.Color.Black;
+            this.UiExclusionTextBoxProcess6.HoverState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
+            this.UiExclusionTextBoxProcess6.Location = new System.Drawing.Point(53, 407);
+            this.UiExclusionTextBoxProcess6.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
+            this.UiExclusionTextBoxProcess6.Name = "UiExclusionTextBoxProcess6";
+            this.UiExclusionTextBoxProcess6.PasswordChar = '\0';
+            this.UiExclusionTextBoxProcess6.PlaceholderText = "Exact process name";
+            this.UiExclusionTextBoxProcess6.SelectedText = "";
+            this.UiExclusionTextBoxProcess6.Size = new System.Drawing.Size(187, 32);
+            this.UiExclusionTextBoxProcess6.TabIndex = 11;
+            this.UiExclusionTextBoxProcess6.Tag = "6_process";
+            this.UiExclusionTextBoxProcess6.Leave += new System.EventHandler(this.guna2TextBox1_Leave);
             // 
-            // guna2TextBox9
+            // UiExclusionTextBoxApp5
             // 
-            this.guna2TextBox9.BorderRadius = 5;
-            this.guna2TextBox9.Cursor = System.Windows.Forms.Cursors.IBeam;
-            this.guna2TextBox9.DefaultText = "";
-            this.guna2TextBox9.DisabledState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(208)))), ((int)(((byte)(208)))), ((int)(((byte)(208)))));
-            this.guna2TextBox9.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(226)))), ((int)(((byte)(226)))), ((int)(((byte)(226)))));
-            this.guna2TextBox9.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(138)))), ((int)(((byte)(138)))), ((int)(((byte)(138)))));
-            this.guna2TextBox9.DisabledState.PlaceholderForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(138)))), ((int)(((byte)(138)))), ((int)(((byte)(138)))));
-            this.guna2TextBox9.FocusedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
-            this.guna2TextBox9.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.guna2TextBox9.ForeColor = System.Drawing.Color.Black;
-            this.guna2TextBox9.HoverState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
-            this.guna2TextBox9.Location = new System.Drawing.Point(249, 365);
-            this.guna2TextBox9.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
-            this.guna2TextBox9.Name = "guna2TextBox9";
-            this.guna2TextBox9.PasswordChar = '\0';
-            this.guna2TextBox9.PlaceholderText = "Your name for the application";
-            this.guna2TextBox9.SelectedText = "";
-            this.guna2TextBox9.Size = new System.Drawing.Size(250, 32);
-            this.guna2TextBox9.TabIndex = 10;
-            this.guna2TextBox9.Tag = "5_app";
-            this.guna2TextBox9.Leave += new System.EventHandler(this.guna2TextBox1_Leave);
+            this.UiExclusionTextBoxApp5.BorderRadius = 5;
+            this.UiExclusionTextBoxApp5.Cursor = System.Windows.Forms.Cursors.IBeam;
+            this.UiExclusionTextBoxApp5.DefaultText = "";
+            this.UiExclusionTextBoxApp5.DisabledState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(208)))), ((int)(((byte)(208)))), ((int)(((byte)(208)))));
+            this.UiExclusionTextBoxApp5.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(226)))), ((int)(((byte)(226)))), ((int)(((byte)(226)))));
+            this.UiExclusionTextBoxApp5.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(138)))), ((int)(((byte)(138)))), ((int)(((byte)(138)))));
+            this.UiExclusionTextBoxApp5.DisabledState.PlaceholderForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(138)))), ((int)(((byte)(138)))), ((int)(((byte)(138)))));
+            this.UiExclusionTextBoxApp5.FocusedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
+            this.UiExclusionTextBoxApp5.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.UiExclusionTextBoxApp5.ForeColor = System.Drawing.Color.Black;
+            this.UiExclusionTextBoxApp5.HoverState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
+            this.UiExclusionTextBoxApp5.Location = new System.Drawing.Point(249, 365);
+            this.UiExclusionTextBoxApp5.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
+            this.UiExclusionTextBoxApp5.Name = "UiExclusionTextBoxApp5";
+            this.UiExclusionTextBoxApp5.PasswordChar = '\0';
+            this.UiExclusionTextBoxApp5.PlaceholderText = "Your name for the application";
+            this.UiExclusionTextBoxApp5.SelectedText = "";
+            this.UiExclusionTextBoxApp5.Size = new System.Drawing.Size(250, 32);
+            this.UiExclusionTextBoxApp5.TabIndex = 10;
+            this.UiExclusionTextBoxApp5.Tag = "5_app";
+            this.UiExclusionTextBoxApp5.Leave += new System.EventHandler(this.guna2TextBox1_Leave);
             // 
-            // guna2TextBox10
+            // UiExclusionTextBoxProcess5
             // 
-            this.guna2TextBox10.BorderRadius = 5;
-            this.guna2TextBox10.Cursor = System.Windows.Forms.Cursors.IBeam;
-            this.guna2TextBox10.DefaultText = "";
-            this.guna2TextBox10.DisabledState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(208)))), ((int)(((byte)(208)))), ((int)(((byte)(208)))));
-            this.guna2TextBox10.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(226)))), ((int)(((byte)(226)))), ((int)(((byte)(226)))));
-            this.guna2TextBox10.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(138)))), ((int)(((byte)(138)))), ((int)(((byte)(138)))));
-            this.guna2TextBox10.DisabledState.PlaceholderForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(138)))), ((int)(((byte)(138)))), ((int)(((byte)(138)))));
-            this.guna2TextBox10.FocusedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
-            this.guna2TextBox10.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.guna2TextBox10.ForeColor = System.Drawing.Color.Black;
-            this.guna2TextBox10.HoverState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
-            this.guna2TextBox10.Location = new System.Drawing.Point(56, 365);
-            this.guna2TextBox10.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
-            this.guna2TextBox10.Name = "guna2TextBox10";
-            this.guna2TextBox10.PasswordChar = '\0';
-            this.guna2TextBox10.PlaceholderText = "Exact process name";
-            this.guna2TextBox10.SelectedText = "";
-            this.guna2TextBox10.Size = new System.Drawing.Size(187, 32);
-            this.guna2TextBox10.TabIndex = 9;
-            this.guna2TextBox10.Tag = "5_process";
-            this.guna2TextBox10.Leave += new System.EventHandler(this.guna2TextBox1_Leave);
+            this.UiExclusionTextBoxProcess5.BorderRadius = 5;
+            this.UiExclusionTextBoxProcess5.Cursor = System.Windows.Forms.Cursors.IBeam;
+            this.UiExclusionTextBoxProcess5.DefaultText = "";
+            this.UiExclusionTextBoxProcess5.DisabledState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(208)))), ((int)(((byte)(208)))), ((int)(((byte)(208)))));
+            this.UiExclusionTextBoxProcess5.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(226)))), ((int)(((byte)(226)))), ((int)(((byte)(226)))));
+            this.UiExclusionTextBoxProcess5.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(138)))), ((int)(((byte)(138)))), ((int)(((byte)(138)))));
+            this.UiExclusionTextBoxProcess5.DisabledState.PlaceholderForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(138)))), ((int)(((byte)(138)))), ((int)(((byte)(138)))));
+            this.UiExclusionTextBoxProcess5.FocusedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
+            this.UiExclusionTextBoxProcess5.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.UiExclusionTextBoxProcess5.ForeColor = System.Drawing.Color.Black;
+            this.UiExclusionTextBoxProcess5.HoverState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
+            this.UiExclusionTextBoxProcess5.Location = new System.Drawing.Point(56, 365);
+            this.UiExclusionTextBoxProcess5.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
+            this.UiExclusionTextBoxProcess5.Name = "UiExclusionTextBoxProcess5";
+            this.UiExclusionTextBoxProcess5.PasswordChar = '\0';
+            this.UiExclusionTextBoxProcess5.PlaceholderText = "Exact process name";
+            this.UiExclusionTextBoxProcess5.SelectedText = "";
+            this.UiExclusionTextBoxProcess5.Size = new System.Drawing.Size(187, 32);
+            this.UiExclusionTextBoxProcess5.TabIndex = 9;
+            this.UiExclusionTextBoxProcess5.Tag = "5_process";
+            this.UiExclusionTextBoxProcess5.Leave += new System.EventHandler(this.guna2TextBox1_Leave);
             // 
-            // guna2TextBox7
+            // UiExclusionTextBoxApp4
             // 
-            this.guna2TextBox7.BorderRadius = 5;
-            this.guna2TextBox7.Cursor = System.Windows.Forms.Cursors.IBeam;
-            this.guna2TextBox7.DefaultText = "";
-            this.guna2TextBox7.DisabledState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(208)))), ((int)(((byte)(208)))), ((int)(((byte)(208)))));
-            this.guna2TextBox7.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(226)))), ((int)(((byte)(226)))), ((int)(((byte)(226)))));
-            this.guna2TextBox7.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(138)))), ((int)(((byte)(138)))), ((int)(((byte)(138)))));
-            this.guna2TextBox7.DisabledState.PlaceholderForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(138)))), ((int)(((byte)(138)))), ((int)(((byte)(138)))));
-            this.guna2TextBox7.FocusedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
-            this.guna2TextBox7.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.guna2TextBox7.ForeColor = System.Drawing.Color.Black;
-            this.guna2TextBox7.HoverState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
-            this.guna2TextBox7.Location = new System.Drawing.Point(249, 323);
-            this.guna2TextBox7.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
-            this.guna2TextBox7.Name = "guna2TextBox7";
-            this.guna2TextBox7.PasswordChar = '\0';
-            this.guna2TextBox7.PlaceholderText = "Your name for the application";
-            this.guna2TextBox7.SelectedText = "";
-            this.guna2TextBox7.Size = new System.Drawing.Size(250, 32);
-            this.guna2TextBox7.TabIndex = 8;
-            this.guna2TextBox7.Tag = "4_app";
-            this.guna2TextBox7.Leave += new System.EventHandler(this.guna2TextBox1_Leave);
+            this.UiExclusionTextBoxApp4.BorderRadius = 5;
+            this.UiExclusionTextBoxApp4.Cursor = System.Windows.Forms.Cursors.IBeam;
+            this.UiExclusionTextBoxApp4.DefaultText = "";
+            this.UiExclusionTextBoxApp4.DisabledState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(208)))), ((int)(((byte)(208)))), ((int)(((byte)(208)))));
+            this.UiExclusionTextBoxApp4.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(226)))), ((int)(((byte)(226)))), ((int)(((byte)(226)))));
+            this.UiExclusionTextBoxApp4.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(138)))), ((int)(((byte)(138)))), ((int)(((byte)(138)))));
+            this.UiExclusionTextBoxApp4.DisabledState.PlaceholderForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(138)))), ((int)(((byte)(138)))), ((int)(((byte)(138)))));
+            this.UiExclusionTextBoxApp4.FocusedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
+            this.UiExclusionTextBoxApp4.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.UiExclusionTextBoxApp4.ForeColor = System.Drawing.Color.Black;
+            this.UiExclusionTextBoxApp4.HoverState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
+            this.UiExclusionTextBoxApp4.Location = new System.Drawing.Point(249, 323);
+            this.UiExclusionTextBoxApp4.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
+            this.UiExclusionTextBoxApp4.Name = "UiExclusionTextBoxApp4";
+            this.UiExclusionTextBoxApp4.PasswordChar = '\0';
+            this.UiExclusionTextBoxApp4.PlaceholderText = "Your name for the application";
+            this.UiExclusionTextBoxApp4.SelectedText = "";
+            this.UiExclusionTextBoxApp4.Size = new System.Drawing.Size(250, 32);
+            this.UiExclusionTextBoxApp4.TabIndex = 8;
+            this.UiExclusionTextBoxApp4.Tag = "4_app";
+            this.UiExclusionTextBoxApp4.Leave += new System.EventHandler(this.guna2TextBox1_Leave);
             // 
-            // guna2TextBox8
+            // UiExclusionTextBoxProcess4
             // 
-            this.guna2TextBox8.BorderRadius = 5;
-            this.guna2TextBox8.Cursor = System.Windows.Forms.Cursors.IBeam;
-            this.guna2TextBox8.DefaultText = "";
-            this.guna2TextBox8.DisabledState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(208)))), ((int)(((byte)(208)))), ((int)(((byte)(208)))));
-            this.guna2TextBox8.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(226)))), ((int)(((byte)(226)))), ((int)(((byte)(226)))));
-            this.guna2TextBox8.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(138)))), ((int)(((byte)(138)))), ((int)(((byte)(138)))));
-            this.guna2TextBox8.DisabledState.PlaceholderForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(138)))), ((int)(((byte)(138)))), ((int)(((byte)(138)))));
-            this.guna2TextBox8.FocusedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
-            this.guna2TextBox8.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.guna2TextBox8.ForeColor = System.Drawing.Color.Black;
-            this.guna2TextBox8.HoverState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
-            this.guna2TextBox8.Location = new System.Drawing.Point(53, 323);
-            this.guna2TextBox8.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
-            this.guna2TextBox8.Name = "guna2TextBox8";
-            this.guna2TextBox8.PasswordChar = '\0';
-            this.guna2TextBox8.PlaceholderText = "Exact process name";
-            this.guna2TextBox8.SelectedText = "";
-            this.guna2TextBox8.Size = new System.Drawing.Size(187, 32);
-            this.guna2TextBox8.TabIndex = 7;
-            this.guna2TextBox8.Tag = "4_process";
-            this.guna2TextBox8.Leave += new System.EventHandler(this.guna2TextBox1_Leave);
+            this.UiExclusionTextBoxProcess4.BorderRadius = 5;
+            this.UiExclusionTextBoxProcess4.Cursor = System.Windows.Forms.Cursors.IBeam;
+            this.UiExclusionTextBoxProcess4.DefaultText = "";
+            this.UiExclusionTextBoxProcess4.DisabledState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(208)))), ((int)(((byte)(208)))), ((int)(((byte)(208)))));
+            this.UiExclusionTextBoxProcess4.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(226)))), ((int)(((byte)(226)))), ((int)(((byte)(226)))));
+            this.UiExclusionTextBoxProcess4.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(138)))), ((int)(((byte)(138)))), ((int)(((byte)(138)))));
+            this.UiExclusionTextBoxProcess4.DisabledState.PlaceholderForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(138)))), ((int)(((byte)(138)))), ((int)(((byte)(138)))));
+            this.UiExclusionTextBoxProcess4.FocusedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
+            this.UiExclusionTextBoxProcess4.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.UiExclusionTextBoxProcess4.ForeColor = System.Drawing.Color.Black;
+            this.UiExclusionTextBoxProcess4.HoverState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
+            this.UiExclusionTextBoxProcess4.Location = new System.Drawing.Point(53, 323);
+            this.UiExclusionTextBoxProcess4.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
+            this.UiExclusionTextBoxProcess4.Name = "UiExclusionTextBoxProcess4";
+            this.UiExclusionTextBoxProcess4.PasswordChar = '\0';
+            this.UiExclusionTextBoxProcess4.PlaceholderText = "Exact process name";
+            this.UiExclusionTextBoxProcess4.SelectedText = "";
+            this.UiExclusionTextBoxProcess4.Size = new System.Drawing.Size(187, 32);
+            this.UiExclusionTextBoxProcess4.TabIndex = 7;
+            this.UiExclusionTextBoxProcess4.Tag = "4_process";
+            this.UiExclusionTextBoxProcess4.Leave += new System.EventHandler(this.guna2TextBox1_Leave);
             // 
-            // guna2TextBox5
+            // UiExclusionTextBoxApp3
             // 
-            this.guna2TextBox5.BorderRadius = 5;
-            this.guna2TextBox5.Cursor = System.Windows.Forms.Cursors.IBeam;
-            this.guna2TextBox5.DefaultText = "";
-            this.guna2TextBox5.DisabledState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(208)))), ((int)(((byte)(208)))), ((int)(((byte)(208)))));
-            this.guna2TextBox5.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(226)))), ((int)(((byte)(226)))), ((int)(((byte)(226)))));
-            this.guna2TextBox5.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(138)))), ((int)(((byte)(138)))), ((int)(((byte)(138)))));
-            this.guna2TextBox5.DisabledState.PlaceholderForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(138)))), ((int)(((byte)(138)))), ((int)(((byte)(138)))));
-            this.guna2TextBox5.FocusedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
-            this.guna2TextBox5.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.guna2TextBox5.ForeColor = System.Drawing.Color.Black;
-            this.guna2TextBox5.HoverState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
-            this.guna2TextBox5.Location = new System.Drawing.Point(249, 285);
-            this.guna2TextBox5.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
-            this.guna2TextBox5.Name = "guna2TextBox5";
-            this.guna2TextBox5.PasswordChar = '\0';
-            this.guna2TextBox5.PlaceholderText = "Your name for the application";
-            this.guna2TextBox5.SelectedText = "";
-            this.guna2TextBox5.Size = new System.Drawing.Size(250, 32);
-            this.guna2TextBox5.TabIndex = 6;
-            this.guna2TextBox5.Tag = "3_app";
-            this.guna2TextBox5.Leave += new System.EventHandler(this.guna2TextBox1_Leave);
+            this.UiExclusionTextBoxApp3.BorderRadius = 5;
+            this.UiExclusionTextBoxApp3.Cursor = System.Windows.Forms.Cursors.IBeam;
+            this.UiExclusionTextBoxApp3.DefaultText = "";
+            this.UiExclusionTextBoxApp3.DisabledState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(208)))), ((int)(((byte)(208)))), ((int)(((byte)(208)))));
+            this.UiExclusionTextBoxApp3.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(226)))), ((int)(((byte)(226)))), ((int)(((byte)(226)))));
+            this.UiExclusionTextBoxApp3.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(138)))), ((int)(((byte)(138)))), ((int)(((byte)(138)))));
+            this.UiExclusionTextBoxApp3.DisabledState.PlaceholderForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(138)))), ((int)(((byte)(138)))), ((int)(((byte)(138)))));
+            this.UiExclusionTextBoxApp3.FocusedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
+            this.UiExclusionTextBoxApp3.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.UiExclusionTextBoxApp3.ForeColor = System.Drawing.Color.Black;
+            this.UiExclusionTextBoxApp3.HoverState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
+            this.UiExclusionTextBoxApp3.Location = new System.Drawing.Point(249, 285);
+            this.UiExclusionTextBoxApp3.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
+            this.UiExclusionTextBoxApp3.Name = "UiExclusionTextBoxApp3";
+            this.UiExclusionTextBoxApp3.PasswordChar = '\0';
+            this.UiExclusionTextBoxApp3.PlaceholderText = "Your name for the application";
+            this.UiExclusionTextBoxApp3.SelectedText = "";
+            this.UiExclusionTextBoxApp3.Size = new System.Drawing.Size(250, 32);
+            this.UiExclusionTextBoxApp3.TabIndex = 6;
+            this.UiExclusionTextBoxApp3.Tag = "3_app";
+            this.UiExclusionTextBoxApp3.Leave += new System.EventHandler(this.guna2TextBox1_Leave);
             // 
-            // guna2TextBox6
+            // UiExclusionTextBoxProcess3
             // 
-            this.guna2TextBox6.BorderRadius = 5;
-            this.guna2TextBox6.Cursor = System.Windows.Forms.Cursors.IBeam;
-            this.guna2TextBox6.DefaultText = "";
-            this.guna2TextBox6.DisabledState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(208)))), ((int)(((byte)(208)))), ((int)(((byte)(208)))));
-            this.guna2TextBox6.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(226)))), ((int)(((byte)(226)))), ((int)(((byte)(226)))));
-            this.guna2TextBox6.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(138)))), ((int)(((byte)(138)))), ((int)(((byte)(138)))));
-            this.guna2TextBox6.DisabledState.PlaceholderForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(138)))), ((int)(((byte)(138)))), ((int)(((byte)(138)))));
-            this.guna2TextBox6.FocusedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
-            this.guna2TextBox6.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.guna2TextBox6.ForeColor = System.Drawing.Color.Black;
-            this.guna2TextBox6.HoverState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
-            this.guna2TextBox6.Location = new System.Drawing.Point(53, 281);
-            this.guna2TextBox6.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
-            this.guna2TextBox6.Name = "guna2TextBox6";
-            this.guna2TextBox6.PasswordChar = '\0';
-            this.guna2TextBox6.PlaceholderText = "Exact process name";
-            this.guna2TextBox6.SelectedText = "";
-            this.guna2TextBox6.Size = new System.Drawing.Size(187, 32);
-            this.guna2TextBox6.TabIndex = 5;
-            this.guna2TextBox6.Tag = "3_process";
-            this.guna2TextBox6.Leave += new System.EventHandler(this.guna2TextBox1_Leave);
+            this.UiExclusionTextBoxProcess3.BorderRadius = 5;
+            this.UiExclusionTextBoxProcess3.Cursor = System.Windows.Forms.Cursors.IBeam;
+            this.UiExclusionTextBoxProcess3.DefaultText = "";
+            this.UiExclusionTextBoxProcess3.DisabledState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(208)))), ((int)(((byte)(208)))), ((int)(((byte)(208)))));
+            this.UiExclusionTextBoxProcess3.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(226)))), ((int)(((byte)(226)))), ((int)(((byte)(226)))));
+            this.UiExclusionTextBoxProcess3.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(138)))), ((int)(((byte)(138)))), ((int)(((byte)(138)))));
+            this.UiExclusionTextBoxProcess3.DisabledState.PlaceholderForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(138)))), ((int)(((byte)(138)))), ((int)(((byte)(138)))));
+            this.UiExclusionTextBoxProcess3.FocusedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
+            this.UiExclusionTextBoxProcess3.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.UiExclusionTextBoxProcess3.ForeColor = System.Drawing.Color.Black;
+            this.UiExclusionTextBoxProcess3.HoverState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
+            this.UiExclusionTextBoxProcess3.Location = new System.Drawing.Point(53, 281);
+            this.UiExclusionTextBoxProcess3.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
+            this.UiExclusionTextBoxProcess3.Name = "UiExclusionTextBoxProcess3";
+            this.UiExclusionTextBoxProcess3.PasswordChar = '\0';
+            this.UiExclusionTextBoxProcess3.PlaceholderText = "Exact process name";
+            this.UiExclusionTextBoxProcess3.SelectedText = "";
+            this.UiExclusionTextBoxProcess3.Size = new System.Drawing.Size(187, 32);
+            this.UiExclusionTextBoxProcess3.TabIndex = 5;
+            this.UiExclusionTextBoxProcess3.Tag = "3_process";
+            this.UiExclusionTextBoxProcess3.Leave += new System.EventHandler(this.guna2TextBox1_Leave);
             // 
-            // guna2TextBox3
+            // UiExclusionTextBoxApp2
             // 
-            this.guna2TextBox3.BorderRadius = 5;
-            this.guna2TextBox3.Cursor = System.Windows.Forms.Cursors.IBeam;
-            this.guna2TextBox3.DefaultText = "";
-            this.guna2TextBox3.DisabledState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(208)))), ((int)(((byte)(208)))), ((int)(((byte)(208)))));
-            this.guna2TextBox3.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(226)))), ((int)(((byte)(226)))), ((int)(((byte)(226)))));
-            this.guna2TextBox3.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(138)))), ((int)(((byte)(138)))), ((int)(((byte)(138)))));
-            this.guna2TextBox3.DisabledState.PlaceholderForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(138)))), ((int)(((byte)(138)))), ((int)(((byte)(138)))));
-            this.guna2TextBox3.FocusedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
-            this.guna2TextBox3.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.guna2TextBox3.ForeColor = System.Drawing.Color.Black;
-            this.guna2TextBox3.HoverState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
-            this.guna2TextBox3.Location = new System.Drawing.Point(249, 239);
-            this.guna2TextBox3.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
-            this.guna2TextBox3.Name = "guna2TextBox3";
-            this.guna2TextBox3.PasswordChar = '\0';
-            this.guna2TextBox3.PlaceholderText = "Your name for the application";
-            this.guna2TextBox3.SelectedText = "";
-            this.guna2TextBox3.Size = new System.Drawing.Size(250, 32);
-            this.guna2TextBox3.TabIndex = 4;
-            this.guna2TextBox3.Tag = "2_app";
-            this.guna2TextBox3.Leave += new System.EventHandler(this.guna2TextBox1_Leave);
+            this.UiExclusionTextBoxApp2.BorderRadius = 5;
+            this.UiExclusionTextBoxApp2.Cursor = System.Windows.Forms.Cursors.IBeam;
+            this.UiExclusionTextBoxApp2.DefaultText = "";
+            this.UiExclusionTextBoxApp2.DisabledState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(208)))), ((int)(((byte)(208)))), ((int)(((byte)(208)))));
+            this.UiExclusionTextBoxApp2.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(226)))), ((int)(((byte)(226)))), ((int)(((byte)(226)))));
+            this.UiExclusionTextBoxApp2.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(138)))), ((int)(((byte)(138)))), ((int)(((byte)(138)))));
+            this.UiExclusionTextBoxApp2.DisabledState.PlaceholderForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(138)))), ((int)(((byte)(138)))), ((int)(((byte)(138)))));
+            this.UiExclusionTextBoxApp2.FocusedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
+            this.UiExclusionTextBoxApp2.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.UiExclusionTextBoxApp2.ForeColor = System.Drawing.Color.Black;
+            this.UiExclusionTextBoxApp2.HoverState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
+            this.UiExclusionTextBoxApp2.Location = new System.Drawing.Point(249, 239);
+            this.UiExclusionTextBoxApp2.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
+            this.UiExclusionTextBoxApp2.Name = "UiExclusionTextBoxApp2";
+            this.UiExclusionTextBoxApp2.PasswordChar = '\0';
+            this.UiExclusionTextBoxApp2.PlaceholderText = "Your name for the application";
+            this.UiExclusionTextBoxApp2.SelectedText = "";
+            this.UiExclusionTextBoxApp2.Size = new System.Drawing.Size(250, 32);
+            this.UiExclusionTextBoxApp2.TabIndex = 4;
+            this.UiExclusionTextBoxApp2.Tag = "2_app";
+            this.UiExclusionTextBoxApp2.Leave += new System.EventHandler(this.guna2TextBox1_Leave);
             // 
-            // guna2TextBox4
+            // UiExclusionTextBoxProcess2
             // 
-            this.guna2TextBox4.BorderRadius = 5;
-            this.guna2TextBox4.Cursor = System.Windows.Forms.Cursors.IBeam;
-            this.guna2TextBox4.DefaultText = "";
-            this.guna2TextBox4.DisabledState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(208)))), ((int)(((byte)(208)))), ((int)(((byte)(208)))));
-            this.guna2TextBox4.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(226)))), ((int)(((byte)(226)))), ((int)(((byte)(226)))));
-            this.guna2TextBox4.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(138)))), ((int)(((byte)(138)))), ((int)(((byte)(138)))));
-            this.guna2TextBox4.DisabledState.PlaceholderForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(138)))), ((int)(((byte)(138)))), ((int)(((byte)(138)))));
-            this.guna2TextBox4.FocusedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
-            this.guna2TextBox4.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.guna2TextBox4.ForeColor = System.Drawing.Color.Black;
-            this.guna2TextBox4.HoverState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
-            this.guna2TextBox4.Location = new System.Drawing.Point(53, 239);
-            this.guna2TextBox4.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
-            this.guna2TextBox4.Name = "guna2TextBox4";
-            this.guna2TextBox4.PasswordChar = '\0';
-            this.guna2TextBox4.PlaceholderText = "Exact process name";
-            this.guna2TextBox4.SelectedText = "";
-            this.guna2TextBox4.Size = new System.Drawing.Size(187, 32);
-            this.guna2TextBox4.TabIndex = 3;
-            this.guna2TextBox4.Tag = "2_process";
-            this.guna2TextBox4.Leave += new System.EventHandler(this.guna2TextBox1_Leave);
+            this.UiExclusionTextBoxProcess2.BorderRadius = 5;
+            this.UiExclusionTextBoxProcess2.Cursor = System.Windows.Forms.Cursors.IBeam;
+            this.UiExclusionTextBoxProcess2.DefaultText = "";
+            this.UiExclusionTextBoxProcess2.DisabledState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(208)))), ((int)(((byte)(208)))), ((int)(((byte)(208)))));
+            this.UiExclusionTextBoxProcess2.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(226)))), ((int)(((byte)(226)))), ((int)(((byte)(226)))));
+            this.UiExclusionTextBoxProcess2.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(138)))), ((int)(((byte)(138)))), ((int)(((byte)(138)))));
+            this.UiExclusionTextBoxProcess2.DisabledState.PlaceholderForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(138)))), ((int)(((byte)(138)))), ((int)(((byte)(138)))));
+            this.UiExclusionTextBoxProcess2.FocusedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
+            this.UiExclusionTextBoxProcess2.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.UiExclusionTextBoxProcess2.ForeColor = System.Drawing.Color.Black;
+            this.UiExclusionTextBoxProcess2.HoverState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
+            this.UiExclusionTextBoxProcess2.Location = new System.Drawing.Point(53, 239);
+            this.UiExclusionTextBoxProcess2.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
+            this.UiExclusionTextBoxProcess2.Name = "UiExclusionTextBoxProcess2";
+            this.UiExclusionTextBoxProcess2.PasswordChar = '\0';
+            this.UiExclusionTextBoxProcess2.PlaceholderText = "Exact process name";
+            this.UiExclusionTextBoxProcess2.SelectedText = "";
+            this.UiExclusionTextBoxProcess2.Size = new System.Drawing.Size(187, 32);
+            this.UiExclusionTextBoxProcess2.TabIndex = 3;
+            this.UiExclusionTextBoxProcess2.Tag = "2_process";
+            this.UiExclusionTextBoxProcess2.Leave += new System.EventHandler(this.guna2TextBox1_Leave);
             // 
             // guna2HtmlLabel2
             // 
@@ -3394,53 +3420,53 @@
             this.guna2HtmlLabel2.TabIndex = 0;
             this.guna2HtmlLabel2.Text = resources.GetString("guna2HtmlLabel2.Text");
             // 
-            // guna2TextBox2
+            // UiExclusionTextBoxApp1
             // 
-            this.guna2TextBox2.BorderRadius = 5;
-            this.guna2TextBox2.Cursor = System.Windows.Forms.Cursors.IBeam;
-            this.guna2TextBox2.DefaultText = "";
-            this.guna2TextBox2.DisabledState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(208)))), ((int)(((byte)(208)))), ((int)(((byte)(208)))));
-            this.guna2TextBox2.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(226)))), ((int)(((byte)(226)))), ((int)(((byte)(226)))));
-            this.guna2TextBox2.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(138)))), ((int)(((byte)(138)))), ((int)(((byte)(138)))));
-            this.guna2TextBox2.DisabledState.PlaceholderForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(138)))), ((int)(((byte)(138)))), ((int)(((byte)(138)))));
-            this.guna2TextBox2.FocusedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
-            this.guna2TextBox2.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.guna2TextBox2.ForeColor = System.Drawing.Color.Black;
-            this.guna2TextBox2.HoverState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
-            this.guna2TextBox2.Location = new System.Drawing.Point(249, 197);
-            this.guna2TextBox2.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
-            this.guna2TextBox2.Name = "guna2TextBox2";
-            this.guna2TextBox2.PasswordChar = '\0';
-            this.guna2TextBox2.PlaceholderText = "Your name for the application";
-            this.guna2TextBox2.SelectedText = "";
-            this.guna2TextBox2.Size = new System.Drawing.Size(250, 32);
-            this.guna2TextBox2.TabIndex = 2;
-            this.guna2TextBox2.Tag = "1_app";
-            this.guna2TextBox2.Leave += new System.EventHandler(this.guna2TextBox1_Leave);
+            this.UiExclusionTextBoxApp1.BorderRadius = 5;
+            this.UiExclusionTextBoxApp1.Cursor = System.Windows.Forms.Cursors.IBeam;
+            this.UiExclusionTextBoxApp1.DefaultText = "";
+            this.UiExclusionTextBoxApp1.DisabledState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(208)))), ((int)(((byte)(208)))), ((int)(((byte)(208)))));
+            this.UiExclusionTextBoxApp1.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(226)))), ((int)(((byte)(226)))), ((int)(((byte)(226)))));
+            this.UiExclusionTextBoxApp1.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(138)))), ((int)(((byte)(138)))), ((int)(((byte)(138)))));
+            this.UiExclusionTextBoxApp1.DisabledState.PlaceholderForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(138)))), ((int)(((byte)(138)))), ((int)(((byte)(138)))));
+            this.UiExclusionTextBoxApp1.FocusedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
+            this.UiExclusionTextBoxApp1.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.UiExclusionTextBoxApp1.ForeColor = System.Drawing.Color.Black;
+            this.UiExclusionTextBoxApp1.HoverState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
+            this.UiExclusionTextBoxApp1.Location = new System.Drawing.Point(249, 197);
+            this.UiExclusionTextBoxApp1.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
+            this.UiExclusionTextBoxApp1.Name = "UiExclusionTextBoxApp1";
+            this.UiExclusionTextBoxApp1.PasswordChar = '\0';
+            this.UiExclusionTextBoxApp1.PlaceholderText = "Your name for the application";
+            this.UiExclusionTextBoxApp1.SelectedText = "";
+            this.UiExclusionTextBoxApp1.Size = new System.Drawing.Size(250, 32);
+            this.UiExclusionTextBoxApp1.TabIndex = 2;
+            this.UiExclusionTextBoxApp1.Tag = "1_app";
+            this.UiExclusionTextBoxApp1.Leave += new System.EventHandler(this.guna2TextBox1_Leave);
             // 
-            // guna2TextBox1
+            // UiExclusionTextBoxProcess1
             // 
-            this.guna2TextBox1.BorderRadius = 5;
-            this.guna2TextBox1.Cursor = System.Windows.Forms.Cursors.IBeam;
-            this.guna2TextBox1.DefaultText = "";
-            this.guna2TextBox1.DisabledState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(208)))), ((int)(((byte)(208)))), ((int)(((byte)(208)))));
-            this.guna2TextBox1.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(226)))), ((int)(((byte)(226)))), ((int)(((byte)(226)))));
-            this.guna2TextBox1.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(138)))), ((int)(((byte)(138)))), ((int)(((byte)(138)))));
-            this.guna2TextBox1.DisabledState.PlaceholderForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(138)))), ((int)(((byte)(138)))), ((int)(((byte)(138)))));
-            this.guna2TextBox1.FocusedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
-            this.guna2TextBox1.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.guna2TextBox1.ForeColor = System.Drawing.Color.Black;
-            this.guna2TextBox1.HoverState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
-            this.guna2TextBox1.Location = new System.Drawing.Point(53, 197);
-            this.guna2TextBox1.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
-            this.guna2TextBox1.Name = "guna2TextBox1";
-            this.guna2TextBox1.PasswordChar = '\0';
-            this.guna2TextBox1.PlaceholderText = "Exact process name";
-            this.guna2TextBox1.SelectedText = "";
-            this.guna2TextBox1.Size = new System.Drawing.Size(179, 32);
-            this.guna2TextBox1.TabIndex = 1;
-            this.guna2TextBox1.Tag = "1_process";
-            this.guna2TextBox1.Leave += new System.EventHandler(this.guna2TextBox1_Leave);
+            this.UiExclusionTextBoxProcess1.BorderRadius = 5;
+            this.UiExclusionTextBoxProcess1.Cursor = System.Windows.Forms.Cursors.IBeam;
+            this.UiExclusionTextBoxProcess1.DefaultText = "";
+            this.UiExclusionTextBoxProcess1.DisabledState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(208)))), ((int)(((byte)(208)))), ((int)(((byte)(208)))));
+            this.UiExclusionTextBoxProcess1.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(226)))), ((int)(((byte)(226)))), ((int)(((byte)(226)))));
+            this.UiExclusionTextBoxProcess1.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(138)))), ((int)(((byte)(138)))), ((int)(((byte)(138)))));
+            this.UiExclusionTextBoxProcess1.DisabledState.PlaceholderForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(138)))), ((int)(((byte)(138)))), ((int)(((byte)(138)))));
+            this.UiExclusionTextBoxProcess1.FocusedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
+            this.UiExclusionTextBoxProcess1.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.UiExclusionTextBoxProcess1.ForeColor = System.Drawing.Color.Black;
+            this.UiExclusionTextBoxProcess1.HoverState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
+            this.UiExclusionTextBoxProcess1.Location = new System.Drawing.Point(53, 197);
+            this.UiExclusionTextBoxProcess1.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
+            this.UiExclusionTextBoxProcess1.Name = "UiExclusionTextBoxProcess1";
+            this.UiExclusionTextBoxProcess1.PasswordChar = '\0';
+            this.UiExclusionTextBoxProcess1.PlaceholderText = "Exact process name";
+            this.UiExclusionTextBoxProcess1.SelectedText = "";
+            this.UiExclusionTextBoxProcess1.Size = new System.Drawing.Size(179, 32);
+            this.UiExclusionTextBoxProcess1.TabIndex = 1;
+            this.UiExclusionTextBoxProcess1.Tag = "1_process";
+            this.UiExclusionTextBoxProcess1.Leave += new System.EventHandler(this.guna2TextBox1_Leave);
             // 
             // UiTabAdvanced
             // 
@@ -3553,7 +3579,7 @@
             this.UiAdvancedLabelEnableLog.Cursor = System.Windows.Forms.Cursors.Hand;
             this.UiAdvancedLabelEnableLog.Font = new System.Drawing.Font("Segoe UI", 10F);
             this.UiAdvancedLabelEnableLog.ForeColor = System.Drawing.Color.Black;
-            this.UiAdvancedLabelEnableLog.Location = new System.Drawing.Point(59, 52);
+            this.UiAdvancedLabelEnableLog.Location = new System.Drawing.Point(59, 54);
             this.UiAdvancedLabelEnableLog.Name = "UiAdvancedLabelEnableLog";
             this.UiAdvancedLabelEnableLog.Size = new System.Drawing.Size(227, 23);
             this.UiAdvancedLabelEnableLog.TabIndex = 506;
@@ -3884,7 +3910,7 @@
             this.UiFeedbackLabelAttachLog.Cursor = System.Windows.Forms.Cursors.Hand;
             this.UiFeedbackLabelAttachLog.Font = new System.Drawing.Font("Segoe UI", 10F);
             this.UiFeedbackLabelAttachLog.ForeColor = System.Drawing.Color.Black;
-            this.UiFeedbackLabelAttachLog.Location = new System.Drawing.Point(54, 442);
+            this.UiFeedbackLabelAttachLog.Location = new System.Drawing.Point(54, 444);
             this.UiFeedbackLabelAttachLog.Name = "UiFeedbackLabelAttachLog";
             this.UiFeedbackLabelAttachLog.Size = new System.Drawing.Size(227, 23);
             this.UiFeedbackLabelAttachLog.TabIndex = 1012;
@@ -4070,10 +4096,10 @@
             this.TimerProcessSaveQueue.Interval = 25;
             this.TimerProcessSaveQueue.Tick += new System.EventHandler(this.TimerProcessSaveQueue_Tick);
             // 
-            // TimerToggleSaveIcon
+            // TimerShowFloppies
             // 
-            this.TimerToggleSaveIcon.Interval = 500;
-            this.TimerToggleSaveIcon.Tick += new System.EventHandler(this.TimerToggleSaveIcon_Tick);
+            this.TimerShowFloppies.Interval = 500;
+            this.TimerShowFloppies.Tick += new System.EventHandler(this.TimerShowFloppies_Tick);
             // 
             // TimerProcessClipboardQueue
             // 
@@ -4097,32 +4123,6 @@
             // 
             this.TimerUpdateCounters.Interval = 250;
             this.TimerUpdateCounters.Tick += new System.EventHandler(this.TimerUpdateCounters_Tick);
-            // 
-            // UiColorsLabelActive
-            // 
-            this.UiColorsLabelActive.AutoSize = false;
-            this.UiColorsLabelActive.BackColor = System.Drawing.SystemColors.Control;
-            this.UiColorsLabelActive.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.UiColorsLabelActive.Location = new System.Drawing.Point(15, 136);
-            this.UiColorsLabelActive.Name = "UiColorsLabelActive";
-            this.UiColorsLabelActive.Padding = new System.Windows.Forms.Padding(5);
-            this.UiColorsLabelActive.Size = new System.Drawing.Size(220, 90);
-            this.UiColorsLabelActive.TabIndex = 464;
-            this.UiColorsLabelActive.Text = "Active entry<br />\r\nLine 2<br />\r\nLine 3<br />\r\nLine 4<br />\r\nLine 5<br />\r\nLine " +
-    "6<br />\r\nLine 7";
-            // 
-            // UiColorsLabelEntry
-            // 
-            this.UiColorsLabelEntry.AutoSize = false;
-            this.UiColorsLabelEntry.BackColor = System.Drawing.SystemColors.Control;
-            this.UiColorsLabelEntry.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.UiColorsLabelEntry.Location = new System.Drawing.Point(15, 225);
-            this.UiColorsLabelEntry.Name = "UiColorsLabelEntry";
-            this.UiColorsLabelEntry.Padding = new System.Windows.Forms.Padding(5);
-            this.UiColorsLabelEntry.Size = new System.Drawing.Size(220, 90);
-            this.UiColorsLabelEntry.TabIndex = 465;
-            this.UiColorsLabelEntry.Text = "Entry in list<br />\r\nLine 2<br />\r\nLine 3<br />\r\nLine 4<br />\r\nLine 5<br />\r\nLine" +
-    " 6<br />\r\nLine 7";
             // 
             // Settings
             // 
@@ -4194,14 +4194,14 @@
             this.UiColorsGroupBoxCustom.PerformLayout();
             this.UiTabExclusion.ResumeLayout(false);
             this.guna2GroupBox2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.guna2PictureBox7)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.guna2PictureBox8)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.guna2PictureBox4)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.guna2PictureBox5)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.guna2PictureBox6)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.guna2PictureBox3)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.guna2PictureBox2)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.guna2PictureBox1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.UiExclusionPictureBoxDelete8)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.UiExclusionPictureBoxDelete7)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.UiExclusionPictureBoxDelete6)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.UiExclusionPictureBoxDelete5)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.UiExclusionPictureBoxDelete4)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.UiExclusionPictureBoxDelete3)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.UiExclusionPictureBoxDelete2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.UiExclusionPictureBoxDelete1)).EndInit();
             this.UiTabAdvanced.ResumeLayout(false);
             this.UiAdvancedGroupBoxCleanup.ResumeLayout(false);
             this.UiAdvancedGroupBoxTroubleshooting.ResumeLayout(false);
@@ -4444,7 +4444,7 @@
         private System.Windows.Forms.Timer TimerProcessSaveQueue;
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.PictureBox pictureBox2;
-        private System.Windows.Forms.Timer TimerToggleSaveIcon;
+        private System.Windows.Forms.Timer TimerShowFloppies;
         private Guna.UI2.WinForms.Guna2Button UiAdvancedButtonAutoInstall;
         private System.Windows.Forms.Timer TimerProcessClipboardQueue;
         private System.Windows.Forms.Timer TimerSaveFiles;
@@ -4455,33 +4455,33 @@
         private System.Windows.Forms.Timer TimerUpdateCounters;
         private System.Windows.Forms.TabPage UiTabExclusion;
         private Guna.UI2.WinForms.Guna2HtmlLabel guna2HtmlLabel2;
-        private Guna.UI2.WinForms.Guna2TextBox guna2TextBox2;
-        private Guna.UI2.WinForms.Guna2TextBox guna2TextBox1;
+        private Guna.UI2.WinForms.Guna2TextBox UiExclusionTextBoxApp1;
+        private Guna.UI2.WinForms.Guna2TextBox UiExclusionTextBoxProcess1;
         private Guna.UI2.WinForms.Guna2GroupBox guna2GroupBox2;
-        private Guna.UI2.WinForms.Guna2TextBox guna2TextBox11;
-        private Guna.UI2.WinForms.Guna2TextBox guna2TextBox12;
-        private Guna.UI2.WinForms.Guna2TextBox guna2TextBox9;
-        private Guna.UI2.WinForms.Guna2TextBox guna2TextBox10;
-        private Guna.UI2.WinForms.Guna2TextBox guna2TextBox7;
-        private Guna.UI2.WinForms.Guna2TextBox guna2TextBox8;
-        private Guna.UI2.WinForms.Guna2TextBox guna2TextBox5;
-        private Guna.UI2.WinForms.Guna2TextBox guna2TextBox6;
-        private Guna.UI2.WinForms.Guna2TextBox guna2TextBox3;
-        private Guna.UI2.WinForms.Guna2TextBox guna2TextBox4;
-        private Guna.UI2.WinForms.Guna2TextBox guna2TextBox15;
-        private Guna.UI2.WinForms.Guna2TextBox guna2TextBox14;
-        private Guna.UI2.WinForms.Guna2TextBox guna2TextBox13;
-        private Guna.UI2.WinForms.Guna2TextBox guna2TextBox16;
-        private Guna.UI2.WinForms.Guna2PictureBox guna2PictureBox7;
-        private Guna.UI2.WinForms.Guna2PictureBox guna2PictureBox8;
-        private Guna.UI2.WinForms.Guna2PictureBox guna2PictureBox4;
-        private Guna.UI2.WinForms.Guna2PictureBox guna2PictureBox5;
-        private Guna.UI2.WinForms.Guna2PictureBox guna2PictureBox6;
-        private Guna.UI2.WinForms.Guna2PictureBox guna2PictureBox3;
-        private Guna.UI2.WinForms.Guna2PictureBox guna2PictureBox2;
-        private Guna.UI2.WinForms.Guna2PictureBox guna2PictureBox1;
+        private Guna.UI2.WinForms.Guna2TextBox UiExclusionTextBoxApp6;
+        private Guna.UI2.WinForms.Guna2TextBox UiExclusionTextBoxProcess6;
+        private Guna.UI2.WinForms.Guna2TextBox UiExclusionTextBoxApp5;
+        private Guna.UI2.WinForms.Guna2TextBox UiExclusionTextBoxProcess5;
+        private Guna.UI2.WinForms.Guna2TextBox UiExclusionTextBoxApp4;
+        private Guna.UI2.WinForms.Guna2TextBox UiExclusionTextBoxProcess4;
+        private Guna.UI2.WinForms.Guna2TextBox UiExclusionTextBoxApp3;
+        private Guna.UI2.WinForms.Guna2TextBox UiExclusionTextBoxProcess3;
+        private Guna.UI2.WinForms.Guna2TextBox UiExclusionTextBoxApp2;
+        private Guna.UI2.WinForms.Guna2TextBox UiExclusionTextBoxProcess2;
+        private Guna.UI2.WinForms.Guna2TextBox UiExclusionTextBoxApp7;
+        private Guna.UI2.WinForms.Guna2TextBox UiExclusionTextBoxProcess8;
+        private Guna.UI2.WinForms.Guna2TextBox UiExclusionTextBoxProcess7;
+        private Guna.UI2.WinForms.Guna2TextBox UiExclusionTextBoxApp8;
+        private Guna.UI2.WinForms.Guna2PictureBox UiExclusionPictureBoxDelete8;
+        private Guna.UI2.WinForms.Guna2PictureBox UiExclusionPictureBoxDelete7;
+        private Guna.UI2.WinForms.Guna2PictureBox UiExclusionPictureBoxDelete6;
+        private Guna.UI2.WinForms.Guna2PictureBox UiExclusionPictureBoxDelete5;
+        private Guna.UI2.WinForms.Guna2PictureBox UiExclusionPictureBoxDelete4;
+        private Guna.UI2.WinForms.Guna2PictureBox UiExclusionPictureBoxDelete3;
+        private Guna.UI2.WinForms.Guna2PictureBox UiExclusionPictureBoxDelete2;
         private Guna.UI2.WinForms.Guna2HtmlLabel UiColorsLabelActive;
         private Guna.UI2.WinForms.Guna2HtmlLabel UiColorsLabelEntry;
+        private Guna.UI2.WinForms.Guna2PictureBox UiExclusionPictureBoxDelete1;
     }
 
 }

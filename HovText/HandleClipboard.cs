@@ -5,6 +5,11 @@ HANDLECLIPBOARD (CLASS)
 
 This will handle all clipboard activities.
 
+Clipboard capturing (getting UPDATE event + fetching data) will not
+be done in a thread - it will run as normal.
+Processing the data, dequeuing and getting text/image etc. will be done 
+in a thread.
+
 ##################################################################################################
 */
 
@@ -33,7 +38,7 @@ namespace HovText
         public static IntPtr originatingHandle = IntPtr.Zero;
         private Form _formSettings;
         public static int threadSafeIndex = 0; // this number will be sequential increased via a thread-safe method - it will show the number that can be used for inserting to array, so a number of "1" means that one entry is inserted already
-        private readonly object clipboardIDataObject_lock = new object();
+        private readonly object clipboardData_lock = new object();
 
 
         // ###########################################################################################
@@ -44,35 +49,6 @@ namespace HovText
 
         public void GetClipboardData(string whoUpdatedClipboardName, uint thisProcessId)
         {
-            /*
-            // Get the application name which updated the clipboard
-            IntPtr whoUpdatedClipboardHwnd = NativeMethods.GetClipboardOwner();
-            uint threadId = NativeMethods.GetWindowThreadProcessId(whoUpdatedClipboardHwnd, out uint thisProcessId);
-            string whoUpdatedClipboardName = Process.GetProcessById((int)thisProcessId).ProcessName;
-
-            // I am not sure why some(?) applications are returned as "Idle" or "svchost" when
-            // coming from clipboard (higher priveledges?) - in this case then get the active
-            // application and use that name instead. This could potentially be a problem, if
-            // a process is correctly called "Idle" but not sure if this is realistic?
-            if (whoUpdatedClipboardName.ToLower() == "idle")
-            {
-                whoUpdatedClipboardName = GetActiveApplicationName();
-            }
-
-            // Skip clipboard processing, if the application is on the "do not process" list
-            foreach (string process in Settings.processName)
-            {
-                if (whoUpdatedClipboardName == process)
-                {
-                    Logging.Log($"Discarding clipboard [UPDATE] event from application [" + whoUpdatedClipboardName + "] as it is on the \"do not process\" list");
-                    return;
-                }
-            }
-
-            Logging.Log($"Processing clipboard [UPDATE] event from application [" + whoUpdatedClipboardName + "]");
-            */           
-
-            //Logging.Log($"index=[{clipboardQueueIndex}] Capturing clipboard data");
             Logging.Log($"Capturing clipboard data");
 
             // Get if the clipboard contains either text or an image
@@ -94,8 +70,8 @@ namespace HovText
             }
             else if (containsText || containsImage) // only add to the queue, if it contains either a text or an image
             {
-
-                lock (clipboardIDataObject_lock)
+                // Lock clipboard variables (not the clipboard itself)
+                lock (clipboardData_lock)
                 {
 
                     // Find the last key from the data arrays and then add one (if this is not the first entry)
@@ -107,7 +83,6 @@ namespace HovText
                     // Get clipboard data formats and add this to the clipboard object
                     try
                     {
-
                         // Make a snapshot of the clipboard
                         IDataObject clipboardIDataObject = Clipboard.GetDataObject();
 
@@ -140,25 +115,24 @@ namespace HovText
                             {
                                 var data = clipboardIDataObject.GetData(format);
                                 clipboardObject.Add(format, data);
-                                Logging.Log($"index=[{insertIndex}]    Org. Adding format [{format}]");
+                                Logging.Log($"index=[{insertIndex}]    Adding format [{format}]");
                                 
-                                for (int i=0; i < 5; i++)
+                                for (int i=1; i <= 5; i++)
                                 {
                                     if (clipboardObject.TryGetValue(format, out object value))
                                     {
-                                        if (string.IsNullOrEmpty(value.ToString()))
+                                        if (value == null || string.IsNullOrEmpty(value.ToString()))
                                         {
                                             data = clipboardIDataObject.GetData(format);
                                             clipboardObject.Remove(format);
                                             clipboardObject.Add(format, data);
-                                            Logging.Log($"index=[{insertIndex}][{i}]    Org. RETRY WARNING format [{format}]");
+                                            Logging.Log($"index=[{insertIndex}]    Adding format [{format}] - retry [{i}/5]");
                                         } else
                                         {
                                             break;
                                         }
                                     }
                                 }
-                                
                             }
                             else
                             {
@@ -171,21 +145,7 @@ namespace HovText
                         Logging.Log($"index=[{insertIndex}] Error: " + ex.Message);
                     }
 
-
-                    /*
-                    // TEMP SOLUTION
-                    foreach (KeyValuePair<string, object> kvp in clipboardObject)
-                    {
-                        string key = kvp.Key;
-                        string value = kvp.Value.ToString();
-                        if (value is string stringValue)
-                        {
-                            Logging.Log($"index=[{insertIndex}]    Org. check 2 format [{key}] with value=[Value=[{stringValue}]");
-                        }
-                    }
-                    */
-
-                    // Find the process icon - if possible. Do note that applications running with
+                    // Find the process icon - if possible. Note that applications running with
                     // higher priveledges cannot be queried for the icon
                     Image whoUpdatedClipboardIcon = null;
                     try
@@ -215,7 +175,7 @@ namespace HovText
                         whoUpdatedClipboardIcon,
                         false
                     ));
-                    //Logging.Log($"index=[{insertIndex}] Enqueued");
+                    Logging.Log($"index=[{insertIndex}] Enqueued");
                 }
             }
         }
@@ -229,7 +189,7 @@ namespace HovText
         public void ReleaseClipboardQueue()
         {
             int loadQueueCounter = clipboardQueue.Count; // used when loading files, to validate how many entries is processed
-            int counter = 1;
+            //int counter = 1;
 
             // Dequeue oldest element
             while (clipboardQueue.TryDequeue(out var clipboard))
@@ -242,18 +202,6 @@ namespace HovText
                 bool isFavorite = clipboard.Item5;
 
                 Logging.Log($"index=[{index}] Releasing clipboard data");
-
-                
-                foreach (KeyValuePair<string, object> kvp in clipboardObject)
-                {
-                    string key = kvp.Key;
-                    string value = kvp.Value.ToString();
-                    if (value is string stringValue)
-                    {
-                        Logging.Log($"index=[{index}]    Dequeue formats available: format=[{key}], value=[{stringValue}]");
-                    }
-                }
-                
 
                 // Make sure that we set the "threadSafeIndex" to the highest possible number, in case this is coming from "loading file"
                 if (index >= threadSafeIndex)
@@ -274,17 +222,20 @@ namespace HovText
                     if (clipboardObject.ContainsKey(DataFormats.UnicodeText))
                     {
                         clipboardText = clipboardObject[DataFormats.UnicodeText] as string;
-                        Logging.Log($"index=[{index}] Found text format [UnicodeText] with value [{clipboardText}]");
+                        Logging.Log($"index=[{index}] Found text format [UnicodeText]");
+                        //Logging.Log($"index=[{index}] Found text format [UnicodeText] with value [{clipboardText}]");
                     }
                     else if (clipboardObject.ContainsKey(DataFormats.Rtf))
                     {
                         clipboardText = clipboardObject[DataFormats.Rtf] as string;
-                        Logging.Log($"index=[{index}] Found text format [Rtf] with value [{clipboardText}]");
+                        Logging.Log($"index=[{index}] Found text format [Rtf]");
+                        //Logging.Log($"index=[{index}] Found text format [Rtf] with value [{clipboardText}]");
                     }
                     else if (clipboardObject.ContainsKey(DataFormats.Text))
                     {
                         clipboardText = clipboardObject[DataFormats.Text] as string;
-                        Logging.Log($"index=[{index}] Found text format [Text] with value [{clipboardText}]");
+                        Logging.Log($"index=[{index}] Found text format [Text]");
+                        //Logging.Log($"index=[{index}] Found text format [Text] with value [{clipboardText}]");
                     }
                     else
                     {
@@ -310,17 +261,13 @@ namespace HovText
                 if (isClipboardText)
                 {
                     // Trim the text for whitespaces and empty new-lines
-                    //if (Settings.isEnabledTrimWhitespacing)
-                    //{
-                        //clipboardText = clipboardText.Trim();
-                        if (clipboardText == null || clipboardText.Trim().Length == 0) {
-                            skipRest = true;
-                        }
-                    //}
+                    if (clipboardText == null || clipboardText.Trim().Length == 0) {
+                        skipRest = true;
+                    }
 
                     if (skipRest)
                     {
-                        Logging.Log($"index=[{index}] Error: Text is empty - ignoring it - is copying/processing going too fast?");
+                        Logging.Log($"index=[{index}] Error: Retrieved text is empty - ignoring clipboard entry - is copying/processing going too fast???");
                     } else { 
                         checksum = GetStringHash(clipboardText.Trim());
 
@@ -381,10 +328,12 @@ namespace HovText
                     );
                 }
 
-                counter++;
+                //counter++;
             }
 
+            bool hest1 = Settings.isProcessingClipboardQueue;
             Settings.isProcessingClipboardQueue = false;
+            int hest2 = Settings.entriesOrder.Count;
             if (Settings.entriesOrder.Count == loadQueueCounter)
             {
                 HandleFiles.onLoadAllEntriesProcessedInClipboardQueue = true;
@@ -615,15 +564,27 @@ namespace HovText
             // Check if we have too many entries in the clipboard list - if so, remove the oldest one
             if (Settings.entriesOrder.Count > Settings.clipboardEntriesToSave)
             {
-                while (Settings.entriesOrder.Count > Settings.clipboardEntriesToSave)
+                foreach (var key in Settings.entriesOrder.Keys.ToList())
                 {
-                    int firstKey = Settings.entriesOrder.Keys.First();
-                    Logging.Log("Max entries of [" + Settings.clipboardEntriesToSave + "] has been reached in the clipboard list - removing entry index [" + firstKey + "] from clipboard list");
+                    // Exit the loop once the number of entries is within the limit
+                    if (Settings.entriesOrder.Count <= Settings.clipboardEntriesToSave)
+                    {
+                        break;
+                    }
 
-                    // Remove the chosen entry, so it does not show duplicates
-                    Settings.RemoveEntryFromLists(firstKey);
+                    // Check if the entry is marked as favorite
+                    if (Settings.entriesIsFavorite.TryGetValue(key, out bool thisIsFavorite) && thisIsFavorite)
+                    {
+                        continue;
+                    }
+
+                    Logging.Log($"Max entries of [{Settings.clipboardEntriesToSave}] has been reached in the clipboard list - removing entry index [{key}] from clipboard list");
+
+                    // Remove the chosen entry, as it's not a favorite
+                    Settings.RemoveEntryFromLists(key);
                 }
             }
+
             Logging.Log("Entries in history list is now [" + Settings.entriesTextTrimmed.Count + "]");
         }
 
@@ -757,11 +718,6 @@ namespace HovText
                         }
                         else
                         {
-                            //string removeWhitespaces = Settings.GetRegistryKey(Settings.registryPath, "TrimWhitespaces");
-                            //if (removeWhitespaces == "1")
-                            //{
-                            //    entryText = entryText.Trim();
-                            //}
                             Clipboard.SetText(entryText, TextDataFormat.UnicodeText); // https://stackoverflow.com/a/14255608/2028935
                         }
                     }

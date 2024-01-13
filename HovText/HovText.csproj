@@ -107,7 +107,8 @@
     <StartupObject>HovText.Program</StartupObject>
   </PropertyGroup>
   <PropertyGroup>
-    <AssemblyOriginatorKeyFile>Yubikey.snk</AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile>
+    </AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug signed|AnyCPU'">
     <DebugSymbols>true</DebugSymbols>
@@ -257,8 +258,6 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <None Include="xn--dennis helligs-3qb.der" />
-    <None Include="Yubikey.snk" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

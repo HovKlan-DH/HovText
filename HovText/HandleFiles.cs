@@ -7,6 +7,9 @@ This will handle most of the file activity. At least
 everything related to the "data", "index" and "favorite" 
 files.
 
+All activities with the 3 data files (data + index + favorite) will
+be done in a thread.
+
 ##################################################################################################
 */
 
@@ -33,12 +36,13 @@ namespace HovText
         private static SortedDictionary<int, Image> entriesApplicationIconLoad = new SortedDictionary<int, Image>();
         private static SortedDictionary<int, bool> entriesIsFavoriteLoad = new SortedDictionary<int, bool>();
         private static SortedDictionary<int, bool> entriesIsTransparentLoad = new SortedDictionary<int, bool>();
-        private static SortedDictionary<int, string> entriesChecksumLoad = new SortedDictionary<int, string>();
+        //private static SortedDictionary<int, string> entriesChecksumLoad = new SortedDictionary<int, string>();
         private static SortedList<int, Dictionary<string, object>> entriesOriginalLoad = new SortedList<int, Dictionary<string, object>>();
         private static List<int> entriesOrderLoad = new List<int>();
         public static bool saveIndexAndFavoriteFiles = false;
 
         // Below 3 booleans will be set to "true", if we are not loading any files
+        public static bool loadingDataFile = false; // "true" = currently loading the data file
         public static bool onLoadAllEntriesInClipboardQueue = false; // "true" = all entries have been loaded from data file and to the clipboard queue - no content yet in the clipboard list, as the queue has not been processed yet
         public static bool onLoadAllEntriesProcessedInClipboardQueue = false; // "true" = all cliopboard entries have been processed and the clipboard list nbow shows everything - nothing has been saved yet
         public static bool onLoadAllEntriesSavedFromQueue = false; // "true" = all entries have been saved - if no new stuff copied and everything should be visible/listed, then this should be a 1:1 copy from previous files    
@@ -57,13 +61,13 @@ namespace HovText
             var entriesApplicationLoad = new SortedDictionary<int, string>();
             var entriesApplicationIconLoad = new SortedDictionary<int, Image>();
             var entriesIsTransparentLoad = new SortedDictionary<int, bool>();
-            var entriesChecksumLoad = new SortedDictionary<int, string>();
+            //var entriesChecksumLoad = new SortedDictionary<int, string>();
 
             entriesOriginalLoad.Add(indexToSave, Settings.entriesOriginal[indexToSave]);
             entriesApplicationLoad.Add(indexToSave, Settings.entriesApplication[indexToSave]);
             entriesApplicationIconLoad.Add(indexToSave, Settings.entriesApplicationIcon[indexToSave]);
             entriesIsTransparentLoad.Add(indexToSave, Settings.entriesIsTransparent[indexToSave]);
-            entriesChecksumLoad.Add(indexToSave, Settings.entriesChecksum[indexToSave]);
+            //entriesChecksumLoad.Add(indexToSave, Settings.entriesChecksum[indexToSave]);
 
             // Check if file exists, if not, create it and insert version name
             if (!File.Exists(Settings.pathAndData))
@@ -89,9 +93,10 @@ namespace HovText
                 SortedList<int, Dictionary<string, object>>,
                 SortedDictionary<int, string>,
                 SortedDictionary<int, Image>,
-                SortedDictionary<int, bool>,
-                SortedDictionary<int, string>
-            >(entriesOriginalLoad, entriesApplicationLoad, entriesApplicationIconLoad, entriesIsTransparentLoad, entriesChecksumLoad);
+                SortedDictionary<int, bool>
+                //SortedDictionary<int, string>
+            //>(entriesOriginalLoad, entriesApplicationLoad, entriesApplicationIconLoad, entriesIsTransparentLoad, entriesChecksumLoad);
+            > (entriesOriginalLoad, entriesApplicationLoad, entriesApplicationIconLoad, entriesIsTransparentLoad);
 
             // Serialization process
             var binaryFormatter = new BinaryFormatter();
@@ -213,8 +218,8 @@ namespace HovText
                                     SortedList<int, Dictionary<string, object>>,
                                     SortedDictionary<int, string>,
                                     SortedDictionary<int, Image>,
-                                    SortedDictionary<int, bool>,
-                                    SortedDictionary<int, string>
+                                    SortedDictionary<int, bool>
+                                    //SortedDictionary<int, string>
                                 >)binaryFormatter.Deserialize(memoryStream);
 
                                 // Extract the dictionaries from the tuple into temporary dictionaries
@@ -222,7 +227,7 @@ namespace HovText
                                 entriesApplicationLoad = loadedData.Item2;
                                 entriesApplicationIconLoad = loadedData.Item3;
                                 entriesIsTransparentLoad = loadedData.Item4;
-                                entriesChecksumLoad = loadedData.Item5;
+                                //entriesChecksumLoad = loadedData.Item5;
                             }
                         }
                         catch (SerializationException ex)
@@ -233,7 +238,7 @@ namespace HovText
                             entriesIsTransparentLoad = null;
                             entriesApplicationLoad = null;
                             entriesApplicationIconLoad = null;
-                            entriesChecksumLoad = null;
+                            //entriesChecksumLoad = null;
                             break;
                         }
 
@@ -258,7 +263,7 @@ namespace HovText
                                     {
                                         counter++;
 
-                                        Logging.Log($"Processing clipboard entry [{counter}] with entry.Key [{entry.Key}] with [{clipboardObject.Count}] formats");
+                                        Logging.Log($"Processing clipboard index [{entry.Key}][{orderNum}] with  with [{clipboardObject.Count}] formats");
                                                                                 
                                         // Thread-safe adding to the tuple queue
                                         HandleClipboard.clipboardQueue.Enqueue((
@@ -292,13 +297,14 @@ namespace HovText
                             entriesIsTransparentLoad = null;
                             entriesApplicationLoad = null;
                             entriesApplicationIconLoad = null;
-                            entriesChecksumLoad = null;
+                            //entriesChecksumLoad = null;
                         }
                     }
                     Logging.Log("---");
                 }
 
                 onLoadAllEntriesInClipboardQueue = true;
+                loadingDataFile = false;
             }
             catch (Exception ex)
             {
@@ -472,6 +478,7 @@ namespace HovText
                             {
                                 int index = BitConverter.ToInt32(decryptedData, i);
                                 entriesOrderLoad.Add(index);
+                                //Logging.Log($"Added index [{index}]");
                             }
                         }
                     }
@@ -715,23 +722,27 @@ namespace HovText
         public static bool DeleteOldFiles()
         {
             bool wasAnyFilesDeleted = false;
+            string fileNameOldest;
+            string fileNameNewest;
 
             // HovText-data-*.bin
             string fileMask = $"{Settings.dataName}*.bin";
-            string fileName = HandleFiles.GetOldestFile(Settings.baseDirectory, fileMask);
-            if (fileName != Settings.pathAndData)
+            fileNameOldest = HandleFiles.GetOldestFile(Settings.baseDirectory, fileMask);
+            fileNameNewest = HandleFiles.GetNewestFile(Settings.baseDirectory, fileMask);
+            //fileNameNewest = shouldWeSaveOrLoadData ? fileNameNewest : "";
+            if (fileNameOldest != fileNameNewest)
             {
-                if (File.Exists(fileName))
+                if (File.Exists(fileNameOldest))
                 {
                     try
                     {
-                        File.Delete(@fileName);
+                        File.Delete(@fileNameOldest);
                         wasAnyFilesDeleted = true;
-                        Logging.Log($"Deleted clipboard \"data\" file [{fileName}]");
+                        Logging.Log($"Deleted clipboard \"data\" file [{fileNameOldest}]");
                     }
                     catch (Exception ex)
                     {
-                        Logging.Log($"Could not delete clipboard \"data\" file [{fileName}] as it was locked by another process");
+                        Logging.Log($"Could not delete clipboard \"data\" file [{fileNameOldest}] as it was locked by another process");
                         Logging.LogException(ex);
                     }
                 }
@@ -739,20 +750,22 @@ namespace HovText
 
             // HovText-index-*.bin
             fileMask = $"{Settings.dataIndexName}*.bin";
-            fileName = HandleFiles.GetOldestFile(Settings.baseDirectory, fileMask);
-            if (fileName != Settings.pathAndDataIndex)
+            fileNameOldest = HandleFiles.GetOldestFile(Settings.baseDirectory, fileMask);
+            fileNameNewest = HandleFiles.GetNewestFile(Settings.baseDirectory, fileMask);
+            //fileNameNewest = shouldWeSaveOrLoadData ? fileNameNewest : "";
+            if (fileNameOldest != fileNameNewest)
             {
-                if (File.Exists(fileName))
+                if (File.Exists(fileNameOldest))
                 {
                     try
                     {
-                        File.Delete(@fileName);
+                        File.Delete(@fileNameOldest);
                         wasAnyFilesDeleted = true;
-                        Logging.Log($"Deleted clipboard \"index\" file [{fileName}]");
+                        Logging.Log($"Deleted clipboard \"index\" file [{fileNameOldest}]");
                     }
                     catch (Exception ex)
                     {
-                        Logging.Log($"Could not delete clipboard \"index\" file [{fileName}] as it was locked by another process");
+                        Logging.Log($"Could not delete clipboard \"index\" file [{fileNameOldest}] as it was locked by another process");
                         Logging.LogException(ex);
                     }
                 }
@@ -760,20 +773,22 @@ namespace HovText
 
             // HovText-favorite-*.bin
             fileMask = $"{Settings.dataFavoriteName}*.bin";
-            fileName = HandleFiles.GetOldestFile(Settings.baseDirectory, fileMask);
-            if (fileName != Settings.pathAndDataFavorite)
+            fileNameOldest = HandleFiles.GetOldestFile(Settings.baseDirectory, fileMask);
+            fileNameNewest = HandleFiles.GetNewestFile(Settings.baseDirectory, fileMask);
+            //fileNameNewest = shouldWeSaveOrLoadData ? fileNameNewest : "";
+            if (fileNameOldest != fileNameNewest)
             {
-                if (File.Exists(fileName))
+                if (File.Exists(fileNameOldest))
                 {
                     try
                     {
-                        File.Delete(@fileName);
+                        File.Delete(@fileNameOldest);
                         wasAnyFilesDeleted = true;
-                        Logging.Log($"Deleted clipboard \"favorite\" file [{fileName}]");
+                        Logging.Log($"Deleted clipboard \"favorite\" file [{fileNameOldest}]");
                     }
                     catch (Exception ex)
                     {
-                        Logging.Log($"Could not delete clipboard \"favorite\" file [{fileName}] as it was locked by another process");
+                        Logging.Log($"Could not delete clipboard \"favorite\" file [{fileNameOldest}] as it was locked by another process");
                         Logging.LogException(ex);
                     }
                 }
