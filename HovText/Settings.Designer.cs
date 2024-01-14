@@ -290,6 +290,7 @@
             this.TimerSaveFiles = new System.Windows.Forms.Timer(this.components);
             this.TimerCheckForUpdate = new System.Windows.Forms.Timer(this.components);
             this.TimerUpdateCounters = new System.Windows.Forms.Timer(this.components);
+            this.TimerNotificationClipboardList = new System.Windows.Forms.Timer(this.components);
             this.MenuStripIconNotify.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.UiAboutPictureBoxPaypal)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.UiStyleOictureBoxIcon9)).BeginInit();
@@ -4124,6 +4125,11 @@
             this.TimerUpdateCounters.Interval = 250;
             this.TimerUpdateCounters.Tick += new System.EventHandler(this.TimerUpdateCounters_Tick);
             // 
+            // TimerNotificationClipboardList
+            // 
+            this.TimerNotificationClipboardList.Interval = 5000;
+            this.TimerNotificationClipboardList.Tick += new System.EventHandler(this.TimerNotificationClipboardList_Tick);
+            // 
             // Settings
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(11F, 25F);
@@ -4482,6 +4488,7 @@
         private Guna.UI2.WinForms.Guna2HtmlLabel UiColorsLabelActive;
         private Guna.UI2.WinForms.Guna2HtmlLabel UiColorsLabelEntry;
         private Guna.UI2.WinForms.Guna2PictureBox UiExclusionPictureBoxDelete1;
+        private System.Windows.Forms.Timer TimerNotificationClipboardList;
     }
 
 }

@@ -7,9 +7,6 @@ This will handle most of the file activity. At least
 everything related to the "data", "index" and "favorite" 
 files.
 
-All activities with the 3 data files (data + index + favorite) will
-be done in a thread.
-
 ##################################################################################################
 */
 
@@ -36,7 +33,6 @@ namespace HovText
         private static SortedDictionary<int, Image> entriesApplicationIconLoad = new SortedDictionary<int, Image>();
         private static SortedDictionary<int, bool> entriesIsFavoriteLoad = new SortedDictionary<int, bool>();
         private static SortedDictionary<int, bool> entriesIsTransparentLoad = new SortedDictionary<int, bool>();
-        //private static SortedDictionary<int, string> entriesChecksumLoad = new SortedDictionary<int, string>();
         private static SortedList<int, Dictionary<string, object>> entriesOriginalLoad = new SortedList<int, Dictionary<string, object>>();
         private static List<int> entriesOrderLoad = new List<int>();
         public static bool saveIndexAndFavoriteFiles = false;
@@ -61,13 +57,11 @@ namespace HovText
             var entriesApplicationLoad = new SortedDictionary<int, string>();
             var entriesApplicationIconLoad = new SortedDictionary<int, Image>();
             var entriesIsTransparentLoad = new SortedDictionary<int, bool>();
-            //var entriesChecksumLoad = new SortedDictionary<int, string>();
 
             entriesOriginalLoad.Add(indexToSave, Settings.entriesOriginal[indexToSave]);
             entriesApplicationLoad.Add(indexToSave, Settings.entriesApplication[indexToSave]);
             entriesApplicationIconLoad.Add(indexToSave, Settings.entriesApplicationIcon[indexToSave]);
             entriesIsTransparentLoad.Add(indexToSave, Settings.entriesIsTransparent[indexToSave]);
-            //entriesChecksumLoad.Add(indexToSave, Settings.entriesChecksum[indexToSave]);
 
             // Check if file exists, if not, create it and insert version name
             if (!File.Exists(Settings.pathAndData))
@@ -80,22 +74,12 @@ namespace HovText
                 }
             }
                         
-            foreach (var format in entriesOriginalLoad)
-            {
-                if (format.Value == null)
-                {
-                    Logging.Log($"Format=[{format.Value}]");
-                }
-            }
-
             // Update the Tuple type declaration to include the new dictionary
             var dataToSerialize = new Tuple<
                 SortedList<int, Dictionary<string, object>>,
                 SortedDictionary<int, string>,
                 SortedDictionary<int, Image>,
                 SortedDictionary<int, bool>
-                //SortedDictionary<int, string>
-            //>(entriesOriginalLoad, entriesApplicationLoad, entriesApplicationIconLoad, entriesIsTransparentLoad, entriesChecksumLoad);
             > (entriesOriginalLoad, entriesApplicationLoad, entriesApplicationIconLoad, entriesIsTransparentLoad);
 
             // Serialization process
@@ -219,7 +203,6 @@ namespace HovText
                                     SortedDictionary<int, string>,
                                     SortedDictionary<int, Image>,
                                     SortedDictionary<int, bool>
-                                    //SortedDictionary<int, string>
                                 >)binaryFormatter.Deserialize(memoryStream);
 
                                 // Extract the dictionaries from the tuple into temporary dictionaries
@@ -227,7 +210,6 @@ namespace HovText
                                 entriesApplicationLoad = loadedData.Item2;
                                 entriesApplicationIconLoad = loadedData.Item3;
                                 entriesIsTransparentLoad = loadedData.Item4;
-                                //entriesChecksumLoad = loadedData.Item5;
                             }
                         }
                         catch (SerializationException ex)
@@ -238,7 +220,6 @@ namespace HovText
                             entriesIsTransparentLoad = null;
                             entriesApplicationLoad = null;
                             entriesApplicationIconLoad = null;
-                            //entriesChecksumLoad = null;
                             break;
                         }
 
@@ -263,7 +244,7 @@ namespace HovText
                                     {
                                         counter++;
 
-                                        Logging.Log($"Processing clipboard index [{entry.Key}][{orderNum}] with  with [{clipboardObject.Count}] formats");
+                                        Logging.Log($"Processing clipboard; old index [{entry.Key}], new index [{orderNum}] with [{clipboardObject.Count}] formats");
                                                                                 
                                         // Thread-safe adding to the tuple queue
                                         HandleClipboard.clipboardQueue.Enqueue((
@@ -297,7 +278,6 @@ namespace HovText
                             entriesIsTransparentLoad = null;
                             entriesApplicationLoad = null;
                             entriesApplicationIconLoad = null;
-                            //entriesChecksumLoad = null;
                         }
                     }
                     Logging.Log("---");
@@ -327,7 +307,6 @@ namespace HovText
 
             try
             {
-
                 SortedDictionary<int, int> entriesOrderTmp = new SortedDictionary<int, int>();
 
                 string save = Settings.GetRegistryKey(Settings.registryPath, "StorageSaveType");
@@ -478,7 +457,6 @@ namespace HovText
                             {
                                 int index = BitConverter.ToInt32(decryptedData, i);
                                 entriesOrderLoad.Add(index);
-                                //Logging.Log($"Added index [{index}]");
                             }
                         }
                     }
@@ -622,7 +600,6 @@ namespace HovText
                             }
                             else
                             {
-
                                 try
                                 {
                                     // Deserialize the decrypted data
@@ -729,7 +706,6 @@ namespace HovText
             string fileMask = $"{Settings.dataName}*.bin";
             fileNameOldest = HandleFiles.GetOldestFile(Settings.baseDirectory, fileMask);
             fileNameNewest = HandleFiles.GetNewestFile(Settings.baseDirectory, fileMask);
-            //fileNameNewest = shouldWeSaveOrLoadData ? fileNameNewest : "";
             if (fileNameOldest != fileNameNewest)
             {
                 if (File.Exists(fileNameOldest))
@@ -752,7 +728,6 @@ namespace HovText
             fileMask = $"{Settings.dataIndexName}*.bin";
             fileNameOldest = HandleFiles.GetOldestFile(Settings.baseDirectory, fileMask);
             fileNameNewest = HandleFiles.GetNewestFile(Settings.baseDirectory, fileMask);
-            //fileNameNewest = shouldWeSaveOrLoadData ? fileNameNewest : "";
             if (fileNameOldest != fileNameNewest)
             {
                 if (File.Exists(fileNameOldest))
@@ -775,7 +750,6 @@ namespace HovText
             fileMask = $"{Settings.dataFavoriteName}*.bin";
             fileNameOldest = HandleFiles.GetOldestFile(Settings.baseDirectory, fileMask);
             fileNameNewest = HandleFiles.GetNewestFile(Settings.baseDirectory, fileMask);
-            //fileNameNewest = shouldWeSaveOrLoadData ? fileNameNewest : "";
             if (fileNameOldest != fileNameNewest)
             {
                 if (File.Exists(fileNameOldest))

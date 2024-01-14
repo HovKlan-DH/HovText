@@ -189,7 +189,6 @@ namespace HovText
         public void ReleaseClipboardQueue()
         {
             int loadQueueCounter = clipboardQueue.Count; // used when loading files, to validate how many entries is processed
-            //int counter = 1;
 
             // Dequeue oldest element
             while (clipboardQueue.TryDequeue(out var clipboard))
@@ -223,19 +222,16 @@ namespace HovText
                     {
                         clipboardText = clipboardObject[DataFormats.UnicodeText] as string;
                         Logging.Log($"index=[{index}] Found text format [UnicodeText]");
-                        //Logging.Log($"index=[{index}] Found text format [UnicodeText] with value [{clipboardText}]");
                     }
                     else if (clipboardObject.ContainsKey(DataFormats.Rtf))
                     {
                         clipboardText = clipboardObject[DataFormats.Rtf] as string;
                         Logging.Log($"index=[{index}] Found text format [Rtf]");
-                        //Logging.Log($"index=[{index}] Found text format [Rtf] with value [{clipboardText}]");
                     }
                     else if (clipboardObject.ContainsKey(DataFormats.Text))
                     {
                         clipboardText = clipboardObject[DataFormats.Text] as string;
                         Logging.Log($"index=[{index}] Found text format [Text]");
-                        //Logging.Log($"index=[{index}] Found text format [Text] with value [{clipboardText}]");
                     }
                     else
                     {
@@ -311,7 +307,6 @@ namespace HovText
                 // Only add the entry, if it is not already present in list
                 if (!isAlreadyInDataArray && !skipRest && (isClipboardText || isClipboardImage))
                 {
-
                     AddClipboardToList(
                         index,
                         clipboardObject,
@@ -326,14 +321,34 @@ namespace HovText
                         checksum,
                         isFavorite
                     );
-                }
 
-                //counter++;
+                    // Set the clipboard, if we have some text
+                    // AND we should not always paste the original text
+                    // AND it is not set to paste on hotkey only
+                    if (isClipboardText)
+                    {
+                        if (HandleFiles.onLoadAllEntriesProcessedInClipboardQueue)
+                        {
+                            if (!string.IsNullOrEmpty(clipboardText) && !Settings.isEnabledAlwaysPasteOriginal && !Settings.isEnabledPasteOnHotkey)
+                            {
+                                _formSettings.Invoke(new MethodInvoker(() =>
+                                {
+                                    if (clipboardQueue.Count == 0 && !Settings.isProcessingClipboard)
+                                    {
+                                        SetClipboard(index);
+                                    }
+                                    else
+                                    {
+                                        Logging.Log("Warning: Skipping setting clipboard as new relevant clipboard UPDATE event detected");
+                                    }
+                                }));
+                            }
+                        }
+                    }
+                }
             }
 
-            bool hest1 = Settings.isProcessingClipboardQueue;
             Settings.isProcessingClipboardQueue = false;
-            int hest2 = Settings.entriesOrder.Count;
             if (Settings.entriesOrder.Count == loadQueueCounter)
             {
                 HandleFiles.onLoadAllEntriesProcessedInClipboardQueue = true;
@@ -535,6 +550,7 @@ namespace HovText
             // Append the (one) newly processed clipboard data to the data file
             Settings.clipboardSaveQueue.Add(index);
 
+            /*
             // Set the clipboard, if we have some text
             // AND we should not always paste the original text
             // AND it is not set to paste on hotkey only
@@ -557,6 +573,7 @@ namespace HovText
                     }
                 }
             }
+            */
 
             // Add the original index to the "order" array (we only save the clipboard once)
             Settings.entriesOrder.Add(index, index);

@@ -172,7 +172,7 @@ namespace HovText
         public static bool isHistoryMarginEnabled;
         public static bool isTroubleshootEnabled;
         public static bool isApplicationEnabled = true;
-
+                        
         // Clipboard
         public static int entryIndex = -1;
         public static int entryCounter = -1;
@@ -180,7 +180,7 @@ namespace HovText
         public static SortedDictionary<int, Image> entriesApplicationIcon = new SortedDictionary<int, Image>();
         public static SortedDictionary<int, string> entriesText = new SortedDictionary<int, string>();
         public static SortedDictionary<int, string> entriesTextTrimmed = new SortedDictionary<int, string>();
-        public static SortedDictionary<int, bool> entriesShow = new SortedDictionary<int, bool>();
+        //public static SortedDictionary<int, bool> entriesShow = new SortedDictionary<int, bool>();
         public static SortedDictionary<int, bool> entriesIsFavorite = new SortedDictionary<int, bool>();
         public static SortedDictionary<int, bool> entriesIsUrl = new SortedDictionary<int, bool>();
         public static SortedDictionary<int, bool> entriesIsEmail = new SortedDictionary<int, bool>();
@@ -266,7 +266,7 @@ namespace HovText
         bool activatedHotkeys = false; // the hotkeys should not be enabled until we have loaded everything into the clipboard list
         private DateTime lastClipboardEvent = DateTime.MinValue;
         private int minMsBetween = 100;
-        //private bool showFloppies = false;
+        //public static bool isProcessingRawClipboard = false;
 
 
         // ###########################################################################################
@@ -490,6 +490,10 @@ namespace HovText
                     if (entriesOrder.Count == clipboardEntriesToSave &&  favoriteCount == clipboardEntriesToSave)
                     {
                         Logging.Log($"Discarding clipboard [UPDATE] event from application [{whoUpdatedClipboardName}] as the clipboard list limit of [{clipboardEntriesToSave}] has been filled with favorites");
+                        if (isApplicationEnabled)
+                        {
+                            ShowTrayNotificationFullClipboard();
+                        }
                         proceed = false;
                     }
 
@@ -717,7 +721,7 @@ namespace HovText
                 if (
                     clipboardSaveQueue.Count > 0 && 
                     !isClipboardSaveQueueBeingProcessed &&
-                    !isProcessingClipboardQueue &&
+                    HandleClipboard.clipboardQueue.Count == 0 &&
                     HandleFiles.onLoadAllEntriesProcessedInClipboardQueue
                     )
                 {
@@ -839,6 +843,16 @@ namespace HovText
 
 
         // ###########################################################################################
+        // Limit the amount of notifications we can show for "full clipboard list"
+        // ###########################################################################################
+
+        private void TimerNotificationClipboardList_Tick(object sender, EventArgs e)
+        {
+            TimerNotificationClipboardList.Enabled = false;
+        }
+
+
+        // ###########################################################################################
         // Old file monitoring timer
         // ###########################################################################################
 
@@ -910,7 +924,7 @@ namespace HovText
             entriesIsTransparent.Clear();
             entriesIsUrl.Clear();
             entriesOriginal.Clear();
-            entriesShow.Clear();
+            //entriesShow.Clear();
             entriesText.Clear();
             entriesTextTrimmed.Clear();
             entriesOrder.Clear();
@@ -921,7 +935,7 @@ namespace HovText
         // Called when a clipboard entry has been selected in the clipboard list
         // ###########################################################################################
 
-        public void SelectHistoryEntry()
+        public void SelectHistoryEntry(int index)
         {
             // Check if application is enabled
             if (isApplicationEnabled && entryCounter > 0)
@@ -930,7 +944,8 @@ namespace HovText
                 int entriesInList = History.entriesInList;
                 if (entriesInList > 0)
                 {
-                    MoveEntryToTop(entryIndex);
+                    //MoveEntryToTop(entryIndex);
+                    MoveEntryToTop(index);
 
                     // Restore the original clipboard, if we are within the "Paste on hotkey only" mode
                     if (UiHotkeysRadioPasteOnHotkey.Checked)
@@ -949,55 +964,7 @@ namespace HovText
                 // Save the new order of the entries
                 HandleFiles.saveIndexAndFavoriteFiles = true;
             }
-        }
-
-
-        // ###########################################################################################
-        // Get the next older entry from history
-        // ###########################################################################################
-
-        public void GoEntryLowerNumber()
-        {
-            SuspendLayout();
-
-            // Check if application is enabled
-            if (isApplicationEnabled && entryCounter > 0)
-            {
-                // Always change focus to HovText to ensure we can catch the key-up event
-                //ChangeFocusToHovText();
-
-                // Only proceed if the entry counter is equal to or more than 0
-                if (entryCounter > 0)
-                {
-                    history.UpdateHistory("down");
-                }
-            }
-            ResumeLayout();
-        }
-
-
-        // ###########################################################################################
-        // Get the next newer entry from history
-        // ###########################################################################################
-
-        public void GoEntryHigherNumber()
-        {
-            SuspendLayout();
-
-            // Check if application is enabled
-            if (isApplicationEnabled && entryCounter > 0)
-            {
-                // Always change focus to HovText to ensure we can catch the key-up event
-                //ChangeFocusToHovText();
-
-                // Only proceed if the entry counter is less than the total amount of entries
-                if (entryCounter <= entriesTextTrimmed.Count)
-                {
-                    history.UpdateHistory("up");
-                }
-            }
-            ResumeLayout();
-        }       
+        }      
 
 
         // ###########################################################################################
@@ -2601,13 +2568,26 @@ namespace HovText
             entriesApplication.Remove(index);
             entriesApplicationIcon.Remove(index);
             entriesOriginal.Remove(index);
-            entriesShow.Remove(index);
             entriesIsFavorite.Remove(index);
             entriesIsUrl.Remove(index);
             entriesIsEmail.Remove(index);
             entriesIsTransparent.Remove(index);
             entriesIsImage.Remove(index);
             entriesOrder.Remove(index);
+
+            // Remove from the "History" temporary lists also
+            History.entriesApplication_copy.Remove(index);
+            History.entriesApplicationIcon_copy.Remove(index);
+            History.entriesImage_copy.Remove(index);
+            History.entriesImageTrans_copy.Remove(index);
+            History.entriesIsFavorite_copy.Remove(index);
+            History.entriesIsImage_copy.Remove(index);
+            History.entriesIsUrl_copy.Remove(index);
+            History.entriesIsEmail_copy.Remove(index);
+            History.entriesIsTransparent_copy.Remove(index);
+            History.entriesOrder_copy.Remove(index);
+            History.entriesShow.Remove(index);
+            History.entriesTextTrimmed_copy.Remove(index);
         }
 
 
@@ -3043,15 +3023,6 @@ namespace HovText
                 else
                 {
                     Logging.Log("Pressed the \"Search\" interface hotkey");
-
-                    // Default show all clipboards - no filtering
-                    entriesShow.Clear();
-                    {
-                        foreach (var key in entriesOrder.Keys)
-                        {
-                            entriesShow[key] = true;
-                        }
-                    }
 
                     // Hide the "Settings" form if it is visible (it will be restored after key-up)
                     isSettingsFormVisible = Visible;
@@ -3542,6 +3513,26 @@ namespace HovText
 
                 // Mark that we now have shown this
                 SetRegistryKey(registryPath, "NotificationShown", "1");
+            }
+        }
+
+
+        // ###########################################################################################
+        // Show a notification if the clipboard list is full of favorites
+        // ###########################################################################################
+
+        public void ShowTrayNotificationFullClipboard()
+        {
+            if (!TimerNotificationClipboardList.Enabled)
+            {
+                TimerNotificationClipboardList.Enabled = true;
+                IconNotify.Visible = true;
+                IconNotify.ShowBalloonTip(
+                    10000,
+                    "HovText cannot process clipboard",
+                    "Your clipboard list is full of favorites and has no room to store new entries.",
+                    ToolTipIcon.Warning
+                    );
             }
         }
 
