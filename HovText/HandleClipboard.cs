@@ -25,6 +25,7 @@ using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Windows.Forms;
+using System.Reflection;
 
 namespace HovText
 {
@@ -163,7 +164,7 @@ namespace HovText
                     }
                     catch (Exception ex)
                     {
-                        Logging.Log($"Warning: Cannot get application icon: {ex.Message}");
+                        Logging.Log($"index=[{insertIndex}] Warning: Cannot get application icon: {ex.Message}");
                         //Logging.LogException(ex);
                     }
 
@@ -245,7 +246,8 @@ namespace HovText
                 if (isClipboardImage)
                 {
                     clipboardImage = clipboardObject[DataFormats.Bitmap] as Image;
-                }                
+                    Logging.Log($"index=[{index}] Found image format [Bitmap]");
+                }
 
                 // Set default values
                 string checksum = null;
@@ -290,7 +292,7 @@ namespace HovText
                         Stopwatch stopwatch = new Stopwatch();
                         stopwatch.Start();
 
-                        transparentImage = GetTransparentImageFromClipboard(clipboardObject);
+                        transparentImage = GetTransparentImageFromClipboard(clipboardObject, index);
                         if(transparentImage != null)
                         {
                             isClipboardImageTransparent = IsImageTransparent(transparentImage);
@@ -339,7 +341,7 @@ namespace HovText
                                     }
                                     else
                                     {
-                                        Logging.Log("Warning: Skipping setting clipboard as new relevant clipboard UPDATE event detected");
+                                        Logging.Log("index=[{index}] Warning: Skipping setting clipboard as new relevant clipboard UPDATE event detected");
                                     }
                                 }));
                             }
@@ -550,31 +552,6 @@ namespace HovText
             // Append the (one) newly processed clipboard data to the data file
             Settings.clipboardSaveQueue.Add(index);
 
-            /*
-            // Set the clipboard, if we have some text
-            // AND we should not always paste the original text
-            // AND it is not set to paste on hotkey only
-            if(isClipboardText)
-            {
-                if(HandleFiles.onLoadAllEntriesProcessedInClipboardQueue)
-                {                
-                    if (!string.IsNullOrEmpty(clipboardText) && !Settings.isEnabledAlwaysPasteOriginal && !Settings.isEnabledPasteOnHotkey)
-                    {
-                        _formSettings.Invoke(new MethodInvoker(() =>
-                        {
-                            if(!Settings.isProcessingClipboard)
-                            {
-                                SetClipboard(index);
-                            } else
-                            {
-                                Logging.Log("Warning: Skipping setting clipboard as there is an new clipboard UPDATE event");
-                            }
-                        }));
-                    }
-                }
-            }
-            */
-
             // Add the original index to the "order" array (we only save the clipboard once)
             Settings.entriesOrder.Add(index, index);
 
@@ -595,14 +572,14 @@ namespace HovText
                         continue;
                     }
 
-                    Logging.Log($"Max entries of [{Settings.clipboardEntriesToSave}] has been reached in the clipboard list - removing entry index [{key}] from clipboard list");
+                    Logging.Log($"index=[{index}] Max entries of [{Settings.clipboardEntriesToSave}] has been reached in the clipboard list - removing entry index [{key}] from clipboard list");
 
                     // Remove the chosen entry, as it's not a favorite
                     Settings.RemoveEntryFromLists(key);
                 }
             }
 
-            Logging.Log("Entries in history list is now [" + Settings.entriesTextTrimmed.Count + "]");
+            Logging.Log("index=[{index}] Entries in clipboard list is now [" + Settings.entriesTextTrimmed.Count + "]");
         }
 
 
@@ -611,7 +588,7 @@ namespace HovText
         // https://stackoverflow.com/a/2570002/2028935 but modified later by ChatGPT
         // ###########################################################################################
 
-        private Image GetTransparentImageFromClipboard(Dictionary<string, object> clipboardObject)
+        private Image GetTransparentImageFromClipboard(Dictionary<string, object> clipboardObject, int index)
         {
             // This one here is a little weird, but 
             try
@@ -638,7 +615,7 @@ namespace HovText
                 }
                 else
                 {
-                    Logging.Log("Error - image is not in correct format!?");
+                    Logging.Log($"index=[{index}] Error: Image is not in correct format!?");
                 }
             }
 
@@ -736,6 +713,7 @@ namespace HovText
                         else
                         {
                             Clipboard.SetText(entryText, TextDataFormat.UnicodeText); // https://stackoverflow.com/a/14255608/2028935
+                            Logging.Log($"index=[{index}] Set clipboard [SetText]");
                         }
                     }
                     catch (Exception ex)
@@ -756,8 +734,8 @@ namespace HovText
                 }
                 else
                 {
-                    Logging.Log("Exception raised:");
-                    Logging.Log("  \"Set clipboard\" triggered but is neither [TEXT] nor [IMAGE]!?");
+                    Logging.Log("index=[{index}] Exception raised:");
+                    Logging.Log("index=[{index}]    \"Set clipboard\" triggered but is neither [TEXT] nor [IMAGE]!?");
                 }
             }
         }
@@ -769,7 +747,7 @@ namespace HovText
 
         public static void RestoreOriginal(int index)
         {
-            Logging.Log($"Restoring original [{index}] content to clipboard:");
+            Logging.Log($"[{index}] Restoring original content to clipboard:");
 
             try
             {
@@ -781,10 +759,11 @@ namespace HovText
                     if (kvp.Value != null)
                     {
                         data.SetData(kvp.Key, kvp.Value);
-                        Logging.Log("  Adding format to clipboard, [" + kvp.Key + "]");
+                        Logging.Log("index=[{index}]    Adding format to clipboard, [" + kvp.Key + "]");
                     }
                 }
                 Clipboard.SetDataObject(data, true);
+                Logging.Log($"index=[{index}] Set clipboard [SetDataObject]");
                 // ---
             }
             catch (Exception ex)

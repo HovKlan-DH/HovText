@@ -51,7 +51,7 @@ namespace HovText
 
         public static void SaveClipboardEntryToFile(int indexToSave)
         {
-            Logging.Log($"Saving entry index [{indexToSave}] to encrypted \"data\" file [{Settings.pathAndData}]");
+            Logging.Log($"index=[{indexToSave}] Saving entry to encrypted \"data\" file [{Settings.pathAndData}]");
 
             var entriesOriginalLoad = new SortedList<int, Dictionary<string, object>>();
             var entriesApplicationLoad = new SortedDictionary<int, string>();
@@ -244,7 +244,7 @@ namespace HovText
                                     {
                                         counter++;
 
-                                        Logging.Log($"Processing clipboard; old index [{entry.Key}], new index [{orderNum}] with [{clipboardObject.Count}] formats");
+                                        Logging.Log($"index=[{orderNum}] Processing clipboard; old index [{entry.Key}] with [{clipboardObject.Count}] formats");
                                                                                 
                                         // Thread-safe adding to the tuple queue
                                         HandleClipboard.clipboardQueue.Enqueue((
@@ -257,7 +257,7 @@ namespace HovText
                                     }
                                     else
                                     {
-                                        Logging.Log($"Skipping clipboard entry [{counter}] with entry.Key [{entry.Key}] with [{clipboardObject.Count}] formats");
+                                        Logging.Log($"Skipping clipboard entry [{counter}] with old index [{entry.Key}] with [{clipboardObject.Count}] formats");
                                     }
                                 }
                                 catch (Exception ex)
@@ -469,10 +469,11 @@ namespace HovText
             }
         }
 
-        
+
         // ###########################################################################################
         // Save the full list of "is favorite" booleans to a data file
         // ###########################################################################################   
+
 
         public static void SaveFavoritesToFile()
         {
@@ -542,6 +543,7 @@ namespace HovText
         // ###########################################################################################
         // Load the full list of "is favorite" booleans from a data file
         // ###########################################################################################   
+
 
         public static void LoadFavoritesFromFile()
         {
@@ -634,7 +636,7 @@ namespace HovText
                     Logging.LogException(ex);
                 }
             }
-        }      
+        }     
 
 
         // ###########################################################################################
@@ -833,7 +835,7 @@ namespace HovText
             }
             catch (Exception ex)
             {
-                Logging.Log("Error");
+                Logging.Log("Error:");
                 Logging.LogException(ex);
             }
         }

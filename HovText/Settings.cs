@@ -572,7 +572,7 @@ namespace HovText
                     // Parallize the loading, to not block the UI
                     Task.Run(() =>
                     {
-                        // Load the two minor files
+                        // Load the index file
                         HandleFiles.LoadIndexesFromFile();
                         HandleFiles.LoadFavoritesFromFile();
 
@@ -744,7 +744,7 @@ namespace HovText
                             }
                             else
                             {
-                                Logging.Log($"Error: Could not find index [{index}] for saving!? Removing it from list");
+                                Logging.Log($"[{index}] Error: Could not find index for saving!? Removing it from list");
                                 clipboardSaveQueue.Remove(index);
                             }
                         }
@@ -1370,7 +1370,7 @@ namespace HovText
                 else
                 {
                     firstTimeLaunch = false;
-                    Logging.Log("Registry [" + registryPath + "] exists, so this is an [already initialized] launch");
+                    //Logging.Log("Registry [" + registryPath + "] exists, so this is an [already initialized] launch");
                 }
             }
 
@@ -2148,11 +2148,11 @@ namespace HovText
             if (IsDisplayValid(displayReg))
             {
                 activeDisplay = displayReg;
-                Logging.Log("History will be shown on display ID [" + activeDisplay + "] with registry entry [" + displaysId + "]");
+                Logging.Log("Clipboard list will be shown on display ID [" + activeDisplay + "] with registry entry [" + displaysId + "]");
             }
             else
             {
-                Logging.Log("History cannot be shown on display ID [" + displayReg + "] and will instead be shown on display ID [" + activeDisplay + "] with registry entry [" + displaysId + "]");
+                Logging.Log("Clipboard list cannot be shown on display ID [" + displayReg + "] and will instead be shown on display ID [" + activeDisplay + "] with registry entry [" + displaysId + "]");
             }
             var control = UiLayoutGroupBoxShowClipboardListOn.Controls["uiScreen" + activeDisplay] as Guna2CustomRadioButton;
             if (control != null)
