@@ -592,7 +592,7 @@ namespace HovText
                             // Decrypt the data
                             var decryptedData = Encryption.DecryptStringFromBytes_Aes(encryptedData, Settings.encryptionKey, Settings.encryptionInitializationVector);
 
-                            entriesIsFavoriteLoad = null;
+                            entriesIsFavoriteLoad = entriesIsFavoriteLoad = new SortedDictionary<int, bool>();
 
                             // Check if decryption was successful
                             if (decryptedData == null)
