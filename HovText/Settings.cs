@@ -5116,6 +5116,96 @@ namespace HovText
 
 
         // ###########################################################################################
+        // Functions relevant for the "Exclusion" list
+        // ###########################################################################################
+
+        private void ExclusionTextBox_Leave(object sender, EventArgs e)
+        {
+            // Cast the sender to a Guna2TextBox
+            var textBox = sender as Guna.UI2.WinForms.Guna2TextBox;
+
+            if (textBox != null)
+            {
+                string tag = textBox.Tag.ToString();
+                string value = textBox.Text;
+
+                // Parse the TAG to an INT and a STRING
+                string[] parts = tag.Split('_');
+                int.TryParse(parts[0], out int number);
+                string type = parts[1];
+
+                if (type == "process")
+                {
+                    processName[number] = value;
+                }
+                if (type == "app")
+                {
+                    appName[number] = value;
+                }
+
+                if (value.Trim().Length > 0)
+                {
+                    SetRegistryKey(registryPathApplications, tag, value);
+                }
+                else
+                {
+                    DeleteRegistryKey(registryPathApplications, tag);
+                }
+            }
+        }
+
+        private void ExclusionDelete_Click(object sender, EventArgs e)
+        {
+            // Cast the sender to a Guna2PictureBox
+            var pictureBox = sender as Guna2PictureBox;
+
+            if (pictureBox != null && pictureBox.Tag is string tagString)
+            {
+                if (int.TryParse(tagString, out int tag) && tag >= 1 && tag <= 8)
+                {
+                    DeleteRegistryKey(registryPathApplications, tag + "_process");
+                    DeleteRegistryKey(registryPathApplications, tag + "_app");
+                    Control findTag = FindControlByTag(Controls, tag + "_process");
+                    findTag.Text = "";
+                    findTag = FindControlByTag(Controls, tag + "_app");
+                    findTag.Text = "";
+                }
+                else
+                {
+                    Logging.Log("Error: Invalid TAG");
+                }
+            }
+        }
+
+
+        // ###########################################################################################
+        // Find a control element based on its "Tag"
+        // ###########################################################################################
+
+        private Control FindControlByTag(Control.ControlCollection controls, object tagToFind)
+        {
+            foreach (Control control in controls)
+            {
+                if (control.Tag != null && control.Tag.Equals(tagToFind))
+                {
+                    return control;
+                }
+
+                // Recursively search in child controls
+                if (control.HasChildren)
+                {
+                    Control foundControl = FindControlByTag(control.Controls, tagToFind);
+                    if (foundControl != null)
+                    {
+                        return foundControl;
+                    }
+                }
+            }
+
+            return null; // No control found with the given tag
+        }
+
+        // ###########################################################################################
         // Clicking the labels in the "Color Theme" group
         // ###########################################################################################
 
@@ -5284,15 +5374,6 @@ namespace HovText
                 Logging.Log($"HovText \"Start Menu\" shortcut link [{shortcutLocation}] created");
             }
 
-            /*
-            WshShell shell = new WshShell();
-            IWshShortcut shortcut = (IWshShortcut)shell.CreateShortcut(shortcutLocation);
-
-            shortcut.Description = appDescription;
-            shortcut.TargetPath = appPath;
-            shortcut.Save();
-            */
-
             WshShell shell = null;
             IWshShortcut shortcut = null;
             try
@@ -5328,88 +5409,7 @@ namespace HovText
         [DllImport("user32.dll")]
         public static extern int SendMessage(IntPtr hWnd, int Msg, int wParam, int lParam);
         [DllImport("user32.dll")]
-        public static extern bool ReleaseCapture();
-
-        private void guna2TextBox1_Leave(object sender, EventArgs e)
-        {
-            // Cast the sender to a Guna2TextBox
-            var textBox = sender as Guna.UI2.WinForms.Guna2TextBox;
-
-            if (textBox != null)
-            {
-                string tag = textBox.Tag.ToString();
-                string value = textBox.Text;
-
-                // Parse the TAG to an INT and a STRING
-                string[] parts = tag.Split('_');
-                int.TryParse(parts[0], out int number);
-                string type = parts[1];
-
-                if (type == "process")
-                {
-                    processName[number] = value;
-                }
-                if (type == "app")
-                {
-                    appName[number] = value;
-                }
-
-                if (value.Trim().Length > 0)
-                {
-                    SetRegistryKey(registryPathApplications, tag, value);
-                } else
-                {
-                    DeleteRegistryKey(registryPathApplications, tag);
-                }
-            }
-        }
-
-        private void guna2PictureBox1_Click(object sender, EventArgs e)
-        {
-            // Cast the sender to a Guna2PictureBox
-            var pictureBox = sender as Guna2PictureBox;
-
-            if (pictureBox != null && pictureBox.Tag is string tagString)
-            {
-                if (int.TryParse(tagString, out int tag) && tag >= 1 && tag <= 8)
-                {
-                    DeleteRegistryKey(registryPathApplications, tag + "_process");
-                    DeleteRegistryKey(registryPathApplications, tag + "_app");
-                    Control findTag = FindControlByTag(Controls, tag + "_process");
-                    findTag.Text = "";
-                    findTag = FindControlByTag(Controls, tag + "_app");
-                    findTag.Text = "";
-                }
-                else
-                {
-                    Logging.Log("Error: Invalid TAG");
-                }
-            }
-        }
-
-
-        private Control FindControlByTag(Control.ControlCollection controls, object tagToFind)
-        {
-            foreach (Control control in controls)
-            {
-                if (control.Tag != null && control.Tag.Equals(tagToFind))
-                {
-                    return control;
-                }
-
-                // Recursively search in child controls
-                if (control.HasChildren)
-                {
-                    Control foundControl = FindControlByTag(control.Controls, tagToFind);
-                    if (foundControl != null)
-                    {
-                        return foundControl;
-                    }
-                }
-            }
-
-            return null; // No control found with the given tag
-        }
+        public static extern bool ReleaseCapture();    
 
 
         // ###########################################################################################

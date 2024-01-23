@@ -341,7 +341,7 @@ namespace HovText
                                     }
                                     else
                                     {
-                                        Logging.Log("index=[{index}] Warning: Skipping setting clipboard as new relevant clipboard UPDATE event detected");
+                                        Logging.Log($"index=[{index}] Warning: Skipping setting clipboard as new relevant clipboard UPDATE event detected");
                                     }
                                 }));
                             }
@@ -579,7 +579,7 @@ namespace HovText
                 }
             }
 
-            Logging.Log("index=[{index}] Entries in clipboard list is now [" + Settings.entriesTextTrimmed.Count + "]");
+            Logging.Log($"index=[{index}] Entries in clipboard list is now [" + Settings.entriesTextTrimmed.Count + "]");
         }
 
 

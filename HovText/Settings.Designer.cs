@@ -2973,7 +2973,7 @@
             this.UiExclusionPictureBoxDelete8.TabIndex = 24;
             this.UiExclusionPictureBoxDelete8.TabStop = false;
             this.UiExclusionPictureBoxDelete8.Tag = "8";
-            this.UiExclusionPictureBoxDelete8.Click += new System.EventHandler(this.guna2PictureBox1_Click);
+            this.UiExclusionPictureBoxDelete8.Click += new System.EventHandler(this.ExclusionDelete_Click);
             // 
             // UiExclusionPictureBoxDelete7
             // 
@@ -2987,7 +2987,7 @@
             this.UiExclusionPictureBoxDelete7.TabIndex = 23;
             this.UiExclusionPictureBoxDelete7.TabStop = false;
             this.UiExclusionPictureBoxDelete7.Tag = "7";
-            this.UiExclusionPictureBoxDelete7.Click += new System.EventHandler(this.guna2PictureBox1_Click);
+            this.UiExclusionPictureBoxDelete7.Click += new System.EventHandler(this.ExclusionDelete_Click);
             // 
             // UiExclusionPictureBoxDelete6
             // 
@@ -3001,7 +3001,7 @@
             this.UiExclusionPictureBoxDelete6.TabIndex = 22;
             this.UiExclusionPictureBoxDelete6.TabStop = false;
             this.UiExclusionPictureBoxDelete6.Tag = "6";
-            this.UiExclusionPictureBoxDelete6.Click += new System.EventHandler(this.guna2PictureBox1_Click);
+            this.UiExclusionPictureBoxDelete6.Click += new System.EventHandler(this.ExclusionDelete_Click);
             // 
             // UiExclusionPictureBoxDelete5
             // 
@@ -3015,7 +3015,7 @@
             this.UiExclusionPictureBoxDelete5.TabIndex = 21;
             this.UiExclusionPictureBoxDelete5.TabStop = false;
             this.UiExclusionPictureBoxDelete5.Tag = "5";
-            this.UiExclusionPictureBoxDelete5.Click += new System.EventHandler(this.guna2PictureBox1_Click);
+            this.UiExclusionPictureBoxDelete5.Click += new System.EventHandler(this.ExclusionDelete_Click);
             // 
             // UiExclusionPictureBoxDelete4
             // 
@@ -3029,7 +3029,7 @@
             this.UiExclusionPictureBoxDelete4.TabIndex = 20;
             this.UiExclusionPictureBoxDelete4.TabStop = false;
             this.UiExclusionPictureBoxDelete4.Tag = "4";
-            this.UiExclusionPictureBoxDelete4.Click += new System.EventHandler(this.guna2PictureBox1_Click);
+            this.UiExclusionPictureBoxDelete4.Click += new System.EventHandler(this.ExclusionDelete_Click);
             // 
             // UiExclusionPictureBoxDelete3
             // 
@@ -3043,7 +3043,7 @@
             this.UiExclusionPictureBoxDelete3.TabIndex = 19;
             this.UiExclusionPictureBoxDelete3.TabStop = false;
             this.UiExclusionPictureBoxDelete3.Tag = "3";
-            this.UiExclusionPictureBoxDelete3.Click += new System.EventHandler(this.guna2PictureBox1_Click);
+            this.UiExclusionPictureBoxDelete3.Click += new System.EventHandler(this.ExclusionDelete_Click);
             // 
             // UiExclusionPictureBoxDelete2
             // 
@@ -3057,7 +3057,7 @@
             this.UiExclusionPictureBoxDelete2.TabIndex = 18;
             this.UiExclusionPictureBoxDelete2.TabStop = false;
             this.UiExclusionPictureBoxDelete2.Tag = "2";
-            this.UiExclusionPictureBoxDelete2.Click += new System.EventHandler(this.guna2PictureBox1_Click);
+            this.UiExclusionPictureBoxDelete2.Click += new System.EventHandler(this.ExclusionDelete_Click);
             // 
             // UiExclusionPictureBoxDelete1
             // 
@@ -3071,7 +3071,7 @@
             this.UiExclusionPictureBoxDelete1.TabIndex = 17;
             this.UiExclusionPictureBoxDelete1.TabStop = false;
             this.UiExclusionPictureBoxDelete1.Tag = "1";
-            this.UiExclusionPictureBoxDelete1.Click += new System.EventHandler(this.guna2PictureBox1_Click);
+            this.UiExclusionPictureBoxDelete1.Click += new System.EventHandler(this.ExclusionDelete_Click);
             // 
             // UiExclusionTextBoxApp8
             // 
@@ -3095,7 +3095,7 @@
             this.UiExclusionTextBoxApp8.Size = new System.Drawing.Size(250, 32);
             this.UiExclusionTextBoxApp8.TabIndex = 16;
             this.UiExclusionTextBoxApp8.Tag = "8_app";
-            this.UiExclusionTextBoxApp8.Leave += new System.EventHandler(this.guna2TextBox1_Leave);
+            this.UiExclusionTextBoxApp8.Leave += new System.EventHandler(this.ExclusionTextBox_Leave);
             // 
             // UiExclusionTextBoxApp7
             // 
@@ -3119,7 +3119,7 @@
             this.UiExclusionTextBoxApp7.Size = new System.Drawing.Size(250, 32);
             this.UiExclusionTextBoxApp7.TabIndex = 15;
             this.UiExclusionTextBoxApp7.Tag = "7_app";
-            this.UiExclusionTextBoxApp7.Leave += new System.EventHandler(this.guna2TextBox1_Leave);
+            this.UiExclusionTextBoxApp7.Leave += new System.EventHandler(this.ExclusionTextBox_Leave);
             // 
             // UiExclusionTextBoxProcess8
             // 
@@ -3143,7 +3143,7 @@
             this.UiExclusionTextBoxProcess8.Size = new System.Drawing.Size(187, 32);
             this.UiExclusionTextBoxProcess8.TabIndex = 14;
             this.UiExclusionTextBoxProcess8.Tag = "8_process";
-            this.UiExclusionTextBoxProcess8.Leave += new System.EventHandler(this.guna2TextBox1_Leave);
+            this.UiExclusionTextBoxProcess8.Leave += new System.EventHandler(this.ExclusionTextBox_Leave);
             // 
             // UiExclusionTextBoxProcess7
             // 
@@ -3167,7 +3167,7 @@
             this.UiExclusionTextBoxProcess7.Size = new System.Drawing.Size(187, 32);
             this.UiExclusionTextBoxProcess7.TabIndex = 13;
             this.UiExclusionTextBoxProcess7.Tag = "7_process";
-            this.UiExclusionTextBoxProcess7.Leave += new System.EventHandler(this.guna2TextBox1_Leave);
+            this.UiExclusionTextBoxProcess7.Leave += new System.EventHandler(this.ExclusionTextBox_Leave);
             // 
             // UiExclusionTextBoxApp6
             // 
@@ -3191,7 +3191,7 @@
             this.UiExclusionTextBoxApp6.Size = new System.Drawing.Size(250, 32);
             this.UiExclusionTextBoxApp6.TabIndex = 12;
             this.UiExclusionTextBoxApp6.Tag = "6_app";
-            this.UiExclusionTextBoxApp6.Leave += new System.EventHandler(this.guna2TextBox1_Leave);
+            this.UiExclusionTextBoxApp6.Leave += new System.EventHandler(this.ExclusionTextBox_Leave);
             // 
             // UiExclusionTextBoxProcess6
             // 
@@ -3215,7 +3215,7 @@
             this.UiExclusionTextBoxProcess6.Size = new System.Drawing.Size(187, 32);
             this.UiExclusionTextBoxProcess6.TabIndex = 11;
             this.UiExclusionTextBoxProcess6.Tag = "6_process";
-            this.UiExclusionTextBoxProcess6.Leave += new System.EventHandler(this.guna2TextBox1_Leave);
+            this.UiExclusionTextBoxProcess6.Leave += new System.EventHandler(this.ExclusionTextBox_Leave);
             // 
             // UiExclusionTextBoxApp5
             // 
@@ -3239,7 +3239,7 @@
             this.UiExclusionTextBoxApp5.Size = new System.Drawing.Size(250, 32);
             this.UiExclusionTextBoxApp5.TabIndex = 10;
             this.UiExclusionTextBoxApp5.Tag = "5_app";
-            this.UiExclusionTextBoxApp5.Leave += new System.EventHandler(this.guna2TextBox1_Leave);
+            this.UiExclusionTextBoxApp5.Leave += new System.EventHandler(this.ExclusionTextBox_Leave);
             // 
             // UiExclusionTextBoxProcess5
             // 
@@ -3263,7 +3263,7 @@
             this.UiExclusionTextBoxProcess5.Size = new System.Drawing.Size(187, 32);
             this.UiExclusionTextBoxProcess5.TabIndex = 9;
             this.UiExclusionTextBoxProcess5.Tag = "5_process";
-            this.UiExclusionTextBoxProcess5.Leave += new System.EventHandler(this.guna2TextBox1_Leave);
+            this.UiExclusionTextBoxProcess5.Leave += new System.EventHandler(this.ExclusionTextBox_Leave);
             // 
             // UiExclusionTextBoxApp4
             // 
@@ -3287,7 +3287,7 @@
             this.UiExclusionTextBoxApp4.Size = new System.Drawing.Size(250, 32);
             this.UiExclusionTextBoxApp4.TabIndex = 8;
             this.UiExclusionTextBoxApp4.Tag = "4_app";
-            this.UiExclusionTextBoxApp4.Leave += new System.EventHandler(this.guna2TextBox1_Leave);
+            this.UiExclusionTextBoxApp4.Leave += new System.EventHandler(this.ExclusionTextBox_Leave);
             // 
             // UiExclusionTextBoxProcess4
             // 
@@ -3311,7 +3311,7 @@
             this.UiExclusionTextBoxProcess4.Size = new System.Drawing.Size(187, 32);
             this.UiExclusionTextBoxProcess4.TabIndex = 7;
             this.UiExclusionTextBoxProcess4.Tag = "4_process";
-            this.UiExclusionTextBoxProcess4.Leave += new System.EventHandler(this.guna2TextBox1_Leave);
+            this.UiExclusionTextBoxProcess4.Leave += new System.EventHandler(this.ExclusionTextBox_Leave);
             // 
             // UiExclusionTextBoxApp3
             // 
@@ -3335,7 +3335,7 @@
             this.UiExclusionTextBoxApp3.Size = new System.Drawing.Size(250, 32);
             this.UiExclusionTextBoxApp3.TabIndex = 6;
             this.UiExclusionTextBoxApp3.Tag = "3_app";
-            this.UiExclusionTextBoxApp3.Leave += new System.EventHandler(this.guna2TextBox1_Leave);
+            this.UiExclusionTextBoxApp3.Leave += new System.EventHandler(this.ExclusionTextBox_Leave);
             // 
             // UiExclusionTextBoxProcess3
             // 
@@ -3359,7 +3359,7 @@
             this.UiExclusionTextBoxProcess3.Size = new System.Drawing.Size(187, 32);
             this.UiExclusionTextBoxProcess3.TabIndex = 5;
             this.UiExclusionTextBoxProcess3.Tag = "3_process";
-            this.UiExclusionTextBoxProcess3.Leave += new System.EventHandler(this.guna2TextBox1_Leave);
+            this.UiExclusionTextBoxProcess3.Leave += new System.EventHandler(this.ExclusionTextBox_Leave);
             // 
             // UiExclusionTextBoxApp2
             // 
@@ -3383,7 +3383,7 @@
             this.UiExclusionTextBoxApp2.Size = new System.Drawing.Size(250, 32);
             this.UiExclusionTextBoxApp2.TabIndex = 4;
             this.UiExclusionTextBoxApp2.Tag = "2_app";
-            this.UiExclusionTextBoxApp2.Leave += new System.EventHandler(this.guna2TextBox1_Leave);
+            this.UiExclusionTextBoxApp2.Leave += new System.EventHandler(this.ExclusionTextBox_Leave);
             // 
             // UiExclusionTextBoxProcess2
             // 
@@ -3407,7 +3407,7 @@
             this.UiExclusionTextBoxProcess2.Size = new System.Drawing.Size(187, 32);
             this.UiExclusionTextBoxProcess2.TabIndex = 3;
             this.UiExclusionTextBoxProcess2.Tag = "2_process";
-            this.UiExclusionTextBoxProcess2.Leave += new System.EventHandler(this.guna2TextBox1_Leave);
+            this.UiExclusionTextBoxProcess2.Leave += new System.EventHandler(this.ExclusionTextBox_Leave);
             // 
             // guna2HtmlLabel2
             // 
@@ -3443,7 +3443,7 @@
             this.UiExclusionTextBoxApp1.Size = new System.Drawing.Size(250, 32);
             this.UiExclusionTextBoxApp1.TabIndex = 2;
             this.UiExclusionTextBoxApp1.Tag = "1_app";
-            this.UiExclusionTextBoxApp1.Leave += new System.EventHandler(this.guna2TextBox1_Leave);
+            this.UiExclusionTextBoxApp1.Leave += new System.EventHandler(this.ExclusionTextBox_Leave);
             // 
             // UiExclusionTextBoxProcess1
             // 
@@ -3467,7 +3467,7 @@
             this.UiExclusionTextBoxProcess1.Size = new System.Drawing.Size(179, 32);
             this.UiExclusionTextBoxProcess1.TabIndex = 1;
             this.UiExclusionTextBoxProcess1.Tag = "1_process";
-            this.UiExclusionTextBoxProcess1.Leave += new System.EventHandler(this.guna2TextBox1_Leave);
+            this.UiExclusionTextBoxProcess1.Leave += new System.EventHandler(this.ExclusionTextBox_Leave);
             // 
             // UiTabAdvanced
             // 

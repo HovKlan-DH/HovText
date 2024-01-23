@@ -244,7 +244,7 @@ namespace HovText
                                     {
                                         counter++;
 
-                                        Logging.Log($"index=[{orderNum}] Processing clipboard; old index [{entry.Key}] with [{clipboardObject.Count}] formats");
+                                        Logging.Log($"index=[{orderNum}] Processing clipboard with [{clipboardObject.Count}] formats; old index was [{entry.Key}]");
                                                                                 
                                         // Thread-safe adding to the tuple queue
                                         HandleClipboard.clipboardQueue.Enqueue((
@@ -257,7 +257,7 @@ namespace HovText
                                     }
                                     else
                                     {
-                                        Logging.Log($"Skipping clipboard entry [{counter}] with old index [{entry.Key}] with [{clipboardObject.Count}] formats");
+                                        Logging.Log($"Ignoring clipboard entry (old) index [{entry.Key}] (not in index) with [{clipboardObject.Count}] formats");
                                     }
                                 }
                                 catch (Exception ex)
@@ -391,6 +391,8 @@ namespace HovText
                     // Write the encrypted data
                     fileStream.Write(encryptedData, 0, encryptedData.Length);
                 }
+
+                Logging.Log($"Saved ["+ entriesOrderLoad.Count + "] entries to \"index\" file");
             }
             catch (Exception ex)
             {
@@ -451,7 +453,7 @@ namespace HovText
                         else
                         {
                             int indexCount = BitConverter.ToInt32(decryptedData, 0);
-                            Logging.Log($"Number of \"indexes\" read: [{indexCount}]");
+                            Logging.Log($"Loaded [{indexCount}] entries from \"index\" file");
 
                             for (int i = sizeof(int); i < decryptedData.Length; i += sizeof(int))
                             {
@@ -537,6 +539,8 @@ namespace HovText
                     fileStream.Write(encryptedData, 0, encryptedData.Length);
                 }
             }
+
+            Logging.Log($"Saved [" + trueFavorites2.Count + "] entries to \"favorite\" file");
         }
 
 
@@ -626,7 +630,7 @@ namespace HovText
                             }
                         }
 
-                        Logging.Log($"Number of \"favorites\" read: [{favoriteCount}]"); // Log the total count
+                        Logging.Log($"Loaded [{favoriteCount}] entries from \"favorite\" file");
                     }
                 }
                 catch (Exception ex)
