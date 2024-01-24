@@ -1062,7 +1062,7 @@ namespace HovText
                 UiGeneralToggleEnableClipboard.Enabled = true;
                 UiGeneralLabelEnableClipboard.Enabled = true;
                 UiGeneralLabelEnableClipboardShortcut.Enabled = true;
-                UiHotkeysButtonToggleApplication.Enabled = true;
+                //UiHotkeysButtonToggleApplication.Enabled = true;
 
                 SetFieldsBasedOnHistoryEnabled();
 
@@ -1119,7 +1119,7 @@ namespace HovText
                 UiGeneralLabelPasteToApplication.Enabled = false;
                 UiGeneralToggleAlwaysPasteOriginal.Enabled = false;
                 UiGeneralLabelAlwaysPasteOriginal.Enabled = false;
-                UiHotkeysButtonToggleApplication.Enabled = false;
+                //UiHotkeysButtonToggleApplication.Enabled = false;
                 UiHotkeysButtonPasteHotkey.Enabled = false;
                 UiHotkeysRadioUseStandardWindowsMethod.Enabled = false;
                 UiHotkeysRadioPasteOnHotkey.Enabled = false;
@@ -1205,6 +1205,7 @@ namespace HovText
             // Prevent the application from closing, if we are currently processing clipboards
             if (TimerShowFloppies.Enabled)
             {
+                Logging.Log("User tried to close application, but was denied due to \"cycling floppies\"");
                 e.Cancel = true;
                 MessageBox.Show("HovText is currently processing one or more clipboards - please wait until this finishes, before you close the application",
                     "HovText INFO",
@@ -1474,8 +1475,8 @@ namespace HovText
             Logging.Log("    \"HistorySearch\" = [" + regVal + "]");
             regVal = GetRegistryKey(registryPath, "FavoritesEnable");
             Logging.Log("    \"FavoritesEnable\" = [" + regVal + "]");
-            regVal = GetRegistryKey(registryPath, "FavoritesKeep");
-            Logging.Log("    \"FavoritesKeep\" = [" + regVal + "]");
+            //regVal = GetRegistryKey(registryPath, "FavoritesKeep");
+            //Logging.Log("    \"FavoritesKeep\" = [" + regVal + "]");
             regVal = GetRegistryKey(registryPath, "CopyImages");
             Logging.Log("    \"CopyImages\" = [" + regVal + "]");
             regVal = GetRegistryKey(registryPath, "PasteOnSelection");
@@ -3263,6 +3264,7 @@ namespace HovText
 
         private void ApplyHotkeys_Click(object sender, EventArgs e)
         {
+            UiFormTabControl.Focus();
             SetHotkeys("Apply hotkeys button press");
             UiGeneralLabelEnableClipboardShortcut.Text = "(" + UiHotkeysButtonSearch.Text + ")";
         }
@@ -3480,6 +3482,7 @@ namespace HovText
 
         private void CancelHotkey_Click(object sender, EventArgs e)
         {
+            UiFormTabControl.Focus();
             string hotkeyToggleApplication = GetRegistryKey(registryPath, "HotkeyToggleApplication");
             string hotkeySearch = GetRegistryKey(registryPath, "HotkeySearch");
             string hotkeyPasteOnHotkey = GetRegistryKey(registryPath, "HotkeyPasteOnHotkey");

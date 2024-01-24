@@ -720,11 +720,11 @@ namespace HovText
                     {
                         File.Delete(@fileNameOldest);
                         wasAnyFilesDeleted = true;
-                        Logging.Log($"Deleted clipboard \"data\" file [{fileNameOldest}]");
+                        Logging.Log($"Deleted obsolete clipboard \"data\" file [{fileNameOldest}]");
                     }
                     catch (Exception ex)
                     {
-                        Logging.Log($"Could not delete clipboard \"data\" file [{fileNameOldest}] as it was locked by another process");
+                        Logging.Log($"Could not delete obsolete clipboard \"data\" file [{fileNameOldest}] as it was locked by another process");
                         Logging.LogException(ex);
                     }
                 }
@@ -742,11 +742,11 @@ namespace HovText
                     {
                         File.Delete(@fileNameOldest);
                         wasAnyFilesDeleted = true;
-                        Logging.Log($"Deleted clipboard \"index\" file [{fileNameOldest}]");
+                        Logging.Log($"Deleted obsolete clipboard \"index\" file [{fileNameOldest}]");
                     }
                     catch (Exception ex)
                     {
-                        Logging.Log($"Could not delete clipboard \"index\" file [{fileNameOldest}] as it was locked by another process");
+                        Logging.Log($"Could not delete obsolete clipboard \"index\" file [{fileNameOldest}] as it was locked by another process");
                         Logging.LogException(ex);
                     }
                 }
@@ -764,11 +764,11 @@ namespace HovText
                     {
                         File.Delete(@fileNameOldest);
                         wasAnyFilesDeleted = true;
-                        Logging.Log($"Deleted clipboard \"favorite\" file [{fileNameOldest}]");
+                        Logging.Log($"Deleted obsolete clipboard \"favorite\" file [{fileNameOldest}]");
                     }
                     catch (Exception ex)
                     {
-                        Logging.Log($"Could not delete clipboard \"favorite\" file [{fileNameOldest}] as it was locked by another process");
+                        Logging.Log($"Could not delete obsolete clipboard \"favorite\" file [{fileNameOldest}] as it was locked by another process");
                         Logging.LogException(ex);
                     }
                 }
@@ -782,11 +782,11 @@ namespace HovText
                 {
                     File.Delete(@tempExe);
                     wasAnyFilesDeleted = true;
-                    Logging.Log($"Deleted temporary update file [{tempExe}]");
+                    Logging.Log($"Deleted obsolete \"update\" executable [{tempExe}]");
                 }
                 catch (Exception ex)
                 {
-                    Logging.Log($"Could not delete temporary update file [{tempExe}] as it was locked by another process");
+                    Logging.Log($"Could not delete obsolete \"update\" executable [{tempExe}] as it was locked by another process");
                     Logging.LogException(ex);
                 }
             }
