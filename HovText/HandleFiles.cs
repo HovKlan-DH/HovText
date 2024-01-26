@@ -282,15 +282,17 @@ namespace HovText
                     }
                     Logging.Log("---");
                 }
-
-                onLoadAllEntriesInClipboardQueue = true;
-                loadingDataFile = false;
             }
             catch (Exception ex)
             {
                 // Handle other exceptions
                 Logging.Log("Error loading data file");
                 Logging.LogException(ex);
+            }
+            finally
+            {
+                onLoadAllEntriesInClipboardQueue = true;
+                loadingDataFile = false;
             }
         }
 
