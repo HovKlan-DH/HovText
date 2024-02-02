@@ -34,7 +34,7 @@ You can say that it works basically in the same way as pasting the formatted tex
 
 ## Requirements
 
-HovText is compatible with 32-bit and 64-bit Windows systems, ranging from the ancient Windows XP to Windows 11. However, support is only provided for Windows 10, as it is currently what I am using at home :-)
+HovText requires a 64-bit Windows systems, ranging from the ancient Windows XP to Windows 11. However, support is only provided for Windows 10, as it is currently what I am using at home :-)
 
 It requires .NET Framework 4.8 or newer
 
@@ -44,24 +44,24 @@ The full documentation for how to use this application is available on the HovTe
 
 ## Screenshots
 
-![History list](https://hovtext.com/documentation/images/HistoryList0.jpg)
+![History list](https://hovtext.com/documentation/images/HistoryList0.jpg1)
 
-![Settings](https://hovtext.com/documentation/images/General.jpg)
+![Settings](https://hovtext.com/documentation/images/General.jpg2)
 
-![Storage](https://hovtext.com/documentation/images/Storage.jpg)
+![Storage](https://hovtext.com/documentation/images/Storage.jpg1)
 
-![Hotkeys](https://hovtext.com/documentation/images/Hotkeys.jpg)
+![Hotkeys](https://hovtext.com/documentation/images/Hotkeys.jpg1)
 
-![Layout](https://hovtext.com/documentation/images/Layout.jpg)
+![Layout](https://hovtext.com/documentation/images/Layout.jpg1)
 
-![Style](https://hovtext.com/documentation/images/Style.jpg)
+![Style](https://hovtext.com/documentation/images/Style.jpg1)
 
-![Colors](https://hovtext.com/documentation/images/Colors.jpg)
+![Colors](https://hovtext.com/documentation/images/Colors.jpg1)
 
-![Exclusion](https://hovtext.com/documentation/images/Exclusion.jpg)
+![Exclusion](https://hovtext.com/documentation/images/Exclusion.jpg1)
 
-![Advanced](https://hovtext.com/documentation/images/Advanced.jpg)
+![Advanced](https://hovtext.com/documentation/images/Advanced.jpg1)
 
-![Feedback](https://hovtext.com/documentation/images/Feedback.jpg)
+![Feedback](https://hovtext.com/documentation/images/Feedback.jpg1)
 
-![About](https://hovtext.com/documentation/images/About.jpg)
+![About](https://hovtext.com/documentation/images/About.jpg1)
