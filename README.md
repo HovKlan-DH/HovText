@@ -10,23 +10,27 @@ You can say that it works basically in the same way as pasting the formatted tex
 
 ## Capabilities
 
-* Removes all formatting from the clipboard
 * Remembers all copied texts and images that can be easily restored via a clipboard manager
-* Intuitive and fast UI for finding previous copied texts or images
+* Removes all formatting, leading/trailing whitespaces and empty new-lines from the copied text
+* Can save the clipboards to local computer
+* Intuitive, fast and modern UI for finding previous copied texts or images
 * Keeps the most used clipboard entries at top
-* Favorite entries can be marked for quicker retrival
+* Easy user interface - keyboard friendly and with no need for a mouse
 * Can restore original text formatting
-* Can act as a text-only clipboard manager but can also handle images
-* Possibility to remove leading/trailing whitespaces and new-lines
+* Can act as a text-only clipboard manager, but can also handle images
 * Full unicode support
-* Automatic check for new versions
-* Flexible layout settings with e.g. list-view, positioning, screen and styling
+* Favorite entries can be marked for quicker retrival
+* Automatic check for new versions and auto-install
+* Full user customization for layout settings with e.g. list-view, positioning, display and styling
 * Configurable global hotkeys for all actions
 * Built-in cleanup possibility as-if application has never been run on system
-* No installation required - portable executeable
-* No transfer of data anywhere - no cloud or clipboard sharing
+* No installation required - portable lightweigth executeable
+* Requires 64-bit Windows 10 (or newer) and .NET Framework 4.8 (or newer)
+* Easy for IT organizations to incorporate and manage
+* No need to learn application specific ways for pasting as plaintext - with HovText it works the same way, always
 * No registration or advertising - no nags
 * Freeware and open source available on GitHub
+* Signed executable and application has existed for the last 20 years
 
 ## Requirements
 
@@ -44,6 +48,8 @@ The full documentation for how to use this application is available on the HovTe
 
 ![Settings](https://hovtext.com/documentation/images/General.jpg)
 
+![Storage](https://hovtext.com/documentation/images/Storage.jpg)
+
 ![Hotkeys](https://hovtext.com/documentation/images/Hotkeys.jpg)
 
 ![Layout](https://hovtext.com/documentation/images/Layout.jpg)
@@ -51,6 +57,8 @@ The full documentation for how to use this application is available on the HovTe
 ![Style](https://hovtext.com/documentation/images/Style.jpg)
 
 ![Colors](https://hovtext.com/documentation/images/Colors.jpg)
+
+![Exclusion](https://hovtext.com/documentation/images/Exclusion.jpg)
 
 ![Advanced](https://hovtext.com/documentation/images/Advanced.jpg)
 
