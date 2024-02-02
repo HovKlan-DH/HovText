@@ -25,7 +25,6 @@ using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Windows.Forms;
-using System.Reflection;
 
 namespace HovText
 {

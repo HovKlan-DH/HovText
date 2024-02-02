@@ -20,7 +20,6 @@ using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 
-
 namespace HovText
 {
     public partial class History : Form
@@ -189,7 +188,9 @@ namespace HovText
 
 
         // ###########################################################################################
-        // Setup the history form for all its UI elements
+        // Initialize and copy the lists from the main Settings.
+        // This is required, as working in the list while populating it at application launch,
+        // will give conflicts.
         // ###########################################################################################
 
         private void InitializeCopy ()
@@ -206,6 +207,11 @@ namespace HovText
             entriesOrder_copy = new SortedDictionary<int, int>(Settings.entriesOrder);
             entriesTextTrimmed_copy = new SortedDictionary<int, string>(Settings.entriesTextTrimmed);
         }
+
+
+        // ###########################################################################################
+        // Setup the history form for all its UI elements
+        // ###########################################################################################
 
         public void SetupForm(bool keepHeaders = false)
         {
@@ -229,8 +235,8 @@ namespace HovText
             {
                 for (int i = Controls.Count - 1; i >= 0; i--)
                 {
-                    Control control = Controls[i];
                     // Remove any control element that contains "historyLabel" or "historyPictureBox"
+                    Control control = Controls[i];
                     if (control.Name.Contains("historyLabel") || control.Name.Contains("historyPictureBox"))
                     {
                         Controls.Remove(control);
@@ -381,7 +387,6 @@ namespace HovText
             nextPosY += headlineHeight + searchlineHeight;
 
             // Get the total amount of entries, depending which view this is
-            //entriesInList = Settings.entriesShow.Count(kv => kv.Value == true);
             entriesInList = entriesShow.Count(kv => kv.Value == true);
 
             // "showElements" determines how many boxes to show
@@ -459,17 +464,6 @@ namespace HovText
             {
                 Controls["uiHistoryHeadline"].Text = "0 entries found with this text";
             }
-
-            /*
-            // If we are in the "favorite" view then show the icon for it in the "headline"
-            if (Settings.isEnabledFavorites)
-            {
-                foreach (Control c in Controls.Find("uiHistoryHeadlineFav", true))
-                {
-                    c.Visible = false;
-                }
-            }
-            */
 
             // After all controls have been added to the form
             controlCache.Clear(); // clear previous entries if any
@@ -554,7 +548,6 @@ namespace HovText
             entryActive = entryActive == -1 ? entryNewestBox : GetNextIndex(direction, entryActive);
 
             // Get the amount of total entries in array - overwrite if we are showing the "Favorite" list
-            //entriesInList = Settings.entriesShow.Count(kv => kv.Value == true);
             entriesInList = entriesShow.Count(kv => kv.Value == true);
 
             bool isTransparent;
@@ -578,30 +571,22 @@ namespace HovText
                     Color favoriteBackgroundColor = Color.Red;
 
                     // Check if the array index exists
-                    //bool doesKeyExist = Settings.entriesTextTrimmed.ContainsKey(i);
                     bool doesKeyExist = entriesTextTrimmed_copy.ContainsKey(i);
 
                     // Check if the array index should be shown
                     bool shouldEntryBeShown = false;
-                    //if (Settings.entriesShow.ContainsKey(i))
                     if (entriesShow.ContainsKey(i))
                     {
-                        //shouldEntryBeShown = Settings.entriesShow[i];
                         shouldEntryBeShown = entriesShow[i];
                     }
 
                     if (doesKeyExist && shouldEntryBeShown)
                     {
                         // Get the array data
-                        //string entryText = Settings.entriesTextTrimmed[i];
                         string entryText = entriesTextTrimmed_copy[i];
-                        //entryImage = Settings.entriesImage[i];
                         entryImage = entriesImage_copy[i];
-                        //entryImageTransparent = Settings.entriesImageTrans[i];
                         entryImageTransparent = entriesImageTrans_copy[i];
-                        //bool isFavorite = Settings.entriesIsFavorite[i];
                         bool isFavorite = entriesIsFavorite_copy[i];
-                        //isTransparent = Settings.entriesIsTransparent[i];
                         isTransparent = entriesIsTransparent_copy[i];
 
                         // Proceed if this is a valid entry, depending on the list view
@@ -751,10 +736,8 @@ namespace HovText
                         PictureBox pictureBox = historyPictureBoxFavB as PictureBox;
                         if (pictureBox != null)
                         {
-                            //if (Settings.entriesApplicationIcon[entryActive] != null) 
                             if (entriesApplicationIcon_copy[entryActive] != null)
                             {
-                                //pictureBox.Image = Settings.entriesApplicationIcon[entryActive];
                                 pictureBox.Image = entriesApplicationIcon_copy[entryActive];
                                 Controls["uiHistoryHeadlinePanel"].Visible = true;
                             }
@@ -767,13 +750,10 @@ namespace HovText
                 }
 
                 // Set the headline
-                //string entryApplication = Settings.entriesApplication[entryActive];
                 string entryApplication = entriesApplication_copy[entryActive];
                 Controls["uiHistoryHeadline"].Text = entryInList + " of " + entriesInList + " from \"" + entryApplication + "\"";
-                //if (Settings.entriesIsImage[entryActive])
                 if (entriesIsImage_copy[entryActive])
                 {
-                    //isTransparent = Settings.entriesIsTransparent[entryActive];
                     isTransparent = entriesIsTransparent_copy[entryActive];
                     if (isTransparent)
                     {
@@ -804,7 +784,6 @@ namespace HovText
 
         private static int GetNewestIndex()
         {
-            //int returnValue = Settings.entriesShow.LastOrDefault(entry => entry.Value).Key;
             int returnValue = entriesShow.LastOrDefault(entry => entry.Value).Key;
             return returnValue;
         }
@@ -816,7 +795,6 @@ namespace HovText
 
         private static int GetOldestIndex()
         {
-            //int returnValue = Settings.entriesShow.FirstOrDefault(entry => entry.Value).Key;
             int returnValue = entriesShow.FirstOrDefault(entry => entry.Value).Key;
             return returnValue;
         }
@@ -830,10 +808,8 @@ namespace HovText
         {
             if (direction == "up")
             {
-                //for (int i = entryKey + 1; i <= Settings.entriesTextTrimmed.ElementAt(Settings.entriesTextTrimmed.Count - 1).Key; i++)
                 for (int i = entryKey + 1; i <= entriesTextTrimmed_copy.ElementAt(entriesTextTrimmed_copy.Count - 1).Key; i++)
                 {
-                    //if (Settings.entriesTextTrimmed.ContainsKey(i) && Settings.entriesShow[i])
                     if (entriesTextTrimmed_copy.ContainsKey(i) && entriesShow[i])
                     {
                         return i;
@@ -846,10 +822,8 @@ namespace HovText
                 // Proceed if the active element is not the last element
                 if (entryActive != entryOldest)
                 {
-                    //for (int i = entryKey - 1; i >= Settings.entriesTextTrimmed.ElementAt(0).Key; i--)
                     for (int i = entryKey - 1; i >= entriesTextTrimmed_copy.ElementAt(0).Key; i--)
                     {
-                        //if (Settings.entriesTextTrimmed.ContainsKey(i) && Settings.entriesShow[i])
                         if (entriesTextTrimmed_copy.ContainsKey(i) && entriesShow[i])
                         {
                             return i;
@@ -984,7 +958,6 @@ namespace HovText
             else
             {
                 int indexPosition = FindPositionInListFromNewest(entriesOrder_copy, index);
-                //Logging.Log("Selected history entry list element [" + entryActiveList + "] of [" + entriesInList + "] with key [" + entryActive + "]");
                 Logging.Log($"Selected clipboard list entry [{indexPosition}] of [" + entriesInList + "] with index [" + entryActive + "]");
             }
 
@@ -1070,7 +1043,6 @@ namespace HovText
             searchTexts = searchTexts.Where(text => !text.StartsWith(":") || text == favoriteKeyword || text == urlKeyword1 || text == urlKeyword2 || text == emailKeyword1 || text == emailKeyword2 || text == imageKeyword1 || text == imageKeyword2 || text == transparentKeyword).ToArray();
 
             // Perform a case-insensitive wildcard search using LINQ
-            //var searchResults = Settings.entriesTextTrimmed
             var searchResults = entriesTextTrimmed_copy
                 .Where(entry =>
                     searchTexts.All(searchText =>
@@ -1082,58 +1054,48 @@ namespace HovText
             if (searchForFavorite)
             {
                 searchResults = searchResults
-                    //.Where(entry => Settings.entriesIsFavorite.ContainsKey(entry.Key) && Settings.entriesIsFavorite[entry.Key] == true)
                     .Where(entry => entriesIsFavorite_copy.ContainsKey(entry.Key) && entriesIsFavorite_copy[entry.Key] == true)
                     .ToList();
             }
             if (searchForUrl)
             {
                 searchResults = searchResults
-                    //.Where(entry => Settings.entriesIsUrl.ContainsKey(entry.Key) && Settings.entriesIsUrl[entry.Key] == true)
                     .Where(entry => entriesIsUrl_copy.ContainsKey(entry.Key) && entriesIsUrl_copy[entry.Key] == true)
                     .ToList();
             }
             if (searchForEmail)
             {
                 searchResults = searchResults
-                    //.Where(entry => Settings.entriesIsEmail.ContainsKey(entry.Key) && Settings.entriesIsEmail[entry.Key] == true)
                     .Where(entry => entriesIsEmail_copy.ContainsKey(entry.Key) && entriesIsEmail_copy[entry.Key] == true)
                     .ToList();
             }
             if (searchForImage)
             {
                 searchResults = searchResults
-                    //.Where(entry => Settings.entriesIsImage.ContainsKey(entry.Key) && Settings.entriesIsImage[entry.Key] == true)
                     .Where(entry => entriesIsImage_copy.ContainsKey(entry.Key) && entriesIsImage_copy[entry.Key] == true)
                     .ToList();
             }
             if (searchForTransparent)
             {
                 searchResults = searchResults
-                    //.Where(entry => Settings.entriesIsTransparent.ContainsKey(entry.Key) && Settings.entriesIsTransparent[entry.Key] == true)
                     .Where(entry => entriesIsTransparent_copy.ContainsKey(entry.Key) && entriesIsTransparent_copy[entry.Key] == true)
                     .ToList();
             }
 
             // Clear existing entries in entriesShow
-            //Settings.entriesShow.Clear();
             entriesShow.Clear();
 
             // Update entriesShow based on search results
             foreach (var entry in searchResults)
             {
-                //Settings.entriesShow[entry.Key] = true;
                 entriesShow[entry.Key] = true;
             }
 
             // Set the remaining entries in entriesShow to false
-            //foreach (var key in Settings.entriesTextTrimmed.Keys)
             foreach (var key in entriesTextTrimmed_copy.Keys)
             {
-                //if (!Settings.entriesShow.ContainsKey(key))
                 if (!entriesShow.ContainsKey(key))
                 {
-                    //Settings.entriesShow[key] = false;
                     entriesShow[key] = false;
                 }
             }
@@ -1151,7 +1113,6 @@ namespace HovText
         private void MarkFavorite()
         {
             // Procced if the entry is marked as a favorite
-            //if (Settings.entriesIsFavorite[entryActive])
             if (entriesIsFavorite_copy[entryActive])
             {
                 Settings.entriesIsFavorite[entryActive] = false;
@@ -1234,7 +1195,6 @@ namespace HovText
                     entryActive = entryNewestBox;
 
                     // Get the human readable index for the header
-                    //var filteredEntries = Settings.entriesShow.Where(entry => entry.Value).ToList();
                     var filteredEntries = entriesShow.Where(entry => entry.Value).ToList();
                     var sortedEntries = filteredEntries.OrderByDescending(entry => entry.Key).ToList();
                     entryInList = sortedEntries.FindIndex(entry => entry.Key == entryNewestBox) + 1;
@@ -1259,7 +1219,6 @@ namespace HovText
                     entryActive = entryNewestBox;
 
                     // Get the human readable index for the header
-                    //var filteredEntries = Settings.entriesShow.Where(entry => entry.Value).ToList();
                     var filteredEntries = entriesShow.Where(entry => entry.Value).ToList();
                     var sortedEntries = filteredEntries.OrderByDescending(entry => entry.Key).ToList();
                     entryInList = sortedEntries.FindIndex(entry => entry.Key == entryNewestBox) + 1;
@@ -1305,9 +1264,7 @@ namespace HovText
 
                 if (entriesInList > 1)
                 {
-                    //entryNewest = Settings.entriesTextTrimmed.Keys.Last();
                     entryNewest = entriesTextTrimmed_copy.Keys.Last();
-                    //entryOldest = Settings.entriesTextTrimmed.Keys.First();
                     entryOldest = entriesTextTrimmed_copy.Keys.First();
                 }
 
@@ -1337,7 +1294,6 @@ namespace HovText
                         SetupForm(true);
                     }
 
-                    //InitializeCopy();
                     UpdateHistory("");
                 }
                 else
@@ -1374,10 +1330,8 @@ namespace HovText
                 Logging.Log("Pressed \"Enter\" key");
 
                 // Reset so all entries will be visible again
-                //foreach (var entry in Settings.entriesTextTrimmed)
                 foreach (var entry in entriesTextTrimmed_copy)
                 {
-                    //Settings.entriesShow[entry.Key] = true;
                     entriesShow[entry.Key] = true;
                 }
 
@@ -1412,7 +1366,6 @@ namespace HovText
                 entryActive = GetOldestIndex();
 
                 int counter = 0;
-                //foreach (var entry in Settings.entriesShow)
                 foreach (var entry in entriesShow)
                 {
                     if (entry.Value)
@@ -1456,16 +1409,13 @@ namespace HovText
         public void ActionEscape(bool ChangeFocusToOriginatingApplication = true)
         {
             // Reset so all entries will be visible again
-            //foreach (var entry in Settings.entriesTextTrimmed)
             foreach (var entry in entriesTextTrimmed_copy)
             {
-                //Settings.entriesShow[entry.Key] = true;
                 entriesShow[entry.Key] = true;
             }
 
             ResetVariables();
             ResetForm();
-            //            Settings.isFirstCallAfterHotkey = true;
 
             // Check if the "Settings" UI was visible before - if so, then show it again
             if (Settings.isSettingsFormVisible)
@@ -1493,7 +1443,6 @@ namespace HovText
         private int GetNextTopEntry(int currentIdTop, string direction)
         {
             // Resort the list so it follows the UI
-            //var filteredEntries = Settings.entriesShow.Where(entry => entry.Value).ToList();
             var filteredEntries = entriesShow.Where(entry => entry.Value).ToList();
             var sortedEntries = filteredEntries.OrderByDescending(entry => entry.Key).ToList();
             int currentIndex = sortedEntries.FindIndex(entry => entry.Key == currentIdTop);
@@ -1532,9 +1481,6 @@ namespace HovText
             // Check if application is enabled
             if (Settings.isApplicationEnabled && Settings.entryCounter > 0)
             {
-                // Always change focus to HovText to ensure we can catch the key-up event
-                //ChangeFocusToHovText();
-
                 // Only proceed if the entry counter is equal to or more than 0
                 if (Settings.entryCounter > 0)
                 {
@@ -1556,9 +1502,6 @@ namespace HovText
             // Check if application is enabled
             if (Settings.isApplicationEnabled && Settings.entryCounter > 0)
             {
-                // Always change focus to HovText to ensure we can catch the key-up event
-                //ChangeFocusToHovText();
-
                 // Only proceed if the entry counter is less than the total amount of entries
                 if (Settings.entryCounter <= entriesTextTrimmed_copy.Count)
                 {
@@ -1567,6 +1510,7 @@ namespace HovText
             }
             ResumeLayout();
         }
+
 
         // ###########################################################################################
     }

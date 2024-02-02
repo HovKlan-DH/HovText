@@ -324,7 +324,7 @@ REM ---
 
 REM Sign EXE
 REM ---
-rem signtool.exe sign /fd sha256 /tr http://ts.ssl.com /td sha256 /n "Dennis Helligsø" "$(TargetPath)"
+signtool.exe sign /fd sha256 /tr http://ts.ssl.com /td sha256 /n "Dennis Helligsø" "$(TargetPath)"
 </PostBuildEvent>
   </PropertyGroup>
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

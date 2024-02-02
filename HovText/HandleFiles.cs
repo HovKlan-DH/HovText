@@ -37,7 +37,7 @@ namespace HovText
         private static List<int> entriesOrderLoad = new List<int>();
         public static bool saveIndexAndFavoriteFiles = false;
 
-        // Below 3 booleans will be set to "true", if we are not loading any files
+        // Below booleans will be set to "true", if we are not loading any files
         public static bool loadingDataFile = false; // "true" = currently loading the data file
         public static bool onLoadAllEntriesInClipboardQueue = false; // "true" = all entries have been loaded from data file and to the clipboard queue - no content yet in the clipboard list, as the queue has not been processed yet
         public static bool onLoadAllEntriesProcessedInClipboardQueue = false; // "true" = all cliopboard entries have been processed and the clipboard list nbow shows everything - nothing has been saved yet

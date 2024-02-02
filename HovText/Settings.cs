@@ -180,7 +180,6 @@ namespace HovText
         public static SortedDictionary<int, Image> entriesApplicationIcon = new SortedDictionary<int, Image>();
         public static SortedDictionary<int, string> entriesText = new SortedDictionary<int, string>();
         public static SortedDictionary<int, string> entriesTextTrimmed = new SortedDictionary<int, string>();
-        //public static SortedDictionary<int, bool> entriesShow = new SortedDictionary<int, bool>();
         public static SortedDictionary<int, bool> entriesIsFavorite = new SortedDictionary<int, bool>();
         public static SortedDictionary<int, bool> entriesIsUrl = new SortedDictionary<int, bool>();
         public static SortedDictionary<int, bool> entriesIsEmail = new SortedDictionary<int, bool>();
@@ -266,7 +265,6 @@ namespace HovText
         bool activatedHotkeys = false; // the hotkeys should not be enabled until we have loaded everything into the clipboard list
         private DateTime lastClipboardEvent = DateTime.MinValue;
         private int minMsBetween = 100;
-        //public static bool isProcessingRawClipboard = false;
 
 
         // ###########################################################################################
@@ -467,7 +465,6 @@ namespace HovText
                         whoUpdatedClipboardName = HandleClipboard.GetActiveApplicationName();
                     }
 
-                    //Logging.Log("Received clipboard [UPDATE] event");
                     Logging.Log("Received clipboard [UPDATE] event from application ["+ whoUpdatedClipboardName +"]");
 
                     // Set an overall boolean that will depict if we should continue processing clipboard
@@ -524,8 +521,8 @@ namespace HovText
 
                         isProcessingClipboard = false;
                     }
-
                     break;
+
                 default:
                     base.WndProc(ref m);
                     break;
@@ -924,7 +921,6 @@ namespace HovText
             entriesIsTransparent.Clear();
             entriesIsUrl.Clear();
             entriesOriginal.Clear();
-            //entriesShow.Clear();
             entriesText.Clear();
             entriesTextTrimmed.Clear();
             entriesOrder.Clear();
@@ -944,7 +940,6 @@ namespace HovText
                 int entriesInList = History.entriesInList;
                 if (entriesInList > 0)
                 {
-                    //MoveEntryToTop(entryIndex);
                     MoveEntryToTop(index);
 
                     // Restore the original clipboard, if we are within the "Paste on hotkey only" mode
@@ -1062,7 +1057,6 @@ namespace HovText
                 UiGeneralToggleEnableClipboard.Enabled = true;
                 UiGeneralLabelEnableClipboard.Enabled = true;
                 UiGeneralLabelEnableClipboardShortcut.Enabled = true;
-                //UiHotkeysButtonToggleApplication.Enabled = true;
 
                 SetFieldsBasedOnHistoryEnabled();
 
@@ -1119,7 +1113,6 @@ namespace HovText
                 UiGeneralLabelPasteToApplication.Enabled = false;
                 UiGeneralToggleAlwaysPasteOriginal.Enabled = false;
                 UiGeneralLabelAlwaysPasteOriginal.Enabled = false;
-                //UiHotkeysButtonToggleApplication.Enabled = false;
                 UiHotkeysButtonPasteHotkey.Enabled = false;
                 UiHotkeysRadioUseStandardWindowsMethod.Enabled = false;
                 UiHotkeysRadioPasteOnHotkey.Enabled = false;
@@ -1265,19 +1258,6 @@ namespace HovText
 
 
         // ###########################################################################################
-        // When pressing one of the history hotkeys then change focus to this application to prevent the keypresses go in to the active application
-        // ###########################################################################################
-
-        /*
-        private void ChangeFocusToHovText()
-        {
-            NativeMethods.SetForegroundWindow(Handle);
-            Logging.Log("Set focus to HovText");
-        }
-        */
-
-
-        // ###########################################################################################
         // When an entry has been submitted to the clipboard then pass back focus to the originating application
         // ###########################################################################################
 
@@ -1371,7 +1351,6 @@ namespace HovText
                 else
                 {
                     firstTimeLaunch = false;
-                    //Logging.Log("Registry [" + registryPath + "] exists, so this is an [already initialized] launch");
                 }
             }
 
@@ -1475,8 +1454,6 @@ namespace HovText
             Logging.Log("    \"HistorySearch\" = [" + regVal + "]");
             regVal = GetRegistryKey(registryPath, "FavoritesEnable");
             Logging.Log("    \"FavoritesEnable\" = [" + regVal + "]");
-            //regVal = GetRegistryKey(registryPath, "FavoritesKeep");
-            //Logging.Log("    \"FavoritesKeep\" = [" + regVal + "]");
             regVal = GetRegistryKey(registryPath, "CopyImages");
             Logging.Log("    \"CopyImages\" = [" + regVal + "]");
             regVal = GetRegistryKey(registryPath, "PasteOnSelection");
@@ -2807,7 +2784,6 @@ namespace HovText
             var tabToSelect = UiFormTabControl.TabPages.Cast<TabPage>().FirstOrDefault(tab => tab.Name == tabName);
             if (tabToSelect != null)
             {
-                //UiFormTabControl.SelectedIndex = 9; // About
                 UiFormTabControl.SelectedTab = tabToSelect;
             }
         }
@@ -2825,7 +2801,6 @@ namespace HovText
             var tabToSelect = UiFormTabControl.TabPages.Cast<TabPage>().FirstOrDefault(tab => tab.Name == tabName);
             if (tabToSelect != null)
             {
-                //UiFormTabControl.SelectedIndex = 0; // General
                 UiFormTabControl.SelectedTab = tabToSelect;
             }
         }
@@ -2887,7 +2862,6 @@ namespace HovText
                 var tabToSelect = UiFormTabControl.TabPages.Cast<TabPage>().FirstOrDefault(tab => tab.Name == tabName);
                 if (tabToSelect != null)
                 {
-                    //UiFormTabControl.SelectedIndex = 0; // General
                     UiFormTabControl.SelectedTab = tabToSelect;
                 }
             }
@@ -2940,7 +2914,6 @@ namespace HovText
             UiGeneralLabelRestoreOriginal.Enabled = false;
             UiHotkeysLabelPasteHotkey.Enabled = true;
             isEnabledPasteOnHotkey = true;
-//            HandleClipboard.SetClipboard(HandleClipboard.threadSafeIndex - 1);
             SetNotifyIcon();
         }
 
@@ -3013,7 +2986,6 @@ namespace HovText
             GetEntryCounter();
 
             // Check if application is enabled
-            //if (isApplicationEnabled && entryCounter > 0)
             if (isApplicationEnabled)
             {
                 // Hide the history list again, if it already is visible and I pressed the hotkey again
@@ -3033,9 +3005,6 @@ namespace HovText
                     }
                     originatingApplicationName = HandleClipboard.GetActiveApplicationName();
                     history.SetupForm();
-
-                    // Always change focus to HovText to ensure we can catch the key-up event
-                    //ChangeFocusToHovText();
 
                     // Only proceed if the entry counter is equal to or more than 0
                     if (entryCounter > 0)
@@ -3061,7 +3030,6 @@ namespace HovText
             {
                 // Get active application and change focus to HovText
                 originatingApplicationName = HandleClipboard.GetActiveApplicationName();
-                //ChangeFocusToHovText();
 
                 // Show the invisible form, so we can catch the key-up event
                 pasteOnHotkey.Show();
@@ -4780,7 +4748,6 @@ namespace HovText
 
         public void UpdateClipboardEntriesCounters()
         {
-            //if (HandleClipboard.clipboardQueue.Count == 0 && clipboardSaveQueue.Count == 0)
             if (!isProcessingClipboardQueue && !isClipboardSaveQueueBeingProcessed)
             {
                 try
@@ -5337,7 +5304,6 @@ namespace HovText
 
             // Terminate the main application
             settings.Close();
-            //Environment.Exit(0);
         }
 
 
