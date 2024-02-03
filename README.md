@@ -44,27 +44,25 @@ The full documentation for how to use this application is available on the HovTe
 
 ## Screenshots
 
-<!--START_SECTION:update_image-->
-
-![History list](https://hovtext.com/documentation/images/HistoryList0.jpg)
+![History list](https://hovtext.com/documentation/images/HistoryList0.jpg?)
 
 ![Settings](https://hovtext.com/documentation/images/General.jpg?)
 
-![Storage](https://hovtext.com/documentation/images/Storage.jpg)
+![Storage](https://hovtext.com/documentation/images/Storage.jpg?)
 
-![Hotkeys](https://hovtext.com/documentation/images/Hotkeys.jpg)
+![Hotkeys](https://hovtext.com/documentation/images/Hotkeys.jpg?)
 
-![Layout](https://hovtext.com/documentation/images/Layout.jpg)
+![Layout](https://hovtext.com/documentation/images/Layout.jpg?)
 
-![Style](https://hovtext.com/documentation/images/Style.jpg)
+![Style](https://hovtext.com/documentation/images/Style.jpg?)
 
-![Colors](https://hovtext.com/documentation/images/Colors.jpg)
+![Colors](https://hovtext.com/documentation/images/Colors.jpg?)
 
-![Exclusion](https://hovtext.com/documentation/images/Exclusion.jpg)
+![Exclusion](https://hovtext.com/documentation/images/Exclusion.jpg?)
 
-![Advanced](https://hovtext.com/documentation/images/Advanced.jpg)
+![Advanced](https://hovtext.com/documentation/images/Advanced.jpg?)
 
-![Feedback](https://hovtext.com/documentation/images/Feedback.jpg)
+![Feedback](https://hovtext.com/documentation/images/Feedback.jpg?)
 
-![About](https://hovtext.com/documentation/images/About.jpg)
-<!--END_SECTION:update_image-->
+![About](https://hovtext.com/documentation/images/About.jpg?)
+
