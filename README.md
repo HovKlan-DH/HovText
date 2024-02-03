@@ -48,7 +48,7 @@ The full documentation for how to use this application is available on the HovTe
 
 ![History list](https://hovtext.com/documentation/images/HistoryList0.jpg)
 
-![Settings](https://hovtext.com/documentation/images/General.jpg)
+![Settings](https://hovtext.com/documentation/images/General.jpg?)
 
 ![Storage](https://hovtext.com/documentation/images/Storage.jpg)
 
