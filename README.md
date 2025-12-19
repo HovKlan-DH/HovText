@@ -10,27 +10,31 @@ You can say that it works basically in the same way as pasting the formatted tex
 
 ## Capabilities
 
-* Removes all formatting from the clipboard
 * Remembers all copied texts and images that can be easily restored via a clipboard manager
-* Intuitive and fast UI for finding previous copied texts or images
+* Removes all formatting, leading/trailing whitespaces and empty new-lines from the copied text
+* Can save the clipboards to local computer
+* Intuitive, fast and modern UI for finding previous copied texts or images
 * Keeps the most used clipboard entries at top
-* Favorite entries can be marked for quicker retrival
+* Easy user interface - keyboard friendly and with no need for a mouse
 * Can restore original text formatting
-* Can act as a text-only clipboard manager but can also handle images
-* Possibility to remove leading/trailing whitespaces and new-lines
+* Can act as a text-only clipboard manager, but can also handle images
 * Full unicode support
-* Automatic check for new versions
-* Flexible layout settings with e.g. list-view, positioning, screen and styling
+* Favorite entries can be marked for quicker retrival
+* Automatic check for new versions and auto-install
+* Full user customization for layout settings with e.g. list-view, positioning, display and styling
 * Configurable global hotkeys for all actions
 * Built-in cleanup possibility as-if application has never been run on system
-* No installation required - portable executeable
-* No transfer of data anywhere - no cloud or clipboard sharing
+* No installation required - portable lightweigth executeable
+* Requires 64-bit Windows 10 (or newer) and .NET Framework 4.8 (or newer)
+* Easy for IT organizations to incorporate and manage
+* No need to learn application specific ways for pasting as plaintext - with HovText it works the same way, always
 * No registration or advertising - no nags
 * Freeware and open source available on GitHub
+* Signed executable and application has existed for the last 20 years
 
 ## Requirements
 
-HovText is compatible with 32-bit and 64-bit Windows systems, ranging from the ancient Windows XP to Windows 11. However, support is only provided for Windows 10, as it is currently what I am using at home :-)
+HovText requires a 64-bit Windows systems, ranging from the ancient Windows XP to Windows 11. However, support is only provided for Windows 10, as it is currently what I am using at home :-)
 
 It requires .NET Framework 4.8 or newer
 
@@ -40,20 +44,25 @@ The full documentation for how to use this application is available on the HovTe
 
 ## Screenshots
 
-![History list](https://hovtext.com/documentation/images/HistoryList0.jpg)
+![History list](https://hovtext.com/documentation/images/HistoryList0.jpg?)
 
-![Settings](https://hovtext.com/documentation/images/General.jpg)
+![Settings](https://hovtext.com/documentation/images/General.jpg?)
 
-![Hotkeys](https://hovtext.com/documentation/images/Hotkeys.jpg)
+![Storage](https://hovtext.com/documentation/images/Storage.jpg?)
 
-![Layout](https://hovtext.com/documentation/images/Layout.jpg)
+![Hotkeys](https://hovtext.com/documentation/images/Hotkeys.jpg?)
 
-![Style](https://hovtext.com/documentation/images/Style.jpg)
+![Layout](https://hovtext.com/documentation/images/Layout.jpg?)
 
-![Colors](https://hovtext.com/documentation/images/Colors.jpg)
+![Style](https://hovtext.com/documentation/images/Style.jpg?)
 
-![Advanced](https://hovtext.com/documentation/images/Advanced.jpg)
+![Colors](https://hovtext.com/documentation/images/Colors.jpg?)
 
-![Feedback](https://hovtext.com/documentation/images/Feedback.jpg)
+![Exclusion](https://hovtext.com/documentation/images/Exclusion.jpg?)
 
-![About](https://hovtext.com/documentation/images/About.jpg)
+![Advanced](https://hovtext.com/documentation/images/Advanced.jpg?)
+
+![Feedback](https://hovtext.com/documentation/images/Feedback.jpg?)
+
+![About](https://hovtext.com/documentation/images/About.jpg?)
+
