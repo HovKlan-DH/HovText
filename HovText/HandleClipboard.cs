@@ -532,11 +532,10 @@ namespace HovText
             }
 
             // Optional heuristic: reject ridiculously large bitmaps (e.g. Excel "copy whole sheet" snapshots).
-            // Tune limits as needed.
-            const int maxReasonableWidth = 8000;
-            const int maxReasonableHeight = 8000;
+            const int maxReasonablePixelsWidth = 12000;
+            const int maxReasonablePixelsHeight = 12000;
 
-            if (bitmap.Width > maxReasonableWidth || bitmap.Height > maxReasonableHeight)
+            if (bitmap.Width > maxReasonablePixelsWidth || bitmap.Height > maxReasonablePixelsHeight)
             {
                 return false;
             }

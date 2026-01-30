@@ -2776,9 +2776,6 @@ namespace HovText
             }
 
             // Set the clipboard again, as there could be changes how "GuiAlwaysPasteOriginal" behaves
-//            HandleClipboard.SetClipboard(HandleClipboard.threadSafeIndex - 1);
-//hest
-            // Set the clipboard again, as there could be changes how "GuiAlwaysPasteOriginal" behaves
             if (entriesOrder.Count > 0)
             {
                 HandleClipboard.SetClipboard(entriesOrder.Keys.Last());
