@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="..\packages\ILRepack.2.0.27\build\ILRepack.props" Condition="Exists('..\packages\ILRepack.2.0.27\build\ILRepack.props')" />
+  <Import Project="..\packages\ILRepack.2.0.44\build\ILRepack.props" Condition="Exists('..\packages\ILRepack.2.0.44\build\ILRepack.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -137,16 +137,11 @@
     <Reference Include="Guna.UI2, Version=2.0.4.6, Culture=neutral, PublicKeyToken=8b9d14aa5142e261, processorArchitecture=MSIL">
       <HintPath>..\packages\Guna.UI2.WinForms.2.0.4.6\lib\net48\Guna.UI2.dll</HintPath>
     </Reference>
-    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.13.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="NHotkey, Version=4.0.0.0, Culture=neutral, PublicKeyToken=a76ffb086700b11c, processorArchitecture=MSIL">
+      <HintPath>..\packages\NHotkey.4.0.0\lib\net462\NHotkey.dll</HintPath>
     </Reference>
-    <Reference Include="NHotkey, Version=2.0.0.0, Culture=neutral, PublicKeyToken=a76ffb086700b11c, processorArchitecture=MSIL">
-      <HintPath>..\packages\NHotkey.2.1.1\lib\net45\NHotkey.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="NHotkey.WindowsForms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=a76ffb086700b11c, processorArchitecture=MSIL">
-      <HintPath>..\packages\NHotkey.WindowsForms.2.1.1\lib\net45\NHotkey.WindowsForms.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="NHotkey.WindowsForms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=a76ffb086700b11c, processorArchitecture=MSIL">
+      <HintPath>..\packages\NHotkey.WindowsForms.4.0.0\lib\net462\NHotkey.WindowsForms.dll</HintPath>
     </Reference>
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
@@ -229,6 +224,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="HotkeyConflict.resx">
       <DependentUpon>HotkeyConflict.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="PasteOnHotkey.resx">
       <DependentUpon>PasteOnHotkey.cs</DependentUpon>
@@ -240,6 +236,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Settings.resx">
       <DependentUpon>Settings.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Update.resx">
       <DependentUpon>Update.cs</DependentUpon>
@@ -295,10 +292,6 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <Analyzer Include="..\packages\Microsoft.CodeAnalysis.NetAnalyzers.8.0.0\analyzers\dotnet\cs\Microsoft.CodeAnalysis.CSharp.NetAnalyzers.dll" />
-    <Analyzer Include="..\packages\Microsoft.CodeAnalysis.NetAnalyzers.8.0.0\analyzers\dotnet\cs\Microsoft.CodeAnalysis.NetAnalyzers.dll" />
-  </ItemGroup>
-  <ItemGroup>
     <COMReference Include="IWshRuntimeLibrary">
       <Guid>{F935DC20-1CF0-11D0-ADB9-00C04FD58A0B}</Guid>
       <VersionMajor>1</VersionMajor>
@@ -308,6 +301,11 @@
       <Isolated>False</Isolated>
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </COMReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Analyzer Include="..\packages\Microsoft.CodeAnalysis.NetAnalyzers.10.0.102\analyzers\dotnet\cs\Microsoft.CodeAnalysis.CSharp.NetAnalyzers.dll" />
+    <Analyzer Include="..\packages\Microsoft.CodeAnalysis.NetAnalyzers.10.0.102\analyzers\dotnet\cs\Microsoft.CodeAnalysis.NetAnalyzers.resources.dll" />
+    <Analyzer Include="..\packages\Microsoft.CodeAnalysis.NetAnalyzers.10.0.102\analyzers\dotnet\Microsoft.CodeAnalysis.NetAnalyzers.dll" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
@@ -321,19 +319,40 @@ REM cmd /c "d: &amp;&amp; cd D:\Data\Development\Visual Studio\HovText\HovText\b
 </PreBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
-    <PostBuildEvent>REM Pack EXE with ILRepack
-REM ---
-"$(SolutionDir)packages\ILRepack.2.0.27\tools\ILRepack.exe" /out:"$(TargetDir)HovText.exe" "$(TargetPath)" "$(TargetDir)Guna.UI2.dll" "$(TargetDir)NHotkey.dll" "$(TargetDir)NHotkey.WindowsForms.dll"
+    <PostBuildEvent>
+rem "D:\Data\Development\Visual Studio\Commodore-Repair-Toolbox\packages\ILRepack.2.0.44\tools\ILRepack.exe" /out:"$(TargetDir)HovText.exe" "$(TargetPath)" "$(TargetDir)Guna.UI2.dll" "$(TargetDir)NHotkey.dll" "$(TargetDir)NHotkey.WindowsForms.dll"
+rem "C:\Program Files (x86)\Windows Kits\10\bin\10.0.26100.0\x64\signtool.exe" sign /fd sha256 /tr http://ts.ssl.com /td sha256 /sha1 7e2215692c12ad960e40a844b1e1bc15ca006df9 "$(TargetPath)"
 
+
+if "$(ConfigurationName)" == "Release" (
+
+REM --------------------------
+REM Pack EXE with ILRepack
+REM --------------------------
+"D:\Data\Development\Visual Studio\Commodore-Repair-Toolbox\packages\ILRepack.2.0.44\tools\ILRepack.exe" /out:"$(TargetDir)HovText.exe" "$(TargetPath)" "$(TargetDir)Guna.UI2.dll" "$(TargetDir)NHotkey.dll" "$(TargetDir)NHotkey.WindowsForms.dll"
+
+REM ----------
 REM Sign EXE
-REM ---
-signtool.exe sign /fd sha256 /tr http://ts.ssl.com /td sha256 /n "Dennis Helligsø" "$(TargetPath)"
+REM ----------
+"C:\Program Files (x86)\Windows Kits\10\bin\10.0.26100.0\x64\signtool.exe" sign /fd sha256 /tr http://ts.ssl.com /td sha256 /sha1 7e2215692c12ad960e40a844b1e1bc15ca006df9 "$(TargetPath)"
+
+REM ----------------------------------------------------------
+REM Delete unnecessary files (to check it works without it)
+REM ----------------------------------------------------------
+del /Q *.dll
+del /Q *.xml
+del /Q *.pdb
+del /Q *.config
+
+)
+
+
 </PostBuildEvent>
   </PropertyGroup>
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
-    <Error Condition="!Exists('..\packages\ILRepack.2.0.27\build\ILRepack.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\ILRepack.2.0.27\build\ILRepack.props'))" />
+    <Error Condition="!Exists('..\packages\ILRepack.2.0.44\build\ILRepack.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\ILRepack.2.0.44\build\ILRepack.props'))" />
   </Target>
 </Project>

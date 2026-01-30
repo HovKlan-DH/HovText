@@ -11,9 +11,10 @@ restore the original clipboard after 250ms.
 ##################################################################################################
 */
 
+using System.Linq;
+using System.Threading;
 using System.Timers;
 using System.Windows.Forms;
-using System.Threading;
 
 namespace HovText
 {
@@ -61,12 +62,12 @@ namespace HovText
             {
                 Hide();
                 Settings.pasteOnHotkeySetCleartext = true;
-                HandleClipboard.SetClipboard(HandleClipboard.threadSafeIndex - 1);
+                HandleClipboard.SetClipboard(Settings.entriesOrder.Keys.Last());
                 Settings.ChangeFocusToOriginatingApplication();
                 SendKeys.SendWait("^v"); // send "CTRL + v" (paste from clipboard)
                 StartTimerToRestoreOriginal();
 
-                Logging.Log($"Pasted cleartext clipboard [{HandleClipboard.threadSafeIndex - 1}] to active application [{Settings.originatingApplicationName}]");
+                Logging.Log($"Pasted cleartext clipboard [{Settings.entriesOrder.Keys.Last()}] to active application [{Settings.originatingApplicationName}]");
             }
         }
 
@@ -87,17 +88,17 @@ namespace HovText
 
             // As this application is Single Thread then launch a new thread to mess with the clipboard again
             // https://stackoverflow.com/a/23803659/2028935
-            Thread thread = new Thread(() => HandleClipboard.SetClipboard(HandleClipboard.threadSafeIndex - 1));
+            Thread thread = new Thread(() => HandleClipboard.SetClipboard(Settings.entriesOrder.Keys.Last()));
             thread.SetApartmentState(ApartmentState.STA); // set the thread to STA
             thread.Start();
             thread.Join();
 
             if (Settings.pasteOnHotkeySetCleartext)
             {
-                Logging.Log($"Populated cleartext to clipboard [{HandleClipboard.threadSafeIndex - 1}]");
+                Logging.Log($"Populated cleartext to clipboard [{Settings.entriesOrder.Keys.Last()}]");
             } else
             {
-                Logging.Log($"Populated original to clipboard [{HandleClipboard.threadSafeIndex - 1}]");
+                Logging.Log($"Populated original to clipboard [{Settings.entriesOrder.Keys.Last()}]");
             }            
 
             // We do no longer need to paste cleartext

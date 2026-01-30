@@ -13,7 +13,6 @@ in a thread.
 ##################################################################################################
 */
 
-using static HovText.Program;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -25,6 +24,7 @@ using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Windows.Forms;
+using static HovText.Program;
 
 namespace HovText
 {
@@ -49,7 +49,7 @@ namespace HovText
 
         public void GetClipboardData(string whoUpdatedClipboardName, uint thisProcessId)
         {
-            Logging.Log($"Capturing clipboard data");
+            Logging.Log("Capturing clipboard data");
 
             // Get if the clipboard contains either text or an image
             bool containsText = false;
@@ -61,122 +61,210 @@ namespace HovText
             }
             catch (Exception ex)
             {
-                Logging.Log($"Error: " + ex.Message);
+                Logging.Log($"Error: {ex.Message}");
             }
-                
+
             if (containsImage && !Settings.isCopyImages)
             {
-                Logging.Log($"Clipboard is an image and we should not capture images - ignoring it");
+                Logging.Log("Clipboard is an image and \"Storage\" states we should not capture images - ignoring it");
+                return;
             }
-            else if (containsText || containsImage) // only add to the queue, if it contains either a text or an image
+
+            // Quit, if we do not have either any TEXT or IMAGE available
+            if (!containsText && !containsImage)
             {
-                // Lock clipboard variables (not the clipboard itself)
-                lock (clipboardData_lock)
+                return;
+            }
+
+            // Lock clipboard variables (not the clipboard itself)
+            lock (clipboardData_lock)
+            {
+                // Find the last key from the data arrays and then add one (if this is not the first entry)
+                int insertIndex = Interlocked.Increment(ref threadSafeIndex) - 1;
+
+                // Define an object that will contain all the formats we want to handle
+                var clipboardObject = new Dictionary<string, object>();
+
+                // Get clipboard data formats and add this to the clipboard object
+                try
                 {
+                    // Make a snapshot of the clipboard
+                    IDataObject clipboardIDataObject = Clipboard.GetDataObject();
 
-                    // Find the last key from the data arrays and then add one (if this is not the first entry)
-                    int insertIndex = Interlocked.Increment(ref threadSafeIndex) - 1; // thread-safe incremental of a sequence number
+                    string[] formats = clipboardIDataObject.GetFormats(false);
 
-                    // Define an object that will contain all the formats we want to handle
-                    Dictionary<string, object> clipboardObject = new Dictionary<string, object>();
+                    Logging.Log($"index=[{insertIndex}] Formats available on clipboard:");                   
 
-                    // Get clipboard data formats and add this to the clipboard object
-                    try
+                    // Determine whether we have *usable plain text* (not RTF or HTML wrappers like seen when copying e.g. Outlook images)
+                    bool hasUnicode = formats.Any(f => f.Equals(DataFormats.UnicodeText, StringComparison.OrdinalIgnoreCase));
+                    bool hasText = formats.Any(f => f.Equals(DataFormats.Text, StringComparison.OrdinalIgnoreCase));
+                    bool hasUsablePlainText = false;
+                    if (hasUnicode)
                     {
-                        // Make a snapshot of the clipboard
-                        IDataObject clipboardIDataObject = Clipboard.GetDataObject();
-
-                        var formats = clipboardIDataObject.GetFormats(false);
-                        //Logging.Log($"index=[{clipboardQueueIndex}] Formats available on clipboard:");
-                        Logging.Log($"index=[{insertIndex}] Formats available on clipboard:");
-                        foreach (var format in formats)
+                        try
                         {
-                            if (
-                                format.Contains("Text")
-                                || format.Contains("HTML")
-                                || format.Contains("Csv")
-                                || format.Contains("Link")
-                                || format.Contains("Hyperlink")
-                                || format.Contains("Bitmap")
-                                || format.Contains("PNG") // including transparent layer of PNG
-                                || format.Contains("Recipient") // Outlook recipient
-                                || format.Contains("Format17") // picture format
-                                || format.Contains("GIF")
-                                || format.Contains("JFIF")
-                                || format.Contains("Office Drawing Shape Format")
-                                || format.Contains("Preferred DropEffect") // used in e.g. animated GIF
-                                || format.Contains("Shell IDList Array") // used in e.g. animated GIF
-                                || format.Contains("FileDrop") // used in e.g. animated GIF
-                                || format.Contains("FileContents") // used in e.g. animated GIF
-                                || format.Contains("FileGroupDescriptorW") // used in e.g. animated GIF
-                                || format.Contains("Image") // seen on "CorelPHOTOPAINT.Image.20" and "CorelPhotoPaint.Image.9"
-                                || format.Contains("Color") // seen on "Corel.Color.20"
+                            var s = clipboardIDataObject.GetData(DataFormats.UnicodeText) as string;
+                            hasUsablePlainText = !string.IsNullOrWhiteSpace(s);
+                        }
+                        catch { /* ignore */ }
+                    }
+                    if (!hasUsablePlainText && hasText)
+                    {
+                        try
+                        {
+                            var s = clipboardIDataObject.GetData(DataFormats.Text) as string;
+                            hasUsablePlainText = !string.IsNullOrWhiteSpace(s);
+                        }
+                        catch { /* ignore */ }
+                    }
+
+                    // Walkthrough all clipboard formats
+                    foreach (var format in formats)
+                    {
+                        // Check if we have any TEXT formats
+                        bool isUnicodeText = format.Equals(DataFormats.UnicodeText, StringComparison.OrdinalIgnoreCase);
+                        bool isText = format.Equals(DataFormats.Text, StringComparison.OrdinalIgnoreCase);
+                        bool isRtf = format.IndexOf("Rich Text Format", StringComparison.OrdinalIgnoreCase) >= 0;
+                        bool isHtml = format.IndexOf("HTML Format", StringComparison.OrdinalIgnoreCase) >= 0;
+                        bool isCsv = format.IndexOf("Csv", StringComparison.OrdinalIgnoreCase) >= 0;
+                        bool isHyperlink = format.IndexOf("Hyperlink", StringComparison.OrdinalIgnoreCase) >= 0;
+                        bool isLink = format.IndexOf("Link", StringComparison.OrdinalIgnoreCase) >= 0;
+
+                        // Legacy valid formats you listed
+                        bool isRecipient = format.IndexOf("Recipient", StringComparison.OrdinalIgnoreCase) >= 0;
+                        bool isOfficeDrawingShapeFormat = format.IndexOf("Office Drawing Shape Format", StringComparison.OrdinalIgnoreCase) >= 0;
+
+                        // Only suppress images when we have *usable plain text*.
+                        bool shouldAttemptImageFormat = Settings.isCopyImages && !hasUsablePlainText;
+
+                        // If we're in image-only mode (Outlook image copy), ignore wrapper formats that would later be treated as "text".
+                        if (shouldAttemptImageFormat && (isRtf || isHtml))
+                        {
+                            Logging.Log($"index=[{insertIndex}]    Discarding text format [{format}]; ignored as clipboard is considered to be an image");
+                            continue;
+                        }
+
+                        // Treat as "text-only" when not in image-only mode (so copying e.g. an Outlook image will not be considered as a text)
+                        bool isTextFormat =
+                            isUnicodeText ||
+                            isText ||
+                            isCsv ||
+                            isHyperlink ||
+                            isLink ||
+                            isRecipient ||
+                            (
+                                !shouldAttemptImageFormat && 
+                                (
+                                    isRtf || 
+                                    isHtml
+                                )
+                             );
+
+                        // Check which kind of IMAGE formats are available
+                        bool isPngFormat = format.IndexOf("PNG", StringComparison.OrdinalIgnoreCase) >= 0; // including transparent layer of PNG
+                        bool isGifFormat = format.IndexOf("GIF", StringComparison.OrdinalIgnoreCase) >= 0;
+                        bool isJfifFormat = format.IndexOf("JFIF", StringComparison.OrdinalIgnoreCase) >= 0;
+                        bool isFormat17 = format.IndexOf("Format17", StringComparison.OrdinalIgnoreCase) >= 0; // picture format in e.g. FastStone Capture
+                        bool isPreferredDropEffect = format.IndexOf("Preferred DropEffect", StringComparison.OrdinalIgnoreCase) >= 0; // used in e.g. animated GIF
+                        bool isShellIdListArray = format.IndexOf("Shell IDList Array", StringComparison.OrdinalIgnoreCase) >= 0; // used in e.g. animated GIF
+                        bool isFileDrop = format.IndexOf("FileDrop", StringComparison.OrdinalIgnoreCase) >= 0; // used in e.g. animated GIF
+                        bool isFileContents = format.IndexOf("FileContents", StringComparison.OrdinalIgnoreCase) >= 0; // used in e.g. animated GIF
+                        bool isFileGroupDescriptorW = format.IndexOf("FileGroupDescriptorW", StringComparison.OrdinalIgnoreCase) >= 0; // used in e.g. animated GIF
+                        bool isGenericImage = format.IndexOf("Image", StringComparison.OrdinalIgnoreCase) >= 0; // seen on "CorelPHOTOPAINT.Image.20" and "CorelPhotoPaint.Image.9"
+                        bool isColor = format.IndexOf("Color", StringComparison.OrdinalIgnoreCase) >= 0; // seen on "Corel.Color.20"
+                        bool isDibFormat =
+                            format.Equals(DataFormats.Dib, StringComparison.OrdinalIgnoreCase) ||
+                            format.Equals("DeviceIndependentBitmap", StringComparison.OrdinalIgnoreCase);
+                        bool isBitmapFormat =
+                            format.Equals(DataFormats.Bitmap, StringComparison.OrdinalIgnoreCase) ||
+                            format.IndexOf("Bitmap", StringComparison.OrdinalIgnoreCase) >= 0;
+
+                        // Add text-like formats
+                        if (isTextFormat)
+                        {
+                            TryAddFormat(clipboardIDataObject, clipboardObject, insertIndex, format, "text");
+                            continue;
+                        }
+
+                        // Add image, if it is in the more convinient types
+                        if (
+                            shouldAttemptImageFormat && 
+                            (
+                                isPngFormat || 
+                                isGifFormat || 
+                                isJfifFormat || 
+                                isDibFormat || 
+                                isFormat17 ||
+                                isPreferredDropEffect ||
+                                isOfficeDrawingShapeFormat ||
+                                isShellIdListArray ||
+                                isFileDrop ||
+                                isFileContents ||
+                                isFileGroupDescriptorW ||
+                                isGenericImage ||
+                                isColor
                             )
-                            {
-                                var data = clipboardIDataObject.GetData(format);
-                                clipboardObject.Add(format, data);
-                                Logging.Log($"index=[{insertIndex}]    Adding format [{format}]");
-                                
-                                for (int i=1; i <= 5; i++)
-                                {
-                                    if (clipboardObject.TryGetValue(format, out object value))
-                                    {
-                                        if (value == null || string.IsNullOrEmpty(value.ToString()))
-                                        {
-                                            data = clipboardIDataObject.GetData(format);
-                                            clipboardObject.Remove(format);
-                                            clipboardObject.Add(format, data);
-                                            Logging.Log($"index=[{insertIndex}]    Adding format [{format}] - retry [{i}/5]");
-                                        } else
-                                        {
-                                            break;
-                                        }
-                                    }
-                                }
-                            }
-                            else
-                            {
-                                Logging.Log($"index=[{insertIndex}]    Discarding format [{format}]");
-                            }
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        Logging.Log($"index=[{insertIndex}] Error: " + ex.Message);
-                    }
-
-                    // Find the process icon - if possible. Note that applications running with
-                    // higher priveledges cannot be queried for the icon
-                    Image whoUpdatedClipboardIcon = null;
-                    try
-                    {
-                        Process process = null;
-                        process = Process.GetProcessById((int)thisProcessId);
-                        if (process != null && !process.HasExited)
+                        )
                         {
-                            string processFilePath = process.MainModule.FileName;
-                            using (Icon appIconTmp = Icon.ExtractAssociatedIcon(processFilePath))
-                            {
-                                whoUpdatedClipboardIcon = appIconTmp.ToBitmap();
-                            }
+                            TryAddFormat(clipboardIDataObject, clipboardObject, insertIndex, format, "image");
+                            continue;
+                        }
+
+                        // Try BITMAP only as a last resort, and only when we are in image-only mode
+                        if (shouldAttemptImageFormat && isBitmapFormat)
+                        {
+                            TryAddFormat(clipboardIDataObject, clipboardObject, insertIndex, DataFormats.Bitmap, "image");
+                            continue;
+                        }
+
+                        Logging.Log($"index=[{insertIndex}]    Discarding unknown format [{format}]");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Logging.Log($"index=[{insertIndex}] Error: {ex.Message}");
+                }
+
+                Image whoUpdatedClipboardIcon = null;
+                try
+                {
+                    Process process = Process.GetProcessById((int)thisProcessId);
+                    if (process != null && !process.HasExited)
+                    {
+                        string processFilePath = process.MainModule.FileName;
+                        using (Icon appIconTmp = Icon.ExtractAssociatedIcon(processFilePath))
+                        {
+                            whoUpdatedClipboardIcon = appIconTmp.ToBitmap();
                         }
                     }
-                    catch (Exception ex)
-                    {
-                        Logging.Log($"index=[{insertIndex}] Warning: Cannot get application icon: {ex.Message}");
-                        //Logging.LogException(ex);
-                    }
-
-                    // Thread-safe adding to the tuple queue
-                    clipboardQueue.Enqueue((
-                        insertIndex,
-                        clipboardObject,
-                        whoUpdatedClipboardName,
-                        whoUpdatedClipboardIcon,
-                        false
-                    ));
-                    Logging.Log($"index=[{insertIndex}] Enqueued");
                 }
+                catch (Exception ex)
+                {
+                    Logging.Log($"index=[{insertIndex}] Warning: Cannot get application icon: {ex.Message}");
+                }
+
+                clipboardQueue.Enqueue((insertIndex, clipboardObject, whoUpdatedClipboardName, whoUpdatedClipboardIcon, false));
+                Logging.Log($"index=[{insertIndex}] Enqueued");
+            }
+        }
+
+        private static void TryAddFormat(IDataObject clipboardIDataObject, Dictionary<string, object> clipboardObject, int insertIndex, string format, string type)
+        {
+            try
+            {
+                object data = clipboardIDataObject.GetData(format);
+                if (data == null)
+                {
+                    Logging.Log($"index=[{insertIndex}]    Discarding {type} format [{format}]; returned NULL");
+                    return;
+                }
+
+                clipboardObject[format] = data;
+                Logging.Log($"index=[{insertIndex}]    Adding {type} format [{format}]");
+            }
+            catch (Exception ex)
+            {
+                Logging.Log($"index=[{insertIndex}]    Warning: Cannot get data for format [{format}]: {ex.Message}");
             }
         }
 
@@ -208,15 +296,25 @@ namespace HovText
                     threadSafeIndex = index + 1;
                 }
 
-                // Get a boolean if this is either TEXT or an IMAGE
+                // Check if clipboard object has TEXT
                 bool isClipboardText = clipboardObject.ContainsKey(DataFormats.Text) ||
                     clipboardObject.ContainsKey(DataFormats.UnicodeText) ||
                     clipboardObject.ContainsKey(DataFormats.Rtf);
-                bool isClipboardImage = clipboardObject.ContainsKey(DataFormats.Bitmap);
+
+                // Check if clipboard object has IMAGE _and_ no text (if it has text, we ignore the image part)
+                //                bool isClipboardImage = clipboardObject.ContainsKey(DataFormats.Bitmap);
+                Image clipboardImage = null;
+                bool hasValidBitmap = TryGetValidClipboardBitmap(clipboardObject, out clipboardImage);
+                // Prefer text over image when both are present (Excel case).
+                bool isClipboardImage = hasValidBitmap && ShouldTreatAsImage(clipboardObject, clipboardImage);
+                if (isClipboardImage)
+                {
+                    Logging.Log($"index=[{index}] Found valid image format [Bitmap] ({clipboardImage.Width}x{clipboardImage.Height})");
+                }
 
                 // Get TEXT clipboard content
                 string clipboardText = ""; // should not be NULL, as we are filtering on text-values later
-                if(isClipboardText)
+                if (isClipboardText)
                 {
                     if (clipboardObject.ContainsKey(DataFormats.UnicodeText))
                     {
@@ -241,13 +339,6 @@ namespace HovText
                     }
                 }
 
-                Image clipboardImage = null;
-                if (isClipboardImage)
-                {
-                    clipboardImage = clipboardObject[DataFormats.Bitmap] as Image;
-                    Logging.Log($"index=[{index}] Found image format [Bitmap]");
-                }
-
                 // Set default values
                 string checksum = null;
                 bool isClipboardImageTransparent = false;
@@ -265,7 +356,7 @@ namespace HovText
                     if (skipRest)
                     {
                         Logging.Log($"index=[{index}] Error: Retrieved text is empty - ignoring clipboard entry - is copying/processing going too fast???");
-                    } else { 
+                    } else {
                         checksum = GetStringHash(clipboardText.Trim());
 
                         Logging.Log($"index=[{index}] Text checksum: [{checksum}]");
@@ -292,14 +383,14 @@ namespace HovText
                         stopwatch.Start();
 
                         transparentImage = GetTransparentImageFromClipboard(clipboardObject, index);
-                        if(transparentImage != null)
+                        if (transparentImage != null)
                         {
                             isClipboardImageTransparent = IsImageTransparent(transparentImage);
                         } else
                         {
                             isClipboardImageTransparent = false;
                         }
-                        
+
                         stopwatch.Stop();
                         Logging.Log($"index=[{index}] Execution time for transparency check: {stopwatch.Elapsed.TotalSeconds} seconds");
                     }
@@ -356,12 +447,109 @@ namespace HovText
             }
         }
 
+        private static bool TryGetValidClipboardBitmap(Dictionary<string, object> clipboardObject, out Image image)
+        {
+            image = null;
+
+            if (clipboardObject == null)
+            {
+                return false;
+            }
+
+            if (!clipboardObject.TryGetValue(DataFormats.Bitmap, out object obj) || obj == null)
+            {
+                return false;
+            }
+
+            image = obj as Image;
+            if (image == null)
+            {
+                return false;
+            }
+
+            // Some providers (Excel) can expose a Bitmap format but give invalid/empty images.
+            // Accessing Width/Height should be safe for Image, but still guard.
+            try
+            {
+                return image.Width > 0 && image.Height > 0;
+            }
+            catch
+            {
+                image = null;
+                return false;
+            }
+        }
+
+        private static bool HasUsableText(Dictionary<string, object> clipboardObject)
+        {
+            if (clipboardObject == null)
+            {
+                return false;
+            }
+
+            if (clipboardObject.TryGetValue(DataFormats.UnicodeText, out object unicodeObj))
+            {
+                var s = unicodeObj as string;
+                if (!string.IsNullOrWhiteSpace(s))
+                {
+                    return true;
+                }
+            }
+
+            if (clipboardObject.TryGetValue(DataFormats.Text, out object textObj))
+            {
+                var s = textObj as string;
+                if (!string.IsNullOrWhiteSpace(s))
+                {
+                    return true;
+                }
+            }
+
+            if (clipboardObject.TryGetValue(DataFormats.Rtf, out object rtfObj))
+            {
+                var s = rtfObj as string;
+                if (!string.IsNullOrWhiteSpace(s))
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        private static bool ShouldTreatAsImage(Dictionary<string, object> clipboardObject, Image bitmap)
+        {
+            // Rule #1: If we have usable text, treat as TEXT (ignore Excel-provided Bitmap snapshot).
+            if (HasUsableText(clipboardObject))
+            {
+                return false;
+            }
+
+            // If no text exists, only then consider image—and only if it’s valid.
+            if (bitmap == null)
+            {
+                return false;
+            }
+
+            // Optional heuristic: reject ridiculously large bitmaps (e.g. Excel "copy whole sheet" snapshots).
+            // Tune limits as needed.
+            const int maxReasonableWidth = 8000;
+            const int maxReasonableHeight = 8000;
+
+            if (bitmap.Width > maxReasonableWidth || bitmap.Height > maxReasonableHeight)
+            {
+                return false;
+            }
+
+            return true;
+        }
+
 
         // ###########################################################################################
         // Check if the data is already present in one of the arrays (text or image)
         // ###########################################################################################   
 
-        private bool IsClipboardContentAlreadyInArrays (
+        private bool IsClipboardContentAlreadyInArrays(
             int index,
             bool isClipboardText,
             bool isClipboardImage,
@@ -369,29 +557,22 @@ namespace HovText
         {
             if (Settings.entriesTextTrimmed.Count > 0)
             {
-                for (int i = 0; i < Settings.entriesTextTrimmed.Count; i++)
+                foreach (var kv in Settings.entriesChecksum)
                 {
-
-                    if (isClipboardText)
+                    if (kv.Value == checksum)
                     {
-                        // If the two data are identical then move the entry to the top
-                        if (Settings.entriesChecksum.ElementAt(i).Value == checksum)
+                        if (isClipboardText)
                         {
                             Logging.Log($"index=[{index}] Text is already in data array - reusing it");
-                            int moveIndex = Settings.entriesTextTrimmed.ElementAt(i).Key;
-                            Settings.MoveEntryToTop(moveIndex);
-                            return true;
                         }
-                    }
-                    else if (isClipboardImage)
-                    {
-                        if (Settings.entriesChecksum.ElementAt(i).Value == checksum)
+                        else if (isClipboardImage)
                         {
                             Logging.Log($"index=[{index}] Image is already in data array - reusing it");
-                            int moveIndex = Settings.entriesTextTrimmed.ElementAt(i).Key;
-                            Settings.MoveEntryToTop(moveIndex);
-                            return true;
                         }
+
+                        int moveIndex = kv.Key;
+                        Settings.MoveEntryToTop(moveIndex);
+                        return true;
                     }
                 }
             }
@@ -469,31 +650,42 @@ namespace HovText
             Settings.entriesText.Add(index, clipboardText);
 
             // clipboardTextTrimmed
-            Settings.entriesTextTrimmed.Add(index, clipboardText.Trim());
+            string trimmedText = clipboardText.Trim();
+            if (Settings.isEnabledTrimBullet)
+            {
+                trimmedText = RemoveLeadingBullet(trimmedText);
+            }
+            Settings.entriesTextTrimmed.Add(index, trimmedText);
 
             // entriesImage
+            Bitmap resizedBmp = null;
             if (clipboardImage != null)
             {
                 // Resize image, if needed
                 Bitmap bmp = new Bitmap(clipboardImage);
-                Bitmap resizedBmp = ResizeImage(bmp, 400, 800); // width, height
-                Settings.entriesImage.Add(index, resizedBmp);
+                resizedBmp = ResizeImage(bmp, 400, 800); // width, height
             }
-            else
+            if (clipboardImage != null && resizedBmp != null)
+            {
+                Settings.entriesImage.Add(index, resizedBmp);
+            } else
             {
                 Settings.entriesImage.Add(index, null);
             }
 
             // entriesImageTrans
             // entriesIsTransparent
+            Bitmap resizedBmpTrans = null;
             if (clipboardImage != null && isClipboardImageTransparent)
             {
                 Bitmap bmp = new Bitmap(transparentImage);
-                Bitmap resizedBmp = ResizeImage(bmp, 200, 400); // width, height
-                Settings.entriesImageTrans.Add(index, (Image)resizedBmp);
-                Settings.entriesIsTransparent.Add(index, true);
+                resizedBmpTrans = ResizeImage(bmp, 200, 400); // width, height
             }
-            else
+            if (clipboardImage != null && isClipboardImageTransparent && resizedBmpTrans != null)
+            {
+                Settings.entriesImageTrans.Add(index, (Image)resizedBmpTrans);
+                Settings.entriesIsTransparent.Add(index, true);
+            } else
             {
                 Settings.entriesImageTrans.Add(index, null);
                 Settings.entriesIsTransparent.Add(index, false);
@@ -503,13 +695,13 @@ namespace HovText
             Settings.entriesChecksum.Add(index, checksum);
 
             // entriesIsFavorite
-            if(Settings.isEnabledFavorites)
+            if (Settings.isEnabledFavorites)
             {
                 Settings.entriesIsFavorite.Add(index, isFavorite);
             } else
             {
                 Settings.entriesIsFavorite.Add(index, false);
-            }            
+            }
 
             // entriesIsUrl
             bool isUrl = Uri.TryCreate(clipboardText.Trim(), UriKind.Absolute, out Uri myUri) && (myUri.Scheme == Uri.UriSchemeHttp || myUri.Scheme == Uri.UriSchemeHttps || myUri.Scheme == Uri.UriSchemeFtp || myUri.Scheme == "ws" || myUri.Scheme == "wss");
@@ -531,7 +723,7 @@ namespace HovText
             Settings.entriesIsEmail.Add(index, isEmail);
 
             // entriesIsImage
-            if (isClipboardImage)
+            if (isClipboardImage && resizedBmp != null)
             {
                 Settings.entriesIsImage.Add(index, true);
             }
@@ -598,7 +790,7 @@ namespace HovText
                 }
             } catch {
                 return null;
-            }            
+            }
 
             // Get the "Dib" format as a byte array, but sometimes this fails (not sure why!?)
             byte[] dib = null;
@@ -689,7 +881,7 @@ namespace HovText
 
             if (threadSafeIndex > 0)
             {
-                if(Settings.isEnabledTrimWhitespacing)
+                if (Settings.isEnabledTrimWhitespacing || Settings.isEnabledTrimBullet)
                 {
                     entryText = Settings.entriesTextTrimmed[index];
                 } else
@@ -758,7 +950,7 @@ namespace HovText
                     if (kvp.Value != null)
                     {
                         data.SetData(kvp.Key, kvp.Value);
-                        Logging.Log("index=[{index}]    Adding format to clipboard, [" + kvp.Key + "]");
+                        Logging.Log($"index=[{index}]    Adding format to clipboard, [{kvp.Key}]");
                     }
                 }
                 Clipboard.SetDataObject(data, true);
@@ -778,7 +970,27 @@ namespace HovText
 
         public Bitmap ResizeImage(Image originalImage, int maxWidth, int maxHeight)
         {
+            if (originalImage == null)
+            {
+                return null;
+            }
+
+            int originalWidth = originalImage.Width;
+            int originalHeight = originalImage.Height;
+
+            if (originalWidth <= 0 || originalHeight <= 0)
+            {
+                Logging.Log($"Warning: Cannot resize image with invalid size [{originalWidth}x{originalHeight}]");
+                return null;
+            }
+
             Size newSize = CalculateMaxSizeDimensions(originalImage.Size, maxWidth, maxHeight);
+
+            if (newSize.Width <= 0 || newSize.Height <= 0)
+            {
+                Logging.Log($"Warning: Calculated invalid resized image size [{newSize.Width}x{newSize.Height}] from original [{originalWidth}x{originalHeight}]");
+                return null;
+            }
 
             Bitmap resizedImage = new Bitmap(newSize.Width, newSize.Height);
             using (Graphics graphics = Graphics.FromImage(resizedImage))
@@ -844,5 +1056,38 @@ namespace HovText
 
 
         // ###########################################################################################
+        // Remove leading bullet from a text string
+        // ###########################################################################################
+
+        public static string RemoveLeadingBullet(string text)
+        {
+            if (string.IsNullOrEmpty(text))
+            {
+                return text;
+            }
+
+            // Bullet syntax should cover at least Word, Outlook and OneNote
+            string[] prefixes =
+            {
+                "•\t", "• ", "•",
+                "·\t", "· ", "·",
+                "◦\t", "◦ ", "◦",
+                "▪\t", "▪ ", "▪",
+            };
+
+            foreach (var p in prefixes)
+            {
+                if (text.StartsWith(p, StringComparison.Ordinal))
+                {
+                    // Remove the prefix and any immediate whitespace after it
+                    return text.Substring(p.Length).TrimStart();
+                }
+            }
+
+            return text;
+        }
     }
+
+
+    // ###########################################################################################
 }

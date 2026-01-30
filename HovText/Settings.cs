@@ -138,6 +138,7 @@ namespace HovText
         public const string registryPathRun = "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run";
         private const string registryHotkeyToggleApplication = "Control + Oem5"; // hotkey "Toggle application on/off"
         private const string registryHotkeySearch = "Alt + S"; // hotkey "Search"
+        private const string registryHotkeyDeleteNonsavedEntries = "Alt + C"; // hotkey "Delete non-saved entries"
         private const string registryHotkeyPasteOnHotkey = "Alt + O"; // hotkey "Paste on hotkey"
         private const string registryHotkeyToggleFavorite = "Oem5"; // hotkey "Toggle favorite entry"
         private const string registryHotkeyBehaviour = "System"; // use system clipboard
@@ -148,12 +149,15 @@ namespace HovText
         private const string registryCloseMinimizes = "1"; // 0 = terminates, 1 = minimize to tray
         private const string registryStartDisabled = "0"; // 0 = start active, 1 = start disabled
         private const string registryRestoreOriginal = "1"; // 1 = restore original
+        private const string registryProcessReenabling = "1"; // 1 = process clipboard after application reenabling
+        private const string registryUnregisterHotkeys = "0"; // 1 = hotkeys will get unregistered at disabling and can be used in other applications
         private const string registryCopyImages = "1"; // 1 = copy images to history
         private const string registryHistorySearch = "1"; // 1 = enable history and Search
         private const string registryEnableFavorites = "1"; // 0 = do not enable favorites
         private const string registryPasteOnSelection = "0"; // 0 = do not paste selected entry when selected
         private const string registryAlwaysPasteOriginal = "0"; // 1 = always paste original (formatted) text
         private const string registryTrimWhitespaces = "1"; // 1 = trim whitespaces
+        private const string registryTrimBullet = "1"; // 1 = trim leading bullet
         private const string registryTroubleshootEnable = "0"; // 0 = do not enable troubleshoot logging
         public static string iconSet = "Round"; // Round, SquareOld, SquareNew
         public static int historyMargin = 5;
@@ -165,7 +169,10 @@ namespace HovText
         public static bool isEnabledAlwaysPasteOriginal;
         public static bool isEnabledPasteOnHotkey;
         public static bool isEnabledTrimWhitespacing;
+        public static bool isEnabledTrimBullet;
         public static bool isRestoreOriginal;
+        public static bool isProcessReenabling;
+        public static bool isUnregisterHotkeys;
         public static bool isStartDisabled;
         public static bool isCopyImages;
         public static bool isClosedFromNotifyIcon;
@@ -365,8 +372,8 @@ namespace HovText
                 UiAboutLabelRelease.Text = "Development version (64-bit)";
                 BackColor = Color.IndianRed;
                 UiFormPanel.BackColor = Color.IndianRed;
-                UiFormLabelApplicationName.BackColor = Color.IndianRed;
-                UiFormLabelApplicationVersion.BackColor = Color.IndianRed;
+//                UiFormLabelApplicationName.BackColor = Color.IndianRed;
+//                UiFormLabelApplicationVersion.BackColor = Color.IndianRed;
                 UiFormPictureBoxIcon.BackColor = Color.IndianRed;
             }
 
@@ -1000,10 +1007,10 @@ namespace HovText
             // Set the clipboard (depending if we come from a threaded or non-threaded call)
             if (settings.InvokeRequired)
             {
-                settings.Invoke(new Action(() => HandleClipboard.SetClipboard(index)));
+                settings.Invoke(new Action(() => HandleClipboard.SetClipboard(insertIndex)));
             } else
             {
-                HandleClipboard.SetClipboard(index);
+                HandleClipboard.SetClipboard(insertIndex);
             }
 
             // Remove the chosen entry, so it does not show duplicates
@@ -1029,6 +1036,58 @@ namespace HovText
 
                 // Add this application to the clipboard chain again
                 AddClipboardToChain();
+
+                // Process clipboard after reenabling (if enabled) - must run BEFORE SetFieldsBasedOnHistoryEnabled()
+                if (UiGeneralToggleProcessReenabling.Checked && UiGeneralToggleEnableClipboard.Checked)
+                {
+                    try
+                    {
+                        // Attribute entry to currently active app (more reliable than clipboard owner here)
+                        string whoUpdatedClipboardName = HandleClipboard.GetActiveApplicationName();
+                        uint thisProcessId = 0;
+
+                        // Best-effort pid (not required for functionality; icon is optional)
+                        try
+                        {
+                            IntPtr whoUpdatedClipboardHwnd = NativeMethods.GetForegroundWindow();
+                            NativeMethods.GetWindowThreadProcessId(whoUpdatedClipboardHwnd, out thisProcessId);
+                        }
+                        catch
+                        {
+                            thisProcessId = 0;
+                        }
+
+                        lastClipboardEvent = DateTime.Now;
+
+                        clipboardHandler.GetClipboardData(whoUpdatedClipboardName, thisProcessId);
+
+                        if (!isProcessingClipboardQueue && HandleClipboard.clipboardQueue.Count > 0 && HandleFiles.onLoadAllEntriesInClipboardQueue)
+                        {
+                            isProcessingClipboardQueue = true;
+                            TimerShowFloppies.Enabled = true;
+
+                            Task.Run(() =>
+                            {
+                                clipboardHandler.ReleaseClipboardQueue();
+                                HandleFiles.saveIndexAndFavoriteFiles = true;
+
+                                BeginInvoke(new Action(() =>
+                                {
+                                    UpdateNotifyIconText();
+                                    if (history.Visible)
+                                    {
+                                        history.UpdateHistory("");
+                                    }
+                                }));
+                            });
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        Logging.Log("Error: Failed to process clipboard on reenabling");
+                        Logging.LogException(ex);
+                    }
+                }
 
                 string hotkeyBehaviour = GetRegistryKey(registryPath, "HotkeyBehaviour");
                 switch (hotkeyBehaviour)
@@ -1064,18 +1123,25 @@ namespace HovText
                 UiGeneralLabelEnableFavorites.Enabled = true;
                 UiGeneralToggleRestoreOriginal.Enabled = true;
                 UiGeneralLabelRestoreOriginal.Enabled = true;
+                UiGeneralToggleProcessReenabling.Enabled = true;
+                UiGeneralLabelProcessReenabling.Enabled = true;
+                UiGeneralToggleUnregisterHotkeys.Enabled = true;
+                UiGeneralLabelUnregisterHotkeys.Enabled = true;
                 UiHotkeysRadioUseStandardWindowsMethod.Enabled = true;
                 UiHotkeysLabelUseStandardWindowsMethod.Enabled = true;
                 UiHotkeysRadioPasteOnHotkey.Enabled = true;
                 UiHotkeysLabelPasteOnHotkey.Enabled = true;
                 UiGeneralToggleTrimWhitespaces.Enabled = true;
                 UiGeneralLabelTrimWhitespaces.Enabled = true;
+                UiGeneralToggleTrimBullet.Enabled = true;
+                UiGeneralLabelTrimBullet.Enabled = true;
                 UiGeneralToggleIncludeImages.Enabled = true;
                 UiGeneralLabelIncludeImages.Enabled = true;
                 UiGeneralTogglePasteToApplication.Enabled = true;
                 UiGeneralLabelPasteToApplication.Enabled = true;
                 UiGeneralToggleAlwaysPasteOriginal.Enabled = true;
                 UiGeneralLabelAlwaysPasteOriginal.Enabled = true;
+
             }
             else
             {
@@ -1100,15 +1166,22 @@ namespace HovText
                 UiGeneralLabelEnableClipboard.Enabled = false;
                 UiGeneralLabelEnableClipboardShortcut.Enabled = false;
                 UiHotkeysButtonSearch.Enabled = false;
+                UiHotkeysButtonDeleteNonsavedEntries.Enabled = false;
                 UiHotkeysLabelUseStandardWindowsMethod.Enabled = false;
                 UiGeneralToggleEnableFavorites.Enabled = false;
                 UiGeneralLabelEnableFavorites.Enabled = false;
                 UiGeneralToggleRestoreOriginal.Enabled = false;
                 UiGeneralLabelRestoreOriginal.Enabled = false;
+                UiGeneralToggleProcessReenabling.Enabled = false;
+                UiGeneralLabelProcessReenabling.Enabled = false;
+                UiGeneralToggleUnregisterHotkeys.Enabled = false;
+                UiGeneralLabelUnregisterHotkeys.Enabled = false;
                 UiGeneralToggleIncludeImages.Enabled = false;
                 UiGeneralLabelIncludeImages.Enabled = false;
                 UiGeneralToggleTrimWhitespaces.Enabled = false;
                 UiGeneralLabelTrimWhitespaces.Enabled = false;
+                UiGeneralToggleTrimBullet.Enabled = false;
+                UiGeneralLabelTrimBullet.Enabled = false;
                 UiGeneralTogglePasteToApplication.Enabled = false;
                 UiGeneralLabelPasteToApplication.Enabled = false;
                 UiGeneralToggleAlwaysPasteOriginal.Enabled = false;
@@ -1434,7 +1507,10 @@ namespace HovText
 
             RegistryKeyCheckOrCreate(registryPath, "StartDisabled", registryStartDisabled);
             RegistryKeyCheckOrCreate(registryPath, "RestoreOriginal", registryRestoreOriginal);
+            RegistryKeyCheckOrCreate(registryPath, "ProcessReenabling", registryProcessReenabling);
+            RegistryKeyCheckOrCreate(registryPath, "UnregisterHotkeys", registryUnregisterHotkeys);
             RegistryKeyCheckOrCreate(registryPath, "TrimWhitespaces", registryTrimWhitespaces);
+            RegistryKeyCheckOrCreate(registryPath, "TrimBullet", registryTrimBullet);
             RegistryKeyCheckOrCreate(registryPath, "CloseMinimizes", registryCloseMinimizes);
             RegistryKeyCheckOrCreate(registryPath, "HistorySearch", registryHistorySearch);
             RegistryKeyCheckOrCreate(registryPath, "FavoritesEnable", registryEnableFavorites);
@@ -1525,6 +1601,7 @@ namespace HovText
             RegistryKeyCheckOrCreate(registryPath, "HotkeyBehaviour", registryHotkeyBehaviour);
             RegistryKeyCheckOrCreate(registryPath, "HotkeyToggleApplication", registryHotkeyToggleApplication);
             RegistryKeyCheckOrCreate(registryPath, "HotkeySearch", registryHotkeySearch);
+            RegistryKeyCheckOrCreate(registryPath, "HotkeyDeleteNonsavedEntries", registryHotkeyDeleteNonsavedEntries);
             RegistryKeyCheckOrCreate(registryPath, "HotkeyToggleFavorite", registryHotkeyToggleFavorite);
             RegistryKeyCheckOrCreate(registryPath, "HotkeyPasteOnHotkey", registryHotkeyPasteOnHotkey);
 
@@ -1534,6 +1611,8 @@ namespace HovText
             Logging.Log("    \"HotkeyToggleApplication\" = [" + regVal + "]");
             regVal = GetRegistryKey(registryPath, "HotkeySearch");
             Logging.Log("    \"HotkeySearch\" = [" + regVal + "]");
+            regVal = GetRegistryKey(registryPath, "HotkeyDeleteNonsavedEntries");
+            Logging.Log("    \"HotkeyDeleteNonsavedEntries\" = [" + regVal + "]");
             regVal = GetRegistryKey(registryPath, "HotkeyToggleFavorite");
             Logging.Log("    \"HotkeyToggleFavorite\" = [" + regVal + "]");
             regVal = GetRegistryKey(registryPath, "HotkeyPasteOnHotkey");
@@ -1827,14 +1906,17 @@ namespace HovText
             // Hotkeys
             string hotkeyToggleApplication = GetRegistryKey(registryPath, "HotkeyToggleApplication");
             string hotkeySearch = GetRegistryKey(registryPath, "HotkeySearch");
+            string hotkeyDeleteNonsavedEntries = GetRegistryKey(registryPath, "HotkeyDeleteNonsavedEntries");
             string hotkeyPasteOnHotkey = GetRegistryKey(registryPath, "HotkeyPasteOnHotkey");
             string hotkeyToggleFavorite = GetRegistryKey(registryPath, "HotkeyToggleFavorite");
             hotkeyToggleApplication = hotkeyToggleApplication.Length == 0 ? "Not set" : hotkeyToggleApplication;
             hotkeySearch = hotkeySearch.Length == 0 ? "Not set" : hotkeySearch;
+            hotkeyDeleteNonsavedEntries = hotkeyDeleteNonsavedEntries.Length == 0 ? "Not set" : hotkeyDeleteNonsavedEntries;
             hotkeyPasteOnHotkey = hotkeyPasteOnHotkey.Length == 0 ? "Not set" : hotkeyPasteOnHotkey;
             hotkeyToggleFavorite = hotkeyToggleFavorite.Length == 0 ? "Not set" : hotkeyToggleFavorite;
             UiHotkeysButtonToggleApplication.Text = hotkeyToggleApplication;
             UiHotkeysButtonSearch.Text = hotkeySearch;
+            UiHotkeysButtonDeleteNonsavedEntries.Text = hotkeyDeleteNonsavedEntries;
             UiHotkeysButtonPasteHotkey.Text = hotkeyPasteOnHotkey;
             UiHotkeysButtonToggleFavorite.Text = hotkeyToggleFavorite;
 
@@ -1899,6 +1981,16 @@ namespace HovText
             UiGeneralToggleRestoreOriginal.Checked = restoreOriginal == 1;
             isRestoreOriginal = UiGeneralToggleRestoreOriginal.Checked;
 
+            // Process clipboard after reenabling application
+            int processReenabling = int.Parse((string)GetRegistryKey(registryPath, "ProcessReenabling"));
+            UiGeneralToggleProcessReenabling.Checked = processReenabling == 1;
+            isProcessReenabling = UiGeneralToggleProcessReenabling.Checked;
+
+            // Unregister global hotkeys when disabling application
+            int unregisterHotkeys = int.Parse((string)GetRegistryKey(registryPath, "UnregisterHotkeys"));
+            UiGeneralToggleUnregisterHotkeys.Checked = unregisterHotkeys == 1;
+            isUnregisterHotkeys = UiGeneralToggleUnregisterHotkeys.Checked;
+
             // Do not copy images
             int copyImages = int.Parse((string)GetRegistryKey(registryPath, "CopyImages"));
             UiGeneralToggleIncludeImages.Checked = copyImages == 1;
@@ -1949,6 +2041,11 @@ namespace HovText
             UiGeneralToggleTrimWhitespaces.Checked = trimWhitespaces == 1;
             isEnabledTrimWhitespacing = UiGeneralToggleTrimWhitespaces.Checked;
 
+            // Trim bullet
+            int trimBullet = int.Parse((string)GetRegistryKey(registryPath, "TrimBullet"));
+            UiGeneralToggleTrimBullet.Checked = trimBullet == 1;
+            isEnabledTrimBullet = UiGeneralToggleTrimBullet.Checked;
+
 
             // ------------------------------------------
             // "Storage" tab
@@ -1974,23 +2071,37 @@ namespace HovText
             {
                 case "All":
                     UiStorageRadioSaveAll.Checked = true;
+                    UiHotkeysButtonDeleteNonsavedEntries.Enabled = false;
+                    UiHotkeysLabelDeleteNonsavedEntries.Enabled = false;
                     break;
                 case "Text+Favorite":
                     UiStorageRadioSaveBothTextAndFavorites.Checked = true;
+                    UiHotkeysButtonDeleteNonsavedEntries.Enabled = true;
+                    UiHotkeysLabelDeleteNonsavedEntries.Enabled = true;
                     break;
                 case "Favorite":
                     if (isEnabledFavorites)
                     {
+                        UiStorageRadioSaveOnlyFavorites.Enabled = true;
+                        UiStorageLabelSaveOnlyFavorites.Enabled = true;
                         UiStorageRadioSaveOnlyFavorites.Checked = true;
+                        UiHotkeysButtonDeleteNonsavedEntries.Enabled = true;
+                        UiHotkeysLabelDeleteNonsavedEntries.Enabled = true;
                     }
                     else
                     {
+                        UiStorageRadioSaveOnlyFavorites.Enabled = false;
+                        UiStorageLabelSaveOnlyFavorites.Enabled = false;
                         UiStorageRadioSaveOnlyText.Checked = true;
                         UiStorageRadioSaveOnlyFavorites.Enabled = false;
+                        UiHotkeysButtonDeleteNonsavedEntries.Enabled = false;
+                        UiHotkeysLabelDeleteNonsavedEntries.Enabled = false;
                     }
                     break;
                 default: // Text
                     UiStorageRadioSaveOnlyText.Checked = true;
+                    UiHotkeysButtonDeleteNonsavedEntries.Enabled = true;
+                    UiHotkeysLabelDeleteNonsavedEntries.Enabled = true;
                     break;
             }
 
@@ -2496,10 +2607,33 @@ namespace HovText
 
         private void GuiRestoreOriginal_CheckedChanged(object sender, EventArgs e)
         {
-            // History enabled
             string status = UiGeneralToggleRestoreOriginal.Checked ? "1" : "0";
             isRestoreOriginal = UiGeneralToggleRestoreOriginal.Checked;
             SetRegistryKey(registryPath, "RestoreOriginal", status);
+        }
+
+
+        // ###########################################################################################
+        // Changes in "Process clipboard after reenabling application"
+        // ###########################################################################################
+
+        private void GuiProcessReenabling_CheckedChanged(object sender, EventArgs e)
+        {
+            string status = UiGeneralToggleProcessReenabling.Checked ? "1" : "0";
+            isProcessReenabling = UiGeneralToggleProcessReenabling.Checked;
+            SetRegistryKey(registryPath, "ProcessReenabling", status);
+        }
+
+
+        // ###########################################################################################
+        // Changes in "Unregister global hotkeys when disabling application"
+        // ###########################################################################################
+
+        private void GuiUnregisterHotkeys_CheckedChanged(object sender, EventArgs e)
+        {
+            string status = UiGeneralToggleUnregisterHotkeys.Checked ? "1" : "0";
+            isUnregisterHotkeys = UiGeneralToggleUnregisterHotkeys.Checked;
+            SetRegistryKey(registryPath, "UnregisterHotkeys", status);
         }
 
 
@@ -2524,7 +2658,7 @@ namespace HovText
                     if (isImage)
                     {
                         // Delete the image from the lists
-                        RemoveEntryFromLists(entry.Value);
+                        RemoveEntryFromLists(entry.Key);
                     }
                 }
                 HandleFiles.saveIndexAndFavoriteFiles = true;
@@ -2588,6 +2722,7 @@ namespace HovText
             if (UiGeneralToggleEnableClipboard.Checked)
             {
                 UiHotkeysButtonSearch.Enabled = true;
+                UiHotkeysButtonDeleteNonsavedEntries.Enabled = true;
                 UiGeneralLabelEnableClipboardShortcut.Enabled = true;
                 UiHotkeysLabelSearch.Enabled = true;
                 UiStorageTrackBarEntriesToSave.Enabled = true;
@@ -2595,6 +2730,7 @@ namespace HovText
             else
             {
                 UiHotkeysButtonSearch.Enabled = false;
+                UiHotkeysButtonDeleteNonsavedEntries.Enabled = false;
                 UiGeneralLabelEnableClipboardShortcut.Enabled = false;
                 UiHotkeysLabelSearch.Enabled = false;
                 UiStorageTrackBarEntriesToSave.Enabled = false;
@@ -2640,7 +2776,13 @@ namespace HovText
             }
 
             // Set the clipboard again, as there could be changes how "GuiAlwaysPasteOriginal" behaves
-            HandleClipboard.SetClipboard(HandleClipboard.threadSafeIndex - 1);
+//            HandleClipboard.SetClipboard(HandleClipboard.threadSafeIndex - 1);
+//hest
+            // Set the clipboard again, as there could be changes how "GuiAlwaysPasteOriginal" behaves
+            if (entriesOrder.Count > 0)
+            {
+                HandleClipboard.SetClipboard(entriesOrder.Keys.Last());
+            }
 
             // Enable/disable hotkeys
             SetHotkeys("Enable history change");
@@ -2660,7 +2802,10 @@ namespace HovText
             SetRegistryKey(registryPath, "AlwaysPasteOriginal", status);
             isEnabledAlwaysPasteOriginal = UiGeneralToggleAlwaysPasteOriginal.Checked ? true : false;
 
-            HandleClipboard.SetClipboard(HandleClipboard.threadSafeIndex - 1);
+            if (entriesOrder.Count > 0)
+            {
+                HandleClipboard.SetClipboard(entriesOrder.Keys.Last());
+            }
         }
 
 
@@ -2680,6 +2825,7 @@ namespace HovText
                     UiHotkeysButtonToggleFavorite.Enabled = true;
                     UiHotkeysLabelToggleFavorite.Enabled = true;
                     UiStorageRadioSaveOnlyFavorites.Enabled = true;
+                    UiStorageLabelSaveOnlyFavorites.Enabled = true;
                 }
             }
             else
@@ -2687,6 +2833,7 @@ namespace HovText
                 UiHotkeysButtonToggleFavorite.Enabled = false;
                 UiHotkeysLabelToggleFavorite.Enabled = false;
                 UiStorageRadioSaveOnlyFavorites.Enabled = false;
+                UiStorageLabelSaveOnlyFavorites.Enabled = false;
 
                 // If we previously did save "Favorites only" then we need to change that to "All"
                 if (UiStorageRadioSaveOnlyFavorites.Checked)
@@ -2733,8 +2880,35 @@ namespace HovText
             isEnabledTrimWhitespacing = UiGeneralToggleTrimWhitespaces.Checked;
             SetRegistryKey(registryPath, "TrimWhitespaces", status);
 
-            // Set the clipboard again, as there could be changes how "GuiAlwaysPasteOriginal" behaves
-            HandleClipboard.SetClipboard(HandleClipboard.threadSafeIndex - 1);
+            // Rebuild all trimmed entries, so the clipboard paste behavior updates immediately
+            RebuildAllEntriesTextTrimmed();
+
+            // Re-set clipboard to newest entry using the new trimming setting
+            if (entriesOrder.Count > 0)
+            {
+                HandleClipboard.SetClipboard(entriesOrder.Keys.Last());
+            }
+        }
+
+
+        // ###########################################################################################
+        // Changes in "Trim leading bullet"
+        // ###########################################################################################
+
+        private void GuiTrimBullet_CheckedChanged(object sender, EventArgs e)
+        {
+            string status = UiGeneralToggleTrimBullet.Checked ? "1" : "0";
+            isEnabledTrimBullet = UiGeneralToggleTrimBullet.Checked;
+            SetRegistryKey(registryPath, "TrimBullet", status);
+
+            // Rebuild all trimmed entries so history + future clipboard set uses updated text
+            RebuildAllEntriesTextTrimmed();
+
+            // Re-set clipboard to newest entry using the new trimming setting
+            if (entriesOrder.Count > 0)
+            {
+                HandleClipboard.SetClipboard(entriesOrder.Keys.Last());
+            }
         }
 
 
@@ -2882,6 +3056,38 @@ namespace HovText
 
 
         // ###########################################################################################
+        // Rebuild the history list
+        // ###########################################################################################
+
+        private void RebuildAllEntriesTextTrimmed()
+        {
+            var rebuilt = new SortedDictionary<int, string>();
+
+            foreach (var kv in entriesText)
+            {
+                int index = kv.Key;
+                string text = kv.Value ?? string.Empty;
+
+                string newValue = text;
+
+                if (isEnabledTrimWhitespacing)
+                {
+                    newValue = newValue.Trim();
+                }
+
+                if (isEnabledTrimBullet)
+                {
+                    newValue = HandleClipboard.RemoveLeadingBullet(newValue);
+                }
+
+                rebuilt[index] = newValue;
+            }
+
+            entriesTextTrimmed = rebuilt;
+        }
+
+
+        // ###########################################################################################
         // Changes in "Always action" hotkey behaviour
         // ###########################################################################################
 
@@ -2894,6 +3100,10 @@ namespace HovText
                 SetRegistryKey(registryPath, "HotkeyBehaviour", "System");
                 UiGeneralToggleRestoreOriginal.Enabled = true;
                 UiGeneralLabelRestoreOriginal.Enabled = true;
+                UiGeneralToggleProcessReenabling.Enabled = true;
+                UiGeneralLabelProcessReenabling.Enabled = true;
+                UiGeneralToggleUnregisterHotkeys.Enabled = true;
+                UiGeneralLabelUnregisterHotkeys.Enabled = true;
                 UiHotkeysLabelPasteHotkey.Enabled = false;
                 isEnabledPasteOnHotkey = false;
                 SetNotifyIcon();
@@ -2912,6 +3122,10 @@ namespace HovText
             SetHotkeys("Hotkey behaviour change");
             UiGeneralToggleRestoreOriginal.Enabled = false;
             UiGeneralLabelRestoreOriginal.Enabled = false;
+            UiGeneralToggleProcessReenabling.Enabled = false;
+            UiGeneralLabelProcessReenabling.Enabled = false;
+            UiGeneralToggleUnregisterHotkeys.Enabled = false;
+            UiGeneralLabelUnregisterHotkeys.Enabled = false;
             UiHotkeysLabelPasteHotkey.Enabled = true;
             isEnabledPasteOnHotkey = true;
             SetNotifyIcon();
@@ -2985,35 +3199,154 @@ namespace HovText
         {
             GetEntryCounter();
 
-            // Check if application is enabled
-            if (isApplicationEnabled)
+            // Consume the hotkey so other apps (e.g. Outlook) will not use it
+            if (!isApplicationEnabled)
             {
-                // Hide the history list again, if it already is visible and I pressed the hotkey again
-                if (history.Visible)
+                e.Handled = true;
+                return;
+            }
+
+            // Hide the history list again, if it already is visible and I pressed the hotkey again
+            if (history.Visible)
+            {
+                history.ActionEscape();
+            }
+            else
+            {
+                Logging.Log("Pressed the \"Search\" interface hotkey");
+
+                // Hide the "Settings" form if it is visible (it will be restored after key-up)
+                isSettingsFormVisible = Visible;
+                if (isSettingsFormVisible)
                 {
-                    history.ActionEscape();
+                    Hide();
                 }
-                else
+                originatingApplicationName = HandleClipboard.GetActiveApplicationName();
+                history.SetupForm();
+
+                // Only proceed if the entry counter is equal to or more than 0
+                if (entryCounter > 0)
                 {
-                    Logging.Log("Pressed the \"Search\" interface hotkey");
-
-                    // Hide the "Settings" form if it is visible (it will be restored after key-up)
-                    isSettingsFormVisible = Visible;
-                    if (isSettingsFormVisible)
-                    {
-                        Hide();
-                    }
-                    originatingApplicationName = HandleClipboard.GetActiveApplicationName();
-                    history.SetupForm();
-
-                    // Only proceed if the entry counter is equal to or more than 0
-                    if (entryCounter > 0)
-                    {
-                        history.UpdateHistory("");
-                    }
+                    history.UpdateHistory("");
                 }
             }
+            
             e.Handled = true;
+        }
+
+
+        // ###########################################################################################
+        // Action for the "Delete non-saved entries" hotkey
+        // ###########################################################################################
+
+        private void HotkeyDeleteNonsavedEntries(object sender, NHotkey.HotkeyEventArgs e)
+        {
+            Logging.Log("Pressed the \"Delete non-saved entries\" interface hotkey");
+
+            string selectedStorage;
+
+            if (UiStorageRadioSaveAll.Checked)
+            {
+                selectedStorage = "All";
+            }
+            else if (UiStorageRadioSaveBothTextAndFavorites.Checked)
+            {
+                selectedStorage = "Text+Favorite";
+            }
+            else if (UiStorageRadioSaveOnlyFavorites.Checked)
+            {
+                selectedStorage = "Favorite";
+            }
+            else
+            {
+                selectedStorage = "Text";
+            }
+
+            if (!CheckIfQueuesAreEmpty())
+            {
+                e.Handled = true;
+                return;
+            }
+
+            int deleted = DeleteEntriesNotPartOfSelectedStorage(selectedStorage);
+
+            Logging.Log($"Deleted [{deleted}] entries; StorageSaveType=[{selectedStorage}])");
+
+            HandleFiles.saveIndexAndFavoriteFiles = true;
+            GetEntryCounter();
+            UpdateNotifyIconText();
+
+            // Hide the history list again, if it already is visible and I pressed the hotkey again
+            if (history.Visible)
+            {
+                history.ActionEscape();
+            }
+
+            e.Handled = true;
+        }
+
+
+        private static int DeleteEntriesNotPartOfSelectedStorage(string selectedStorage)
+        {
+            if (entriesOrder.Count == 0)
+            {
+                return 0;
+            }
+
+            // Walk backwards so "older -> newer" deletes don't disturb the UI state as much
+            var entriesOrderTmp = new SortedDictionary<int, int>(entriesOrder);
+
+            int deleted = 0;
+
+            foreach (var entry in entriesOrderTmp.Reverse())
+            {
+                int index = entry.Key;
+
+                bool isImage = entriesIsImage.ContainsKey(index) && entriesIsImage[index];
+                bool isFavorite = entriesIsFavorite.ContainsKey(index) && entriesIsFavorite[index];
+
+                bool keep;
+
+                switch (selectedStorage)
+                {
+                    case "All":
+                        keep = true;
+                        break;
+
+                    case "Favorite":
+                        keep = isFavorite;
+                        break;
+
+                    case "Text+Favorite":
+                        // Keep text entries (non-images) + all favorites (even if image)
+                        keep = !isImage || isFavorite;
+                        break;
+
+                    default: // "Text"
+                        keep = !isImage;
+                        break;
+                }
+
+                if (!keep)
+                {
+                    RemoveEntryFromLists(index);
+                    deleted++;
+                }
+            }
+
+            // If we deleted the entry currently referenced by entryIndex, reposition to newest
+            if (entriesOrder.Count == 0)
+            {
+                entryIndex = -1;
+                entryCounter = -1;
+            }
+            else
+            {
+                entryIndex = entriesOrder.Keys.Last();
+                entryCounter = entriesOrder.Count;
+            }
+
+            return deleted;
         }
 
 
@@ -3146,6 +3479,18 @@ namespace HovText
             }
         }
 
+        private void HotkeyDeleteNonsavedEntries_KeyDown(object sender, KeyEventArgs e)
+        {
+            string hotkey = ConvertKeyboardInputToString(e);
+            UiHotkeysButtonDeleteNonsavedEntries.Text = hotkey;
+            if (e.Alt)
+            {
+                // https://stackoverflow.com/a/3068797/2028935
+                e.SuppressKeyPress = true;
+            }
+        }
+
+
 
         // ###########################################################################################
         // Mark hotkey field as modified when entering it
@@ -3175,6 +3520,12 @@ namespace HovText
             ModifyHotkey();
         }
 
+        private void HotkeyDeleteNonsavedEntries_Enter(object sender, EventArgs e)
+        {
+            hotkey = "hotkeyDeleteNonsavedEntries";
+            ModifyHotkey();
+        }
+
 
         // ###########################################################################################
         // Color the hotkey field and enable the "Apply" and "Cancel" buttons
@@ -3189,6 +3540,9 @@ namespace HovText
                     break;
                 case "hotkeySearch":
                     UiHotkeysButtonSearch.FillColor = SystemColors.Info;
+                    break;
+                case "hotkeyDeleteNonsavedEntries":
+                    UiHotkeysButtonDeleteNonsavedEntries.FillColor = SystemColors.Info;
                     break;
                 case "hotkeyPaste":
                     UiHotkeysButtonPasteHotkey.FillColor = SystemColors.Info;
@@ -3213,15 +3567,24 @@ namespace HovText
 
         public static void RemoveAllHotkeys(bool keepApplicationToggleActive = false)
         {
-            if(!keepApplicationToggleActive)
+            // Only proceed if the user has chosen to unregister hotkeys
+            if (!isUnregisterHotkeys)
+            {
+                return; 
+            }
+
+            if (!keepApplicationToggleActive)
             {
                 HotkeyManager.Current.Remove("ToggleApplication");
                 Logging.Log("[HotkeyToggleApplication] removed");
             }
-            
+
             HotkeyManager.Current.Remove("Search");
+            HotkeyManager.Current.Remove("DeleteNonsavedEntries");
             HotkeyManager.Current.Remove("PasteOnHotkey");
+
             Logging.Log("[HotkeySearch] removed");
+            Logging.Log("[HotkeyDeleteNonsavedEntries] removed");
             Logging.Log("[HotkeyPasteOnHotkey] removed");
         }
 
@@ -3249,6 +3612,7 @@ namespace HovText
             // Get all hotkey strings
             string hotkeyToggleApplication = UiHotkeysButtonToggleApplication.Text;
             string hotkeySearch = UiHotkeysButtonSearch.Text;
+            string hotkeyDeleteNonsavedEntries = UiHotkeysButtonDeleteNonsavedEntries.Text;
             string hotkeyPasteOnHotkey = UiHotkeysButtonPasteHotkey.Text;
             string hotkeyToggleFavorite = UiHotkeysButtonToggleFavorite.Text;
 
@@ -3257,11 +3621,9 @@ namespace HovText
             Keys key;
 
             // Convert the strings to hotkey objects
-
-            //if (GuiSearch.Checked)
             if (UiGeneralToggleEnableClipboard.Checked)
             {
-                // "Search"
+                // "Search" set hotkey
                 if (
                     hotkeySearch != "Unsupported"
                     && hotkeySearch != "Not set"
@@ -3277,7 +3639,7 @@ namespace HovText
                     }
                     catch (Exception ex)
                     {
-                        Logging.Log("Exception #6 raised (Settings):");
+                        Logging.Log("Exception #6.1 raised (Settings):");
                         Logging.Log("  Hotkey [HotkeySearch] conflicts");
                         Logging.LogException(ex);
                         if (ex.Message.Contains("Hot key is already registered"))
@@ -3287,9 +3649,68 @@ namespace HovText
                         }
                     }
                 }
+
+                // "Search" delete hotkey
+                if (hotkeySearch == "Not set")
+                {
+                    try
+                    {
+                        HotkeyManager.Current.Remove("Search");
+                        Logging.Log("[HotkeySearch] removed");
+                    }
+                    catch (Exception ex)
+                    {
+                        Logging.Log("Exception #6.2 raised (Settings):");
+                        Logging.Log("  Hotkey [HotkeySearch] cannot be deleted");
+                        Logging.LogException(ex);
+                    }
+                }
+
+                // "Delete non-saved entries" set hotkey
+                if (
+                    hotkeyDeleteNonsavedEntries != "Unsupported"
+                    && hotkeyDeleteNonsavedEntries != "Not set"
+                    && hotkeyDeleteNonsavedEntries != "Hotkey conflicts"
+                    )
+                {
+                    try
+                    {
+                        cvt = new KeysConverter();
+                        key = (Keys)cvt.ConvertFrom(hotkeyDeleteNonsavedEntries);
+                        HotkeyManager.Current.AddOrReplace("DeleteNonsavedEntries", key, HotkeyDeleteNonsavedEntries);
+                        Logging.Log("[HotkeyDeleteNonsavedEntries] added as global hotkey and set to [" + hotkeyDeleteNonsavedEntries + "]");
+                    }
+                    catch (Exception ex)
+                    {
+                        Logging.Log("Exception #8.5 raised (Settings):");
+                        Logging.Log("  Hotkey [HotkeyDeleteNonsavedEntries] conflicts");
+                        Logging.LogException(ex);
+                        if (ex.Message.Contains("Hot key is already registered"))
+                        {
+                            hotkeyToggleApplication = "Hotkey conflicts";
+                            conflictText += "Hotkey for \"Delete non-saved entries\" conflicts with another application\r\n";
+                        }
+                    }
+                }
+
+                // "Delete non-saved entries" delete hotkey
+                if (hotkeyDeleteNonsavedEntries == "Not set")
+                {
+                    try
+                    {
+                        HotkeyManager.Current.Remove("DeleteNonsavedEntries");
+                        Logging.Log("[HotkeyDeleteNonsavedEntries] removed");
+                    }
+                    catch (Exception ex)
+                    {
+                        Logging.Log("Exception #8.6 raised (Settings):");
+                        Logging.Log("  Hotkey [HotkeyDeleteNonsavedEntries] cannot be deleted");
+                        Logging.LogException(ex);
+                    }
+                }
             }
 
-            // "Application toggle"
+            // "Application toggle" set hotkey
             if (
                 hotkeyToggleApplication != "Unsupported"
                 && hotkeyToggleApplication != "Not set"
@@ -3313,6 +3734,22 @@ namespace HovText
                         hotkeyToggleApplication = "Hotkey conflicts";
                         conflictText += "Hotkey for \"Toggle application on/off\" conflicts with another application\r\n";
                     }
+                }
+            }
+
+            // "Application toggle" delete hotkey
+            if (hotkeyToggleApplication == "Not set")
+            {
+                try
+                {
+                    HotkeyManager.Current.Remove("ToggleApplication");
+                    Logging.Log("[HotkeyToggleApplication] removed");
+                }
+                catch (Exception ex)
+                {
+                    Logging.Log("Exception #6 raised (Settings):");
+                    Logging.Log("  Hotkey [HotkeyToggleApplication] cannot be deleted");
+                    Logging.LogException(ex);
                 }
             }
 
@@ -3354,6 +3791,22 @@ namespace HovText
                 HotkeyManager.Current.Remove("PasteOnHotkey");
             }
 
+            // "Paste on hotkey" delete hotkey
+            if (hotkeyPasteOnHotkey == "Not set")
+            {
+                try
+                {
+                    HotkeyManager.Current.Remove("PasteOnHotkey");
+                    Logging.Log("[HotkeyPasteOnHotkey] removed");
+                }
+                catch (Exception ex)
+                {
+                    Logging.Log("Exception #6 raised (Settings):");
+                    Logging.Log("  Hotkey [HotkeyPasteOnHotkey] cannot be deleted");
+                    Logging.LogException(ex);
+                }
+            }
+
             // If this is called from startup then show an error, if there is a conflict
             if (conflictText.Length > 0 && from == "Startup of application")
             {
@@ -3373,12 +3826,14 @@ namespace HovText
             if (
                 hotkeyToggleApplication != "Unsupported" && hotkeyToggleApplication != "Hotkey conflicts" &&
                 hotkeySearch != "Unsupported" && hotkeySearch != "Hotkey conflicts" &&
+                hotkeyDeleteNonsavedEntries != "Unsupported" && hotkeyDeleteNonsavedEntries != "Hotkey conflicts" &&
                 hotkeyPasteOnHotkey != "Unsupported" && hotkeyPasteOnHotkey != "Hotkey conflicts" &&
                 hotkeyToggleFavorite != "Unsupported" && hotkeyToggleFavorite != "Hotkey conflicts"
                 )
             {
                 SetRegistryKey(registryPath, "HotkeyToggleApplication", hotkeyToggleApplication);
                 SetRegistryKey(registryPath, "HotkeySearch", hotkeySearch);
+                SetRegistryKey(registryPath, "HotkeyDeleteNonsavedEntries", hotkeyDeleteNonsavedEntries);
                 SetRegistryKey(registryPath, "HotkeyPasteOnHotkey", hotkeyPasteOnHotkey);
                 SetRegistryKey(registryPath, "HotkeyToggleFavorite", hotkeyToggleFavorite);
             }
@@ -3409,6 +3864,18 @@ namespace HovText
             else
             {
                 UiHotkeysButtonSearch.FillColor = Color.FromArgb(220, 227, 220);
+            }
+
+            // "Delete non-saved entries"
+            if (hotkeyDeleteNonsavedEntries == "Unsupported" || hotkeyDeleteNonsavedEntries == "Hotkey conflicts")
+            {
+                hasError = true;
+                UiHotkeysButtonDeleteNonsavedEntries.Text = hotkeyDeleteNonsavedEntries;
+                UiHotkeysButtonDeleteNonsavedEntries.FillColor = Color.DarkSalmon;
+            }
+            else
+            {
+                UiHotkeysButtonDeleteNonsavedEntries.FillColor = Color.FromArgb(220, 227, 220);
             }
 
             // "Paste only on hotkey"
@@ -3453,10 +3920,12 @@ namespace HovText
             UiFormTabControl.Focus();
             string hotkeyToggleApplication = GetRegistryKey(registryPath, "HotkeyToggleApplication");
             string hotkeySearch = GetRegistryKey(registryPath, "HotkeySearch");
+            string hotkeyDeleteNonsavedEntries = GetRegistryKey(registryPath, "HotkeyDeleteNonsavedEntries");
             string hotkeyPasteOnHotkey = GetRegistryKey(registryPath, "HotkeyPasteOnHotkey");
             string hotkeyToggleFavorite = GetRegistryKey(registryPath, "HotkeyToggleFavorite");
             UiHotkeysButtonToggleApplication.Text = hotkeyToggleApplication;
             UiHotkeysButtonSearch.Text = hotkeySearch;
+            UiHotkeysButtonDeleteNonsavedEntries.Text = hotkeyDeleteNonsavedEntries;
             UiHotkeysButtonPasteHotkey.Text = hotkeyPasteOnHotkey;
             UiHotkeysButtonToggleFavorite.Text = hotkeyToggleFavorite;
             SetHotkeys("Cancel hotkeys button press");
@@ -4621,18 +5090,26 @@ namespace HovText
                 if (UiStorageRadioSaveAll.Checked)
                 {
                     set = "All";
+                    UiHotkeysButtonDeleteNonsavedEntries.Enabled = false;
+                    UiHotkeysLabelDeleteNonsavedEntries.Enabled = false;
                 }
                 else if (UiStorageRadioSaveBothTextAndFavorites.Checked)
                 {
                     set = "Text+Favorite";
+                    UiHotkeysButtonDeleteNonsavedEntries.Enabled = true;
+                    UiHotkeysLabelDeleteNonsavedEntries.Enabled = true;
                 }
                 else if (UiStorageRadioSaveOnlyFavorites.Checked)
                 {
                     set = "Favorite";
+                    UiHotkeysButtonDeleteNonsavedEntries.Enabled = true;
+                    UiHotkeysLabelDeleteNonsavedEntries.Enabled = true;
                 }
                 else
                 {
                     set = "Text";
+                    UiHotkeysButtonDeleteNonsavedEntries.Enabled = true;
+                    UiHotkeysLabelDeleteNonsavedEntries.Enabled = true;
                 }
 
                 HandleFiles.saveIndexAndFavoriteFiles = true;
@@ -4928,9 +5405,24 @@ namespace HovText
             UiGeneralToggleRestoreOriginal.Checked = !UiGeneralToggleRestoreOriginal.Checked;
         }
 
+        private void UiGeneralLabelProcessReenabling_Click(object sender, EventArgs e)
+        {
+            UiGeneralToggleProcessReenabling.Checked = !UiGeneralToggleProcessReenabling.Checked;
+        }
+
+        private void UiGeneralLabelUnregisterHotkeys_Click(object sender, EventArgs e)
+        {
+            UiGeneralToggleUnregisterHotkeys.Checked = !UiGeneralToggleUnregisterHotkeys.Checked;
+        }
+
         private void UiGeneralLabelTrimWhitespaces_Click(object sender, EventArgs e)
         {
             UiGeneralToggleTrimWhitespaces.Checked = !UiGeneralToggleTrimWhitespaces.Checked;
+        }
+
+        private void UiGeneralLabelTrimBullet_Click(object sender, EventArgs e)
+        {
+            UiGeneralToggleTrimBullet.Checked = !UiGeneralToggleTrimBullet.Checked;
         }
 
         private void UiGeneralLabelCloseMinimizes_Click(object sender, EventArgs e)
@@ -5378,7 +5870,7 @@ namespace HovText
         [DllImport("user32.dll")]
         public static extern int SendMessage(IntPtr hWnd, int Msg, int wParam, int lParam);
         [DllImport("user32.dll")]
-        public static extern bool ReleaseCapture();    
+        public static extern bool ReleaseCapture();
 
 
         // ###########################################################################################

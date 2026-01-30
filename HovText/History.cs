@@ -607,7 +607,12 @@ namespace HovText
                                 }
 
                                 entryText = entryText.Trim();
+                                if (Settings.isEnabledTrimBullet)
+                                {
+                                    entryText = HandleClipboard.RemoveLeadingBullet(entryText);
+                                }
                                 historyLabel.Text = entryText;
+
                                 if (!historyLabel.Visible)
                                 {
                                     historyLabel.Visible = true;

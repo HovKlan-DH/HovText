@@ -103,6 +103,12 @@
             this.UiFormTabControl = new Guna.UI2.WinForms.Guna2TabControl();
             this.UiTabGeneral = new System.Windows.Forms.TabPage();
             this.UiGeneralGroupBoxBehaviour = new Guna.UI2.WinForms.Guna2GroupBox();
+            this.UiGeneralLabelTrimBullet = new System.Windows.Forms.Label();
+            this.UiGeneralToggleTrimBullet = new Guna.UI2.WinForms.Guna2ToggleSwitch();
+            this.UiGeneralLabelUnregisterHotkeys = new System.Windows.Forms.Label();
+            this.UiGeneralToggleUnregisterHotkeys = new Guna.UI2.WinForms.Guna2ToggleSwitch();
+            this.UiGeneralLabelProcessReenabling = new System.Windows.Forms.Label();
+            this.UiGeneralToggleProcessReenabling = new Guna.UI2.WinForms.Guna2ToggleSwitch();
             this.UiGeneralLabelDisclaimer = new Guna.UI2.WinForms.Guna2HtmlLabel();
             this.UiGeneralLabelStartWithWindows = new System.Windows.Forms.Label();
             this.UiGeneralLabelStartDisabled = new System.Windows.Forms.Label();
@@ -149,6 +155,8 @@
             this.UiStorageToggleSaveClipboards = new Guna.UI2.WinForms.Guna2ToggleSwitch();
             this.UiTabHotkeys = new System.Windows.Forms.TabPage();
             this.UiHotkeysGroupBoxHotkeys = new Guna.UI2.WinForms.Guna2GroupBox();
+            this.UiHotkeysButtonDeleteNonsavedEntries = new Guna.UI2.WinForms.Guna2Button();
+            this.UiHotkeysLabelDeleteNonsavedEntries = new System.Windows.Forms.Label();
             this.UiHotkeysButtonCancel = new Guna.UI2.WinForms.Guna2Button();
             this.UiHotkeysButtonApply = new Guna.UI2.WinForms.Guna2Button();
             this.UiHotkeysButtonToggleApplication = new Guna.UI2.WinForms.Guna2Button();
@@ -488,7 +496,7 @@
             this.UiHotkeysLabelSearch.AutoSize = true;
             this.UiHotkeysLabelSearch.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.UiHotkeysLabelSearch.ForeColor = System.Drawing.Color.Black;
-            this.UiHotkeysLabelSearch.Location = new System.Drawing.Point(51, 106);
+            this.UiHotkeysLabelSearch.Location = new System.Drawing.Point(111, 106);
             this.UiHotkeysLabelSearch.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.UiHotkeysLabelSearch.Name = "UiHotkeysLabelSearch";
             this.UiHotkeysLabelSearch.Size = new System.Drawing.Size(153, 23);
@@ -500,7 +508,7 @@
             this.UiHotkeysLabelToggleFavorite.AutoSize = true;
             this.UiHotkeysLabelToggleFavorite.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.UiHotkeysLabelToggleFavorite.ForeColor = System.Drawing.Color.Black;
-            this.UiHotkeysLabelToggleFavorite.Location = new System.Drawing.Point(39, 150);
+            this.UiHotkeysLabelToggleFavorite.Location = new System.Drawing.Point(99, 150);
             this.UiHotkeysLabelToggleFavorite.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.UiHotkeysLabelToggleFavorite.Name = "UiHotkeysLabelToggleFavorite";
             this.UiHotkeysLabelToggleFavorite.Size = new System.Drawing.Size(166, 23);
@@ -512,7 +520,7 @@
             this.UiHotkeysLabelPasteHotkey.AutoSize = true;
             this.UiHotkeysLabelPasteHotkey.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.UiHotkeysLabelPasteHotkey.ForeColor = System.Drawing.Color.Black;
-            this.UiHotkeysLabelPasteHotkey.Location = new System.Drawing.Point(66, 195);
+            this.UiHotkeysLabelPasteHotkey.Location = new System.Drawing.Point(126, 195);
             this.UiHotkeysLabelPasteHotkey.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.UiHotkeysLabelPasteHotkey.Name = "UiHotkeysLabelPasteHotkey";
             this.UiHotkeysLabelPasteHotkey.Size = new System.Drawing.Size(131, 23);
@@ -524,7 +532,7 @@
             this.UiHotkeysLabelToggleApplication.AutoSize = true;
             this.UiHotkeysLabelToggleApplication.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.UiHotkeysLabelToggleApplication.ForeColor = System.Drawing.Color.Black;
-            this.UiHotkeysLabelToggleApplication.Location = new System.Drawing.Point(9, 59);
+            this.UiHotkeysLabelToggleApplication.Location = new System.Drawing.Point(69, 59);
             this.UiHotkeysLabelToggleApplication.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.UiHotkeysLabelToggleApplication.Name = "UiHotkeysLabelToggleApplication";
             this.UiHotkeysLabelToggleApplication.Size = new System.Drawing.Size(210, 23);
@@ -920,7 +928,7 @@
             // UiFormLabelApplicationName
             // 
             this.UiFormLabelApplicationName.AccessibleRole = System.Windows.Forms.AccessibleRole.None;
-            this.UiFormLabelApplicationName.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(56)))), ((int)(((byte)(97)))), ((int)(((byte)(55)))));
+            this.UiFormLabelApplicationName.BackColor = System.Drawing.Color.Transparent;
             this.UiFormLabelApplicationName.Font = new System.Drawing.Font("Segoe UI Semibold", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.UiFormLabelApplicationName.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(227)))), ((int)(((byte)(227)))), ((int)(((byte)(227)))));
             this.UiFormLabelApplicationName.IsSelectionEnabled = false;
@@ -972,7 +980,7 @@
             // 
             // UiFormLabelApplicationVersion
             // 
-            this.UiFormLabelApplicationVersion.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(56)))), ((int)(((byte)(97)))), ((int)(((byte)(55)))));
+            this.UiFormLabelApplicationVersion.BackColor = System.Drawing.Color.Transparent;
             this.UiFormLabelApplicationVersion.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.UiFormLabelApplicationVersion.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(227)))), ((int)(((byte)(227)))), ((int)(((byte)(227)))));
             this.UiFormLabelApplicationVersion.IsSelectionEnabled = false;
@@ -1041,6 +1049,12 @@
             // UiGeneralGroupBoxBehaviour
             // 
             this.UiGeneralGroupBoxBehaviour.BorderRadius = 5;
+            this.UiGeneralGroupBoxBehaviour.Controls.Add(this.UiGeneralLabelTrimBullet);
+            this.UiGeneralGroupBoxBehaviour.Controls.Add(this.UiGeneralToggleTrimBullet);
+            this.UiGeneralGroupBoxBehaviour.Controls.Add(this.UiGeneralLabelUnregisterHotkeys);
+            this.UiGeneralGroupBoxBehaviour.Controls.Add(this.UiGeneralToggleUnregisterHotkeys);
+            this.UiGeneralGroupBoxBehaviour.Controls.Add(this.UiGeneralLabelProcessReenabling);
+            this.UiGeneralGroupBoxBehaviour.Controls.Add(this.UiGeneralToggleProcessReenabling);
             this.UiGeneralGroupBoxBehaviour.Controls.Add(this.UiGeneralLabelDisclaimer);
             this.UiGeneralGroupBoxBehaviour.Controls.Add(this.UiGeneralLabelStartWithWindows);
             this.UiGeneralGroupBoxBehaviour.Controls.Add(this.UiGeneralLabelStartDisabled);
@@ -1057,9 +1071,101 @@
             this.UiGeneralGroupBoxBehaviour.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.UiGeneralGroupBoxBehaviour.Location = new System.Drawing.Point(13, 1);
             this.UiGeneralGroupBoxBehaviour.Name = "UiGeneralGroupBoxBehaviour";
-            this.UiGeneralGroupBoxBehaviour.Size = new System.Drawing.Size(525, 241);
+            this.UiGeneralGroupBoxBehaviour.Size = new System.Drawing.Size(525, 308);
             this.UiGeneralGroupBoxBehaviour.TabIndex = 100;
             this.UiGeneralGroupBoxBehaviour.Text = "Behaviour";
+            // 
+            // UiGeneralLabelTrimBullet
+            // 
+            this.UiGeneralLabelTrimBullet.AutoSize = true;
+            this.UiGeneralLabelTrimBullet.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.UiGeneralLabelTrimBullet.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.UiGeneralLabelTrimBullet.ForeColor = System.Drawing.Color.Black;
+            this.UiGeneralLabelTrimBullet.Location = new System.Drawing.Point(59, 209);
+            this.UiGeneralLabelTrimBullet.Name = "UiGeneralLabelTrimBullet";
+            this.UiGeneralLabelTrimBullet.Size = new System.Drawing.Size(178, 23);
+            this.UiGeneralLabelTrimBullet.TabIndex = 1009;
+            this.UiGeneralLabelTrimBullet.Text = "Trim leading bullet list";
+            this.UiGeneralLabelTrimBullet.Click += new System.EventHandler(this.UiGeneralLabelTrimBullet_Click);
+            // 
+            // UiGeneralToggleTrimBullet
+            // 
+            this.UiGeneralToggleTrimBullet.Checked = true;
+            this.UiGeneralToggleTrimBullet.CheckedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
+            this.UiGeneralToggleTrimBullet.CheckedState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(56)))), ((int)(((byte)(97)))), ((int)(((byte)(55)))));
+            this.UiGeneralToggleTrimBullet.CheckedState.InnerBorderColor = System.Drawing.Color.White;
+            this.UiGeneralToggleTrimBullet.CheckedState.InnerColor = System.Drawing.Color.White;
+            this.UiGeneralToggleTrimBullet.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.UiGeneralToggleTrimBullet.Location = new System.Drawing.Point(18, 209);
+            this.UiGeneralToggleTrimBullet.Name = "UiGeneralToggleTrimBullet";
+            this.UiGeneralToggleTrimBullet.Size = new System.Drawing.Size(35, 20);
+            this.UiGeneralToggleTrimBullet.TabIndex = 1010;
+            this.UiGeneralToggleTrimBullet.UncheckedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(125)))), ((int)(((byte)(137)))), ((int)(((byte)(149)))));
+            this.UiGeneralToggleTrimBullet.UncheckedState.FillColor = System.Drawing.Color.DarkGray;
+            this.UiGeneralToggleTrimBullet.UncheckedState.InnerBorderColor = System.Drawing.Color.White;
+            this.UiGeneralToggleTrimBullet.UncheckedState.InnerColor = System.Drawing.Color.White;
+            this.UiGeneralToggleTrimBullet.CheckedChanged += new System.EventHandler(this.GuiTrimBullet_CheckedChanged);
+            // 
+            // UiGeneralLabelUnregisterHotkeys
+            // 
+            this.UiGeneralLabelUnregisterHotkeys.AutoSize = true;
+            this.UiGeneralLabelUnregisterHotkeys.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.UiGeneralLabelUnregisterHotkeys.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.UiGeneralLabelUnregisterHotkeys.ForeColor = System.Drawing.Color.Black;
+            this.UiGeneralLabelUnregisterHotkeys.Location = new System.Drawing.Point(59, 271);
+            this.UiGeneralLabelUnregisterHotkeys.Name = "UiGeneralLabelUnregisterHotkeys";
+            this.UiGeneralLabelUnregisterHotkeys.Size = new System.Drawing.Size(412, 23);
+            this.UiGeneralLabelUnregisterHotkeys.TabIndex = 1007;
+            this.UiGeneralLabelUnregisterHotkeys.Text = "Unregister global hotkeys when disabling application";
+            this.UiGeneralLabelUnregisterHotkeys.Click += new System.EventHandler(this.UiGeneralLabelUnregisterHotkeys_Click);
+            // 
+            // UiGeneralToggleUnregisterHotkeys
+            // 
+            this.UiGeneralToggleUnregisterHotkeys.CheckedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
+            this.UiGeneralToggleUnregisterHotkeys.CheckedState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(56)))), ((int)(((byte)(97)))), ((int)(((byte)(55)))));
+            this.UiGeneralToggleUnregisterHotkeys.CheckedState.InnerBorderColor = System.Drawing.Color.White;
+            this.UiGeneralToggleUnregisterHotkeys.CheckedState.InnerColor = System.Drawing.Color.White;
+            this.UiGeneralToggleUnregisterHotkeys.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.UiGeneralToggleUnregisterHotkeys.Location = new System.Drawing.Point(18, 271);
+            this.UiGeneralToggleUnregisterHotkeys.Name = "UiGeneralToggleUnregisterHotkeys";
+            this.UiGeneralToggleUnregisterHotkeys.Size = new System.Drawing.Size(35, 20);
+            this.UiGeneralToggleUnregisterHotkeys.TabIndex = 1008;
+            this.UiGeneralToggleUnregisterHotkeys.UncheckedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(125)))), ((int)(((byte)(137)))), ((int)(((byte)(149)))));
+            this.UiGeneralToggleUnregisterHotkeys.UncheckedState.FillColor = System.Drawing.Color.DarkGray;
+            this.UiGeneralToggleUnregisterHotkeys.UncheckedState.InnerBorderColor = System.Drawing.Color.White;
+            this.UiGeneralToggleUnregisterHotkeys.UncheckedState.InnerColor = System.Drawing.Color.White;
+            this.UiGeneralToggleUnregisterHotkeys.CheckedChanged += new System.EventHandler(this.GuiUnregisterHotkeys_CheckedChanged);
+            // 
+            // UiGeneralLabelProcessReenabling
+            // 
+            this.UiGeneralLabelProcessReenabling.AutoSize = true;
+            this.UiGeneralLabelProcessReenabling.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.UiGeneralLabelProcessReenabling.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.UiGeneralLabelProcessReenabling.ForeColor = System.Drawing.Color.Black;
+            this.UiGeneralLabelProcessReenabling.Location = new System.Drawing.Point(59, 147);
+            this.UiGeneralLabelProcessReenabling.Name = "UiGeneralLabelProcessReenabling";
+            this.UiGeneralLabelProcessReenabling.Size = new System.Drawing.Size(358, 23);
+            this.UiGeneralLabelProcessReenabling.TabIndex = 1006;
+            this.UiGeneralLabelProcessReenabling.Text = "Process clipboard after reenabling application";
+            this.UiGeneralLabelProcessReenabling.Click += new System.EventHandler(this.UiGeneralLabelProcessReenabling_Click);
+            // 
+            // UiGeneralToggleProcessReenabling
+            // 
+            this.UiGeneralToggleProcessReenabling.Checked = true;
+            this.UiGeneralToggleProcessReenabling.CheckedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
+            this.UiGeneralToggleProcessReenabling.CheckedState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(56)))), ((int)(((byte)(97)))), ((int)(((byte)(55)))));
+            this.UiGeneralToggleProcessReenabling.CheckedState.InnerBorderColor = System.Drawing.Color.White;
+            this.UiGeneralToggleProcessReenabling.CheckedState.InnerColor = System.Drawing.Color.White;
+            this.UiGeneralToggleProcessReenabling.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.UiGeneralToggleProcessReenabling.Location = new System.Drawing.Point(18, 147);
+            this.UiGeneralToggleProcessReenabling.Name = "UiGeneralToggleProcessReenabling";
+            this.UiGeneralToggleProcessReenabling.Size = new System.Drawing.Size(35, 20);
+            this.UiGeneralToggleProcessReenabling.TabIndex = 1005;
+            this.UiGeneralToggleProcessReenabling.UncheckedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(125)))), ((int)(((byte)(137)))), ((int)(((byte)(149)))));
+            this.UiGeneralToggleProcessReenabling.UncheckedState.FillColor = System.Drawing.Color.DarkGray;
+            this.UiGeneralToggleProcessReenabling.UncheckedState.InnerBorderColor = System.Drawing.Color.White;
+            this.UiGeneralToggleProcessReenabling.UncheckedState.InnerColor = System.Drawing.Color.White;
+            this.UiGeneralToggleProcessReenabling.CheckedChanged += new System.EventHandler(this.GuiProcessReenabling_CheckedChanged);
             // 
             // UiGeneralLabelDisclaimer
             // 
@@ -1122,7 +1228,7 @@
             this.UiGeneralLabelTrimWhitespaces.Cursor = System.Windows.Forms.Cursors.Hand;
             this.UiGeneralLabelTrimWhitespaces.Font = new System.Drawing.Font("Segoe UI", 10F);
             this.UiGeneralLabelTrimWhitespaces.ForeColor = System.Drawing.Color.Black;
-            this.UiGeneralLabelTrimWhitespaces.Location = new System.Drawing.Point(59, 147);
+            this.UiGeneralLabelTrimWhitespaces.Location = new System.Drawing.Point(59, 178);
             this.UiGeneralLabelTrimWhitespaces.Name = "UiGeneralLabelTrimWhitespaces";
             this.UiGeneralLabelTrimWhitespaces.Size = new System.Drawing.Size(303, 23);
             this.UiGeneralLabelTrimWhitespaces.TabIndex = 0;
@@ -1135,7 +1241,7 @@
             this.UiGeneralLabelCloseMinimizes.Cursor = System.Windows.Forms.Cursors.Hand;
             this.UiGeneralLabelCloseMinimizes.Font = new System.Drawing.Font("Segoe UI", 10F);
             this.UiGeneralLabelCloseMinimizes.ForeColor = System.Drawing.Color.Black;
-            this.UiGeneralLabelCloseMinimizes.Location = new System.Drawing.Point(59, 178);
+            this.UiGeneralLabelCloseMinimizes.Location = new System.Drawing.Point(59, 240);
             this.UiGeneralLabelCloseMinimizes.Name = "UiGeneralLabelCloseMinimizes";
             this.UiGeneralLabelCloseMinimizes.Size = new System.Drawing.Size(309, 23);
             this.UiGeneralLabelCloseMinimizes.TabIndex = 0;
@@ -1150,7 +1256,7 @@
             this.UiGeneralToggleCloseMinimizes.CheckedState.InnerBorderColor = System.Drawing.Color.White;
             this.UiGeneralToggleCloseMinimizes.CheckedState.InnerColor = System.Drawing.Color.White;
             this.UiGeneralToggleCloseMinimizes.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.UiGeneralToggleCloseMinimizes.Location = new System.Drawing.Point(18, 178);
+            this.UiGeneralToggleCloseMinimizes.Location = new System.Drawing.Point(18, 240);
             this.UiGeneralToggleCloseMinimizes.Name = "UiGeneralToggleCloseMinimizes";
             this.UiGeneralToggleCloseMinimizes.Size = new System.Drawing.Size(35, 20);
             this.UiGeneralToggleCloseMinimizes.TabIndex = 1004;
@@ -1168,7 +1274,7 @@
             this.UiGeneralToggleTrimWhitespaces.CheckedState.InnerBorderColor = System.Drawing.Color.White;
             this.UiGeneralToggleTrimWhitespaces.CheckedState.InnerColor = System.Drawing.Color.White;
             this.UiGeneralToggleTrimWhitespaces.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.UiGeneralToggleTrimWhitespaces.Location = new System.Drawing.Point(18, 147);
+            this.UiGeneralToggleTrimWhitespaces.Location = new System.Drawing.Point(18, 178);
             this.UiGeneralToggleTrimWhitespaces.Name = "UiGeneralToggleTrimWhitespaces";
             this.UiGeneralToggleTrimWhitespaces.Size = new System.Drawing.Size(35, 20);
             this.UiGeneralToggleTrimWhitespaces.TabIndex = 1003;
@@ -1248,9 +1354,9 @@
             this.UiGeneralGroupBoxClipboardList.CustomBorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(227)))), ((int)(((byte)(220)))));
             this.UiGeneralGroupBoxClipboardList.Font = new System.Drawing.Font("Segoe UI", 11F);
             this.UiGeneralGroupBoxClipboardList.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.UiGeneralGroupBoxClipboardList.Location = new System.Drawing.Point(13, 259);
+            this.UiGeneralGroupBoxClipboardList.Location = new System.Drawing.Point(13, 333);
             this.UiGeneralGroupBoxClipboardList.Name = "UiGeneralGroupBoxClipboardList";
-            this.UiGeneralGroupBoxClipboardList.Size = new System.Drawing.Size(525, 297);
+            this.UiGeneralGroupBoxClipboardList.Size = new System.Drawing.Size(525, 223);
             this.UiGeneralGroupBoxClipboardList.TabIndex = 101;
             this.UiGeneralGroupBoxClipboardList.Text = "Clipboard list";
             // 
@@ -1745,6 +1851,8 @@
             // UiHotkeysGroupBoxHotkeys
             // 
             this.UiHotkeysGroupBoxHotkeys.BorderRadius = 5;
+            this.UiHotkeysGroupBoxHotkeys.Controls.Add(this.UiHotkeysButtonDeleteNonsavedEntries);
+            this.UiHotkeysGroupBoxHotkeys.Controls.Add(this.UiHotkeysLabelDeleteNonsavedEntries);
             this.UiHotkeysGroupBoxHotkeys.Controls.Add(this.UiHotkeysButtonCancel);
             this.UiHotkeysGroupBoxHotkeys.Controls.Add(this.UiHotkeysButtonApply);
             this.UiHotkeysGroupBoxHotkeys.Controls.Add(this.UiHotkeysButtonToggleApplication);
@@ -1758,11 +1866,44 @@
             this.UiHotkeysGroupBoxHotkeys.CustomBorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(227)))), ((int)(((byte)(220)))));
             this.UiHotkeysGroupBoxHotkeys.Font = new System.Drawing.Font("Segoe UI", 11F);
             this.UiHotkeysGroupBoxHotkeys.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.UiHotkeysGroupBoxHotkeys.Location = new System.Drawing.Point(13, 201);
+            this.UiHotkeysGroupBoxHotkeys.Location = new System.Drawing.Point(13, 163);
             this.UiHotkeysGroupBoxHotkeys.Name = "UiHotkeysGroupBoxHotkeys";
-            this.UiHotkeysGroupBoxHotkeys.Size = new System.Drawing.Size(525, 355);
+            this.UiHotkeysGroupBoxHotkeys.Size = new System.Drawing.Size(525, 393);
             this.UiHotkeysGroupBoxHotkeys.TabIndex = 212;
             this.UiHotkeysGroupBoxHotkeys.Text = "Hotkeys";
+            // 
+            // UiHotkeysButtonDeleteNonsavedEntries
+            // 
+            this.UiHotkeysButtonDeleteNonsavedEntries.AutoRoundedCorners = true;
+            this.UiHotkeysButtonDeleteNonsavedEntries.BorderRadius = 15;
+            this.UiHotkeysButtonDeleteNonsavedEntries.BorderThickness = 1;
+            this.UiHotkeysButtonDeleteNonsavedEntries.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.UiHotkeysButtonDeleteNonsavedEntries.DisabledState.BorderColor = System.Drawing.Color.Silver;
+            this.UiHotkeysButtonDeleteNonsavedEntries.DisabledState.CustomBorderColor = System.Drawing.Color.Silver;
+            this.UiHotkeysButtonDeleteNonsavedEntries.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(226)))), ((int)(((byte)(226)))), ((int)(((byte)(226)))));
+            this.UiHotkeysButtonDeleteNonsavedEntries.DisabledState.ForeColor = System.Drawing.Color.Gray;
+            this.UiHotkeysButtonDeleteNonsavedEntries.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(227)))), ((int)(((byte)(220)))));
+            this.UiHotkeysButtonDeleteNonsavedEntries.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.UiHotkeysButtonDeleteNonsavedEntries.ForeColor = System.Drawing.Color.Black;
+            this.UiHotkeysButtonDeleteNonsavedEntries.Location = new System.Drawing.Point(244, 236);
+            this.UiHotkeysButtonDeleteNonsavedEntries.Name = "UiHotkeysButtonDeleteNonsavedEntries";
+            this.UiHotkeysButtonDeleteNonsavedEntries.Size = new System.Drawing.Size(262, 32);
+            this.UiHotkeysButtonDeleteNonsavedEntries.TabIndex = 1011;
+            this.UiHotkeysButtonDeleteNonsavedEntries.Text = "Default text";
+            this.UiHotkeysButtonDeleteNonsavedEntries.Click += new System.EventHandler(this.HotkeyDeleteNonsavedEntries_Enter);
+            this.UiHotkeysButtonDeleteNonsavedEntries.KeyDown += new System.Windows.Forms.KeyEventHandler(this.HotkeyDeleteNonsavedEntries_KeyDown);
+            // 
+            // UiHotkeysLabelDeleteNonsavedEntries
+            // 
+            this.UiHotkeysLabelDeleteNonsavedEntries.AutoSize = true;
+            this.UiHotkeysLabelDeleteNonsavedEntries.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.UiHotkeysLabelDeleteNonsavedEntries.ForeColor = System.Drawing.Color.Black;
+            this.UiHotkeysLabelDeleteNonsavedEntries.Location = new System.Drawing.Point(12, 240);
+            this.UiHotkeysLabelDeleteNonsavedEntries.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.UiHotkeysLabelDeleteNonsavedEntries.Name = "UiHotkeysLabelDeleteNonsavedEntries";
+            this.UiHotkeysLabelDeleteNonsavedEntries.Size = new System.Drawing.Size(276, 23);
+            this.UiHotkeysLabelDeleteNonsavedEntries.TabIndex = 1012;
+            this.UiHotkeysLabelDeleteNonsavedEntries.Text = "Delete non-saved clipboard entries";
             // 
             // UiHotkeysButtonCancel
             // 
@@ -1777,7 +1918,7 @@
             this.UiHotkeysButtonCancel.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(56)))), ((int)(((byte)(97)))), ((int)(((byte)(55)))));
             this.UiHotkeysButtonCancel.Font = new System.Drawing.Font("Segoe UI Semibold", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.UiHotkeysButtonCancel.ForeColor = System.Drawing.Color.White;
-            this.UiHotkeysButtonCancel.Location = new System.Drawing.Point(329, 236);
+            this.UiHotkeysButtonCancel.Location = new System.Drawing.Point(385, 283);
             this.UiHotkeysButtonCancel.Name = "UiHotkeysButtonCancel";
             this.UiHotkeysButtonCancel.Size = new System.Drawing.Size(121, 32);
             this.UiHotkeysButtonCancel.TabIndex = 1005;
@@ -1797,7 +1938,7 @@
             this.UiHotkeysButtonApply.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(56)))), ((int)(((byte)(97)))), ((int)(((byte)(55)))));
             this.UiHotkeysButtonApply.Font = new System.Drawing.Font("Segoe UI Semibold", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.UiHotkeysButtonApply.ForeColor = System.Drawing.Color.White;
-            this.UiHotkeysButtonApply.Location = new System.Drawing.Point(188, 236);
+            this.UiHotkeysButtonApply.Location = new System.Drawing.Point(244, 283);
             this.UiHotkeysButtonApply.Name = "UiHotkeysButtonApply";
             this.UiHotkeysButtonApply.Size = new System.Drawing.Size(121, 32);
             this.UiHotkeysButtonApply.TabIndex = 1004;
@@ -1817,7 +1958,7 @@
             this.UiHotkeysButtonToggleApplication.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(227)))), ((int)(((byte)(220)))));
             this.UiHotkeysButtonToggleApplication.Font = new System.Drawing.Font("Segoe UI", 10F);
             this.UiHotkeysButtonToggleApplication.ForeColor = System.Drawing.Color.Black;
-            this.UiHotkeysButtonToggleApplication.Location = new System.Drawing.Point(188, 54);
+            this.UiHotkeysButtonToggleApplication.Location = new System.Drawing.Point(244, 54);
             this.UiHotkeysButtonToggleApplication.Name = "UiHotkeysButtonToggleApplication";
             this.UiHotkeysButtonToggleApplication.Size = new System.Drawing.Size(262, 32);
             this.UiHotkeysButtonToggleApplication.TabIndex = 1000;
@@ -1838,7 +1979,7 @@
             this.UiHotkeysButtonSearch.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(227)))), ((int)(((byte)(220)))));
             this.UiHotkeysButtonSearch.Font = new System.Drawing.Font("Segoe UI", 10F);
             this.UiHotkeysButtonSearch.ForeColor = System.Drawing.Color.Black;
-            this.UiHotkeysButtonSearch.Location = new System.Drawing.Point(188, 101);
+            this.UiHotkeysButtonSearch.Location = new System.Drawing.Point(244, 101);
             this.UiHotkeysButtonSearch.Name = "UiHotkeysButtonSearch";
             this.UiHotkeysButtonSearch.Size = new System.Drawing.Size(262, 32);
             this.UiHotkeysButtonSearch.TabIndex = 1001;
@@ -1859,7 +2000,7 @@
             this.UiHotkeysButtonToggleFavorite.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(227)))), ((int)(((byte)(220)))));
             this.UiHotkeysButtonToggleFavorite.Font = new System.Drawing.Font("Segoe UI", 10F);
             this.UiHotkeysButtonToggleFavorite.ForeColor = System.Drawing.Color.Black;
-            this.UiHotkeysButtonToggleFavorite.Location = new System.Drawing.Point(188, 146);
+            this.UiHotkeysButtonToggleFavorite.Location = new System.Drawing.Point(244, 146);
             this.UiHotkeysButtonToggleFavorite.Name = "UiHotkeysButtonToggleFavorite";
             this.UiHotkeysButtonToggleFavorite.Size = new System.Drawing.Size(262, 32);
             this.UiHotkeysButtonToggleFavorite.TabIndex = 1002;
@@ -1880,7 +2021,7 @@
             this.UiHotkeysButtonPasteHotkey.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(227)))), ((int)(((byte)(220)))));
             this.UiHotkeysButtonPasteHotkey.Font = new System.Drawing.Font("Segoe UI", 10F);
             this.UiHotkeysButtonPasteHotkey.ForeColor = System.Drawing.Color.Black;
-            this.UiHotkeysButtonPasteHotkey.Location = new System.Drawing.Point(188, 191);
+            this.UiHotkeysButtonPasteHotkey.Location = new System.Drawing.Point(244, 191);
             this.UiHotkeysButtonPasteHotkey.Name = "UiHotkeysButtonPasteHotkey";
             this.UiHotkeysButtonPasteHotkey.Size = new System.Drawing.Size(262, 32);
             this.UiHotkeysButtonPasteHotkey.TabIndex = 1003;
@@ -1900,7 +2041,7 @@
             this.UiHotkeysGroupBoxPasteBehaviour.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.UiHotkeysGroupBoxPasteBehaviour.Location = new System.Drawing.Point(13, 1);
             this.UiHotkeysGroupBoxPasteBehaviour.Name = "UiHotkeysGroupBoxPasteBehaviour";
-            this.UiHotkeysGroupBoxPasteBehaviour.Size = new System.Drawing.Size(525, 183);
+            this.UiHotkeysGroupBoxPasteBehaviour.Size = new System.Drawing.Size(525, 140);
             this.UiHotkeysGroupBoxPasteBehaviour.TabIndex = 211;
             this.UiHotkeysGroupBoxPasteBehaviour.Text = "Paste behaviour";
             // 
@@ -4489,6 +4630,14 @@
         private Guna.UI2.WinForms.Guna2HtmlLabel UiColorsLabelEntry;
         private Guna.UI2.WinForms.Guna2PictureBox UiExclusionPictureBoxDelete1;
         private System.Windows.Forms.Timer TimerNotificationClipboardList;
+        private System.Windows.Forms.Label UiGeneralLabelProcessReenabling;
+        private Guna.UI2.WinForms.Guna2ToggleSwitch UiGeneralToggleProcessReenabling;
+        private System.Windows.Forms.Label UiGeneralLabelUnregisterHotkeys;
+        private Guna.UI2.WinForms.Guna2ToggleSwitch UiGeneralToggleUnregisterHotkeys;
+        private Guna.UI2.WinForms.Guna2Button UiHotkeysButtonDeleteNonsavedEntries;
+        private System.Windows.Forms.Label UiHotkeysLabelDeleteNonsavedEntries;
+        private System.Windows.Forms.Label UiGeneralLabelTrimBullet;
+        private Guna.UI2.WinForms.Guna2ToggleSwitch UiGeneralToggleTrimBullet;
     }
 
 }
