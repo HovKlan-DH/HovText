@@ -5792,6 +5792,7 @@ namespace HovText
             Process.Start(startInfo);
 
             // Terminate the main application
+            isClosedFromNotifyIcon = true; // force application to close instead of minimizing to tray
             settings.Close();
         }
 
