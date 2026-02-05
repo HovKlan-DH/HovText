@@ -44,61 +44,49 @@ The full documentation for how to use this application is available on the HovTe
 
 ## Screenshots
 
-Clipboard list:
+#### Clipboard list
 
-![History list](https://hovtext.com/documentation/images/HistoryList0.jpg?)
+- ![History list](https://hovtext.com/documentation/images/HistoryList0.jpg?)
 
+#### General
+- <img width="650" height="597" alt="General" src="https://github.com/user-attachments/assets/91007e83-68b9-4a9b-bc61-3cfcf5a2adef" />
 
-General:
+#### Storage
 
-<img width="650" height="597" alt="General" src="https://github.com/user-attachments/assets/91007e83-68b9-4a9b-bc61-3cfcf5a2adef" />
+- <img width="650" height="597" alt="Storage" src="https://github.com/user-attachments/assets/6a758744-8cd3-498b-a7f7-1a8c2c1aa5f1" />
 
+#### Hotkey
 
-Storage:
+- <img width="650" height="597" alt="Hotkeys" src="https://github.com/user-attachments/assets/dac6c8b5-ea4f-408f-a1b6-9817df294ab7" />
 
-<img width="650" height="597" alt="Storage" src="https://github.com/user-attachments/assets/6a758744-8cd3-498b-a7f7-1a8c2c1aa5f1" />
+#### Layout
 
+- <img width="650" height="597" alt="Layout" src="https://github.com/user-attachments/assets/32d22cf0-7c3d-4eab-aa63-b9f6ad3ec687" />
 
-Hotkey:
+#### Style
 
-<img width="650" height="597" alt="Hotkeys" src="https://github.com/user-attachments/assets/dac6c8b5-ea4f-408f-a1b6-9817df294ab7" />
+- <img width="650" height="597" alt="Style" src="https://github.com/user-attachments/assets/c6cc2e56-8c80-4e09-8820-a0a29ac55bab" />
 
+#### Colors
 
-Layout:
+- <img width="650" height="597" alt="Colors" src="https://github.com/user-attachments/assets/806f666c-1a5e-44f9-adb0-33650a933805" />
 
-<img width="650" height="597" alt="Layout" src="https://github.com/user-attachments/assets/32d22cf0-7c3d-4eab-aa63-b9f6ad3ec687" />
+#### Exclusion
 
+- <img width="650" height="597" alt="Exclusion" src="https://github.com/user-attachments/assets/c7922605-f4ab-4365-8c10-60a0d344e5ec" />
 
-Style:
+#### Advanced
 
-<img width="650" height="597" alt="Style" src="https://github.com/user-attachments/assets/c6cc2e56-8c80-4e09-8820-a0a29ac55bab" />
+- <img width="650" height="597" alt="Advanced" src="https://github.com/user-attachments/assets/4f7a2877-9933-4482-a751-7b7d29e28803" />
 
+#### Documentation
 
-Colors:
+- <img width="650" height="597" alt="Documentation" src="https://github.com/user-attachments/assets/8da5e71b-b0df-4317-8689-b5ec1434afad" />
 
-<img width="650" height="597" alt="Colors" src="https://github.com/user-attachments/assets/806f666c-1a5e-44f9-adb0-33650a933805" />
+#### Feedback
 
+- <img width="650" height="597" alt="Feedback" src="https://github.com/user-attachments/assets/4328668e-05cb-4200-979a-313becd24eeb" />
 
-Exclusion:
+#### About
 
-<img width="650" height="597" alt="Exclusion" src="https://github.com/user-attachments/assets/c7922605-f4ab-4365-8c10-60a0d344e5ec" />
-
-
-Advanced:
-
-<img width="650" height="597" alt="Advanced" src="https://github.com/user-attachments/assets/4f7a2877-9933-4482-a751-7b7d29e28803" />
-
-
-Documentation:
-
-<img width="650" height="597" alt="Documentation" src="https://github.com/user-attachments/assets/8da5e71b-b0df-4317-8689-b5ec1434afad" />
-
-
-Feedback:
-
-<img width="650" height="597" alt="Feedback" src="https://github.com/user-attachments/assets/4328668e-05cb-4200-979a-313becd24eeb" />
-
-
-About:
-
-<img width="650" height="597" alt="About" src="https://github.com/user-attachments/assets/4eac5895-0cdb-4a1e-b69f-af8585464d53" />
+- <img width="650" height="597" alt="About" src="https://github.com/user-attachments/assets/4eac5895-0cdb-4a1e-b69f-af8585464d53" />
