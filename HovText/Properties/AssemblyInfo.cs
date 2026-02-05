@@ -10,18 +10,18 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("Release")]
 [assembly: AssemblyCompany("The Hovgaard Klan")]
 [assembly: AssemblyProduct("HovText")]
-[assembly: AssemblyCopyright("Copyright © 2004-2024")]
+[assembly: AssemblyCopyright("Copyright © 2004-2026")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
 [assembly: Guid("03fbad69-cd44-4a0c-b4bf-90406561f14f")]
 //[assembly: AssemblyVersion("2021.01.23.1")]
-[assembly: AssemblyFileVersion("2025.02.03.1")]
+[assembly: AssemblyFileVersion("2025.02.05.1")]
 
 // Setting ComVisible to false makes the types in this assembly not visible
 // to COM components.  If you need to access a type in this assembly from
 // COM, set the ComVisible attribute to true on that type.
 [assembly: ComVisible(false)]
 [assembly: NeutralResourcesLanguage("en")]
-[assembly: AssemblyVersion("2025.02.03.1")]
+[assembly: AssemblyVersion("2025.02.05.1")]
