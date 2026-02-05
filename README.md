@@ -44,26 +44,38 @@ The full documentation for how to use this application is available on the HovTe
 
 ## Screenshots
 
+
 ![History list](https://hovtext.com/documentation/images/HistoryList0.jpg?)
 
-<img width="800" height="736" alt="image" src="https://github.com/user-attachments/assets/de90a21f-567f-444e-aa4f-0b3a05c6816c" />
 
-<img width="800" height="736" alt="image" src="https://github.com/user-attachments/assets/fa658440-6123-4f92-a217-41c6294cd86f" />
+<img width="650" alt="General" src="https://github.com/user-attachments/assets/de90a21f-567f-444e-aa4f-0b3a05c6816c" />
 
-<img width="800" height="736" alt="image" src="https://github.com/user-attachments/assets/78165f83-7eb8-45d9-920f-5ffb85c1416a" />
 
-<img width="800" height="736" alt="image" src="https://github.com/user-attachments/assets/7b804c9a-f60a-47bd-9b4d-df2e67af5bd3" />
+<img width="650" alt="Storage" src="https://github.com/user-attachments/assets/fa658440-6123-4f92-a217-41c6294cd86f" />
 
-<img width="800" height="736" alt="image" src="https://github.com/user-attachments/assets/17023b55-49dc-4a11-bf82-9d077882fa9b" />
 
-<img width="800" height="736" alt="image" src="https://github.com/user-attachments/assets/2816dc2d-c0c5-44e2-a544-081a2600f50c" />
+<img width="650" alt="Hotkeys" src="https://github.com/user-attachments/assets/78165f83-7eb8-45d9-920f-5ffb85c1416a" />
 
-<img width="800" height="736" alt="image" src="https://github.com/user-attachments/assets/d8aef4d5-8c1e-498b-b71b-89b0dc5e83e6" />
 
-<img width="800" height="736" alt="image" src="https://github.com/user-attachments/assets/24d8631f-64ac-40a6-8633-3db618a4b24e" />
+<img width="650" alt="Layout" src="https://github.com/user-attachments/assets/7b804c9a-f60a-47bd-9b4d-df2e67af5bd3" />
 
-<img width="800" height="736" alt="image" src="https://github.com/user-attachments/assets/2e272135-d7f3-4c4b-86a3-37355cb11c0a" />
 
-<img width="800" height="736" alt="image" src="https://github.com/user-attachments/assets/cb0687c9-3f32-4ce8-993f-a439796149b8" />
+<img width="650" alt="Style" src="https://github.com/user-attachments/assets/17023b55-49dc-4a11-bf82-9d077882fa9b" />
 
-<img width="800" height="736" alt="image" src="https://github.com/user-attachments/assets/653bea3c-858c-4d33-a0e1-3cd9549acc9d" />
+
+<img width="650" alt="Colors" src="https://github.com/user-attachments/assets/2816dc2d-c0c5-44e2-a544-081a2600f50c" />
+
+
+<img width="650" alt="Exclusion" src="https://github.com/user-attachments/assets/d8aef4d5-8c1e-498b-b71b-89b0dc5e83e6" />
+
+
+<img width="650" alt="Advanced" src="https://github.com/user-attachments/assets/24d8631f-64ac-40a6-8633-3db618a4b24e" />
+
+
+<img width="650" alt="Documentation" src="https://github.com/user-attachments/assets/2e272135-d7f3-4c4b-86a3-37355cb11c0a" />
+
+
+<img width="650" alt="Feedback" src="https://github.com/user-attachments/assets/cb0687c9-3f32-4ce8-993f-a439796149b8" />
+
+
+<img width="650" alt="About" src="https://github.com/user-attachments/assets/653bea3c-858c-4d33-a0e1-3cd9549acc9d" />
