@@ -34,9 +34,8 @@ You can say that it works basically in the same way as pasting the formatted tex
 
 ## Requirements
 
-HovText requires a 64-bit Windows systems, ranging from the ancient Windows XP to Windows 11. However, support is only provided for Windows 10, as it is currently what I am using at home :-)
-
-It requires .NET Framework 4.8 or newer
+- 64-bit Windows 7 or newer
+- .NET Framework 4.8 or newer
 
 ## Documentation
 
