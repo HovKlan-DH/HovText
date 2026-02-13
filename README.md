@@ -8,6 +8,7 @@ A typical scenario is to copy a text from the internet and paste this into e.g. 
 
 You can say that it works basically in the same way as pasting the formatted text to Notepad and then copy the text from Notepad and paste in to e.g. Word or Outlook + it will remove any whitespaces or new-lines in the beginning or end of the text.
 
+
 ## Capabilities
 
 * Remembers all copied texts and images that can be easily restored via a clipboard manager
@@ -32,59 +33,76 @@ You can say that it works basically in the same way as pasting the formatted tex
 * Freeware and open source available on GitHub
 * Signed executable and application has existed for the last 20 years
 
+
 ## Requirements
 
 - 64-bit Windows 7 or newer
 - .NET Framework 4.8 or newer
 
+
 ## Documentation
 
 The full documentation for how to use this application is available on the HovText home page, https://hovtext.com/documentation/
 
+IT departments integrating HovText can do a quick-check of the specific IT information available in the documentation, https://hovtext.com/documentation/#IT
+
+
 ## Screenshots
+
 
 #### Clipboard list
 
 - ![History list](https://hovtext.com/documentation/images/HistoryList0.jpg?)
 
+
 #### General
 - <img width="650" height="597" alt="General" src="https://github.com/user-attachments/assets/91007e83-68b9-4a9b-bc61-3cfcf5a2adef" />
+
 
 #### Storage
 
 - <img width="650" height="597" alt="Storage" src="https://github.com/user-attachments/assets/6a758744-8cd3-498b-a7f7-1a8c2c1aa5f1" />
 
+
 #### Hotkey
 
 - <img width="650" height="597" alt="Hotkeys" src="https://github.com/user-attachments/assets/dac6c8b5-ea4f-408f-a1b6-9817df294ab7" />
+
 
 #### Layout
 
 - <img width="650" height="597" alt="Layout" src="https://github.com/user-attachments/assets/32d22cf0-7c3d-4eab-aa63-b9f6ad3ec687" />
 
+
 #### Style
 
 - <img width="650" height="597" alt="Style" src="https://github.com/user-attachments/assets/c6cc2e56-8c80-4e09-8820-a0a29ac55bab" />
+
 
 #### Colors
 
 - <img width="650" height="597" alt="Colors" src="https://github.com/user-attachments/assets/806f666c-1a5e-44f9-adb0-33650a933805" />
 
+
 #### Exclusion
 
 - <img width="650" height="597" alt="Exclusion" src="https://github.com/user-attachments/assets/c7922605-f4ab-4365-8c10-60a0d344e5ec" />
+
 
 #### Advanced
 
 - <img width="650" height="597" alt="Advanced" src="https://github.com/user-attachments/assets/4f7a2877-9933-4482-a751-7b7d29e28803" />
 
+
 #### Documentation
 
 - <img width="650" height="597" alt="Documentation" src="https://github.com/user-attachments/assets/8da5e71b-b0df-4317-8689-b5ec1434afad" />
 
+
 #### Feedback
 
 - <img width="650" height="597" alt="Feedback" src="https://github.com/user-attachments/assets/4328668e-05cb-4200-979a-313becd24eeb" />
+
 
 #### About
 
